@@ -14,7 +14,7 @@ Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information S
 
 **O’Sullivan D** and DJ Unwin. 2003. *Geographic Information Analysis* (Wiley: Hoboken, NJ).
 
-##in refereed journals
+## in refereed journals
 **O’Sullivan D**. 2021. New mappings of GIScience and geography. A commentary on May Yuan’s ‘GIS research to address tensions in geography.’ *Singapore Journal of Tropical Geography* **42**(1) 31–35. doi:[10.1111/sjtg.12345](https://dx.doi.org/10.1111/sjtg.12345)
 
 **O’Sullivan D**. 2021. Things are how they are because of how they got that way: Thoughts from the beach, on 50 years of Geographical Analysis. *Geographical Analysis* **53**(1) 157–163. doi:[10.1111/gean.12225](https://dx.doi.org/10.1111/gean.12225)
