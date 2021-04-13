@@ -1,9 +1,9 @@
-# Publications
+# publications
 Keeping my university web page up to date can be a painful process, so I provide an up to date list here instead.  A similar list is available at my [ORCiD profile](https://orcid.org/0000-0001-8078-3241). You can also see them in citational context at [my google scholar page](https://scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao), which is reasonably accurate.  Links below are generally to official publisher sources, and are often closed, but if you would like a copy, just [email me](mailto:david.osullivan@vuw.ac.nz).
 
 Jump to [books](#books), [papers](#in-refereed-journals), [book chapters](#book-chapters), [dissertations](#dissertations)
 
-# books
+## books
 **O’Sullivan D**. 2017. Section Editor for ‘Fundamentals of GIScience’ (32 articles) in *The International Encyclopedia of Geography: People, the Earth, Environment, and Technology*. Richardson, D. (ed). New York: Wiley.
 
 Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information Science: Proceedings of the 9th International Conference, GIScience 2016 Lecture Notes in Computer Science Vol. 9927* (Springer: Cham, Switzerland).
@@ -14,7 +14,7 @@ Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information S
 
 **O’Sullivan D** and DJ Unwin. 2003. *Geographic Information Analysis* (Wiley: Hoboken, NJ).
 
-# in refereed journals
+##in refereed journals
 **O’Sullivan D**. 2021. New mappings of GIScience and geography. A commentary on May Yuan’s ‘GIS research to address tensions in geography.’ *Singapore Journal of Tropical Geography* **42**(1) 31–35. doi:[10.1111/sjtg.12345](https://dx.doi.org/10.1111/sjtg.12345)
 
 **O’Sullivan D**. 2021. Things are how they are because of how they got that way: Thoughts from the beach, on 50 years of Geographical Analysis. *Geographical Analysis* **53**(1) 157–163. doi:[10.1111/gean.12225](https://dx.doi.org/10.1111/gean.12225)
@@ -133,7 +133,7 @@ Turner A, M Doxa, **D O’Sullivan** and A Penn. 2001. From isovists to visibili
 
 **O’Sullivan D**, A Morrison and J Shearer. 2000. Using desktop GIS for the investigation of accessibility by public transport: an isochrone approach. *International Journal of Geographical Information Science* **14**(1) 85-104. doi:[10.1080/136588100240976](http://dx.doi.org/10.1080/136588100240976)
 
-# book chapters
+## book chapters
 **D O’Sullivan**. 2018. Cartography and geographic information systems. In J Ash, R Kitchin and A Leszczynski (eds), *Digital Geographies*, (Los Angeles: Sage), pages 118-128.
 
 **D O’Sullivan**. 2018. Big data ... why (oh why?) this computational social science? In JE Thatcher, J Eckert and A Shears (eds), *Thinking Big Data in Geography: New Regimes, New Research*, (Lincoln: University of Nebraska Press), pages 21-38. doi:[10.2307/j.ctt21h4z6m.7](http://dx.doi.org/10.2307/j.ctt21h4z6m.7)
@@ -158,7 +158,7 @@ Heppenstall AJ, AJ Evans, MH Birkin, JR Macgill and **D O’Sullivan**. 2005. Th
 
 **O’Sullivan D** and PM Torrens. 2001. Cellular models of urban systems. In S Bandini and T Worsch (eds), *Theoretical and Practical Issues on Cellular Automata, Proceedings of the Fourth International Conference on Cellular Automata for Research and Industry (ACRI 2000)*, October 4–6, Karlsruhe, Germany (Springer-Verlag: London), pages 108-116.  [Also available as CASA Working Paper 22 at [www.casa.ucl.ac.uk/cellularmodels.pdf](http://www.casa.ucl.ac.uk/ cellularmodels.pdf)
 
-# Dissertations
+## dissertations
 PhD: **O’Sullivan D**. 2000. [Graph-based Cellular Automaton Models of Urban Spatial Processes](https://southosullivan.com/phd/phd.zip). University College London.
 
 MSc: **O’Sullivan D**. 1997. [Using GIS to create public transport travel time isochrones for the Glasgow area](http://southosullivan.com/msc/mastersThesis.pdf). University of Glasgow.
