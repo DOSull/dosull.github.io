@@ -4,10 +4,11 @@ These are in reverse chronological order. More recent talks are in web formats, 
 Date | Title | Notes
 :-- | :-- | :--
 2020<br>November | [Spatially-explicit models for exploring COVID-19 lockdown strategies](https://southosullivan.com/talks/NZGS-2020-covid-model/) | New Zealand Geographical Society, Wellington
-2020<br>November | [*Computing geographically: rethinking giscience as geography*](https://southosullivan.com/talks/Utah-GAW-2020/) | University of Utah, Department of Geography, Geography Awareness Week Colloquium
+2020<br>November | [Computing geographically: rethinking giscience as geography*](https://southosullivan.com/talks/Utah-GAW-2020/) | University of Utah, Department of Geography, Geography Awareness Week Colloquium
 2019<br>August | [Theoretical geography: definitely harder than physics!](https://southosullivan.com/talks/theoretical-geography/) | VvoIP_Physics_Debates symposium
 2019<br>July | [Avoiding the YAAWN syndrome](https://southosullivan.com/talks/ABM-for-theory-Hanover-2019/) | Agents for Theory: From Cases to General Principles, Theory Development through Agent-based Modeling, International Workshop held at Herrenhäuser Palace, Hanover, Germany
-2018<br>May | [Some translation required, or: A city is not a network either!](https://southosullivan.com/talks/UWTacoma-May-2018/) | Inaugural Brian Coffey lecture and workshop in Geographical Information Science University of Washington, Tacoma 2018<br>April | Computing with many spaces: Generalizing projections for the digital geohumanities and GIScience | (with Luke Bergmann who presented) 114th Annual Meeting of the American Association of Geographers, New Orleans, LA
+2018<br>May | [Some translation required, or: A city is not a network either!](https://southosullivan.com/talks/UWTacoma-May-2018/) | Inaugural Brian Coffey lecture and workshop in Geographical Information Science University of Washington, Tacoma
+2018<br>April | Computing with many spaces: Generalizing projections for the digital geohumanities and GIScience | (with Luke Bergmann who presented) 114th Annual Meeting of the American Association of Geographers, New Orleans, LA
 2018<br>March | [Reimagining GIScience for relational spaces](https://southosullivan.com/talks/UCBoulder-March-2018/) | University of Colorado Boulder, Department of Geography Colloquium Series
 2017<br>December | [Bridging GIScience and Geographical Thought](https://southosullivan.com/talks/Liverpool-2017/) | Geographic Data Science Lab, University of Liverpool
 2017<br>September | [Identifying ‘narrative arcs’ to explain outcomes in an agent-based model of island resource exploitation](https://southosullivan.com/talks/stanford-panel/) | Graduate webinar series on Agent-based models, University of Minnesota. These are the same slides as a talk at Stanford a couple of years earlier...
@@ -27,7 +28,7 @@ Date | Title | Notes
 2014<br>September | [Using Personal Names to Explore Cultural, Ethnic and Linguistic Structure in Populations](DemographyTalk_OSullivan_092414.pdf) | UC Berkeley, Department of Demography
 2014<br>June | [Simple spatial models: building blocks for process-based GIS?](IAG-NZGS-Melbourne-2014.pdf) | Institute of Australian Geographers – New Zealand Geographical Society Joint Conference, University of Melbourne
 2013 August | [Towards a ‘pattern language’ for spatial simulation models](https://southosullivan.com/talks/SIRC-talk/) | (with George Perry) presented at SIRC NZ 2013, University of Otago, Dunedin, New Zealand. Extended abstract [available here](http://otago.ourarchive.ac.nz/handle/10523/4219)
-2013<br>April [Towards a ‘pattern language’ for spatial simulation models](AAG2013_talk.pdf) | (with George Perry) presented at the 109th Annual Meeting of the Association of American Geographers, Los Angeles, CA
+2013<br>April | [Towards a ‘pattern language’ for spatial simulation models](AAG2013_talk.pdf) | (with George Perry) presented at the 109th Annual Meeting of the Association of American Geographers, Los Angeles, CA
 2013<br>February | [Towards a ‘pattern language’ for spatial simulation models](UC_SantaBarbara_jobTalk.pdf) | Department of Geography, University of California Santa Barbara
 2012<br>May | Naming networks and population structure | Department of Urban Engineering, University of Tokyo
 2012<br>May | [Spatial Simulation: Exploring Pattern and Process – A Work in progress](book_talk_tokyo_2012.pdf) | Centre for Spatial Information Science, University of Tokyo
