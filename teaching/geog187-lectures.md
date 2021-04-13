@@ -1,7 +1,5 @@
-Title: Geog 187 Geographic Information Analysis
-Date: 05/04/18
-
-This is the timetable and lectures from the last iteration of this class, which I taught at Berkeley, from 2014-18. I have taught this material over many years, in various forms, and at various levels. It draws heavily on content from my book with Dave Unwin *Geographic Information Analysis*.
+# Geog 187 Geographic Information Analysis
+This is the timetable and lectures from the last iteration of this class, which I taught at Berkeley, from 2014-18. I have taught this material over many years, in various forms, and at various levels. It draws heavily on content from my book with Dave Unwin *Geographic Information Analysis*. You can access the slides in their web format [here](https://southosullivan.com/geog187/lectures) but there's a high probability of broken links and broken libraries.
 
 | *Week* | *Mon 9:30-10:30* | *Wed 9:30-10:30* |
 | ------ | ---------- | ---------- |
@@ -20,14 +18,3 @@ This is the timetable and lectures from the last iteration of this class, which 
 | Apr 23 | Lightning presentations of student projects |
 | Apr 30 | <span style="background:#66ff99;">*READING WEEK*</span> Individual project reports due Monday |
 | May 7 | *NO FINAL* |
-
-[//]: # ( | Jan 22 | Course overview | Measuring spatial autocorrelation |)
-[//]: # ( | Jan 29 | Local indicators of spatial autocorrelation | Spatial dependence |)
-[//]: # ( | Feb 5 | Spatial processes | Describing point patterns |)
-[//]: # ( | Feb 12 | Measuring point patterns | Statistical point pattern analysis |)
-[//]: # ( | Feb 19 | NO CLASS | Detecting clusters in point patterns |)
-[//]: # ( | Feb 26 | Introduction to spatial interpolation | Simple interpolation methods |)
-[//]: # ( | Mar 5 | Demo of ArcGIS interpolation (no slides) | Trend surfaces and variograms |)
-[//]: # ( | Mar 12 | Geostatistics: kriging | Areal interpolation and overlay |)
-[//]: # ( | Mar 19 | REVIEW CLASS | <span style="background:#ff9933;">*MIDTERM*</span> |)
-[//]: # ( | Mar 26 | *Spring Recess* NO CLASS |)

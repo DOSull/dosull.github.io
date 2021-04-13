@@ -1,7 +1,5 @@
-Title: Geog 80 Digital Worlds, an Introduction to Geospatial Technology
-Date: 12/04/17
-
-This is the timetable and lectures from the last iteration of this class, which I taught at Berkeley, from 2014-18. It has since led to me planning a book and I am providing general access to the slides in PDF format, as captured in March 2019. These are not as interactive as the web format the slides were presented in but are less subject to the vagaries of changes in javascript libraries, changing web links and so on. The files are around 20MB so may be a bit slow to download at times. You can access the original web page slides in [this folder](../geog80/lectures/).
+# Geog 80 Digital Worlds, an Introduction to Geospatial Technology
+This is the timetable and lectures from the last iteration of this class, which I taught at Berkeley, from 2014-18. It has since led to me planning a book and I am providing general access to the slides in PDF format, as captured in March 2019. These are not as interactive as the web format the slides were presented in but are less subject to the vagaries of changes in javascript libraries, changing web links and so on. The files are around 20MB so may be a bit slow to download at times. You can access the original web page slides in [this folder](https://southosullivan.com/geog80/lectures/).
 
 | *Week* | *Mon 9-10* | *Wed 9-10* |
 | ------ | ---------- | ---------- |
