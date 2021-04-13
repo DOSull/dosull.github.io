@@ -15,9 +15,21 @@ Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information S
 **O’Sullivan D** and DJ Unwin. 2003. *Geographic Information Analysis* (Wiley: Hoboken, NJ).
 
 # in refereed journals
+**O’Sullivan D**. 2021. New mappings of GIScience and geography. A commentary on May Yuan’s ‘GIS research to address tensions in geography.’ *Singapore Journal of Tropical Geography* **42**(1) 31–35. doi:[10.1111/sjtg.12345](https://dx.doi.org/10.1111/sjtg.12345)
+
+**O’Sullivan D**. 2021. Things are how they are because of how they got that way: Thoughts from the beach, on 50 years of Geographical Analysis. *Geographical Analysis* **53**(1) 157–163. doi:[10.1111/gean.12225](https://dx.doi.org/10.1111/gean.12225)
+
+Franklin, RS, V Houlden, C Robinson, D Arribas-Bel, EC Delmelle, U Demšar, HJ Miller, and **D O’Sullivan**. 2021. Who counts? Gender, gatekeeping, and quantitative human geography. *The Professional Geographer* **73**(1) 48–61. doi:[10.1080/00330124.2020.1828944](https://dx.doi.org/10.1080/00330124.2020.1828944)
+
+**O’Sullivan D**, M Gahegan, DJ Exeter and B Adams. 2020. Spatially explicit models for exploring COVID 19 lockdown strategies. *Transactions in GIS* **24**(4) 967–1000. doi:[10.1111/tgis.12660](https://dx.doi.org/10.1111/tgis.12660)
+
+Payne WB and **D O’Sullivan**. 2020. Exploding the phone book: Spatial data arbitrage in the 1990s Internet boom. *Annals of the American Association of Geographers* **110**(2) 391–398. doi:[10.1080/24694452.2019.1656999](https://dx.doi.org/10.1080/24694452.2019.1656999)
+
+Manson S, L An, KC Clarke, A Heppenstall, J Koch, B Krzyzanowski, F Morgan, **D O’Sullivan**, BC Runck, E Shook and L Tesfatsion. 2020. Methodological Issues of Spatial Agent-Based Models. *Journal of Artificial Societies and Social Simulation* 23(1) 3. doi:[10.18564/jasss.4174](https://dx.doi.org/10.18564/jasss.4174)
+
 Christophers B and **D O’Sullivan**. 2019. Intersections of inequality in homeownership in Sweden. Housing Studies **34**(6) 897-924. doi: [10.1080/02673037.2018.1495695](https://dx.doi.org/10.1080/02673037.2018.1495695)
 
-Mavoa S, N Bagheri, MJ Koohsari, AT Kaczynski, KE Lamb, K Oka, **D O’Sullivan** and K Witten. 2019. How do neighbourhood definitions influence the associations between built environment and physical activity? *International Journal of Environmentalal Research and Public Health* :16. doi:[10.3390/ijerph16091501](https://dx.doi.org/10.3390/ijerph16091501)
+Mavoa S, N Bagheri, MJ Koohsari, AT Kaczynski, KE Lamb, K Oka, **D O’Sullivan** and K Witten. 2019. How do neighbourhood definitions influence the associations between built environment and physical activity? *International Journal of Environmentalal Research and Public Health* **16**. doi:[10.3390/ijerph16091501](https://dx.doi.org/10.3390/ijerph16091501)
 
 **O’Sullivan, D** 2019. Untangling knots: Thoughts on Wilson’s _New Lines_. *Transactions in GIS* **32**(1) 168-169. doi:[10.1111/tgis.12502](http://dx.doi.org/10.1111/tgis.12502)
 

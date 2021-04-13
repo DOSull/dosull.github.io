@@ -4,7 +4,7 @@ These are in reverse chronological order. More recent talks are in web formats, 
 Date | Title | Notes
 :-- | :-- | :--
 2020<br>November | [Spatially-explicit models for exploring COVID-19 lockdown strategies](https://southosullivan.com/talks/NZGS-2020-covid-model/) | New Zealand Geographical Society, Wellington
-2020<br>November | [Computing geographically: rethinking giscience as geography*](https://southosullivan.com/talks/Utah-GAW-2020/) | University of Utah, Department of Geography, Geography Awareness Week Colloquium
+2020<br>November | [Computing geographically: rethinking giscience as geography](https://southosullivan.com/talks/Utah-GAW-2020/) | University of Utah, Department of Geography, Geography Awareness Week Colloquium
 2019<br>August | [Theoretical geography: definitely harder than physics!](https://southosullivan.com/talks/theoretical-geography/) | VvoIP_Physics_Debates symposium
 2019<br>July | [Avoiding the YAAWN syndrome](https://southosullivan.com/talks/ABM-for-theory-Hanover-2019/) | Agents for Theory: From Cases to General Principles, Theory Development through Agent-based Modeling, International Workshop held at Herrenhäuser Palace, Hanover, Germany
 2018<br>May | [Some translation required, or: A city is not a network either!](https://southosullivan.com/talks/UWTacoma-May-2018/) | Inaugural Brian Coffey lecture and workshop in Geographical Information Science University of Washington, Tacoma
