@@ -1,5 +1,4 @@
-Title: books
-
+# Books
 I've co-authored two books, which people seem to find useful.
 
 <div style="float:left; margin: 10px 10px 10px 10px;">
