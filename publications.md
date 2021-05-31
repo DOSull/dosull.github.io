@@ -49,7 +49,7 @@ Getz WM, CR Marshall, CJ Carlson, L Giuggioli, SJ Ryan, SS Romañach, C Boettige
 
 Harris R, **D O’Sullivan**, M Gahegan, M Charlton, L Comber, P Longley, C Brunsdon, N Malleson, A Heppenstall, A Singleton, D Arribas-Bel, and A Evans. 2017. More bark than bytes? Reflections on 21+ years of geocomputation. *Environment and Planning B: Urban Analytics and City Science* **44**(4) 598-617. doi:[10.1177/2399808317710132.](http://dx.doi.org/10.1177/2399808317710132.)
 
-Liu C an**d O’Sullivan**, D. 2016. An abstract model of gentrification as a spatially contagious succession process. *Computers, Environment and Urban Systems* **59** 1-10. doi:[10.1016/j.compenvurbsys.2016.04.004](http://dx.doi.org/10.1016/j.compenvurbsys.2016.04.004)
+Liu C and **O’Sullivan**, D. 2016. An abstract model of gentrification as a spatially contagious succession process. *Computers, Environment and Urban Systems* **59** 1-10. doi:[10.1016/j.compenvurbsys.2016.04.004](http://dx.doi.org/10.1016/j.compenvurbsys.2016.04.004)
 
 Thatcher JE, **D O’Sullivan** and D Mahmoudi. 2016. Data colonialism through accumulation by dispossession: new metaphors for everyday data. *Environment and Planning D: Society and Space* **34**(6) 990-1006. doi:[10.1177/0263775816633195](http://dx.doi.org/10.1177/0263775816633195)
 

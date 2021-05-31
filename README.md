@@ -3,14 +3,14 @@ I am Professor of Geography and Geospatial Science at Victoria University of Wel
 
 Roughly speaking I'm interested in everything, but with an emphasis on the implications of complexity science for geographical research, and more recently, on the implications of geospatial technologies for everyday life.
 
-## Talks
-This website has a fairly complete record of [talks](talks/) I have given since late 2014 (when I started using [reveal.js](https://revealjs.com/) to make slides).  
+## Publications
+I try to keep [this list](publications.md) fairly complete and up to date.
 
 ## Teaching
 It also has links to some [teaching materials](teaching/) although you'll find latest materials for most of my teaching at my main [github page](https://github.com/DOSull).
 
-## Publications
-I try to keep this list fairly complete [publications](publications.md) and up to date.
+## Talks
+This website has a fairly complete record of [talks](talks/) I have given since late 2014 (when I started using [reveal.js](https://revealjs.com/) to make slides).  
 
 ## Other stuff
 ...
