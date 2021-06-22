@@ -13,7 +13,7 @@ $.getJSON("data/pubs.json", function(data) {
 console.log(THINGS);
 
 const tileImage = "images/tile.png";
-const tileSize = "12%";
+const tileSize = "150px";
 
 function addTheThings() {
   for (i in THINGS) {
@@ -27,7 +27,7 @@ function addTheThings() {
                                 <p><a id="${ thingHref}">${ thing.DOI }</a></p>
                               </div>`);
 
-    $(`#${ thingId }`).css({"flex": `0 1 ${ tileSize }`});
+    $(`#${ thingId }`).css({"flex": `1 0 ${ tileSize }`});
     $(`#${ thingId }`).attr("class", "testing");
 
     $(`#${ thingImg }`).css({"opacity": `${ opacity }`, "height": "100%", "width": "100%"});
