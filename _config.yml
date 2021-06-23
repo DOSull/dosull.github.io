@@ -1,3 +1,8 @@
 title: David O'Sullivan's website
 description: work stuff
 theme: minima
+header_pages:
+  - about.md
+  - books.md
+  - publications.md
+  - talks.md
