@@ -1,4 +1,3 @@
-# publications
 Keeping my university web page up to date can be a painful process, so I provide an up to date list here instead.  A similar list is available at my [ORCiD profile](https://orcid.org/0000-0001-8078-3241). You can also see them in citational context at [my google scholar page](https://scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao), which is reasonably accurate.  Links below are generally to official publisher sources, and are often closed, but if you would like a copy, just [email me](mailto:david.osullivan@vuw.ac.nz).
 
 Jump to [books](#books), [papers](#in-refereed-journals), [book chapters](#book-chapters), [dissertations](#dissertations)

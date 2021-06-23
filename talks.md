@@ -1,4 +1,3 @@
-# talks
 These are in reverse chronological order. More recent talks are in web formats, which might include broken links. Others are PDFs. Others are missing, but are listed because they give a sense of development over time.
 
 Date | Title | Notes
