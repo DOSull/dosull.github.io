@@ -3,7 +3,6 @@ description: work stuff
 theme: minima
 header_pages:
   - about.md
-  - index.md
   - books.md
   - publications.md
   - talks.md
