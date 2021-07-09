@@ -2,7 +2,7 @@ title: David O'Sullivan's website
 description: work stuff
 theme: jekyll-theme-minimal
 site.baseurl: ''
-site.url: 'https://dosull.github.io'
+site.url: 'https://dosull.github.io/'
 author: "David O'Sullivan"
 github_username: 'DOSull'
 kramdown:
