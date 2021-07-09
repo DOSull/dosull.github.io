@@ -1,0 +1,12 @@
+- label: About
+  url: /
+  title: about me
+- label: Books
+  url: /books
+  title: about my books
+- label: Publications
+  url: /publications
+  title: a list of my publications
+- label: Talks
+  url: /talks
+  title: slides from some of my talks

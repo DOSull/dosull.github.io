@@ -1,8 +1,9 @@
 title: David O'Sullivan's website
 description: work stuff
-theme: minima
-header_pages:
-  - about.md
-  - books.md
-  - publications.md
-  - talks.md
+theme: jekyll-theme-minimal
+site.baseurl: ''
+site.url: 'https://dosull.github.io'
+author: "David O'Sullivan"
+github_username: 'DOSull'
+kramdown:
+  auto_ids: true
