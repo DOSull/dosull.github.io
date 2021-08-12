@@ -1,0 +1,120 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+## Load libraries
+
+```{r message=FALSE}
+library(akima)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+```
+
+## Get input datasets
+
+### The lon-lat (domain) to x-y (codomain) mappings
+
+```{r}
+emp_proj <- read.csv("dgg-2432-no-offsets-p4-briesemeister.csv")
+ggplot(emp_proj) +
+  geom_point(aes(x = lon, y = lat), size = 0.05) +
+  coord_equal()
+```
+
+### A sample dataset
+
+```{r}
+pts <- read.csv("world_better.csv") %>%
+  dplyr::select(lon, lat)
+
+# sanity check with a map
+ggplot(pts) + 
+  geom_point(aes(x = lon, y = lat), size = 0.05) + 
+  coord_equal()
+```
+
+## Triangles interpolator
+
+This also exists in a package `interp` but `akima` is **way** quicker.
+
+```{r warning=FALSE}
+x_out <- akima::interpp(x = emp_proj$lon, y = emp_proj$lat, z = emp_proj$x,
+                xo = pts$lon, yo = pts$lat) #, output = "points") this option for interp function
+y_out <- akima::interpp(x = emp_proj$lon, y = emp_proj$lat, z = emp_proj$y,
+                xo = pts$lon, yo = pts$lat) #, output = "points")
+```
+
+Now make up a results data table and map it
+
+```{r}
+result <- data.frame(x = x_out$z, y = y_out$z)
+ggplot(result) + 
+  geom_point(aes(x = x, y = y), size = 0.05) + 
+  coord_equal()
+```
+
+## For what it's worth
+
+Here is doing it with spatial data formats. Like most of these older packages it wants `sp` formats...
+
+```{r warning = FALSE}
+library(sf)
+
+emp_proj_sf <- emp_proj %>%
+  st_as_sf(coords = c("lon", "lat"), crs = 4326) 
+emp_proj_sp <- emp_proj_sf %>%
+  as("Spatial")
+
+pts_sf <- pts %>%
+  st_as_sf(coords = c("lon", "lat"), crs = 4326)
+pts_sp <- pts_sf %>%
+  as("Spatial")
+
+x <- akima::interpp(emp_proj_sp, z = c("x"), xo = pts_sp, linear = TRUE)
+y <- akima::interpp(emp_proj_sp, z = c("y"), xo = pts_sp, linear = TRUE)
+
+result2 <- data.frame(x = x$z, y = y$z)
+ggplot(result2) +
+  geom_point(aes(x = x, y = y), size = 0.05) + 
+  coord_equal()
+```
+
+## Apply the empirical projection's cut region
+
+We know this exactly for Briesemeister.
+
+```{r}
+cut_sf <- st_read("briesemeister-cut.geojson")
+
+# make the cut region
+cut_region_sf <- emp_proj_sf %>%
+  st_union() %>%
+  st_triangulate() %>% # the triangulation of the empirical projection points
+  st_cast() %>%
+  st_as_sf() %>% 
+  st_filter(cut_sf) %>% # intersected with the cut
+  st_union() %>% # unioned into a single object
+  st_as_sf() 
+
+# use st_disjoint to remove the points in the data to project that are inside the cut region
+pts_to_project_sp <- pts_sf %>%
+  st_filter(cut_region_sf, .predicate = st_disjoint) %>%
+  as("Spatial")
+
+x <- akima::interpp(emp_proj_sp, z = c("x"), xo = pts_to_project_sp, linear = TRUE)
+y <- akima::interpp(emp_proj_sp, z = c("y"), xo = pts_to_project_sp, linear = TRUE)
+
+result3 <- data.frame(x = x$z, y = y$z)
+ggplot(result3) +
+  geom_point(aes(x = x, y = y), size = 0.05) + 
+  coord_equal()
+```
+
+```{r}
+pt_project(controls, pts, cut) {
+  
+}
+```

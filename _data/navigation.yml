@@ -10,3 +10,6 @@
 - label: Talks
   url: talks
   title: slides from some of my talks
+- label: Spatial R junkyard
+  url: r-junkyard
+  title: random bits of R code
