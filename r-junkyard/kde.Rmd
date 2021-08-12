@@ -108,4 +108,4 @@ tm_shape(polys) +
   tm_polygons(col = "estimated_count", palette = "viridis", title = "200m KDE estimate")
 ```
 
-[Back to the junkyard](../r-junkyard.md)
+[Back to the junkyard](../r-junkyard)
