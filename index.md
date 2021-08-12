@@ -7,10 +7,13 @@ Roughly speaking I'm interested in everything, but with an emphasis on the impli
 I try to keep [this list](publications.md) fairly complete and up to date.
 
 ## Teaching
-It also has links to some [teaching materials](teaching/) although you'll find latest materials for most of my teaching at my main [github page](https://github.com/DOSull).
+You'll find latest materials for most of my teaching at my main [github page](https://github.com/DOSull).
 
 ## Talks
 This website has a fairly complete record of [talks](talks/) I have given since late 2014 (when I started using [reveal.js](https://revealjs.com/) to make slides).  
 
 ## Other stuff
-...
++ A [collection of NetLogo models](https://github.com/DOSull/model-zoo) to accompany [_Spatial Simulation: Exploring Pattern and Process_](http://www.wiley.com/WileyCDA/WileyTitle/productCd-1119970792.html)
++ [NZ travel to work and study data visualized](https://github.com/DOSull/commute-viewer)  
++ [what3chords](https://github.com/DOSull/what3chords) (**health warning** turn down your volume!)  
++ A [spatial COVID model](https://github.com/DOSull/spatial-epi) I made with colleagues
