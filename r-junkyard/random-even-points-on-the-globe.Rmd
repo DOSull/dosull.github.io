@@ -1,5 +1,5 @@
 ---
-title: "Making uniform random points on the globe"
+title: "Uniform random points on the globe"
 date: "13 August, 2021"
 ---
 
