@@ -4,6 +4,9 @@ date: "12 August, 2021"
 ---
 [Download this notebook](kde.Rmd?raw=true).
 
+## Data
+The data for this one are some [point data](abb.gpkg?raw=true) (Airbnb listings from [here](http://insideairbnb.com/new-zealand/)) and some [polygon data](sa2.gpkg?raw=true) (NZ census Statistical Area 2 data).
+
 ## Packages
 This requires a surprising number of moving parts (at least the way I did it):
 ```{r message=FALSE}
@@ -16,14 +19,13 @@ library(RColorBrewer) # because default raster colours are horrible
 library(dplyr)
 ```
 
-Optionally web maps are nice:
+Optionally web maps are nice...
+
 ```{r}
 # tmap_mode("view")
 ```
 
-## Data
-And the data for this one are some [point data](abb.gpkg?raw=true) (Airbnb listings from [here](http://insideairbnb.com/new-zealand/)) and some [polygon data](sa2.gpkg?raw=true) (NZ census Statistical Area 2 data).
-
+Load the data:
 ```{r}
 polys <- st_read("sa2.gpkg")
 pts <- st_read("abb.gpkg")
@@ -55,7 +57,7 @@ tm_shape(polys) +
   tm_polygons(col = "n", palette = "viridis", title = "Points in polygons")
 ```
 
-### `spatstat` for density estimation
+## `spatstat` for density estimation
 The best way I know to do density estimation in the R ecosystem is using the [`spatstat`] library's specialisation of base *R*'s `density` function. That means converting the point data to a `spatstat` planar point pattern (`ppp`) object
 
 ```{r}
@@ -73,7 +75,7 @@ pts.ppp$window <- polys %>%
   as.owin()            # convert to spatstat owin - again maptools...
 ```
 
-### Now the kernel density
+## Now the kernel density
 Here we specify the size of the raster we want with `dimyx` (note the order, y then x) using the number of pixels (`height` and `width`) we calculated earlier. We can convert this directly to a raster, but have to supply a CRS which we pull from the original points input dataset. At the time of writing (August 2021) you'll get a complaint about the New Zealand Geodetic Datum 2000 because recent changes in how projections and datums are handled are still working themselves out.
 
 ```{r}
