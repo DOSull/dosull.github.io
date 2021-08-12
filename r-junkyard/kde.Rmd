@@ -1,4 +1,7 @@
-# Kernel density estimation in R spatial
+---
+title: "Kernel density estimation in R spatial"
+date: "12 August, 2021"
+---
 [Download this notebook](kde.Rmd?raw=true).
 
 ## Packages
@@ -53,7 +56,7 @@ tm_shape(polys) +
 ```
 
 ### `spatstat` for density estimation
-The best way I know to density estimation in the R ecosystem is using the [`spatstat`] library's specialisation of base *R*'s `density` function. That means converting the point data to a `spatstat` planar point pattern (`ppp`) object
+The best way I know to do density estimation in the R ecosystem is using the [`spatstat`] library's specialisation of base *R*'s `density` function. That means converting the point data to a `spatstat` planar point pattern (`ppp`) object
 
 ```{r}
 pts.ppp <- pts$geom %>% 
@@ -71,11 +74,11 @@ pts.ppp$window <- polys %>%
 ```
 
 ### Now the kernel density
-Here we specify the size of the raster we want with `dimyx` (note the order, y then x) using the number of pixels (`height` and `width`) we calculated earlier. We can convert this directly to a raster, but have to supply a CRS which we pull from the original points input dataset.
+Here we specify the size of the raster we want with `dimyx` (note the order, y then x) using the number of pixels (`height` and `width`) we calculated earlier. We can convert this directly to a raster, but have to supply a CRS which we pull from the original points input dataset. At the time of writing (August 2021) you'll get a complaint about the New Zealand Geodetic Datum 2000 because recent changes in how projections and datums are handled are still working themselves out.
 
 ```{r}
 kde <- density(pts.ppp, sigma = 200, dimyx = c(height, width)) %>%
-  raster(crs = st_crs(pts)$wkt) # you have to do this because CRS-chaos in the FOSS-sphere
+  raster(crs = st_crs(pts)$wkt) # a ppp has no CRS information
 ```
 
 We can map this - the default colour ramp in `raster` is horrible, so usr `RColorBrewer::brewer.pal` to get something nicer.
@@ -104,3 +107,5 @@ And now we can make another map
 tm_shape(polys) + 
   tm_polygons(col = "estimated_count", palette = "viridis", title = "200m KDE estimate")
 ```
+
+[Back to the junkyard](../r-junkyard.md)
