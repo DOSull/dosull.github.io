@@ -173,50 +173,13 @@ pre code {
 <div id="packages" class="section level2">
 <h2>Packages</h2>
 <p>This requires a surprising number of moving parts (at least the way I did it):</p>
-<pre class="r"><code>library(sf)</code></pre>
-<pre><code>## Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0</code></pre>
-<pre class="r"><code>library(tmap)
-library(spatstat)</code></pre>
-<pre><code>## Loading required package: spatstat.data</code></pre>
-<pre><code>## Loading required package: spatstat.geom</code></pre>
-<pre><code>## spatstat.geom 2.0-1</code></pre>
-<pre><code>## Loading required package: spatstat.core</code></pre>
-<pre><code>## Loading required package: nlme</code></pre>
-<pre><code>## Loading required package: rpart</code></pre>
-<pre><code>## spatstat.core 2.0-0</code></pre>
-<pre><code>## Loading required package: spatstat.linnet</code></pre>
-<pre><code>## spatstat.linnet 2.1-1</code></pre>
-<pre><code>## 
-## spatstat 2.0-1       (nickname: &#39;Caution: contains small parts&#39;) 
-## For an introduction to spatstat, type &#39;beginner&#39;</code></pre>
-<pre class="r"><code>library(maptools)</code></pre>
-<pre><code>## Loading required package: sp</code></pre>
-<pre><code>## Checking rgeos availability: TRUE</code></pre>
-<pre class="r"><code>library(raster)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;raster&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:nlme&#39;:
-## 
-##     getData</code></pre>
-<pre><code>## The following objects are masked from &#39;package:spatstat.geom&#39;:
-## 
-##     area, rotate, shift</code></pre>
-<pre class="r"><code>library(RColorBrewer) # because default raster colours are horrible
+<pre class="r"><code>library(sf)
+library(tmap)
+library(spatstat)
+library(maptools)
+library(raster)
+library(RColorBrewer) # because default raster colours are horrible
 library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:raster&#39;:
-## 
-##     intersect, select, union</code></pre>
-<pre><code>## The following object is masked from &#39;package:nlme&#39;:
-## 
-##     collapse</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
 <p>Optionally web maps are nice:</p>
 <pre class="r"><code># tmap_mode(&quot;view&quot;)</code></pre>
 </div>

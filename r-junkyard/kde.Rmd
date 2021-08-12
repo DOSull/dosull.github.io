@@ -6,7 +6,7 @@ date: "12 August, 2021"
 
 ## Packages
 This requires a surprising number of moving parts (at least the way I did it):
-```{r messages=FALSE}
+```{r message=FALSE}
 library(sf)
 library(tmap)
 library(spatstat)
