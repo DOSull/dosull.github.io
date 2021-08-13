@@ -83,7 +83,7 @@ kde <- density(pts.ppp, sigma = 200, dimyx = c(height, width)) %>%
   raster(crs = st_crs(pts)$wkt) # a ppp has no CRS information
 ```
 
-We can map this - the default colour ramp in `raster` is horrible, so usr `RColorBrewer::brewer.pal` to get something nicer.
+We can map this - the default colour ramp in `raster` is horrible, so use `RColorBrewer::brewer.pal` to get something nicer.
 
 ```{r}
 tm_shape(kde) +
