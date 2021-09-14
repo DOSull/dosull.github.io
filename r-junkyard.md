@@ -6,5 +6,8 @@ In no particular order:
 ## [Doing kernel density estimation](r-junkyard/kde.html)
 Works fine, but is surprisingly tricky, because you have to use more than one package.
 
+## [doing IDW interpolation in `spatstat`](r-junkyard/spatstat-idw.html)
+Similar set of issues to the kernel density example.
+
 ## [Evenly distributed random points on the globe](r-junkyard/random-even-points-on-the-globe.html)
 I have to look this up on stackoverflow every time, so might as well have it on my own website
