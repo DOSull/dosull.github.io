@@ -15,6 +15,8 @@ Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information S
 **O’Sullivan D** and DJ Unwin. 2003. *Geographic Information Analysis* (Wiley: Hoboken, NJ).
 
 ## in refereed journals
+Chaves LF, MD Friberg, LA Hurtado, RM Rodríguez, **D O’Sullivan** and LR Bergmann. 2021 (Online first). Trade, uneven development and people in motion: Used territories and the initial spread of COVID-19 in Mesoamerica and the Caribbean. *Socio-Economic Planning Sciences* doi:[10.1016/j.seps.2021.101161](https://dx.doi.org/10.1016/j.seps.2021.101161)
+
 Gibadullina A, LR Bergmann and **D O’Sullivan**. 2021. For Geographical Network Analysis. *Tijdschrift voor Economische en Sociale Geografie* **112**(4) 482-487 doi:[10.1111/tesg.12489](https://dx.doi.org/10.1111/tesg.12489).
 
 **O’Sullivan D**. 2021. New mappings of GIScience and geography. A commentary on May Yuan’s ‘GIS research to address tensions in geography.’ *Singapore Journal of Tropical Geography* **42**(1) 31–35. doi:[10.1111/sjtg.12345](https://dx.doi.org/10.1111/sjtg.12345)
