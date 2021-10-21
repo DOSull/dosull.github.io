@@ -14,6 +14,10 @@ This is a pretty random assortment of things I've worked on or played around wit
 + A [spatial COVID model](https://github.com/DOSull/spatial-epi) I made with colleagues
 + [Mapping the Dulux colours of New Zealand](https://github.com/DOSull/dulux-colours-map)
 
+### COVID times
++ A [spatial COVID model](https://github.com/DOSull/spatial-epi) I made with colleagues
++ [Locations of interest in the August - ??? delta outbreak in Aotearoa](https://southosullivan.com/misc/loi.html). Note that these are _not_ the current locations of interest, but rather all of them over time, and at some point I will get fed up updating them.
+
 ### Even more random
 + [what3chords](https://github.com/DOSull/what3chords) (**health warning** turn down your volume!) some day this will be explained...  
 
