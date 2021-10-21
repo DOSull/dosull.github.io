@@ -10,7 +10,7 @@ This is a pretty random assortment of things I've worked on or played around wit
 + The beginnings of a collection of ['native' NetLogo utilities](https://github.com/DOSull/netlogo-utils)
 
 ### Aotearoan things
-+ [NZ travel to work and study data visualized](https://github.com/DOSull/commute-viewer) visualized in my not-winning entry to [there and back again](https://www.stats.govt.nz/2018-census/there-and-back-again-data-visualisation-competition)
++ [NZ travel to work and study data visualized](https://github.com/DOSull/commute-viewer) in my not-winning entry to [there and back again](https://www.stats.govt.nz/2018-census/there-and-back-again-data-visualisation-competition)
 + A [spatial COVID model](https://github.com/DOSull/spatial-epi) I made with colleagues
 + [Mapping the Dulux colours of New Zealand](https://github.com/DOSull/dulux-colours-map)
 
