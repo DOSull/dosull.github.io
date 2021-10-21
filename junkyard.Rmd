@@ -1,0 +1,7 @@
+---
+title: "A spatial junkyard"
+description: |
+  Random bits and bobs of spatial stuff
+listing: posts
+date: 2021-10-21
+---
