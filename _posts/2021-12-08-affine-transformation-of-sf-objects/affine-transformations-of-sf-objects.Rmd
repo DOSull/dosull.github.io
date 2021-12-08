@@ -1,0 +1,117 @@
+---
+title: "Affine transformations of sf objects"
+description: |
+  You can handle sf objects at a low level but it can 
+  take a bit of getting used to
+date: 12-08-2021
+draft: true
+output:
+  distill::distill_article
+---
+
+```{r setup, cache = F}
+knitr::opts_chunk$set(error = TRUE, message = TRUE)
+```
+
+## Packages
+```{r message=FALSE}
+library(sf)
+library(tmap)
+library(dplyr)
+library(wk)
+```
+
+## A simple square
+Just to get things set up let's make a simple square.
+
+```{r}
+square <- (st_polygon(list(matrix(c(-1, -1, 1, -1, 1, 1, -1, 1, -1, -1), 
+                                 5, 2, byrow = TRUE))) * 0.5 + c(1, 0)) %>%
+  st_sfc()
+
+tm_shape(square) + 
+  tm_borders(col = "red") + 
+  tm_grid()
+```
+
+## Simple transformations
+In the code above, we made a polygon and multipled it by 0.5, then added `c(1,0)` to it. This had the effect of scaling it by 0.5 andthen translating it by the vector $$\left[\begin{array}{c}1\\0\end{array}\right]$$
+
+These unlikely looking operations are [perfectly valid](https://r-spatial.github.io/sf/articles/sf3.html#affine-transformations), although they feel a bit 'off'.
+
+Even more unlikely is that you can _multiply an `sf` object by a matrix_...
+
+```{r}
+ang <- pi / 6
+mat <- matrix(c(cos(ang), -sin(ang), 
+                sin(ang),  cos(ang)), 2, 2, byrow = TRUE)
+(square * mat) %>% 
+  plot()
+```
+
+This is ncredibly handy... but there's a caveat. Because you have to post-multiply by the matrix, the sense of many [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) is reversed and construction of the matrix is not 'by the book'. _Usually_ the affine transformation matrix $\mathbf{A}$ for an anti-clockwise rotation by angle $\theta$ around the origin, would be
+
+$$
+\mathbf{A} = 
+\left[\begin{array}{cc}
+\cos\theta & -\sin\theta \\
+\sin\theta & \cos\theta
+\end{array}\right]
+$$
+
+Here, because we are post-multiplying it is the transpose of this
+
+$$
+\mathbf{A}^\mathrm{T} = 
+\left[\begin{array}{cc}
+\cos\theta & \sin\theta \\
+-\sin\theta & \cos\theta
+\end{array}\right]
+$$
+ 
+This means that if you are doing any serious affine transforming of `sf` shapes at a low-level in R spatial, I  recommend either writing some wrapper functions that generate and apply the necessary matrices on the fly, or using the [`wk` package](https://paleolimbot.github.io/wk/) which has proper support for affine transformations. 
+
+# Wrapper functions for the 'native' matrix operations
+For example a rotation function might look something like
+
+```{r}
+# for convenience angle in degrees
+rotate_sf <- function(shp, angle) {
+  a <- angle * pi / 180
+  mat <- matrix(c(cos(a), sin(a), 
+                  -sin(a), cos(a)), 2, 2, byrow = TRUE)
+  shp * mat
+}
+```
+
+and this can be applied like this
+
+```{r}
+base_s <- s1 + c(1, 0)
+plot(s1, xlim = c(-1.75, 1.75), ylim = c(-1.75, 1.75), 
+     col = "lightgrey", border = NA)
+for (a in seq(0, 330, 30)) {
+  plot(rotate_sf(base_s, a), add = TRUE)
+}
+```
+
+Or you might want to make multiple copies of a basic unit at a series of locations on a grid. First, make a function that will translate a shape by a vector.
+
+```{r}
+translate_shape <- function(shape, translation) {
+  shape + translation
+}
+```
+
+Generate a set of translations
+
+```{r}
+grid <- expand.grid(x = 0:19 * 1.2 + 1, y = 0:19 * 1.2 + 1)
+squares <- list()
+for (i in seq(nrow(grid))) {
+  squares <- append(squares, 
+                    list(translate_shape(square, c(grid$x[i], grid$y[i]))))
+}
+squares %>% sapply("[") %>% st_sfc() %>%
+  plot()
+```
