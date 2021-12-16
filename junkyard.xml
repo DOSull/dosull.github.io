@@ -18,6 +18,14 @@ take a bit of getting used to</description>
       <media:content url="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/distill-preview.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
+      <title>Affine transformations of sf objects</title>
+      <link>https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects</link>
+      <description>Manipulating simple features in `sf` is sorta simple, sorta not...</description>
+      <guid>https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects</guid>
+      <pubDate>Tue, 07 Dec 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects/distill-preview.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
       <title>Inverse distance weighted (IDW) interpolation using spatstat</title>
       <link>https://dosull.github.io/posts/2021-10-22-spatstat-idw</link>
       <description>One of the joys (ahem) of R spatial is moving data around between formats so

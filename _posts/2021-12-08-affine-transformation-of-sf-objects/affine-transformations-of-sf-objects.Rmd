@@ -1,10 +1,9 @@
 ---
 title: "Affine transformations of sf objects"
 description: |
-  You can handle sf objects at a low level but it can 
-  take a bit of getting used to
+  Manipulating simple features in `sf` is sorta simple, sorta not...
 date: 12-08-2021
-draft: true
+draft: false
 output:
   distill::distill_article
 ---
@@ -49,7 +48,7 @@ mat <- matrix(c(cos(ang), -sin(ang),
   plot()
 ```
 
-This is ncredibly handy... but there's a caveat. Because you have to post-multiply by the matrix, the sense of many [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) is reversed and construction of the matrix is not 'by the book'. _Usually_ the affine transformation matrix $\mathbf{A}$ for an anti-clockwise rotation by angle $\theta$ around the origin, would be
+This is very... but probably also a bad idea! Because you have to post-multiply by the matrix, the sense of many [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) is reversed and construction of the matrix is not 'by the book'. _Usually_ the affine transformation matrix $\mathbf{A}$ for an anti-clockwise rotation by angle $\theta$ around the origin, would be
 
 $$
 \mathbf{A} = 
@@ -59,36 +58,45 @@ $$
 \end{array}\right]
 $$
 
-Here, because we are post-multiplying it is the transpose of this
+Here, because we are post-multiplying the rotation will be in the other direction... and to rotate anti-clockwise, you use the $-\mathbf{A}=\mathbf{A}^T$
 
 $$
-\mathbf{A}^\mathrm{T} = 
+-\mathbf{A} = 
+\left[\begin{array}{cc}
+-\cos\theta & \sin\theta \\
+-\sin\theta & -\cos\theta
+\end{array}\right] = 
 \left[\begin{array}{cc}
 \cos\theta & \sin\theta \\
 -\sin\theta & \cos\theta
-\end{array}\right]
+\end{array}\right] = \mathbf{A}^\mathrm{T}
 $$
  
-This means that if you are doing any serious affine transforming of `sf` shapes at a low-level in R spatial, I  recommend either writing some wrapper functions that generate and apply the necessary matrices on the fly, or using the [`wk` package](https://paleolimbot.github.io/wk/) which has proper support for affine transformations. 
+This means that if you are doing any serious affine transforming of `sf` shapes at a low-level in R spatial, I  recommend either writing some wrapper functions that generate and apply the necessary matrices on the fly, or, probably better yet, using the [`wk` package](https://paleolimbot.github.io/wk/) which has proper support for affine transformations. 
 
 # Wrapper functions for the 'native' matrix operations
+Taking the `wk` approach, I will show what you can do below. Making similar functions that just post-multiply shapes or add vectors to them instead is left as an exercise for the reader...
+
 For example a rotation function might look something like
 
 ```{r}
 # for convenience angle in degrees
 rotate_sf <- function(shp, angle) {
   a <- angle * pi / 180
-  mat <- matrix(c(cos(a), sin(a), 
-                  -sin(a), cos(a)), 2, 2, byrow = TRUE)
-  shp * mat
+  wk::wk_transform(shp, wk::wk_affine_rotate(angle))
 }
 ```
 
 and this can be applied like this
 
 ```{r}
-base_s <- s1 + c(1, 0)
-plot(s1, xlim = c(-1.75, 1.75), ylim = c(-1.75, 1.75), 
+base_s <- st_polygon(list(matrix(c(.25, 0.25, 
+                                   1.5, 0.25, 
+                                   1.5, 1.5, 
+                                   .25, 1.5, 
+                                   .25, .25), 
+                                 nrow = 5, ncol = 2, byrow = TRUE)))
+plot(base_s, xlim = c(-2, 2), ylim = c(-2, 2), 
      col = "lightgrey", border = NA)
 for (a in seq(0, 330, 30)) {
   plot(rotate_sf(base_s, a), add = TRUE)
@@ -99,7 +107,7 @@ Or you might want to make multiple copies of a basic unit at a series of locatio
 
 ```{r}
 translate_shape <- function(shape, translation) {
-  shape + translation
+  wk::wk_transform(shape, wk::wk_affine_translate(translation[1], translation[2]))
 }
 ```
 
@@ -114,4 +122,28 @@ for (i in seq(nrow(grid))) {
 }
 squares %>% sapply("[") %>% st_sfc() %>%
   plot()
+```
+The `wk` functions also allow you to compose complex transformations from several steps. For example a function to rotate a shape around its own centre, i.e., not arounf the origin at $(0,0)$ requires moving the shape so that its centroid is at the origin, performing the rotation, then moving it back:
+
+```{r}
+rotate_around_centroid <- function(shape, angle) {
+  centroid <- st_centroid(shape) %>%
+    st_coordinates() %>%
+    c()
+  transformation <- wk::wk_affine_compose(
+    wk::wk_affine_translate(-centroid[1], -centroid[2]),
+    wk::wk_affine_rotate(angle),
+    wk::wk_affine_translate(centroid[1], centroid[2])
+  )
+  wk::wk_transform(shape, transformation)
+}
+```
+
+And here's that in action
+
+```{r}
+plot(square, xlim = c(-1, 1), ylim = c(-1, 1))
+for (a in seq(30, 330, 30)) {
+  plot(rotate_around_centroid(square, a), add = TRUE)
+}
 ```

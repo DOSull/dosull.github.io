@@ -22,7 +22,11 @@ library(dplyr)
 ```
 
 ## Making polygons
-My main confusion dealing with polygons in `sf` sounds dumb, but was easily fixed. Matrices in *R* get populated by column, by default, where we typically think of the points in a polygon as being specified as rows of x-y coordinate values. There's also the slightly strange fact that you have to wrap a matrix of points in a list to make a polygon. So because of the row-column thing, there's a tendency to do
+My main confusion dealing with polygons in `sf` sounds dumb, but was easily fixed. Matrices in *R* get populated by column, by default, where the points in a polygon are in the rows of the matrix (as they would be in a dataframe with x and y attributes). You just have to make sure to populate the matrices in the right order. 
+
+There's also the slightly strange fact that you have to wrap a matrix of points in a list to make a polygon. 
+
+So because of the row-column thing, there's a tendency to do
 
 ```{r}
 mat <- matrix(c(0, 0,
@@ -39,7 +43,7 @@ But that fails, because the matrix we made was
 mat
 ```
 
-and the first and last rows don't match.
+and the first and last rows don't match (even if they did, it's not actually a polygon!).
 
 But specify that the matrix should be populated `byrow` and all is well
 
@@ -150,12 +154,15 @@ rgeos::gUnion(as(s1, "Spatial"), as(s2, "Spatial")) %>%
 `sf` does allow us to effectively emulate the `rgeos` behaviour, albeit not for simple geometries. When we instead bundle geometries up into feature collections, we can assign them a precision, and this will take care of the kinds of problems we see above:
 
 ```{r}
-s1_sfc <- st_sfc(s1) %>%
+s1_sfc <- s1 %>% 
+  st_sfc() %>%
   st_set_precision(1e8)
-s2_sfc <- st_sfc(s2) %>%
+s2_sfc <- s2 %>% 
+  st_sfc() %>%
   st_set_precision(1e8)
 
-s1_sfc %>% st_union(s2_sfc) %>%
+s1_sfc %>% 
+  st_union(s2_sfc) %>%
   plot()
 ```
 
@@ -171,9 +178,12 @@ sqrt(2) %>% adjust_precision(1000)
 ```
 
 ### `st_snap`
-Another possible fix for the floating point issue is snapping points to the coordinates of another object before applying operations. So this works, although it is not as clean as the `st_precision` option. On the other hand, it does work on plain geometry objects, not only on those that have bundled up into collections.
+Another possible fix for the floating point issue is snapping points to the coordinates of another object before applying operations. So this works, although it is not as clean as the `st_precision` option. On the other hand, it does work on plain geometry objects, not only on those that have been bundled up into collections.
 
 ```{r}
 s1 %>% st_snap(s2, 1e-8) %>%
-  st_union(s2)
+  st_union(s2) %>%
+  plot()
 ```
+## In conclusion
+The tools for making and manipulating geometries at a low level are available in `sf` but they are not always as simple as you'd like. Of course, most often you are dealing with datasets and that's where `sf` comes into its own. Just remember `st_set_precision()` and you should be able to avoid quite a few headaches...
