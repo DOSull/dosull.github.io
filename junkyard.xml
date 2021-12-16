@@ -7,7 +7,15 @@
     <description>Website of David O'Sullivan
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 08 Dec 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Dec 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Affine transformations of sf objects</title>
+      <link>https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects</link>
+      <description>Manipulating simple features in `sf` is sorta simple, sorta not...</description>
+      <guid>https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects</guid>
+      <pubDate>Wed, 15 Dec 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects/distill-preview.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Low level handling of sf objects</title>
       <link>https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects</link>
@@ -16,14 +24,6 @@ take a bit of getting used to</description>
       <guid>https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects</guid>
       <pubDate>Wed, 08 Dec 2021 00:00:00 +0000</pubDate>
       <media:content url="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/distill-preview.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>Affine transformations of sf objects</title>
-      <link>https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects</link>
-      <description>Manipulating simple features in `sf` is sorta simple, sorta not...</description>
-      <guid>https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects</guid>
-      <pubDate>Tue, 07 Dec 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects/distill-preview.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Inverse distance weighted (IDW) interpolation using spatstat</title>
