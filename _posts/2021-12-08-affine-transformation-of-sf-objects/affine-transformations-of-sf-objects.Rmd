@@ -15,7 +15,6 @@ knitr::opts_chunk$set(error = TRUE, message = TRUE)
 ## Packages
 ```{r message=FALSE}
 library(sf)
-library(tmap)
 library(dplyr)
 library(wk)
 ```
