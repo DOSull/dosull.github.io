@@ -48,7 +48,7 @@ mat <- matrix(c(cos(ang), -sin(ang),
   plot()
 ```
 
-This is very... but probably also a bad idea! Because you have to post-multiply by the matrix, the sense of many [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) is reversed and construction of the matrix is not 'by the book'. _Usually_ the affine transformation matrix $\mathbf{A}$ for an anti-clockwise rotation by angle $\theta$ around the origin, would be
+This is very handy... but probably also a bad idea! Because you have to post-multiply by the matrix, the sense of many [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) is reversed and construction of the matrix is not 'by the book'. _Usually_ the affine transformation matrix $\mathbf{A}$ for an anti-clockwise rotation by angle $\theta$ around the origin, would be
 
 $$
 \mathbf{A} = 
@@ -80,9 +80,7 @@ Taking the `wk` approach, I will show what you can do below. Making similar func
 For example a rotation function might look something like
 
 ```{r}
-# for convenience angle in degrees
 rotate_sf <- function(shp, angle) {
-  a <- angle * pi / 180
   wk::wk_transform(shp, wk::wk_affine_rotate(angle))
 }
 ```
@@ -123,7 +121,7 @@ for (i in seq(nrow(grid))) {
 squares %>% sapply("[") %>% st_sfc() %>%
   plot()
 ```
-The `wk` functions also allow you to compose complex transformations from several steps. For example a function to rotate a shape around its own centre, i.e., not arounf the origin at $(0,0)$ requires moving the shape so that its centroid is at the origin, performing the rotation, then moving it back:
+The `wk` functions also allow you to compose complex transformations from several steps. For example a function to rotate a shape around its own centre, i.e., not around the origin at $(0,0)$ requires moving the shape so that its centroid is at the origin, performing the rotation, then moving it back:
 
 ```{r}
 rotate_around_centroid <- function(shape, angle) {
