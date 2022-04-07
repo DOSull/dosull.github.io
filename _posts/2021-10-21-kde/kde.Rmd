@@ -72,7 +72,8 @@ We can convert this directly to a raster, but have to supply a CRS which we pull
 
 ```{r}
 kde <- density(pts.ppp, sigma = 500, dimyx = c(height, width)) %>%
-  raster(crs = st_crs(pts)$wkt) # a ppp has no CRS information
+  raster() 
+crs(kde) = st_crs(pts)$wkt  # a ppp has no CRS information so add it
 ```
 
 ### Let's see what we got
@@ -116,7 +117,30 @@ And now we can make another map
 
 ```{r}
 tm_shape(polys) + 
-  tm_polygons(col = "estimated_count", palette = "Reds", title = "500m KDE estimate")
+  tm_polygons(col = "estimated_count", palette = "Reds",
+              title = "500m KDE summed")
 ```
 
-Clearly, this approach doesn't work very well with areas of dramatically different sizes which accounts for why the rural but extensive area to the west is badly overestimated.
+Spot the deliberate mistake?! 
+
+Something doesn't seem quite right! What's with the large numbers in the large rural area to the west of the city? Thing is, you shouldn't really map count data like this, but should instead convert to densities. If we include that option in the `tm_polygons` function, then order is restored.
+
+```{r}
+tm_shape(polys) + 
+  tm_polygons(col = "estimated_count", palette = "Reds", convert2density = TRUE,
+              title = "500m KDE estimate")
+```
+
+Really, this should be done with the earlier map of points in polygons too, so let's show all three side by side. `tmap_arrange` is nice for this, although it has trouble making legend title font sizes match, unless you do some creative renaming. I've also multiplied the KDE result by 1,000,000 to convert the density to listings per sq. km, and we can see that the three maps are comparable.
+
+```{r}
+m1 <- tm_shape(kde * 1000000) + 
+  tm_raster(palette = "Reds", title = "500m KDE")
+m2 <- tm_shape(polys) + 
+  tm_fill(col = "n", palette = "Blues", convert2density = TRUE,
+              title = "Point density")
+m3 <- tm_shape(polys) + 
+  tm_fill(col = "estimated_count", palette = "Greens", convert2density = TRUE,
+              title = "KDE summed")
+tmap_arrange(m1, m2, m3, nrow = 1)
+```
