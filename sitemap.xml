@@ -18,11 +18,15 @@
   </url>
   <url>
     <loc>https://dosull.github.io/publications.html</loc>
-    <lastmod>2021-10-21T23:27:09+13:00</lastmod>
+    <lastmod>2022-05-04T15:56:51+12:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/talks.html</loc>
     <lastmod>2022-04-09T09:22:34+12:00</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/</loc>
+    <lastmod>2022-06-21T10:28:39+12:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects/</loc>

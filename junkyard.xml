@@ -7,7 +7,16 @@
     <description>Website of David O'Sullivan
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 16 Dec 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Experiments with R interpolators</title>
+      <link>https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators</link>
+      <description>Messing around with interpolating via a triangulation to apply coordinate
+transformations</description>
+      <guid>https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators</guid>
+      <pubDate>Tue, 21 Jun 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/distill-preview.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Affine transformations of sf objects</title>
       <link>https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects</link>

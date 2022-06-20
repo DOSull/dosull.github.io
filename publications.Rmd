@@ -19,7 +19,9 @@ Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information S
 **O’Sullivan D** and DJ Unwin. 2003. *Geographic Information Analysis* (Wiley: Hoboken, NJ).
 
 ## in refereed journals
-Chaves LF, MD Friberg, LA Hurtado, RM Rodríguez, **D O’Sullivan** and LR Bergmann. 2021 (Online first). Trade, uneven development and people in motion: Used territories and the initial spread of COVID-19 in Mesoamerica and the Caribbean. *Socio-Economic Planning Sciences* doi: [10.1016/j.seps.2021.101161](https://dx.doi.org/10.1016/j.seps.2021.101161)
+Etherington T, F Morgan, **D O’Sullivan**. 2022, Binary Space Partitioning Generates Hierarchical and Rectilinear Neutral Landscape Models Suitable for Human-Dominated Landscapes, In review *Landscape Ecology* doi: [10.21203/rs.3.rs-1251602/v1](https://dx.doi.org/10.21203/rs.3.rs-1251602/v1)
+
+Chaves LF, MD Friberg, LA Hurtado, RM Rodríguez, **D O’Sullivan** and LR Bergmann. 2022. Trade, uneven development and people in motion: Used territories and the initial spread of COVID-19 in Mesoamerica and the Caribbean. *Socio-Economic Planning Sciences* **80** (March) 101161. doi: [10.1016/j.seps.2021.101161](https://dx.doi.org/10.1016/j.seps.2021.101161)
 
 Gibadullina A, LR Bergmann and **D O’Sullivan**. 2021. For Geographical Network Analysis. *Tijdschrift voor Economische en Sociale Geografie* **112**(4) 482-487. doi: [10.1111/tesg.12489](https://dx.doi.org/10.1111/tesg.12489).
 
