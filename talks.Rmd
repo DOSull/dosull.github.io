@@ -26,6 +26,7 @@ Date | Title | Notes
 2016<br>March | [Spatiality, maps, mathematics and critical human geography](https://southosullivan.com/talks/Uppsala-SpatialityMapsMath/) | University of Uppsala, Department of Social and Economic Geography
 2016<br>January | [Future GIS](https://southosullivan.com/talks/UBC-Future-GIS/) | (with Matt Wilson) University of British Columbia, Department of Geography
 2015<br>December | [Thinking with and about models in geography](https://southosullivan.com/talks/UCDavis-Geography/) | University of California, Davis. Geography Graduate Group seminar series.
+2015<br>August | (with Alex Singleton and Seth Spielman) [Our town: How socioeconomics shape functional neighborhoods in American cities](https://southosullivan.com/talks/Geocomputation2015/) | Geocomputation 2015, UT Dallas
 2015<br>May | [Spatial simulation: Exploring pattern and process](https://southosullivan.com/talks/UNIGIS/) | UNIGIS Salzburg Webinar
 2015<br>May | [Simple spatial models: Building blocks for process-based GIS?](https://southosullivan.com/talks/stanford-lecture/) | Stanford University
 2015<br>May | [Identifying ‘narrative arcs’ to explain outcomes in an agent-based model of island resource exploitation](https://southosullivan.com/talks/stanford-panel/) | Stanford University Libraries’ Center for Interdisciplinary Digital Research
@@ -33,7 +34,7 @@ Date | Title | Notes
 2014<br>November | [‘Play well’: Learning about the world using spatial models](https://southosullivan.com/talks/Oregon-complexity/) | University of Oregon, Department of Geography and Complexity Science conference
 2014<br>September | [Using Personal Names to Explore Cultural, Ethnic and Linguistic Structure in Populations](talks/DemographyTalk_OSullivan_092414.pdf) | UC Berkeley, Department of Demography
 2014<br>June | [Simple spatial models: building blocks for process-based GIS?](talks/IAG-NZGS-Melbourne-2014.pdf) | Institute of Australian Geographers – New Zealand Geographical Society Joint Conference, University of Melbourne
-2013 August | [Towards a ‘pattern language’ for spatial simulation models](https://southosullivan.com/talks/SIRC-talk/) | (with George Perry) presented at SIRC NZ 2013, University of Otago, Dunedin, New Zealand. Extended abstract [available here](http://otago.ourarchive.ac.nz/handle/10523/4219)
+2013<br>August | [Towards a ‘pattern language’ for spatial simulation models](https://southosullivan.com/talks/SIRC-talk/) | (with George Perry) presented at SIRC NZ 2013, University of Otago, Dunedin, New Zealand. Extended abstract [available here](http://otago.ourarchive.ac.nz/handle/10523/4219)
 2013<br>April | [Towards a ‘pattern language’ for spatial simulation models](talks/AAG2013_talk.pdf) | (with George Perry) presented at the 109th Annual Meeting of the Association of American Geographers, Los Angeles, CA
 2013<br>February | [Towards a ‘pattern language’ for spatial simulation models](talks/UC_SantaBarbara_jobTalk.pdf) | Department of Geography, University of California Santa Barbara
 2012<br>May | Naming networks and population structure | Department of Urban Engineering, University of Tokyo
