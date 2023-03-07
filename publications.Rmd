@@ -144,6 +144,8 @@ Turner A, M Doxa, **D O’Sullivan** and A Penn. 2001. From isovists to visibili
 **O’Sullivan D**, A Morrison and J Shearer. 2000. Using desktop GIS for the investigation of accessibility by public transport: an isochrone approach. *International Journal of Geographical Information Science* **14**(1) 85-104. doi: [10.1080/136588100240976](http://dx.doi.org/10.1080/136588100240976)
 
 ## book chapters
+C Andris and **D O’Sullivan**. 2019. Spatial Networks. In *Handbook of Regional Science* (eds MM Fischer and P Nijkamp). Springer. doi: [10.1007/978-3-642-36203-3_67-1](https://dx.doi.org/10.1007/978-3-642-36203-3_67-1).
+
 **D O’Sullivan**. 2018. Cartography and geographic information systems. In J Ash, R Kitchin and A Leszczynski (eds), *Digital Geographies*, (Los Angeles: Sage), pages 118-128.
 
 **D O’Sullivan**. 2018. Big data ... why (oh why?) this computational social science? In JE Thatcher, J Eckert and A Shears (eds), *Thinking Big Data in Geography: New Regimes, New Research*, (Lincoln: University of Nebraska Press), pages 21-38. doi: [10.2307/j.ctt21h4z6m.7](http://dx.doi.org/10.2307/j.ctt21h4z6m.7)
