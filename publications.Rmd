@@ -171,6 +171,6 @@ Heppenstall AJ, AJ Evans, MH Birkin, JR Macgill and **D O’Sullivan**. 2005. Th
 **O’Sullivan D** and PM Torrens. 2001. Cellular models of urban systems. In S Bandini and T Worsch (eds), *Theoretical and Practical Issues on Cellular Automata, Proceedings of the Fourth International Conference on Cellular Automata for Research and Industry (ACRI 2000)*, October 4–6, Karlsruhe, Germany (Springer-Verlag: London), pages 108-116.  [Also available as CASA Working Paper 22 at [www.casa.ucl.ac.uk/cellularmodels.pdf](http://www.casa.ucl.ac.uk/ cellularmodels.pdf)
 
 ## dissertations
-PhD: **O’Sullivan D**. 2000. [Graph-based Cellular Automaton Models of Urban Spatial Processes](https://southosullivan.com/phd/phd.zip). University College London.
+PhD: **O’Sullivan D**. 2000. [Graph-based Cellular Automaton Models of Urban Spatial Processes]("https://southosullivan.com/phd/O'Sullivan_2000_Graph-based Cellular Automaton Models of Urban Spatial Processes.pdf"). University College London.
 
 MSc: **O’Sullivan D**. 1997. [Using GIS to create public transport travel time isochrones for the Glasgow area](http://southosullivan.com/msc/mastersThesis.pdf). University of Glasgow.
