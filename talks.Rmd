@@ -7,9 +7,6 @@ More recent talks are in web formats, which might include broken links. Others a
 
 Date | Title | Notes
 :-- | :-- | :--
-2022<br>November | [Tiled & woven thematic maps](https://dosull.github.io/weaving-space/Palmerston-North-Nov-2022/slides/) | Regional GIS Forum, Palmerston North, 11 November
-2022<br>August | [Computing geographically: rethinking space and place in giscience](https://southosullivan.com/talks/NZGRC-2022/#/) | Keynote at New Zealand Geospatial Research Colloquium, 29-30 August
-2022<br>August | [Tiled & woven thematic maps](https://dosull.github.io/weaving-space/NZCS-Aug-2022/slides/) | GeoCart 2022, National Library, Wellington, 24-26 August
 2022<br>July | [R for geospatial](https://southosullivan.com/misc/slug-talk/) | Spatial Literacy User Group, Te Herenga Waka - Victoria University of Wellington
 2021<br>November | [Weaving maps of multivariate data](weaving-space/NZCS-Nov-2021/make-weave-map.html) | [State of New Zealand Cartography](https://cartography.org.nz/events/geospatial2021), Special Meeting of the New Zealand Cartographic Society, Wellington
 2021<br>September | [Mapping the Dulux Colours of New Zealand Using R](dulux-colours-map/slides/) | Maptime! Aotearoa, 22 September
