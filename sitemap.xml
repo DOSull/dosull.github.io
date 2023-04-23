@@ -2,50 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://dosull.github.io/books.html</loc>
-    <lastmod>2021-10-21T23:31:50+13:00</lastmod>
+    <lastmod>2021-10-22T00:31:50+13:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/</loc>
-    <lastmod>2022-05-04T11:04:50+12:00</lastmod>
+    <lastmod>2022-05-04T12:04:50+12:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/junkyard.html</loc>
-    <lastmod>2021-10-22T00:30:24+13:00</lastmod>
+    <lastmod>2021-10-22T01:30:24+13:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/other.html</loc>
-    <lastmod>2021-10-22T09:46:56+13:00</lastmod>
+    <lastmod>2021-10-22T10:46:56+13:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/publications.html</loc>
-    <lastmod>2022-07-12T11:45:13+12:00</lastmod>
+    <lastmod>2023-04-23T20:39:38+12:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/talks.html</loc>
-    <lastmod>2022-07-29T11:26:29+12:00</lastmod>
+    <lastmod>2023-03-07T14:06:53+13:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/</loc>
-    <lastmod>2022-06-21T10:28:39+12:00</lastmod>
+    <lastmod>2022-06-21T11:28:39+12:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2021-12-08-affine-transformation-of-sf-objects/</loc>
-    <lastmod>2022-03-28T16:48:19+13:00</lastmod>
+    <lastmod>2023-03-07T13:54:02+13:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/</loc>
-    <lastmod>2021-12-16T16:25:54+13:00</lastmod>
+    <lastmod>2021-12-16T17:25:54+13:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2021-10-22-spatstat-idw/</loc>
-    <lastmod>2021-10-22T01:13:59+13:00</lastmod>
+    <lastmod>2021-10-22T02:13:59+13:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2021-10-21-kde/</loc>
-    <lastmod>2022-04-07T14:58:54+12:00</lastmod>
+    <lastmod>2022-04-07T15:58:54+12:00</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2021-10-20-random-even-points-on-the-globe/</loc>
-    <lastmod>2021-10-22T00:24:32+13:00</lastmod>
+    <lastmod>2021-10-22T01:24:32+13:00</lastmod>
   </url>
 </urlset>
