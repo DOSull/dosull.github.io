@@ -8,6 +8,8 @@ A similar list is available at my [ORCiD profile](https://orcid.org/0000-0001-80
 Jump to [books](#books), [papers](#in-refereed-journals), [book chapters](#book-chapters), [dissertations](#dissertations)
 
 ## books
+**O'Sullivan D**. 2024 (in press). _Computing Geographically: Bridging Giscience and Geography_ (Guilford Press: New York).
+
 **O’Sullivan D**. 2017. Section Editor for ‘Fundamentals of GIScience’ (32 articles) in *The International Encyclopedia of Geography: People, the Earth, Environment, and Technology*. Richardson, D. (ed). New York: Wiley.
 
 Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information Science: Proceedings of the 9th International Conference, GIScience 2016 Lecture Notes in Computer Science Vol. 9927* (Springer: Cham, Switzerland).
@@ -19,6 +21,8 @@ Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information S
 **O’Sullivan D** and DJ Unwin. 2003. *Geographic Information Analysis* (Wiley: Hoboken, NJ).
 
 ## in refereed journals
+Bergmann L, LF Chaves, **D O’Sullivan** and RG Wallace. 2023. Dominant Modes of Agricultural Production Helped Structure Initial COVID-19 Spread in the U.S. Midwest. _ISPRS International Journal of Geo-Information_ **12**(5) 195. doi: [10.3390/ijgi12050195](https://dx.doi.org/10.3390/ijgi12050195)
+
 Etherington T, F Morgan, **D O’Sullivan**. 2022, Binary space partitioning generates hierarchical and rectilinear neutral landscape models suitable for human-dominated landscapes. *Landscape Ecology* **37**(7) 1761–1769. doi: [10.1007/s10980-022-01452-6](https://dx.doi.org/10.1007/s10980-022-01452-6)
 
 Chaves LF, MD Friberg, LA Hurtado, RM Rodríguez, **D O’Sullivan** and LR Bergmann. 2022. Trade, uneven development and people in motion: Used territories and the initial spread of COVID-19 in Mesoamerica and the Caribbean. *Socio-Economic Planning Sciences* **80** (March) 101161. doi:  [10.1016/j.seps.2021.101161](https://dx.doi.org/10.1016/j.seps.2021.101161)
