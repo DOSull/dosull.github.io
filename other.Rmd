@@ -6,13 +6,13 @@ description: "Odds and ends from more or less recently"
 This is a pretty random assortment of things I've worked on or played around with at various times that have any kind of web presence.
 
 ### NetLogo
-+ A [collection of NetLogo models](https://github.com/DOSull/model-zoo) to accompany [_Spatial Simulation: Exploring Pattern and Process_](http://www.wiley.com/WileyCDA/WileyTitle/productCd-1119970792.html)
++ A [collection of NetLogo models](https://dosull.github.io/pattern-and-process) to accompany [_Spatial Simulation: Exploring Pattern and Process_](http://www.wiley.com/WileyCDA/WileyTitle/productCd-1119970792.html)
 + The beginnings of a collection of ['native' NetLogo utilities](https://github.com/DOSull/netlogo-utils)
 
 ### Aotearoan things
 + [NZ travel to work and study data visualized](https://github.com/DOSull/commute-viewer) in my not-winning entry to [there and back again](https://www.stats.govt.nz/2018-census/there-and-back-again-data-visualisation-competition)
-+ A [spatial COVID model](https://github.com/DOSull/spatial-epi) I made with colleagues
 + [Mapping the Dulux colours of New Zealand](https://github.com/DOSull/dulux-colours-map)
++ [Tiled and woven maps](https://github.com/DOSull/weaving-space) of multivariate data
 
 ### COVID times
 + A [spatial COVID model](https://github.com/DOSull/spatial-epi) I made with colleagues
