@@ -1,0 +1,19 @@
+---
+title: "Teaching"
+description: "Materials available online"
+---
+
+You'll have to take a class to get any credit but I've taken to putting my teaching materials online, especially since COVID. I also believe that many people who don't have time or the resources to enroll in a university course might benefit from the materials. 
+
+Unfortunately, if you are not enrolled at a university you might find some links to some resources broken (e.g. DOI links to articles that are paywalled, or datasets that I can't share outside the university.)
+
+## [Advanced GIS](https://dosull.github.io/Geog315)
+This course would be more accurately titled "An introduction to spatial data science" and covers a lot of the basics of doing geospatial work using _R_.
+
+## [Spatial Analysis and Modelling](https://github.com/DOSull/GISC-422)
+An introduction to spatial statistical analysis. Again using _R_ and (for the most part) following the outlines of my book with Dave Unwin [_Geographical Information Analysis_](books.html#geographic-information-analysis)
+
+## [Geographical Computing](https://github.com/DOSull/GISC-420)
+An introduction to python programming for GISers. Using open libraries (primarily [geopandas](https://geopandas.org)), this course provides a gentle introduction to python programming, using [Jupyter notebooks](https://jupyter.org) as the medium. I was fortunate to get in on the ground floor of jupyter notebook based teaching while at Berkeley in this [very short course](https://github.com/DOSull/Geog-88-labs).
+
+I also taught an introduction to geospatial technology at Berkeley for several years, entitled _Digital Worlds_. The slides for that course are available [here](https://southosullivan.com/geog80). This course was what prompted me (eventually) to write [_Computing Geographically_](books.html#computing-geographically).
