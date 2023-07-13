@@ -9,8 +9,14 @@ I have written [3 books](books.html) and [numerous articles, reviews, and book c
 ### Presenting
 I have taught for over 20 years and can put together a mean slide show (I like to think...). These days, I use web-compatible formats, primarily [revealjs](https://revealjs.com) or [quarto](https://quarto.org). See my list of [talks](talks.html), or even the slides from [a class](https://dosull.github.io/Geog315/schedule) for examples.
 
+### Analytics
+I work all the time in R and python developing workflows to tidy, reformat, and analyse data, especially spatial data.
+
+### Visualization
+I am also a trained cartographer. I haven't done a lot of publication cartography _per se_, but spend a lot of my time putting together visual analytics or maps of complex data in research projects with which I am involved.
+
 ### Coding
-I have been programming for as long a I can remember. The more or less full list of languages would be, with those I have taught in **bold**: (Apple) BASIC, PASCAL, Fortran, 6502 assembler (just a little), C/C++ (again, only a little), Java (my masters and Phd work), **NetLogo**, **Visual Basic** (yeuch), **Python**, **R**, and JavaScript (also HTML and CSS if you can call those programming languages). Like I say... I've been programming for a long time.
+I have been programming for as long a I can remember. The more or less full list of languages, with those I have taught in **bold** would be: (Apple) BASIC, PASCAL, Fortran, 6502 assembler (just a little), C/C++ (again, only a little), Java (my masters and Phd work), **NetLogo**, **Visual Basic** (yeuch), **Python**, **R**, and JavaScript (also HTML and CSS if you can call those programming languages). Like I say... I've been programming for a long time.
 
 These days, I use python and R weekly. 
 
@@ -18,7 +24,7 @@ I am not a software developer, but if called on can write [well organised and do
 
 I love [NetLogo](https://ccl.northwestern.edu/netlogo/), but freely admit that it is a little... _niche_ (surprisingly powerful though, see [this geographical COVID model I built in lockdown](https://github.com/DOSull/spatial-epi)). 
 
-I'm sure I have other languages in me: Julia and Rust seem particularly interesting, but I may wait for more mature geospatial stacks to emerge before engaging with them. I 
+I'm sure I have other languages in me: Julia and Rust seem particularly interesting, but I may wait for more mature geospatial stacks to emerge before tackling them.
 
 ### Simulation modelling
 See above re NetLogo. I've also written [a book about this](books.html#spatial-simulation-exploring-pattern-and-process).
