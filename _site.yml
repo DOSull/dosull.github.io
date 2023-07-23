@@ -20,6 +20,4 @@ navbar:
       href: junkyard.html
     - text: "Other stuff"
       href: other.html
-    - icon: fa fa-rss
-      href: junkyard.xml
 output: distill::distill_article
