@@ -23,6 +23,8 @@ This is a pretty random assortment of things I've worked on or played around wit
 
 ### Other
 + An observable notebook to [make whirlpool spiral origami crease patterns](https://observablehq.com/@dosull/tomoko-fuse-spiral-crease-patterns)
++ Photo-blog of my time on [sabbatical leave at the University of Tokyo](https://southosullivan.com/japan)
++ Photo-blog of [day hikes in the Bay Area](https://southosullivan.com/hiking) when we lived in Berkeley
 
 
 
