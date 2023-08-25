@@ -21,9 +21,9 @@ Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information S
 **O’Sullivan D** and DJ Unwin. 2003. *Geographic Information Analysis* (Wiley: Hoboken, NJ).
 
 ## in refereed journals
-Antosz P, D Birks, B Edmonds, A Heppenstall, R Meyer, JG Polhill, **D O’Sullivan** and N Wijermans. 2023. What do you want theory for? A pragmatic analysis of the roles of &ldquo;theory&rdquo; in agent-based modelling. _Environmental Modelling & Software_ **168** 105802. doi: [https://dx.doi.org/10.1016/j.envsoft.2023.105802](10.1016/j.envsoft.2023.105802).
+Antosz P, D Birks, B Edmonds, A Heppenstall, R Meyer, JG Polhill, **D O’Sullivan** and N Wijermans. 2023. What do you want theory for? A pragmatic analysis of the roles of &ldquo;theory&rdquo; in agent-based modelling. _Environmental Modelling & Software_ **168** 105802. doi: [10.1016/j.envsoft.2023.105802](https://dx.doi.org/10.1016/j.envsoft.2023.105802).
 
-Lester PJ, **D O’Sullivan** and GLW Perry. 2023. Gene drives for invasive wasp control: Extinction is unlikely, with suppression dependent on dispersal and growth rates. _Ecological Applications_ e2912. doi: [https://dx.doi.org/10.1002/eap.2912](10.1002/eap.2912).
+Lester PJ, **D O’Sullivan** and GLW Perry. 2023. Gene drives for invasive wasp control: Extinction is unlikely, with suppression dependent on dispersal and growth rates. _Ecological Applications_ e2912. doi: [10.1002/eap.2912](https://dx.doi.org/10.1002/eap.2912).
 
 Bergmann L, LF Chaves, **D O’Sullivan** and RG Wallace. 2023. Dominant Modes of Agricultural Production Helped Structure Initial COVID-19 Spread in the U.S. Midwest. _ISPRS International Journal of Geo-Information_ **12**(5) 195. doi: [10.3390/ijgi12050195](https://dx.doi.org/10.3390/ijgi12050195)
 
