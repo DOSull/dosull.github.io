@@ -1,6 +1,6 @@
 ---
 title: "Books"
-description: "I've co-authored two books, which people seem to find useful"
+description: "I've written three books, which I hope people find useful"
 ---
 
 ### Coming soon...
