@@ -8,6 +8,7 @@ More recent talks are in web formats, which might include broken links. Others a
 Date | Title | Notes
 :-- | :-- | :--
 2023<br>September | [From geographical information science via spatial data science to geographical computing](https://southosullivan.com/talks/SDSS-2023-UCanterbury/) | Fourth Spatial Data Science Symposium, University of Canterbury Hub, 7 September
+2023<br>August | [Computing Geographically: Bridging Giscience and Geography](https://southosullivan.com/talks/UCanterbury-seminar-2023/) | University of Canterbury, School of Earth and Environment, Research Seminar, 10 August
 2022<br>November | [Tiled & woven thematic maps](https://dosull.github.io/weaving-space/Palmerston-North-Nov-2022/slides/) | Regional GIS Forum, Palmerston North, 11 November
 2022<br>August | [Computing geographically: rethinking space and place in giscience](https://southosullivan.com/talks/NZGRC-2022/#/) | Keynote at New Zealand Geospatial Research Colloquium, 29-30 August
 2022<br>August | [Tiled & woven thematic maps](https://dosull.github.io/weaving-space/NZCS-Aug-2022/slides/) | GeoCart 2022, National Library, Wellington, 24-26 August
@@ -24,7 +25,7 @@ Date | Title | Notes
 2017<br>December | [Bridging GIScience and Geographical Thought](https://southosullivan.com/talks/Liverpool-2017/) | Geographic Data Science Lab, University of Liverpool
 2017<br>September | [Identifying ‘narrative arcs’ to explain outcomes in an agent-based model of island resource exploitation](https://southosullivan.com/talks/stanford-panel/) | Graduate webinar series on Agent-based models, University of Minnesota. These are the same slides as a talk at Stanford a couple of years earlier...
 2017<br>September | [Some translation required, or: A city is not a network either!](https://southosullivan.com/talks/UrbanNetworksSymposium/) | International Symposium on The Future of Urban Network Research, University of Ghent, Belgium
-2017<br>April | [‘Same only different’: rethinking the practice of digital urban geographies](https://southosullivan.com/talks/AAG-2017/) | 113th Meeting of the American Association of Geographers, Boston, MA
+2017<br>April | ‘Same only different’: rethinking the practice of digital urban geographies | 113th Meeting of the American Association of Geographers, Boston, MA
 2016<br>November | [Simple spatial models: Building blocks for a process-based GIS?](https://southosullivan.com/talks/GIF-Nov2016/) | Geolunch Series, Geospatial Innovation Facility (GIF), University of California, Berkeley
 2016<br>September | [Searching for common ground (again)](https://southosullivan.com/talks/GIScience2016-presentation/) | (with Jim Thatcher and Luke Bergmann) Presented at 9th International Conference on Geographical Information Science (GIScience 2016), Montreal, Canada
 2016<br>September | [Simple simulation models as a complexity ‘pattern language’](https://southosullivan.com/talks/GIScience-lightningTalk/) | Lightning talk at Rethinking the ABCs: Agent-Based Models and Complexity Science in the age of Big Data, CyberGIS, and Sensor Networks pre-conference workshop at GIScience 2016, Montreal, Canada
