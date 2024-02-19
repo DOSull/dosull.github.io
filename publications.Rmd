@@ -8,7 +8,7 @@ A similar list is available at my [ORCiD profile](https://orcid.org/0000-0001-80
 Jump to [books](#books), [papers](#in-refereed-journals), [book chapters](#book-chapters), [dissertations](#dissertations)
 
 ## books
-**O'Sullivan D**. 2024 (in press). _Computing Geographically: Bridging Giscience and Geography_ (Guilford Press: New York).
+**O’Sullivan D**. 2024. _Computing Geographically: Bridging Giscience and Geography_ (Guilford Press: New York).
 
 **O’Sullivan D**. 2017. Section Editor for ‘Fundamentals of GIScience’ (32 articles) in *The International Encyclopedia of Geography: People, the Earth, Environment, and Technology*. Richardson, D. (ed). New York: Wiley.
 
@@ -21,6 +21,8 @@ Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information S
 **O’Sullivan D** and DJ Unwin. 2003. *Geographic Information Analysis* (Wiley: Hoboken, NJ).
 
 ## in refereed journals
+Etherington TR, **D O’Sullivan**, GLW Perry, DR Richards, and J Wainwright. 2024. A least-cost network neutral landscape model of human sites and routes. _Landscape Ecology_ **39**(3) 52. doi: [10.1007/s10980-024-01836-w](https://dx.doi.org/10.1007/s10980-024-01836-w).
+
 Antosz P, D Birks, B Edmonds, A Heppenstall, R Meyer, JG Polhill, **D O’Sullivan** and N Wijermans. 2023. What do you want theory for? A pragmatic analysis of the roles of &ldquo;theory&rdquo; in agent-based modelling. _Environmental Modelling & Software_ **168** 105802. doi: [10.1016/j.envsoft.2023.105802](https://dx.doi.org/10.1016/j.envsoft.2023.105802)
 
 Lester PJ, **D O’Sullivan** and GLW Perry. 2023. Gene drives for invasive wasp control: Extinction is unlikely, with suppression dependent on dispersal and growth rates. _Ecological Applications_ **33**(7) e2912. doi: [10.1002/eap.2912](https://dx.doi.org/10.1002/eap.2912)
