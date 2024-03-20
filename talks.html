@@ -829,9 +829,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     display: none !important;
   }
 
+  hr.section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0px;
+  }
+
+
+  d-byline {
+    border-top: none;
+  }
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
+    border-top: none;
   }
 
   d-appendix {
@@ -926,6 +938,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
   }
 
   d-article pre {
@@ -1687,6 +1704,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // create d-title
     $('.d-title').changeElementType('d-title');
 
+    // separator
+    var separator = '<hr class="section-separator" style="clear: both"/>';
+    // prepend separator above appendix
+    $('.d-byline').before(separator);
+    $('.d-article').before(separator);
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
@@ -1764,8 +1787,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1791,12 +1815,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
+        var author_name = front_matter.authors[i].author
         if (orcid_id) {
           var a = $('<a></a>');
           a.attr('href', 'https://orcid.org/' + orcid_id);
           var img = $('<img></img>');
           img.addClass('orcid-id');
-          img.attr('alt', 'ORCID ID');
+          img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
           img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
           a.append(img);
           $(this).append(a);
@@ -2074,7 +2099,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2123,6 +2148,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-title">
 <h1>Talks</h1>
+
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 <p>These are in reverse chronological order</p>
@@ -2146,221 +2172,226 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: left;">2024<br>March</td>
+<td style="text-align: left;"><a href="https://dosull.github.io/30-day-maps-2023/maps/maptime/maptime-30-days.html">30 Day Map Challenge 2023</a></td>
+<td style="text-align: left;">Maptime! Wellington</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">2023<br>September</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/SDSS-2023-UCanterbury/">From geographical information science via spatial data science to geographical computing</a></td>
 <td style="text-align: left;">Fourth Spatial Data Science Symposium, University of Canterbury Hub, 7 September</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2023<br>August</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/UCanterbury-seminar-2023/">Computing Geographically: Bridging Giscience and Geography</a></td>
 <td style="text-align: left;">University of Canterbury, School of Earth and Environment, Research Seminar, 10 August</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2022<br>November</td>
 <td style="text-align: left;"><a href="https://dosull.github.io/weaving-space/Palmerston-North-Nov-2022/slides/">Tiled &amp; woven thematic maps</a></td>
 <td style="text-align: left;">Regional GIS Forum, Palmerston North, 11 November</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2022<br>August</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/NZGRC-2022/#/">Computing geographically: rethinking space and place in giscience</a></td>
 <td style="text-align: left;">Keynote at New Zealand Geospatial Research Colloquium, 29-30 August</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2022<br>August</td>
 <td style="text-align: left;"><a href="https://dosull.github.io/weaving-space/NZCS-Aug-2022/slides/">Tiled &amp; woven thematic maps</a></td>
 <td style="text-align: left;">GeoCart 2022, National Library, Wellington, 24-26 August</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2022<br>July</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/slug-talk/">R for geospatial</a></td>
 <td style="text-align: left;">Spatial Literacy User Group, Te Herenga Waka - Victoria University of Wellington</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2021<br>November</td>
 <td style="text-align: left;"><a href="weaving-space/NZCS-Nov-2021/make-weave-map.html">Weaving maps of multivariate data</a></td>
 <td style="text-align: left;"><a href="https://cartography.org.nz/events/geospatial2021">State of New Zealand Cartography</a>, Special Meeting of the New Zealand Cartographic Society, Wellington</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2021<br>September</td>
 <td style="text-align: left;"><a href="dulux-colours-map/slides/">Mapping the Dulux Colours of New Zealand Using R</a></td>
-<td style="text-align: left;">Maptime! Aotearoa, 22 September</td>
+<td style="text-align: left;">Maptime! Aotearoa, online</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2020<br>November</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/NZGS-2020-covid-model/">Spatially-explicit models for exploring COVID-19 lockdown strategies</a></td>
 <td style="text-align: left;">New Zealand Geographical Society, Wellington</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2020<br>November</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/Utah-GAW-2020/">Computing geographically: rethinking giscience as geography</a></td>
 <td style="text-align: left;">University of Utah, Department of Geography, Geography Awareness Week Colloquium</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2019<br>September</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/geomputation-2019/">A spatial simulation model to explore the potential impact of gene drives as a control on invasive wasps</a></td>
 <td style="text-align: left;">Geocomputation 2019, Queenstown, 18-21 September</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2019<br>August</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/theoretical-geography/">Theoretical geography: definitely harder than physics!</a></td>
 <td style="text-align: left;">VvoIP_Physics_Debates symposium</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2019<br>July</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/ABM-for-theory-Hanover-2019/">Avoiding the YAAWN syndrome</a></td>
 <td style="text-align: left;">Agents for Theory: From Cases to General Principles, Theory Development through Agent-based Modeling, International Workshop held at Herrenhäuser Palace, Hanover, Germany</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2018<br>May</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/UWTacoma-May-2018/">Some translation required, or: A city is not a network either!</a></td>
 <td style="text-align: left;">Inaugural Brian Coffey lecture and workshop in Geographical Information Science University of Washington, Tacoma</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2018<br>April</td>
 <td style="text-align: left;">Computing with many spaces: Generalizing projections for the digital geohumanities and GIScience</td>
 <td style="text-align: left;">(with Luke Bergmann who presented) 114th Annual Meeting of the American Association of Geographers, New Orleans, LA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2018<br>March</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/UCBoulder-March-2018/">Reimagining GIScience for relational spaces</a></td>
 <td style="text-align: left;">University of Colorado Boulder, Department of Geography Colloquium Series</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2017<br>December</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/Liverpool-2017/">Bridging GIScience and Geographical Thought</a></td>
 <td style="text-align: left;">Geographic Data Science Lab, University of Liverpool</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2017<br>September</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/stanford-panel/">Identifying ‘narrative arcs’ to explain outcomes in an agent-based model of island resource exploitation</a></td>
 <td style="text-align: left;">Graduate webinar series on Agent-based models, University of Minnesota. These are the same slides as a talk at Stanford a couple of years earlier…</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2017<br>September</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/UrbanNetworksSymposium/">Some translation required, or: A city is not a network either!</a></td>
 <td style="text-align: left;">International Symposium on The Future of Urban Network Research, University of Ghent, Belgium</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2017<br>April</td>
 <td style="text-align: left;">‘Same only different’: rethinking the practice of digital urban geographies</td>
 <td style="text-align: left;">113th Meeting of the American Association of Geographers, Boston, MA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2016<br>November</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/GIF-Nov2016/">Simple spatial models: Building blocks for a process-based GIS?</a></td>
 <td style="text-align: left;">Geolunch Series, Geospatial Innovation Facility (GIF), University of California, Berkeley</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2016<br>September</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/GIScience2016-presentation/">Searching for common ground (again)</a></td>
 <td style="text-align: left;">(with Jim Thatcher and Luke Bergmann) Presented at 9th International Conference on Geographical Information Science (GIScience 2016), Montreal, Canada</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2016<br>September</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/GIScience-lightningTalk/">Simple simulation models as a complexity ‘pattern language’</a></td>
 <td style="text-align: left;">Lightning talk at Rethinking the ABCs: Agent-Based Models and Complexity Science in the age of Big Data, CyberGIS, and Sensor Networks pre-conference workshop at GIScience 2016, Montreal, Canada</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2016<br>March</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/Uppsala-SpatialityMapsMath/">Spatiality, maps, mathematics and critical human geography</a></td>
 <td style="text-align: left;">University of Uppsala, Department of Social and Economic Geography</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2016<br>January</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/UBC-Future-GIS/">Future GIS</a></td>
 <td style="text-align: left;">(with Matt Wilson) University of British Columbia, Department of Geography</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2015<br>December</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/UCDavis-Geography/">Thinking with and about models in geography</a></td>
 <td style="text-align: left;">University of California, Davis. Geography Graduate Group seminar series.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2015<br>August</td>
 <td style="text-align: left;">(with Alex Singleton and Seth Spielman) <a href="https://southosullivan.com/talks/Geocomputation2015/">Our town: How socioeconomics shape functional neighborhoods in American cities</a></td>
 <td style="text-align: left;">Geocomputation 2015, UT Dallas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2015<br>May</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/UNIGIS/">Spatial simulation: Exploring pattern and process</a></td>
 <td style="text-align: left;">UNIGIS Salzburg Webinar</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2015<br>May</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/stanford-lecture/">Simple spatial models: Building blocks for process-based GIS?</a></td>
 <td style="text-align: left;">Stanford University</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2015<br>May</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/stanford-panel/">Identifying ‘narrative arcs’ to explain outcomes in an agent-based model of island resource exploitation</a></td>
 <td style="text-align: left;">Stanford University Libraries’ Center for Interdisciplinary Digital Research</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2015<br>April</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/AAG2015/">Identifying ‘narrative arcs’ to explain outcomes in an agent-based model of island resource exploitation</a></td>
 <td style="text-align: left;">(with George Perry) presented at the 110th Annual Meeting of the Association of American Geographers, Chicago, IL</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2014<br>November</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/Oregon-complexity/">‘Play well’: Learning about the world using spatial models</a></td>
 <td style="text-align: left;">University of Oregon, Department of Geography and Complexity Science conference</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2014<br>September</td>
 <td style="text-align: left;"><a href="talks/DemographyTalk_OSullivan_092414.pdf">Using Personal Names to Explore Cultural, Ethnic and Linguistic Structure in Populations</a></td>
 <td style="text-align: left;">UC Berkeley, Department of Demography</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2014<br>June</td>
 <td style="text-align: left;"><a href="talks/IAG-NZGS-Melbourne-2014.pdf">Simple spatial models: building blocks for process-based GIS?</a></td>
 <td style="text-align: left;">Institute of Australian Geographers – New Zealand Geographical Society Joint Conference, University of Melbourne</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2013<br>August</td>
 <td style="text-align: left;"><a href="https://southosullivan.com/talks/SIRC-talk/">Towards a ‘pattern language’ for spatial simulation models</a></td>
 <td style="text-align: left;">(with George Perry) presented at SIRC NZ 2013, University of Otago, Dunedin, New Zealand. Extended abstract <a href="http://otago.ourarchive.ac.nz/handle/10523/4219">available here</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2013<br>April</td>
 <td style="text-align: left;"><a href="talks/AAG2013_talk.pdf">Towards a ‘pattern language’ for spatial simulation models</a></td>
 <td style="text-align: left;">(with George Perry) presented at the 109th Annual Meeting of the Association of American Geographers, Los Angeles, CA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2013<br>February</td>
 <td style="text-align: left;"><a href="talks/UC_SantaBarbara_jobTalk.pdf">Towards a ‘pattern language’ for spatial simulation models</a></td>
 <td style="text-align: left;">Department of Geography, University of California Santa Barbara</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2012<br>May</td>
 <td style="text-align: left;">Naming networks and population structure</td>
 <td style="text-align: left;">Department of Urban Engineering, University of Tokyo</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2012<br>May</td>
 <td style="text-align: left;"><a href="talks/book_talk_tokyo_2012.pdf">Spatial Simulation: Exploring Pattern and Process – A Work in progress</a></td>
 <td style="text-align: left;">Centre for Spatial Information Science, University of Tokyo</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2012<br>February</td>
 <td style="text-align: left;"><a href="talks/OSullivan_AAG_2012.pdf">Agent-based models: what are they good for? Or: did Schelling really need an ABM?</a></td>
 <td style="text-align: left;">Presented at the 108th Annual Meeting of the Association of American Geographers, New York, NY</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2011<br>September</td>
 <td style="text-align: left;">Model Histories: The Generative Properties of Agent-Based Modelling</td>
 <td style="text-align: left;">Presented by James Millington (also with George Perry) at Annual Conference of the Royal Geographical Society with the Institute of British Geographers, Royal Geographical Society, London</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2011<br>April</td>
 <td style="text-align: left;"><a href="talks/aag2001_osullivanMateos_namingNetworks.pdf">Naming networks and population structure</a></td>
 <td style="text-align: left;">(with Pablo Mateos) presented at the 107th Annual Meeting of the Association of American Geographers, Seattle, WA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">2011<br>April</td>
 <td style="text-align: left;">Do physicists have geography envy?</td>
 <td style="text-align: left;">with Steve Manson (who presented) at the 107th Annual Meeting of the Association of American Geographers, Seattle, WA. This paper was <a href="https://dx.doi.org/10.1080/00045608.2015.1039105">eventually published in much different form</a> in the <em>Annals of the American Association of Geographers</em>.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">2009<br>December</td>
 <td style="text-align: left;"><a href="talks/geocomp09_osullivanPerry.pdf">Simulating long distance dispersal processes in spatially heterogeneous landscapes</a></td>
 <td style="text-align: left;">(with George Perry) presented at Geocomputation 2009, University of New South Wales, Sydney, Australia. A <a href="http://dx.doi.org/10.1016/j.ecoinf.2009.03.001">version of this work was published</a> in <em>Ecological Informatics</em>.</td>
