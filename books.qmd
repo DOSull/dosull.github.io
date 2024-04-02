@@ -1,0 +1,20 @@
+---
+title: "Books"
+description: "I hope you find them useful!"
+title-block-banner: true
+---
+
+<div>
+<img src="images/cg.jpg" style="width:250px; float:left; padding:0px 30px 15px 0px"><a href="#geographic-information-analysis">
+[_Computing Geographically_](https://www.guilford.com/books/Computing-Geographically/David-O'Sullivan/9781462553938) argues for the importance of giscience taking geography seriously, and also for geography taking giscience more seriously. Too much GIS work is conducted as if $(x,y)$ coordinates were all that is needed to make data geographical; equally, far too many geographers think that those coordinates are all that GISers care about. This book aims to bridge the divide. An accompanying website includes high resolution copies of all the figures, and 'bonus material' (mostly code). See: [computinggeographically.org](https://computinggeographically.org).
+</div>
+<hr>
+<div>
+<img src="images/spatial-simulation.jpg" style="width:250px; float:right; padding:15px 0px 15px 30px"><a href="#spatial-simulation-exploring-pattern-and-process">
+[_Spatial Simulation: Exploring Pattern and Process_](http://www.wiley.com/WileyCDA/WileyTitle/productCd-1119970792.html) with [George Perry](http://www.env.auckland.ac.nz/people/george-perry) is an advanced introduction to simple spatial simulation models for researchers in fields such as geography, planning, archaeology, ecology and beyond. George and I believe such models have great value across the 'spatial sciences' but the literature is scattered, making it a challenge for researchers to get started. We read all those mathematics, physics and statistics papers, so you won't have to! A library of models in [NetLogo](http://ccl.northwestern.edu/netlogo/) accompanies the book, and can be downloaded [here](https://github.com/DOSull/model-zoo) or explored at [patternandprocess.org](https://patternandprocess.org).
+</div>
+<hr>
+<div>
+<img src="images/gia.jpg" style="width:250px; float:left; padding:15px 30px 0px 0px"><a href="#geographic-information-analysis">
+[_Geographic Information Analysis_](http://www.wiley.com/WileyCDA/WileyTitle/productCd-0470288574.html) with Dave Unwin, was first published in 2003, with a second edition in 2010, and translations into Mandarin and Korean. It has been a mainstay of my teaching (and that of many others!) since first publication, and offers an excellent, proven introduction to key principles and methods of [spatial analysis and modelling](https://github.com/DOSull/Spatial-Analysis-and-Modelling).
+</div>

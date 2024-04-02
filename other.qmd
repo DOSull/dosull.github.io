@@ -1,0 +1,28 @@
+---
+title: "Other stuff"
+description: "Odds and ends from more or less recently"
+title-block-banner: true
+---
+
+A random assortment of things I've worked on or played around with at various times that have any kind of web presence.
+
+### Geospatial things
++ [30 day map challenge 2023](https://dosull.github.io/30-day-maps-2023) exploring (mostly) `tmap` and `ggplot2` as thematic mapping tools
++ [NZ travel to work and study data visualized](https://github.com/DOSull/commute-viewer) in my not-winning entry to [there and back again](https://www.stats.govt.nz/2018-census/there-and-back-again-data-visualisation-competition)
++ [Mapping the Dulux colours of New Zealand](https://github.com/DOSull/dulux-colours-map) and a [Maptime! presentation about the same](https://dosull.github.io/dulux-colours-map/slides/)
++ [Tiled and woven maps](https://github.com/DOSull/weaving-space) of multivariate data
+
+### COVID times
++ A [spatial COVID model](https://github.com/DOSull/spatial-epi) I made with colleagues
++ [Locations of interest in the August - ??? delta outbreak in Aotearoa](https://southosullivan.com/misc/loi.html). Note that these are _not_ the current locations of interest, but rather all of them over time, up to the point when I got fed up updating them!
+
+### NetLogo
++ A [collection of NetLogo models](https://dosull.github.io/pattern-and-process) to accompany [_Spatial Simulation: Exploring Pattern and Process_](http://www.wiley.com/WileyCDA/WileyTitle/productCd-1119970792.html)
++ The beginnings of a collection of ['native' NetLogo utilities](https://github.com/DOSull/netlogo-utils)
+
+### Other
++ An observable notebook to [make whirlpool spiral origami crease patterns](https://observablehq.com/@dosull/tomoko-fuse-spiral-crease-patterns)
++ Photo-blog of [day hikes in the Bay Area](https://southosullivan.com/hiking) when we lived in Berkeley
+
+### Even more random
++ [what3chords](https://github.com/DOSull/what3chords) (**health warning** turn down your volume!) some day this will be explained...  

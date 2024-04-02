@@ -1,9 +1,0 @@
----
-title: "Geography and stuff"
-description: "David O'Sullivan"
-site: distill::distill_website
----
-
-I am Professor of Geography and Geospatial Science at Te Herenga Waka &bull; Victoria University of Wellington, Aotearoa &bull; New Zealand. Best you check out my [web page there](https://www.victoria.ac.nz/sgees/about/staff/david-osullivan) for details. I have previously held positions at the University of California, Berkeley, the University of Auckland, and Penn State. Before 'going back to school' and becoming an academic, I worked for eight years as a telecoms design, then project engineer.
-
-Roughly speaking I'm interested in everything, but with an emphasis on the implications of complexity science, or more generally how the world is (what kind of thing it is!) for geographical research, and more recently, on the implications of geospatial technologies for everyday life. Projects I've worked on have covered topics such as ethnic residential segregation in cities, gentrification, urban growth, invasive species dispersal, accessibility analysis (especially on public transport), epidemic/pandemic disease spread, and simulating land management change.

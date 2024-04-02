@@ -1,0 +1,22 @@
+/* css styles */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,400&display=swap');
+
+p {
+    font-family: 'Libre Baskerville', 'Times New Roman', Times, serif;
+    font-weight: 400;
+}
+
+a {
+    color: dodgerblue;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #979797;
+    background-color: #1a1a1a;
+}
+
+em, b {
+    font-weight: 700;
+}

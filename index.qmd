@@ -1,0 +1,24 @@
+---
+title: "About"
+subtitle: "David O'Sullivan"
+title-block-banner: true
+---
+
+This website is a shop window for **Geospatial Stuff** through which I offer contract expertise in data analytics and visualisation, simulation modelling, and training, especially in relation to all things geospatial.
+
+### Commmunicating ideas
+I have written [3 books](books.html) and [numerous articles, reviews, and book chapters](publications.html).
+
+I have taught for over 20 years and can put together a mean slide show. I use web-formats, primarily [revealjs](https://revealjs.com) and [quarto](https://quarto.org). See my [presentations](presentations.html), or the slides from [this course](https://dosull.github.io/Spatial-Data-Science/schedule).
+
+### Communicating data
+I work all the time in **R** and **Python** developing workflows to tidy, reformat, analyse, and visualize data, especially spatial data. I am a trained cartographer, and while I haven't done a lot of publication cartography _per se_ I have regularly worked on visual analytics or maps of complex data in research projects and publications.
+
+### Wrangling data
+I have been programming since forever. The languages I use all the time are **Python** and **R**, but I have experience in several others (notably Java and JavaScript). I am not a software developer, but can write [well organised and documented code](https://dosull.github.io/weaving-space/doc/weavingspace/). I am not a web developer, but will roll up my sleeves and figure stuff out if called on! Most of my web stuff is linked from these pages, so just have a look around. The most complicated web-thing I've built is [this New Zealand 2018 commute visualization](https://dosull.github.io/commute-viewer/commute-viewer-app/).
+
+### Simulating stuff
+I love [NetLogo](https://ccl.northwestern.edu/netlogo/), but freely admit that it is somewhat _niche_ (albeit surprisingly powerful, see [this geographical COVID model I built in lockdown](https://github.com/DOSull/spatial-epi)). I've also written [a book about this](books.html#spatial-simulation-exploring-pattern-and-process).
+
+### Project management
+Before academia I was a project engineer leading build, test, commissioning and maintenance of production line laser-scanning inspection equipment, working with major multinationals such as IBM, Kodak, Dow Chemical, and Sony. In that role I learned a great deal about project and people management.

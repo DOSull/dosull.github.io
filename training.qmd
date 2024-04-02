@@ -1,0 +1,18 @@
+---
+title: "Training"
+description: "Materials available online"
+title-block-banner: true
+---
+
+## [Spatial Data Science: An Introduction](https://dosull.github.io/Spatial-Data-Science/)
+This course covers a lot of the basics of doing geospatial work using _R_, which enables the inclusion of spatial data into convenient code-based data analysis workflows.
+
+## [Spatial Analysis and Modelling](https://github.com/DOSull/Spatial-Analysis-and-Modelling)
+An introduction to spatial statistical analysis. Again using _R_ and (for the most part) following the outlines of my book with Dave Unwin [_Geographical Information Analysis_](books.html#geographic-information-analysis)
+
+## [Geographical Computing](https://github.com/DOSull/Geographical-Computing)
+An introduction to python programming for GISers. Using open libraries (primarily [geopandas](https://geopandas.org)), this course provides a gentle introduction to python programming, using [Jupyter notebooks](https://jupyter.org) as the medium. I was fortunate to get in on the ground floor of jupyter notebook based teaching while at Berkeley in this [very short course](https://github.com/DOSull/Geog-88-labs).
+
+I also taught an introduction to geospatial technology at Berkeley for several years, entitled _Digital Worlds_. The slides for that course are available [here](https://southosullivan.com/geog80). This course was what prompted me (eventually) to write [_Computing Geographically_](books.html#computing-geographically).
+
+**Note** Unfortunately, if you are not enrolled at a university you might find some links to some resources broken (e.g. DOI links to articles that are paywalled, or datasets that I can't share outside the university.)

@@ -1,0 +1,17 @@
+{
+  "hash": "999196ef37474ace579a543629ec991b",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Uniform random points on the globe\"\ndescription: |\n  There isn't as much land near the poles, so how do you make uniform\n  randomly distributed points in lat-lng coordinate space. Here's how!\ndate: 10-20-2021\noutput: \n  distill::distill_article\n---\n\n\nLibraries are the usual suspects plus `rnaturalearth` for basemap data\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(sf)\nlibrary(ggplot2)\nlibrary(rnaturalearth)\nlibrary(dplyr)\n\nn <- 2500\n```\n:::\n\n\nThe key thing to realise here is that random uniform numbers in both latitude and longitude will not be evenly distributed on Earth's surface, because the meridians converge toward the poles. We can make two datasets to show this. First a naive set of randomly located points:\n\n\n::: {.cell}\n\n```{.r .cell-code}\npts_naive <- data.frame(lon = runif(n) * 360 - 180,\n                        lat = runif(n) * 180 - 90,\n                        type = \"naive\")\n```\n:::\n\n\n## Here comes the science...\nAnd now a set where inserting a cosine correction ensures that the distribution of latitudes is appropriately more dense close to the equator:\n\n\n::: {.cell}\n\n```{.r .cell-code}\npts_even <- data.frame(lon = runif(n) * 360 - 180,\n                       lat = acos(runif(n) * 2 - 1) * 180 / pi - 90,\n                       type = \"even\")\n```\n:::\n\n\n### Compare the latitude distributions\nWe can make up a combined data table and directly compare the distribution of the latitudes with a nice density plot. The increased representation of points in the mid-latitudes with the cosine correction is clear.\n\n\n::: {.cell}\n\n```{.r .cell-code}\npts <- bind_rows(pts_naive, pts_even)\nggplot(pts) +\n  geom_density(aes(y = lat, fill = type), alpha = 0.5, lwd = 0) +\n  scale_fill_viridis_d()\n```\n\n::: {.cell-output-display}\n![](random-even-points-on-the-globe_files/figure-html/unnamed-chunk-4-1.png){width=672}\n:::\n:::\n\n\n## Make a map\nUse an equal-area projection to clearly see the problem geographically.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nw <- ne_countries(returnclass = \"sf\") %>%\n  st_transform(\"+proj=hammer\")\n\npts_sf <- pts %>%\n  st_as_sf(coords = 1:2, crs = 4326)\n\nggplot(w) + \n  geom_sf(fill = \"#cccccc\", colour = \"white\", lwd = 0.35) +\n  geom_sf(data = pts_sf, aes(colour = type), alpha = 0.35) +\n  scale_colour_viridis_d() +\n  theme_minimal()\n```\n\n::: {.cell-output-display}\n![](random-even-points-on-the-globe_files/figure-html/unnamed-chunk-5-1.png){width=672}\n:::\n:::\n\n\nThe naively distributed points are clearly denser at the poles than they should be, where the cosine term in the 'even' points generation method makes them evenly distributed over the globe.\n",
+    "supporting": [
+      "random-even-points-on-the-globe_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
