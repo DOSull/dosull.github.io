@@ -4,7 +4,7 @@ subtitle: "David O'Sullivan"
 title-block-banner: true
 ---
 
-This website is a shop window for **Geospatial Stuff** through which I offer contract expertise in data analytics and visualisation, simulation modelling, and training, especially in relation to all things geospatial.
+This website is a shop window for **Geospatial Stuff** through which I offer contract expertise in data analytics and visualisation, simulation modelling, and training, especially in relation to all things geospatial. For more information [contact me](mailto:osullivan512@gmail.com).
 
 ### Commmunicating ideas
 I have written [3 books](books.html) and [numerous articles, reviews, and book chapters](publications.html).

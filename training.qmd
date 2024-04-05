@@ -4,6 +4,8 @@ description: "Materials available online"
 title-block-banner: true
 ---
 
+For more information [contact me](mailto:osullivan512@gmail.com), especially if any of these or materials on similar themes is of interest to your organisation.
+
 ## [Spatial Data Science: An Introduction](https://dosull.github.io/Spatial-Data-Science/)
 This course covers a lot of the basics of doing geospatial work using _R_, which enables the inclusion of spatial data into convenient code-based data analysis workflows.
 
@@ -15,4 +17,4 @@ An introduction to python programming for GISers. Using open libraries (primaril
 
 I also taught an introduction to geospatial technology at Berkeley for several years, entitled _Digital Worlds_. The slides for that course are available [here](https://southosullivan.com/geog80). This course was what prompted me (eventually) to write [_Computing Geographically_](books.html#computing-geographically).
 
-**Note** Unfortunately, if you are not enrolled at a university you might find some links to some resources broken (e.g. DOI links to articles that are paywalled, or datasets that I can't share outside the university.)
+**Note** Unfortunately, if you are not enrolled at a university or associated with a similar institution you might find links to some resources broken (e.g. DOI links to articles that are paywalled, or datasets that I do not have permission to share.)

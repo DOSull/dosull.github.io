@@ -1,10 +1,10 @@
 ---
-title: "Talks"
+title: "Presentations"
 description: "These are in reverse chronological order" 
 title-block-banner: true
 ---
 
-More recent talks are in web formats, which might include broken links. Others are PDFs. Others are missing, but are listed because they give a sense of development over time.
+Most talks are in web formats, and may include links that are now broken. Others are PDFs. Others are missing, but are listed because they give a sense of development over time.
 
 Date | Title | Notes
 :-- | :-- | :--

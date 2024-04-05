@@ -4,6 +4,8 @@ description: "Things I am good at"
 title-block-banner: true
 ---
 
+For more information or advice on any of these [contact me](mailto:osullivan512@gmail.com).
+
 ### Writing
 I have written [3 books](books.html) and [numerous articles, reviews, and book chapters](publications.html).
 
