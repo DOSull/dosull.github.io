@@ -8,6 +8,7 @@ Most talks are in web formats, and may include links that are now broken. Others
 
 Date | Title | Notes
 :-- | :-- | :--
+2024<br>April | [A spatially explicit agent-based model of on-farm environmental interventions](https://southosullivan.com/talks/AAG-2024/) | Annual Meeting of the American Association of Geographers, Honolulu, Hawai'i, United States
 2024<br>March | [30 Day Map Challenge 2023](https://dosull.github.io/30-day-maps-2023/maps/maptime/maptime-30-days.html) | Maptime! Wellington
 2023<br>September | [From geographical information science via spatial data science to geographical computing](https://southosullivan.com/talks/SDSS-2023-UCanterbury/) | Fourth Spatial Data Science Symposium, University of Canterbury Hub, 7 September
 2023<br>August | [Computing Geographically: Bridging Giscience and Geography](https://southosullivan.com/talks/UCanterbury-seminar-2023/) | University of Canterbury, School of Earth and Environment, Research Seminar, 10 August
