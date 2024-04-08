@@ -6,3 +6,5 @@
 .quarto/
 _freeze/
 _site/
+
+/.quarto/
