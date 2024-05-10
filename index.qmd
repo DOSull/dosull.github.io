@@ -6,6 +6,9 @@ title-block-banner: true
 
 This website is a shop window for **Geospatial Stuff** through which I offer contract expertise in data analytics and visualisation, simulation modelling, and training, especially in relation to all things geospatial. For more information [contact me](mailto:osullivan512@gmail.com).
 
+### Research
+I am an established geography and geospatial researcher and scholar with almost 30 years experience at UCL (1997-2000), Penn State (2000-04), University of Auckland (2004-13), Berkeley (2013-18), and Victoria University of Wellington (2018-24). I am an [Honorary Professor](https://profiles.auckland.ac.nz/dosu004) in the [School of Environment](https://env.auckland.ac.nz) at [University of Auckland](https://auckland.ac.nz). You can find out more about my academic exploits from the 'Academic' drop-down menu above, or for a quick overview, see my [Google Scholar profile](https://scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao). 
+
 ### Commmunicating ideas
 I have written [3 books](books.html) and [numerous articles, reviews, and book chapters](publications.html).
 
@@ -15,7 +18,7 @@ I have taught for over 20 years and can put together a mean slide show. I use we
 I work all the time in **R** and **Python** developing workflows to tidy, reformat, analyse, and visualize data, especially spatial data. I am a trained cartographer, and while I haven't done a lot of publication cartography _per se_ I have regularly worked on visual analytics or maps of complex data in research projects and publications.
 
 ### Wrangling data
-I have been programming since forever. The languages I use all the time are **Python** and **R**, but I have experience in several others (notably Java and JavaScript). I am not a software developer, but can write [well organised and documented code](https://dosull.github.io/weaving-space/doc/weavingspace/). I am not a web developer, but will roll up my sleeves and figure stuff out if called on! Most of my web stuff is linked from these pages, so just have a look around. The most complicated web-thing I've built is [this New Zealand 2018 commute visualization](https://dosull.github.io/commute-viewer/commute-viewer-app/).
+I have been programming since forever. The languages I use all the time are **Python** and **R**, but I have experience in several others (notably Java and JavaScript). I am not a software developer, but can write [well organised and documented code](https://dosull.github.io/weaving-space/doc/weavingspace/). I am not a web developer, but will roll up my sleeves and figure stuff out if called on! Most of my web stuff is linked from these pages, so just have a look around, especially under [Other stuff](other.qmd). The most complicated web-thing I've built is [this New Zealand 2018 commute visualization](https://dosull.github.io/commute-viewer/commute-viewer-app/).
 
 ### Simulating stuff
 I love [NetLogo](https://ccl.northwestern.edu/netlogo/), but freely admit that it is somewhat _niche_ (albeit surprisingly powerful, see [this geographical COVID model I built in lockdown](https://github.com/DOSull/spatial-epi)). I've also written [a book about this](books.html#spatial-simulation-exploring-pattern-and-process).

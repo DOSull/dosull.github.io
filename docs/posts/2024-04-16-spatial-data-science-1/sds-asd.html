@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="David O’Sullivan">
+<meta name="dcterms.date" content="2024-04-02">
+<meta name="description" content="Notes on sessions at AAG 2024">
 
-<title>Geospatial Stuff - About</title>
+<title>Geospatial Stuff - Spatial data science in an age of scientific disruption</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,22 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -67,8 +70,37 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed fullcontent">
@@ -78,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Geospatial Stuff</span>
     </a>
   </div>
@@ -89,11 +121,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./training.html"> 
+    <a class="nav-link" href="../../training.html"> 
 <span class="menu-text">Training</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -102,21 +134,21 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-academic">    
         <li>
-    <a class="dropdown-item" href="./books.html">
+    <a class="dropdown-item" href="../../books.html">
  <span class="dropdown-text">Books</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./presentations.html">
+    <a class="dropdown-item" href="../../presentations.html">
  <span class="dropdown-text">Presentations</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./publications.html">
+    <a class="dropdown-item" href="../../publications.html">
  <span class="dropdown-text">Publications</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="./other.html"> 
+    <a class="nav-link" href="../../other.html"> 
 <span class="menu-text">Other stuff</span></a>
   </li>  
   <li class="nav-item compact">
@@ -135,15 +167,35 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">About</h1>
-            <p class="subtitle lead">David O’Sullivan</p>
-                      </div>
+      <h1 class="title">Spatial data science in an age of scientific disruption</h1>
+                  <div>
+        <div class="description">
+          Notes on sessions at AAG 2024
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">geography</div>
+                <div class="quarto-category">spatial</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>David O’Sullivan </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 2, 2024</p>
+      </div>
+    </div>
     
       
     </div>
@@ -160,33 +212,95 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>This website is a shop window for <strong>Geospatial Stuff</strong> through which I offer contract expertise in data analytics and visualisation, simulation modelling, and training, especially in relation to all things geospatial. For more information <a href="mailto:osullivan512@gmail.com">contact me</a>.</p>
-<section id="research" class="level3">
-<h3 class="anchored" data-anchor-id="research">Research</h3>
-<p>I am an established geography and geospatial researcher and scholar with almost 30 years experience at UCL (1997-2000), Penn State (2000-04), University of Auckland (2004-13), Berkeley (2013-18), and Victoria University of Wellington (2018-24). I am an <a href="https://profiles.auckland.ac.nz/dosu004">Honorary Professor</a> in the <a href="https://env.auckland.ac.nz">School of Environment</a> at <a href="https://auckland.ac.nz">University of Auckland</a>. You can find out more about my academic exploits from the ‘Academic’ drop-down menu above, or for a quick overview, see my <a href="https://scholar.google.com/citations?user=6guUlvgAAAAJ&amp;hl=en&amp;oi=ao">Google Scholar profile</a>.</p>
+<section id="purpose-of-the-sessions" class="level2">
+<h2 class="anchored" data-anchor-id="purpose-of-the-sessions">Purpose of the sessions</h2>
+<p>Reflections on UCSB specialist meetings in <a href="https://spatial.ucsb.edu/events/all/2023/spatial-data-science-age-scientific-disruption"><em>Spatial Data Science in an Age of Scientific Disruption</em></a>.</p>
+<section id="angie-lee-esri" class="level3">
+<h3 class="anchored" data-anchor-id="angie-lee-esri">Angie Lee, Esri</h3>
+<p>Problem-based learning. AI makes learning about framing questions well and interpreting outcomes.</p>
 </section>
-<section id="commmunicating-ideas" class="level3">
-<h3 class="anchored" data-anchor-id="commmunicating-ideas">Commmunicating ideas</h3>
-<p>I have written <a href="books.html">3 books</a> and <a href="publications.html">numerous articles, reviews, and book chapters</a>.</p>
-<p>I have taught for over 20 years and can put together a mean slide show. I use web-formats, primarily <a href="https://revealjs.com">revealjs</a> and <a href="https://quarto.org">quarto</a>. See my <a href="presentations.html">presentations</a>, or the slides from <a href="https://dosull.github.io/Spatial-Data-Science/schedule">this course</a>.</p>
+<section id="clancy-wilmott-ucb" class="level3">
+<h3 class="anchored" data-anchor-id="clancy-wilmott-ucb">Clancy Wilmott, UCB</h3>
+<p>Going back to the geography—broader social implications.</p>
+<p>Not about ‘solving’ problems, about helping.</p>
+<p>Going behind the data.</p>
+<p>Starting with the code (right-click <strong>View page source</strong>).</p>
+<p>AI can be about when you already know the question and the answer, but can’t be bothered to join the dots between. So brings the focus back to the geographer.</p>
 </section>
-<section id="communicating-data" class="level3">
-<h3 class="anchored" data-anchor-id="communicating-data">Communicating data</h3>
-<p>I work all the time in <strong>R</strong> and <strong>Python</strong> developing workflows to tidy, reformat, analyse, and visualize data, especially spatial data. I am a trained cartographer, and while I haven’t done a lot of publication cartography <em>per se</em> I have regularly worked on visual analytics or maps of complex data in research projects and publications.</p>
+<section id="john-wilson-usc" class="level3">
+<h3 class="anchored" data-anchor-id="john-wilson-usc">John Wilson, USC</h3>
+<p>Outcomes.</p>
+<p>Disciplinary and university constraints on how we get where we want to.</p>
+<p>Spatial XXX always requires input from XXX so is always about listening.</p>
 </section>
-<section id="wrangling-data" class="level3">
-<h3 class="anchored" data-anchor-id="wrangling-data">Wrangling data</h3>
-<p>I have been programming since forever. The languages I use all the time are <strong>Python</strong> and <strong>R</strong>, but I have experience in several others (notably Java and JavaScript). I am not a software developer, but can write <a href="https://dosull.github.io/weaving-space/doc/weavingspace/">well organised and documented code</a>. I am not a web developer, but will roll up my sleeves and figure stuff out if called on! Most of my web stuff is linked from these pages, so just have a look around, especially under <a href="./other.html">Other stuff</a>. The most complicated web-thing I’ve built is <a href="https://dosull.github.io/commute-viewer/commute-viewer-app/">this New Zealand 2018 commute visualization</a>.</p>
+<section id="peter-kedron-ucsb" class="level3">
+<h3 class="anchored" data-anchor-id="peter-kedron-ucsb">Peter Kedron, UCSB</h3>
+<p>Chair panel 1. Panellist session 2.</p>
+<p>In responses mentioned how we don’t document the paths not taken <em>en route</em> to the published version of research. Reporting those would make clear that failing is normal (cf.&nbsp;conversations about modeller’s notebooks in agent-based modelling).</p>
 </section>
-<section id="simulating-stuff" class="level3">
-<h3 class="anchored" data-anchor-id="simulating-stuff">Simulating stuff</h3>
-<p>I love <a href="https://ccl.northwestern.edu/netlogo/">NetLogo</a>, but freely admit that it is somewhat <em>niche</em> (albeit surprisingly powerful, see <a href="https://github.com/DOSull/spatial-epi">this geographical COVID model I built in lockdown</a>). I’ve also written <a href="books.html#spatial-simulation-exploring-pattern-and-process">a book about this</a>.</p>
+<section id="joseph-holler-middlebury-college" class="level3">
+<h3 class="anchored" data-anchor-id="joseph-holler-middlebury-college">Joseph Holler, Middlebury College</h3>
+<p>Group-based.</p>
+<p>FOSS. Github etc.</p>
+<p>Emphasis on replication, reproducibility of science.</p>
+<p>Datasets are problematic… finally!</p>
+<p>Ask good questions. How to ask good questions. This was a theme in the specialist meeting.</p>
 </section>
-<section id="project-management" class="level3">
-<h3 class="anchored" data-anchor-id="project-management">Project management</h3>
-<p>Before academia I was a project engineer leading build, test, commissioning and maintenance of production line laser-scanning inspection equipment, working with major multinationals such as IBM, Kodak, Dow Chemical, and Sony. In that role I learned a great deal about project and people management.</p>
+<section id="steve-manson-minnesota" class="level3">
+<h3 class="anchored" data-anchor-id="steve-manson-minnesota">Steve Manson, Minnesota</h3>
+<p>Wider university perspective of the discipline of geography.</p>
+<p>Spatial data science is inductive, that drapes methods onto problems, too enamoured with blackboxes. We’ve gone along with that—solutions/methods that are essentially commercial generic solutions, not properly integrated with existing science. Importance of integrations with domain theories.</p>
+<p>There is a wider crisis in science (publishing, data, methods).</p>
+<p>Local really matters. Working with local groups is important.</p>
+<p>One of the few successes from outside academia is local government interventions. Natural experiment in efficacy of school lunches. Only the existence of spatial infrastructure that enabled that.</p>
+</section>
+<section id="bo-zhao-washington" class="level3">
+<h3 class="anchored" data-anchor-id="bo-zhao-washington">Bo Zhao, Washington</h3>
+<p><a href="http://dx.doi.org/10.1080/24694452.2021.2004875">Humanistic GIS</a>, <a href="https://doi.org/10.1080/15230406.2021.1910075">deep fake geographies</a>.</p>
+<p>History of giscience is a history of disruptions.</p>
+<p>Linking with digital geographies… (<em>plus ça change</em>), e.g.&nbsp;Friday Harbor.</p>
+</section>
+<section id="mike-goodchild" class="level3">
+<h3 class="anchored" data-anchor-id="mike-goodchild">Mike Goodchild</h3>
+<p>‘Bifurcation’: using GIS to advance science <em>vs</em> there is a science of GIS. What we are seeing today is another bifurcation: traditional objectives of research, discovery, patterns, ‘truths’, EDU (exploration, discovery, understanding). On the other hand a lot of published giscience today is not about discovery, it’s about how to tackle a problem, not about advancing understanding. The infrastructure questions (the latter) are legitimate problems.</p>
+<p>We have gravitated back toward ‘spatial data handling’ (Tomlinson).</p>
+<p>Where have ideas come from outside academia that have ‘worked’? Digital twins, yada yada yada.</p>
+</section>
+<section id="amy-frazier-ucsb" class="level3">
+<h3 class="anchored" data-anchor-id="amy-frazier-ucsb">Amy Frazier, UCSB</h3>
+<p>Chair panel 2.</p>
+</section>
+</section>
+<section id="from-the-floor" class="level2">
+<h2 class="anchored" data-anchor-id="from-the-floor">From the floor</h2>
+<section id="peter-rogerson-suny" class="level4">
+<h4 class="anchored" data-anchor-id="peter-rogerson-suny">Peter Rogerson, SUNY</h4>
+<p>Fear of failure. General assent to the importance of this in teaching.</p>
+</section>
+<section id="michael-widener-toronto" class="level4">
+<h4 class="anchored" data-anchor-id="michael-widener-toronto">Michael Widener, Toronto</h4>
+<p>Can spatial data science bring geography together? Should it be about this? JW spoke at length about spatial institute at USC. JH spoke to small core geography.</p>
+</section>
+<section id="harvey-miller-osu" class="level4">
+<h4 class="anchored" data-anchor-id="harvey-miller-osu">Harvey Miller, OSU</h4>
+<p>(S1) How can giscience contribute in an era of disruption?</p>
+<p>Harvey’s question in S1 an interesting one… it got me thinking about the difficulty of geography being integrative <em>vs</em> the move to <span class="math inline">\((x,y,z[,t])\)</span> that spatial data science tends to push us towards.</p>
+<p>(S2) Data rich now, not data poor, how does that enable closing the loop on exploration, intervention, in understanding complex systems.</p>
+</section>
+<section id="eric-shook-minnesota" class="level4">
+<h4 class="anchored" data-anchor-id="eric-shook-minnesota">Eric Shook (Minnesota)</h4>
+<p>Accused panel of pessimism/cynicism.</p>
+</section>
+<section id="rachel-franklin-newcastle" class="level4">
+<h4 class="anchored" data-anchor-id="rachel-franklin-newcastle">Rachel Franklin, Newcastle</h4>
+<p>What’s with all the <em>men</em>? More importantly: why do we keep talking about methods-oriented framings (GIScience, Spatial Data Science) rather than <em>quantitative geography</em>?</p>
+</section>
+<section id="david-osullivan-no-fixed-abode" class="level4">
+<h4 class="anchored" data-anchor-id="david-osullivan-no-fixed-abode">David O’Sullivan, no fixed abode</h4>
+<p>I have this book…</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
