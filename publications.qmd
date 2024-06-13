@@ -157,6 +157,8 @@ Turner A, M Doxa, **D O’Sullivan** and A Penn. 2001. From isovists to visibili
 **O’Sullivan D**, A Morrison and J Shearer. 2000. Using desktop GIS for the investigation of accessibility by public transport: an isochrone approach. *International Journal of Geographical Information Science* **14**(1) 85-104. doi: [10.1080/136588100240976](http://dx.doi.org/10.1080/136588100240976)
 
 ## book chapters
+Bergmann LR and **D O’Sullivan**. 2024. Space: towards a global sense of place. In *A Research Agenda for Spatial Analysis* (eds LJ Wolf, R Harris and AJ Heppenstall). Elgar Research Agendas. Edward Elgar Publishing. doi: [10.4337/9781802203233.00009](https://dx.doi.org/10.4337/9781802203233.00009).
+
 C Andris and **D O’Sullivan**. 2019. Spatial Networks. In *Handbook of Regional Science* (eds MM Fischer and P Nijkamp). Springer. doi: [10.1007/978-3-642-36203-3_67-1](https://dx.doi.org/10.1007/978-3-642-36203-3_67-1).
 
 **D O’Sullivan**. 2018. Cartography and geographic information systems. In J Ash, R Kitchin and A Leszczynski (eds), *Digital Geographies*, (Los Angeles: Sage), pages 118-128.
