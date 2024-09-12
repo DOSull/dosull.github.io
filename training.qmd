@@ -6,7 +6,7 @@ title-block-banner: true
 
 For more information [contact me](mailto:osullivan512@gmail.com), especially if any of these or materials on similar themes is of interest to your organisation.
 
-## [Spatial Data Science: An Introduction](https://dosull.github.io/Spatial-Data-Science/)
+## [Spatial Data Science: An Introduction](https://dosull.github.io/Spatial-Data-Science/site/docs)
 This course covers a lot of the basics of doing geospatial work using _R_, which enables the inclusion of spatial data into convenient code-based data analysis workflows.
 
 ## [Spatial Analysis and Modelling](https://github.com/DOSull/Spatial-Analysis-and-Modelling)
