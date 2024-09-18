@@ -2,9 +2,10 @@
   {
     "listing": "/blog.html",
     "items": [
-      "/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.html",
-      "/posts/2024-05-31/oecd-rural-services.html",
+      "/posts/2024-08-30-geocart-24/geocart-24.html",
+      "/posts/2024-05-31-oecd-report/oecd-rural-services.html",
       "/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators.html",
+      "/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.html",
       "/posts/2021-10-22-spatstat-idw/spatstat-idw.html",
       "/posts/2021-10-21-kde/kde.html",
       "/posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html",
