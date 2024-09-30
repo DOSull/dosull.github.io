@@ -7,7 +7,7 @@ title-block-banner: true
 This website is a shop window for **Geospatial Stuff** through which I offer contract expertise in data analytics and visualisation, simulation modelling, and training, especially in relation to all things geospatial. For more information [contact me](mailto:osullivan512@gmail.com).
 
 ### Research
-I am an established geography and geospatial researcher and scholar with almost 30 years experience at UCL (1997-2000), Penn State (2000-04), University of Auckland (2004-13), Berkeley (2013-18), and Victoria University of Wellington (2018-24). I am an [Honorary Professor](https://profiles.auckland.ac.nz/dosu004) in the [School of Environment](https://env.auckland.ac.nz) at [University of Auckland](https://auckland.ac.nz). You can find out more about my academic exploits from the 'Academic' drop-down menu above, or for a quick overview, see my [Google Scholar profile](https://scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao). 
+I am an established geography and geospatial researcher and scholar with almost 30 years experience at UCL (1997-2000), Penn State (2000-04), University of Auckland (2004-13), Berkeley (2013-18), and Victoria University of Wellington (2018-24). I am an [Honorary Professor](https://profiles.auckland.ac.nz/david-osullivan) in the [School of Environment](https://env.auckland.ac.nz) at [University of Auckland](https://auckland.ac.nz). You can find out more about my academic exploits from the 'Academic' drop-down menu above, or for a quick overview, see my [Google Scholar profile](https://scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao). 
 
 ### Commmunicating ideas
 I have written [3 books](books.html) and [numerous articles, reviews, and book chapters](publications.html).
