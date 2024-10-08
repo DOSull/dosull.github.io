@@ -22,6 +22,8 @@ Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information S
 **O’Sullivan D** and DJ Unwin. 2003. *Geographic Information Analysis* (Wiley: Hoboken, NJ).
 
 ## in refereed journals
+Mahmoudi D, J Thatcher, LB Imaoka, and **D O’Sullivan**. Online first. From FOSS to profit: Digital spatial technologies and the mode of production. _Digital Geography and Society_. 100101. doi: [10.1016/j.diggeo.2024.100101](https://dx.doi.org/10.1016/j.diggeo.2024.100101).
+
 **O’Sullivan D**. 2024. Environment and Planning B and me; or what is lost in data. _Environment and Planning B: Urban Analytics and City Science_ **51**(5) 1045–1048. doi: [10.1177/23998083241246320](https://dx.doi.org/10.1177/23998083241246320).
 
 Etherington TR, **D O’Sullivan**, GLW Perry, DR Richards, and J Wainwright. 2024. A least-cost network neutral landscape model of human sites and routes. _Landscape Ecology_ **39**(3) 52. doi: [10.1007/s10980-024-01836-w](https://dx.doi.org/10.1007/s10980-024-01836-w).
