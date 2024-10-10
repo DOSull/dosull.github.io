@@ -1,0 +1,15 @@
+---
+title: "JEV risk mapping"
+description: "The birds and the... mozzies"
+title-block-banner: true
+---
+
+I'm excited to be doing the mapping work in a recently funded project [investigating the risks for establishment in New Zealand of Japanese Encephalitis Virus (JEV)](https://www.rnz.co.nz/news/national/519222/mpi-to-research-deadly-virus-that-poses-increasing-threat-to-nz){target="blank"}, funded by the [Ministry for Primary Industries - Manatū Ahu Matua](https://www.mpi.govt.nz){target="blank"}, and led by [Prof Phil Lester](https://people.wgtn.ac.nz/Phil.Lester){target="blank"}.
+
+It's early days, and my initial work is focused on marshalling data on the distribution of bird species using the recently compiled [NZ Bird Atlas](https://ebird.org/atlasnz/about){target="blank"}. Here's a map of [local favourite kākā](https://www.rnz.co.nz/news/national/529207/wellington-s-native-bird-numbers-continue-to-soar){target="blank"} sitings. 
+
+![Sitings of kākā in the NZ Bird Atlas](kaka-map.png)
+
+If this map seems more optimistic than others you've seen that's because it is derived from raw sitings. Translating that information into more reliable 'range' maps is one aspect of the work we need to consider.
+
+The reason where the birds are matters in this project is that establishment of JEV in New Zealand is most likely to occur as a result of it circulating in some bird populations (likely _not_ kākā) from which mosquitoes might then pass it on to other populations.

@@ -1,0 +1,25 @@
+---
+title: "Aotearoa New Zealand commutes viewer"
+description: "I have no idea what this is, but it looks... cool?"
+author: "David O'Sullivan"
+categories:
+  - javascript
+  - visualization
+  - aotearoa
+  - stuff
+date: 07-22-2020
+---
+
+::: {style="text-align:center;"}
+[Go to the viewer](https://dosull.github.io/commute-viewer/commute-viewer-app){target="_blank" style="font-family:sans-serif; background-color:#396; color:#cec; padding:10px; box-shadow: 5px 5px 5px #666; border-radius:5px;"}
+:::
+
+I somehow convinced myself in the break between two exhausting semesters in 2020 (yes, _that_ year) to enter [Stats NZ's There and back again visualization competition](https://www.stats.govt.nz/2018-census/there-and-back-again-data-visualisation-competition).
+
+I learned a lot about a bunch of things along the way, but probably needed to take a step back and learn more about web development frameworks, as there is [altogether _too much_ handcrafted javascript in there](https://github.com/DOSull/commute-viewer/blob/master/commute-viewer-app/js/app.js). Nevertheless, I had fun and I am reasonably happy with the end result. Also... it still works over four years later, which might not be true if I'd used something smarter than vanilla JS.
+
+Here's a screenshot for anyone not curious enough to click on the link.
+
+![](nz-commute-viewer.png)
+
+No, I didn't win the competition. That was [this entry](https://commuter.waka.app/){target="_blank"} by Jono Cooper.

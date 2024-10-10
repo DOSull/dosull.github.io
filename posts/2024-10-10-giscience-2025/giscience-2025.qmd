@@ -1,0 +1,18 @@
+---
+title: "Giscience 2025"
+description: "Call for papers"
+author: "David O'Sullivan"
+categories:
+  - conferences
+  - geospatial
+  - aotearoa
+date: 10-10-2024
+---
+
+![](giscience-2025.png){width=40%}
+
+The first [Call for Submissions to GIScience 2025](https://giscience2025.org/#cfp) has just come out (deadline for proceedings papers Jan 31 2025; for other submissions Apr 4 2025).
+
+We're excited in Aotearoa New Zealand to be hosting this one, even if [I think it should be called giscience 2025](https://dosull.github.io/computing-geographically/other-stuff/giscience-not-GIScience.html) (note the non-capitalisation). I'm on the program committee so look forward (a little nervously) to a flood of submissions. It's nice for a change that it won't be us Aotearoans making the long trip.
+
+The last big geospatial conference in NZ was Geocomputation 2019 which was greatly enjoyed by all who made it, and this one will be even better, I'm certain of it!

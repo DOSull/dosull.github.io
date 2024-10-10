@@ -1,0 +1,18 @@
+---
+title: "Spiral origami"
+description: "Things to make and do"
+author: "David O'Sullivan"
+categories:
+  - javascript
+  - origami
+  - stuff
+date: 08-03-2022
+---
+
+I made an [observable notebook](https://observablehq.com/@dosull/tomoko-fuse-spiral-crease-patterns) to generate crease patterns for the flat-foldable origami 'whirpool spirals' designed by Tomoko Fuse and presented in chapter 3 of her amazing book [_Spiral: Origami|Art|Design_](https://viereck-verlag.de/en/produkt/spiral-origami-art-design/). You'll find more details in the notebook.
+
+![](spiral-fold.jpg)
+
+The picture is an example of the folds it produces, or at any rate of the things _you_ can fold by cutting out and following the crease patterns it produces. You'll have to do the folding yourself, I'm afraid. 
+
+If you'd like an idea of how the fold works without going to all the trouble of actually making one, then visit [Amanda Ghassaei](https://amandaghassaei.com/){target="_blank"}'s [Origami Simulator](https://origamisimulator.org){target="_blank"} and navigate to **Examples - Tessellations - Whirlpool Spiral**.

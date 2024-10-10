@@ -1,0 +1,17 @@
+---
+title: "Tiled and woven maps"
+description: "A new approach to mapping multivariate data"
+title-block-banner: true
+---
+
+This is an ongoing project in collaboration with [Luke Bergmann](https://geog.ubc.ca/profile/luke-bergmann/){target="blank"} at University of British Columbia.
+
+The idea is to map many different variables by combining them by 'weaving' or 'tiling'. Here's an example
+
+![](imd-weave.png)
+
+Different strands in the woven pattern represent different socioeconomic (or other) variables in the mapped area, and are coloured in the usual 'choroplethic' manner. We're still figuring out the details, but some of the resulting maps are quite striking. Here's a tiled (not woven) one
+
+![](imd-escher-clip.png)
+
+Explanations of exactly what the heck is going on here are at the [project repo](https://github.com/DOSull/weaving-space), where you'll also find links to presentations, example notebooks, and the code to make maps like these yourself!

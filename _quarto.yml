@@ -6,7 +6,9 @@ website:
   title: "Geospatial Stuff"
   navbar:
     right:
-      - text: "Blog"
+      - text: "Portfolio"
+        file: portfolio.qmd
+      - text: "Posts"
         file: blog.qmd
       - text: "Training"
         file: training.qmd
@@ -18,8 +20,8 @@ website:
             file: presentations.qmd
           - text: "Publications"
             file: publications.qmd
-      - text: "Other stuff"
-        file: other.qmd
+      - text: "About"
+        file: index.qmd
       - icon: github
         href: https://github.com/DOSull
 format:

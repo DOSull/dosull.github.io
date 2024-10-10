@@ -1,0 +1,18 @@
+---
+title: "Introducing spatial data science"
+description: "A suite of short courses"
+title-block-banner: true
+image: rstudio.png
+---
+
+::: {style="text-align:center;"}
+[View the slides](https://dosull.github.io/Spatial-Data-Science/site/docs/){target="_blank" style="font-family:sans-serif; background-color:#396; color:#cec; padding:10px; box-shadow: 5px 5px 5px #666; border-radius:5px;"}
+:::
+
+These materials aim to help GIS users (even those with limited experience) transition to a more data science-centric approach. There is a particular emphasis on open source tools and on doing geospatial analysis in code using *R* as both are becoming increasingly important across the industry.
+
+The materials are organised by theme and short courses to tailored to any or a selection of the themes can easily be arranged.
+
+For more information [contact me](mailto:osullivan512@gmail.com), especially if any of these or materials on similar themes is of interest to your organisation.
+
+**Note** Unfortunately, if you are not enrolled at a university or associated with a similar institution you might find links to some resources broken (e.g. DOI links to articles that are paywalled, or datasets that I do not have permission to share.)

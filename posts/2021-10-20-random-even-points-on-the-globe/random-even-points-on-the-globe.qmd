@@ -1,16 +1,17 @@
 ---
 title: "Uniform random points on the globe"
-description: |
-  There isn't as much land near the poles, so how do you make uniform
-  randomly distributed points in lat-lng coordinate space. Here's how!
+description: "The earth's a sphere: who knew?"
 author: "David O'Sullivan"
 categories:
   - R
   - spatial
+  - tutorial
 date: 10-20-2021
 ---
 
-Libraries are the usual suspects plus `rnaturalearth` for basemap data
+There isn't as much land near the poles, so how do you make uniform randomly distributed points in lat-lng coordinate space. Here's how!
+
+Needed libraries are the usual suspects plus `rnaturalearth` for basemap data
 
 ```{r message=FALSE}
 library(sf)

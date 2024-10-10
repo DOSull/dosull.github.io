@@ -1,7 +1,6 @@
 ---
-title: "News"
-subtitle: |
-  All kinds of everything
+title: "Posts"
+subtitle: "All manner of geospatial stuff"
 listing:
   contents: posts
   sort: "date desc"

@@ -6,7 +6,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Materials available online">
 
 <title>Geospatial Stuff - Training</title>
 <style>
@@ -31,6 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -67,12 +68,70 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -90,8 +149,12 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
+    <a class="nav-link" href="./portfolio.html"> 
+<span class="menu-text">Portfolio</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./blog.html"> 
-<span class="menu-text">Blog</span></a>
+<span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./training.html" aria-current="page"> 
@@ -117,8 +180,8 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="./other.html"> 
-<span class="menu-text">Other stuff</span></a>
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/DOSull"> <i class="bi bi-github" role="img">
@@ -135,18 +198,14 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
+    <div class="quarto-title column-page">
       <h1 class="title">Training</h1>
-                  <div>
-        <div class="description">
-          Materials available online
-        </div>
-      </div>
-                </div>
+            <p class="subtitle lead"></p><p>Geospatial stuff I teach</p><p></p>
+                      </div>
   </div>
     
   
-  <div class="quarto-title-meta">
+  <div class="quarto-title-meta column-page">
 
       
     
@@ -154,36 +213,95 @@ ul.task-list li input[type="checkbox"] {
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
 
 
 
 
 
-<p>For more information <a href="mailto:osullivan512@gmail.com">contact me</a>, especially if any of these or materials on similar themes is of interest to your organisation.</p>
-<section id="spatial-data-science-an-introduction" class="level2">
-<h2 class="anchored" data-anchor-id="spatial-data-science-an-introduction"><a href="https://dosull.github.io/Spatial-Data-Science/site/docs">Spatial Data Science: An Introduction</a></h2>
-<p>This course covers a lot of the basics of doing geospatial work using <em>R</em>, which enables the inclusion of spatial data into convenient code-based data analysis workflows.</p>
-</section>
-<section id="spatial-analysis-and-modelling" class="level2">
-<h2 class="anchored" data-anchor-id="spatial-analysis-and-modelling"><a href="https://github.com/DOSull/Spatial-Analysis-and-Modelling">Spatial Analysis and Modelling</a></h2>
-<p>An introduction to spatial statistical analysis. Again using <em>R</em> and (for the most part) following the outlines of my book with Dave Unwin <a href="books.html#geographic-information-analysis"><em>Geographical Information Analysis</em></a></p>
-</section>
-<section id="geographical-computing" class="level2">
-<h2 class="anchored" data-anchor-id="geographical-computing"><a href="https://github.com/DOSull/Geographical-Computing">Geographical Computing</a></h2>
-<p>An introduction to python programming for GISers. Using open libraries (primarily <a href="https://geopandas.org">geopandas</a>), this course provides a gentle introduction to python programming, using <a href="https://jupyter.org">Jupyter notebooks</a> as the medium. I was fortunate to get in on the ground floor of jupyter notebook based teaching while at Berkeley in this <a href="https://github.com/DOSull/Geog-88-labs">very short course</a>.</p>
-<p>I also taught an introduction to geospatial technology at Berkeley for several years, entitled <em>Digital Worlds</em>. The slides for that course are available <a href="https://southosullivan.com/geog80">here</a>. This course was what prompted me (eventually) to write <a href="books.html#computing-geographically"><em>Computing Geographically</em></a>.</p>
-<p><strong>Note</strong> Unfortunately, if you are not enrolled at a university or associated with a similar institution you might find links to some resources broken (e.g.&nbsp;DOI links to articles that are paywalled, or datasets that I do not have permission to share.)</p>
+<p>I offer training in any of the areas listed below. <a href="osullivan512@gmail.com">Contact me</a> for more details.</p>
 
 
-</section>
 
-</main> <!-- /main -->
+
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-listing-file-modified-sort="1728523477174" data-listing-reading-time-sort="1" data-listing-word-count-sort="142">
+<a href="./training/00-spatial-data-science.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./training/rstudio.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Introducing spatial data science
+</h5>
+<div class="card-text listing-description">
+A suite of short courses
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-listing-file-modified-sort="1728523477174" data-listing-reading-time-sort="1" data-listing-word-count-sort="178">
+<a href="./training/01-spatial-analysis.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./training/kernel.gif" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Spatial analysis and modelling
+</h5>
+<div class="card-text listing-description">
+Geographic information analysis
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="2" data-listing-file-modified-sort="1728523477174" data-listing-reading-time-sort="1" data-listing-word-count-sort="158">
+<a href="./training/02-geographical-computing.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./training/code.jpg" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Geographical computing
+</h5>
+<div class="card-text listing-description">
+Python programming for geospatial
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

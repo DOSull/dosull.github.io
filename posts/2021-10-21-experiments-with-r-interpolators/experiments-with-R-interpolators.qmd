@@ -1,12 +1,11 @@
 ---
 title: "Experiments with R interpolators"
-description: |
-  Messing around with interpolating via a triangulation to apply coordinate
-  transformations
+description: Messing around with interpolating via a triangulation to apply coordinate transformations
 author: "David O'Sullivan"
 categories:
   - R
   - spatial
+  - tutorial
 draft: false
 date: 10-21-2022
 ---

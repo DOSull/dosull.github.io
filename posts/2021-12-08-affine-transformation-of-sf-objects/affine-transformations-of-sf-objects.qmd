@@ -1,11 +1,11 @@
 ---
 title: "Affine transformations of sf objects"
-description: |
-  Manipulating simple features in `sf` is sorta simple, sorta not...
+description: Manipulating simple features in `sf` is sorta simple, sorta not...
 author: "David O'Sullivan"
 categories:
   - R
   - spatial
+  - tutorial
 draft: false
 date: 08-12-2021
 ---

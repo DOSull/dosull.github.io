@@ -1,0 +1,35 @@
+---
+title: "A spatial COVID model"
+description: "Fiddling (with code) while the world burns"
+author: "David O'Sullivan"
+categories:
+  - netlogo
+  - covid
+  - simulation
+  - spatial
+date: 05-26-2020
+---
+
+During those ahem... _heady_ days of the first COVID-19 lockdown in Aotearoa (7 or 8 weeks in April-May 2020) I worked intensely with colleagues on a simple spatial simulation model of the pandemic in New Zealand. 
+
+Initially we hoped that we might get involved in the ongoing modelling efforts which the government was using to manage the national response given how self-evidently _geographical_ a thing an epidemic is. But that clearly wasn't a perspective shared by the public health professionals and others advising the government. Either that or they were just too damn busy dealing with events to welcome the additional distraction of thinking about the geography of the disease. 
+
+Or maybe they thought it was just _too much_:
+
+![](covid-model-view.png)
+
+Whatever the reason, we never did get involved in the national response, although it was clear by the time of the outbreak in later 2021 that they _were_, at least by then, thinking geographically about how to manage things. Anyway, you can play with the model by clicking below.
+
+::: {style="text-align:center;"}
+[Go to the model](https://southosullivan.com/misc/distributed-branching-process-RC-web.html){target="_blank" style="font-family:sans-serif; background-color:#396; color:#cec; padding:10px; box-shadow: 5px 5px 5px #666; border-radius:5px;"}
+:::
+
+It's quite slow to load, and if you aren't smart about the settings you use it's likely to rapidly spin out of control (just like a uh... _pandemic_) and slow things down dramatically. For that reason I advise only using the `go-one-day` or `go-one-week` buttons until you get a feel for things.
+
+We published a paper explaining the inner workings here:
+
+> O’Sullivan D, M Gahegan, DJ Exeter, and B Adams. 2020. [Spatially explicit models for exploring COVID 19 lockdown strategies](https://dx.doi.org/10.1111/tgis.12660). _Transactions in GIS_ **24**(4) 967-1000. doi: 10.1111/tgis.12660
+
+and [I presented the work](https://southosullivan.com/talks/NZGS-2020-covid-model/) at the hard-to-believe-it-even-happened _face-to-face-in-person_ 2020 meeting of the New Zealand Geographical Society in November that year.
+
+All the materials are available at [this repo](https://github.com/DOSull/spatial-epi).

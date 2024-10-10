@@ -1,0 +1,18 @@
+---
+title: "What three chords"
+description: "Seriously, WTC?!"
+author: "David O'Sullivan"
+categories:
+  - javascript
+  - geospatial
+  - stuff
+date: 07-03-2020
+---
+
+![](w3c.png)
+
+I don't know if this needs or deserves any further explanation, but **SERIOUSLY** and I can't emphasise this enough, **turn down the volume on your device** before clicking the button.
+
+::: {style="text-align:center;"}
+[Where am I?](https://dosull.github.io/what3chords/what3chords-app/){target="_blank" style="font-family:sans-serif; background-color:#396; color:#cec; padding:10px; box-shadow: 5px 5px 5px #666; border-radius:5px;"}
+:::

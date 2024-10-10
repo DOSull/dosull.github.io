@@ -1,0 +1,15 @@
+---
+title: "Agent modeling of land management"
+description: "Moving the middle"
+title-block-banner: true
+---
+
+This is part of a large [MBIE funded project 'Moving the middle'](https://www.landcareresearch.co.nz/discover-our-research/environment/sustainable-society-and-policy/moving-the-middle/){target="_blank"}.
+
+The part of the research I am most involved in is developing an agent-based model of how land managers (mostly farmers) make changes in landuse and farm management practices. Other parts of the wider project are examining the motivations and drivers of farmer behaviour at an individual level, whereas the model explores how individual actions might scale up across landscapes.
+
+Slides from a presentation I gave about the model can be viewed here.
+
+And here is a more recent screenshot of the model in action.
+
+![](abm-working-view.png)

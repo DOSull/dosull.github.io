@@ -1,0 +1,16 @@
+---
+title: "Portfolio"
+subtitle: "Geospatial stuff I'm doing"
+listing:
+  contents: portfolio
+  sort: "filename desc"
+  type: grid
+  categories: false
+  sort-ui: false
+  filter-ui: false
+page-layout: full
+title-block-banner: true
+---
+
+This pages provides more information on projects I've been working on lately.
+

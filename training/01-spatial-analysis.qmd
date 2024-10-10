@@ -1,0 +1,20 @@
+---
+title: "Spatial analysis and modelling"
+description: "Geographic information analysis"
+title-block-banner: true
+image: kernel.gif
+---
+
+::: {style="text-align:center;"}
+[Go to the materials](https://github.com/DOSull/Spatial-Analysis-and-Modelling){target="_blank" style="font-family:sans-serif; background-color:#396; color:#cec; padding:10px; box-shadow: 5px 5px 5px #666; border-radius:5px;"}
+:::
+
+These materials outline a one semester (36 contact hours) class in spatial analysis and modelling that was last taught at Victoria University of Wellington as GISC 422 in the second half of 2023. The materials cover many of the topics introduced in my book [_Geographic Information Analysis_](../books.qmd#geographic-information-analysis) a recognised classic text in the field.
+
+I am still in the process of cleaning the materials up for conversion into training materials. For the time being the materials are provided gratis with no warrant as to their accuracy as a guide to spatial analysis in R but you may still find them useful all the same!
+
+For more information [contact me](mailto:osullivan512@gmail.com), especially if any of these or materials on similar themes is of interest to your organisation.
+
+
+
+**Note** Unfortunately, if you are not enrolled at a university or associated with a similar institution you might find links to some resources broken (e.g. DOI links to articles that are paywalled, or datasets that I do not have permission to share.)

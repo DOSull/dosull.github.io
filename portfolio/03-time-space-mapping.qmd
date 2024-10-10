@@ -1,0 +1,15 @@
+---
+title: "Time-space mapping"
+description: "More generally: folding space"
+title-block-banner: true
+---
+
+Another ongoing project in collaboration with [Luke Bergmann](https://geog.ubc.ca/profile/luke-bergmann/){target="blank"} at University of British Columbia.
+
+This is one aspect of a wider project aimed at developing maps where the geometry is based not on 'location' but on the relationships &mdash; whether of time, money, people, or anything else of interest between places. Space conceived not as a fixed absolute background to things but as a living moving thing that both shapes and is shaped by unfolding events.
+
+Time-space mapping is a particular subset of this wider project focused on relations of estimated travel time between locations in a mountainous environment. There's more detail on what we're up to in [this presentation](https://southosullivan.com/talks/GeoCart-2024/) I gave at GeoCart 2024.
+
+You'll find a video of dynamic time-space in the presentation and there's another in [my diary entry about GeoCart](../posts/2024-08-30-geocart-24/geocart-24.qmd). Meanwhile, here's a series of maps of estimated hiking times from a given starting location on a series of idealised conical mountains of increasing steepness.
+
+![](cone-times-multiple.png)

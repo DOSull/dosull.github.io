@@ -1,15 +1,14 @@
 ---
-title: "Inverse distance weighted (IDW) interpolation using spatstat"
-description: |
-  One of the joys (ahem) of R spatial is moving data around between formats so
-  you can use the best packages for particular jobs. Here's an example using IDW
-  interpolation in spatstat
+title: "Inverse distance weighted (IDW) interpolation using `spatstat`"
+description: "So many packages so little time"
 author: David O'Sullivan
 categories:
   - R
   - spatial
+  - tutorial
 date: 10-22-2021
 ---
+One of the joys (ahem) of R spatial is moving data around between formats so you can use the best packages for particular jobs. Here's an example using IDW interpolation in `spatstat`.
 
 ## Libraries
 Libraries are the usual suspects plus `spatstat` (duh) and `maptools` for some extra conversions. We also need `terra` for the data prep.

@@ -5,7 +5,7 @@ title-block-banner: true
 ---
 
 <div>
-<img src="images/cg.jpg" style="width:250px; float:left; padding:0px 30px 15px 0px"><a href="#geographic-information-analysis">
+<img src="images/cg.jpg" style="width:250px; float:left; padding:0px 30px 15px 0px"><a href="#computing-geographically">
 [_Computing Geographically_](https://www.guilford.com/books/Computing-Geographically/David-O'Sullivan/9781462553938) argues for the importance of giscience taking geography seriously, and also for geography taking giscience more seriously. Too much GIS work is conducted as if $(x,y)$ coordinates were all that is needed to make data geographical; equally, far too many geographers think that those coordinates are all that GISers care about. This book aims to bridge the divide. An accompanying website includes high resolution copies of all the figures, and 'bonus material' (mostly code). See: [computinggeographically.org](https://computinggeographically.org).
 </div>
 <hr>
