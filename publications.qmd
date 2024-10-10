@@ -1,7 +1,6 @@
 ---
 title: "Publications"
 description: "I try to keep this as up to date as possible..."
-author: "David O'Sullivan"
 title-block-banner: true
 ---
 
