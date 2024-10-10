@@ -2,6 +2,7 @@
 title: "Publications"
 description: "I try to keep this as up to date as possible..."
 author: "David O'Sullivan"
+title-block-banner: true
 ---
 
 A similar list is available at my [ORCiD profile](https://orcid.org/0000-0001-8078-3241). You can also see them in citational context at [my google scholar page](https://scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao), which is reasonably accurate.  Links below are generally to official publisher sources, and are often paywalled. Open access copies are linked from my [University of Auckland profile page](https://profiles.auckland.ac.nz/dosu004). If you would like a copy of something in particular and can't access it, then [get in touch](mailto:osullivan512@gmail.com).
