@@ -9,8 +9,9 @@ categories:
   - conferences
   - 'time-space'
 date: 08-30-2024
-image: "https://cartography.org.nz/images/NZCS_graphics/geocart/2018/nlnz.jpg"
 ---
+
+![](alexander-turnbull-library.jpg)
 
 Another (even-number year) August coming to a close and [another GeoCart' is over](https://cartography.org.nz/geocart2024).
 
