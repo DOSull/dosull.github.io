@@ -9,6 +9,7 @@ categories:
   - conferences
   - 'time-space'
 date: 08-30-2024
+last-modified: 10-15-2024
 ---
 
 ![](alexander-turnbull-library.jpg)
@@ -74,7 +75,7 @@ As noted, with two tracks, you can't catch 'em all, so this is inevitably a part
 + Did I mention the dinner at Boatshed?
 
 ### Society business
-Also worth mentioning, the New Zealand Cartographic Society after somewhat inexplicably being refused permission to dual list its name in English and te reo Māori way back in 1989 (when doing so would have been well ahead of the curve) is finally _en route_, remaining bureaucratic hurdles notwithstanding, to adopting a te reo Māori name: Te Ropu Tuhi Whenua o Aotearoa.
+Also worth mentioning, the New Zealand Cartographic Society after somewhat inexplicably being refused permission to dual list its name in English and te reo Māori way back in 1989 (when doing so would have been well ahead of the curve) is finally _en route_, remaining bureaucratic hurdles notwithstanding, to adopting a te reo Māori name: Te Rōpū Tuhi Whenua o Aotearoa.
 
 ## Finally, permit me a moment of self-promotion
 I enjoyed giving a [talk on time-space maps of mountainous terrain](https://southosullivan.com/talks/GeoCart-2024/). Here, as a bonus is an animated time-space map of a loop walk around Taranaki Maunga, which probably should have made it into the talk, but for one reason or another did not.
