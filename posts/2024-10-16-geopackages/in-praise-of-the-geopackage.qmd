@@ -27,7 +27,7 @@ If there is one thing above all others to love about GeoPackages it's this. When
 I've lost count of how often I had to disable the increasingly hard to find [Hide file extensions]{style="font-family:sans-serif;"} option on a baffled student's computer to reveal the disturbing truth that there were several identical-except-for-the-extension files that _together_ formed a so-called shapefile. Or how when supplying data for lab assignments I had to include instructions about unzipping files to a known folder and so on (a seemingly simple requirement made much more complicated by more recent releases of Windows allowing the user to look inside a `.zip` file without actually unpacking the contents...).
 
 ## Understandable `ATTRIBUTE_`
-What I meant to say was: understandable `attribute_names` because, you can have attribute names longer than 10 characters.
+What I meant to say was: understandable `attribute_names` because you can have attribute names longer than 10 characters.
 
 ## Many layers
 I've tended to shy away from packaging multiple datasets in GeoPackages as support for this feature has at times been uncertain and confusing. 
