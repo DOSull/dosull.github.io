@@ -48,11 +48,10 @@ nz <- st_read("nz.gpkg")
 Now, if you'd like to add another layer to that file, you can specify a _layer_ to put it in. Before doing that, it's probably best to check what layers are already there using `st_layers()`:
 
 ```{r}
-#| output: asis
 st_layers("nz.gpkg")
 ```
 
-As we might expect, a single layer with the same layer name as the file itself. Say we buffer our data and want to store it back into the same file, then we can do the below, as long as we provide a new layer name to store it in:
+As we might expect (and if you'll excuse the awkward formatting due to the long `crs_name`) a single layer with the same layer name as the file itself. Say we buffer our data and want to store it back into the same file, then we can do the below, as long as we provide a new layer name to store it in:
 
 ```{r}
 nz |> 

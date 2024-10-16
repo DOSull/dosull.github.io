@@ -260,13 +260,22 @@ Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 </div>
 </div>
 <p>Now, if you’d like to add another layer to that file, you can specify a <em>layer</em> to put it in. Before doing that, it’s probably best to check what layers are already there using <code>st_layers()</code>:</p>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_layers</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Driver: GPKG Available layers: layer_name geometry_type features fields 1 nz Multi Polygon 1 1 crs_name 1 NZGD2000 / New Zealand Transverse Mercator 2000</p>
-<p>As we might expect, a single layer with the same layer name as the file itself. Say we buffer our data and want to store it back into the same file, then we can do the below, as long as we provide a new layer name to store it in:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nz <span class="sc">|&gt;</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_buffer</span>(<span class="dv">12000</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_write</span>(<span class="st">"nz.gpkg"</span>, <span class="at">layer =</span> <span class="st">"coast"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_layers</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Driver: GPKG 
+Available layers:
+  layer_name geometry_type features fields
+1         nz Multi Polygon        1      1
+                                         crs_name
+1 NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
+</div>
+</div>
+<p>As we might expect (and if you’ll excuse the awkward formatting due to the long <code>crs_name</code>) a single layer with the same layer name as the file itself. Say we buffer our data and want to store it back into the same file, then we can do the below, as long as we provide a new layer name to store it in:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nz <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_buffer</span>(<span class="dv">12000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_write</span>(<span class="st">"nz.gpkg"</span>, <span class="at">layer =</span> <span class="st">"coast"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Writing layer `coast' to data source `nz.gpkg' using driver `GPKG'
 Writing 1 features with 1 fields and geometry type Multi Polygon.</code></pre>
@@ -274,7 +283,7 @@ Writing 1 features with 1 fields and geometry type Multi Polygon.</code></pre>
 </div>
 <p>And now we can see that both layers are present in the file:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_layers</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_layers</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Driver: GPKG 
 Available layers:
@@ -288,7 +297,7 @@ Available layers:
 </div>
 <p>Now if you open this file in <em>R</em> unless you specify the layer you want, you’ll just get the first one:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_read</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_read</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Multiple layers are present in data source /Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg, reading layer `nz'.
 Use `st_layers' to list all layer names and their type in a data source.
