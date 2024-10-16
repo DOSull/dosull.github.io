@@ -2,6 +2,7 @@
 title: "Low level handling of sf objects"
 description: "Goddamnit, floating point!"
 author: "David O'Sullivan"
+toc: true
 categories:
   - R
   - spatial

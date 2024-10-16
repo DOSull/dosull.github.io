@@ -2,6 +2,7 @@
 title: "Kernel density estimation in R spatial"
 description: Here's one way to do kernel density estimation in _R_ spatial
 author: "David O'Sullivan"
+toc: true
 categories:
   - R
   - spatial

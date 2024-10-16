@@ -2,6 +2,7 @@
 title: "In praise of GeoPackages"
 description: "Shapefiles... who needs 'em?"
 author: "David O'Sullivan"
+toc: true
 categories:
   - geospatial
   - qgis
@@ -23,7 +24,7 @@ In the [shapefiles must die](http://switchfromshapefile.org/) wars I've been smu
 ## One file: no really, it's just one file!
 If there is one thing above all others to love about GeoPackages it's this. When teaching newcomers, the standout advantage over shapefiles is simple: there is _only one file_, and not some number between three and seven (or is it eight? I'm just not sure). 
 
-I've lost count of how often I had to disable the increasingly hard to find [**Hide file extensions**]{style="font-family:sans-serif;"} option on a baffled student's computer to reveal the disturbing truth that there were several identical-except-for-the-extension files that _together_ formed a so-called shapefile. Or how when supplying data for lab assignments I had to include instructions about unzipping files to a known folder and so on (a seemingly simple requirement made much more complicated by more recent releases of Windows allowing the user to look inside a `.zip` file without actually unpacking the contents...).
+I've lost count of how often I had to disable the increasingly hard to find [Hide file extensions]{style="font-family:sans-serif;"} option on a baffled student's computer to reveal the disturbing truth that there were several identical-except-for-the-extension files that _together_ formed a so-called shapefile. Or how when supplying data for lab assignments I had to include instructions about unzipping files to a known folder and so on (a seemingly simple requirement made much more complicated by more recent releases of Windows allowing the user to look inside a `.zip` file without actually unpacking the contents...).
 
 ## Understandable `ATTRIBUTE_`
 What I meant to say was: understandable `attribute_names` because, you can have attribute names longer than 10 characters.
@@ -43,7 +44,7 @@ library(sf)
 nz <- st_read("nz.gpkg")
 ```
 
-Now, if you'd like to add another layer to that file, you can specify a _layer_ to put it in. Before doing that, it's probably best to check what layers are already there using `st_layers()`:
+Now, if you'd like to add another dataset to that file, you can specify a _layer_ to put it in. Before doing that, it's probably best to check what layers are already there using `st_layers()`:
 
 ```{r}
 st_layers("nz.gpkg")
@@ -71,24 +72,29 @@ Now if you open this file in R unless you specify the layer you want, you'll jus
 st_read("nz.gpkg")
 ```
 
-and one of those warning messages it's tempting not to read, but is very much worth your time in this case.
+and one of those warning messages it's tempting not to read, but really should.
+
+And that's it really, for multiple _vector_ layers in GeoPackages in R.
 
 ### Multi-layer geopackages in QGIS
 Meanwhile, if you open a two-layer GPKG in QGIS you'll see this:
 
 ![](opening-a-multilayer-gpkg-dialog.png){fig-align="center" style="width:600px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"}
 
-That's pretty clear. What's unfortunately less clear than in R is the sequence of operations that will safely add a layer to an existing GeoPackage. That's not quite fair: what is unclear is the warning message you will get if you choose an existing `.gpkg` file as the destination for a right-click [**Export &rarr; Save Features As...**]{style="font-family:sans-serif;"} operation from an entry in the [**Layers**]{style="font-family:sans-serif;"} panel. The warning message looks like this:
+That's pretty clear. What's unfortunately less clear than in R is the sequence of operations that will safely add a layer to an existing GeoPackage. That's not quite fair: what is unclear is the warning message you get if you choose an existing `.gpkg` file as the destination for a dataset you'd like to save. The warning message looks like this:
 
 ![](gpkg-already-exists-warning.png){fig-align="center" style="width:300px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"}
 
-This seems pretty scary. Before trying this I'd advise you to make a copy of the target geopackage if you are concerned about losing your data, but if you steel yourself and against every instinct select [**Replace**]{style="font-family:sans-serif; color:#f00;"}, then as long as you set a different name in the [Layer name]{style="font-family:sans-serif;"} option of the [**Save Vector Layer as...**]{style="font-family:sans-serif;"} dialog:
+This seems pretty scary. Before trying this at home I suggest you make a copy of the target geopackage if you are worried about losing your data, but if you steel yourself, and against every instinct hit [Replace]{style="font-family:sans-serif; color:#f00;"}, then as long as you set a different name in the [Layer name]{style="font-family:sans-serif;"} option of the [**Save Vector Layer as...**]{style="font-family:sans-serif;"} dialog
 
 ![](new-layer-name.png){fig-align="center" style="width:450px; border-radius:12px 0px 0px; box-shadow: 5px 5px 5px #aaa;"}
 
 it will be fine, and you'll end up with an additional layer in the target GeoPackage.
 
 You can also manage the component layers of GeoPackages in QGIS's [**Browser**]{style="font-family:sans-serif;"} panel.
+
+### Other platforms are available
+I should note that similar to R, the Python [`geopandas` module](https://geopandas.org/en/stable/index.html) in its [`GeoDataframe.to_file()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_file.html), [`geopandas.read_file()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.read_file.html), and [`geopandas.list_layers()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.list_layers.html#geopandas.list_layers) methods offers the same functionality as discussed above.
 
 ## Many formats
 So if you can put many different layers in a GeoPackage, can you mix vector and raster datasets in there too?
@@ -138,9 +144,6 @@ It's worth noting that the QGIS [**Browser**]{style="font-family:sans-serif;"} p
 ![](qgis-raster-vector-nz.png){.lightbox}
 
 Overall, I've been aware that I can bundle raster and vector layers in GeoPackages like this but haven't used the capability. In part because I've only just figured out how to do it using the R tools(!), but mostly because I prefer to keep raster data in GeoTIFFs and vector data in GeoPackages so I can tell which is which at a glance.
-
-## Other platforms are available
-I should note that similar to R, the Python [`geopandas` module](https://geopandas.org/en/stable/index.html) in its [`GeoDataframe.to_file()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_file.html), [`geopandas.read_file()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.read_file.html), and [`geopandas.list_layers()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.list_layers.html#geopandas.list_layers) methods offers the same functionality as discussed above.
 
 ## So, are GeoPackages perfect?
 Of course not. There's an argument to be made that every format that perpertuates the simple features paradigm is a bad as every other. I even wrote [a book](https://computinggeographically.org) that is &mdash; kind of &mdash; all about this. It's one of the mysteries of the evolution of geospatial that topology was embedded in the 'standard' formats, until it wasn't. For what it's worth, I think we have relational databases to blame for that.

@@ -2,6 +2,7 @@
 title: "Spatial data science in an age of scientific disruption"
 description: Notes on sessions at AAG 2024
 author: "David O'Sullivan"
+toc: true
 categories:
   - geography
   - spatial

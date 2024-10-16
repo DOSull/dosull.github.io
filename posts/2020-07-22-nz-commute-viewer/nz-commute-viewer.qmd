@@ -2,6 +2,7 @@
 title: "Aotearoa New Zealand commutes viewer"
 description: "I have no idea what this is, but it looks... cool?"
 author: "David O'Sullivan"
+toc: true
 categories:
   - javascript
   - visualization

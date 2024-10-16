@@ -111,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -219,7 +219,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#one-file-no-really-its-just-one-file" id="toc-one-file-no-really-its-just-one-file" class="nav-link active" data-scroll-target="#one-file-no-really-its-just-one-file">One file: no really, it’s just one file!</a></li>
+  <li><a href="#understandable-attribute_" id="toc-understandable-attribute_" class="nav-link" data-scroll-target="#understandable-attribute_">Understandable <code>ATTRIBUTE_</code></a></li>
+  <li><a href="#many-layers" id="toc-many-layers" class="nav-link" data-scroll-target="#many-layers">Many layers</a>
+  <ul class="collapse">
+  <li><a href="#multi-layer-geopackages-in-r" id="toc-multi-layer-geopackages-in-r" class="nav-link" data-scroll-target="#multi-layer-geopackages-in-r">Multi-layer geopackages in R</a></li>
+  <li><a href="#multi-layer-geopackages-in-qgis" id="toc-multi-layer-geopackages-in-qgis" class="nav-link" data-scroll-target="#multi-layer-geopackages-in-qgis">Multi-layer geopackages in QGIS</a></li>
+  <li><a href="#other-platforms-are-available" id="toc-other-platforms-are-available" class="nav-link" data-scroll-target="#other-platforms-are-available">Other platforms are available</a></li>
+  </ul></li>
+  <li><a href="#many-formats" id="toc-many-formats" class="nav-link" data-scroll-target="#many-formats">Many formats</a></li>
+  <li><a href="#so-are-geopackages-perfect" id="toc-so-are-geopackages-perfect" class="nav-link" data-scroll-target="#so-are-geopackages-perfect">So, are GeoPackages perfect?</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -231,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="one-file-no-really-its-just-one-file" class="level2">
 <h2 class="anchored" data-anchor-id="one-file-no-really-its-just-one-file">One file: no really, it’s just one file!</h2>
 <p>If there is one thing above all others to love about GeoPackages it’s this. When teaching newcomers, the standout advantage over shapefiles is simple: there is <em>only one file</em>, and not some number between three and seven (or is it eight? I’m just not sure).</p>
-<p>I’ve lost count of how often I had to disable the increasingly hard to find <span style="font-family:sans-serif;"><strong>Hide file extensions</strong></span> option on a baffled student’s computer to reveal the disturbing truth that there were several identical-except-for-the-extension files that <em>together</em> formed a so-called shapefile. Or how when supplying data for lab assignments I had to include instructions about unzipping files to a known folder and so on (a seemingly simple requirement made much more complicated by more recent releases of Windows allowing the user to look inside a <code>.zip</code> file without actually unpacking the contents…).</p>
+<p>I’ve lost count of how often I had to disable the increasingly hard to find <span style="font-family:sans-serif;">Hide file extensions</span> option on a baffled student’s computer to reveal the disturbing truth that there were several identical-except-for-the-extension files that <em>together</em> formed a so-called shapefile. Or how when supplying data for lab assignments I had to include instructions about unzipping files to a known folder and so on (a seemingly simple requirement made much more complicated by more recent releases of Windows allowing the user to look inside a <code>.zip</code> file without actually unpacking the contents…).</p>
 </section>
 <section id="understandable-attribute_" class="level2">
 <h2 class="anchored" data-anchor-id="understandable-attribute_">Understandable <code>ATTRIBUTE_</code></h2>
@@ -259,7 +276,7 @@ Bounding box:  xmin: 1090144 ymin: 4748531 xmax: 2463348 ymax: 6191876
 Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 </div>
 </div>
-<p>Now, if you’d like to add another layer to that file, you can specify a <em>layer</em> to put it in. Before doing that, it’s probably best to check what layers are already there using <code>st_layers()</code>:</p>
+<p>Now, if you’d like to add another dataset to that file, you can specify a <em>layer</em> to put it in. Before doing that, it’s probably best to check what layers are already there using <code>st_layers()</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_layers</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -319,7 +336,8 @@ Bounding box:  xmin: 1090144 ymin: 4748531 xmax: 2463348 ymax: 6191876
 Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 </div>
 </div>
-<p>and one of those warning messages it’s tempting not to read, but is very much worth your time in this case.</p>
+<p>and one of those warning messages it’s tempting not to read, but really should.</p>
+<p>And that’s it really, for multiple <em>vector</em> layers in GeoPackages in R.</p>
 </section>
 <section id="multi-layer-geopackages-in-qgis" class="level3">
 <h3 class="anchored" data-anchor-id="multi-layer-geopackages-in-qgis">Multi-layer geopackages in QGIS</h3>
@@ -329,13 +347,13 @@ Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 <p><img src="opening-a-multilayer-gpkg-dialog.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:600px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"></p>
 </figure>
 </div>
-<p>That’s pretty clear. What’s unfortunately less clear than in R is the sequence of operations that will safely add a layer to an existing GeoPackage. That’s not quite fair: what is unclear is the warning message you will get if you choose an existing <code>.gpkg</code> file as the destination for a right-click <span style="font-family:sans-serif;"><strong>Export → Save Features As…</strong></span> operation from an entry in the <span style="font-family:sans-serif;"><strong>Layers</strong></span> panel. The warning message looks like this:</p>
+<p>That’s pretty clear. What’s unfortunately less clear than in R is the sequence of operations that will safely add a layer to an existing GeoPackage. That’s not quite fair: what is unclear is the warning message you get if you choose an existing <code>.gpkg</code> file as the destination for a dataset you’d like to save. The warning message looks like this:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="gpkg-already-exists-warning.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:300px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"></p>
 </figure>
 </div>
-<p>This seems pretty scary. Before trying this I’d advise you to make a copy of the target geopackage if you are concerned about losing your data, but if you steel yourself and against every instinct select <span style="font-family:sans-serif; color:#f00;"><strong>Replace</strong></span>, then as long as you set a different name in the <span style="font-family:sans-serif;">Layer name</span> option of the <span style="font-family:sans-serif;"><strong>Save Vector Layer as…</strong></span> dialog:</p>
+<p>This seems pretty scary. Before trying this at home I suggest you make a copy of the target geopackage if you are worried about losing your data, but if you steel yourself, and against every instinct hit <span style="font-family:sans-serif; color:#f00;">Replace</span>, then as long as you set a different name in the <span style="font-family:sans-serif;">Layer name</span> option of the <span style="font-family:sans-serif;"><strong>Save Vector Layer as…</strong></span> dialog</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="new-layer-name.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:450px; border-radius:12px 0px 0px; box-shadow: 5px 5px 5px #aaa;"></p>
@@ -343,6 +361,10 @@ Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 </div>
 <p>it will be fine, and you’ll end up with an additional layer in the target GeoPackage.</p>
 <p>You can also manage the component layers of GeoPackages in QGIS’s <span style="font-family:sans-serif;"><strong>Browser</strong></span> panel.</p>
+</section>
+<section id="other-platforms-are-available" class="level3">
+<h3 class="anchored" data-anchor-id="other-platforms-are-available">Other platforms are available</h3>
+<p>I should note that similar to R, the Python <a href="https://geopandas.org/en/stable/index.html"><code>geopandas</code> module</a> in its <a href="https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_file.html"><code>GeoDataframe.to_file()</code></a>, <a href="https://geopandas.org/en/stable/docs/reference/api/geopandas.read_file.html"><code>geopandas.read_file()</code></a>, and <a href="https://geopandas.org/en/stable/docs/reference/api/geopandas.list_layers.html#geopandas.list_layers"><code>geopandas.list_layers()</code></a> methods offers the same functionality as discussed above.</p>
 </section>
 </section>
 <section id="many-formats" class="level2">
@@ -415,10 +437,6 @@ name        : Height </code></pre>
 <p>It’s worth noting that the QGIS <span style="font-family:sans-serif;"><strong>Browser</strong></span> panel makes mixing raster and vector layers into your GeoPackages straightforward.</p>
 <p><a href="qgis-raster-vector-nz.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="qgis-raster-vector-nz.png" class="img-fluid"></a></p>
 <p>Overall, I’ve been aware that I can bundle raster and vector layers in GeoPackages like this but haven’t used the capability. In part because I’ve only just figured out how to do it using the R tools(!), but mostly because I prefer to keep raster data in GeoTIFFs and vector data in GeoPackages so I can tell which is which at a glance.</p>
-</section>
-<section id="other-platforms-are-available" class="level2">
-<h2 class="anchored" data-anchor-id="other-platforms-are-available">Other platforms are available</h2>
-<p>I should note that similar to R, the Python <a href="https://geopandas.org/en/stable/index.html"><code>geopandas</code> module</a> in its <a href="https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_file.html"><code>GeoDataframe.to_file()</code></a>, <a href="https://geopandas.org/en/stable/docs/reference/api/geopandas.read_file.html"><code>geopandas.read_file()</code></a>, and <a href="https://geopandas.org/en/stable/docs/reference/api/geopandas.list_layers.html#geopandas.list_layers"><code>geopandas.list_layers()</code></a> methods offers the same functionality as discussed above.</p>
 </section>
 <section id="so-are-geopackages-perfect" class="level2">
 <h2 class="anchored" data-anchor-id="so-are-geopackages-perfect">So, are GeoPackages perfect?</h2>
@@ -842,7 +860,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":false,"openEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","closeEffect":"zoom","loop":false,"descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

@@ -2,6 +2,7 @@
 title: "Giscience 2025"
 description: "Call for papers"
 author: "David O'Sullivan"
+toc: true
 categories:
   - conferences
   - geospatial

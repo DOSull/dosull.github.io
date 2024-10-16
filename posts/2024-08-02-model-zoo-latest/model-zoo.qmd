@@ -2,6 +2,7 @@
 title: "The model zoo"
 description: "Keeping up with NetLogo"
 author: "David O'Sullivan"
+toc: true
 categories:
   - netlogo
   - books

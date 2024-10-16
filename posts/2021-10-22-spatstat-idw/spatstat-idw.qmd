@@ -2,6 +2,7 @@
 title: "Inverse distance weighted (IDW) interpolation using `spatstat`"
 description: "So many packages so little time"
 author: David O'Sullivan
+toc: true
 categories:
   - R
   - spatial

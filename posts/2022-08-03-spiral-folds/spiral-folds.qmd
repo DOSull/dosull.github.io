@@ -2,6 +2,7 @@
 title: "Spiral origami"
 description: "Things to make and do"
 author: "David O'Sullivan"
+toc: true
 categories:
   - javascript
   - origami

@@ -2,6 +2,7 @@
 title: "The 30 day map challenge"
 description: "It's called 'challenge' for a reason"
 author: "David O'Sullivan"
+toc: true
 categories:
   - R
   - spatial

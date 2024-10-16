@@ -2,6 +2,7 @@
 title: "Uniform random points on the globe"
 description: "The earth's a sphere: who knew?"
 author: "David O'Sullivan"
+toc: true
 categories:
   - R
   - spatial

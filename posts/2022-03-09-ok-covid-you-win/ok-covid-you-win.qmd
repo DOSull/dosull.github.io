@@ -2,6 +2,7 @@
 title: "OK COVID, you win"
 description: "The end of the line"
 author: "David O'Sullivan"
+toc: true
 categories:
   - visualization
   - covid

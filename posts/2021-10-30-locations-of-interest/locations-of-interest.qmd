@@ -2,6 +2,7 @@
 title: "Locations of interest in 2021 delta outbreak"
 description: "When everything went pear-shaped"
 author: "David O'Sullivan"
+toc: true
 categories:
   - maps
   - visualization

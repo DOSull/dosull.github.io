@@ -2,6 +2,7 @@
 title: "Mapping the Dulux colours"
 description: "The ultimate in categorical mapping"
 author: "David O'Sullivan"
+toc: true
 categories:
   - R
   - spatial

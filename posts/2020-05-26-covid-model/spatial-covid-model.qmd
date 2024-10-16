@@ -2,6 +2,7 @@
 title: "A spatial COVID model"
 description: "Fiddling (with code) while the world burns"
 author: "David O'Sullivan"
+toc: true
 categories:
   - netlogo
   - covid
