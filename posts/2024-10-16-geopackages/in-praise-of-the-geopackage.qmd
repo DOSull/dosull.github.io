@@ -76,7 +76,7 @@ st_read("nz.gpkg")
 and one of those warning messages it's tempting not to read, but is very much worth your time in this case.
 
 ### Multi-layer geopackages in QGIS
-Meanwhile, if you open this two-layer GPKG in QGIS you'll see this:
+Meanwhile, if you open a two-layer GPKG in QGIS you'll see this:
 
 ![](opening-a-multilayer-gpgk-dialog.png){fig-align="center" style="width:600px; border-radius:5%;"}
 
