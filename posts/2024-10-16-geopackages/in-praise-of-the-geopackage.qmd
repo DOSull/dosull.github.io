@@ -118,7 +118,7 @@ Crowbarring this thing into our GeoPackage is certainly possible, but it's far f
 ```{r}
 nz_r |> 
   writeRaster("nz.gpkg", 
-              gdal = c("RASTER_TABLE=nzr", "APPEND_SUBDATASET=YES"))
+              gdal = c("RASTER_TABLE=raster", "APPEND_SUBDATASET=YES"))
 ```
 
 The [GDAL options are all documented](https://gdal.org/en/latest/drivers/raster/gpkg.html), but applying them using `terra::writeRaster` is finicky, and clearly this is not for the faint-hearted!

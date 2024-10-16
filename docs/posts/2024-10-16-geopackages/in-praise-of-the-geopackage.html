@@ -266,7 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>nz <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Reading layer `nz' from data source 
+<pre><code>Reading layer `vector' from data source 
   `/Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg' 
   using driver `GPKG'
 Simple feature collection with 1 feature and 1 field
@@ -283,7 +283,7 @@ Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 <pre><code>Driver: GPKG 
 Available layers:
   layer_name geometry_type features fields
-1         nz Multi Polygon        1      1
+1     vector Multi Polygon        1      1
                                          crs_name
 1 NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 </div>
@@ -305,7 +305,7 @@ Writing 1 features with 1 fields and geometry type Multi Polygon.</code></pre>
 <pre><code>Driver: GPKG 
 Available layers:
   layer_name geometry_type features fields
-1         nz Multi Polygon        1      1
+1     vector Multi Polygon        1      1
 2      coast Multi Polygon        1      1
                                          crs_name
 1 NZGD2000 / New Zealand Transverse Mercator 2000
@@ -316,7 +316,7 @@ Available layers:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_read</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Multiple layers are present in data source /Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg, reading layer `nz'.
+<pre><code>Multiple layers are present in data source /Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg, reading layer `vector'.
 Use `st_layers' to list all layer names and their type in a data source.
 Set the `layer' argument in `st_read' to read a particular layer.</code></pre>
 </div>
@@ -326,7 +326,7 @@ automatically selected the first layer in a data source containing more than
 one.</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Reading layer `nz' from data source 
+<pre><code>Reading layer `vector' from data source 
   `/Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg' 
   using driver `GPKG'
 Simple feature collection with 1 feature and 1 field
@@ -400,7 +400,7 @@ max value   :     1 </code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>nz_r <span class="sc">|&gt;</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(<span class="st">"nz.gpkg"</span>, </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">gdal =</span> <span class="fu">c</span>(<span class="st">"RASTER_TABLE=nzr"</span>, <span class="st">"APPEND_SUBDATASET=YES"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">gdal =</span> <span class="fu">c</span>(<span class="st">"RASTER_TABLE=raster"</span>, <span class="st">"APPEND_SUBDATASET=YES"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <a href="https://gdal.org/en/latest/drivers/raster/gpkg.html">GDAL options are all documented</a>, but applying them using <code>terra::writeRaster</code> is finicky, and clearly this is not for the faint-hearted!</p>
 <p>Furthermore… <code>sf</code> can’t ‘see’ the raster layer:</p>
@@ -860,7 +860,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","closeEffect":"zoom","loop":false,"descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","selector":".lightbox","loop":false,"openEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
