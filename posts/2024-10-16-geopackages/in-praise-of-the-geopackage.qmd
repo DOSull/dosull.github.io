@@ -68,6 +68,8 @@ st_layers("nz.gpkg")
 Now if you open this file in _R_ unless you specify the layer you want, you'll just get the first one:
 
 ```{r}
+#| message: true
+#| warning: true
 st_read("nz.gpkg")
 ```
 

@@ -301,8 +301,15 @@ Available layers:
 <div class="cell-output cell-output-stdout">
 <pre><code>Multiple layers are present in data source /Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg, reading layer `nz'.
 Use `st_layers' to list all layer names and their type in a data source.
-Set the `layer' argument in `st_read' to read a particular layer.
-Reading layer `nz' from data source 
+Set the `layer' argument in `st_read' to read a particular layer.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in CPL_read_ogr(dsn, layer, query, as.character(options), quiet, :
+automatically selected the first layer in a data source containing more than
+one.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `nz' from data source 
   `/Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg' 
   using driver `GPKG'
 Simple feature collection with 1 feature and 1 field
