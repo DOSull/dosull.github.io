@@ -27,6 +27,7 @@ website:
 format:
   html:
     theme: lux
+    linkcolor: "dodgerblue"
     css: styles.css
 
 

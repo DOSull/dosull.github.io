@@ -6,6 +6,13 @@ categories:
   - R
   - spatial
   - tutorial
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
 date: 10-21-2021
 ---
 

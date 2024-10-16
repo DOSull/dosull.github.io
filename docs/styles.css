@@ -7,16 +7,10 @@ p {
     font-weight: 400;
 }
 
-a {
-    color: dodgerblue;
-    text-decoration: none;
-}
-
-a:hover {
-    color: #979797;
-    background-color: #1a1a1a;
-}
-
 em, b {
     font-weight: 700;
+}
+
+h2, h3, h4, h5, h6 {
+    text-transform: none;
 }

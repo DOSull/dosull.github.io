@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="David O’Sullivan">
-<meta name="dcterms.date" content="2024-10-10">
-<meta name="description" content="Call for papers">
+<meta name="dcterms.date" content="2024-10-16">
+<meta name="description" content="Shapefiles… who needs ’em?">
 
-<title>Geospatial Stuff - Giscience 2025</title>
+<title>Geospatial Stuff - In praise of GeoPackages</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -142,16 +176,17 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Giscience 2025</h1>
+      <h1 class="title">In praise of GeoPackages</h1>
                   <div>
         <div class="description">
-          Call for papers
+          Shapefiles… who needs ’em?
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">conferences</div>
                 <div class="quarto-category">geospatial</div>
-                <div class="quarto-category">aotearoa</div>
+                <div class="quarto-category">qgis</div>
+                <div class="quarto-category">r</div>
+                <div class="quarto-category">tutorial</div>
               </div>
                   </div>
   </div>
@@ -169,7 +204,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">October 10, 2024</p>
+        <p class="date">October 16, 2024</p>
       </div>
     </div>
     
@@ -188,12 +223,118 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p><img src="giscience-2025.png" class="img-fluid" style="width:40.0%"></p>
-<p>The first <a href="https://giscience2025.org/#cfp">Call for Submissions to GIScience 2025</a> has just come out (deadline for proceedings papers Jan 31 2025; for other submissions Apr 4 2025).</p>
-<p>We’re excited in Aotearoa New Zealand to be hosting this one, even if <a href="https://dosull.github.io/computing-geographically/other-stuff/giscience-not-GIScience.html">I think it should be called giscience 2025</a> (note the non-capitalisation). I’m on the program committee so look forward (a little nervously) to a flood of submissions. It’s nice for a change that it won’t be us Aotearoans making the long trip.</p>
-<p>The last big geospatial conference in NZ was Geocomputation 2019 which was greatly enjoyed by all who made it, and this one will be even better, I’m certain of it!</p>
+<p>In the <a href="http://switchfromshapefile.org/">shapefiles must die</a> wars I’ve been smugly using <a href="https://www.geopackage.org/">GeoPackages</a> for several years now. Here are some reasons why.</p>
+<section id="one-file-no-really-its-just-one-file" class="level2">
+<h2 class="anchored" data-anchor-id="one-file-no-really-its-just-one-file">One file: no really, it’s just one file!</h2>
+<p>If there is one thing above all others to love about GeoPackages it’s this. When teaching newcomers, the standout advantage over shapefiles is simple: there is <em>only one file</em>, and not some number between three and seven (or is it eight? I’m just not sure).</p>
+<p>I’ve lost count of how often I had to disable the increasingly hard to find <span style="font-family:sans-serif;"><strong>Hide file extensions</strong></span> option on a baffled student’s computer to reveal the disturbing truth that there were several identical-except-for-the-extension files that <em>together</em> formed a so-called shapefile. Or how when supplying data for lab assignments I had to include instructions about unzipping files to a known folder and so on (a seemingly simple requirement made much more complicated by more recent releases of Windows allowing the user to look inside a <code>.zip</code> file without actually unpacking the contents…).</p>
+</section>
+<section id="understandable-attribute_" class="level2">
+<h2 class="anchored" data-anchor-id="understandable-attribute_">Understandable <code>ATTRIBUTE_</code></h2>
+<p>What I meant to say was: understandable <code>attribute_names</code> because, you can have attribute names longer than 10 characters.</p>
+</section>
+<section id="many-formats" class="level2">
+<h2 class="anchored" data-anchor-id="many-formats">Many formats</h2>
+<p>Another advantage I’ve been vaguely aware of but haven’t made much use of is that there’s nothing to stop you storing raster layers in a GeoPackage. I’ve tended to prefer to keep raster data in GeoTIFFs just so I can tell which is which, but it’s nice that you can store rasters in a GeoPackage too.</p>
+</section>
+<section id="many-layers" class="level2">
+<h2 class="anchored" data-anchor-id="many-layers">Many layers</h2>
+<p>I’ve tended to shy away from packaging multiple datasets in GeoPackages as support for this feature has at times been uncertain and confusing.</p>
+<p>Now that I am less beholden to not confusing beginners where ‘one file = one layer’ is a useful rule to live by, I’ve started to look more closely at what’s going on here. It still has the potential to confuse — especially in <em>QGIS</em>’s right-click <span style="font-family:sans-serif;"><strong>Export → Save Features As…</strong></span> — but there is untapped potential here for making life easier when it comes to sharing bundles of related data with a minimum of fuss.</p>
+<p>I’ll explain using my goto tool for general data wrangling, <em>R</em>’s <a href="https://r-spatial.github.io/sf/"><code>sf</code> package</a>.</p>
+<section id="multi-layer-geopackages-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="multi-layer-geopackages-in-r">Multi-layer geopackages in <em>R</em></h3>
+<p>Assuming you have a locally stored simple GeoPackage <code>nz.gpkg</code>, you read it using:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>nz <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `nz' from data source 
+  `/Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 1 feature and 1 field
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 1090144 ymin: 4748531 xmax: 2463348 ymax: 6191876
+Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
+</div>
+</div>
+<p>Now, if you’d like to add another layer to that file, you can specify a <em>layer</em> to put it in. Before doing that, it’s probably best to check what layers are already there using <code>st_layers()</code>:</p>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_layers</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Driver: GPKG Available layers: layer_name geometry_type features fields 1 nz Multi Polygon 1 1 crs_name 1 NZGD2000 / New Zealand Transverse Mercator 2000</p>
+<p>As we might expect, a single layer with the same layer name as the file itself. Say we buffer our data and want to store it back into the same file, then we can do the below, as long as we provide a new layer name to store it in:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nz <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_buffer</span>(<span class="dv">12000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_write</span>(<span class="st">"nz.gpkg"</span>, <span class="at">layer =</span> <span class="st">"coast"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Writing layer `coast' to data source `nz.gpkg' using driver `GPKG'
+Writing 1 features with 1 fields and geometry type Multi Polygon.</code></pre>
+</div>
+</div>
+<p>And now we can see that both layers are present in the file:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_layers</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Driver: GPKG 
+Available layers:
+  layer_name geometry_type features fields
+1         nz Multi Polygon        1      1
+2      coast Multi Polygon        1      1
+                                         crs_name
+1 NZGD2000 / New Zealand Transverse Mercator 2000
+2 NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
+</div>
+</div>
+<p>Now if you open this file in <em>R</em> unless you specify the layer you want, you’ll just get the first one:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_read</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Multiple layers are present in data source /Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg, reading layer `nz'.
+Use `st_layers' to list all layer names and their type in a data source.
+Set the `layer' argument in `st_read' to read a particular layer.
+Reading layer `nz' from data source 
+  `/Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 1 feature and 1 field
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 1090144 ymin: 4748531 xmax: 2463348 ymax: 6191876
+Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
+</div>
+</div>
+<p>and one of those warning messages it’s tempting not to read, but is very much worth your time in this case.</p>
+</section>
+<section id="multi-layer-geopackages-in-qgis" class="level3">
+<h3 class="anchored" data-anchor-id="multi-layer-geopackages-in-qgis">Multi-layer geopackages in QGIS</h3>
+<p>Meanwhile, if you open this two-layer GPKG in QGIS you’ll see this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="opening-a-multilayer-gpgk-dialog.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:600px; border-radius:5%;"></p>
+</figure>
+</div>
+<p>That’s pretty clear. What’s unfortunately less clear than in <em>R</em> is the sequence of operations that will safely add a layer to an existing GeoPackage. That’s not quite fair: what is unclear is the warning message you will get if you choose an existing <code>.gpkg</code> file as the destination for a right-click <span style="font-family:sans-serif;"><strong>Export → Save Features As…</strong></span> operation from an entry in the <span style="font-family:sans-serif;"><strong>Layers</strong></span> panel. The warning message looks like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gpkg-already-exists-warning.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:300px; border-radius:5%;"></p>
+</figure>
+</div>
+<p>This seems pretty scary. Before trying this I’d advise you to make a copy of the target geopackage if you are concerned about losing your data, but if you steel yourself and against every instinct select <span style="font-family:sans-serif; color:#f00;"><strong>Replace</strong></span>, then as long as you set a different name in the <span style="font-family:sans-serif;">Layer name</span> option of the <span style="font-family:sans-serif;"><strong>Save Vector Layer as…</strong></span> dialog:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="new-layer-name.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:450px;"></p>
+</figure>
+</div>
+<p>it will be fine, and you’ll end up with an additional layer in the target GeoPackage.</p>
+<p>You can also manage the component layers of GeoPackages in <em>QGIS</em>’s <span style="font-family:sans-serif;"><strong>Browser</strong></span> panel.</p>
+</section>
+<section id="other-platforms-are-available" class="level3">
+<h3 class="anchored" data-anchor-id="other-platforms-are-available">Other platforms are available</h3>
+<p>I should note that similar to <em>R</em>, the <em>Python</em> <a href="https://geopandas.org/en/stable/index.html"><code>geopandas</code> module</a> in its <a href="https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_file.html"><code>GeoDataframe.to_file()</code></a>, <a href="https://geopandas.org/en/stable/docs/reference/api/geopandas.read_file.html"><code>geopandas.read_file()</code></a>, and <a href="https://geopandas.org/en/stable/docs/reference/api/geopandas.list_layers.html#geopandas.list_layers"><code>geopandas.list_layers()</code></a> methods offers the same functionality as discussed above.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -79,7 +79,8 @@ ul.task-list li input[type="checkbox"] {
 
     const options = {
       valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
+      page: 18,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
     };
 
@@ -218,7 +219,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(18)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(9)</span></div><div class="category" data-category="aotearoa">aotearoa <span class="quarto-category-count">(4)</span></div><div class="category" data-category="books">books <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cartography">cartography <span class="quarto-category-count">(2)</span></div><div class="category" data-category="conferences">conferences <span class="quarto-category-count">(2)</span></div><div class="category" data-category="covid">covid <span class="quarto-category-count">(3)</span></div><div class="category" data-category="geospatial">geospatial <span class="quarto-category-count">(2)</span></div><div class="category" data-category="javascript">javascript <span class="quarto-category-count">(3)</span></div><div class="category" data-category="maps">maps <span class="quarto-category-count">(4)</span></div><div class="category" data-category="netlogo">netlogo <span class="quarto-category-count">(3)</span></div><div class="category" data-category="origami">origami <span class="quarto-category-count">(2)</span></div><div class="category" data-category="simulation">simulation <span class="quarto-category-count">(3)</span></div><div class="category" data-category="spatial">spatial <span class="quarto-category-count">(10)</span></div><div class="category" data-category="stuff">stuff <span class="quarto-category-count">(4)</span></div><div class="category" data-category="time-space">time-space <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tutorial">tutorial <span class="quarto-category-count">(5)</span></div><div class="category" data-category="visualization">visualization <span class="quarto-category-count">(3)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(19)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(9)</span></div><div class="category" data-category="aotearoa">aotearoa <span class="quarto-category-count">(4)</span></div><div class="category" data-category="books">books <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cartography">cartography <span class="quarto-category-count">(2)</span></div><div class="category" data-category="conferences">conferences <span class="quarto-category-count">(2)</span></div><div class="category" data-category="covid">covid <span class="quarto-category-count">(3)</span></div><div class="category" data-category="geospatial">geospatial <span class="quarto-category-count">(3)</span></div><div class="category" data-category="javascript">javascript <span class="quarto-category-count">(3)</span></div><div class="category" data-category="maps">maps <span class="quarto-category-count">(4)</span></div><div class="category" data-category="netlogo">netlogo <span class="quarto-category-count">(3)</span></div><div class="category" data-category="origami">origami <span class="quarto-category-count">(2)</span></div><div class="category" data-category="qgis">qgis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="r">r <span class="quarto-category-count">(1)</span></div><div class="category" data-category="simulation">simulation <span class="quarto-category-count">(3)</span></div><div class="category" data-category="spatial">spatial <span class="quarto-category-count">(10)</span></div><div class="category" data-category="stuff">stuff <span class="quarto-category-count">(4)</span></div><div class="category" data-category="time-space">time-space <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tutorial">tutorial <span class="quarto-category-count">(6)</span></div><div class="category" data-category="visualization">visualization <span class="quarto-category-count">(3)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -232,10 +233,47 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="conferences,geospatial,aotearoa" data-listing-date-sort="1728471600000" data-listing-file-modified-sort="1728540983225" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="108">
+<div class="g-col-1" data-index="0" data-categories="geospatial,qgis,r,tutorial" data-listing-date-sort="1728990000000" data-listing-file-modified-sort="1729063234468" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="726">
+<a href="./posts/2024-10-16-geopackages/in-praise-of-the-geopackage.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="posts/2024-10-16-geopackages/opening-a-multilayer-gpgk-dialog.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+In praise of GeoPackages
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('geospatial'); return false;">
+geospatial
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('qgis'); return false;">
+qgis
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('r'); return false;">
+r
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('tutorial'); return false;">
+tutorial
+</div>
+</div>
+<div class="card-text listing-description">
+Shapefiles… who needs ’em?
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Oct 16, 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="conferences,geospatial,aotearoa" data-listing-date-sort="1728471600000" data-listing-file-modified-sort="1728540983225" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="108">
 <a href="./posts/2024-10-10-giscience-2025/giscience-2025.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/2024-10-10-giscience-2025/giscience-2025.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Giscience 2025
@@ -266,7 +304,7 @@ Oct 10, 2024
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="cartography,spatial,aotearoa,conferences,time-space" data-listing-date-sort="1724932800000" data-listing-file-modified-sort="1728977523616" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1556">
+<div class="g-col-1" data-index="2" data-categories="cartography,spatial,aotearoa,conferences,time-space" data-listing-date-sort="1724932800000" data-listing-file-modified-sort="1728977523616" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1556">
 <a href="./posts/2024-08-30-geocart-24/geocart-24.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2024-08-30-geocart-24/alexander-turnbull-library.jpg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -306,7 +344,7 @@ Aug 30, 2024
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="netlogo,simulation" data-listing-date-sort="1723636800000" data-listing-file-modified-sort="1728540957658" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="168">
+<div class="g-col-1" data-index="3" data-categories="netlogo,simulation" data-listing-date-sort="1723636800000" data-listing-file-modified-sort="1728540957658" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="168">
 <a href="./posts/2024-08-15-netlogo-utils/netlogo-utils.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -339,7 +377,7 @@ Aug 15, 2024
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="netlogo,books,simulation" data-listing-date-sort="1722513600000" data-listing-file-modified-sort="1728540945888" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="74">
+<div class="g-col-1" data-index="4" data-categories="netlogo,books,simulation" data-listing-date-sort="1722513600000" data-listing-file-modified-sort="1728540945888" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="74">
 <a href="./posts/2024-08-02-model-zoo-latest/model-zoo.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="images/spatial-simulation.jpg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -373,7 +411,7 @@ Aug 2, 2024
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="R,spatial,maps,origami,cartography" data-listing-date-sort="1701255600000" data-listing-file-modified-sort="1728540930280" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="106">
+<div class="g-col-1" data-index="5" data-categories="R,spatial,maps,origami,cartography" data-listing-date-sort="1701255600000" data-listing-file-modified-sort="1728540930280" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="106">
 <a href="./posts/2023-11-30-30-day-maps/30-day-maps.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2023-11-30-30-day-maps/05-crumpled-paper-hillshade.jpg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -413,7 +451,7 @@ Nov 30, 2023
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="R,spatial,tutorial" data-listing-date-sort="1666263600000" data-listing-file-modified-sort="1728540813177" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1049">
+<div class="g-col-1" data-index="6" data-categories="R,spatial,tutorial" data-listing-date-sort="1666263600000" data-listing-file-modified-sort="1729062027163" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1049">
 <a href="./posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-2-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -447,7 +485,7 @@ Oct 21, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="6" data-categories="javascript,origami,stuff" data-listing-date-sort="1659441600000" data-listing-file-modified-sort="1728540916469" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="110">
+<div class="g-col-1" data-index="7" data-categories="javascript,origami,stuff" data-listing-date-sort="1659441600000" data-listing-file-modified-sort="1728540916469" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="110">
 <a href="./posts/2022-08-03-spiral-folds/spiral-folds.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2022-08-03-spiral-folds/spiral-fold.jpg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -481,7 +519,7 @@ Aug 3, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="7" data-categories="visualization,covid,R,maps" data-listing-date-sort="1646737200000" data-listing-file-modified-sort="1728540906177" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="158">
+<div class="g-col-1" data-index="8" data-categories="visualization,covid,R,maps" data-listing-date-sort="1646737200000" data-listing-file-modified-sort="1728540906177" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="158">
 <a href="./posts/2022-03-09-ok-covid-you-win/ok-covid-you-win.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2022-03-09-ok-covid-you-win/final-time-series.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -518,7 +556,7 @@ Mar 9, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="8" data-categories="R,spatial" data-listing-date-sort="1638874800000" data-listing-file-modified-sort="1728540895203" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1074">
+<div class="g-col-1" data-index="9" data-categories="R,spatial" data-listing-date-sort="1638874800000" data-listing-file-modified-sort="1729062072906" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1074">
 <a href="./posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-4-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -549,7 +587,7 @@ Dec 8, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="9" data-categories="maps,visualization,covid" data-listing-date-sort="1635505200000" data-listing-file-modified-sort="1728540867771" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="140">
+<div class="g-col-1" data-index="10" data-categories="maps,visualization,covid" data-listing-date-sort="1635505200000" data-listing-file-modified-sort="1728540867771" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="140">
 <a href="./posts/2021-10-30-locations-of-interest/locations-of-interest.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2021-10-30-locations-of-interest/locations-of-interest.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -583,7 +621,7 @@ Oct 30, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="10" data-categories="R,spatial,tutorial" data-listing-date-sort="1634814000000" data-listing-file-modified-sort="1728540851987" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="513">
+<div class="g-col-1" data-index="11" data-categories="R,spatial,tutorial" data-listing-date-sort="1634814000000" data-listing-file-modified-sort="1729062047523" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="513">
 <a href="./posts/2021-10-22-spatstat-idw/spatstat-idw.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2021-10-22-spatstat-idw/spatstat-idw_files/figure-html/unnamed-chunk-5-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -617,7 +655,7 @@ Oct 22, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="11" data-categories="R,spatial,tutorial" data-listing-date-sort="1634727600000" data-listing-file-modified-sort="1728540830191" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="731">
+<div class="g-col-1" data-index="12" data-categories="R,spatial,tutorial" data-listing-date-sort="1634727600000" data-listing-file-modified-sort="1729062037205" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="731">
 <a href="./posts/2021-10-21-kde/kde.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2021-10-21-kde/kde_files/figure-html/unnamed-chunk-3-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -651,7 +689,7 @@ Oct 21, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="12" data-categories="R,spatial,tutorial" data-listing-date-sort="1634641200000" data-listing-file-modified-sort="1728540800384" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="382">
+<div class="g-col-1" data-index="13" data-categories="R,spatial,tutorial" data-listing-date-sort="1634641200000" data-listing-file-modified-sort="1729062005077" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="382">
 <a href="./posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe_files/figure-html/unnamed-chunk-4-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -685,7 +723,7 @@ Oct 20, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="13" data-categories="R,spatial,stuff,maps,aotearoa" data-listing-date-sort="1632312000000" data-listing-file-modified-sort="1728540790755" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="82">
+<div class="g-col-1" data-index="14" data-categories="R,spatial,stuff,maps,aotearoa" data-listing-date-sort="1632312000000" data-listing-file-modified-sort="1728540790755" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="82">
 <a href="./posts/2021-09-23-dulux-colours-map/dulux-colours-map.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2021-09-23-dulux-colours-map/dulux-colour-map.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -725,7 +763,7 @@ Sep 23, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="14" data-categories="R,spatial,tutorial" data-listing-date-sort="1628683200000" data-listing-file-modified-sort="1728540879518" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="835">
+<div class="g-col-1" data-index="15" data-categories="R,spatial,tutorial" data-listing-date-sort="1628683200000" data-listing-file-modified-sort="1729062062665" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="835">
 <a href="./posts/2021-12-08-affine-transformation-of-sf-objects/affine-transformations-of-sf-objects.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2021-12-08-affine-transformation-of-sf-objects/affine-transformations-of-sf-objects_files/figure-html/unnamed-chunk-2-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -759,7 +797,7 @@ Aug 12, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="15" data-categories="javascript,visualization,aotearoa,stuff" data-listing-date-sort="1595332800000" data-listing-file-modified-sort="1728540778762" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="134">
+<div class="g-col-1" data-index="16" data-categories="javascript,visualization,aotearoa,stuff" data-listing-date-sort="1595332800000" data-listing-file-modified-sort="1728540778762" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="134">
 <a href="./posts/2020-07-22-nz-commute-viewer/nz-commute-viewer.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2020-07-22-nz-commute-viewer/nz-commute-viewer.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -796,7 +834,7 @@ Jul 22, 2020
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="16" data-categories="javascript,geospatial,stuff" data-listing-date-sort="1593691200000" data-listing-file-modified-sort="1728540765655" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="43">
+<div class="g-col-1" data-index="17" data-categories="javascript,geospatial,stuff" data-listing-date-sort="1593691200000" data-listing-file-modified-sort="1728540765655" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="43">
 <a href="./posts/2020-07-18-what-the-chord/what-3-chords.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2020-07-18-what-the-chord/w3c.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -830,10 +868,10 @@ Jul 3, 2020
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="17" data-categories="netlogo,covid,simulation,spatial" data-listing-date-sort="1590408000000" data-listing-file-modified-sort="1728540748153" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="293">
+<div class="g-col-1" data-index="18" data-categories="netlogo,covid,simulation,spatial" data-listing-date-sort="1590408000000" data-listing-file-modified-sort="1728540748153" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="293">
 <a href="./posts/2020-05-26-covid-model/spatial-covid-model.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/2020-05-26-covid-model/covid-model-view.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img data-src="posts/2020-05-26-covid-model/covid-model-view.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 A spatial COVID model
@@ -871,6 +909,9 @@ May 26, 2020
 <div class="listing-no-matching d-none">
 No matching items
 </div>
+<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

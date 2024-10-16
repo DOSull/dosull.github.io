@@ -1,0 +1,103 @@
+---
+title: "In praise of GeoPackages"
+description: "Shapefiles... who needs 'em?"
+author: "David O'Sullivan"
+categories:
+  - geospatial
+  - qgis
+  - r
+  - tutorial
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 10-16-2024
+---
+
+In the [shapefiles must die](http://switchfromshapefile.org/) wars I've been smugly using [GeoPackages](https://www.geopackage.org/) for several years now. Here are some reasons why.
+
+## One file: no really, it's just one file!
+If there is one thing above all others to love about GeoPackages it's this. When teaching newcomers, the standout advantage over shapefiles is simple: there is _only one file_, and not some number between three and seven (or is it eight? I'm just not sure). 
+
+I've lost count of how often I had to disable the increasingly hard to find [**Hide file extensions**]{style="font-family:sans-serif;"} option on a baffled student's computer to reveal the disturbing truth that there were several identical-except-for-the-extension files that _together_ formed a so-called shapefile. Or how when supplying data for lab assignments I had to include instructions about unzipping files to a known folder and so on (a seemingly simple requirement made much more complicated by more recent releases of Windows allowing the user to look inside a `.zip` file without actually unpacking the contents...).
+
+## Understandable `ATTRIBUTE_`
+What I meant to say was: understandable `attribute_names` because, you can have attribute names longer than 10 characters.
+
+## Many formats
+Another advantage I've been vaguely aware of but haven't made much use of is that there's nothing to stop you storing raster layers in a GeoPackage. I've tended to prefer to keep raster data in GeoTIFFs just so I can tell which is which, but it's nice that you can store rasters in a GeoPackage too.
+
+## Many layers
+I've tended to shy away from packaging multiple datasets in GeoPackages as support for this feature has at times been uncertain and confusing. 
+
+Now that I am less beholden to not confusing beginners where 'one file = one layer' is a useful rule to live by, I've started to look more closely at what's going on here. It still has the potential to confuse &mdash; especially in _QGIS_'s right-click [**Export &rarr; Save Features As...**]{style="font-family:sans-serif;"} &mdash; but there is untapped potential here for making life easier when it comes to sharing bundles of related data with a minimum of fuss.
+
+I'll explain using my goto tool for general data wrangling, _R_'s [`sf` package](https://r-spatial.github.io/sf/).
+
+### Multi-layer geopackages in _R_
+Assuming you have a locally stored simple GeoPackage `nz.gpkg`, you read it using:
+
+```{r}
+library(sf)
+nz <- st_read("nz.gpkg")
+```
+
+Now, if you'd like to add another layer to that file, you can specify a _layer_ to put it in. Before doing that, it's probably best to check what layers are already there using `st_layers()`:
+
+```{r}
+#| output: asis
+st_layers("nz.gpkg")
+```
+
+As we might expect, a single layer with the same layer name as the file itself. Say we buffer our data and want to store it back into the same file, then we can do the below, as long as we provide a new layer name to store it in:
+
+```{r}
+nz |> 
+  st_buffer(12000) |> 
+  st_write("nz.gpkg", layer = "coast")
+```
+
+And now we can see that both layers are present in the file:
+
+```{r}
+st_layers("nz.gpkg")
+```
+
+Now if you open this file in _R_ unless you specify the layer you want, you'll just get the first one:
+
+```{r}
+st_read("nz.gpkg")
+```
+
+and one of those warning messages it's tempting not to read, but is very much worth your time in this case.
+
+### Multi-layer geopackages in QGIS
+Meanwhile, if you open this two-layer GPKG in QGIS you'll see this:
+
+![](opening-a-multilayer-gpgk-dialog.png){fig-align="center" style="width:600px; border-radius:5%;"}
+
+That's pretty clear. What's unfortunately less clear than in _R_ is the sequence of operations that will safely add a layer to an existing GeoPackage. That's not quite fair: what is unclear is the warning message you will get if you choose an existing `.gpkg` file as the destination for a right-click [**Export &rarr; Save Features As...**]{style="font-family:sans-serif;"} operation from an entry in the [**Layers**]{style="font-family:sans-serif;"} panel. The warning message looks like this:
+
+![](gpkg-already-exists-warning.png){fig-align="center" style="width:300px; border-radius:5%;"}
+
+This seems pretty scary. Before trying this I'd advise you to make a copy of the target geopackage if you are concerned about losing your data, but if you steel yourself and against every instinct select [**Replace**]{style="font-family:sans-serif; color:#f00;"}, then as long as you set a different name in the [Layer name]{style="font-family:sans-serif;"} option of the [**Save Vector Layer as...**]{style="font-family:sans-serif;"} dialog:
+
+![](new-layer-name.png){fig-align="center" style="width:450px;"}
+
+it will be fine, and you'll end up with an additional layer in the target GeoPackage.
+
+You can also manage the component layers of GeoPackages in _QGIS_'s [**Browser**]{style="font-family:sans-serif;"} panel.
+
+### Other platforms are available
+I should note that similar to _R_, the _Python_ [`geopandas` module](https://geopandas.org/en/stable/index.html) in its [`GeoDataframe.to_file()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_file.html), [`geopandas.read_file()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.read_file.html), and [`geopandas.list_layers()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.list_layers.html#geopandas.list_layers) methods offers the same functionality as discussed above.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| output: false
+nz |> st_write("nz.gpkg", delete_dsn = TRUE)
+```
