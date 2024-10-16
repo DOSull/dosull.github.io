@@ -148,7 +148,7 @@ Overall, I've been aware that I can bundle raster and vector layers in GeoPackag
 ## So, are GeoPackages perfect?
 Of course not. There's an argument to be made that every format that perpertuates the simple features paradigm is a bad as every other. I even wrote [a book](https://computinggeographically.org) that is &mdash; kind of &mdash; all about this. It's one of the mysteries of the evolution of geospatial that topology was embedded in the 'standard' formats, until it wasn't. For what it's worth, I think we have relational databases to blame for that.
 
-GeoPackages don't get us out of [floating point geometry hell](../2021-12-08-low-level-handling-sf-objects/) either.
+GeoPackages don't get us out of [floating point geometry hell](../2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.qmd) either.
 
 There are also better formats for particular applications. [GeoJSON](https://geojson.org/) is web-native in a way that GeoPackages never will be, and newer formats such as [FlatGeoBuf](https://flatgeobuf.org/) and [GeoParquet](https://geoparquet.org/), and more recent approaches like [Discrete Global Grids](https://en.wikipedia.org/wiki/Discrete_global_grid) certainly have their place.
 
