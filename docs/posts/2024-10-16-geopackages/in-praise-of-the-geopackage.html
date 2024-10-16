@@ -326,19 +326,19 @@ Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 <p>Meanwhile, if you open a two-layer GPKG in QGIS you’ll see this:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="opening-a-multilayer-gpgk-dialog.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:600px; border-radius:5%;"></p>
+<p><img src="opening-a-multilayer-gpgk-dialog.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:600px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"></p>
 </figure>
 </div>
 <p>That’s pretty clear. What’s unfortunately less clear than in <em>R</em> is the sequence of operations that will safely add a layer to an existing GeoPackage. That’s not quite fair: what is unclear is the warning message you will get if you choose an existing <code>.gpkg</code> file as the destination for a right-click <span style="font-family:sans-serif;"><strong>Export → Save Features As…</strong></span> operation from an entry in the <span style="font-family:sans-serif;"><strong>Layers</strong></span> panel. The warning message looks like this:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gpkg-already-exists-warning.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:300px; border-radius:5%;"></p>
+<p><img src="gpkg-already-exists-warning.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:300px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"></p>
 </figure>
 </div>
 <p>This seems pretty scary. Before trying this I’d advise you to make a copy of the target geopackage if you are concerned about losing your data, but if you steel yourself and against every instinct select <span style="font-family:sans-serif; color:#f00;"><strong>Replace</strong></span>, then as long as you set a different name in the <span style="font-family:sans-serif;">Layer name</span> option of the <span style="font-family:sans-serif;"><strong>Save Vector Layer as…</strong></span> dialog:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="new-layer-name.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:450px;"></p>
+<p><img src="new-layer-name.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:450px; border-radius:12px 0px 0px; box-shadow: 5px 5px 5px #aaa;"></p>
 </figure>
 </div>
 <p>it will be fine, and you’ll end up with an additional layer in the target GeoPackage.</p>
