@@ -1,0 +1,28 @@
+---
+title: "If it walks like a duck... and quacks like a duck..."
+description: "Oh, never mind"
+author: "David O'Sullivan"
+toc: true
+categories:
+  - geospatial
+  - duckdb
+  - r
+  - tutorial
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 10-21-2024
+draft: true
+---
+
+So just recently I finally got around to putting some properly big data into an actual database and OMG! For the kind of situation I was in, I can't recommend giving this a try enough.
+
+## Some background
+
+### The specific problem: 110 million rows
+
+## Installing duckdb

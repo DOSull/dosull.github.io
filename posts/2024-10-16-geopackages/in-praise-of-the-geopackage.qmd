@@ -5,7 +5,6 @@ author: "David O'Sullivan"
 toc: true
 categories:
   - geospatial
-  - qgis
   - r
   - qgis
   - tutorial

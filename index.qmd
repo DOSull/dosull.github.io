@@ -4,24 +4,22 @@ subtitle: "David O'Sullivan"
 title-block-banner: true
 ---
 
-This website is a shop window for **Geospatial Stuff** through which I offer contract expertise in data analytics and visualisation, simulation modelling, and [training](training.qmd), especially in relation to all things geospatial. For more information [get in touch](mailto:osullivan512@gmail.com).
+Welcome to **Geospatial Stuff** through which I offer expertise in data analytics and visualisation, simulation modelling, and [training](training.qmd), on all things geospatial. For more information [get in touch](mailto:osullivan512@gmail.com).
 
 ### Research
-I am an accomplished geospatial researcher with over 25 years experience. I am an [Honorary Professor](https://profiles.auckland.ac.nz/david-osullivan){target="_blank"} at the [University of Auckland](https://auckland.ac.nz){target="_blank"} and a [Research Affiliate at Motu](https://www.motu.nz/about-us/people/david-osullivan/){target="_blank"}. You can find out more about my academic exploits from the drop-down above, or at [Google Scholar](https://scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao){target="_blank"}.
-
-You'll find examples of my work in my [portfolio](portfolio.qmd) and [blog posts](blog.qmd). To summarise:
+I am an accomplished geospatial researcher with over 25 years experience. I am an [Honorary Professor](https://profiles.auckland.ac.nz/david-osullivan){target="_blank"} at the University of Auckland and [Research Affiliate at Motu](https://www.motu.nz/about-us/people/david-osullivan/){target="_blank"}. You can find out more about my academic exploits from the drop-down above, or at [Google Scholar](https://scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao){target="_blank"}. There are examples of current work in my [portfolio](portfolio.qmd) and [blog posts](blog.qmd). To summarise:
 
 ### Commmunicating ideas
-I have written [3 books](books.html) and [numerous research articles](publications.html). I have taught for over 20 years and can put together a mean slide show. I use web-formats, primarily [revealjs](https://revealjs.com) and [quarto](https://quarto.org). See my [presentations](presentations.html), or the slides [here](https://dosull.github.io/Spatial-Data-Science/site/docs/). Years of teaching experience is the basis for [the training I offer](training.qmd).
+I have written [3 books](books.html) and [numerous research articles](publications.html). I have taught for over 20 years and can put together a mean slide show. For examples, see my [presentations](presentations.html), or [these slides](https://dosull.github.io/Spatial-Data-Science/site/docs/). Years of teaching experience are the basis of [the training I offer](training.qmd).
 
 ### Communicating data
-I work all the time in **R** and **Python** developing workflows to tidy, reformat, analyse, and visualize data, especially spatial data. I am a trained cartographer, and have regularly worked on visual analytics or maps of complex data in research projects and publications. There are many examples among the [blog posts](blog.qmd).
+I work in **R** and **Python** developing workflows to organise, analyse, and visualize data, especially spatial data. I am a trained cartographer, and have published visual analytics or maps of complex data in research projects and publications. There are many examples among the [blog posts](blog.qmd).
 
 ### Wrangling data
-I have been programming since forever. My everyday languages are **Python** and **R**, but I have experience in others (notably Java and JavaScript). I can write [well organised and documented code](https://dosull.github.io/weaving-space/doc/weavingspace/). I am not a web developer, but will roll up my sleeves and [figure stuff out](posts/2020-07-22-nz-commute-viewer/nz-commute-viewer.qmd) as needed. Most of my web stuff is linked from these pages, so have a look around.
+While my everyday languages are **Python** and **R**, I have experience in others (notably Java and JavaScript). I write [well organised and documented code](https://dosull.github.io/weaving-space/doc/weavingspace/). I am not a web developer, but will [figure stuff out](posts/2020-07-22-nz-commute-viewer/nz-commute-viewer.qmd) as needed. Most of my web work is linked from these pages, just look around.
 
 ### Simulating stuff
-I love [NetLogo](https://ccl.northwestern.edu/netlogo/), but admit that it is _niche_, albeit surprisingly powerful (see [this geographical COVID model I built in lockdown](posts/2020-05-26-covid-model/). I've also written [a book about this](books.html#spatial-simulation-exploring-pattern-and-process).
+I love [NetLogo](https://ccl.northwestern.edu/netlogo/), but admit that it is _niche_, albeit powerful (see [this geographical COVID model I built in lockdown](posts/2020-05-26-covid-model/). I've also written [a book about this](books.html#spatial-simulation-exploring-pattern-and-process).
 
 ### Project management
-Before academia I was a project engineer leading build, test, commissioning, and maintenance of production line laser-scanning inspection equipment, working with multinational clients such as IBM, Kodak, Dow Chemical, and Sony. In that role I learned a great deal about project and people management.
+Before academia I was a project engineer leading build, test, commissioning, and maintenance of production line laser-scanning inspection equipment, working with major clients like IBM, Kodak, Dow Chemical, and Sony. In that role I learned a great deal about project and people management.

@@ -20,8 +20,8 @@ website:
             file: presentations.qmd
           - text: "Publications"
             file: publications.qmd
-      - text: "About"
-        file: index.qmd
+      # - text: "About"
+      #   file: index.qmd
       - icon: github
         href: https://github.com/DOSull
 format:
