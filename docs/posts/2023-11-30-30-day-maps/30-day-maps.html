@@ -188,7 +188,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Finding myself unaccountably with time on my hands in November 2023, I thought I’d give the <a href="https://30daymapchallenge.com/" target="_blank">30 Day Map Challenge</a>. I am not sure I’d recommend the experience. I mean, it’s a kind of warped fun, but it’s <em>hard</em>. I might have restricted my focus too much for it to stay interesting for a whole month, perhaps. Anyway, you can see what I made <a href="https://dosull.github.io/30-day-maps-2023/">here</a> and a short slideshow reflecting on the experience <a href="https://dosull.github.io/30-day-maps-2023/maps/maptime/maptime-30-days.html#/title-slide">here</a>.</p>
+<p>Finding myself unaccountably with time on my hands in November 2023, I thought I’d give the <a href="https://30daymapchallenge.com/">30 Day Map Challenge</a>. I am not sure I’d recommend the experience. I mean, it’s a kind of warped fun, but it’s <em>hard</em>. I might have restricted my focus too much for it to stay interesting for a whole month, perhaps. Anyway, you can see what I made <a href="https://dosull.github.io/30-day-maps-2023/">here</a> and a short slideshow reflecting on the experience <a href="https://dosull.github.io/30-day-maps-2023/maps/maptime/maptime-30-days.html#/title-slide">here</a>.</p>
 <p>Here are my two favourite maps from the month:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -287,7 +287,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|dosull|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|github\.com\/DOSull|patternandprocess\.org|computinggeographically\.org)");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -301,6 +301,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         if (link.dataset.originalHref !== undefined) {
           link.href = link.dataset.originalHref;
         }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
       }
     }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

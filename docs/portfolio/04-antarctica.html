@@ -165,10 +165,10 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>This work aims to understand the potential for damaging environmental impacts in Antarctica. You can follow the work as it develops at <a href="https://dosull.github.io/antarctica" target="_blank">this website</a>.</p>
+<p>This work aims to understand the potential for damaging environmental impacts in Antarctica. You can follow the work as it develops at <a href="https://dosull.github.io/antarctica">this website</a>.</p>
 <p>The approach I’m taking attempts to estimate ‘desire lines’ for human movement. Here’s a typical output:</p>
 <p><img src="desire-lines.png" class="img-fluid"></p>
-<p>This work is funded through <a href="https://www.landcareresearch.co.nz/" target="_blank">Manaaki Whenua Landcare Research</a> and <a href="https://www.tepunahamatatini.ac.nz/" target="_blank">Te Pūnaha Matatini</a>.</p>
+<p>This work is funded through <a href="https://www.landcareresearch.co.nz/">Manaaki Whenua Landcare Research</a> and <a href="https://www.tepunahamatatini.ac.nz/">Te Pūnaha Matatini</a>.</p>
 
 
 
@@ -254,7 +254,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|dosull|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|github\.com\/DOSull|patternandprocess\.org|computinggeographically\.org)");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -268,6 +268,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         if (link.dataset.originalHref !== undefined) {
           link.href = link.dataset.originalHref;
         }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
       }
     }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

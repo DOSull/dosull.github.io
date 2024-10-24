@@ -27,8 +27,10 @@ website:
 format:
   html:
     theme: lux
-    linkcolor: "dodgerblue"
     css: styles.css
+    link-external-icon: true
+    link-external-newwindow: true
+    link-external-filter: '^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|dosull|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|github\.com\/DOSull|patternandprocess\.org|computinggeographically\.org)'
 
 
 

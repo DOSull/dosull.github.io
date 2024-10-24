@@ -194,7 +194,7 @@ ul.task-list li input[type="checkbox"] {
 <p>I learned a lot about a bunch of things along the way, but probably needed to take a step back and learn more about web development frameworks, as there is <a href="https://github.com/DOSull/commute-viewer/blob/master/commute-viewer-app/js/app.js">altogether <em>too much</em> handcrafted javascript in there</a>. Nevertheless, I had fun and I am reasonably happy with the end result. Also… it still works over four years later, which might not be true if I’d used something smarter than vanilla JS.</p>
 <p>Here’s a screenshot for anyone not curious enough to click on the link.</p>
 <p><img src="nz-commute-viewer.png" class="img-fluid"></p>
-<p>No, I didn’t win the competition. That was <a href="https://commuter.waka.app/" target="_blank">this entry</a> by Jono Cooper.</p>
+<p>No, I didn’t win the competition. That was <a href="https://commuter.waka.app/">this entry</a> by Jono Cooper.</p>
 
 
 
@@ -280,7 +280,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|dosull|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|github\.com\/DOSull|patternandprocess\.org|computinggeographically\.org)");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -294,6 +294,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         if (link.dataset.originalHref !== undefined) {
           link.href = link.dataset.originalHref;
         }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
       }
     }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

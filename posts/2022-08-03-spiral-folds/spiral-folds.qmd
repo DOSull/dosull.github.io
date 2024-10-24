@@ -16,4 +16,4 @@ I made an [observable notebook](https://observablehq.com/@dosull/tomoko-fuse-spi
 
 The picture is an example of the folds it produces, or at any rate of the things _you_ can fold by cutting out and following the crease patterns it produces. You'll have to do the folding yourself, I'm afraid. 
 
-If you'd like an idea of how the fold works without going to all the trouble of actually making one, then visit [Amanda Ghassaei](https://amandaghassaei.com/){target="_blank"}'s [Origami Simulator](https://origamisimulator.org){target="_blank"} and navigate to **Examples - Tessellations - Whirlpool Spiral**.
+If you'd like an idea of how the fold works without going to all the trouble of actually making one, then visit [Amanda Ghassaei](https://amandaghassaei.com/)'s [Origami Simulator](https://origamisimulator.org) and navigate to **Examples - Tessellations - Whirlpool Spiral**.

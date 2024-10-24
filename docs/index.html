@@ -160,10 +160,10 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Welcome to <strong>Geospatial Stuff</strong> through which I offer expertise in data analytics and visualisation, simulation modelling, and <a href="./training.html">training</a>, on all things geospatial. For more information <a href="mailto:osullivan512@gmail.com">get in touch</a>.</p>
+<p>This is <strong>Geospatial Stuff</strong> where I offer expertise in data analytics and visualisation, simulation modelling, and <a href="./training.html">training</a>, on all things geospatial. For more information <a href="mailto:osullivan512@gmail.com">get in touch</a>.</p>
 <section id="research" class="level3">
 <h3 class="anchored" data-anchor-id="research">Research</h3>
-<p>I am an accomplished geospatial researcher with over 25 years experience. I am an <a href="https://profiles.auckland.ac.nz/david-osullivan" target="_blank">Honorary Professor</a> at the University of Auckland and <a href="https://www.motu.nz/about-us/people/david-osullivan/" target="_blank">Research Affiliate at Motu</a>. You can find out more about my academic exploits from the drop-down above, or at <a href="https://scholar.google.com/citations?user=6guUlvgAAAAJ&amp;hl=en&amp;oi=ao" target="_blank">Google Scholar</a>. There are examples of current work in my <a href="./portfolio.html">portfolio</a> and <a href="./blog.html">blog posts</a>. To summarise:</p>
+<p>I am an accomplished geospatial researcher with over 25 years experience. I am an <a href="https://profiles.auckland.ac.nz/david-osullivan">Honorary Professor</a> at the University of Auckland and <a href="https://www.motu.nz/about-us/people/david-osullivan/">Research Affiliate at Motu</a>. You can find out more about my academic exploits from the drop-down above, or at <a href="https://scholar.google.com/citations?user=6guUlvgAAAAJ&amp;hl=en&amp;oi=ao">Google Scholar</a>. There are examples of current work in my <a href="./portfolio.html">portfolio</a> and <a href="./blog.html">blog posts</a>. To summarise:</p>
 </section>
 <section id="commmunicating-ideas" class="level3">
 <h3 class="anchored" data-anchor-id="commmunicating-ideas">Commmunicating ideas</h3>
@@ -270,7 +270,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|dosull|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|github\.com\/DOSull|patternandprocess\.org|computinggeographically\.org)");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -284,6 +284,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         if (link.dataset.originalHref !== undefined) {
           link.href = link.dataset.originalHref;
         }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
       }
     }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

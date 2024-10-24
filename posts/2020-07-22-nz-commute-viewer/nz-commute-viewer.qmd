@@ -23,4 +23,4 @@ Here's a screenshot for anyone not curious enough to click on the link.
 
 ![](nz-commute-viewer.png)
 
-No, I didn't win the competition. That was [this entry](https://commuter.waka.app/){target="_blank"} by Jono Cooper.
+No, I didn't win the competition. That was [this entry](https://commuter.waka.app/) by Jono Cooper.

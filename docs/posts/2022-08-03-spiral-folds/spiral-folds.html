@@ -189,7 +189,7 @@ ul.task-list li input[type="checkbox"] {
 <p>I made an <a href="https://observablehq.com/@dosull/tomoko-fuse-spiral-crease-patterns">observable notebook</a> to generate crease patterns for the flat-foldable origami ‘whirpool spirals’ designed by Tomoko Fuse and presented in chapter 3 of her amazing book <a href="https://viereck-verlag.de/en/produkt/spiral-origami-art-design/"><em>Spiral: Origami|Art|Design</em></a>. You’ll find more details in the notebook.</p>
 <p><img src="spiral-fold.jpg" class="img-fluid"></p>
 <p>The picture is an example of the folds it produces, or at any rate of the things <em>you</em> can fold by cutting out and following the crease patterns it produces. You’ll have to do the folding yourself, I’m afraid.</p>
-<p>If you’d like an idea of how the fold works without going to all the trouble of actually making one, then visit <a href="https://amandaghassaei.com/" target="_blank">Amanda Ghassaei</a>’s <a href="https://origamisimulator.org" target="_blank">Origami Simulator</a> and navigate to <strong>Examples - Tessellations - Whirlpool Spiral</strong>.</p>
+<p>If you’d like an idea of how the fold works without going to all the trouble of actually making one, then visit <a href="https://amandaghassaei.com/">Amanda Ghassaei</a>’s <a href="https://origamisimulator.org">Origami Simulator</a> and navigate to <strong>Examples - Tessellations - Whirlpool Spiral</strong>.</p>
 
 
 
@@ -275,7 +275,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|dosull|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|github\.com\/DOSull|patternandprocess\.org|computinggeographically\.org)");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -289,6 +289,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         if (link.dataset.originalHref !== undefined) {
           link.href = link.dataset.originalHref;
         }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
       }
     }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

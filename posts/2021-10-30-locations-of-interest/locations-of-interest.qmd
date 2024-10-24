@@ -14,7 +14,7 @@ date: 10-30-2021
 [Go to the viewer](https://southosullivan.com/misc/loi.html){target="_blank" style="font-family:sans-serif; background-color:#396; color:#cec; padding:10px; box-shadow: 5px 5px 5px #666; border-radius:5px;"}
 :::
 
-For a time, during the [August 2021 COVID](https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic_in_New_Zealand_(2021)#August_2021) outbreak that started in Auckland but eventually led to the end of New Zealand's attempt to stop COVID completely, I continuously updated the above [kepler.gl](https://kepler.gl/){target="_blank"} animated map of 'locations of interest'. Kepler.gl is a nice tool which I'd recommend for making quick visualizations like this.
+For a time, during the [August 2021 COVID](https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic_in_New_Zealand_(2021)#August_2021) outbreak that started in Auckland but eventually led to the end of New Zealand's attempt to stop COVID completely, I continuously updated the above [kepler.gl](https://kepler.gl/) animated map of 'locations of interest'. Kepler.gl is a nice tool which I'd recommend for making quick visualizations like this.
 
 ![](locations-of-interest.png)
 

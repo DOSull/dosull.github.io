@@ -4,10 +4,10 @@ subtitle: "David O'Sullivan"
 title-block-banner: true
 ---
 
-Welcome to **Geospatial Stuff** through which I offer expertise in data analytics and visualisation, simulation modelling, and [training](training.qmd), on all things geospatial. For more information [get in touch](mailto:osullivan512@gmail.com).
+This is **Geospatial Stuff** where I offer expertise in data analytics and visualisation, simulation modelling, and [training](training.qmd), on all things geospatial. For more information [get in touch](mailto:osullivan512@gmail.com).
 
 ### Research
-I am an accomplished geospatial researcher with over 25 years experience. I am an [Honorary Professor](https://profiles.auckland.ac.nz/david-osullivan){target="_blank"} at the University of Auckland and [Research Affiliate at Motu](https://www.motu.nz/about-us/people/david-osullivan/){target="_blank"}. You can find out more about my academic exploits from the drop-down above, or at [Google Scholar](https://scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao){target="_blank"}. There are examples of current work in my [portfolio](portfolio.qmd) and [blog posts](blog.qmd). To summarise:
+I am an accomplished geospatial researcher with over 25 years experience. I am an [Honorary Professor](https://profiles.auckland.ac.nz/david-osullivan) at the University of Auckland and [Research Affiliate at Motu](https://www.motu.nz/about-us/people/david-osullivan/). You can find out more about my academic exploits from the drop-down above, or at [Google Scholar](https://scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao). There are examples of current work in my [portfolio](portfolio.qmd) and [blog posts](blog.qmd). To summarise:
 
 ### Commmunicating ideas
 I have written [3 books](books.html) and [numerous research articles](publications.html). I have taught for over 20 years and can put together a mean slide show. For examples, see my [presentations](presentations.html), or [these slides](https://dosull.github.io/Spatial-Data-Science/site/docs/). Years of teaching experience are the basis of [the training I offer](training.qmd).

@@ -4,10 +4,10 @@ description: "Take only pictures, leave only footprints..."
 title-block-banner: true
 ---
 
-This work aims to understand the potential for damaging environmental impacts in Antarctica. You can follow the work as it develops at [this website](https://dosull.github.io/antarctica){target="_blank"}.
+This work aims to understand the potential for damaging environmental impacts in Antarctica. You can follow the work as it develops at [this website](https://dosull.github.io/antarctica).
 
 The approach I'm taking attempts to estimate 'desire lines' for human movement. Here's a typical output:
 
 ![](desire-lines.png)
 
-This work is funded through [Manaaki Whenua Landcare Research](https://www.landcareresearch.co.nz/){target="_blank"} and [Te Pūnaha Matatini](https://www.tepunahamatatini.ac.nz/){target="_blank"}.
+This work is funded through [Manaaki Whenua Landcare Research](https://www.landcareresearch.co.nz/) and [Te Pūnaha Matatini](https://www.tepunahamatatini.ac.nz/).

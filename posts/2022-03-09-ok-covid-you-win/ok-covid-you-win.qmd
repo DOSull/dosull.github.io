@@ -13,7 +13,7 @@ date: 03-09-2022
 
 ![](final-time-series.png)
 
-From some time in March 2020 for two years I downloaded the latest reported COVID data for New Zealand, added them to my spreadsheet of the various numbers, and updated a timeline I was keeping in _R_. The download process got a lot easier when I was introduced to [the data downloader at University of Auckland eResearch](https://github.com/UoA-eResearch/nz-covid19-data-auto/){target="_blank"}.
+From some time in March 2020 for two years I downloaded the latest reported COVID data for New Zealand, added them to my spreadsheet of the various numbers, and updated a timeline I was keeping in _R_. The download process got a lot easier when I was introduced to [the data downloader at University of Auckland eResearch](https://github.com/UoA-eResearch/nz-covid19-data-auto/).
 
 As you can see, by the time I stopped things had gone pretty badly off the rails, and even a log scale wasn't helping much.
 
