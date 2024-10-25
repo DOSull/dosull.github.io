@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/2024-10-17-duckdb/duckdb.html",
       "/posts/2024-10-16-geopackages/in-praise-of-the-geopackage.html",
       "/posts/2024-10-10-giscience-2025/giscience-2025.html",
       "/posts/2024-08-30-geocart-24/geocart-24.html",

@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="David O’Sullivan">
-<meta name="dcterms.date" content="2024-10-21">
-<meta name="description" content="Oh, never mind">
+<meta name="dcterms.date" content="2024-10-25">
+<meta name="description" content="The joy of DuckDB">
 
-<title>Geospatial Stuff - If it walks like a duck… and quacks like a duck…</title>
+<title>Geospatial Stuff - Insert duck-related joke here</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -138,10 +172,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">If it walks like a duck… and quacks like a duck…</h1>
+      <h1 class="title">Insert duck-related joke here</h1>
                   <div>
         <div class="description">
-          Oh, never mind
+          The joy of DuckDB
         </div>
       </div>
                           <div class="quarto-categories">
@@ -166,7 +200,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">October 21, 2024</p>
+        <p class="date">October 25, 2024</p>
       </div>
     </div>
     
@@ -182,11 +216,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#some-background" id="toc-some-background" class="nav-link active" data-scroll-target="#some-background">Some background</a>
-  <ul class="collapse">
-  <li><a href="#the-specific-problem-110-million-rows" id="toc-the-specific-problem-110-million-rows" class="nav-link" data-scroll-target="#the-specific-problem-110-million-rows">The specific problem: 110 million rows</a></li>
-  </ul></li>
-  <li><a href="#installing-duckdb" id="toc-installing-duckdb" class="nav-link" data-scroll-target="#installing-duckdb">Installing duckdb</a></li>
+  <li><a href="#some-background" id="toc-some-background" class="nav-link active" data-scroll-target="#some-background">Some background</a></li>
+  <li><a href="#wait-what-110-million-rows" id="toc-wait-what-110-million-rows" class="nav-link" data-scroll-target="#wait-what-110-million-rows">Wait, what? 110 million rows?!</a></li>
+  <li><a href="#enter-duckdb" id="toc-enter-duckdb" class="nav-link" data-scroll-target="#enter-duckdb">Enter DuckDB</a></li>
+  <li><a href="#duckdb-in-r" id="toc-duckdb-in-r" class="nav-link" data-scroll-target="#duckdb-in-r">DuckDB in R</a></li>
   </ul>
 </nav>
     </div>
@@ -197,20 +230,114 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>So just recently I finally got around to putting some properly big data into an actual database and OMG! For the kind of situation I was in, I can’t recommend giving this a try enough.</p>
+<p>Just recently as part of <a href="../../portfolio/05-jev.html">this project</a> I finally got around to putting some properly big data into an actual database and OMG! For the kind of situation I was in, I can’t recommend giving this a try enough.</p>
 <section id="some-background" class="level2">
 <h2 class="anchored" data-anchor-id="some-background">Some background</h2>
-<section id="the-specific-problem-110-million-rows" class="level3">
-<h3 class="anchored" data-anchor-id="the-specific-problem-110-million-rows">The specific problem: 110 million rows</h3>
+<p>The project in question as one component involves developing or at least exploring building <a href="https://en.wikipedia.org/wiki/Species_distribution_modelling">:species distribution models</a> for a large number of the bird species present in Aotearoa New Zealand. To that end we’ve obtained the latest <a href="https://ebird.org">eBird</a> data collected for the <a href="https://ebird.org/atlasnz/explore">New Zealand Bird Atlas</a>. This is a phenomenal resource which includes the accumulated observations of thousands of citizen science volunteers, accumulated over several years.</p>
+<p>The raw <code>.txt</code> file containing the observational data is a chunky 2.8GB with 7 million rows of data. Seven million rows isn’t so bad, right? Right, it really isn’t that bad. There is even an R package (of course there is), cheekily called <a href="https://github.com/CornellLabofOrnithology/auk/"><code>auk</code></a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, for massaging the raw data down to the data you actually want.</p>
+<p>In my case relevant data pertain only to the NZ Bird Atlas effort, and to <em>complete</em> checklists as only these provide the <em>absence</em> data required for occupancy modelling. The complexity of the data makes running <code>auk</code> to filter the raw data down slow, but it’s a one-time-only operation, so that’s OK, and now I have a 3.7 million row table, and we’re in business, no need to worry about setting anything up.</p>
+<p>The problem comes when I have to blow those 3.7 million rows back up again for occupancy modelling to 110 million rows.</p>
 </section>
+<section id="wait-what-110-million-rows" class="level2">
+<h2 class="anchored" data-anchor-id="wait-what-110-million-rows">Wait, what? 110 million rows?!</h2>
+<p>Yes, 110 million rows.</p>
+<p>How it works is that each species (a little over 300) requires an entry in each complete checklist (around 360,000 of these) recording whether that species was observed (present) or not (absent) in that checklist. That results in 110 million row table. You can keep the two tables separate but then you have to keep joining them every time you go to use them. And if you save the 110 million table to disk it takes up around 8GB, and also takes a noticeable length of time to open and close for analysis in R.</p>
+<p>It was about this time that I thought I should consider my options.</p>
 </section>
-<section id="installing-duckdb" class="level2">
-<h2 class="anchored" data-anchor-id="installing-duckdb">Installing duckdb</h2>
+<section id="enter-duckdb" class="level2">
+<h2 class="anchored" data-anchor-id="enter-duckdb">Enter DuckDB</h2>
+<p><a href="https://duckdb.org/">DuckDB</a> is a columnar database that you can drive using <a href="">SQL</a>, which is also very easy to install. It’s particularly easy to install because the R and Python APIs come bundled with the database itself. So, if you don’t want to, you don’t even have to install it, your platform of choice will do that for you.</p>
+<p>Anyway, if you do install it, which I did, so I could poke it around a little before going further, then to start it up from the command line type</p>
+<pre><code>% duckdb</code></pre>
+<p>And if you want to create a new database in the folder you are running from then it’s</p>
+<pre><code>% duckdb my-new-database.db</code></pre>
+<p>The file extension is optional. Once in the session you can stash an existing file in the database as a table with the command (D is the DuckDB prompt)</p>
+<pre><code>D CREATE TABLE letters AS FROM 'letters.csv';
+D SELECT * FROM letters;
+┌─────────┬───────┬─────────┐
+│ column0 │  id   │ letter  │
+│  int64  │ int64 │ varchar │
+├─────────┼───────┼─────────┤
+│       1 │     1 │ a       │
+│       2 │     2 │ b       │
+│       3 │     3 │ c       │
+│       4 │     4 │ d       │
+│       5 │     5 │ e       │
+│       6 │     6 │ f       │
+│       7 │     7 │ g       │
+│       8 │     8 │ h       │
+│       9 │     9 │ i       │
+│      10 │    10 │ j       │
+├─────────┴───────┴─────────┤
+│ 10 rows         3 columns │
+└───────────────────────────┘
+D </code></pre>
+<p>Satisfied it was this easy, I typed <code>.exit</code> to shut DuckDB down and moved on to consider how to use DuckDB from R. I should mention at this point that I’ve bounced off <a href="https://www.postgresql.org/">PostgreSQL</a> a couple of times in the past when considering using it in classroom situations because it’s just not as easy to get into as this.</p>
+</section>
+<section id="duckdb-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="duckdb-in-r">DuckDB in R</h2>
+<p>The R package you need is <code>duckdb</code>, so</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"duckdb"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(duckdb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and you are ready to go (no other installation of DuckDB required).</p>
+<p>Now if you have a giant dataframe called say <code>my_giant_df</code>, that you need to deal with, open a connection to a new database (or an existing one if you’ve been here before) with</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">duckdb</span>(), <span class="st">"my-giant-dataframe.db"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and write your dataframe into it with</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(con, <span class="st">"giant_df"</span>, my_giant_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If that’s all you plan on doing then you should shut down the connection</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con, <span class="at">shutdown =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When I did this I was agreeably surprised to find that my 8GB file had shrunk down to a mere 750MB.</p>
+<p>But there’s more. The reason I went down this route at all is that I generally only want to work with the data for one bird species at a time — data which come in handy packets of only 360,000 rows or so. Here’s how that works in practice. First open a connection to the database</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">duckdb</span>(), <span class="at">dbdir =</span> <span class="fu">str_glue</span>(<span class="st">"the-birds.db"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The database has a table called <code>observations</code> containing the aforementioned 110 million rows. Each row includes among other things the <code>common_name</code> of a bird. We can get a vector containing those using</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>common_names <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT DISTINCT common_name FROM observations"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(common_name) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can iterate over each species by doing</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (common_name <span class="cf">in</span> common_names) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  sql_name <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(common_name, <span class="st">"'"</span>, <span class="st">"''"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  query <span class="ot">&lt;-</span> <span class="fu">str_glue</span>(<span class="fu">str_glue</span>(<span class="st">"SELECT * FROM observations WHERE common_name = '{sql_name}'"</span>))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  this_bird_df <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, query)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># do stuff with this_bird_df</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The only wrinkles here, for those paying attention are using <code>str_glue</code> from the <code>stringr</code> package to form the SQL query I need, and related to that a <code>str_replace_all</code> to double up any single-quotes that happen to appear in those common names <code>'</code> so that they can be passed into the SQL query.</p>
+<p>In general you query the database using <code>dbGetQuery(&amp;lt;connection&amp;gt;, &amp;lt;SQL&amp;gt;)</code> and you can execute a command with <code>dbExecute(con, &amp;lt;command&amp;gt;)</code>.</p>
+<p>Of course, you have to know a bit of SQL, but for this kind of simple (local) data warehousing, there’s nothing you are likely to need that a quick <del>google</del> DuckDuckGo search won’t unearth.</p>
+<p>This approach enabled me to iterate over all 300 species in the data and assemble a ‘mini-atlas’ of <code>ggplot</code> maps of each bird’s range in under a minute, which is about how long it was previously taking R just to open the 8GB CSV file. Not to mention that the giant data table is never in working memory, only the chunks I need one at a time.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="atlas-snapshot.png" class="img-fluid figure-img"></p>
+<figcaption>Yes, <em>of course</em>, Mallard is there for a reason</figcaption>
+</figure>
+</div>
+<p>It’s safe to say, I’ll using DuckDB a lot in many projects to come.</p>
 
 
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>A very nerdy deep cut from the <a href="https://www.birds.cornell.edu/home/">Cornell Ornithology Lab</a>. Respect.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
