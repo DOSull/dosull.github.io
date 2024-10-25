@@ -11,6 +11,8 @@ categories:
 execute: 
   cache: true
   freeze: auto
+filters:
+  - nutshell
 knitr:
   opts_chunk: 
     warning: false
