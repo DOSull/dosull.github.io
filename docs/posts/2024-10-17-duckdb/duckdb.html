@@ -8,9 +8,9 @@
 
 <meta name="author" content="David O’Sullivan">
 <meta name="dcterms.date" content="2024-10-25">
-<meta name="description" content="The joy of DuckDB">
+<meta name="description" content="Insert duck-related joke here">
 
-<title>Geospatial Stuff - Insert duck-related joke here</title>
+<title>Geospatial Stuff - The joy of DuckDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -172,10 +172,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Insert duck-related joke here</h1>
+      <h1 class="title">The joy of DuckDB</h1>
                   <div>
         <div class="description">
-          The joy of DuckDB
+          Insert duck-related joke here
         </div>
       </div>
                           <div class="quarto-categories">
@@ -319,14 +319,14 @@ D </code></pre>
 <p>The only wrinkles here, for those paying attention are using <code>str_glue</code> from the <code>stringr</code> package to form the SQL query I need, and related to that a <code>str_replace_all</code> to double up any single-quotes that happen to appear in those common names <code>'</code> so that they can be passed into the SQL query.</p>
 <p>In general you query the database using <code>dbGetQuery(&amp;lt;connection&amp;gt;, &amp;lt;SQL&amp;gt;)</code> and you can execute a command with <code>dbExecute(con, &amp;lt;command&amp;gt;)</code>.</p>
 <p>Of course, you have to know a bit of SQL, but for this kind of simple (local) data warehousing, there’s nothing you are likely to need that a quick <del>google</del> DuckDuckGo search won’t unearth.</p>
-<p>This approach enabled me to iterate over all 300 species in the data and assemble a ‘mini-atlas’ of <code>ggplot</code> maps of each bird’s range in under a minute, which is about how long it was previously taking R just to open the 8GB CSV file. Not to mention that the giant data table is never in working memory, only the chunks I need one at a time.</p>
+<p>This approach enabled me to iterate over all 300 species in the data and assemble a ‘mini-atlas’ of <code>ggplot</code> maps of each bird’s range in under a minute (snippet below), which is about how long it was previously taking R just to open the 8GB CSV file. Not to mention that the giant data table is never in working memory, only the chunks I need one at a time.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="atlas-snapshot.png" class="img-fluid figure-img"></p>
 <figcaption>Yes, <em>of course</em>, Mallard is there for a reason</figcaption>
 </figure>
 </div>
-<p>It’s safe to say, I’ll using DuckDB a lot in many projects to come.</p>
+<p>It’s safe to say, I’ll be using DuckDB a lot in many projects to come. There seem to be some wrinkles in relation to handling spatial data, specifically from R’s <code>sf</code> package but <a href="https://cboettig.github.io/duckdbfs/index.html">there’s a package for that</a>,<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and it’s nothing to get too alarmed about.</p>
 
 
 </section>
@@ -336,6 +336,7 @@ D </code></pre>
 
 <ol>
 <li id="fn1"><p>A very nerdy deep cut from the <a href="https://www.birds.cornell.edu/home/">Cornell Ornithology Lab</a>. Respect.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>‘We have a package for that’ should be R’s tagline.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

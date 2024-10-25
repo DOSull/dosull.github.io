@@ -1,6 +1,6 @@
 ---
-title: "Insert duck-related joke here"
-description: "The joy of DuckDB"
+title: "The joy of DuckDB"
+description: "Insert duck-related joke here"
 author: "David O'Sullivan"
 toc: true
 categories:
@@ -148,8 +148,8 @@ In general you query the database using `dbGetQuery(&lt;connection&gt;, &lt;SQL&
 
 Of course, you have to know a bit of SQL, but for this kind of simple (local) data warehousing, there's nothing you are likely to need that a quick ~~google~~ DuckDuckGo search won't unearth.
 
-This approach enabled me to iterate over all 300 species in the data and assemble a 'mini-atlas' of `ggplot` maps of each bird's range in under a minute, which is about how long it was previously taking R just to open the 8GB CSV file. Not to mention that the giant data table is never in working memory, only the chunks I need one at a time.
+This approach enabled me to iterate over all 300 species in the data and assemble a 'mini-atlas' of `ggplot` maps of each bird's range in under a minute (snippet below), which is about how long it was previously taking R just to open the 8GB CSV file. Not to mention that the giant data table is never in working memory, only the chunks I need one at a time.
 
 ![Yes, _of course_, Mallard is there for a reason](atlas-snapshot.png)
 
-It's safe to say, I'll using DuckDB a lot in many projects to come.
+It's safe to say, I'll be using DuckDB a lot in many projects to come. There seem to be some wrinkles in relation to handling spatial data, specifically from R's `sf` package but [there's a package for that](https://cboettig.github.io/duckdbfs/index.html),^['We have a package for that' should be R's tagline.] and it's nothing to get too alarmed about.
