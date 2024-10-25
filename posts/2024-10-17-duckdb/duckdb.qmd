@@ -37,7 +37,7 @@ How it works is that each species (a little over 300) requires an entry in each 
 It was about this time that I thought I should consider my options.
 
 ## Enter DuckDB
-[DuckDB](https://duckdb.org/) is a columnar database that you can drive using [SQL](), which is also very easy to install. It's particularly easy to install because the R and Python APIs come bundled with the database itself. So, if you don't want to, you don't even have to install it, your platform of choice will do that for you.
+[DuckDB](https://duckdb.org/) is a columnar database that you can drive using [:SQL](https://en.wikipedia.org/wiki/SQL), which is also very easy to install. It's particularly easy to install because the R and Python APIs come bundled with the database itself. So, if you don't want to, you don't even have to install it, your platform of choice will do that for you.
 
 Anyway, if you do install it, which I did, so I could poke it around a little before going further, then to start it up from the command line type
 
@@ -51,7 +51,7 @@ And if you want to create a new database in the folder you are running from then
 % duckdb my-new-database.db
 ```
 
-The file extension is optional. Once in the session you can stash an existing file in the database as a table with the command (D is the DuckDB prompt)
+The file extension is optional. Once in the session you can stash an existing file in the database as a table with the command (`D` is the DuckDB command line prompt)
 
 ```
 D CREATE TABLE letters AS FROM 'letters.csv';

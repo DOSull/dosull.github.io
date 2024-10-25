@@ -246,12 +246,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="enter-duckdb" class="level2">
 <h2 class="anchored" data-anchor-id="enter-duckdb">Enter DuckDB</h2>
-<p><a href="https://duckdb.org/">DuckDB</a> is a columnar database that you can drive using <a href="">SQL</a>, which is also very easy to install. It’s particularly easy to install because the R and Python APIs come bundled with the database itself. So, if you don’t want to, you don’t even have to install it, your platform of choice will do that for you.</p>
+<p><a href="https://duckdb.org/">DuckDB</a> is a columnar database that you can drive using <a href="https://en.wikipedia.org/wiki/SQL">:SQL</a>, which is also very easy to install. It’s particularly easy to install because the R and Python APIs come bundled with the database itself. So, if you don’t want to, you don’t even have to install it, your platform of choice will do that for you.</p>
 <p>Anyway, if you do install it, which I did, so I could poke it around a little before going further, then to start it up from the command line type</p>
 <pre><code>% duckdb</code></pre>
 <p>And if you want to create a new database in the folder you are running from then it’s</p>
 <pre><code>% duckdb my-new-database.db</code></pre>
-<p>The file extension is optional. Once in the session you can stash an existing file in the database as a table with the command (D is the DuckDB prompt)</p>
+<p>The file extension is optional. Once in the session you can stash an existing file in the database as a table with the command (<code>D</code> is the DuckDB command line prompt)</p>
 <pre><code>D CREATE TABLE letters AS FROM 'letters.csv';
 D SELECT * FROM letters;
 ┌─────────┬───────┬─────────┐
