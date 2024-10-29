@@ -248,14 +248,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="enter-duckdb" class="level2">
 <h2 class="anchored" data-anchor-id="enter-duckdb">Enter DuckDB</h2>
-<p><a href="https://duckdb.org/">DuckDB</a> is a columnar database that you can drive using <a href="https://en.wikipedia.org/wiki/SQL">:SQL</a>, which is also very easy to install. It’s particularly easy to install because the R and Python APIs come bundled with the database itself. So, if you don’t want to, you don’t even have to install it, your platform of choice will do that for you.</p>
+<p><a href="https://duckdb.org/">DuckDB</a> is an easy to install columnar database that you can drive using <a href="https://en.wikipedia.org/wiki/SQL">:SQL</a>. It’s particularly easy to install because the R and Python APIs come bundled with the database itself. So, if you don’t want to, you don’t even have to install it, your platform of choice will do that for you.</p>
 <p>Anyway, if you do install it, which I did, so I could poke it around a little before going further, then to start it up from the command line type</p>
 <pre><code>% duckdb</code></pre>
 <p>And if you want to create a new database in the folder you are running from then it’s</p>
 <pre><code>% duckdb my-new-database.db</code></pre>
-<p>The file extension is optional. Once in the session you can stash an existing file in the database as a table with the command (<code>D</code> is the DuckDB command line prompt)</p>
-<pre><code>D CREATE TABLE letters AS FROM 'letters.csv';
-D SELECT * FROM letters;
+<p>The file extension is optional. Once in the session you can stash an existing CSV file in the database as a table with the command (<code>D</code> is the DuckDB command line prompt):</p>
+<pre><code>D CREATE TABLE letters AS FROM 'letters.csv';</code></pre>
+<p>and to see the results of your handiwork:</p>
+<pre><code>D SELECT * FROM letters;
 ┌─────────┬───────┬─────────┐
 │ column0 │  id   │ letter  │
 │  int64  │ int64 │ varchar │
@@ -280,45 +281,45 @@ D </code></pre>
 <h2 class="anchored" data-anchor-id="duckdb-in-r">DuckDB in R</h2>
 <p>The R package you need is <code>duckdb</code>, so</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"duckdb"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(duckdb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"duckdb"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(duckdb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and you are ready to go (no other installation of DuckDB required).</p>
 <p>Now if you have a giant dataframe called say <code>my_giant_df</code>, that you need to deal with, open a connection to a new database (or an existing one if you’ve been here before) with</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">duckdb</span>(), <span class="st">"my-giant-dataframe.db"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">duckdb</span>(), <span class="st">"my-giant-dataframe.db"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>and write your dataframe into it with</p>
+<p>and write your dataframe into it as a table called <code>giant_df</code> with</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(con, <span class="st">"giant_df"</span>, my_giant_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(con, <span class="st">"giant_df"</span>, my_giant_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If that’s all you plan on doing then you should shut down the connection</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con, <span class="at">shutdown =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con, <span class="at">shutdown =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When I did this I was agreeably surprised to find that my 8GB file had shrunk down to a mere 750MB.</p>
 <p>But there’s more. The reason I went down this route at all is that I generally only want to work with the data for one bird species at a time — data which come in handy packets of only 360,000 rows or so. Here’s how that works in practice. First open a connection to the database</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">duckdb</span>(), <span class="at">dbdir =</span> <span class="fu">str_glue</span>(<span class="st">"the-birds.db"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">duckdb</span>(), <span class="at">dbdir =</span> <span class="fu">str_glue</span>(<span class="st">"the-birds.db"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The database has a table called <code>observations</code> containing the aforementioned 110 million rows. Each row includes among other things the <code>common_name</code> of a bird. We can get a vector containing those using</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>common_names <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT DISTINCT common_name FROM observations"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(common_name) <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>common_names <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT DISTINCT common_name FROM observations"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(common_name) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can iterate over each species by doing</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (common_name <span class="cf">in</span> common_names) {</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  sql_name <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(common_name, <span class="st">"'"</span>, <span class="st">"''"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  query <span class="ot">&lt;-</span> <span class="fu">str_glue</span>(<span class="fu">str_glue</span>(<span class="st">"SELECT * FROM observations WHERE common_name = '{sql_name}'"</span>))</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  this_bird_df <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, query)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># do stuff with this_bird_df</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (common_name <span class="cf">in</span> common_names) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  sql_name <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(common_name, <span class="st">"'"</span>, <span class="st">"''"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  query <span class="ot">&lt;-</span> <span class="fu">str_glue</span>(<span class="fu">str_glue</span>(<span class="st">"SELECT * FROM observations WHERE common_name = '{sql_name}'"</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  this_bird_df <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, query)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># do stuff with this_bird_df</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The only wrinkles here, for those paying attention are using <code>str_glue</code> from the <code>stringr</code> package to form the SQL query I need, and related to that a <code>str_replace_all</code> to double up any single-quotes that happen to appear in those common names <code>'</code> so that they can be passed into the SQL query.</p>
+<p>The only wrinkles here, for those paying attention, are using <code>str_glue</code> from the <code>stringr</code> package to form the SQL query I need, and related to that a <code>str_replace_all</code> to double up any single-quotes <code>'</code> that happen to appear in those common names to <code>''</code> so that they can be passed into an SQL query.</p>
 <p>In general you query the database using <code>dbGetQuery(&amp;lt;connection&amp;gt;, &amp;lt;SQL&amp;gt;)</code> and you can execute a command with <code>dbExecute(con, &amp;lt;command&amp;gt;)</code>.</p>
 <p>Of course, you have to know a bit of SQL, but for this kind of simple (local) data warehousing, there’s nothing you are likely to need that a quick <del>google</del> DuckDuckGo search won’t unearth.</p>
 <p>This approach enabled me to iterate over all 300 species in the data and assemble a ‘mini-atlas’ of <code>ggplot</code> maps of each bird’s range in under a minute (snippet below), which is about how long it was previously taking R just to open the 8GB CSV file. Not to mention that the giant data table is never in working memory, only the chunks I need one at a time.</p>

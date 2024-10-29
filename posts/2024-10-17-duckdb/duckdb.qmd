@@ -39,7 +39,7 @@ How it works is that each species (a little over 300) requires an entry in each 
 It was about this time that I thought I should consider my options.
 
 ## Enter DuckDB
-[DuckDB](https://duckdb.org/) is a columnar database that you can drive using [:SQL](https://en.wikipedia.org/wiki/SQL), which is also very easy to install. It's particularly easy to install because the R and Python APIs come bundled with the database itself. So, if you don't want to, you don't even have to install it, your platform of choice will do that for you.
+[DuckDB](https://duckdb.org/) is an easy to install columnar database that you can drive using [:SQL](https://en.wikipedia.org/wiki/SQL). It's particularly easy to install because the R and Python APIs come bundled with the database itself. So, if you don't want to, you don't even have to install it, your platform of choice will do that for you.
 
 Anyway, if you do install it, which I did, so I could poke it around a little before going further, then to start it up from the command line type
 
@@ -53,10 +53,15 @@ And if you want to create a new database in the folder you are running from then
 % duckdb my-new-database.db
 ```
 
-The file extension is optional. Once in the session you can stash an existing file in the database as a table with the command (`D` is the DuckDB command line prompt)
+The file extension is optional. Once in the session you can stash an existing CSV file in the database as a table with the command (`D` is the DuckDB command line prompt):
 
 ```
 D CREATE TABLE letters AS FROM 'letters.csv';
+```
+
+and to see the results of your handiwork:
+
+```
 D SELECT * FROM letters;
 ┌─────────┬───────┬─────────┐
 │ column0 │  id   │ letter  │
@@ -98,7 +103,7 @@ Now if you have a giant dataframe called say `my_giant_df`, that you need to dea
 con <- dbConnect(duckdb(), "my-giant-dataframe.db")
 ```
 
-and write your dataframe into it with
+and write your dataframe into it as a table called `giant_df` with
 
 ```{r}
 #| eval: false
@@ -144,7 +149,7 @@ for (common_name in common_names) {
 }
 ```
 
-The only wrinkles here, for those paying attention are using `str_glue` from the `stringr` package to form the SQL query I need, and related to that a `str_replace_all` to double up any single-quotes that happen to appear in those common names `'` so that they can be passed into the SQL query.
+The only wrinkles here, for those paying attention, are using `str_glue` from the `stringr` package to form the SQL query I need, and related to that a `str_replace_all` to double up any single-quotes `'` that happen to appear in those common names to `''` so that they can be passed into an SQL query.
 
 In general you query the database using `dbGetQuery(&lt;connection&gt;, &lt;SQL&gt;)` and you can execute a command with `dbExecute(con, &lt;command&gt;)`.
 
