@@ -12,13 +12,13 @@ categories:
 date: 09-23-2021
 ---
 
-::: {style="text-align:center;"}
-[Go to the map](https://dosull.github.io/dulux-colours-map/maps/){target="_blank" style="font-family:sans-serif; background-color:#396; color:#cec; padding:10px; box-shadow: 5px 5px 5px #666; border-radius:5px;"}
-:::
-
 [Dulux have had a range of colours named for places in New Zealand](https://www.dulux.co.nz/colour/colours-of-new-zealand/) for several years now. Clearly this is an opportunity for mapping too good to be missed. You can thank me later.
 
 ![](dulux-colour-map.png)
+
+::: {style="text-align:center;"}
+[Go to the map](https://dosull.github.io/dulux-colours-map/maps/){.button-link target="_blank"}
+:::
 
 I gave a [presentation about how this map was made using _R_ to a Maptime! Wellington audience](https://dosull.github.io/dulux-colours-map/slides/maptime-slides.html), and it takes you through the code in enough detail to require no further explanation from this post!
 

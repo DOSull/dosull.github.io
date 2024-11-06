@@ -96,3 +96,13 @@ img.navbar-logo {
 .navbar-brand {
     background-color: rgba(0, 0, 0, 0);
 }
+
+a.button-link {
+    font-family:sans-serif; 
+    background-color:#396; 
+    color:#cec; 
+    padding:10px; 
+    box-shadow: 5px 5px 5px #666; 
+    border-radius:5px; 
+    text-decoration: none;
+}

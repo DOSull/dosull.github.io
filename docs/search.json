@@ -284,7 +284,7 @@
     "href": "posts/2021-10-30-locations-of-interest/locations-of-interest.html",
     "title": "Locations of interest in 2021 delta outbreak",
     "section": "",
-    "text": "Go to the viewer\n\nFor a time, during the August 2021 COVID outbreak that started in Auckland but eventually led to the end of New Zealand’s attempt to stop COVID completely, I continuously updated the above kepler.gl animated map of ‘locations of interest’. Kepler.gl is a nice tool which I’d recommend for making quick visualizations like this.\n\nThere was something oddly compelling about the mundane details of the reported locations of interest.\nLike most of the country I got pretty fed up doing it in the end, so I stopped… for whatever it’s worth, looking at the timeline on the visualization the delta outbreak did get reigned in eventually, but it it was pretty clear that the mood of the country had changed and lockdowns weren’t going to stick for much longer.\n\n\n\n\nGeospatial Stuff"
+    "text": "For a time, during the August 2021 COVID outbreak that started in Auckland but eventually led to the end of New Zealand’s attempt to stop COVID completely, I continuously updated the above kepler.gl animated map of ‘locations of interest’. Kepler.gl is a nice tool which I’d recommend for making quick visualizations like this.\n\nThere was something oddly compelling about the mundane details of the reported locations of interest.\n\nGo to the viewer\n\nLike most of the country I got pretty fed up doing it in the end, so I stopped… for whatever it’s worth, looking at the timeline on the visualization the delta outbreak did get reigned in eventually, but it it was pretty clear that the mood of the country had changed and lockdowns weren’t going to stick for much longer.\n\n\n\n\nGeospatial Stuff"
   },
   {
     "objectID": "posts/2024-08-15-netlogo-utils/netlogo-utils.html",
@@ -389,7 +389,7 @@
     "href": "posts/2021-09-23-dulux-colours-map/dulux-colours-map.html",
     "title": "Mapping the Dulux colours",
     "section": "",
-    "text": "Go to the map\n\nDulux have had a range of colours named for places in New Zealand for several years now. Clearly this is an opportunity for mapping too good to be missed. You can thank me later.\n\nI gave a presentation about how this map was made using R to a Maptime! Wellington audience, and it takes you through the code in enough detail to require no further explanation from this post!\n\n\n\n\nGeospatial Stuff"
+    "text": "Dulux have had a range of colours named for places in New Zealand for several years now. Clearly this is an opportunity for mapping too good to be missed. You can thank me later.\n\n\nGo to the map\n\nI gave a presentation about how this map was made using R to a Maptime! Wellington audience, and it takes you through the code in enough detail to require no further explanation from this post!\n\n\n\n\nGeospatial Stuff"
   },
   {
     "objectID": "posts/2021-10-21-kde/kde.html",
@@ -466,7 +466,7 @@
     "href": "posts/2020-07-22-nz-commute-viewer/nz-commute-viewer.html",
     "title": "Aotearoa New Zealand commutes viewer",
     "section": "",
-    "text": "Go to the viewer\n\nI somehow convinced myself in the break between two exhausting semesters in 2020 (yes, that year) to enter Stats NZ’s There and back again visualization competition.\nI learned a lot about a bunch of things along the way, but probably needed to take a step back and learn more about web development frameworks, as there is altogether too much handcrafted javascript in there. Nevertheless, I had fun and I am reasonably happy with the end result. Also… it still works over four years later, which might not be true if I’d used something smarter than vanilla JS.\nHere’s a screenshot for anyone not curious enough to click on the link.\n\nNo, I didn’t win the competition. That was this entry by Jono Cooper.\n\n\n\n\nGeospatial Stuff"
+    "text": "I somehow convinced myself in the break between two exhausting semesters in 2020 (yes, that year) to enter Stats NZ’s There and back again visualization competition.\nI learned a lot about a bunch of things along the way, but probably needed to take a step back and learn more about web development frameworks, as there is altogether too much handcrafted javascript in there. Nevertheless, I had fun and I am reasonably happy with the end result. Also… it still works over four years later, which might not be true if I’d used something smarter than vanilla JS.\n\nGo to the viewer\n\nHere’s a screenshot for anyone not curious enough to click on the link.\n\nNo, I didn’t win the competition. That was this entry by Jono Cooper.\n\n\n\n\nGeospatial Stuff"
   },
   {
     "objectID": "posts/2022-08-03-spiral-folds/spiral-folds.html",
