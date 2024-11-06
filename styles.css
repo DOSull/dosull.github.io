@@ -89,4 +89,8 @@ a.footnote-ref {
 
 a.quarto-grid-link {
     border-style: none;
-}   
+}
+
+.navbar-logo {
+    max-height: 80px;
+}

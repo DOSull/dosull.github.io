@@ -265,7 +265,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>nz <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Reading layer `vector' from data source 
+<pre><code>Reading layer `nz' from data source 
   `/Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg' 
   using driver `GPKG'
 Simple feature collection with 1 feature and 1 field
@@ -282,7 +282,7 @@ Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 <pre><code>Driver: GPKG 
 Available layers:
   layer_name geometry_type features fields
-1     vector Multi Polygon        1      1
+1         nz Multi Polygon        1      1
                                          crs_name
 1 NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 </div>
@@ -304,7 +304,7 @@ Writing 1 features with 1 fields and geometry type Multi Polygon.</code></pre>
 <pre><code>Driver: GPKG 
 Available layers:
   layer_name geometry_type features fields
-1     vector Multi Polygon        1      1
+1         nz Multi Polygon        1      1
 2      coast Multi Polygon        1      1
                                          crs_name
 1 NZGD2000 / New Zealand Transverse Mercator 2000
@@ -315,7 +315,7 @@ Available layers:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_read</span>(<span class="st">"nz.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Multiple layers are present in data source /Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg, reading layer `vector'.
+<pre><code>Multiple layers are present in data source /Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg, reading layer `nz'.
 Use `st_layers' to list all layer names and their type in a data source.
 Set the `layer' argument in `st_read' to read a particular layer.</code></pre>
 </div>
@@ -325,7 +325,7 @@ automatically selected the first layer in a data source containing more than
 one.</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Reading layer `vector' from data source 
+<pre><code>Reading layer `nz' from data source 
   `/Users/david/Documents/code/dosull.github.io/posts/2024-10-16-geopackages/nz.gpkg' 
   using driver `GPKG'
 Simple feature collection with 1 feature and 1 field
@@ -868,7 +868,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","descPosition":"bottom","loop":false,"closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false,"openEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
