@@ -6,6 +6,9 @@
 
 body {
     font-family: 'Roboto Condensed', 'Arial Narrow', sans-serif;
+    -webkit-hyphens: auto;
+       -moz-hyphens: auto;
+            hyphens: auto;
 }
 
 p {
@@ -13,63 +16,67 @@ p {
     font-weight: 400;
 }
 
+.page-footer {
+    font-family: 'Roboto Condensed', 'Arial Narrow', sans-serif;
+    font-weight: 300;
+    text-shadow: 0px 0px 5px white, 0px 0px 5px white;
+}
+
 b {
     font-weight: 700;
 }
 
 h2, h3, h4, h5, h6 {
+    letter-spacing: -0.5px;
     text-transform: none;
+}
+
+a {
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(0,0,0,0.5);
+    text-decoration: none;
 }
 
 a:link, .external:link {
     color: inherit;
-    /* border-style: solid;
-    border-width: 1px;
-    border-color: rgba(0,0,0,0.5); */
 }
 
 a:visited, .external:visited {
     color: inherit;
-    /* border-style: solid;
-    border-width: 1px;
-    border-color: rgba(255,255,255,0.5); */
 }
 
 a:hover, .external:hover {
     color: firebrick;
     background-color: rgba(255,255,255,0.1);
-    /* border-style: solid;
-    border-width: 1px;
-    border-color: inherit; */
 }
 
 a:active, .external:active {
     color: red;
     background-color: rgba(255,0,0,0.1);
-    /* border-style: solid;
-    border-width: 1px;
-    border-color: rgba(255,255,255,0.5); */
 } 
 
 a.nav-link {
     color: inherit;
     border-style: none;
-    text-decoration: none;
 }
 
 a.navbar-brand {
     color: inherit;
     padding: 10px;
     border-style: none;
-    text-decoration: none;
 }
 
 a.footnote-ref {
     border-style: none;
 }
 
+.unboxed-link {
+    border-style: none;
+}
+
 .navbar {
-    background-color: #222;
+    background-color: #333;
 }
 
 .quarto-title-block {
@@ -79,3 +86,7 @@ a.footnote-ref {
 .quarto-title-banner {
     background-color: #111;
 }
+
+a.quarto-grid-link {
+    border-style: none;
+}   

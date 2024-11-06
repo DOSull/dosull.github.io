@@ -5,6 +5,7 @@ project:
 website:
   title: "Geospatial Stuff"
   navbar:
+    logo: /images/gs-logo.png
     right:
       - text: "Portfolio"
         file: portfolio.qmd
@@ -24,6 +25,11 @@ website:
       #   file: index.qmd
       - icon: github
         href: https://github.com/DOSull
+  favicon: /images/gs-logo.png
+  body-footer: |
+    <p class="page-footer"><a href="/" class="unboxed-link"><img src="/images/gs-logo.png" style="height:36px; vertical-align:-11px; padding-right:1px;">Geospatial Stuff</a></p>
+    
+
 format:
   html:
     theme: lux
@@ -31,6 +37,4 @@ format:
     link-external-icon: true
     link-external-newwindow: true
     link-external-filter: '^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|dosull|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|github\.com\/DOSull|patternandprocess\.org|computinggeographically\.org)'
-
-
 
