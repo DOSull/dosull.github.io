@@ -324,7 +324,7 @@ D </code></pre>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The only wrinkles here, for those paying attention, are using <code>str_glue</code> from the <code>stringr</code> package to form the SQL query I need, and related to that a <code>str_replace_all</code> to double up any single-quotes <code>'</code> that happen to appear in those common names to <code>''</code> so that they can be passed into an SQL query.</p>
-<p>In general you query the database using <code>dbGetQuery(&amp;lt;connection&amp;gt;, &amp;lt;SQL&amp;gt;)</code> and you can execute a command with <code>dbExecute(con, &amp;lt;command&amp;gt;)</code>.</p>
+<p>In general you query the database using <code>dbGetQuery(&lt;connection&gt;, &lt;SQL&gt;)</code> and you can execute a command with <code>dbExecute(con, &lt;command&gt;)</code>.</p>
 <p>Of course, you have to know a bit of SQL, but for this kind of simple (local) data warehousing, there’s nothing you are likely to need that a quick <del>google</del> DuckDuckGo search won’t unearth.</p>
 <p>This approach enabled me to iterate over all 300 species in the data and assemble a ‘mini-atlas’ of <code>ggplot</code> maps of each bird’s range in under a minute (snippet below), which is about how long it was previously taking R just to open the 8GB CSV file. Not to mention that the giant data table is never in working memory, only the chunks I need one at a time.</p>
 <div class="quarto-figure quarto-figure-center">

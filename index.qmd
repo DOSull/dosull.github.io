@@ -14,7 +14,7 @@ This is **Geospatial Stuff** where I offer expertise in data analytics and visua
 :::: {.columns style="position:relative; top:-20px;"}
 ::: {.column style="text-align:justify; padding:0px 15px 0px 0px;"}
 ### Commmunicating stuff
-I have written [three books](books.html) and ['many research articles](publications.html). I have presented complex ideas to diverse audiences for 20+ years: see my [presentations](presentations.html), or [these slides](https://dosull.github.io/Spatial-Data-Science/site/docs/). Based on my decades of teaching experience [I offer training](training.qmd) to help organisations join up their data analytics and GIS teams using modern geospatial tools.
+I have written [three books](books.html) and [many research articles](publications.html). I have presented complex ideas to diverse audiences for 20+ years: see my [presentations](presentations.html), or [these slides](https://dosull.github.io/Spatial-Data-Science/site/docs/). Based on my decades of teaching experience [I offer training](training.qmd) to help organisations join up their data analytics and GIS teams using modern geospatial tools.
 :::
 
 ::: {.column style="text-align:justify; padding:0px 0px 0px 15px;"}

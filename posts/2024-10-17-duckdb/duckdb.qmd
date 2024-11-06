@@ -151,7 +151,7 @@ for (common_name in common_names) {
 
 The only wrinkles here, for those paying attention, are using `str_glue` from the `stringr` package to form the SQL query I need, and related to that a `str_replace_all` to double up any single-quotes `'` that happen to appear in those common names to `''` so that they can be passed into an SQL query.
 
-In general you query the database using `dbGetQuery(&lt;connection&gt;, &lt;SQL&gt;)` and you can execute a command with `dbExecute(con, &lt;command&gt;)`.
+In general you query the database using `dbGetQuery(<connection>, <SQL>)` and you can execute a command with `dbExecute(con, <command>)`.
 
 Of course, you have to know a bit of SQL, but for this kind of simple (local) data warehousing, there's nothing you are likely to need that a quick ~~google~~ DuckDuckGo search won't unearth.
 
