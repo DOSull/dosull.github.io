@@ -26,7 +26,7 @@ b {
     font-weight: 700;
 }
 
-h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.5px;
 }
 
@@ -89,5 +89,6 @@ a.quarto-grid-link {
 }
 
 .navbar-logo {
-    max-height: 80px;
+    max-height: 60px;
+    padding: 0px;
 }
