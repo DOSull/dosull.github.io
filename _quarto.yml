@@ -5,7 +5,7 @@ project:
 website:
   title: "Geospatial Stuff"
   navbar:
-    logo: /images/gs-logo.png
+    logo: /images/gs-logo-corrected.png
     right:
       - text: "Portfolio"
         file: portfolio.qmd
@@ -25,9 +25,9 @@ website:
       #   file: index.qmd
       - icon: github
         href: https://github.com/DOSull
-  favicon: /images/gs-logo.png
+  favicon: /images/gs-log-corrected.png
   body-footer: |
-    <a href="/"><img src="/images/gs-logo.png" style="height:36px;" alt="Geospatial Stuff"></a>
+    <a href="/"><img src="/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a>
     
 
 format:
