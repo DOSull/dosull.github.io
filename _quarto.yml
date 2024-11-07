@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Geospatial Stuff"
+  title: Geospatial <br>Stuff
   navbar:
     logo: /images/gs-logo-corrected.png
     right:

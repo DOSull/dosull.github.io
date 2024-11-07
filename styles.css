@@ -96,6 +96,10 @@ img.navbar-logo {
     overflow: visible;
 }
 
+.navbar-brand {
+    line-height: 90%;
+}
+
 a.button-link {
     font-family:sans-serif; 
     background-color:#396; 
