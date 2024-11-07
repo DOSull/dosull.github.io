@@ -27,7 +27,7 @@ b {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    letter-spacing: -0.5px;
+    letter-spacing: 0em;
 }
 
 a {
@@ -90,6 +90,10 @@ a.quarto-grid-link {
 
 img.navbar-logo {
     max-height: 40px;
+}
+
+.navbar-brand {
+    overflow: visible;
 }
 
 a.button-link {
