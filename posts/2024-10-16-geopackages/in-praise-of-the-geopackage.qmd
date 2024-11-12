@@ -93,7 +93,7 @@ it will be fine, and you'll end up with an additional layer in the target GeoPac
 You can also manage the component layers of GeoPackages in QGIS's [**Browser**]{style="font-family:sans-serif;"} panel.
 
 ### Other platforms are available
-I should note that similar to R, the Python [`geopandas` module](https://geopandas.org/en/stable/index.html) in its [`GeoDataframe.to_file()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_file.html), [`geopandas.read_file()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.read_file.html), and [`geopandas.list_layers()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.list_layers.html#geopandas.list_layers) methods offers the same functionality as discussed above.
+I should note that similar to R, the Python [`geopandas`](https://geopandas.org/en/stable/index.html) module in its [`read_file()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.read_file.html), and [`list_layers()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.list_layers.html#geopandas.list_layers) functions and its GeoDataframe's [`to_file()`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_file.html) method offers the same functionality as discussed above.
 
 ## Many formats
 So if you can put many different layers in a GeoPackage, can you mix vector and raster datasets in there too?
