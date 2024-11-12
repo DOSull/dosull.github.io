@@ -110,3 +110,7 @@ a.button-link {
     border-radius:5px; 
     text-decoration: none;
 }
+
+.nav-link {
+    text-align: left;
+}
