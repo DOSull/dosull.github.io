@@ -33,7 +33,7 @@ I've tended to shy away from packaging multiple datasets in GeoPackages as suppo
 
 Now that I am less beholden to not confusing beginners where 'one file = one layer' is a useful rule to live by, I've started to look more closely at what's going on here. It still has the potential to confuse &mdash; especially in QGIS's right-click [**Export &rarr; Save Features As...**]{style="font-family:sans-serif;"} &mdash; but there is untapped potential here for making life easier when it comes to sharing bundles of related data with a minimum of fuss.
 
-I'll explain using my goto tool for general data wrangling, R's [`sf` package](https://r-spatial.github.io/sf/).
+I'll explain using my go to tool for general data wrangling, R's [`sf` package](https://r-spatial.github.io/sf/).
 
 ### Multi-layer geopackages in R
 Assuming you have a locally stored simple GeoPackage `nz.gpkg`, you read it using:
@@ -145,7 +145,7 @@ It's worth noting that the QGIS [**Browser**]{style="font-family:sans-serif;"} p
 Overall, I've been aware that I can bundle raster and vector layers in GeoPackages like this but haven't used the capability. In part because I've only just figured out how to do it using the R tools(!), but mostly because I prefer to keep raster data in GeoTIFFs and vector data in GeoPackages so I can tell which is which at a glance.
 
 ## So, are GeoPackages perfect?
-Of course not. There's an argument to be made that every format that perpertuates the simple features paradigm is a bad as every other. I even wrote [a book](https://computinggeographically.org) that is &mdash; kind of &mdash; all about this. It's one of the mysteries of the evolution of geospatial that topology was embedded in the 'standard' formats, until it wasn't. For what it's worth, I think we have relational databases to blame for that.
+Of course not. There's an argument to be made that every format that perpetuates the simple features paradigm is a bad as every other. I even wrote [a book](https://computinggeographically.org) that is &mdash; kind of &mdash; all about this. It's one of the mysteries of the evolution of geospatial that topology was embedded in the 'standard' formats, until it wasn't. For what it's worth, I think we have relational databases to blame for that.
 
 GeoPackages don't get us out of [floating point geometry hell](../2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.qmd) either.
 

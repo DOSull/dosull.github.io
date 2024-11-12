@@ -257,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="many-layers">Many layers</h2>
 <p>I’ve tended to shy away from packaging multiple datasets in GeoPackages as support for this feature has at times been uncertain and confusing.</p>
 <p>Now that I am less beholden to not confusing beginners where ‘one file = one layer’ is a useful rule to live by, I’ve started to look more closely at what’s going on here. It still has the potential to confuse — especially in QGIS’s right-click <span style="font-family:sans-serif;"><strong>Export → Save Features As…</strong></span> — but there is untapped potential here for making life easier when it comes to sharing bundles of related data with a minimum of fuss.</p>
-<p>I’ll explain using my goto tool for general data wrangling, R’s <a href="https://r-spatial.github.io/sf/"><code>sf</code> package</a>.</p>
+<p>I’ll explain using my go to tool for general data wrangling, R’s <a href="https://r-spatial.github.io/sf/"><code>sf</code> package</a>.</p>
 <section id="multi-layer-geopackages-in-r" class="level3">
 <h3 class="anchored" data-anchor-id="multi-layer-geopackages-in-r">Multi-layer geopackages in R</h3>
 <p>Assuming you have a locally stored simple GeoPackage <code>nz.gpkg</code>, you read it using:</p>
@@ -439,7 +439,7 @@ name        : Height </code></pre>
 </section>
 <section id="so-are-geopackages-perfect" class="level2">
 <h2 class="anchored" data-anchor-id="so-are-geopackages-perfect">So, are GeoPackages perfect?</h2>
-<p>Of course not. There’s an argument to be made that every format that perpertuates the simple features paradigm is a bad as every other. I even wrote <a href="https://computinggeographically.org">a book</a> that is — kind of — all about this. It’s one of the mysteries of the evolution of geospatial that topology was embedded in the ‘standard’ formats, until it wasn’t. For what it’s worth, I think we have relational databases to blame for that.</p>
+<p>Of course not. There’s an argument to be made that every format that perpetuates the simple features paradigm is a bad as every other. I even wrote <a href="https://computinggeographically.org">a book</a> that is — kind of — all about this. It’s one of the mysteries of the evolution of geospatial that topology was embedded in the ‘standard’ formats, until it wasn’t. For what it’s worth, I think we have relational databases to blame for that.</p>
 <p>GeoPackages don’t get us out of <a href="../../posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.html">floating point geometry hell</a> either.</p>
 <p>There are also better formats for particular applications. <a href="https://geojson.org/">GeoJSON</a> is web-native in a way that GeoPackages never will be, and newer formats such as <a href="https://flatgeobuf.org/">FlatGeoBuf</a> and <a href="https://geoparquet.org/">GeoParquet</a>, and more recent approaches like <a href="https://en.wikipedia.org/wiki/Discrete_global_grid">Discrete Global Grids</a> certainly have their place.</p>
 <p>But in a world still dominated by relational DBMS, a geospatial format that is basically a wrapper around SQLite tables was almost certain to emerge eventually, and GeoPackages are that format. They’re vastly preferable to shapefiles, and it’s good to see them slowly (more quickly would be better) replacing them.</p>
@@ -866,7 +866,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":false,"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","loop":false,"descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
