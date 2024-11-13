@@ -25,6 +25,8 @@ website:
       #   file: index.qmd
       - icon: github
         href: https://github.com/DOSull
+      - icon: linkedin
+        href: https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/
   favicon: /images/gs-logo-corrected.png
   body-footer: |
     <a href="/"><img src="/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a>
