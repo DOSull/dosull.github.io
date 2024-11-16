@@ -22,9 +22,9 @@ knitr:
 date: 11-16-2024
 ---
 
-I've just spent much of a not-especially pleasant Saturday (weather-wise, I mean) tidying up some loose ends on [the website for my book _Computing Geographically_](https://dosull.github.io/computing-geographically/). In particular, I've been updating the R code snippets that make many of the figures. I started out intending to update the [`tmap` version 3](https://cran.r-project.org/web/packages/tmap/index.html) code to [version 4](https://github.com/r-tmap/tmap), since the latter is now recommended by the developer. It has, for example, been adopted in the latest edition of the excellent [_Geocomputation with R_](https://r.geocompx.org/).
+I've just spent much of a not-especially-pleasant Saturday (weather-wise, I mean) tidying up some loose ends on [the website for my book _Computing Geographically_](https://dosull.github.io/computing-geographically/). In particular, I've been updating the R code snippets that make many of the figures. I started out intending to update the [`tmap` version 3](https://cran.r-project.org/web/packages/tmap/index.html) code to [version 4](https://github.com/r-tmap/tmap), since the latter is now recommended by the developer. It has, for example, been adopted in the latest edition of the excellent [_Geocomputation with R_](https://r.geocompx.org/).
 
-A little way into the process, I realised that since I did last year's [30 Day Map Challenge](https://30daymapchallenge.com/) (you can see my efforts [here](https://dosull.github.io/30-day-maps-2023/)) I tend to use `ggplot2` a lot more for my everyday quick mapping needs than I do `tmap`. That's in spite of having taught `tmap` for several years, a choice I made largely because its learning curve is less steep than `ggplot2`'s. Anyway, long story short, migrating the code on my book website from `tmap` 3 to 4 turned into more of a mixed bag: migrating some code to `tmap` 4, and some to `ggplot2`.
+A little way into the process, I realised that since I did last year's [30 Day Map Challenge](https://30daymapchallenge.com/) (you can see my efforts [here](https://dosull.github.io/30-day-maps-2023/)) I use `ggplot2` a lot more for my everyday mapping needs than I do `tmap`. That's in spite of having taught `tmap` for several years, a choice I made because its learning curve is less steep than `ggplot2`'s. Anyway, long story short, migrating the code on my book website from `tmap` 3 to 4 turned into more of a mixed bag: migrating some code to `tmap` 4, and some to `ggplot2`.
 
 In this post I aim to discuss some things to consider if you are choosing which of these two excellent packages (that's important: they are _both_ excellent packages) to use in various situations.  
 
@@ -45,12 +45,12 @@ library(dplyr)
 
 I'm not going to delve into the details of the differences between these packages. For that, you will have to explore the extensive online resources available for both. The best places to start are hard to pick. Maybe [here for `tmap`](https://r.geocompx.org/adv-map) and [here for geospatial stuff in `ggplot2`](https://ggplot2.tidyverse.org/reference/ggsf.html). Just be aware that `tmap` is undergoing a major upheaval in the transition to version 4 and while older code should still work, you'll see a lot of warnings. Meanwhile, `ggplot2` has a habit of changing things without preserving backwards compatibility, so it's advisable to be wary of anything more than 3 or 4 years old especially when it comes to the details.
 
-Instead of details, I want to look at four broad categories of output that tend to demonstrate the advantages of a package (i.e., `tmap`) specifically designed for mapping over a more general purpose visualization tool, which nevertheless holds it own. Those four things are [choropleth maps](#choropleth-maps-tmaps-killer-app), [raster data](#raster-data-tmaps-other-killer-app), [web maps](#web-maps-tmaps-oth...-ok-this-is-just-getting-silly), and ['map junk'](#map-junk-whatever) (north arrows and the like).
+Instead of details, I want to look at four broad categories of output that speak to the advantages of a package specifically designed for mapping over a more general purpose visualization tool, which nevertheless holds it own. Those four things are [choropleth maps](#choropleth-maps-tmaps-killer-app), [raster data](#raster-data-tmaps-other-killer-app), [web maps](#web-maps-tmaps-oth...-ok-this-is-just-getting-silly), and ['map junk'](#map-junk-whatever) (north arrows and the like).
 
 ### Choropleth maps: `tmap`'s killer app
 Making 'proper' choropleth maps in `ggplot2` is no fun at all. See my [Day 13 experience in the 2023 30 Day Map Challenge](https://dosull.github.io/30-day-maps-2023/maps/13-choropleth.html). The difficulty is that the central tenet of classified choropleth mapping is controlling how you relate data to colour fills. It's not that `ggplot2` won't allow you fine control over this aspect of your choropleth map, it's just that it _really_, _really_ wants you to map your data linearly, and continuously to a colour ramp. That's a reasonable design decision for a general scientific visualization tool. It's just not what cartographers do in choropleth mapping.
 
-To illustrate, here's an old stand-by dataset I often use: TB cases in Auckland in 2006 by Census Area Unit (remember those?):
+To illustrate, here's an old stand-by dataset I often use: TB cases in Auckland City in 2006 by Census Area Unit (remember those?):
 
 ```{r}
 ak <- st_read("ak-tb.gpkg")
@@ -82,7 +82,7 @@ ggplot() +
   coord_sf(datum = st_crs(ak))
 ```
 
-Note that I am using `cols4all` scales here, because this is the preferred colour palettes package for `tmap`, and it provides a very wide range of palettes. For casual mapping, we likely don't care about the grid, and we can get rid of that too using `theme_void()`:
+Note that I am using `cols4all` scales here, because this is the preferred colour palettes package for `tmap`, and it provides a wide array of options. For casual mapping, we likely don't care about the grid, and we can get rid of that too using `theme_void()`:
 
 ```{r}
 ggplot() +
@@ -161,7 +161,7 @@ ggplot() +
   theme_void()
 ```
 
-The above is the minimal `ggplot2` version of a quantile map I can come up with. If you want the nice class labels then you have to make those labels yourself and do more work on the legend. You can see an example of this in my [Day 13 map in the 2023 30 Day Map Challenge](https://dosull.github.io/30-day-maps-2023/maps/13-choropleth.html).
+The above is the minimal `ggplot2` version of a quantile map I can come up with. If you want the nice class labels then you have to make those labels yourself and do more work on the legend. You can see an example of this in my [Day 13 map in the 2023 30 Day Map Challenge](https://dosull.github.io/30-day-maps-2023/maps/13-choropleth.html#ggplot2).
 
 Overall, if you are making a lot of classified choropleth maps then `tmap` is your friend.
 
@@ -178,7 +178,18 @@ tm_shape(dem) +
     col.legend = tm_legend(title = "Elevation")) +
   tm_layout(legend.frame = FALSE)
 ```
-Nice! Note that the same `tm_scale_intervals()` function is used here to specify colours in this case as in the choropleth map case. We can also have a continuous colour ramp:
+Nice! Note that the same `tm_scale_intervals()` function is used here to specify colours in this case as in the choropleth map case. We can also have a continuous colour ramp, and layer on top a hillshade. First make the hillshade using some `terra` functions:
+
+```{r}
+slope <- dem |> terra::terrain("slope", 
+                               unit = "radians")
+aspect <- dem |> terra::terrain("aspect", 
+                                unit = "radians")
+hillshade <- terra::shade(slope, aspect, 
+                          angle = 35, direction = 135)
+```
+
+Then just add it as another layer also using the `col` aesthetic with a semi-transparent grey palette.
 
 ```{r}
 tm_shape(dem) + 
@@ -186,7 +197,13 @@ tm_shape(dem) +
     col = "dem",
     col.scale = tm_scale_continuous(values = "hcl.terrain2"),
     col.legend = tm_legend(title = "Elevation")) +
-  tm_layout(legend.frame = FALSE)
+  tm_shape(hillshade) +
+  tm_raster(
+    col = "hillshade",
+    col.scale = tm_scale_continuous(values = "brewer.greys"),
+    col_alpha = 0.35
+  ) +
+  tm_layout(legend.frame = FALSE, legend.show = FALSE)
 ```
 
 Nicer! If I have one issue here it's with using the parameter name `values` for the palette name, which takes a little bit of getting used to. The rationale rests on the notion of _visual variables_ the _values_ of which, in this context, are colours.
@@ -205,9 +222,9 @@ ggplot(dem_df) +
 
 You can probably tell I've done a fair bit of this kind of thing: I didn't just magic that `expand = FALSE` option and the `panel.border` thing out of nowhere.
 
-Anyway, while this approach is fine for a small raster, even here using the `x-y` dataframe equivalent to the raster has 35,000 or so rows, so this doesn't really scale particularly well. 
+Anyway, while this approach is fine for a small raster, even here using the `x-y` dataframe equivalent to the raster has 35,000 or so rows, so this doesn't scale well. 
 
-We haven't even got into the headaches involved if you want to layer something else on top of a raster dataset where you need to use the `fill` aesthetic again! Let's just say the [`ggnewscale` package](https://github.com/eliocamp/ggnewscale) is your friend.
+And we haven't even got into the headaches involved if you want to layer something else on top of a raster dataset where you need to use the `fill` aesthetic again, like say... a hillshade. Let's just say the [`ggnewscale` package](https://github.com/eliocamp/ggnewscale) is your friend. I leave that as an exercise for the reader...
 
 Again... I think it's clear that `tmap` is a better choice if you are making a lot of maps of raster data.
 
@@ -280,7 +297,7 @@ Needless to say, both `tmap` and `ggplot2` offer lots of flexibility for adding 
 All in all, this one is probably a tie, assuming you've installed `ggspatial`.
 
 ## Final thoughts
-In brief then:  tmap` is better at: 
+In brief then:  `tmap` is better at: 
 
 ::: {.my-list}
 &bull;&nbsp;classified choropleth maps;
