@@ -17,6 +17,17 @@ p {
     font-weight: 400;
 }
 
+.my-list {
+  font-family: inherit;
+  text-indent: -1em;
+  margin: 0em 4em -0em 2em;
+  line-height: 100%;
+}
+
+code {
+    background-color: rgba(248, 249, 250, 0.35);
+}
+
 .page-footer {
     font-family: 'Roboto Condensed', 'Arial Narrow', sans-serif;
     font-weight: 300;

@@ -6,7 +6,7 @@ toc: true
 categories:
   - geospatial
   - duckdb
-  - r
+  - R
   - tutorial
 execute: 
   cache: true
@@ -18,6 +18,7 @@ knitr:
     warning: false
     message: false
 date: 10-25-2024
+modified: 11-16-2024
 ---
 
 Just recently as part of [this project](../../portfolio/05-jev.qmd) I finally got around to putting some properly big data into an actual database and OMG! For the kind of situation I was in, I can't recommend giving this a try enough.
