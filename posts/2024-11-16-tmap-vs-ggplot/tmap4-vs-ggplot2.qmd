@@ -1,5 +1,5 @@
 ---
-title: "`tmap` vs. `ggplot2` for mapping"
+title: "tmap vs. ggplot2 for mapping"
 description: "I think I prefer..."
 author: "David O'Sullivan"
 toc: true
