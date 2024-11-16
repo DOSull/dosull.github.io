@@ -4,6 +4,9 @@ description: "I think I prefer..."
 author: "David O'Sullivan"
 toc: true
 lightbox: true
+code-annotations: hover
+filters:
+  - nutshell
 categories:
   - geospatial
   - R
@@ -22,13 +25,13 @@ knitr:
 date: 11-16-2024
 ---
 
-I've just spent much of a not-especially-pleasant Saturday (weather-wise, I mean) tidying up some loose ends on [the website for my book _Computing Geographically_](https://dosull.github.io/computing-geographically/). In particular, I've been updating the R code snippets that make many of the figures. I started out intending to update the [`tmap` version 3](https://cran.r-project.org/web/packages/tmap/index.html) code to [version 4](https://github.com/r-tmap/tmap), since the latter is now recommended by the developer. It has, for example, been adopted in the latest edition of the excellent [_Geocomputation with R_](https://r.geocompx.org/).
+I've just spent much of a not especially nice Saturday (weather-wise) tidying up some loose ends on [the _Computing Geographically_ website](https://dosull.github.io/computing-geographically/). In particular, I've been updating the R code snippets that make many of the figures. I started out intending to update the [`tmap` v3](https://cran.r-project.org/web/packages/tmap/index.html) code to [v4](https://github.com/r-tmap/tmap), since the latter is now recommended by the developer. It has, for example, been adopted in the latest edition of the excellent [_Geocomputation with R_](https://r.geocompx.org/).
 
-A little way into the process, I realised that since I did last year's [30 Day Map Challenge](https://30daymapchallenge.com/) (you can see my efforts [here](https://dosull.github.io/30-day-maps-2023/)) I use `ggplot2` a lot more for my everyday mapping needs than I do `tmap`. That's in spite of having taught `tmap` for several years, a choice I made because its learning curve is less steep than `ggplot2`'s. Anyway, long story short, migrating the code on my book website from `tmap` 3 to 4 turned into more of a mixed bag: migrating some code to `tmap` 4, and some to `ggplot2`.
+A little way into the process, I realised that since doing last year's [30 Day Map Challenge](https://30daymapchallenge.com/) (see my efforts [here](https://dosull.github.io/30-day-maps-2023/)) I use `ggplot2` a lot more for my everyday mapping work than I do `tmap`. That's in spite of having taught `tmap` for several years, a choice I made because its learning curve is less steep than `ggplot2`'s. Anyway, long story short, migrating the code on my book website from `tmap` v3 to v4 turned into more of a mixed bag: migrating some code to `tmap` v4, and some to `ggplot2`.
 
-In this post I aim to discuss some things to consider if you are choosing which of these two excellent packages (that's important: they are _both_ excellent packages) to use in various situations.  
+In this post I discuss some things to consider if you are choosing which of these two excellent packages&mdash;that's important: they are _both_ excellent packages&mdash;to use in various situations.  
 
-## Some differences between the two packages
+## Same only different
 ```{r}
 #| code-fold: true
 
@@ -43,14 +46,16 @@ library(ggspatial)
 library(dplyr)
 ```
 
-I'm not going to delve into the details of the differences between these packages. For that, you will have to explore the extensive online resources available for both. The best places to start are hard to pick. Maybe [here for `tmap`](https://r.geocompx.org/adv-map) and [here for geospatial stuff in `ggplot2`](https://ggplot2.tidyverse.org/reference/ggsf.html). Just be aware that `tmap` is undergoing a major upheaval in the transition to version 4 and while older code should still work, you'll see a lot of warnings. Meanwhile, `ggplot2` has a habit of changing things without preserving backwards compatibility, so it's advisable to be wary of anything more than 3 or 4 years old especially when it comes to the details.
+What the packages have in common is that they implement the idea of a [_grammar of graphics_](https://vita.had.co.nz/papers/layered-grammar.html) (hence `ggplot2`'s name) where we progressively add layers to a graphic, specifying for each layer how _data attributes_ are scaled to give _values_ of [:_visual variables_](https://en.wikipedia.org/wiki/Visual_variable) (colour, line width, line style, symbol size and so on). There's a graphic (in German) showing this idea [here](https://medium.com/tdebeus/think-about-the-grammar-of-graphics-when-improving-your-graphs-18e3744d8d18).
 
-Instead of details, I want to look at four broad categories of output that speak to the advantages of a package specifically designed for mapping over a more general purpose visualization tool, which nevertheless holds it own. Those four things are [choropleth maps](#choropleth-maps-tmaps-killer-app), [raster data](#raster-data-tmaps-other-killer-app), [web maps](#web-maps-tmaps-oth...-ok-this-is-just-getting-silly), and ['map junk'](#map-junk-whatever) (north arrows and the like).
+So the packages are similar at a high-level. However, I'm not going to delve into details of the differences between these packages. For that, you will should explore the extensive online resources available. The best places to start are hard to pick. Maybe [here for `tmap`](https://r.geocompx.org/adv-map) and [here for geospatial stuff in `ggplot2`](https://ggplot2.tidyverse.org/reference/ggsf.html). Just be aware that `tmap` is undergoing a major upheaval as it transitions to v4 and while older code should still work, you'll see a lot of warnings. Meanwhile, `ggplot2` has a habit of changing things without preserving backwards compatibility, so it's advisable to be wary of any code snippets more than 3 or 4 years old when you are looking for help.
+
+Rather than the details, I want to explore the packages 'in use' by looking at four broad aspects of mapping that speak to the advantages of a package specifically designed for mapping (`tmap`) over a more general purpose visualization tool (`ggplot2`), which nevertheless holds it own. Those four things are [choropleth maps](#choropleth-maps-tmaps-killer-app), [raster data](#raster-data-tmaps-other-killer-app), [web maps](#web-maps-tmaps-oth...-ok-this-is-just-getting-silly), and ['map junk'](#map-junk-whatever) (north arrows and the like).
 
 ### Choropleth maps: `tmap`'s killer app
-Making 'proper' choropleth maps in `ggplot2` is no fun at all. See my [Day 13 experience in the 2023 30 Day Map Challenge](https://dosull.github.io/30-day-maps-2023/maps/13-choropleth.html). The difficulty is that the central tenet of classified choropleth mapping is controlling how you relate data to colour fills. It's not that `ggplot2` won't allow you fine control over this aspect of your choropleth map, it's just that it _really_, _really_ wants you to map your data linearly, and continuously to a colour ramp. That's a reasonable design decision for a general scientific visualization tool. It's just not what cartographers do in choropleth mapping.
+Making 'proper' choropleth maps in `ggplot2` is no fun at all. See my [Day 13 experience in the 2023 30 Day Map Challenge](https://dosull.github.io/30-day-maps-2023/maps/13-choropleth.html#ggplot2). The difficulty is that the central tenet of classified choropleth mapping is controlling how you relate data to colour fills. It's not that `ggplot2` won't allow you fine control over this aspect of your choropleth map, it's just that it _really_, _really_ wants you to map your data linearly, and continuously to a colour ramp. That's a reasonable design decision for a general scientific visualization tool. It's just not what cartographers do in choropleth mapping.
 
-To illustrate, here's an old stand-by dataset I often use: TB cases in Auckland City in 2006 by Census Area Unit (remember those?):
+To illustrate, here's an old dataset I often use: TB cases in Auckland City in 2006 by Census Area Unit:
 
 ```{r}
 ak <- st_read("ak-tb.gpkg")
@@ -60,8 +65,9 @@ And here's the most basic `ggplot2` choropleth map of the `TB_RATE` variable (wh
 
 ```{r}
 ggplot() +
-  geom_sf(data = ak, aes(fill = TB_RATE))
+  geom_sf(data = ak, aes(fill = TB_RATE)) # <1>
 ```
+1. aes(fill = ...) specifies which variable maps to the colour fill
 
 A few things stand out here (to my eye at least):
 
@@ -70,7 +76,7 @@ A few things stand out here (to my eye at least):
 
 &bull;&nbsp;the default colour ramp goes from dark for low values to light for high values; and
 
-&bull;&nbsp;the default colour ramp is blue-to-black, which might be preferable to the default muddy orange-browns we've become accustomed to, but is an unusual choice for a map.
+&bull;&nbsp;the default colour ramp is black-to-blue, which might be preferable to the default muddy browns we've become accustomed to, but is an unusual choice for a map.
 :::
 
 Of course we can fix all these things:
@@ -78,31 +84,40 @@ Of course we can fix all these things:
 ```{r}
 ggplot() +
   geom_sf(data = ak, aes(fill = TB_RATE)) +
-  scale_fill_continuous_c4a_seq(palette = "brewer.reds") +
-  coord_sf(datum = st_crs(ak))
+  scale_fill_continuous_c4a_seq(
+    palette = "brewer.reds") + # <1> 
+  coord_sf(datum = st_crs(ak)) # <2>
 ```
+1. Use palette Brewer 'Reds'
+2. Use the coordinate system of the data for the grid
 
-Note that I am using `cols4all` scales here, because this is the preferred colour palettes package for `tmap`, and it provides a wide array of options. For casual mapping, we likely don't care about the grid, and we can get rid of that too using `theme_void()`:
+Note that I am using a `cols4all` scale, because this is the preferred colour palettes package for `tmap`, and provides a wide array of options. For casual mapping, we likely don't care about the grid, and we can get rid of that too using `theme_void()`:
 
 ```{r}
 ggplot() +
   geom_sf(data = ak, aes(fill = TB_RATE)) +
-  scale_fill_continuous_c4a_seq(palette = "brewer.reds") +
+  scale_fill_continuous_c4a_seq(
+    palette = "brewer.reds") +
   theme_void()
 ```
 
-Something like the above which is three lines of code after the introductory `ggplot()` call is probably what I use most of the time. And the map is fine, especially if it's temporary and a stepping stone on the way to some other analysis.
+Something like the above, which is three lines of code after the introductory `ggplot()` call, is what I use most of the time. And the map is good enough, especially if it's temporary and a stepping stone on the way to some other analysis.
 
-What does the same map look like in `tmap` 4?
+What does the same map look like in `tmap` v4?
 
 ```{r}
 tm_shape(ak) +
   tm_polygons(
-    fill = "TB_RATE",
-    fill.scale = tm_scale_continuous(values = "brewer.reds")) +
-  tm_layout(frame = FALSE, legend.frame = FALSE)
-
+    fill = "TB_RATE", # <1>
+    fill.scale = tm_scale_continuous(
+      values = "brewer.reds")) + # <2>
+  tm_layout(
+    frame = FALSE, 
+    legend.frame = FALSE)        # <3>
 ```
+1. Variable name for fill in quotes
+2. Brewer 'Reds' again
+3. Remove annoying frames around map and legend
 
 Essentially the same map, up to minor aesthetic details. These are easily tweaked in either package, so we won't worry about them too much here. 
 
@@ -119,47 +134,54 @@ m1 <- tm_shape(ak) +
 m2 <- tm_shape(ak) +
   tm_polygons(
     fill = "TB_RATE",
-    fill.scale = tm_scale_intervals(values = "brewer.reds", 
-                                    style = "equal", n = 6)) +
-  tm_layout(title = "Equal intervals", title.size = 0.8,
-            frame = FALSE, legend.frame = FALSE)
+    fill.scale = tm_scale_intervals(
+      values = "brewer.reds", style = "equal", n = 6)) +    # <1>
+  tm_layout(
+    title = "Equal intervals", title.size = 0.8,            # <2>
+    frame = FALSE, legend.frame = FALSE) 
 
 m3 <- tm_shape(ak) +
   tm_polygons(
     fill = "TB_RATE",
-    fill.scale = tm_scale_intervals(values = "brewer.reds", 
-                                    style = "quantile", n = 6)) +
-  tm_layout(title = "Quantiles", title.size = 0.8,
-            frame = FALSE, legend.frame = FALSE)
+    fill.scale = tm_scale_intervals(
+      values = "brewer.reds", style = "quantile", n = 6)) + # <3>
+  tm_layout(
+    title = "Quantiles", title.size = 0.8,
+    frame = FALSE, legend.frame = FALSE)
 
 m4 <- tm_shape(ak) +
   tm_polygons(
     fill = "TB_RATE",
-    fill.scale = tm_scale_intervals(values = "brewer.reds", 
-                                    style = "sd")) +
+    fill.scale = tm_scale_intervals(
+      values = "brewer.reds", style = "sd")) +              # <4>
   tm_layout(title = "Std. Dev.", title.size = 0.8,
             frame = FALSE, legend.frame = FALSE)
 
 tmap_arrange(m1, m2, m3, m4, ncol = 2)
 ```
+1. style = "equal" to get equal intervals
+2. add a title to show the classification style
+3. style = "quantile" for quantiles
+4. style = "sd" for standard deviation breaks
 
-Forget the minor issue with aligning these maps exactly, the point here is that these are all _classified_ choropleth maps, an established way to make maps like these easier to parse, or put another way, to make it easier to highlight the specific features of the data you want readers to see. 
+Forget the minor issue with aligning these maps exactly, the point here is that these are all _classified_ choropleth maps, with the classification method specified by the `style` parameter (more options are available than shown here). This is an established way to make choropleth colours easier to parse, or put another way, to make it easier to highlight the specific features of the data you want readers to focus on. 
 
 The magic here is that behind the scenes `tmap` is using the [`classInt` package](https://github.com/r-spatial/classInt/), and if we want to make similar maps in `ggplot2` we have to do that work ourselves: 
 
 ```{r}
 library(classInt)
 
-class_breaks <- classIntervals(ak$TB_RATE, 6, "quantile", digits = 1)
+class_breaks <- ak$TB_RATE |>
+  classIntervals(6, "quantile", digits = 1)
 brks <- round(class_breaks$brks, 1)
 
 ggplot() + 
   geom_sf(data = ak, aes(fill = TB_RATE)) +
-  scale_fill_binned_c4a_seq(
-    palette = "brewer.reds",
-    breaks = brks) +
+  scale_fill_binned_c4a_seq(                  # <1>
+    palette = "brewer.reds", breaks = brks) + 
   theme_void()
 ```
+1. Note the change to a binned scale, controlled by the breaks
 
 The above is the minimal `ggplot2` version of a quantile map I can come up with. If you want the nice class labels then you have to make those labels yourself and do more work on the legend. You can see an example of this in my [Day 13 map in the 2023 30 Day Map Challenge](https://dosull.github.io/30-day-maps-2023/maps/13-choropleth.html#ggplot2).
 
@@ -172,21 +194,20 @@ Overall, if you are making a lot of classified choropleth maps then `tmap` is yo
 dem <- rast("dem.tif")
 
 tm_shape(dem) + 
-  tm_raster(
+  tm_raster(      # <1>
     col = "dem",
     col.scale = tm_scale_intervals(values = "hcl.terrain2"),
     col.legend = tm_legend(title = "Elevation")) +
   tm_layout(legend.frame = FALSE)
 ```
-Nice! Note that the same `tm_scale_intervals()` function is used here to specify colours in this case as in the choropleth map case. We can also have a continuous colour ramp, and layer on top a hillshade. First make the hillshade using some `terra` functions:
+1. tm_raster 'announces' that the data are raster so that some visual variables might be interpreted differently, e.g. col is now the 'fill' whereas on a polygon layer it is the outline colour
+
+Nice! Note that the same `tm_scale_intervals()` function is used here to specify colours in this case as it was to specify fill colours in the choropleth map case. We can also have a continuous colour ramp, and layer on top a hillshade. First make the hillshade using some `terra` functions:
 
 ```{r}
-slope <- dem |> terra::terrain("slope", 
-                               unit = "radians")
-aspect <- dem |> terra::terrain("aspect", 
-                                unit = "radians")
-hillshade <- terra::shade(slope, aspect, 
-                          angle = 35, direction = 135)
+slope <- dem |> terrain("slope", unit = "radians")
+aspect <- dem |> terrain("aspect", unit = "radians")
+hillshade <- shade(slope, aspect, angle = 35, direction = 135)
 ```
 
 Then just add it as another layer also using the `col` aesthetic with a semi-transparent grey palette.
@@ -199,30 +220,37 @@ tm_shape(dem) +
     col.legend = tm_legend(title = "Elevation")) +
   tm_shape(hillshade) +
   tm_raster(
-    col = "hillshade",
+    col = "hillshade", # <1>
     col.scale = tm_scale_continuous(values = "brewer.greys"),
     col_alpha = 0.35
   ) +
-  tm_layout(legend.frame = FALSE, legend.show = FALSE)
+  tm_layout(
+    legend.frame = FALSE, legend.show = FALSE)
 ```
+1. tmap is OK about adding a second layer using the col visual variable
 
-Nicer! If I have one issue here it's with using the parameter name `values` for the palette name, which takes a little bit of getting used to. The rationale rests on the notion of _visual variables_ the _values_ of which, in this context, are colours.
+Nicer! If I have one issue here it's with using the parameter name `values` for the palette name, which takes a little bit of getting used to. Of course, the rationale for this is that the palette specifies where the colour visual variable is to get its _values_ which in this context, are colours.
 
 `ggplot2` doesn't really deal in rasters. We _can_ make similar maps pretty easily, by converting to an `x`, `y`, `attribute` dataframe:
 
 ```{r}
 dem_df <- dem |> as.data.frame(xy = TRUE)
 ggplot(dem_df) +
-  geom_raster(aes(x = x, y = y, fill = dem)) + 
-  scale_fill_continuous_c4a_seq(palette = "hcl.terrain2", name = "Elevation") +
-  coord_sf(expand = FALSE) +
+  geom_raster(aes(x = x, y = y, fill = dem)) +             # <1>
+  scale_fill_continuous_c4a_seq(
+    palette = "hcl.terrain2", name = "Elevation") +
+  coord_sf(expand = FALSE) +                               # <2>
   theme_void() +
-  theme(panel.border = element_rect(fill = NA, linewidth = 1))
+  theme(
+    panel.border = element_rect(fill = NA, linewidth = 1)) # <3>
 ```
+1. Note that for ggplot the colours are still a 'fill' here
+2. expand = FALSE prevents a margin around the data
+3. ggplot2's theming system has a lot going on...
 
 You can probably tell I've done a fair bit of this kind of thing: I didn't just magic that `expand = FALSE` option and the `panel.border` thing out of nowhere.
 
-Anyway, while this approach is fine for a small raster, even here using the `x-y` dataframe equivalent to the raster has 35,000 or so rows, so this doesn't scale well. 
+Anyway, while this approach is fine for a small raster like this one, even here the `x-y` dataframe equivalent to the raster has 35,000 or so rows, so this won't scale well. 
 
 And we haven't even got into the headaches involved if you want to layer something else on top of a raster dataset where you need to use the `fill` aesthetic again, like say... a hillshade. Let's just say the [`ggnewscale` package](https://github.com/eliocamp/ggnewscale) is your friend. I leave that as an exercise for the reader...
 
@@ -232,13 +260,14 @@ Again... I think it's clear that `tmap` is a better choice if you are making a l
 When it comes to web maps `ggplot2` doesn't even try. `tmap` on the other hand has its 'mode switch' option. Set the mode to `view` and you are making web maps!
 
 ```{r results=TRUE}
-tmap_mode("view")
+tmap_mode("view") # <1>
 tm_shape(ak) +
   tm_polygons(
     fill = "TB_RATE", 
     fill.scale = tm_scale_intervals(values = "brewer.reds"), 
     fill_alpha = 0.5)
 ```
+1. Now you're making web maps! Use tmap_mode("plot") to switch back
 
 &nbsp;
 
@@ -251,19 +280,21 @@ tm_shape(ak) +
     fill = "TB_RATE",
     fill.scale = tm_scale_intervals(values = "brewer.reds"),
     fill_alpha = 0.5) +
-  tm_basemap(server = "OpenStreetMap") +
+  tm_basemap(server = "OpenStreetMap") + # <1>
   tm_layout(frame = FALSE, legend.frame = FALSE)
 ```
+1. Adds a static web map as a basemap
 
-`ggplot2` can get the same effect using the `ggspatial::annotation_maptile()` function (you will also need to have the [`prettymapr` package](http://paleolimbot.github.io/prettymapr/) installed). We'll see more of `ggspatial` in the next section.
+`ggplot2` can get the same effect using the `ggspatial::annotation_maptile()` function (you will also need to have the [`prettymapr` package](http://paleolimbot.github.io/prettymapr/) installed).
 
 ```{r}
 ggplot() + 
-  annotation_map_tile(zoomin = 1) +
+  annotation_map_tile(zoomin = 1) + # <1>
   geom_sf(data = ak, aes(fill = TB_RATE), alpha = 0.5) +
   scale_fill_continuous_c4a_seq(palette = "brewer.reds") +
   theme_void()
 ```
+1. annotation_map_tile() is a function from ggspatial
 
 Overall though, another win for `tmap`.
 
@@ -286,11 +317,13 @@ To get the same things in `ggplot2` you need the [`ggspatial` package](https://p
 ggplot() +
   geom_sf(data = ak, aes(fill = TB_RATE)) +
   scale_fill_continuous_c4a_seq(palette = "brewer.reds") +
-  annotation_north_arrow(location = "br") +
-  annotation_scale(location = "bl") +
+  annotation_north_arrow(location = "br") + # <1>
+  annotation_scale(location = "bl") +       # <2>
   theme_void() + 
   theme(panel.border = element_rect(fill = NA))
 ```
+1. Another ggspatial function
+2. And another
 
 Needless to say, both `tmap` and `ggplot2` offer lots of flexibility for adding titles and subtitles and positioning all these elements around the map wherever you want them.
 
@@ -315,24 +348,22 @@ and about equal on
 &bull;&nbsp;map junk;
 :::
 
-The latter two assuming that you have installed `ggspatial`.
-
-The funny thing is, I still find myself using `ggplot2` more! For me the counterpoints to the above are:
+The latter two assuming that you have installed `ggspatial`. The funny thing is, I still find myself using `ggplot2` more! For me the counterpoints to the above are:
 
 ::: {.my-list}
 &bull;&nbsp;unclassified choropleths are often fine for a quick look-see at your data;
 
 &bull;&nbsp;I don't make many raster-based maps, and `ggplot2::geom_tile` is often good enough for my purposes;
 
-&bull;&nbsp;Where I previously used web maps in `tmap` to get an overview of my data, now I tend to use QGIS. If I _really_ need a web map, I will certainly use `tmap` (and this is an area where version 4 has made noticeable improvements); and
+&bull;&nbsp;Where I previously used web maps in `tmap` to get an overview of my data, now I tend to use QGIS. If I _really_ need a web map, I will certainly use `tmap`; and
 
-&bull;&nbsp;I am not a fan of map junk (that's why I call it junk). Don't get me wrong, I'll but a north arrow and scalebar on a map for someone who doesn't know the context, I just don't make many maps like that.
+&bull;&nbsp;I am not a fan of map junk (hence: junk). Don't get me wrong, I'll but a north arrow and scalebar on a map [if necessary](https://www.esri.com/arcgis-blog/products/arcgis-pro/mapping/put-a-north-arrow-on-it/), I just don't make many maps like that.
 :::
 
 If your mix of use-cases is different, especially if choropleth maps, raster data, and web maps loom larger in your world than they do in mine, then you might wind up making a different choice.
 
-I think the reason I end up gravitating to `ggplot2` is the entry point into a much wider visualization world that it provides. The idiom it has popularised, which `tmap` has reworked for mapping, of layering a series of _aesthetics_ each linking a data variable to a visual variable (the so-called _grammar of graphics_ hence `gg`) is more cleanly implemented in `ggplot2`, as you'd expect it to be. And the exact same semantics apply to [scatterplots, boxplots, violin plots, histograms, bar charts, and so on](https://ggplot2.tidyverse.org/reference/#layers). The `ggplot2` ecosystem is sprawling and extremely powerful, and making maps is just one small corner of it.
+I think the reason I end up gravitating to `ggplot2` is that it is the entry point into a much wider visualization world. The idiom it has popularised, which `tmap` has reworked for mapping, of layering a series of _aesthetics_ each linking a data variable to a visual variable (that so-called _grammar of graphics_) is more cleanly implemented in `ggplot2`, as you'd expect it to be. And the exact same semantics apply to [scatterplots, boxplots, violin plots, histograms, bar charts, and so on](https://ggplot2.tidyverse.org/reference/#layers). The `ggplot2` ecosystem is sprawling and extremely powerful, and making maps is just one small corner of it.
 
-As a result of that, I am always making charts using `ggplot(data) + geom_*()` and it feels very natural to make maps the same way.
+Because of that, I am always making charts using `ggplot(data) + geom_*()` and it feels very natural to make maps the same way.
 
-Having said that, for R coded maps that cover all the mapping bases, you should probably also get to grips with `tmap`. I use both of them regularly, even if I do use `ggplot2` a little _more_ regularly!
+Having said that, for R coded maps that cover all the mapping bases, you should probably also get to grips with `tmap`. I use both regularly, even if I do use `ggplot2` a little _more_ regularly!

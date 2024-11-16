@@ -14,13 +14,12 @@ body {
 p {
     font-family: Newsreader, 'Times New Roman', Times, serif;
     font-weight: 400;
-    text-align: justify;
 }
 
 .my-list {
   font-family: inherit;
   text-indent: -1em;
-  margin: 0em 4em -0em 2em;
+  margin: 0em 2em -0em 2em;
   line-height: 100%;
 }
 
