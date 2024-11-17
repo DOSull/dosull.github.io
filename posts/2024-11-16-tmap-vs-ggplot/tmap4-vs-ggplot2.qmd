@@ -67,7 +67,7 @@ And here's the most basic `ggplot2` choropleth map of the `TB_RATE` variable (wh
 ggplot() +
   geom_sf(data = ak, aes(fill = TB_RATE)) # <1>
 ```
-1. aes(fill = ...) specifies which variable maps to the colour fill
+1. `aes(fill = ...)` specifies which variable maps to the colour fill
 
 A few things stand out here (to my eye at least):
 
@@ -209,7 +209,8 @@ Nice! Note that the same `tm_scale_intervals()` function is used here to specify
 ```{r}
 slope <- dem |> terrain("slope", unit = "radians")
 aspect <- dem |> terrain("aspect", unit = "radians")
-hillshade <- shade(slope, aspect, angle = 35, direction = 135)
+hillshade <- shade(slope, aspect, 
+                   angle = 35, direction = 135)
 ```
 
 Then just add it as another layer also using the `col` aesthetic with a semi-transparent grey palette.

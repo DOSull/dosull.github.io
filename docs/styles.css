@@ -1,6 +1,4 @@
 /* css styles */
-/* @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,400&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
 
@@ -21,10 +19,6 @@ p {
   text-indent: -1em;
   margin: 0em 2em -0em 2em;
   line-height: 100%;
-}
-
-code {
-    background-color: rgba(248, 249, 250, 0.35);
 }
 
 .page-footer {
