@@ -321,18 +321,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> ak, <span class="fu">aes</span>(<span class="at">fill =</span> TB_RATE)) <span class="sc">+</span></span>
-<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous_c4a_seq</span>(</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"brewer.reds"</span>) <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">datum =</span> <span class="fu">st_crs</span>(ak))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous_c4a_seq</span>(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"brewer.reds"</span>) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">datum =</span> <span class="fu">st_crs</span>(ak))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="1">Use palette Brewer ‘Reds’</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="1"><code>scale_fill_continuous_c4a_seq()</code> is in the <a href="https://github.com/mtennekes/cols4all"><code>cols4all</code> package</a> which includes a very wide range of palettes</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="2">Use the coordinate system of the data for the grid</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="2">Use Brewer palette ‘Reds’</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="3">Get the coordinate system of the data using <code>st_crs()</code> and apply to the coordinate frame using <code>coord_sf()</code></span>
 </dd>
 </dl>
 </div>
@@ -401,23 +405,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
 <span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"TB_RATE"</span>,</span>
 <span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(<span class="at">values =</span> <span class="st">"brewer.reds"</span>)) <span class="sc">+</span></span>
-<span id="annotated-cell-7-5"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">title =</span> <span class="st">"Pretty"</span>, <span class="at">title.size =</span> <span class="fl">0.8</span>,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-5" class="code-annotation-target"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">title =</span> <span class="st">"Pretty"</span>, <span class="at">title.size =</span> <span class="fl">0.8</span>,</span>
 <span id="annotated-cell-7-6"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">frame =</span> <span class="cn">FALSE</span>, <span class="at">legend.frame =</span> <span class="cn">FALSE</span>)</span>
 <span id="annotated-cell-7-7"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-7-8"><a href="#annotated-cell-7-8" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(ak) <span class="sc">+</span></span>
 <span id="annotated-cell-7-9"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
 <span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"TB_RATE"</span>,</span>
 <span id="annotated-cell-7-11"><a href="#annotated-cell-7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-12" class="code-annotation-target"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="st">"brewer.reds"</span>, <span class="at">style =</span> <span class="st">"equal"</span>, <span class="at">n =</span> <span class="dv">6</span>)) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2">2</button><span id="annotated-cell-7-12" class="code-annotation-target"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="st">"brewer.reds"</span>, <span class="at">style =</span> <span class="st">"equal"</span>, <span class="at">n =</span> <span class="dv">6</span>)) <span class="sc">+</span></span>
 <span id="annotated-cell-7-13"><a href="#annotated-cell-7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2">2</button><span id="annotated-cell-7-14" class="code-annotation-target"><a href="#annotated-cell-7-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Equal intervals"</span>, <span class="at">title.size =</span> <span class="fl">0.8</span>,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3">3</button><span id="annotated-cell-7-14" class="code-annotation-target"><a href="#annotated-cell-7-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Equal intervals"</span>, <span class="at">title.size =</span> <span class="fl">0.8</span>,</span>
 <span id="annotated-cell-7-15"><a href="#annotated-cell-7-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">frame =</span> <span class="cn">FALSE</span>, <span class="at">legend.frame =</span> <span class="cn">FALSE</span>) </span>
 <span id="annotated-cell-7-16"><a href="#annotated-cell-7-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-7-17"><a href="#annotated-cell-7-17" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(ak) <span class="sc">+</span></span>
 <span id="annotated-cell-7-18"><a href="#annotated-cell-7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
 <span id="annotated-cell-7-19"><a href="#annotated-cell-7-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"TB_RATE"</span>,</span>
 <span id="annotated-cell-7-20"><a href="#annotated-cell-7-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3">3</button><span id="annotated-cell-7-21" class="code-annotation-target"><a href="#annotated-cell-7-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="st">"brewer.reds"</span>, <span class="at">style =</span> <span class="st">"quantile"</span>, <span class="at">n =</span> <span class="dv">6</span>)) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4">4</button><span id="annotated-cell-7-21" class="code-annotation-target"><a href="#annotated-cell-7-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="st">"brewer.reds"</span>, <span class="at">style =</span> <span class="st">"quantile"</span>, <span class="at">n =</span> <span class="dv">6</span>)) <span class="sc">+</span></span>
 <span id="annotated-cell-7-22"><a href="#annotated-cell-7-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
 <span id="annotated-cell-7-23"><a href="#annotated-cell-7-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Quantiles"</span>, <span class="at">title.size =</span> <span class="fl">0.8</span>,</span>
 <span id="annotated-cell-7-24"><a href="#annotated-cell-7-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">frame =</span> <span class="cn">FALSE</span>, <span class="at">legend.frame =</span> <span class="cn">FALSE</span>)</span>
@@ -426,7 +430,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="annotated-cell-7-27"><a href="#annotated-cell-7-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
 <span id="annotated-cell-7-28"><a href="#annotated-cell-7-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"TB_RATE"</span>,</span>
 <span id="annotated-cell-7-29"><a href="#annotated-cell-7-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4">4</button><span id="annotated-cell-7-30" class="code-annotation-target"><a href="#annotated-cell-7-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="st">"brewer.reds"</span>, <span class="at">style =</span> <span class="st">"sd"</span>)) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="5">5</button><span id="annotated-cell-7-30" class="code-annotation-target"><a href="#annotated-cell-7-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="st">"brewer.reds"</span>, <span class="at">style =</span> <span class="st">"sd"</span>)) <span class="sc">+</span></span>
 <span id="annotated-cell-7-31"><a href="#annotated-cell-7-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">title =</span> <span class="st">"Std. Dev."</span>, <span class="at">title.size =</span> <span class="fl">0.8</span>,</span>
 <span id="annotated-cell-7-32"><a href="#annotated-cell-7-32" aria-hidden="true" tabindex="-1"></a>            <span class="at">frame =</span> <span class="cn">FALSE</span>, <span class="at">legend.frame =</span> <span class="cn">FALSE</span>)</span>
 <span id="annotated-cell-7-33"><a href="#annotated-cell-7-33" aria-hidden="true" tabindex="-1"></a></span>
@@ -435,19 +439,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="12" data-code-annotation="1">style = “equal” to get equal intervals</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="5" data-code-annotation="1">The default classification style is <code>"pretty"</code>, i.e.&nbsp;human-friendly round numbers</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="14" data-code-annotation="2">add a title to show the classification style</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="12" data-code-annotation="2"><code>style = "equal"</code> to get equal intervals</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="21" data-code-annotation="3">style = “quantile” for quantiles</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="14" data-code-annotation="3">add a title to show the classification style</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="30" data-code-annotation="4">style = “sd” for standard deviation breaks</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="21" data-code-annotation="4"><code>style = "quantile"</code> for quantiles</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="30" data-code-annotation="5"><code>style = "sd"</code> for standard deviation breaks</span>
 </dd>
 </dl>
 </div>
@@ -508,7 +516,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-9" data-code-lines="4" data-code-annotation="1">tm_raster ‘announces’ that the data are raster so that some visual variables might be interpreted differently, e.g.&nbsp;col is now the ‘fill’ whereas on a polygon layer it is the outline colour</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="4" data-code-annotation="1"><code>tm_raster()</code> ‘announces’ that these data are raster so that some visual variables might be interpreted differently, e.g.&nbsp;<code>col</code> is now what <code>fill</code> is on a polygon layer, where <code>col</code> is interpreted as linework or outline colour</span>
 </dd>
 </dl>
 </div>
@@ -545,7 +553,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="8" data-code-annotation="1">tmap is OK about adding a second layer using the col visual variable</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="8" data-code-annotation="1"><code>tmap</code> is OK about adding a second layer using the <code>col</code> visual variable</span>
 </dd>
 </dl>
 </div>
@@ -573,15 +581,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-12" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-12" data-code-lines="3" data-code-annotation="1">Note that for ggplot the colours are still a ‘fill’ here</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="3" data-code-annotation="1">Note that for <code>ggplot2</code> the colours are still a <code>fill</code> here</span>
 </dd>
 <dt data-target-cell="annotated-cell-12" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-12" data-code-lines="6" data-code-annotation="2">expand = FALSE prevents a margin around the data</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="6" data-code-annotation="2"><code>expand = FALSE</code> prevents a margin around the data</span>
 </dd>
 <dt data-target-cell="annotated-cell-12" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-12" data-code-lines="9" data-code-annotation="3">ggplot2’s theming system has a lot going on…</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="9" data-code-annotation="3"><code>ggplot2</code>’s theming system has a lot going on…</span>
 </dd>
 </dl>
 </div>
@@ -612,7 +620,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="1" data-code-annotation="1">Now you’re making web maps! Use tmap_mode(“plot”) to switch back</span>
+<span data-code-cell="annotated-cell-13" data-code-lines="1" data-code-annotation="1">Now you’re making web maps! Use <code>tmap_mode("plot")</code> to switch back</span>
 </dd>
 </dl>
 </div>
@@ -660,7 +668,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-15" data-code-lines="2" data-code-annotation="1">annotation_map_tile() is a function from ggspatial</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="2" data-code-annotation="1"><code>annotation_map_tile()</code> is a function from <code>ggspatial</code></span>
 </dd>
 </dl>
 </div>
@@ -706,7 +714,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-17" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-17" data-code-lines="4" data-code-annotation="1">Another ggspatial function</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="4" data-code-annotation="1">Another <code>ggspatial</code> function</span>
 </dd>
 <dt data-target-cell="annotated-cell-17" data-target-annotation="2">2</dt>
 <dd>
@@ -1211,7 +1219,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":false,"closeEffect":"zoom","descPosition":"bottom","selector":".lightbox"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","loop":false,"descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
