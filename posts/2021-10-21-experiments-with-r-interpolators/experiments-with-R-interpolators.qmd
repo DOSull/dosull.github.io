@@ -15,6 +15,7 @@ knitr:
     warning: false
     message: false
 date: 10-21-2022
+date-modified: 11-21-2024
 ---
 
 ## Load libraries
@@ -60,7 +61,7 @@ It's possible to form this projection with a proj string, but it is not commonly
 We also want a set of points to project, and what better than a world map. Note that we can only project points, so this is points along world coastlines, not polygons.
 
 ```{r}
-pts <- read.csv("world_better.csv") %>%
+pts <- read.csv("world_better.csv") |>
   dplyr::select(lon, lat)
 
 # sanity check with a map
@@ -105,22 +106,22 @@ Now triangulate the empirical projection data points, and assemble a polygon fro
 
 ```{r}
 # make the cut region into a sf dataset
-emp_proj_sf <- emp_proj %>%
-  st_as_sf(coords = c("lon", "lat")) %>%
+emp_proj_sf <- emp_proj |>
+  st_as_sf(coords = c("lon", "lat")) |>
   st_set_crs(4326)
 
-triangles <- emp_proj_sf %>%
-  st_union() %>%
-  st_triangulate() %>%   # triangulation of empirical projection points
-  st_cast() %>%
+triangles <- emp_proj_sf |>
+  st_union() |>
+  st_triangulate() |>   # triangulation of empirical projection points
+  st_cast() |>
   st_as_sf() 
 
-cut_triangles <- triangles %>%
+cut_triangles <- triangles |>
   st_filter(cut_sf)
 
-cut_region_sf <- cut_triangles %>% 
-  st_filter(cut_sf) %>%
-  st_union() %>%       
+cut_region_sf <- cut_triangles |> 
+  st_filter(cut_sf) |>
+  st_union() |>       
   st_as_sf() 
 ```
 
@@ -137,10 +138,10 @@ ggplot(triangles) +
 Now we use `st_disjoint` to remove points in the data to project that are inside the cut region.
 
 ```{r}
-pts_to_project_sp <- pts %>%
-  st_as_sf(coords = c("lon", "lat")) %>%
-  st_set_crs(4326) %>%
-  st_filter(cut_region_sf, .predicate = st_disjoint) %>%
+pts_to_project_sp <- pts |>
+  st_as_sf(coords = c("lon", "lat")) |>
+  st_set_crs(4326) |>
+  st_filter(cut_region_sf, .predicate = st_disjoint) |>
   as("Spatial")
 ```
 
@@ -148,7 +149,7 @@ The last step converts the points to the `SpatialPointsDataFrame` format of the 
 
 ```{r}
 # we also need the empirical projection data in the sp format
-emp_proj_sp <- emp_proj_sf %>%
+emp_proj_sp <- emp_proj_sf |>
   as("Spatial")
 
 x <- akima::interpp(emp_proj_sp, z = c("x"), xo = pts_to_project_sp, linear = TRUE)

@@ -15,6 +15,7 @@ knitr:
     warning: false
     message: false
 date: 10-20-2021
+date-modified: 11-21-2024
 ---
 
 There isn't as much land near the poles, so how do you make uniform randomly distributed points in lat-lng coordinate space. Here's how!
@@ -61,10 +62,10 @@ ggplot(pts) +
 Use an equal-area projection to clearly see the problem geographically.
 
 ```{r}
-w <- ne_countries(returnclass = "sf") %>%
+w <- ne_countries(returnclass = "sf") |>
   st_transform("+proj=hammer")
 
-pts_sf <- pts %>%
+pts_sf <- pts |>
   st_as_sf(coords = 1:2, crs = 4326)
 
 ggplot(w) + 

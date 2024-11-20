@@ -312,11 +312,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>A few things stand out here (to my eye at least):</p>
-<div class="my-list">
-<p>•&nbsp;you get a graticule in latitude-longitude even if the data are in a projected coordinate system (to be clear, the map is in the projected coordinates);</p>
-<p>•&nbsp;the default colour ramp goes from dark for low values to light for high values; and</p>
-<p>•&nbsp;the default colour ramp is black-to-blue, which might be preferable to the default muddy browns we’ve become accustomed to, but is an unusual choice for a map.</p>
-</div>
+<ul>
+<li>you get a graticule in latitude-longitude even if the data are in a projected coordinate system (to be clear, the map is in the projected coordinates);</li>
+<li>the default colour ramp goes from dark for low values to light for high values; and</li>
+<li>the default colour ramp is black-to-blue, which might be preferable to the default muddy browns we’ve become accustomed to, but is an unusual choice for a map.</li>
+</ul>
 <p>Of course we can fix all these things:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -738,23 +738,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="final-thoughts" class="level2">
 <h2 class="anchored" data-anchor-id="final-thoughts">Final thoughts</h2>
 <p>In brief then: <code>tmap</code> is better at:</p>
-<div class="my-list">
-<p>•&nbsp;classified choropleth maps;</p>
-<p>•&nbsp;dealing with geospatial rasters; and</p>
-<p>•&nbsp;web maps,</p>
-</div>
+<ul>
+<li>classified choropleth maps;</li>
+<li>dealing with geospatial rasters; and</li>
+<li>web maps,</li>
+</ul>
 <p>and about equal on</p>
-<div class="my-list">
-<p>•&nbsp;web map derived basemaps; and</p>
-<p>•&nbsp;map junk;</p>
-</div>
+<ul>
+<li>web map derived basemaps; and</li>
+<li>map junk;</li>
+</ul>
 <p>The latter two assuming that you have installed <code>ggspatial</code>. The funny thing is, I still find myself using <code>ggplot2</code> more! For me the counterpoints to the above are:</p>
-<div class="my-list">
-<p>•&nbsp;unclassified choropleths are often fine for a quick look-see at your data;</p>
-<p>•&nbsp;I don’t make many raster-based maps, and <code>ggplot2::geom_tile</code> is often good enough for my purposes;</p>
-<p>•&nbsp;Where I previously used web maps in <code>tmap</code> to get an overview of my data, now I tend to use QGIS. If I <em>really</em> need a web map, I will certainly use <code>tmap</code>; and</p>
-<p>•&nbsp;I am not a fan of map junk (hence: junk). Don’t get me wrong, I’ll but a north arrow and scalebar on a map <a href="https://www.esri.com/arcgis-blog/products/arcgis-pro/mapping/put-a-north-arrow-on-it/">if necessary</a>, I just don’t make many maps like that.</p>
-</div>
+<ul>
+<li>unclassified choropleths are often fine for a quick look-see at your data;</li>
+<li>I don’t make many raster-based maps, and <code>ggplot2::geom_tile</code> is often good enough for my purposes;</li>
+<li>Where I previously used web maps in <code>tmap</code> to get an overview of my data, now I tend to use QGIS. If I <em>really</em> need a web map, I will certainly use <code>tmap</code>; and</li>
+<li>I am not a fan of map junk (hence: junk). Don’t get me wrong, I’ll but a north arrow and scalebar on a map <a href="https://www.esri.com/arcgis-blog/products/arcgis-pro/mapping/put-a-north-arrow-on-it/">if necessary</a>, I just don’t make many maps like that.</li>
+</ul>
 <p>If your mix of use-cases is different, especially if choropleth maps, raster data, and web maps loom larger in your world than they do in mine, then you might wind up making a different choice.</p>
 <p>I think the reason I end up gravitating to <code>ggplot2</code> is that it is the entry point into a much wider visualization world. The idiom it has popularised, which <code>tmap</code> has reworked for mapping, of layering a series of <em>aesthetics</em> each linking a data variable to a visual variable (that so-called <em>grammar of graphics</em>) is more cleanly implemented in <code>ggplot2</code>, as you’d expect it to be. And the exact same semantics apply to <a href="https://ggplot2.tidyverse.org/reference/#layers">scatterplots, boxplots, violin plots, histograms, bar charts, and so on</a>. The <code>ggplot2</code> ecosystem is sprawling and extremely powerful, and making maps is just one small corner of it.</p>
 <p>Because of that, I am always making charts using <code>ggplot(data) + geom_*()</code> and it feels very natural to make maps the same way.</p>
@@ -1220,7 +1220,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":false,"descPosition":"bottom","closeEffect":"zoom","selector":".lightbox"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":false,"descPosition":"bottom","openEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

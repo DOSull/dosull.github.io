@@ -20,11 +20,13 @@ code {
     font-weight: 400;
 }
 
-.my-list {
-  font-family: inherit;
-  text-indent: -1em;
-  margin: 0em 2em -0em 2em;
-  line-height: 100%;
+ul {
+    font-family: Newsreader, 'Times New Roman', Times, serif;
+    font-weight: 400;
+}
+
+.navbar-nav {
+    font-family: inherit;
 }
 
 .page-footer {
@@ -85,14 +87,17 @@ a.footnote-ref {
 
 .navbar {
     background-color: #333;
+    color: #ccc;
 }
 
 .quarto-title-block {
     background-color: #111;
+    color: #ccc;
 }
 
 .quarto-title-banner {
     background-color: #111;
+    color: #ccc;
 }
 
 a.quarto-grid-link {

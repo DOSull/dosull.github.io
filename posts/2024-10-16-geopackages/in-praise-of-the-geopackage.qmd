@@ -16,7 +16,7 @@ knitr:
     warning: false
     message: false
 date: 10-16-2024
-modified: 11-16-2024
+date-modified: 11-16-2024
 ---
 
 In the [shapefiles must die](http://switchfromshapefile.org/) wars I've been smugly using [GeoPackages](https://www.geopackage.org/) for several years now. Here are some reasons why.

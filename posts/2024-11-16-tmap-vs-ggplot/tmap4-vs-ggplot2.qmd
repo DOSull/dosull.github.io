@@ -71,13 +71,9 @@ ggplot() +
 
 A few things stand out here (to my eye at least):
 
-::: {.my-list}
-&bull;&nbsp;you get a graticule in latitude-longitude even if the data are in a projected coordinate system (to be clear, the map is in the projected coordinates);
-
-&bull;&nbsp;the default colour ramp goes from dark for low values to light for high values; and
-
-&bull;&nbsp;the default colour ramp is black-to-blue, which might be preferable to the default muddy browns we've become accustomed to, but is an unusual choice for a map.
-:::
++ you get a graticule in latitude-longitude even if the data are in a projected coordinate system (to be clear, the map is in the projected coordinates);
++ the default colour ramp goes from dark for low values to light for high values; and
++ the default colour ramp is black-to-blue, which might be preferable to the default muddy browns we've become accustomed to, but is an unusual choice for a map.
 
 Of course we can fix all these things:
 
@@ -335,33 +331,21 @@ All in all, this one is probably a tie, assuming you've installed `ggspatial`.
 ## Final thoughts
 In brief then:  `tmap` is better at: 
 
-::: {.my-list}
-&bull;&nbsp;classified choropleth maps;
-
-&bull;&nbsp;dealing with geospatial rasters; and
-
-&bull;&nbsp;web maps,
-:::
++ classified choropleth maps;
++ dealing with geospatial rasters; and
++ web maps,
 
 and about equal on 
 
-::: {.my-list}
-&bull;&nbsp;web map derived basemaps; and
-
-&bull;&nbsp;map junk;
-:::
++ web map derived basemaps; and
++ map junk;
 
 The latter two assuming that you have installed `ggspatial`. The funny thing is, I still find myself using `ggplot2` more! For me the counterpoints to the above are:
 
-::: {.my-list}
-&bull;&nbsp;unclassified choropleths are often fine for a quick look-see at your data;
-
-&bull;&nbsp;I don't make many raster-based maps, and `ggplot2::geom_tile` is often good enough for my purposes;
-
-&bull;&nbsp;Where I previously used web maps in `tmap` to get an overview of my data, now I tend to use QGIS. If I _really_ need a web map, I will certainly use `tmap`; and
-
-&bull;&nbsp;I am not a fan of map junk (hence: junk). Don't get me wrong, I'll but a north arrow and scalebar on a map [if necessary](https://www.esri.com/arcgis-blog/products/arcgis-pro/mapping/put-a-north-arrow-on-it/), I just don't make many maps like that.
-:::
++ unclassified choropleths are often fine for a quick look-see at your data;
++ I don't make many raster-based maps, and `ggplot2::geom_tile` is often good enough for my purposes;
++ Where I previously used web maps in `tmap` to get an overview of my data, now I tend to use QGIS. If I _really_ need a web map, I will certainly use `tmap`; and
++ I am not a fan of map junk (hence: junk). Don't get me wrong, I'll but a north arrow and scalebar on a map [if necessary](https://www.esri.com/arcgis-blog/products/arcgis-pro/mapping/put-a-north-arrow-on-it/), I just don't make many maps like that.
 
 If your mix of use-cases is different, especially if choropleth maps, raster data, and web maps loom larger in your world than they do in mine, then you might wind up making a different choice.
 

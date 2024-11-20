@@ -12,3 +12,5 @@ listing:
 page-layout: full
 title-block-banner: true
 ---
+
+Note that some older pages may use older versions of R and/or python packages that have been superseded. Code worked as published at the publication or (where applicable) last modified date.

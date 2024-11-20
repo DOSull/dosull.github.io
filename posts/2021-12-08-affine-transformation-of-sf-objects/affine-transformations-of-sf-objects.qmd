@@ -1,6 +1,6 @@
 ---
 title: "Affine transformations of sf objects"
-description: Manipulating simple features in `sf` is sorta simple, sorta not...
+description: Manipulating simple features in sf is sorta simple, sorta not...
 author: "David O'Sullivan"
 toc: true
 categories:
@@ -15,6 +15,7 @@ knitr:
     warning: false
     message: false
 date: 08-12-2021
+date-modified: 11-21-2024
 ---
 
 ```{r setup, cache = F}
@@ -36,7 +37,7 @@ Just to get things set up let's make a simple square.
 
 ```{r}
 square <- (st_polygon(list(matrix(c(-1, -1, 1, -1, 1, 1, -1, 1, -1, -1), 
-                                 5, 2, byrow = TRUE))) * 0.5 + c(1, 0)) %>%
+                                 5, 2, byrow = TRUE))) * 0.5 + c(1, 0)) |>
   st_sfc()
 
 tm_shape(square) + 
@@ -55,7 +56,7 @@ Even more unlikely is that you can _multiply an `sf` object by a matrix_...
 ang <- pi / 6
 mat <- matrix(c(cos(ang), -sin(ang), 
                 sin(ang),  cos(ang)), 2, 2, byrow = TRUE)
-(square * mat) %>% 
+(square * mat) |>
   plot()
 ```
 
@@ -129,15 +130,15 @@ for (i in seq(nrow(grid))) {
   squares <- append(squares, 
                     list(translate_shape(square, c(grid$x[i], grid$y[i]))))
 }
-squares %>% sapply("[") %>% st_sfc() %>%
+squares |> sapply("[") |> st_sfc() |>
   plot()
 ```
 The `wk` functions also allow you to compose complex transformations from several steps. For example a function to rotate a shape around its own centre, i.e., not around the origin at $(0,0)$ requires moving the shape so that its centroid is at the origin, performing the rotation, then moving it back:
 
 ```{r}
 rotate_around_centroid <- function(shape, angle) {
-  centroid <- st_centroid(shape) %>%
-    st_coordinates() %>%
+  centroid <- st_centroid(shape) |>
+    st_coordinates() |>
     c()
   transformation <- wk::wk_affine_compose(
     wk::wk_affine_translate(-centroid[1], -centroid[2]),

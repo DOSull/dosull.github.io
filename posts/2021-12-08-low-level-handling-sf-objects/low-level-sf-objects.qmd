@@ -14,6 +14,7 @@ knitr:
     warning: false
     message: false
 date: 12-08-2021
+date-modified: 11-21-2024
 ---
 
 You can handle `sf` objects at a low level but it can take a bit of getting used to, and you have to watch out for floating point gotchas.
@@ -104,8 +105,8 @@ There's not a lot you can do about this when you are constructing `sf` objects. 
 Once you have polygons to work with, the problem can come back to bite you, but there is a way around it. For example, this works OK:
 
 ```{r}
-square %>% 
-  st_difference(triangle) %>%
+square |> 
+  st_difference(triangle) |>
   plot()
 ```
 
@@ -155,23 +156,23 @@ RXKCD::getXKCD(2170)$img
 By contrast if we use `rgeos` functions the equivalent union operation works as we might expect (although we do have to feed `rgeos` the old `sp` types of polygon, which we can do via a call to `as("Spatial")`...)
 
 ```{r}
-rgeos::gUnion(as(s1, "Spatial"), as(s2, "Spatial")) %>%
-  st_as_sfc() %>%
+rgeos::gUnion(as(s1, "Spatial"), as(s2, "Spatial")) |>
+  st_as_sfc() |>
   plot()
 ```
 
 `sf` does allow us to effectively emulate the `rgeos` behaviour, albeit not for simple geometries. When we instead bundle geometries up into feature collections, we can assign them a precision, and this will take care of the kinds of problems we see above:
 
 ```{r}
-s1_sfc <- s1 %>% 
-  st_sfc() %>%
+s1_sfc <- s1 |> 
+  st_sfc() |>
   st_set_precision(1e8)
-s2_sfc <- s2 %>% 
-  st_sfc() %>%
+s2_sfc <- s2 |> 
+  st_sfc() |>
   st_set_precision(1e8)
 
-s1_sfc %>% 
-  st_union(s2_sfc) %>%
+s1_sfc |>
+  st_union(s2_sfc) |>
   plot()
 ```
 
@@ -186,13 +187,14 @@ adjust_precision <- function(x, precision) {
 sqrt(2) %>% adjust_precision(1000)
 ```
 
-### `st_snap`
+### `st_snap` {style="text-transform:none;"}
 Another possible fix for the floating point issue is snapping points to the coordinates of another object before applying operations. So this works, although it is not as clean as the `st_precision` option. On the other hand, it does work on plain geometry objects, not only on those that have been bundled up into collections.
 
 ```{r}
-s1 %>% st_snap(s2, 1e-8) %>%
-  st_union(s2) %>%
+s1 %>% st_snap(s2, 1e-8) |>
+  st_union(s2) |>
   plot()
 ```
+
 ## In conclusion
 The tools for making and manipulating geometries at a low level are available in `sf` but they are not always as simple as you'd like. Of course, most often you are dealing with datasets and that's where `sf` comes into its own. Just remember `st_set_precision()` and you should be able to avoid quite a few headaches...
