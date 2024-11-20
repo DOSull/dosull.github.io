@@ -408,7 +408,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>and if we measure the distance between them, turns out they don’t touch at all, but are in fact a miniscule distance apart…</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>s1 <span class="sc">%&gt;%</span> <span class="fu">st_distance</span>(s2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>s1 <span class="sc">|&gt;</span> <span class="fu">st_distance</span>(s2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             [,1]
 [1,] 3.330669e-16</code></pre>
@@ -417,8 +417,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>It’s probably not necessary to point out how silly this is, even if it is strictly correct.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>RXKCD<span class="sc">::</span><span class="fu">getXKCD</span>(<span class="dv">2170</span>)<span class="sc">$</span>img</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in loadNamespace(x): there is no package called 'RXKCD'</code></pre>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="low-level-sf-objects_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "https://imgs.xkcd.com/comics/coordinate_precision.png"</code></pre>
 </div>
 </div>
 </section>
@@ -459,7 +466,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>adjust_precision <span class="ot">&lt;-</span> <span class="cf">function</span>(x, precision) {</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(x <span class="sc">*</span> precision) <span class="sc">/</span> precision</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">adjust_precision</span>(<span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">adjust_precision</span>(<span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.414</code></pre>
 </div>
@@ -468,7 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 style="text-transform:none;" class="anchored" data-anchor-id="st_snap"><code>st_snap</code></h3>
 <p>Another possible fix for the floating point issue is snapping points to the coordinates of another object before applying operations. So this works, although it is not as clean as the <code>st_precision</code> option. On the other hand, it does work on plain geometry objects, not only on those that have been bundled up into collections.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>s1 <span class="sc">%&gt;%</span> <span class="fu">st_snap</span>(s2, <span class="fl">1e-8</span>) <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>s1 <span class="sc">|&gt;</span> <span class="fu">st_snap</span>(s2, <span class="fl">1e-8</span>) <span class="sc">|&gt;</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_union</span>(s2) <span class="sc">|&gt;</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">

@@ -142,7 +142,7 @@ plot(s3)
 and if we measure the distance between them, turns out they don't touch at all, but are in fact a miniscule distance apart...
 
 ```{r}
-s1 %>% st_distance(s2)
+s1 |> st_distance(s2)
 ```
 
 It's probably not necessary to point out how silly this is, even if it is strictly correct.
@@ -184,14 +184,14 @@ In effect all coordinates are adjusted by applying a function like this one:
 adjust_precision <- function(x, precision) {
   round(x * precision) / precision
 }
-sqrt(2) %>% adjust_precision(1000)
+sqrt(2) |> adjust_precision(1000)
 ```
 
 ### `st_snap` {style="text-transform:none;"}
 Another possible fix for the floating point issue is snapping points to the coordinates of another object before applying operations. So this works, although it is not as clean as the `st_precision` option. On the other hand, it does work on plain geometry objects, not only on those that have been bundled up into collections.
 
 ```{r}
-s1 %>% st_snap(s2, 1e-8) |>
+s1 |> st_snap(s2, 1e-8) |>
   st_union(s2) |>
   plot()
 ```
