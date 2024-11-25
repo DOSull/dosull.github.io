@@ -49,7 +49,7 @@ But with all due deference to those experts, the Round Table was, I thought, mor
 In short, however tacked on that "and GIS" might appear in [ALGIM's mission statement](#what-is-algim), the GIS officers in local government around New Zealand (and I imagine also Australia) seem more than ready to take advantage of whatever forums ALGIM might be able to offer for learning, exchanging ideas, sharing approaches, and collaborating. Hopefully, this can happen soon, since it doesn't seem like the job of GIS officer in local government is going to get any easier any time soon!
 
 ## PS Not forgetting
-![The Hamilton City Kai Map](kirikiriroa-kai-map.png){style="width:55%; float:left; margin:0px 10px 5px 0px;"} 
+![The Hamilton City Kai Map](kirikiriroa-kai-map.png){style="width:55%; float:right; margin:0px 0px 5px 10px;"} 
 
 I would be remiss if I didn't mention seeing some really nice presentations of award nominated geospatial projects such as the [Hamilton City Kai Map](https://experience.arcgis.com/experience/bb98d689ace5475a9628260ae4205c53/page/Active-KAI-Page/?views=All-Kai), Northland Regional Council's use of geospatial to integrate the Health and Safety processes associated with their numerous fieldwork activities, and a Christchurch City map-centred streamling of their building warrant of fitness process (i.e., building inspections). The latter two are internal work process streamlining projects so unfortunately don't have public websites I can link to.
 
