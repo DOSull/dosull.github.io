@@ -21,7 +21,7 @@ What is [ALGIM](https://algim.org.nz)? According to the website,
 
 and
 
-> provides professional development and thought leadership across a range of local government professions. Our roots are in ICT, but over the years we've expanded to encompass the traditional IT roles, IT infrastructure, web and digital, information and records management, customer service, and GIS.^[Somebody always has to come last, but park that slightly tack on feeling "and GIS" just for now...]
+> provides professional development and thought leadership across a range of local government professions. Our roots are in ICT, but over the years we've expanded to encompass the traditional IT roles, IT infrastructure, web and digital, information and records management, customer service, and GIS.^[Somebody always has to come last, but park that slightly tacked on feeling "and GIS" just for now...]
 
 So ALGIM is a place where local government ICT people can pool resources and expertise to make the challenging business of doing local government a little bit easier. To that end ALGIM offers training, webinars, and forums for the exchange of ideas. One of the last of these is the annual conference. ALGIM^[ALGIM now also has an [Australian branch](https://algim.org.au).] which will see the organisation grow substantially in the next few years.
 
