@@ -1,0 +1,55 @@
+---
+title: A welcome (re)emergence of systems thinking
+description: And it's not before time!
+author: "David O'Sullivan"
+toc: true
+lightbox: true
+categories:
+  - complexity
+  - aotearoa
+  - conferences
+  - systems
+filters: 
+  - nutshell
+date: 12-01-2024
+draft: false
+---
+
+I wrote a paper _waaaay_ back in 2004^[O’Sullivan D. 2004. [Complexity science and human geography](https://dx.doi.org/10.1111/j.0020-2754.2004.00321.x). _Transactions of the Institute of British Geographers_ **29**(3) 282-295. It's paywalled, but get in touch if you'd like a copy.] which among other things was a plea for qualitatively inclined geographers to take complexity science seriously, as a sincere attempt to understand the world as it is, in all its, uh... complexity. It's a tricky argument to make because the preferred tools of complexity science are computational or mathematical models, which are _necessarily simplifications_. Models, after all, are only useful if we can make sense of them and that's only likely to be possible if they simplify the complex realitie we are trying to understand.^[I'll note here that models “are never true, but fortunately it is only necessary that they be useful”, p.2 in Box GP. 1979. [Some problems of statistics and everyday life](https://www.jstor.org/stable/2286713). _Journal of the American Statistical Association_ **74**(365) 1-4. Paywalled, I'm afraid.]
+
+The paper has been widely cited, but a glance at _where_ it has been cited suggests that my its readership has mostly been already sympathetic fellow-travellers in quantitative geography, not the more diverse audience I was hoping for, from across the discipline and beyond. While writing the paper I sent a draft to [:Doreen Massey](https://en.wikipedia.org/wiki/Doreen_Massey_(geographer)) who was enthusiastic. The paper is framed as a response to her calls around that time for more dialogue across the divide between human and physical geography. The emergence of critical physical geography^[The original paper on this is Lave R et al. 2014. [Intervention: Critical physical geography](https://dx.doi.org/10.1111/cag.12061). _The Canadian Geographer / Le Géographe canadien_ **58**(1) 1–10. But that is paywalled. An open access paper which gives a sense of what critical physical geography aims to accomplish is Lave R. 2015. [Engaging within the Academy: A Call for Critical Physical Geography](https://dx.doi.org/10.14288/ACME.V13I4.1034). _ACME: An International Journal for Critical Geographies_ **13**(4) 508-515.] suggests that Massey's call has not gone unheard. 
+
+It would be absurd to suggest that my paper has had even a fraction of that impact. Equally, it would be wrong to think that geography as a discipline has enthusiastically embraced the more holistic and open attitude to methods that taking seriously Massey's call (or my paper) would entail. 
+
+But wait!
+
+## Systems thinking spotted in the wild
+A workshop I was at last week suggests that maybe (just maybe) under the guise of _systems thinking_, complexity science might be starting to have an impact on more qualitative approaches. 
+
+The workshop was a gathering of some of the many researchers involved in the [_Moving the Middle_ (MtM) project](https://www.landcareresearch.co.nz/discover-our-research/environment/sustainable-society-and-policy/moving-the-middle/) down in Christchurch, ahead of the Agents of Change team's [Know Your Place environment + art](https://knowyourplace.nz/) event in Lyttelton Harbour. One of the presentations to the assembled team on the first morning of the workshop took me by (pleasant) surprise, as it was on  [:systems thinking](https://en.wikipedia.org/wiki/Systems_thinking). And one of the first things to be put on the screen was some version of the diagram below.
+
+![A particularly complicated systems diagram&mdash;which is nevertheless a simplification^[Figure from Monat JP and TF Gannon. 2015. [Using systems thinking to analyze ISIS](http://article.sapub.org/10.5923.j.ajss.20150402.02.html). _American Journal of Systems Science_ **4**(2) 36–49.
+]](coin-dynamics.gif){#fig-coin-dynamics .lightbox}
+
+This was part of an enjoyable talk by [Nick Cradock-Henry](https://www.gns.cri.nz/about-us/staff-search/nicholas-cradock-henry/) summarising the elements of systems thinking, which the [Agents of Change team](https://www.landcareresearch.co.nz/discover-our-research/environment/sustainable-society-and-policy/moving-the-middle/agents-of-change/) have really picked up and run with in the last year as a framework for organising their thinking around the wider somewhat disparate MtM project.
+
+As a long-time fan of [:complexity science](https://en.wikipedia.org/wiki/Complex_system), which I consider to be either an evolution from systems thinking or a broader framework within which systems thinking sits,^[Depending on my mood, I can go either way, but if you need convincing of the links, see Merali Y and PM Allen. 2011. [Complexity and Systems Thinking](https://www.researchgate.net/publication/292653679_Complexity_and_systems_thinking), 31-52 in _The Sage Handbook of Complexity and Management_ PM Allen, S Maguire, and B McKelvey (eds) Sage.] this was a big deal. I've wanted for years to see qualitatively inclined social scientists&mdash;the kind that talk about more-than-human geographies and such&mdash;to whole-heartedly engage with systems thinking!
+
+I'm not really sure what's brought this on. Maybe it's recent excitement about the [:circular economy](https://en.wikipedia.org/wiki/Circular_economy)? Or a delayed reaction to COVID models? (Unlikely) Or maybe [:Te Pūnaha Matatini](https://en.wikipedia.org/wiki/Te_P%C5%ABnaha_Matatini) is getting some traction with a wider audience? Whatever the reason, I'm glad it's happening.
+
+## Making models and having conversations
+The primary tool of systems thinking the Agents of Change team seem to have been working with so far is causal loop diagrams (see @fig-coin-dynamics), which were ably explained both by Nick Cradock-Henry and by [Justin Connolly](https://deliberate.co.nz/). What this take on complexity/systems thinking brings to the fore is the importance of creating models (in this case primarily a visual model) collaboratively as things to talk about in a constructive way as groups of people try to understand some problem at hand.
+
+The point of such models is not simulation or prediction, but understanding. Not even understanding necessarily, but arriving at sufficient agreement in a particular problem solving context about what makes things tick, so that useful conversations can be had.
+
+If visual models eventually form a starting point for building system dynamics models, or agent-based models, or other kinds of computational models, that's fine. But it's also fine if that doesn't happen. In fact, computational models can muddy the waters. They are expected or required to be predictive, and everyone becomes fixated on prediction and _stops thinking_. Or the model becomes a fall-guy ('the model told me to do it!'). Or models are dragged into a role in monitoring and management that they weren't designed for.^[Yes, I'm looking at you, [Overseer](https://www.mpi.govt.nz/agriculture/farm-management-the-environment-and-land-use/overseer-a-nutrient-management-tool-for-farmers-and-growers/).] When an organisation invests in building a simulation model, the chance of it being drafted into use for purposes well beyond its original scope are high, often with unintended consequences.
+
+Once a computational model exists, there's a danger of thinking that the topic at hand is now well enough understood that we have everything under control. But often it's not really the model as end-product that is important, it's the focus for conversation and discussion provided by collaboratively creating a model (informed by complexity/systems thinking that's the important step), and that's true whether the model is visual, computational, or even statistical.
+
+## Postscript: <span style="font-style:italic;">un</span>complex thinking and big data analytics
+Another reason I am happy to see a new audience get excited about the complexity/systems thinking approach to model-building is because there is far too much excitement about a very linear approach to model-building these days, in the multi-headed shape of big data analytics, machine-learning, and AI.^[This is something I've written about before: O’Sullivan D 2018. [Big data ... why (oh why?) this computational social science?](https://dx.doi.org/10.2307/j.ctt21h4z6m) In _Thinking Big Data in Geography: New Regimes, New Research_ eds. JE Thatcher, J Eckert, and A Shears, 21–38. University of Nebraska Press. Again, paywalled: let me know if you're interested to read a copy.]
+
+It's not that these methods aren't useful. _Of course_ they are! The problem is that they too often skip the collaborative model-building, or leave the model-building to machines, so that the most important opportunity for learning is lost. That's not quite correct. The analyst developing such models often learns a lot in the process. The problem is that the point of the exercise is often not the learning along the way, but the final model that results, and once that's done the assumption is that now we understand, and can predict and manage the problem at hand. And of course, for as long as the world continues to be open, interconnected, and processual (i.e., forever), that kind of model will inevitably be wrong if not today, then some day very soon.^[Ironically, models are most urgently needed for prediction precisely when prediction is difficult or even impossible.]
+
+## Looking ahead
+The qualitative social scientists I was hanging out with last week are rightly skeptical of such uncomplex models. Their enthusiasm for complexity/systems thinking models on the other hand reflects how such approaches really do give us a better chance of getting a handle on the world. I really hope their enthusiasm isn't a one-off but a harbinger of many more fruitful conversations ahead, across what have often seemed unbridgeable divides.

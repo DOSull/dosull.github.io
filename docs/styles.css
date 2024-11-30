@@ -129,3 +129,15 @@ a.button-link {
 .nav-link {
     text-align: left;
 }
+
+.tippy-content {
+    border-style: solid;
+    border-color: red;
+    border-radius: 8px;
+    border-width: 1.5px;
+    background-color: #fcf4f4;
+}
+
+a.footnote-ref {
+    color: firebrick;
+}
