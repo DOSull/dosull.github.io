@@ -113,18 +113,10 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Training</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">More</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-other-sites" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Other sites</span>
     </a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-more">    
-        <li>
-    <a class="dropdown-item" href="../../books.html">
- <span class="dropdown-text">Books</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../presentations.html">
- <span class="dropdown-text">Presentations</span></a>
-  </li>  
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-other-sites">    
         <li>
     <a class="dropdown-item" href="https://dosull.github.io/computing-geographically">
  <span class="dropdown-text">Computing Geographically</span></a>
@@ -137,9 +129,24 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="https://dosull.github.io/30-day-maps-2023">
  <span class="dropdown-text">30 Day Map Challenge 2023</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-academic" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Academic</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-academic">    
+        <li>
+    <a class="dropdown-item" href="../../books.html">
+ <span class="dropdown-text">Books</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../presentations.html">
+ <span class="dropdown-text">Presentations</span></a>
+  </li>  
         <li>
     <a class="dropdown-item" href="../../publications.html">
- <span class="dropdown-text">Publication list</span></a>
+ <span class="dropdown-text">Publications</span></a>
   </li>  
     </ul>
   </li>
@@ -233,7 +240,7 @@ ul.task-list li input[type="checkbox"] {
 <div id="fig-coin-dynamics" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-coin-dynamics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="coin-dynamics.gif" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="coin-dynamics.gif" class="img-fluid figure-img"></a>
+<a href="coin-dynamics.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1"><img src="coin-dynamics.gif" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coin-dynamics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: A particularly complicated systems diagram—which is nevertheless a simplification<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>
@@ -698,7 +705,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","loop":false,"descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

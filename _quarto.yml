@@ -13,16 +13,20 @@ website:
         file: blog.qmd
       - text: "Training"
         file: training.qmd
-      - text: "Academic"
+      - text: "More"
         menu:
           - text: "Books"
             file: books.qmd
           - text: "Presentations"
             file: presentations.qmd
-          - text: "Publications"
+          - text: "Computing Geographically"
+            href: https://dosull.github.io/computing-geographically
+          - text: "Spatial Simulation"
+            href: https://dosull.github.io/pattern-and-process
+          - text: "30 Day Map Challenge 2023"
+            href: https://dosull.github.io/30-day-maps-2023
+          - text: "Publication list"
             file: publications.qmd
-      # - text: "About"
-      #   file: index.qmd
       - icon: github
         href: https://github.com/DOSull
       - icon: linkedin
