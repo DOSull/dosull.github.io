@@ -19,14 +19,17 @@ website:
             file: books.qmd
           - text: "Presentations"
             file: presentations.qmd
-          - text: "Computing Geographically"
-            href: https://dosull.github.io/computing-geographically
-          - text: "Spatial Simulation"
-            href: https://dosull.github.io/pattern-and-process
-          - text: "30 Day Map Challenge 2023"
-            href: https://dosull.github.io/30-day-maps-2023
           - text: "Publication list"
             file: publications.qmd
+          - text: "Computing Geographically\u2197"
+            href: https://dosull.github.io/computing-geographically
+            target: _blank
+          - text: "Spatial Simulation\u2197"
+            href: https://dosull.github.io/pattern-and-process
+            target: _blank
+          - text: "30 Day Map Challenge 2023\u2197"
+            href: https://dosull.github.io/30-day-maps-2023
+            target: _blank
       - icon: github
         href: https://github.com/DOSull
       - icon: linkedin
