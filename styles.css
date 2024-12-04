@@ -135,9 +135,10 @@ a.button-link {
 .tippy-content {
     border-style:solid;
     border-color:red;
-    border-radius:8px;
+    border-radius:5px;
     border-width:1.5px;
     background-color:#fcf4f4;
+    z-index:9999;
 }
 
 a.footnote-ref {
