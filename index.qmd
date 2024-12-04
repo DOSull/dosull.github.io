@@ -8,7 +8,7 @@ title-block-banner: true
 ---
 
 ::: {style="text-align:justify;"}
-This is **Geospatial Stuff** where I offer expertise in data analytics and visualisation, simulation modelling, and training on all things geospatial. I am an experienced geospatial researcher, an [Honorary Professor](https://profiles.auckland.ac.nz/david-osullivan) at the University of Auckland, and [Research Affiliate at Motu](https://www.motu.nz/about-us/people/david-osullivan/). Find examples of current work in my [portfolio](portfolio.qmd) and [blog posts](blog.qmd). For more information [get in touch](mailto:osullivan512@gmail.com).
+This is <span style="font-family:'Roboto Condensed','Arial Narrow',sans-serif;">**GEOSPATIAL STUFF**</span> where I offer expertise in data analytics and visualisation, simulation modelling, and training on all things geospatial. I am an experienced geospatial researcher, an [Honorary Professor](https://profiles.auckland.ac.nz/david-osullivan) at the University of Auckland, and [Research Affiliate at Motu](https://www.motu.nz/about-us/people/david-osullivan/). Find examples of current work in my [portfolio](portfolio.qmd) and [blog posts](blog.qmd). For more information [get in touch](mailto:osullivan512@gmail.com).
 :::
 
 :::: {.columns style="position:relative; top:-20px;"}
