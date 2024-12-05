@@ -12,4 +12,4 @@ listing:
 page-layout: full
 title-block-banner: true
 ---
-Posts about tools, conferences, and sundry other thoughts on all things geospatial.^[Note that some pages may use earlier versions of R packages or python modules that have been superseded. Code ran as written at the publication or (where applicable) last modified date.]
+Note: some posts show code that has been superseded. Code ran as written at last modified dates.

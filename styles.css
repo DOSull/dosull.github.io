@@ -148,3 +148,11 @@ a.footnote-ref {
 .dropdown-item {
     font-family:'Roboto Condensed', 'Arial Narrow', sans-serif;
 }
+
+i {
+    float:right;
+}
+
+.dropdown-menu {
+    width:fit-content();
+}

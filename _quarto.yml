@@ -19,20 +19,21 @@ website:
             file: books.qmd
           - text: "Presentations"
             file: presentations.qmd
-          - text: "Publication list"
+          - text: "Publications"
             file: publications.qmd
-          - text: |
-              Computing Geographically![](/images/box-arrow-up-right.svg)
+          - text: "Computing Geographically"
             href: https://dosull.github.io/computing-geographically
             target: _blank
-          - text: |
-              Spatial Simulation![](/images/box-arrow-up-right.svg)
+            icon: box-arrow-up-right
+          - text: "Spatial Simulation"
             href: https://dosull.github.io/pattern-and-process
             target: _blank
-          - text: |
-              30 Day Map Challenge 2023![](/images/box-arrow-up-right.svg)
+            icon: box-arrow-up-right
+          # trailing nbsps to give external link icon room to float right
+          - text: "30 Day Map Challenge 2023\xa0\xa0\xa0\xa0\xa0\u202f"
             href: https://dosull.github.io/30-day-maps-2023
             target: _blank
+            icon: box-arrow-up-right
       - icon: github
         href: https://github.com/DOSull
       - icon: linkedin
