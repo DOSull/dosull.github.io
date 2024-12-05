@@ -51,3 +51,6 @@ format:
     link-external-newwindow: true
     link-external-filter: '^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|dosull|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|github\.com\/DOSull|patternandprocess\.org|computinggeographically\.org)'
     highlight-style: ayu
+    include-in-header:
+      - text: |
+          <script defer src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570"></script>
