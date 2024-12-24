@@ -1,7 +1,6 @@
 ---
 title: "Training"
-subtitle: |
-  Geospatial stuff I teach
+subtitle: Geospatial stuff I teach
 listing:
   contents: training
   sort: filename
