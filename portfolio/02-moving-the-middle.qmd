@@ -8,7 +8,7 @@ This is part of a large [MBIE funded project 'Moving the middle'](https://www.la
 
 The part of the research I am most involved in is developing an agent-based model of how land managers (mostly farmers) make changes in landuse and farm management practices. Other parts of the wider project are examining the motivations and drivers of farmer behaviour at an individual level, whereas the model explores how individual actions might scale up across landscapes.
 
-Slides from a presentation I gave about the model can be viewed here.
+Slides from a presentation I gave about the model can be viewed [here](https://southosullivan.com/talks/AAG-2024/).
 
 And here is a more recent screenshot of the model in action.
 
