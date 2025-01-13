@@ -5,7 +5,7 @@ author: "David O'Sullivan"
 toc: true
 categories:
   - R
-  - spatial
+  - geospatial
   - stuff
   - maps
   - aotearoa

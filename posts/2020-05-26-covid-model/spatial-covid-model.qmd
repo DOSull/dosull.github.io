@@ -7,7 +7,7 @@ categories:
   - netlogo
   - covid
   - simulation
-  - spatial
+  - geospatial
 date: 05-26-2020
 ---
 
