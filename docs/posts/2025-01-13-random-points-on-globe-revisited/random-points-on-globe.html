@@ -8,7 +8,7 @@
 
 <meta name="author" content="David O’Sullivan">
 <meta name="dcterms.date" content="2025-01-14">
-<meta name="description" content="Some other approaches I found along the way">
+<meta name="description" content="Of Christmas gifts and rabbit holes">
 
 <title>Random points on the globe revisited – Geospatial Stuff</title>
 <style>
@@ -234,7 +234,7 @@ window.Quarto = {
       <h1 class="title">Random points on the globe revisited</h1>
                   <div>
         <div class="description">
-          Some other approaches I found along the way
+          Of Christmas gifts and rabbit holes
         </div>
       </div>
                           <div class="quarto-categories">
@@ -732,7 +732,7 @@ Figure&nbsp;7: Side-by-side comparison of six patterns projected onto the globe
 </figcaption>
 </figure>
 </div>
-<p>With the obvious exception of the Uniform random pattern, which exhibits definite clumping, all of these seem to do a reasonable job of producing a random arrangement of points evenly distributed over the globe. The Halton and Sobol sequence generate patterns may have some (non-straight) linear ‘clumps’ although it’s hard to know if this is a result of knowing that the generating processes involved can yield such alignments.</p>
+<p>With the obvious exception of the uniform random pattern, which exhibits definite clumping, all of these seem to do a reasonable job of producing a random arrangement of points evenly distributed over the globe. The Halton and Sobol sequence generated patterns may have some (non-straight) linear ‘clumps’ although it’s hard to know if this is a result of knowing that the generating processes involved can yield such alignments.</p>
 <p>From the perspective of avoiding clumping we can try to make the comparison slightly more precise by making hexbin density plots of the points.</p>
 <div class="sourceCode cell-code" id="annotated-cell-13"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-13-1"><a href="#annotated-cell-13-1" aria-hidden="true" tabindex="-1"></a>xy <span class="ot">&lt;-</span> all_points <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-13-2"><a href="#annotated-cell-13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
@@ -778,7 +778,8 @@ Figure&nbsp;8: Side-by-side comparison of hexbin density plots of the six point 
 </figure>
 </div>
 <p>The uniform random pattern clearly exhibits the most uneven distribution of points. Somewhat to my surprise my ‘homebrew’ blue noise compares well with the other four patterns for evenness of distribution. This is particularly nice given that it requires no spatial parameter to be supplied, only one that (probably marginally) affects the quality of the patterns produced.</p>
-<p>It is intriguing to me that this is seemingly not a standard spatial point process.</p>
+<p>It is intriguing to me that this is seemingly not a standard spatial point process. Unlike sequential spatial inhibition to which it is similar it requires no spatial parameter to be tuned to get a desired result, and it cannot fail to produce the requested number of points. It is also a reasonable plausible process from a ‘mechanism’ perspective. Imagine for example retailers considering premises in which to set up shop and examining a number of different sites, then choosing the one farthest from any potential competitor. It’s at least as compelling in that respect as a model of the outcome of competition between event locations as SSI.</p>
+<p>An interesting rabbit hole indeed!</p>
 
 
 </section>
