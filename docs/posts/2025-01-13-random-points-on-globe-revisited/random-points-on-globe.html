@@ -275,14 +275,16 @@ window.Quarto = {
    
   <ul>
   <li><a href="#some-preliminaries" id="toc-some-preliminaries" class="nav-link active" data-scroll-target="#some-preliminaries">Some preliminaries</a></li>
-  <li><a href="#patterns-in-the-unit-square" id="toc-patterns-in-the-unit-square" class="nav-link" data-scroll-target="#patterns-in-the-unit-square">Patterns in the unit square</a>
+  <li><a href="#patterns-in-latitude-longitude-space" id="toc-patterns-in-latitude-longitude-space" class="nav-link" data-scroll-target="#patterns-in-latitude-longitude-space">Patterns in latitude-longitude space</a>
   <ul class="collapse">
   <li><a href="#a-simple-random-pattern" id="toc-a-simple-random-pattern" class="nav-link" data-scroll-target="#a-simple-random-pattern">A simple random pattern</a></li>
-  <li><a href="#a-couple-of-patterns-from-spatial-point-processes" id="toc-a-couple-of-patterns-from-spatial-point-processes" class="nav-link" data-scroll-target="#a-couple-of-patterns-from-spatial-point-processes">A couple of patterns from spatial point processes</a></li>
+  <li><a href="#simple-random-pattern-with-a-cosine-correction-for-latitude" id="toc-simple-random-pattern-with-a-cosine-correction-for-latitude" class="nav-link" data-scroll-target="#simple-random-pattern-with-a-cosine-correction-for-latitude">Simple random pattern with a cosine correction for latitude</a></li>
+  <li><a href="#a-pattern-from-spatial-point-process" id="toc-a-pattern-from-spatial-point-process" class="nav-link" data-scroll-target="#a-pattern-from-spatial-point-process">A pattern from spatial point process</a></li>
   <li><a href="#quasi-random-sequences" id="toc-quasi-random-sequences" class="nav-link" data-scroll-target="#quasi-random-sequences">Quasi-random sequences</a></li>
   <li><a href="#a-home-grown-parameter-free-pattern-generator" id="toc-a-home-grown-parameter-free-pattern-generator" class="nav-link" data-scroll-target="#a-home-grown-parameter-free-pattern-generator">A ‘home-grown’ parameter-free pattern generator</a></li>
   </ul></li>
   <li><a href="#putting-all-these-points-on-the-globe" id="toc-putting-all-these-points-on-the-globe" class="nav-link" data-scroll-target="#putting-all-these-points-on-the-globe">Putting all these points on the globe</a></li>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts">Final thoughts</a></li>
   </ul>
 </nav>
     </div>
@@ -293,6 +295,7 @@ window.Quarto = {
 
 
 
+<p><strong>NOTE</strong>: There were a few over-simplifications in the original version of this post, which I’ve done my best to correct. Turns out point patterns on the globe are even more complicated than I realised…</p>
 <p>This holiday season I had reason to revisit a post from November 2021 about <a href="../../posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html">generating evenly distributed random points on the globe</a>. This was in the course of writing (for fun) a <a href="https://ccl.northwestern.edu/netlogo/index.shtml">NetLogo</a> simulation of <a href="https://www.cmyk.games/products/lacuna">the boardgame <em>Lacuna</em></a>. You can find the simulation <a href="https://southosullivan.com/misc/lacuna.html">here</a>. The simulation isn’t very developed and it turns out that the web version of NetLogo doesn’t implemented some functions important to its operation, so pending developing my Javascript skills further that’s likely where it will remain.</p>
 <p>Anyway, the setup rules for the physical version of <em>Lacuna</em> stipulate that the players should</p>
 <blockquote class="blockquote">
@@ -303,26 +306,26 @@ window.Quarto = {
 <p>For whatever reason, there doesn’t seem to be a widely used spatial point process model with this property, but there are <a href="https://en.wikipedia.org/wiki/Low-discrepancy_sequence">:<em>low discrepancy sequences</em></a> most often used for balanced sampling in operations like Monte Carlo simulation that can generate evenly spaced spatial patterns in two dimensions. In this post, I look at a couple of these along with some other alternatives, in the context set by my earlier post of generating random point patterns of even intensity on the globe.</p>
 <section id="some-preliminaries" class="level2">
 <h2 class="anchored" data-anchor-id="some-preliminaries">Some preliminaries</h2>
-<p>To make things easier, I am going to generate patterns in the unit square, and then transform them to patterns on the globe. Before we get started here are all the libraries I’m using.</p>
+<p>To make things easier, I am going to generate patterns in latitude-longitude space, and then transforming them to patterns on the globe. Before we get started here are all the libraries I’m using.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth)</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
 <span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-5" class="code-annotation-target"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spbal)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-6" class="code-annotation-target"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spacefillr)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatstat)</span>
-<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cols4all)</span>
-<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_void</span>())</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-6" class="code-annotation-target"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatstat)</span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cols4all)</span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_update</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>())</span>
 <span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-13" class="code-annotation-target"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-13" class="code-annotation-target"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
 <span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-15"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a>projection <span class="ot">&lt;-</span> <span class="st">"+proj=moll"</span></span>
 <span id="annotated-cell-1-16"><a href="#annotated-cell-1-16" aria-hidden="true" tabindex="-1"></a>aspect_ratio <span class="ot">&lt;-</span> <span class="dv">2</span></span>
 <span id="annotated-cell-1-17"><a href="#annotated-cell-1-17" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="dv">6371000</span></span>
-<span id="annotated-cell-1-18"><a href="#annotated-cell-1-18" aria-hidden="true" tabindex="-1"></a>n_points <span class="ot">&lt;-</span> <span class="dv">1024</span> </span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-1-18"><a href="#annotated-cell-1-18" aria-hidden="true" tabindex="-1"></a>n_points <span class="ot">&lt;-</span> <span class="dv">1152</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
@@ -331,15 +334,11 @@ window.Quarto = {
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="6" data-code-annotation="2"><code>spacefillr</code> provides additional quasi-random sequences.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="6" data-code-annotation="2"><code>spatstat</code> provides a wide range of spatial point processes.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="3"><code>spatstat</code> provides a wide range of spatial point processes.</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="13" data-code-annotation="4">For replicability.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="13" data-code-annotation="3">For replicability.</span>
 </dd>
 </dl>
 </div>
@@ -385,35 +384,35 @@ Figure&nbsp;1: World map in Mollweide
 </figure>
 </div>
 </section>
-<section id="patterns-in-the-unit-square" class="level2">
-<h2 class="anchored" data-anchor-id="patterns-in-the-unit-square">Patterns in the unit square</h2>
+<section id="patterns-in-latitude-longitude-space" class="level2">
+<h2 class="anchored" data-anchor-id="patterns-in-latitude-longitude-space">Patterns in latitude-longitude space</h2>
 <section id="a-simple-random-pattern" class="level3">
 <h3 class="anchored" data-anchor-id="a-simple-random-pattern">A simple random pattern</h3>
-<p>We can make this by drawing x and y coordinates from uniform distributions.</p>
-<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-1" class="code-annotation-target"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>plot_pp <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
-<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-4" class="code-annotation-target"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_equal</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="3">3</button><span id="annotated-cell-10-5" class="code-annotation-target"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>))</span>
-<span id="annotated-cell-10-6"><a href="#annotated-cell-10-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="annotated-cell-10-7"><a href="#annotated-cell-10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-10-8"><a href="#annotated-cell-10-8" aria-hidden="true" tabindex="-1"></a>pattern1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(n_points),</span>
-<span id="annotated-cell-10-9"><a href="#annotated-cell-10-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> <span class="fu">runif</span>(n_points),</span>
-<span id="annotated-cell-10-10"><a href="#annotated-cell-10-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">generator =</span> <span class="st">"Uniform random"</span>)</span>
-<span id="annotated-cell-10-11"><a href="#annotated-cell-10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_pp</span>(pattern1)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can make this by drawing x and y coordinates from uniform distributions. The <span class="math inline">\(y\)</span> coordinate is transformed using the inverse cosine operation discussed in my original post.</p>
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>plot_pp <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_equal</span>(<span class="at">xlim =</span> <span class="dv">180</span> <span class="sc">*</span> <span class="fu">c</span> (<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>),</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">ylim =</span> <span class="dv">90</span> <span class="sc">*</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-6" class="code-annotation-target"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>))</span>
+<span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a>pattern1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(n_points) <span class="sc">*</span> <span class="dv">360</span> <span class="sc">-</span> <span class="dv">180</span>,</span>
+<span id="annotated-cell-6-9"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> <span class="fu">runif</span>(n_points) <span class="sc">*</span> <span class="dv">180</span> <span class="sc">-</span> <span class="dv">90</span>,</span>
+<span id="annotated-cell-6-10"><a href="#annotated-cell-6-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">generator =</span> <span class="st">"Uniform random"</span>)</span>
+<span id="annotated-cell-6-11"><a href="#annotated-cell-6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_pp</span>(pattern1)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="1" data-code-annotation="1">Convenient to have a single function for plotting point patterns.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1">Convenient to have a single function for plotting point patterns.</span>
 </dd>
-<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="4" data-code-annotation="2"><code>expand = FALSE</code> stops <code>ggplot</code> adding a margin around the unit square.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="2"><code>expand = FALSE</code> stops <code>ggplot</code> adding a margin around the unit square.</span>
 </dd>
-<dt data-target-cell="annotated-cell-10" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="5" data-code-annotation="3">It’s good in these plots to see the unit square!</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="3">It’s good in these plots to see the unit square!</span>
 </dd>
 </dl>
 </div>
@@ -424,7 +423,7 @@ Figure&nbsp;1: World map in Mollweide
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Simple uniform random pattern"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="384"></a></p>
+<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Simple uniform random pattern"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
@@ -436,66 +435,95 @@ Figure&nbsp;2: Simple uniform random pattern
 </figure>
 </div>
 </section>
-<section id="a-couple-of-patterns-from-spatial-point-processes" class="level3">
-<h3 class="anchored" data-anchor-id="a-couple-of-patterns-from-spatial-point-processes">A couple of patterns from spatial point processes</h3>
-<p>There are a couple of possibilities here.</p>
-<p>First is a <em>stratified point process</em> where we randomly place a single point in each of a grid of locations: a stratified random point pattern. This is why I picked a number of points that is an exact square so that I can subdivide the unit square evenly into that number of square cells.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pattern2 <span class="ot">&lt;-</span> <span class="fu">rstrat</span>(<span class="at">nx =</span> <span class="fu">sqrt</span>(n_points), <span class="at">ny =</span> <span class="fu">sqrt</span>(n_points), <span class="at">k =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">generator =</span> <span class="st">"Stratified point process"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Next is the point process I started from, <em>sequential spatial inhibition</em>. I have to set an <em>inhibition distance</em>, and as a rough value choose the expected minimum nearest neighbour distance <span class="math inline">\(1/2\sqrt{\lambda}\)</span> where <span class="math inline">\(\lambda\)</span> is the pattern intensity. This process randomly places points but when a new point is placed closer to an existing point than the inhibition distance it tries again, until it gets the requested number of points.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pattern3 <span class="ot">&lt;-</span> <span class="fu">rSSI</span>(<span class="at">r =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">2</span> <span class="sc">/</span> <span class="fu">sqrt</span>(n_points), <span class="at">n =</span> n_points) <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">generator =</span> <span class="st">"Sequential Spatial Inhibition (SSI)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="fig-two-spatial-point-process-patterns" class="quarto-layout-panel">
+<section id="simple-random-pattern-with-a-cosine-correction-for-latitude" class="level3">
+<h3 class="anchored" data-anchor-id="simple-random-pattern-with-a-cosine-correction-for-latitude">Simple random pattern with a cosine correction for latitude</h3>
+<p>Next up the same pattern with the cosine correction from my earlier post.</p>
+<div id="fig-uniform-random-cosine-corrected" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-two-spatial-point-process-patterns-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div aria-describedby="fig-uniform-random-cosine-corrected-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pattern2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(n_points) <span class="sc">*</span> <span class="dv">360</span> <span class="sc">-</span> <span class="dv">180</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> <span class="fu">acos</span>(<span class="fu">runif</span>(n_points, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">/</span> pi <span class="sc">*</span> <span class="dv">180</span> <span class="sc">-</span> <span class="dv">90</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">generator =</span> <span class="st">"Uniform random cosine-corrected"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_pp</span>(pattern2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure">
-<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Stratified random point process"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption>Stratified random point process</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Sequential spatial inhibition"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption>Sequential spatial inhibition</figcaption>
+<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Uniform random pattern with cosine correction"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-spatial-point-process-patterns-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Two patterns produced by spatial point processes in <code>spatstat</code>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-uniform-random-cosine-corrected-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Uniform random pattern with cosine correction
 </figcaption>
 </figure>
 </div>
-<p>Both these patterns appear clearly more evenly spaced with less ‘clumping’ than the example in <a href="#fig-uniform-random" class="quarto-xref">Figure&nbsp;2</a>.</p>
+<p>In later patterns I have applied this cosine correction where the underlying process generates uniformly distributed y coordinates.</p>
+</section>
+<section id="a-pattern-from-spatial-point-process" class="level3">
+<h3 class="anchored" data-anchor-id="a-pattern-from-spatial-point-process">A pattern from spatial point process</h3>
+<p>My first thought here was to use a <em>sequential spatial inhibition process</em>. This is a spatial point process where points are generated at random locations, but rejected if they are closer than some <em>inhibition distance</em> to an existing point already in the pattern. This is easily done in Euclidean space using the <code>spatstat::rSSI</code> function. In latitude-longitude space this won’t work because distances are not calculable using the Pythagorean function on coordinates.</p>
+<p>Instead, I have opted for the uniform point process (just as above), but specifying a tiling (a tessellation) of the space with <em>approximately</em> equal-area tiles. Using the formula for the y coordinate of a cylindrical equal-area projection <span class="math inline">\(y=sin\phi\)</span>, we can generate <em>approximately</em> equal-area rectangles in latitude-longitude space as below. I emphasise the approximation here, because it is only approximate. Rectangles in lat-lon space are not rectangles on the globe after all.</p>
+<div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1">1</button><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n_points <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="annotated-cell-8-2"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n_points <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="dv">1</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2">2</button><span id="annotated-cell-8-3" class="code-annotation-target"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>xg <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="at">length.out =</span> nx) <span class="sc">*</span> <span class="dv">180</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="3">3</button><span id="annotated-cell-8-4" class="code-annotation-target"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>yg <span class="ot">&lt;-</span> <span class="fu">asin</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="at">length.out =</span> ny)) <span class="sc">/</span> pi <span class="sc">*</span> <span class="dv">180</span></span>
+<span id="annotated-cell-8-5"><a href="#annotated-cell-8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-8-6"><a href="#annotated-cell-8-6" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">runifpoint</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">win =</span> <span class="fu">tess</span>(<span class="at">xgrid =</span> xg, <span class="at">ygrid =</span> yg))</span>
+<span id="annotated-cell-8-7"><a href="#annotated-cell-8-7" aria-hidden="true" tabindex="-1"></a>pattern3 <span class="ot">&lt;-</span> pp <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-8-8"><a href="#annotated-cell-8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-8-9"><a href="#annotated-cell-8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">generator =</span> <span class="st">"Stratified point process"</span>)</span>
+<span id="annotated-cell-8-10"><a href="#annotated-cell-8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_pp</span>(pattern3) <span class="sc">+</span></span>
+<span id="annotated-cell-8-11"><a href="#annotated-cell-8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">expand_grid</span>(xg, yg), <span class="fu">aes</span>(<span class="at">x =</span> xg, <span class="at">y =</span> yg), </span>
+<span id="annotated-cell-8-12"><a href="#annotated-cell-8-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">"red"</span>, <span class="at">shape =</span> <span class="dv">3</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="1" data-code-annotation="1">The number of gridlines we need in each direction is determined here.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="3" data-code-annotation="2">x coordinates are trivially equally spaced.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="4" data-code-annotation="3">y coordinates approximately equally spaced in the transformed space.</span>
+</dd>
+</dl>
+</div>
+<div id="fig-stratified-point-pattern" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-stratified-point-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Stratified random point process"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stratified-point-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Stratified random point process
+</figcaption>
+</figure>
+</div>
+<p>I’ve plotted the coordinates of the grid used to ‘thin’ the points at high latitudes for reference. The process generates only one point in each of these cells. However… the thinning is not continuous and there are a number of points very close to the poles, where of course the available area is zero!</p>
 </section>
 <section id="quasi-random-sequences" class="level3">
 <h3 class="anchored" data-anchor-id="quasi-random-sequences">Quasi-random sequences</h3>
-<p>These are the processes that were new to me, which showed up when I started looking for R packages that could do even sampling in 2D spaces. The package that showed up was <a href="https://www.spacefillr.com/"><code>spacefillr</code></a>. This implements a number of such sequences, but we’ll look here at the Halton sequence (because its workings are easy to understand) and the Sobol sequence (less easy to understand, but easy to run).</p>
-<section id="halton-sequences" class="level4">
-<h4 class="anchored" data-anchor-id="halton-sequences">Halton sequences</h4>
+<p>These are the processes that were new to me, which showed up when I started looking for R packages that could do even sampling in 2D spaces. The first package to show up was <a href="https://www.spacefillr.com/"><code>spacefillr</code></a>. This implements a number of such sequences, but we’ll look here at the Halton sequence, because its workings are relatively easy to understand, and the implementation in the <a href="https://cran.r-project.org/web/packages/spbal/index.html"><code>spbal</code> package</a> provides more options.</p>
 <p><a href="https://en.wikipedia.org/wiki/Halton_sequence">:<em>Halton sequences</em></a> are generated using a pair of coprime numbers, i.e., two numbers with no common factors. The simplest example is 2 and 3. Each of the selected numbers specifies a sequence by repeated subdivision of the interval 0 to 1. So for 2 we get <span class="math display">\[
 \frac{1}{2},\frac{1}{4},\frac{3}{4},\frac{1}{8},\frac{5}{8},\frac{3}{8},\frac{7}{8},\ldots
 \]</span> and for 3 we get <span class="math display">\[
 \frac{1}{3},\frac{2}{3},\frac{1}{9},\frac{4}{9},\frac{7}{9},\frac{2}{9},\frac{5}{9},\ldots
 \]</span> Pairing these sequences gives us coordinates of points in the unit square. Different generating numbers can be chosen (provided they are coprime) and different starting points in each sequence can be paired, to give a wide variety of deterministically generated quasi-random patterns. The <a href="https://cran.r-project.org/web/packages/spbal/index.html"><code>spbal</code> package</a> provides a highly configurable interface to generate such sequences using the <code>cppRSHalton_br</code> function. We can see the procedures inner workings clearly by examining the first few elements in the sequence:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cppRSHalton_br</span>(<span class="dv">10</span>, <span class="at">bases =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">seeds =</span> <span class="dv">0</span>)<span class="sc">$</span>pts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cppRSHalton_br</span>(<span class="dv">10</span>, <span class="at">bases =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">seeds =</span> <span class="dv">0</span>)<span class="sc">$</span>pts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        [,1]       [,2]
  [1,] 0.0000 0.00000000
@@ -510,26 +538,27 @@ Figure&nbsp;3: Two patterns produced by spatial point processes in <code>spatsta
 [10,] 0.5625 0.03703704</code></pre>
 </div>
 </div>
-<p>These appear entirely regular, and some regularity is evident in the patterns generated (see <a href="#fig-offset-halton-sequence" class="quarto-xref">Figure&nbsp;4</a>), although it is less apparent than might be anticipated on considering the numerical values alone. The main interest in Halton sequences is their desirable evenness of distribution for sampling purposes, which is apparent in <a href="#fig-offset-halton-sequence" class="quarto-xref">Figure&nbsp;4</a>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>pattern4 <span class="ot">&lt;-</span> <span class="fu">cppRSHalton_br</span>(n_points, </span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">bases =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>),</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">14</span>, <span class="dv">21</span>))<span class="sc">$</span>pts <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-6-5"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">x =</span> V1, <span class="at">y =</span> V2) <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">generator =</span> <span class="st">"Halton"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These appear entirely regular, and some regularity is evident in the patterns generated (see <a href="#fig-offset-halton-sequence" class="quarto-xref">Figure&nbsp;5</a>), although it is less apparent than might be anticipated on considering the numerical values alone. The main interest in Halton sequences is their desirable evenness of distribution for sampling purposes, which is apparent in <a href="#fig-offset-halton-sequence" class="quarto-xref">Figure&nbsp;5</a>.</p>
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>pattern4 <span class="ot">&lt;-</span> <span class="fu">cppRSHalton_br</span>(n_points, </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-2" class="code-annotation-target"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">bases =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>),</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-3" class="code-annotation-target"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">14</span>, <span class="dv">21</span>))<span class="sc">$</span>pts <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-10-4"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-10-5"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">x =</span> V1, <span class="at">y =</span> V2) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-10-6"><a href="#annotated-cell-10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x =</span> x <span class="sc">*</span> <span class="dv">360</span> <span class="sc">-</span> <span class="dv">180</span>, </span>
+<span id="annotated-cell-10-7"><a href="#annotated-cell-10-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="fu">acos</span>(y <span class="sc">*</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> pi <span class="sc">*</span> <span class="dv">180</span> <span class="sc">-</span> <span class="dv">90</span>,</span>
+<span id="annotated-cell-10-8"><a href="#annotated-cell-10-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">generator =</span> <span class="st">"Halton"</span>)</span>
+<span id="annotated-cell-10-9"><a href="#annotated-cell-10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_pp</span>(pattern4)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="1">The coprime generating values.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="2" data-code-annotation="1">The coprime generating values.</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="2">The starting positions in the sequence for each generating value.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="3" data-code-annotation="2">The starting positions in the sequence for each generating value.</span>
 </dd>
 </dl>
-</div>
 </div>
 <div id="fig-offset-halton-sequence" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -538,123 +567,85 @@ Figure&nbsp;3: Two patterns produced by spatial point processes in <code>spatsta
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-11-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;4: Points generated by a Halton sequence"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="384"></a></p>
+<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Points generated by a Halton sequence"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-offset-halton-sequence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Points generated by a Halton sequence
+Figure&nbsp;5: Points generated by a Halton sequence
 </figcaption>
 </figure>
 </div>
 <p>Details concerning generation of Halton sequences and their statistical properties are provided by Faure and Lemieux.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 </section>
-<section id="sobol-sequences" class="level4">
-<h4 class="anchored" data-anchor-id="sobol-sequences">Sobol sequences</h4>
-<p>Another type of quasi-random sequence is the <a href="https://en.wikipedia.org/wiki/Sobol_sequence">:<em>Sobol sequence</em></a> which is provided by the <code>spacefillr::generate_sobol_set</code> function.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-1" class="code-annotation-target"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a>pattern5 <span class="ot">&lt;-</span>  <span class="fu">generate_sobol_owen_set</span>(n_points, <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">x =</span> V1, <span class="at">y =</span> V2) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">generator =</span> <span class="st">"Sobol"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="1" data-code-annotation="1">Second parameter is the desired dimensionality.</span>
-</dd>
-</dl>
-</div>
-</div>
-<div id="fig-sobol-sequence" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-sobol-sequence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-13-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;5: Points generated by a Sobol sequence"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="384"></a></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sobol-sequence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Points generated by a Sobol sequence
-</figcaption>
-</figure>
-</div>
-<p>This appears more ‘random’ while preserving the limited clumping property of the Halton sequence.</p>
-</section>
-</section>
 <section id="a-home-grown-parameter-free-pattern-generator" class="level3">
 <h3 class="anchored" data-anchor-id="a-home-grown-parameter-free-pattern-generator">A ‘home-grown’ parameter-free pattern generator</h3>
-<p>Here I use a seemingly trivial (but not very efficient!) algorithm to generate some home-made evenly distributed points, without the need to specify any (spatial) parameter like the inhibition distance required by <a href="#a-couple-of-patterns-from-spatial-point-processes">rSSI</a>. I found the inspiration for this in this <a href="https://blog.demofox.org/2017/10/20/generating-blue-noise-sample-points-with-mitchells-best-candidate-algorithm/">detailed blog post</a> about generating <a href="https://en.wikipedia.org/wiki/Colors_of_noise#Blue_noise">:<em>blue noise</em></a>, which was in turn based on an algorithm described by Mitchell.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> I have simplified matters by not calculating Euclidean distances and the results appear reasonable for my present very limited purpose. It is unclear to me if I needed to calculate toroidal distances but I have retained that feature of the algorithm.</p>
+<p>Here I use a seemingly trivial (but not very efficient!) algorithm to generate some home-made evenly distributed points, without the need to specify any (spatial) parameter like the inhibition distance required by <a href="#a-couple-of-patterns-from-spatial-point-processes">rSSI</a>. I found the inspiration for this in this <a href="https://blog.demofox.org/2017/10/20/generating-blue-noise-sample-points-with-mitchells-best-candidate-algorithm/">detailed blog post</a> about generating <a href="https://en.wikipedia.org/wiki/Colors_of_noise#Blue_noise">:<em>blue noise</em></a>, which was in turn based on an algorithm described by Mitchell.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>Matters are complicated by having to calculate distances in latitude-longitude space, which we do using the <a href="https://en.wikipedia.org/wiki/Haversine_formula">:Haversine formula</a> <span class="math display">\[
+d=2 r \arcsin\left(\sqrt{\sin^2\left(\frac{\varphi_2 - \varphi_1}{2}\right) + \cos(\varphi_1) \cos(\varphi_2)\sin^2\left(\frac{\lambda_2 - \lambda_1}{2}\right)}\right)
+\]</span> for the distance between two lon-lat locations<span class="math inline">\(\left(\lambda_1,\varphi_1\right)\)</span> and <span class="math inline">\(\left(\lambda_2,\varphi_2\right)\)</span>, although because we only need the relative distances we don’t use the <span class="math inline">\(2r\)</span> scaling. The need to calculate toroidal distances described in the blogpost is obviated by calculating distances on the sphere which wraps in a similar way.</p>
 <p>The simple idea of this algorithm is that each time we add a new point we generate a set of points (<code>candidates</code>) to choose from, and select the one with the largest minimum distance to an existing point in the pattern. Making the algorithm more efficient would involve only checking the distance to points known to be close to candidate points using some kind of spatial index or binning structure.</p>
+<p>At a lower implementation level there’s likely a quicker way to do the distance calculations between every candidate point and every point already in the pattern than a nested loop in R (a construct generally best avoided…).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1">1</button><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>abs_diffs <span class="ot">&lt;-</span> <span class="cf">function</span>(v1, v2) {</span>
-<span id="annotated-cell-8-2"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">outer</span>(v1, v2, <span class="st">"-"</span>) <span class="sc">|&gt;</span> <span class="fu">abs</span>()</span>
-<span id="annotated-cell-8-3"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="annotated-cell-8-4"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-8-5"><a href="#annotated-cell-8-5" aria-hidden="true" tabindex="-1"></a>toroidal_manhattan_distances <span class="ot">&lt;-</span> <span class="cf">function</span>(m1, m2) {</span>
-<span id="annotated-cell-8-6"><a href="#annotated-cell-8-6" aria-hidden="true" tabindex="-1"></a>  dx <span class="ot">&lt;-</span> <span class="fu">abs_diffs</span>(m1[, <span class="dv">1</span>], m2[, <span class="dv">1</span>])</span>
-<span id="annotated-cell-8-7"><a href="#annotated-cell-8-7" aria-hidden="true" tabindex="-1"></a>  dy <span class="ot">&lt;-</span> <span class="fu">abs_diffs</span>(m1[, <span class="dv">2</span>], m2[, <span class="dv">2</span>])</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2">2</button><span id="annotated-cell-8-8" class="code-annotation-target"><a href="#annotated-cell-8-8" aria-hidden="true" tabindex="-1"></a>  dx <span class="ot">&lt;-</span> <span class="fu">pmin</span>(dx, <span class="dv">1</span> <span class="sc">-</span> dx)</span>
-<span id="annotated-cell-8-9"><a href="#annotated-cell-8-9" aria-hidden="true" tabindex="-1"></a>  dy <span class="ot">&lt;-</span> <span class="fu">pmin</span>(dy, <span class="dv">1</span> <span class="sc">-</span> dy)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="3">3</button><span id="annotated-cell-8-10" class="code-annotation-target"><a href="#annotated-cell-8-10" aria-hidden="true" tabindex="-1"></a>  dx <span class="sc">+</span> dy</span>
-<span id="annotated-cell-8-11"><a href="#annotated-cell-8-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="annotated-cell-8-12"><a href="#annotated-cell-8-12" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="4">4</button><span id="annotated-cell-8-13" class="code-annotation-target"><a href="#annotated-cell-8-13" aria-hidden="true" tabindex="-1"></a>add_remote_point <span class="ot">&lt;-</span> <span class="cf">function</span>(m, <span class="at">choice_scaling =</span> <span class="fl">1.5</span>) {</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="5">5</button><span id="annotated-cell-8-14" class="code-annotation-target"><a href="#annotated-cell-8-14" aria-hidden="true" tabindex="-1"></a>  n_candidates <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">log</span>(<span class="fu">nrow</span>(m) <span class="sc">*</span> <span class="fu">exp</span>(<span class="dv">1</span>) <span class="sc">*</span> choice_scaling))</span>
-<span id="annotated-cell-8-15"><a href="#annotated-cell-8-15" aria-hidden="true" tabindex="-1"></a>  candidates <span class="ot">&lt;-</span> <span class="fu">runif</span>(n_candidates <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-8-16"><a href="#annotated-cell-8-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="annotated-cell-8-17"><a href="#annotated-cell-8-17" aria-hidden="true" tabindex="-1"></a>  r_max <span class="ot">&lt;-</span> <span class="fu">toroidal_manhattan_distances</span>(candidates, m) <span class="sc">|&gt;</span> </span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="6">6</button><span id="annotated-cell-8-18" class="code-annotation-target"><a href="#annotated-cell-8-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span>(<span class="dv">1</span>, min) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-8-19"><a href="#annotated-cell-8-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">which.max</span>()</span>
-<span id="annotated-cell-8-20"><a href="#annotated-cell-8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbind</span>(m, candidates[r_max, ])</span>
-<span id="annotated-cell-8-21"><a href="#annotated-cell-8-21" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="annotated-cell-8-22"><a href="#annotated-cell-8-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-8-23"><a href="#annotated-cell-8-23" aria-hidden="true" tabindex="-1"></a>spaced_points <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="at">choice_scaling =</span> <span class="fl">1.5</span>) {</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="7">7</button><span id="annotated-cell-8-24" class="code-annotation-target"><a href="#annotated-cell-8-24" aria-hidden="true" tabindex="-1"></a>  points <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="annotated-cell-8-25"><a href="#annotated-cell-8-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n) {</span>
-<span id="annotated-cell-8-26"><a href="#annotated-cell-8-26" aria-hidden="true" tabindex="-1"></a>    points <span class="ot">&lt;-</span> <span class="fu">add_remote_point</span>(points, <span class="at">choice_scaling =</span> choice_scaling)</span>
-<span id="annotated-cell-8-27"><a href="#annotated-cell-8-27" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="annotated-cell-8-28"><a href="#annotated-cell-8-28" aria-hidden="true" tabindex="-1"></a>  points <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-8-29"><a href="#annotated-cell-8-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-8-30"><a href="#annotated-cell-8-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">x =</span> V1, <span class="at">y =</span> V2) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-8-31"><a href="#annotated-cell-8-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">generator =</span> <span class="st">"Blue noise"</span>)</span>
-<span id="annotated-cell-8-32"><a href="#annotated-cell-8-32" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>ll_distances <span class="ot">&lt;-</span> <span class="cf">function</span>(p1, p2) {</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  distances <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nr =</span> <span class="fu">nrow</span>(p1), <span class="at">nc =</span> <span class="fu">nrow</span>(p2))</span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(p1)) {</span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(p2)) {</span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>      lon1 <span class="ot">&lt;-</span> p1[i, <span class="dv">1</span>] </span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>      lat1 <span class="ot">&lt;-</span> p1[i, <span class="dv">2</span>]</span>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>      lon2 <span class="ot">&lt;-</span> p2[j, <span class="dv">1</span>] </span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>      lat2 <span class="ot">&lt;-</span> p2[j, <span class="dv">2</span>]</span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>      distances[i, j] <span class="ot">&lt;-</span> <span class="fu">asin</span>(<span class="fu">sqrt</span>(</span>
+<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">sin</span>((lat2 <span class="sc">-</span> lat1) <span class="sc">/</span> <span class="dv">2</span>)) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">+</span></span>
+<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">cos</span>(lat1) <span class="sc">*</span> <span class="fu">cos</span>(lat2) <span class="sc">*</span> <span class="fu">sin</span>((lon2 <span class="sc">-</span> lon1) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">^</span> <span class="dv">2</span></span>
+<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>      ))</span>
+<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-4-15"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a>  distances</span>
+<span id="annotated-cell-4-16"><a href="#annotated-cell-4-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-4-17"><a href="#annotated-cell-4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-18"><a href="#annotated-cell-4-18" aria-hidden="true" tabindex="-1"></a>rescale <span class="ot">&lt;-</span> <span class="cf">function</span>(x, x1min, x2min, x1max, x2max) {</span>
+<span id="annotated-cell-4-19"><a href="#annotated-cell-4-19" aria-hidden="true" tabindex="-1"></a>  x2min <span class="sc">+</span> (x <span class="sc">-</span> x1min) <span class="sc">/</span> (x1max <span class="sc">-</span> x1min) <span class="sc">*</span> (x2max <span class="sc">-</span> x2min)</span>
+<span id="annotated-cell-4-20"><a href="#annotated-cell-4-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-4-21"><a href="#annotated-cell-4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-22"><a href="#annotated-cell-4-22" aria-hidden="true" tabindex="-1"></a>spaced_points <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="at">choice_scaling =</span> <span class="fl">1.5</span>,</span>
+<span id="annotated-cell-4-23"><a href="#annotated-cell-4-23" aria-hidden="true" tabindex="-1"></a>                          <span class="at">input_bb =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="annotated-cell-4-24"><a href="#annotated-cell-4-24" aria-hidden="true" tabindex="-1"></a>                          <span class="at">output_bb =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>), dist_fn) {</span>
+<span id="annotated-cell-4-25"><a href="#annotated-cell-4-25" aria-hidden="true" tabindex="-1"></a>  points <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">runif</span>(<span class="dv">1</span>, input_bb[<span class="dv">1</span>], input_bb[<span class="dv">3</span>]), </span>
+<span id="annotated-cell-4-26"><a href="#annotated-cell-4-26" aria-hidden="true" tabindex="-1"></a>              <span class="fu">runif</span>(<span class="dv">1</span>, input_bb[<span class="dv">2</span>], input_bb[<span class="dv">4</span>])) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-4-27"><a href="#annotated-cell-4-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="annotated-cell-4-28"><a href="#annotated-cell-4-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>)) {</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-29" class="code-annotation-target"><a href="#annotated-cell-4-29" aria-hidden="true" tabindex="-1"></a>    n_candidates <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">log</span>(i <span class="sc">*</span> <span class="fu">exp</span>(<span class="dv">1</span>) <span class="sc">*</span> choice_scaling))</span>
+<span id="annotated-cell-4-30"><a href="#annotated-cell-4-30" aria-hidden="true" tabindex="-1"></a>    candidates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">runif</span>(n_candidates, input_bb[<span class="dv">1</span>], input_bb[<span class="dv">3</span>]), </span>
+<span id="annotated-cell-4-31"><a href="#annotated-cell-4-31" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">runif</span>(n_candidates, input_bb[<span class="dv">2</span>], input_bb[<span class="dv">4</span>])) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-4-32"><a href="#annotated-cell-4-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="annotated-cell-4-33"><a href="#annotated-cell-4-33" aria-hidden="true" tabindex="-1"></a>    r_max <span class="ot">&lt;-</span> <span class="fu">dist_fn</span>(candidates, points) <span class="sc">|&gt;</span> </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-34" class="code-annotation-target"><a href="#annotated-cell-4-34" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span>(<span class="dv">1</span>, min) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-35"><a href="#annotated-cell-4-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">which.max</span>()</span>
+<span id="annotated-cell-4-36"><a href="#annotated-cell-4-36" aria-hidden="true" tabindex="-1"></a>    points <span class="ot">&lt;-</span> <span class="fu">rbind</span>(points, candidates[r_max, ])</span>
+<span id="annotated-cell-4-37"><a href="#annotated-cell-4-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-4-38"><a href="#annotated-cell-4-38" aria-hidden="true" tabindex="-1"></a>  points <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-4-39"><a href="#annotated-cell-4-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-40"><a href="#annotated-cell-4-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">x =</span> V1, <span class="at">y =</span> V2) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-41"><a href="#annotated-cell-4-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">x =</span> <span class="fu">rescale</span>(x, input_bb[<span class="dv">1</span>], output_bb[<span class="dv">1</span>], input_bb[<span class="dv">3</span>], output_bb[<span class="dv">3</span>]),</span>
+<span id="annotated-cell-4-42"><a href="#annotated-cell-4-42" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">rescale</span>(y, input_bb[<span class="dv">2</span>], output_bb[<span class="dv">2</span>], input_bb[<span class="dv">4</span>], output_bb[<span class="dv">4</span>]),</span>
+<span id="annotated-cell-4-43"><a href="#annotated-cell-4-43" aria-hidden="true" tabindex="-1"></a>           <span class="at">generator =</span> <span class="st">"Blue noise"</span>)</span>
+<span id="annotated-cell-4-44"><a href="#annotated-cell-4-44" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="1" data-code-annotation="1"><code>outer</code> applies subtraction to all pairwise combinations of values in the supplied vectors.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="1" data-code-annotation="1">Relative lat-lon distances determined using <a href="https://en.wikipedia.org/wiki/Haversine_formula">:Haversine formula</a>.</span>
 </dd>
-<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="8" data-code-annotation="2">Choosing the smaller of the differences in coordinates between <code>x</code> and <code>1-x</code> and is what makes the operation toroidal.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="29" data-code-annotation="2">The <code>choice_scaling</code> parameter determines how rapidly the number of candidate points grows with the size of the existing data set. It should be strictly greater than 1 or no points will ever get added! Including a log factor stops the speed of the algorithm from falling too rapidly as points are added.</span>
 </dd>
-<dt data-target-cell="annotated-cell-8" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="10" data-code-annotation="3">Manhattan distance is simpler than either squared or Euclidean distance, and appears sufficient.</span>
-</dd>
-<dt data-target-cell="annotated-cell-8" data-target-annotation="4">4</dt>
-<dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="13" data-code-annotation="4">The <code>choice_scaling</code> parameter determines how rapidly the number of candidate points grows with the size of the existing data set. It should be strictly greater than 1 or no points will ever get added!</span>
-</dd>
-<dt data-target-cell="annotated-cell-8" data-target-annotation="5">5</dt>
-<dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="14" data-code-annotation="5">Including a log factor in this scaling stops the speed of the algorithm from falling too rapidly as points are added.</span>
-</dd>
-<dt data-target-cell="annotated-cell-8" data-target-annotation="6">6</dt>
-<dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="18" data-code-annotation="6">The <code>apply(1, min)</code> operation finds the smallest distance in each row (i.e.&nbsp;distance to nearest neighbour in the existing set of points), and <code>which.max()</code> identifies the row with the largest minimum distance.</span>
-</dd>
-<dt data-target-cell="annotated-cell-8" data-target-annotation="7">7</dt>
-<dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="24" data-code-annotation="7">This makes a random starting point.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="34" data-code-annotation="3">The <code>apply(1, min)</code> operation finds the smallest distance in each row (i.e.&nbsp;distance to nearest neighbour in the existing set of points), and <code>which.max()</code> identifies the row with the largest minimum distance.</span>
 </dd>
 </dl>
 </div>
@@ -666,14 +657,14 @@ Figure&nbsp;5: Points generated by a Sobol sequence
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-15-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;6: A pattern generated using a simple ‘blue noise’ algorithm based on picking the most remote random additional point among a set of choices"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="384"></a></p>
+<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: A pattern generated using a ‘blue noise’ algorithm by iteratively choosing the most remote random additional point among a set of choices"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-homebrew-blue-noise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: A pattern generated using a simple ‘blue noise’ algorithm based on picking the most remote random additional point among a set of choices
+Figure&nbsp;6: A pattern generated using a ‘blue noise’ algorithm by iteratively choosing the most remote random additional point among a set of choices
 </figcaption>
 </figure>
 </div>
@@ -682,35 +673,66 @@ Figure&nbsp;6: A pattern generated using a simple ‘blue noise’ algorithm bas
 <section id="putting-all-these-points-on-the-globe" class="level2">
 <h2 class="anchored" data-anchor-id="putting-all-these-points-on-the-globe">Putting all these points on the globe</h2>
 <p>We now apply a transformation from the unit square to the globe that is equal-area as shown in the <a href="../../posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html">previous post</a>. We can combine all the points into a single data set and use <code>facet_wrap</code> for side-by-side comparison.</p>
-<div class="sourceCode cell-code" id="annotated-cell-12"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-12-1"><a href="#annotated-cell-12-1" aria-hidden="true" tabindex="-1"></a>transform_to_globe <span class="ot">&lt;-</span> <span class="cf">function</span>(df, proj) {</span>
-<span id="annotated-cell-12-2"><a href="#annotated-cell-12-2" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="1">1</button><span id="annotated-cell-12-3" class="code-annotation-target"><a href="#annotated-cell-12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">x =</span> x <span class="sc">*</span> <span class="dv">360</span> <span class="sc">-</span> <span class="dv">180</span>, <span class="at">y =</span> <span class="fu">acos</span>(y <span class="sc">*</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">180</span> <span class="sc">/</span> pi <span class="sc">-</span> <span class="dv">90</span>) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-12-4"><a href="#annotated-cell-12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>), <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-12-5"><a href="#annotated-cell-12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_transform</span>(proj)  </span>
-<span id="annotated-cell-12-6"><a href="#annotated-cell-12-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="annotated-cell-12-7"><a href="#annotated-cell-12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-8"><a href="#annotated-cell-12-8" aria-hidden="true" tabindex="-1"></a>all_points <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(pattern1, pattern2, pattern3,</span>
-<span id="annotated-cell-12-9"><a href="#annotated-cell-12-9" aria-hidden="true" tabindex="-1"></a>                        pattern4, pattern5, pattern6) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-12-10"><a href="#annotated-cell-12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transform_to_globe</span>(projection) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-12-11"><a href="#annotated-cell-12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">generator =</span> <span class="fu">ordered</span>(generator, <span class="fu">c</span>(<span class="st">"Uniform random"</span>, <span class="st">"Stratified point process"</span>,</span>
-<span id="annotated-cell-12-12"><a href="#annotated-cell-12-12" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Sequential Spatial Inhibition (SSI)"</span>, </span>
-<span id="annotated-cell-12-13"><a href="#annotated-cell-12-13" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Halton"</span>, <span class="st">"Sobol"</span>, <span class="st">"Blue noise"</span>)))</span>
-<span id="annotated-cell-12-14"><a href="#annotated-cell-12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-15"><a href="#annotated-cell-12-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(globe) <span class="sc">+</span></span>
-<span id="annotated-cell-12-16"><a href="#annotated-cell-12-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#cceeff"</span>, <span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-12-17"><a href="#annotated-cell-12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> world, <span class="at">fill =</span> <span class="st">"grey"</span>, <span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-12-18"><a href="#annotated-cell-12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> all_points, <span class="at">size =</span> <span class="fl">0.35</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="2">2</button><span id="annotated-cell-12-19" class="code-annotation-target"><a href="#annotated-cell-12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> generator, <span class="at">ncol =</span> <span class="fu">ifelse</span>(aspect_ratio <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
-<span id="annotated-cell-12-20"><a href="#annotated-cell-12-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-all-sets-on-globe" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-all-sets-on-globe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>transform_to_globe <span class="ot">&lt;-</span> <span class="cf">function</span>(df, proj) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>), <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_transform</span>(proj)  </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>all_points <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(pattern1, pattern2, pattern3, pattern4, pattern5) <span class="sc">|&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transform_to_globe</span>(projection) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">generator =</span> <span class="fu">ordered</span>(generator, <span class="fu">c</span>(<span class="st">"Uniform random"</span>, </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Uniform random cosine-corrected"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Stratified point process"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Halton"</span>, <span class="st">"Blue noise"</span>)))</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(globe) <span class="sc">+</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#cceeff"</span>, <span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> world, <span class="at">fill =</span> <span class="st">"grey"</span>, <span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> all_points, <span class="at">size =</span> <span class="fl">0.35</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> generator, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-11-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Side-by-side comparison of five patterns projected onto the globe"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-all-sets-on-globe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Side-by-side comparison of five patterns projected onto the globe
+</figcaption>
+</figure>
+</div>
+<p>With the obvious exception of the uniform random pattern, which exhibits definite clumping, all of these seem to do a reasonable job of producing a random arrangement of points evenly distributed over the globe. The stratified point process as mentioned above may have too many points close to the poles.</p>
+<p>From the perspective of avoiding clumping we can try to make the comparison slightly more precise by making hexbin density plots of the points.</p>
+<div class="sourceCode cell-code" id="annotated-cell-12"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-12-1"><a href="#annotated-cell-12-1" aria-hidden="true" tabindex="-1"></a>xy <span class="ot">&lt;-</span> all_points <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-12-2"><a href="#annotated-cell-12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-12-3"><a href="#annotated-cell-12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-12-4"><a href="#annotated-cell-12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(all_points)</span>
+<span id="annotated-cell-12-5"><a href="#annotated-cell-12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-12-6"><a href="#annotated-cell-12-6" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n_points <span class="sc">/</span> pi) <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(aspect_ratio)</span>
+<span id="annotated-cell-12-7"><a href="#annotated-cell-12-7" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> nx <span class="sc">*</span> <span class="dv">2</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">3</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(aspect_ratio)</span>
+<span id="annotated-cell-12-8"><a href="#annotated-cell-12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-12-9"><a href="#annotated-cell-12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(xy) <span class="sc">+</span></span>
+<span id="annotated-cell-12-10"><a href="#annotated-cell-12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hex</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">fill =</span> <span class="fu">as.factor</span>(<span class="fu">after_stat</span>(count))), </span>
+<span id="annotated-cell-12-11"><a href="#annotated-cell-12-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">bins =</span> <span class="fu">c</span>(nx, ny), <span class="at">linewidth =</span> <span class="fl">0.1</span>, <span class="at">colour =</span> <span class="st">"#666666"</span>) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="1">1</button><span id="annotated-cell-12-12" class="code-annotation-target"><a href="#annotated-cell-12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c4a</span>(<span class="st">"brewer.yl_gn_bu"</span>, <span class="dv">11</span>),</span>
+<span id="annotated-cell-12-13"><a href="#annotated-cell-12-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">guide =</span> <span class="st">"legend"</span>, <span class="at">name =</span> <span class="st">"#Points"</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-12-14"><a href="#annotated-cell-12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"path"</span>, <span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-12-15"><a href="#annotated-cell-12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="annotated-cell-12-16"><a href="#annotated-cell-12-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> generator, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-12-17"><a href="#annotated-cell-12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-12" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-12" data-code-lines="3" data-code-annotation="1">Convert to longitude-latitude from the unit square, applying the cosine correction to the y axis.</span>
-</dd>
-<dt data-target-cell="annotated-cell-12" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-12" data-code-lines="19" data-code-annotation="2">This <code>ifelse</code> clause makes for a nicer arrangement of small multiples if the maps are wider than they are high.</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="12" data-code-annotation="1"><code>ggplot2::geom_hex</code> insists that the point counts are ‘continuous’ which is what forces me to convert at a factor, so that I can use a legend not a colour ramp here. Another instance of <code>ggplot2</code>’s strong preference for not classing data, see <a href="../2024-11-16-tmap-vs-ggplot/">this recent post</a> in the context of choropleth maps.</span>
 </dd>
 </dl>
 </div>
@@ -721,64 +743,56 @@ Figure&nbsp;6: A pattern generated using a simple ‘blue noise’ algorithm bas
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-16-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;7: Side-by-side comparison of six patterns projected onto the globe"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="768"></a></p>
+<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Side-by-side comparison of hexbin density plots of the five point patterns"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-all-sets-on-globe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Side-by-side comparison of six patterns projected onto the globe
+Figure&nbsp;8: Side-by-side comparison of hexbin density plots of the five point patterns
 </figcaption>
 </figure>
 </div>
-<p>With the obvious exception of the uniform random pattern, which exhibits definite clumping, all of these seem to do a reasonable job of producing a random arrangement of points evenly distributed over the globe. The Halton and Sobol sequence generated patterns may have some (non-straight) linear ‘clumps’ although it’s hard to know if this is a result of knowing that the generating processes involved can yield such alignments.</p>
-<p>From the perspective of avoiding clumping we can try to make the comparison slightly more precise by making hexbin density plots of the points.</p>
-<div class="sourceCode cell-code" id="annotated-cell-13"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-13-1"><a href="#annotated-cell-13-1" aria-hidden="true" tabindex="-1"></a>xy <span class="ot">&lt;-</span> all_points <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-13-2"><a href="#annotated-cell-13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-13-3"><a href="#annotated-cell-13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-13-4"><a href="#annotated-cell-13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(all_points)</span>
-<span id="annotated-cell-13-5"><a href="#annotated-cell-13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-13-6"><a href="#annotated-cell-13-6" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n_points <span class="sc">/</span> pi) <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(aspect_ratio)</span>
-<span id="annotated-cell-13-7"><a href="#annotated-cell-13-7" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> nx <span class="sc">*</span> <span class="dv">2</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">3</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(aspect_ratio)</span>
-<span id="annotated-cell-13-8"><a href="#annotated-cell-13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-13-9"><a href="#annotated-cell-13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(xy) <span class="sc">+</span></span>
-<span id="annotated-cell-13-10"><a href="#annotated-cell-13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hex</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">fill =</span> <span class="fu">as.factor</span>(<span class="fu">after_stat</span>(count))), </span>
-<span id="annotated-cell-13-11"><a href="#annotated-cell-13-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">bins =</span> <span class="fu">c</span>(nx, ny), <span class="at">linewidth =</span> <span class="fl">0.1</span>, <span class="at">colour =</span> <span class="st">"#666666"</span>) <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="1">1</button><span id="annotated-cell-13-12" class="code-annotation-target"><a href="#annotated-cell-13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c4a</span>(<span class="st">"brewer.yl_gn_bu"</span>),</span>
-<span id="annotated-cell-13-13"><a href="#annotated-cell-13-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">guide =</span> <span class="st">"legend"</span>, <span class="at">name =</span> <span class="st">"#Points"</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-13-14"><a href="#annotated-cell-13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"path"</span>, <span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-13-15"><a href="#annotated-cell-13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
-<span id="annotated-cell-13-16"><a href="#annotated-cell-13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> generator, <span class="at">ncol =</span> <span class="fu">ifelse</span>(aspect_ratio <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
-<span id="annotated-cell-13-17"><a href="#annotated-cell-13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="12" data-code-annotation="1"><code>ggplot2::geom_hex</code> insists that the point counts are ‘continuous’ which is what forces me to convert at a factor, so that I can use a legend not a colour ramp here. Another instance of <code>ggplot2</code>’s strong preference for not classing data, see <a href="../2024-11-16-tmap-vs-ggplot/">this recent post</a> in the context of choropleth maps.</span>
-</dd>
-</dl>
-</div>
-<div id="fig-all-sets-on-globe" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>The uniform random pattern clearly exhibits the most uneven distribution of points. The cosine-corrected version is better although there is still unevenness in the mid-latitudes, as we would expect because there is no interaction between points in the pattern: the presence of a previous point does not block another point showing up close by. The stratified point process and Halton patterns are better again. The latter of these is particularly surprising, given its completely deterministic generative process.</p>
+<p>Somewhat to my surprise my ‘homebrew’ blue noise compares well with the other four patterns for evenness of distribution. This is particularly nice given that it requires no spatial parameter to be supplied, only one that (perhaps only marginally) affects the quality of the patterns produced.</p>
+</section>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final thoughts</h2>
+<p>It is intriguing to me that blue noise is seemingly not a standard spatial point process. Unlike sequential spatial inhibition to which it is similar it requires no spatial parameter to be tuned to get a desired result, and it cannot fail to produce the requested number of points. It is also a reasonable plausible process from a ‘mechanism’ perspective. Imagine for example retailers considering premises in which to set up shop and examining a number of different sites, then choosing the one farthest from any potential competitor. It’s at least as compelling in that respect as a model of the outcome of competition between event locations as SSI.</p>
+<p>Since it seems useful, I provided some ‘hooks’ in the implementation above to allow use of different distance functions and ‘windows’ for point generation. Here’s an example in a simple Euclidean space, using <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">:Manhattan distance</a> to determine the best new point among candidates.</p>
+<div id="fig-blue-noise-in-unit-square" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-all-sets-on-globe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-blue-noise-in-unit-square-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>abs_diffs <span class="ot">&lt;-</span> <span class="cf">function</span>(v1, v2) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">outer</span>(v1, v2, <span class="st">"-"</span>) <span class="sc">|&gt;</span> <span class="fu">abs</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>manhattan_distances <span class="ot">&lt;-</span> <span class="cf">function</span>(p1, p2) {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  dx <span class="ot">&lt;-</span> <span class="fu">abs_diffs</span>(p1[, <span class="dv">1</span>], p2[, <span class="dv">1</span>])</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  dy <span class="ot">&lt;-</span> <span class="fu">abs_diffs</span>(p1[, <span class="dv">2</span>], p2[, <span class="dv">2</span>])</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  dx <span class="sc">+</span> dy</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">spaced_points</span>(n_points, <span class="at">dist_fn =</span> manhattan_distances) <span class="sc">|&gt;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_equal</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-17-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;8: Side-by-side comparison of hexbin density plots of the six point patterns"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="768"></a></p>
+<p><a href="random-points-on-globe_files/figure-html/unnamed-chunk-13-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: A blue noise pattern in Euclidean space"><img src="random-points-on-globe_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="576"></a></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-all-sets-on-globe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Side-by-side comparison of hexbin density plots of the six point patterns
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-blue-noise-in-unit-square-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: A blue noise pattern in Euclidean space
 </figcaption>
 </figure>
 </div>
-<p>The uniform random pattern clearly exhibits the most uneven distribution of points. Somewhat to my surprise my ‘homebrew’ blue noise compares well with the other four patterns for evenness of distribution. This is particularly nice given that it requires no spatial parameter to be supplied, only one that (probably marginally) affects the quality of the patterns produced.</p>
-<p>It is intriguing to me that this is seemingly not a standard spatial point process. Unlike sequential spatial inhibition to which it is similar it requires no spatial parameter to be tuned to get a desired result, and it cannot fail to produce the requested number of points. It is also a reasonable plausible process from a ‘mechanism’ perspective. Imagine for example retailers considering premises in which to set up shop and examining a number of different sites, then choosing the one farthest from any potential competitor. It’s at least as compelling in that respect as a model of the outcome of competition between event locations as SSI.</p>
 <p>An interesting rabbit hole indeed!</p>
 
 
