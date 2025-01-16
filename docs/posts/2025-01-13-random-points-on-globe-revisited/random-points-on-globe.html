@@ -388,7 +388,7 @@ Figure&nbsp;1: World map in Mollweide
 <h2 class="anchored" data-anchor-id="patterns-in-latitude-longitude-space">Patterns in latitude-longitude space</h2>
 <section id="a-simple-random-pattern" class="level3">
 <h3 class="anchored" data-anchor-id="a-simple-random-pattern">A simple random pattern</h3>
-<p>We can make this by drawing x and y coordinates from uniform distributions. The <span class="math inline">\(y\)</span> coordinate is transformed using the inverse cosine operation discussed in my original post.</p>
+<p>We can make this by drawing x and y coordinates from uniform distributions.</p>
 <div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>plot_pp <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
@@ -672,7 +672,7 @@ Figure&nbsp;6: A pattern generated using a ‘blue noise’ algorithm by iterati
 </section>
 <section id="putting-all-these-points-on-the-globe" class="level2">
 <h2 class="anchored" data-anchor-id="putting-all-these-points-on-the-globe">Putting all these points on the globe</h2>
-<p>We now apply a transformation from the unit square to the globe that is equal-area as shown in the <a href="../../posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html">previous post</a>. We can combine all the points into a single data set and use <code>facet_wrap</code> for side-by-side comparison.</p>
+<p>We now apply a transformation from the lat-lon Cartesian coordinates to the globe that is equal-area as shown in the <a href="../../posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html">previous post</a>. We can combine all the points into a single data set and use <code>facet_wrap</code> for side-by-side comparison.</p>
 <div id="fig-all-sets-on-globe" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-all-sets-on-globe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -709,7 +709,7 @@ Figure&nbsp;7: Side-by-side comparison of five patterns projected onto the globe
 </figcaption>
 </figure>
 </div>
-<p>With the obvious exception of the uniform random pattern, which exhibits definite clumping, all of these seem to do a reasonable job of producing a random arrangement of points evenly distributed over the globe. The stratified point process as mentioned above may have too many points close to the poles.</p>
+<p>With the obvious exception of the uniform random pattern, which exhibits definite clumping, all of these seem to do a reasonable job of producing a random arrangement of points evenly distributed over the globe.</p>
 <p>From the perspective of avoiding clumping we can try to make the comparison slightly more precise by making hexbin density plots of the points.</p>
 <div class="sourceCode cell-code" id="annotated-cell-12"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-12-1"><a href="#annotated-cell-12-1" aria-hidden="true" tabindex="-1"></a>xy <span class="ot">&lt;-</span> all_points <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-12-2"><a href="#annotated-cell-12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
