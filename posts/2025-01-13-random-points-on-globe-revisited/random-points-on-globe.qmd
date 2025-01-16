@@ -142,7 +142,7 @@ Uniform random pattern with cosine correction
 
 In later patterns I have applied this cosine correction where the underlying process generates uniformly distributed y coordinates.
 
-### A pattern from spatial point process
+### A pattern from a spatial point process
 My first thought here was to use a _sequential spatial inhibition process_. This is a spatial point process where points are generated at random locations, but rejected if they are closer than some _inhibition distance_ to an existing point already in the pattern. This is easily done in Euclidean space using the `spatstat::rSSI` function. In latitude-longitude space this won't work because distances are not calculable using the Pythagorean function on coordinates.
 
 Instead, I have opted for the uniform point process (just as above), but specifying a tiling (a tessellation) of the space with _approximately_ equal-area tiles. Using the formula for the y coordinate of a cylindrical equal-area projection $y=sin\phi$, we can generate _approximately_ equal-area rectangles in latitude-longitude space as below. I emphasise the approximation here, because it is only approximate. Rectangles in lat-lon space are not rectangles on the globe after all.

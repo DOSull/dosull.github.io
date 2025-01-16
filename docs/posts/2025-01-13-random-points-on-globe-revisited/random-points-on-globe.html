@@ -279,7 +279,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#a-simple-random-pattern" id="toc-a-simple-random-pattern" class="nav-link" data-scroll-target="#a-simple-random-pattern">A simple random pattern</a></li>
   <li><a href="#simple-random-pattern-with-a-cosine-correction-for-latitude" id="toc-simple-random-pattern-with-a-cosine-correction-for-latitude" class="nav-link" data-scroll-target="#simple-random-pattern-with-a-cosine-correction-for-latitude">Simple random pattern with a cosine correction for latitude</a></li>
-  <li><a href="#a-pattern-from-spatial-point-process" id="toc-a-pattern-from-spatial-point-process" class="nav-link" data-scroll-target="#a-pattern-from-spatial-point-process">A pattern from spatial point process</a></li>
+  <li><a href="#a-pattern-from-a-spatial-point-process" id="toc-a-pattern-from-a-spatial-point-process" class="nav-link" data-scroll-target="#a-pattern-from-a-spatial-point-process">A pattern from a spatial point process</a></li>
   <li><a href="#quasi-random-sequences" id="toc-quasi-random-sequences" class="nav-link" data-scroll-target="#quasi-random-sequences">Quasi-random sequences</a></li>
   <li><a href="#a-home-grown-parameter-free-pattern-generator" id="toc-a-home-grown-parameter-free-pattern-generator" class="nav-link" data-scroll-target="#a-home-grown-parameter-free-pattern-generator">A ‘home-grown’ parameter-free pattern generator</a></li>
   </ul></li>
@@ -462,8 +462,8 @@ Figure&nbsp;3: Uniform random pattern with cosine correction
 </div>
 <p>In later patterns I have applied this cosine correction where the underlying process generates uniformly distributed y coordinates.</p>
 </section>
-<section id="a-pattern-from-spatial-point-process" class="level3">
-<h3 class="anchored" data-anchor-id="a-pattern-from-spatial-point-process">A pattern from spatial point process</h3>
+<section id="a-pattern-from-a-spatial-point-process" class="level3">
+<h3 class="anchored" data-anchor-id="a-pattern-from-a-spatial-point-process">A pattern from a spatial point process</h3>
 <p>My first thought here was to use a <em>sequential spatial inhibition process</em>. This is a spatial point process where points are generated at random locations, but rejected if they are closer than some <em>inhibition distance</em> to an existing point already in the pattern. This is easily done in Euclidean space using the <code>spatstat::rSSI</code> function. In latitude-longitude space this won’t work because distances are not calculable using the Pythagorean function on coordinates.</p>
 <p>Instead, I have opted for the uniform point process (just as above), but specifying a tiling (a tessellation) of the space with <em>approximately</em> equal-area tiles. Using the formula for the y coordinate of a cylindrical equal-area projection <span class="math inline">\(y=sin\phi\)</span>, we can generate <em>approximately</em> equal-area rectangles in latitude-longitude space as below. I emphasise the approximation here, because it is only approximate. Rectangles in lat-lon space are not rectangles on the globe after all.</p>
 <div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1">1</button><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n_points <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span></span>
