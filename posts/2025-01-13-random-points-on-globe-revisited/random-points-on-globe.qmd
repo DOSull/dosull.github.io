@@ -226,24 +226,18 @@ for the distance between two lon-lat locations$\left(\lambda_1,\varphi_1\right)$
 
 The simple idea of this algorithm is that each time we add a new point we generate a set of points (`candidates`) to choose from, and select the one with the largest minimum distance to an existing point in the pattern. Making the algorithm more efficient would involve only checking the distance to points known to be close to candidate points using some kind of spatial index or binning structure.
 
-At a lower implementation level there's likely a quicker way to do the distance calculations between every candidate point and every point already in the pattern than a nested loop in R (a construct generally best avoided...).
-
 ```{r}
-ll_distances <- function(p1, p2) {                              # <1>
-  distances <- matrix(0, nr = nrow(p1), nc = nrow(p2))
-  for (i in 1:nrow(p1)) {
-    for (j in 1:nrow(p2)) {
-      lon1 <- p1[i, 1] 
-      lat1 <- p1[i, 2]
-      lon2 <- p2[j, 1] 
-      lat2 <- p2[j, 2]
-      distances[i, j] <- asin(sqrt(
-        (sin((lat2 - lat1) / 2)) ^ 2 +
-        cos(lat1) * cos(lat2) * sin((lon2 - lon1) / 2) ^ 2
-      ))
-    }
-  }
-  distances
+diffs <- function(v1, v2) {                                         # <1>
+  outer(v1, v2, "-")
+}
+
+ll_distances <- function(p1, p2) {
+  dlon <- diffs(p1[, 1], p2[, 1])
+  dlat <- diffs(p1[, 2], p2[, 2])
+  asin(sqrt(
+    sin(dlat / 2) ^ 2 +
+    outer(cos(p1[, 2]), cos(p2[, 2]), "*") * sin(dlon / 2) ^ 2      # <2>
+  ))
 }
 
 rescale <- function(x, x1min, x2min, x1max, x2max) {
@@ -257,12 +251,12 @@ spaced_points <- function(n = 50, choice_scaling = 1.5,
               runif(1, input_bb[2], input_bb[4])) |> 
     matrix(ncol = 2)
   for (i in 1:(n-1)) {
-    n_candidates <- ceiling(log(i * exp(1) * choice_scaling))       # <2>
+    n_candidates <- ceiling(log(i * exp(1) * choice_scaling))       # <3>
     candidates <- c(runif(n_candidates, input_bb[1], input_bb[3]), 
                     runif(n_candidates, input_bb[2], input_bb[4])) |> 
       matrix(ncol = 2)
     r_max <- dist_fn(candidates, points) |> 
-      apply(1, min) |>                                              # <3>
+      apply(1, min) |>                                              # <4>
       which.max()
     points <- rbind(points, candidates[r_max, ])
   }
@@ -274,9 +268,10 @@ spaced_points <- function(n = 50, choice_scaling = 1.5,
            generator = "Blue noise")
 }
 ```
-1. Relative lat-lon distances determined using [:Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula).
-2. The `choice_scaling` parameter determines how rapidly the number of candidate points grows with the size of the existing data set. It should be strictly greater than 1 or no points will ever get added! Including a log factor stops the speed of the algorithm from falling too rapidly as points are added.
-3. The `apply(1, min)` operation finds the smallest distance in each row (i.e. distance to nearest neighbour in the existing set of points), and `which.max()` identifies the row with the largest minimum distance.
+1. Use the `outer` function to do all pairwise differences between two vectors.
+2. Again use `outer` to do all pairwise products of the cosines.
+3. The `choice_scaling` parameter determines how rapidly the number of candidate points grows with the size of the existing data set. It should be strictly greater than 1 or no points will ever get added! Including a log factor stops the speed of the algorithm from falling too rapidly as points are added.
+4. The `apply(1, min)` operation finds the smallest distance in each row (i.e. distance to nearest neighbour in the existing set of points), and `which.max()` identifies the row with the largest minimum distance.
 
 ::: {#fig-homebrew-blue-noise}
 ```{r}
