@@ -21,9 +21,7 @@ Or maybe they thought it was just _too much_:
 
 Whatever the reason, we never did get involved in the national response, although it was clear by the time of the outbreak in later 2021 that they _were_, at least by then, thinking geographically about how to manage things. Anyway, you can play with the model by clicking below.
 
-::: {style="text-align:center;"}
 [Go to the model](https://southosullivan.com/misc/distributed-branching-process-RC-web.html){.button-link target="_blank" style="font-family:sans-serif; background-color:#396; color:#cec; padding:10px; box-shadow: 5px 5px 5px #666; border-radius:5px; text-decoration: none;"}
-:::
 
 It's quite slow to load, and if you aren't smart about the settings you use it's likely to rapidly spin out of control (just like a uh... _pandemic_) and slow things down dramatically. For that reason I advise only using the `go-one-day` or `go-one-week` buttons until you get a feel for things.
 

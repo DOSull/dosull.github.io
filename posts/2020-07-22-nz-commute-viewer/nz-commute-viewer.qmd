@@ -15,9 +15,7 @@ I somehow convinced myself in the break between two exhausting semesters in 2020
 
 I learned a lot about a bunch of things along the way, but probably needed to take a step back and learn more about web development frameworks, as there is [altogether _too much_ handcrafted javascript in there](https://github.com/DOSull/commute-viewer/blob/master/commute-viewer-app/js/app.js). Nevertheless, I had fun and I am reasonably happy with the end result. Also... it still works over four years later, which might not be true if I'd used something smarter than vanilla JS.
 
-::: {style="text-align:center;"}
 [Go to the viewer](https://dosull.github.io/commute-viewer/commute-viewer-app){.button-link target="_blank"}
-:::
 
 Here's a screenshot for anyone not curious enough to click on the link.
 

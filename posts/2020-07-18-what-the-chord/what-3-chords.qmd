@@ -14,6 +14,4 @@ date: 07-03-2020
 
 I don't know if this needs or deserves any further explanation, but **SERIOUSLY** and I can't emphasise this enough, **turn down the volume on your device** before clicking the button.
 
-::: {style="text-align:center;"}
 [Where am I?](https://dosull.github.io/what3chords/what3chords-app/){.button-link target="_blank"}
-:::

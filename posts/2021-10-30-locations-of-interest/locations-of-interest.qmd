@@ -16,8 +16,6 @@ For a time, during the [August 2021 COVID](https://en.wikipedia.org/wiki/Timelin
 
 There was something oddly compelling about the mundane details of the reported locations of interest.
 
-::: {style="text-align:center;"}
 [Go to the viewer](https://southosullivan.com/misc/loi.html){.button-link target="_blank"}
-:::
 
 Like most of the country I got pretty fed up doing it in the end, so I stopped... for whatever it's worth, looking at the timeline on the visualization the delta outbreak _did_ get reigned in _eventually_, but it it was pretty clear that the mood of the country had changed and lockdowns weren't going to stick for much longer.

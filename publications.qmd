@@ -2,14 +2,19 @@
 title: "Publications"
 description: "I try to keep this as up to date as possible..."
 title-block-banner: true
+engine: knitr
 ---
+
+```{css, echo=FALSE}
+p { text-align: left; }
+```
 
 A similar list is available at my [ORCiD profile](https://orcid.org/0000-0001-8078-3241). You can also see them in citational context at [my google scholar page](https://scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao), which is reasonably accurate.  Links below are generally to official publisher sources, and are often paywalled. Open access copies are linked from my [University of Auckland profile page](https://profiles.auckland.ac.nz/dosu004). If you would like a copy of something in particular and can't access it, then [get in touch](mailto:osullivan512@gmail.com).
 
 Jump to [books](#books), [papers](#in-refereed-journals), [book chapters](#book-chapters), [dissertations](#dissertations)
 
 ## Books
-::: {style="padding-left:2em; text-indent:-2em;"}
+::: {.bib}
 **O’Sullivan D**. 2024. _Computing Geographically: Bridging Giscience and Geography_ (Guilford Press: New York).
 
 **O’Sullivan D**. 2017. Section Editor for ‘Fundamentals of GIScience’ (32 articles) in *The International Encyclopedia of Geography: People, the Earth, Environment, and Technology*. Richardson, D. (ed). New York: Wiley.
@@ -24,7 +29,7 @@ Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information S
 :::
 
 ## In refereed journals
-::: {style="padding-left:2em; text-indent:-2em;"}
+::: {.bib}
 Mahmoudi D, J Thatcher, LB Imaoka, and **D O’Sullivan**. Online first. From FOSS to profit: Digital spatial technologies and the mode of production. _Digital Geography and Society_. 100101. doi: [10.1016/j.diggeo.2024.100101](https://dx.doi.org/10.1016/j.diggeo.2024.100101).
 
 **O’Sullivan D**. 2024. Environment and Planning B and me; or what is lost in data. _Environment and Planning B: Urban Analytics and City Science_ **51**(5) 1045–1048. doi: [10.1177/23998083241246320](https://dx.doi.org/10.1177/23998083241246320).
@@ -83,7 +88,7 @@ Thatcher JE, **D O’Sullivan** and D Mahmoudi. 2016. Data colonialism through a
 
 Cheung AK-L, G Brierley, and **D O’Sullivan**. 2016. Landscape structure and dynamics on the Qinghai-Tibetan Plateau. *Ecological Modelling* **339** 7-22. doi: [10.1016/j.ecolmodel.2016.07.015](http://dx.doi.org/10.1016/j.ecolmodel.2016.07.015)
 
-Thatcher JE, LR Bergmann, B Ricker, R Rose-Redwood, **D O’Sullivan**, TJ Barnes, LR Barnesmoore, L Beltz Imaoka, R Burns, J Cinnamon, CM Dalton, C Davis, S Dunn, F Harvey, J-K Jung, E Kersten, L Knigge, N Lally, W Lin, D Mahmoudi, M Martin, W Payne, A Sheikh, T Shelton, E Sheppard, CW Strother, A Tarr, MW Wilson, and JC Young. 2016. Revisiting critical GIS. *Environment and Planning A* **48**(5) 815-824. doi: [10.1177/0308518X15622208](http://dx.doi.org/10.1177/0308518X15622208)
+Thatcher JE, LR Bergmann, B Ricker, R Rose-Redwood, **D O’Sullivan**, TJ Barnes, LR Barnes&shy;moore, L Beltz Imaoka, R Burns, J Cinnamon, CM Dalton, C Davis, S Dunn, F Harvey, J-K Jung, E Kersten, L Knigge, N Lally, W Lin, D Mahmoudi, M Martin, W Payne, A Sheikh, T Shelton, E Sheppard, CW Strother, A Tarr, MW Wilson, and JC Young. 2016. Revisiting critical GIS. *Environment and Planning A* **48**(5) 815-824. doi: [10.1177/0308518X15622208](http://dx.doi.org/10.1177/0308518X15622208)
 
 **O’Sullivan D**, T Evans, SM Manson, S Metcalf, A Ligmann-Zielinska, and C Bone. 2016. Strategic directions for agent-based modeling: avoiding the YAAWN syndrome. *Journal of Land Use Science* **11**(2) 177-187. doi: [10.1080/1747423X.2015.1030463](http://dx.doi.org/10.1080/1747423X.2015.1030463)
 
@@ -163,7 +168,7 @@ Turner A, M Doxa, **D O’Sullivan** and A Penn. 2001. From isovists to visibili
 :::
 
 ## Book chapters
-::: {style="padding-left:2em; text-indent:-2em;"}
+::: {.bib}
 Bergmann LR and **D O’Sullivan**. 2024. Space: towards a global sense of place. In *A Research Agenda for Spatial Analysis* (eds LJ Wolf, R Harris and AJ Heppenstall). Elgar Research Agendas. Edward Elgar Publishing. doi: [10.4337/9781802203233.00009](https://dx.doi.org/10.4337/9781802203233.00009).
 
 C Andris and **D O’Sullivan**. 2019. Spatial Networks. In *Handbook of Regional Science* (eds MM Fischer and P Nijkamp). Springer. doi: [10.1007/978-3-642-36203-3_67-1](https://dx.doi.org/10.1007/978-3-642-36203-3_67-1).
@@ -194,7 +199,7 @@ Heppenstall AJ, AJ Evans, MH Birkin, JR Macgill and **D O’Sullivan**. 2005. Th
 :::
 
 ## Dissertations
-::: {style="padding-left:2em; text-indent:-2em;"}
+::: {.bib}
 PhD: **O’Sullivan D**. 2000. [Graph-based Cellular Automaton Models of Urban Spatial Processes](https://southosullivan.com/phd/O'Sullivan_2000_Graph-based Cellular Automaton Models of Urban Spatial Processes.pdf). University College London.
 
 MSc: **O’Sullivan D**. 1997. [Using GIS to create public transport travel time isochrones for the Glasgow area](http://southosullivan.com/msc/mastersThesis.pdf). University of Glasgow.
