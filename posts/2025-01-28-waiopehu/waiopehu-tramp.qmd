@@ -47,7 +47,7 @@ theme_set(theme_minimal())
 ## So where was this tramp?
 Having admitted that I have a healthy respect for the Tararuas, I was disappointed to find in putting together this post, that they are a LiDAR deadzone for some reason. I'd hoped I could explore the fractal nature of our tramp from the comfort of my keyboard, but to do that well I'd need more precise elevation data than are available.
 
-I've shown the LiDAR coverage (available from LINZ](https://linz.maps.arcgis.com/home/item.html?id=c56c4de9202545359b927464dfbe112b) overlaid on a LINZ Topo 50 map below. You can get the map data from [here](https://data.linz.govt.nz/layer/50767-nz-topo50-maps/) and of course there are also useful apps based on that layer. We also found the [Organic Maps app](https://organicmaps.app/) which I have on my phone for everyday use, and which is based solely on OpenStreetMap data, to be very good.^[But take my advice: _don't_ take my advice on anything to do with tramping.]
+I've shown the LiDAR coverage [available from LINZ](https://linz.maps.arcgis.com/home/item.html?id=c56c4de9202545359b927464dfbe112b) overlaid on a LINZ Topo 50 map below. You can get the map data from [here](https://data.linz.govt.nz/layer/50767-nz-topo50-maps/) and of course there are also useful apps based on that layer. We also found the [Organic Maps app](https://organicmaps.app/) which I have on my phone for everyday use, and which is based solely on OpenStreetMap data, to be very good.^[But take my advice: _don't_ take my advice on anything to do with tramping.]
 
 ```{r}
 #| output: false
