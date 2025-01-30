@@ -28,7 +28,7 @@ But lo and behold, a decade on and son #1 is planning on doing the [:Te Araroa T
 
 Anyway, back to his revenge. I haven't done any serious tramping lately, but he took me on an overnight trip to the [Waiopehu Hut](https://www.doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/tararua-forest-park/things-to-do/huts/waiopehu-hut/) in the [:Tararua Range](https://en.wikipedia.org/wiki/Tararua_Range). 
 
-To cut a long story short and answer the question in my subtitle: _I'm_ afraid of the Tararuas! OMG they're _gnarly_. In all honesty, my son overestimated my abilities and although I made it in and back out, several days late I was still feeling it!
+To cut a long story short and answer the question in my subtitle: _I'm_ afraid of the Tararuas! OMG they're _gnarly_. In all honesty, my son overestimated my abilities and although I made it in and back out, several days later I am still feeling it!
 
 ```{r}
 #| echo: false
@@ -71,7 +71,7 @@ tm_shape(topo_map) +
   tm_scalebar(position = tm_pos_out("center", "bottom"))
 ```
 
-Without LiDAR data exploring the fractal nature of the ups and downs of the trail is a bit of a non-starter. The reason I wanted to look at it as that one of the most salient features of this track was just how much 'down' there is mixed in with the 'up'. It's a little bit ridiculous how much you end up resenting the downhill stretches on the way up, when you know you're shortly going to have to pay for them with more uphill. Not only that, in terrain this rugged, going downhill might use less energy than going uphill, but it demands just as much concentration, if not more!
+Without LiDAR data exploring the fractal nature of the ups and downs of the trail is a bit of a non-starter. The reason I wanted to look at it that way is that one of the most salient features of this track was just how much 'down' there is mixed in with the 'up'. It's a little bit ridiculous how much you end up resenting the downhill stretches on the way up, when you know you're shortly going to have to pay for them with more uphill. Not only that, in terrain this rugged, going downhill might use less energy than going uphill, but it demands just as much concentration, if not more!
 
 ## A transect of our travails
 ```{r}
@@ -103,7 +103,7 @@ tm_shape(dem) +
 
 So here's one approach to making a transect.
 
-First we have to take the path, convert it to a series of points and extract elevation values from the DEM at those points. I've used just the points along the linestring rather than interpolating along its length. How that would look at different resolutions were LiDAR data available would be interesting thing to explore.
+First we have to take the path, convert it to a series of points and extract elevation values from the DEM at those points. I've used just the points along the linestring rather than interpolating along its length. How that would look at different resolutions were LiDAR data available would be interesting to explore.
 
 ```{r}
 # function to return data for plotting a transect across a DEM along a line
@@ -115,8 +115,8 @@ get_transect <- function(dem, line) {
     st_as_sf(coords = 1:2, crs = st_crs(line))            # <3>   
   names(dem) <- "z"                                       # <4>
   transect <- extract(dem, pts |> as("SpatVector"), 
-          method = "bilinear", xy = TRUE) |>              # <5>
-    as_tibble() %>%
+                      method = "bilinear", xy = TRUE) |>  # <5>
+    as_tibble() |>
     mutate(dx = replace_na(x - lag(x), 0),                # <6>
            dy = replace_na(y - lag(y), 0),
            dz = replace_na(z - lag(z), 0),
