@@ -5,6 +5,7 @@
 .DS_Store
 .quarto/
 _freeze/
+_data/
 _site/
 *_cache*
 
