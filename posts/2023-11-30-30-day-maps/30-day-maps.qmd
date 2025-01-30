@@ -5,6 +5,8 @@ author: "David O'Sullivan"
 toc: true
 categories:
   - R
+  - tmap
+  - ggplot
   - geospatial
   - maps
   - origami
