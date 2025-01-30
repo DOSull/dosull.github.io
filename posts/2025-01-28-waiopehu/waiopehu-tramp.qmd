@@ -44,8 +44,6 @@ library(tmap)
 library(cols4all)
 library(ggplot2)
 library(units)
-
-theme_set(theme_minimal())
 ```
 
 ## So where was this tramp?
@@ -127,9 +125,13 @@ get_transect <- function(dem, line) {
            dxy = sqrt(dx ^ 2 + dy ^ 2),
            distance = cumsum(dxy),                        # <7>
            Ascent = cumsum(if_else(dz > 0, dz, 0)),
-           Descent = cumsum(if_else(dz < 0, dz, 0))) |>
+           Descent = cumsum(if_else(dz < 0, dz, 0)),
+           downhill_start = dz >= 0 & lead(dz) < 0,       # <8>
+           downhill_end = dz >= 0 & lag(dz) < 0) |>
     select(-dx, -dy, -dz, -dxy)
 }
+
+xyz <- dem |> get_transect(path)
 ```
 1. First convert the LINESTRING to POINTs.
 2. Extract the point coordinates.
@@ -138,27 +140,29 @@ get_transect <- function(dem, line) {
 5. The `terra::extract` function extracts values from the DEM at the supplied points (which have to be converted to a `SpatVector` layer for this to work). `xy = TRUE` ensures that the x, y coordinates are also retained in the output.
 6. The `lag` function allows us to calculate differences between consecutive values in the data frame. The first difference will come out as a NA result (since there is no value before the first row), so we use `replace_na` to set that result to 0.
 7. Use `cumsum` to calculate a elapsed distance from the start, and also total ascent and descent determined separately.
+8. Detecting when downhill sections of the trail start and end.
 
 For plotting purposes it's easier if we pull the data apart into two data frames, one with the cumulative ascent and descent data tagged as such, the other with them retained, and with a constant label added. This is mostly so that we can convince `ggplot` to give us two items in the plot legend!
 
 ```{r}
-xyz <- dem |> get_transect(path)
-
 up_down <- xyz |> 
   select(distance, Ascent, Descent) |>
   pivot_longer(cols = c(Ascent, Descent))
 
 transect <- xyz |>
   select(distance, Ascent, Descent) |>
-  mutate(gain = as.factor(c("Gain")))
+  mutate(height = Ascent + Descent,            # <1>
+         gain = as.factor(c("Gain")))          # <2>
 ```
+1. Because descent values are negative we just add `Ascent` and `Descent` to get the net climb. 
+2. The `gain` variable is constant, but used here so that it can be picked up by `scale_colour_manual` which persuades `ggplot` to produce a legend item for it.
 
 Finally we can make a plot.
 
 ```{r}
 #| fig-width: 9
 #| fig-height: 6
-ggplot() + 
+g <- ggplot() + 
   geom_area(
     data = up_down, 
     aes(x = distance, y = value, group = name, fill = name),
@@ -166,15 +170,44 @@ ggplot() +
   scale_fill_brewer(palette = "Set1", name = "Up or down") +
   geom_line(
     data = transect, 
-    aes(x = distance, y = Ascent + Descent, colour = gain)) + # <1>
+    aes(x = distance, y = height, colour = gain)) +
   scale_colour_manual(name = "", values = "black", labels = "Net gain") +
+  coord_cartesian(expand = FALSE) + 
   labs(x = "Elapsed distance, m", y = "Height gain from start, m")
+
+g + theme_minimal()
 ```
-1. Because descent values are negative we just add `Ascent` and `Descent` to get the net climb. The `gain` variable is constant, but used here so that it can be picked up by `scale_colour_manual` which persuades `ggplot` to produce a legend item for it.
 
 I have split the climb out like this, because as I said above, some of the more emotionally uh... _challenging_ parts of this trip were the sections going downhill when our overall course was up, and I wanted to see just how much of that there was.
 
-As you can see, for the most part it's a pretty relentless tramp. I'm not sure I'd recommend it as a first long hike back after a (too) long break. Maybe I'll go back next year and see if I've gotten any fitter. 
+It _looks like_ a pretty relentless uphill tramp. But there really are quite a few sections of downhill. To emphasise this we can add to plot, using the downhill star and end flags in the data.
+
+```{r}
+#| fig-width: 9
+#| fig-height: 6
+downhill_starts <- xyz |>
+  filter(downhill_start) |>
+  pull(distance)
+
+downhill_ends <- xyz |>
+  filter(downhill_end) |>
+  pull(distance)
+
+downhill_sections <- tibble(
+  dmin = downhill_starts,
+  dmax = downhill_ends)
+
+g + geom_rect(data = downhill_sections, 
+              aes(xmin = dmin, xmax = dmax, 
+                  ymin = min(xyz$Descent), 
+                  ymax = max(xyz$Ascent)),
+              fill = "#00000030") +
+  theme_minimal()
+```
+
+And now we can see that while many of those 'downhill' sections on the way up are really fairly level, there are a lot of them!
+
+All in all, I'm not sure I'd recommend it as a first long hike back after a (too) long break. Maybe I'll go back next year and see if I've gotten any fitter. 
 
 Meanwhile, here's a photograph looking further to the east from the hut when we finally got there. Lighting conditions were a bit challenging for my phone's camera, but all in all... very much worth it, even if I won't be hurrying back right away!
 
