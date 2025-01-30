@@ -19,6 +19,7 @@ knitr:
     warning: false
     message: false
 date: 01-30-2025
+image: "map-thumbnail.png"
 ---
 
 Last weekend the tables were turned on me by my elder son. Back when we lived in California, I dragged my two boys out on [day hikes around the Bay Area](https://southosullivan.com/hiking/the-map) much to their disgust (they had video games they'd rather have spent that time playing). 
