@@ -8,9 +8,13 @@ code-annotations: hover
 filters: 
   - nutshell
 categories:
+  - aotearoa
+  - maps
+  - tmap
   - geospatial
   - R
   - tutorial
+  - life
 execute:
   cache: true
   freeze: auto
