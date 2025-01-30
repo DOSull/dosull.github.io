@@ -13,8 +13,8 @@ A similar list is available at my [ORCiD profile](https://orcid.org/0000-0001-80
 
 Jump to [books](#books), [papers](#in-refereed-journals), [book chapters](#book-chapters), [dissertations](#dissertations)
 
-## Books
 ::: {.bib}
+## Books
 **O’Sullivan D**. 2024. _Computing Geographically: Bridging Giscience and Geography_ (Guilford Press: New York).
 
 **O’Sullivan D**. 2017. Section Editor for ‘Fundamentals of GIScience’ (32 articles) in *The International Encyclopedia of Geography: People, the Earth, Environment, and Technology*. Richardson, D. (ed). New York: Wiley.
@@ -26,10 +26,8 @@ Miller JA, **D O’Sullivan** and Wiegand N eds. 2016. *Geographic Information S
 **O’Sullivan D** and DJ Unwin. 2010. *Geographic Information Analysis* 2nd edn. (Wiley: Hoboken, NJ).
 
 **O’Sullivan D** and DJ Unwin. 2003. *Geographic Information Analysis* (Wiley: Hoboken, NJ).
-:::
 
 ## In refereed journals
-::: {.bib}
 Mahmoudi D, J Thatcher, LB Imaoka, and **D O’Sullivan**. Online first. From FOSS to profit: Digital spatial technologies and the mode of production. _Digital Geography and Society_. 100101. doi: [10.1016/j.diggeo.2024.100101](https://dx.doi.org/10.1016/j.diggeo.2024.100101).
 
 **O’Sullivan D**. 2024. Environment and Planning B and me; or what is lost in data. _Environment and Planning B: Urban Analytics and City Science_ **51**(5) 1045–1048. doi: [10.1177/23998083241246320](https://dx.doi.org/10.1177/23998083241246320).
@@ -165,10 +163,8 @@ Turner A, M Doxa, **D O’Sullivan** and A Penn. 2001. From isovists to visibili
 **O’Sullivan D**. and M Haklay. 2000. Agent-based models and individualism: is the world agent-based? *Environment and Planning A* **32**(8) 1409-1425. doi: [10.1068%2Fa32140](http://doi.org/10.1068%2Fa32140)
 
 **O’Sullivan D**, A Morrison and J Shearer. 2000. Using desktop GIS for the investigation of accessibility by public transport: an isochrone approach. *International Journal of Geographical Information Science* **14**(1) 85-104. doi: [10.1080/136588100240976](http://dx.doi.org/10.1080/136588100240976)
-:::
 
 ## Book chapters
-::: {.bib}
 Bergmann LR and **D O’Sullivan**. 2024. Space: towards a global sense of place. In *A Research Agenda for Spatial Analysis* (eds LJ Wolf, R Harris and AJ Heppenstall). Elgar Research Agendas. Edward Elgar Publishing. doi: [10.4337/9781802203233.00009](https://dx.doi.org/10.4337/9781802203233.00009).
 
 C Andris and **D O’Sullivan**. 2019. Spatial Networks. In *Handbook of Regional Science* (eds MM Fischer and P Nijkamp). Springer. doi: [10.1007/978-3-642-36203-3_67-1](https://dx.doi.org/10.1007/978-3-642-36203-3_67-1).
@@ -196,10 +192,8 @@ Heppenstall AJ, AJ Evans, MH Birkin, JR Macgill and **D O’Sullivan**. 2005. Th
 **O’Sullivan D**. 2002. Understanding the difference that space can make: toward a geographical agent modeling environment. In C. Macal and D. Sallach (eds), *Agent 2002: Ecology, Exchange, and Evolution*, pages 13-25 (Argonne National Laboratory: Chicago). [www.agent2003.anl.gov/proceedings/2002.pdf](http://www.agent2003.anl.gov/proceedings/2002.pdf)
 
 **O’Sullivan D** and PM Torrens. 2001. Cellular models of urban systems. In S Bandini and T Worsch (eds), *Theoretical and Practical Issues on Cellular Automata, Proceedings of the Fourth International Conference on Cellular Automata for Research and Industry (ACRI 2000)*, October 4–6, Karlsruhe, Germany (Springer-Verlag: London), pages 108-116.  [Also available as CASA Working Paper 22 at [www.casa.ucl.ac.uk/cellularmodels.pdf](http://www.casa.ucl.ac.uk/ cellularmodels.pdf)
-:::
 
 ## Dissertations
-::: {.bib}
 PhD: **O’Sullivan D**. 2000. [Graph-based Cellular Automaton Models of Urban Spatial Processes](https://southosullivan.com/phd/O'Sullivan_2000_Graph-based Cellular Automaton Models of Urban Spatial Processes.pdf). University College London.
 
 MSc: **O’Sullivan D**. 1997. [Using GIS to create public transport travel time isochrones for the Glasgow area](http://southosullivan.com/msc/mastersThesis.pdf). University of Glasgow.
