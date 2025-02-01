@@ -12,7 +12,7 @@ image: netlogo-utils.png
 
 An intermittent side-project of mine over (github informs me) more than three years has been assembling a collection of useful functions or rather _reporters_ and _procedures_ written in NetLogo to make it just a little bit easier to do a range of fairly standard things in that language.
 
-Don't get me wrong, NetLogo is _wonderful_ and I love it dearly. I find it tremendous fun to code in. But any time I start dealing in any serious way with lists and strings or slightly more obscure probability distributions, I find that I am repeating myself rewriting code I've written dozens of times before. This probably became most apparent when I was writing the [spatial COVID model](../2020-05-26-covid-model/spatial-covid-model.qmd).
+Don't get me wrong, NetLogo is _wonderful_ and I love it dearly. I find it tremendous fun to code in. But any time I start dealing in any serious way with lists and strings or slightly more obscure probability distributions, I find that I am repeating myself rewriting code I've written dozens of times before. This probably became most apparent when I was writing the [spatial COVID model](/portfolio/00-0-spatial-covid-model.qmd).
 
 Anyway... the result has been [this extremely intermittent and informal set of netlogo source (`.nls`) files](https://github.com/DOSull/netlogo-utils) that you can import into a NetLogo model to get access to more useful list and string handling without having to write an extension.
 

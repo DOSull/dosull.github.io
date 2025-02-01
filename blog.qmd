@@ -8,7 +8,7 @@ listing:
   categories: true
   sort-ui: false
   filter-ui: false
-  page-size: 6
+  page-size: 12
 page-layout: full
 title-block-banner: true
 ---

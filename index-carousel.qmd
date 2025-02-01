@@ -3,9 +3,6 @@ title: "About"
 title-block-banner: false
 title-block-style: none
 page-layout: full
-# about:
-#   image: images/gia.jpg
-#   template: jolla
 css: carousel-styles.css
 ---
 

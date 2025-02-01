@@ -27,6 +27,14 @@
     ]
   },
   {
+    "listing": "/training.html",
+    "items": [
+      "/training/00-spatial-data-science.html",
+      "/training/01-spatial-analysis.html",
+      "/training/02-geographical-computing.html"
+    ]
+  },
+  {
     "listing": "/portfolio.html",
     "items": [
       "/portfolio/05-jev.html",
@@ -38,14 +46,6 @@
       "/portfolio/00-2-30-day-maps.html",
       "/portfolio/00-1-nz-commute-viewer.html",
       "/portfolio/00-0-spatial-covid-model.html"
-    ]
-  },
-  {
-    "listing": "/training.html",
-    "items": [
-      "/training/00-spatial-data-science.html",
-      "/training/01-spatial-analysis.html",
-      "/training/02-geographical-computing.html"
     ]
   }
 ]
