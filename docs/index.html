@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-cf7929f4d66a2bdccc4ecf0c4d40c672.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-966425127c30269e34501eb621c74349.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5b0826f270eee34ee64bf49688b3638d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,12 +71,13 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="carousel-styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -157,53 +158,76 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">About</h1>
-                      </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta column-page">
-
-      
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-layout-custom page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+
+<header id="title-block-header">
+<h1 class="title display-7">About</h1>
+
+</header>
 
 
+<div class="page-layout-custom">
+<div class="grid">
+<div class="g-col-1 g-col-sm-2 g-col-md-3">
 
-
-
-<div style="text-align:justify;">
-<p>This is <span style="font-family:'Roboto Condensed','Arial Narrow',sans-serif;"><strong>GEOSPATIAL STUFF</strong></span> where I offer expertise in data analytics and visualisation, simulation modelling, and training on all things geospatial. You’ll find examples of current work in my <a href="./portfolio.html">portfolio</a> and <a href="./blog.html">blog posts</a>. I am an experienced geospatial researcher, an <a href="https://profiles.auckland.ac.nz/david-osullivan">Honorary Professor</a> at the University of Auckland, and <a href="https://www.motu.nz/about-us/people/david-osullivan/">Research Affiliate at Motu</a>. For more information <a href="mailto:osullivan512@gmail.com">get in touch</a>.</p>
 </div>
-<div class="columns" style="position:relative; top:-20px;">
-<div class="column" style="text-align:justify; padding:0px 15px 0px 0px;">
-<section id="commmunicating-stuff" class="level3">
-<h3 class="anchored" data-anchor-id="commmunicating-stuff">Commmunicating stuff</h3>
-<p>I have written <a href="books.html">three books</a> and <a href="publications.html">many research articles</a>. I have presented complex ideas to diverse audiences for 20+ years: see my <a href="presentations.html">presentations</a>, or <a href="https://dosull.github.io/Spatial-Data-Science/site/docs/">these slides</a>. Based on my decades of teaching experience <a href="./training.html">I offer training</a> to help organisations join up their data analytics and GIS teams using modern geospatial tools.</p>
-</section>
-</div><div class="column" style="text-align:justify; padding:0px 0px 0px 15px;">
-<section id="building-things" class="level3">
-<h3 class="anchored" data-anchor-id="building-things">Building things</h3>
-<p>I develop workflows to organise and analyse data, especially spatial data. I have built visualizations of complex data for many projects. You’ll find examples among my <a href="./blog.html">posts</a>. I write <a href="https://dosull.github.io/weaving-space/doc/weavingspace/">well documented code</a> and can prototype <a href="./portfolio/00-1-nz-commute-viewer.html">websites</a> as needed. My web work is linked from these pages, just look around.</p>
-</section>
+<div class="g-col-10 g-col-sm-8 g-col-md-6">
+<div id="slides" class="carousel slide" data-bs-ride="carousel">
+
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#slides" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#slides" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#slides" data-bs-slide-to="2"></button>
+  </div>
+
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="images/slide-consulting.png" class="d-block w-100">
+      <div class="carousel-caption">
+        <h1>Consulting</h1>
+        <p>Expertise in data analytics and visualisation, simulation modelling, and training on all things geospatial</p>
+        <p><a href="portfolio.html">Learn more</a></p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="images/slide-communicating.png" class="d-block w-100">
+      <div class="carousel-caption">
+        <h1>Communication</h1>
+        <p>Presentations, technical articles, and three books delivering complex ideas to diverse audiences</p>
+        <p><a a="" href="blog.html">Learn more</a></p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="images/slide-training.jpg" class="d-block w-100">
+      <div class="carousel-caption">
+        <h1>Training</h1>
+        <p>Helping organisations join up their data analytics and GIS teams using modern geospatial tools</p>
+        <p><a a="" href="training.html">Learn more</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- <button class="carousel-control-prev" type="button" data-bs-target="#slides" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#slides" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button> -->
+</div>
+<br>
+</div>
+<div class="g-col-1 g-col-sm-2 g-col-md-3">
+
 </div>
 </div>
+</div>
 
 
 
-<p><a href="./"><img src="./images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p></main> <!-- /main -->
+
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
