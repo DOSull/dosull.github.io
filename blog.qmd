@@ -4,11 +4,11 @@ subtitle: "All manner of geospatial stuff"
 listing:
   contents: posts
   sort: "date desc"
-  type: grid
+  type: default
   categories: true
   sort-ui: false
   filter-ui: false
-  page-size: 9
+  page-size: 6
 page-layout: full
 title-block-banner: true
 ---

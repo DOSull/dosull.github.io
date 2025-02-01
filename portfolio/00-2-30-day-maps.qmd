@@ -1,0 +1,14 @@
+---
+title: "The 30 day map challenge"
+description: "It's called 'challenge' for a reason"
+title-block-banner: true
+image: imd-circles-map.png
+---
+
+Finding myself unaccountably with time on my hands in November 2023, I thought I'd give the [30 Day Map Challenge](https://30daymapchallenge.com/). I am not sure I'd recommend the experience. I mean, it's a kind of warped fun, but it's _hard_. I might have restricted my focus too much for it to stay interesting for a whole month, perhaps. Anyway, you can see what I made [here](https://dosull.github.io/30-day-maps-2023/) and a short slideshow reflecting on the experience [here](https://dosull.github.io/30-day-maps-2023/maps/maptime/maptime-30-days.html#/title-slide).
+
+Here are my two favourite maps from the month:
+
+![#5 A hillshaded map made by crumpling paper](05-crumpled-paper-hillshade.jpg)
+
+![#27 Dots within dots to show all seven components _and_ the overall value of an index of deprivation](imd-circles-map.png)

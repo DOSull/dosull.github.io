@@ -6,11 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="David O’Sullivan">
-<meta name="dcterms.date" content="2023-11-30">
-<meta name="description" content="It’s called ‘challenge’ for a reason">
+<meta name="description" content="My take on the 2018 Census travel to work and study data">
 
-<title>The 30 day map challenge – Geospatial Stuff</title>
+<title>Aotearoa New Zealand commutes viewer – Geospatial Stuff</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,23 +24,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../..//images/gs-logo-corrected.png" rel="icon" type="image/png">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-cf7929f4d66a2bdccc4ecf0c4d40c672.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-966425127c30269e34501eb621c74349.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="..//images/gs-logo-corrected.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-cf7929f4d66a2bdccc4ecf0c4d40c672.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-966425127c30269e34501eb621c74349.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -73,20 +71,20 @@ ul.task-list li input[type="checkbox"] {
 <script defer="" src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="dosull.github.io"></script>
 
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/gs-logo-corrected.png" alt="" class="navbar-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/gs-logo-corrected.png" alt="" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Geospatial <br>Stuff</span>
     </a>
   </div>
@@ -97,15 +95,15 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../portfolio.html"> 
+    <a class="nav-link" href="../portfolio.html"> 
 <span class="menu-text">Portfolio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html"> 
+    <a class="nav-link" href="../blog.html"> 
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../training.html"> 
+    <a class="nav-link" href="../training.html"> 
 <span class="menu-text">Training</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -114,15 +112,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-more">    
         <li>
-    <a class="dropdown-item" href="../../books.html">
+    <a class="dropdown-item" href="../books.html">
  <span class="dropdown-text">Books</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../presentations.html">
+    <a class="dropdown-item" href="../presentations.html">
  <span class="dropdown-text">Presentations</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../publications.html">
+    <a class="dropdown-item" href="../publications.html">
  <span class="dropdown-text">Publications</span></a>
   </li>  
         <li>
@@ -163,40 +161,19 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">The 30 day map challenge</h1>
+      <h1 class="title">Aotearoa New Zealand commutes viewer</h1>
                   <div>
         <div class="description">
-          It’s called ‘challenge’ for a reason
+          My take on the 2018 Census travel to work and study data
         </div>
       </div>
-                          <div class="quarto-categories">
-                <div class="quarto-category">R</div>
-                <div class="quarto-category">tmap</div>
-                <div class="quarto-category">ggplot</div>
-                <div class="quarto-category">geospatial</div>
-                <div class="quarto-category">maps</div>
-                <div class="quarto-category">origami</div>
-                <div class="quarto-category">cartography</div>
-              </div>
-                  </div>
+                </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>David O’Sullivan </p>
-            </div>
-    </div>
       
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">November 30, 2023</p>
-      </div>
-    </div>
     
       
     </div>
@@ -205,9 +182,7 @@ ul.task-list li input[type="checkbox"] {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -215,24 +190,16 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Finding myself unaccountably with time on my hands in November 2023, I thought I’d give the <a href="https://30daymapchallenge.com/">30 Day Map Challenge</a>. I am not sure I’d recommend the experience. I mean, it’s a kind of warped fun, but it’s <em>hard</em>. I might have restricted my focus too much for it to stay interesting for a whole month, perhaps. Anyway, you can see what I made <a href="https://dosull.github.io/30-day-maps-2023/">here</a> and a short slideshow reflecting on the experience <a href="https://dosull.github.io/30-day-maps-2023/maps/maptime/maptime-30-days.html#/title-slide">here</a>.</p>
-<p>Here are my two favourite maps from the month:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="05-crumpled-paper-hillshade.jpg" class="img-fluid figure-img"></p>
-<figcaption>#5 A hillshaded map made by crumpling paper</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="unnamed-chunk-5-1.png" class="img-fluid figure-img"></p>
-<figcaption>#27 Dots within dots to show all seven components <em>and</em> the overall value of an index of deprivation</figcaption>
-</figure>
-</div>
+<p>I somehow convinced myself in the break between two exhausting semesters in 2020 (yes, <em>that</em> year) to enter <a href="https://www.stats.govt.nz/2018-census/there-and-back-again-data-visualisation-competition">Stats NZ’s There and back again visualization competition</a>.</p>
+<p>I learned a lot about a bunch of things along the way, but probably needed to take a step back and learn more about web development frameworks, as there is <a href="https://github.com/DOSull/commute-viewer/blob/master/commute-viewer-app/js/app.js">altogether <em>too much</em> handcrafted javascript in there</a>. Nevertheless, I had fun and I am reasonably happy with the end result. Also… it still works over four years later, which might not be true if I’d used something smarter than vanilla JS.</p>
+<p><a href="https://dosull.github.io/commute-viewer/commute-viewer-app" class="button-link" target="_blank">Go to the viewer</a></p>
+<p>Here’s a screenshot for anyone not curious enough to click on the link.</p>
+<p><img src="nz-commute-viewer.png" class="img-fluid"></p>
+<p>No, I didn’t win the competition. That was <a href="https://commuter.waka.app/">this entry</a> by Jono Cooper.</p>
 
 
 
-<p><a href="../../"><img src="../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p></main> <!-- /main -->
+<p><a href="../"><img src="../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

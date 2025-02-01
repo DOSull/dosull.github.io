@@ -13,7 +13,6 @@
       "/posts/2024-08-30-geocart-24/geocart-24.html",
       "/posts/2024-08-15-netlogo-utils/netlogo-utils.html",
       "/posts/2024-08-02-model-zoo-latest/model-zoo.html",
-      "/posts/2023-11-30-30-day-maps/30-day-maps.html",
       "/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators.html",
       "/posts/2022-08-03-spiral-folds/spiral-folds.html",
       "/posts/2022-03-09-ok-covid-you-win/ok-covid-you-win.html",
@@ -24,9 +23,7 @@
       "/posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html",
       "/posts/2021-09-23-dulux-colours-map/dulux-colours-map.html",
       "/posts/2021-12-08-affine-transformation-of-sf-objects/affine-transformations-of-sf-objects.html",
-      "/posts/2020-07-22-nz-commute-viewer/nz-commute-viewer.html",
-      "/posts/2020-07-18-what-the-chord/what-3-chords.html",
-      "/posts/2020-05-26-covid-model/spatial-covid-model.html"
+      "/posts/2020-07-18-what-the-chord/what-3-chords.html"
     ]
   },
   {
@@ -37,7 +34,10 @@
       "/portfolio/03-time-space-mapping.html",
       "/portfolio/02-moving-the-middle.html",
       "/portfolio/01-oecd-rural-services.html",
-      "/portfolio/00-weaving-and-tiling-maps.html"
+      "/portfolio/00-weaving-and-tiling-maps.html",
+      "/portfolio/00-2-30-day-maps.html",
+      "/portfolio/00-1-nz-commute-viewer.html",
+      "/portfolio/00-0-spatial-covid-model.html"
     ]
   },
   {

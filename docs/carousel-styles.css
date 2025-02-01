@@ -1,0 +1,26 @@
+body {
+  background-color: #111;
+}
+h1 {
+  color: rgba(0,0,0,0); /* To hide page title */
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+p { /* suppress anchor symbols which throw centering off on h classes*/
+  font-family:'Roboto Condensed', 'Arial Narrow', sans-serif;
+  text-align: center;
+  padding: 0em 1em 0em 1em;
+  font-weight: 200;
+  line-height: 1.1;
+  text-shadow: 0 0 5px black 0 0 3px black;
+}
+
+.carousel-caption {
+  color: white;
+  text-align: center;
+  background-color: rgba(0,0,0,0.25)
+}

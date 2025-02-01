@@ -1,14 +1,15 @@
 ---
 title: "About"
-subtitle: "David O'Sullivan"
+# subtitle: "David O'Sullivan"
 title-block-banner: true
+page-layout: full
 # format:
 #   html:
 #     page-layout: full
 ---
 
 ::: {style="text-align:justify;"}
-This is <span style="font-family:'Roboto Condensed','Arial Narrow',sans-serif;">**GEOSPATIAL STUFF**</span> where I offer expertise in data analytics and visualisation, simulation modelling, and training on all things geospatial. I am an experienced geospatial researcher, an [Honorary Professor](https://profiles.auckland.ac.nz/david-osullivan) at the University of Auckland, and [Research Affiliate at Motu](https://www.motu.nz/about-us/people/david-osullivan/). Find examples of current work in my [portfolio](portfolio.qmd) and [blog posts](blog.qmd). For more information [get in touch](mailto:osullivan512@gmail.com).
+This is <span style="font-family:'Roboto Condensed','Arial Narrow',sans-serif;">**GEOSPATIAL STUFF**</span> where I offer expertise in data analytics and visualisation, simulation modelling, and training on all things geospatial. You'll find examples of current work in my [portfolio](portfolio.qmd) and [blog posts](blog.qmd). I am an experienced geospatial researcher, an [Honorary Professor](https://profiles.auckland.ac.nz/david-osullivan) at the University of Auckland, and [Research Affiliate at Motu](https://www.motu.nz/about-us/people/david-osullivan/). For more information [get in touch](mailto:osullivan512@gmail.com).
 :::
 
 :::: {.columns style="position:relative; top:-20px;"}
@@ -19,7 +20,7 @@ I have written [three books](books.html) and [many research articles](publicatio
 
 ::: {.column style="text-align:justify; padding:0px 0px 0px 15px;"}
 ### Building things
-I develop workflows to organise and analyse data, especially spatial data. I have built visualizations of complex data for many projects. You'll find examples among my [posts](blog.qmd). I write [well documented code](https://dosull.github.io/weaving-space/doc/weavingspace/) and can prototype [websites](posts/2020-07-22-nz-commute-viewer/nz-commute-viewer.qmd) as needed. My web work is linked from these pages, just look around.
+I develop workflows to organise and analyse data, especially spatial data. I have built visualizations of complex data for many projects. You'll find examples among my [posts](blog.qmd). I write [well documented code](https://dosull.github.io/weaving-space/doc/weavingspace/) and can prototype [websites](portfolio/00-1-nz-commute-viewer.qmd) as needed. My web work is linked from these pages, just look around.
 :::
 ::::
 
