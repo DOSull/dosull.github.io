@@ -14,11 +14,14 @@ a {
 p { /* suppress anchor symbols which throw centering off on h classes*/
   font-family:'Roboto Condensed', 'Arial Narrow', sans-serif;
   text-align: center;
-  padding: 0em 1em 0em 1em;
+  padding: 0em 0.5em 0em 0.5em;
   font-size:  calc(12px + 1vmin);
-  font-weight: 200;
+  font-weight: 300;
   line-height: 1.1;
   text-shadow: 0 0 5px black 0 0 3px black;
+  -webkit-hyphens:none;
+  -moz-hyphens:none;
+  hyphens:none;
 }
 
 .carousel-caption {
