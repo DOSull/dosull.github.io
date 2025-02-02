@@ -180,7 +180,7 @@ g + theme_minimal()
 
 I have split the climb out like this, because as I said above, some of the more emotionally uh... _challenging_ parts of this trip were the sections going downhill when our overall course was up, and I wanted to see just how much of that there was.
 
-It _looks like_ a pretty relentless uphill tramp. But there really are quite a few sections of downhill. To emphasise this we can add to plot, using the downhill star and end flags in the data.
+It _looks like_ a pretty relentless uphill tramp. But there really are quite a few sections of downhill. To emphasise this we can add to the plot, using the downhill start and end flags in the data.
 
 ```{r}
 #| fig-width: 9
