@@ -10,10 +10,10 @@ css: carousel-styles.css
 
 :::: {.grid}
 
-::: {.g-col-1 .g-col-sm-2 .g-col-md-3}
+::: {.g-col-1 .g-col-sm-2 .g-col-md-3 .g-col-xl-4}
 :::
 
-::: {.g-col-10 .g-col-sm-8 .g-col-md-6}
+::: {.g-col-10 .g-col-sm-8 .g-col-md-6 .g-col-xl-4}
 
 ```{=html}
 <div id="slides" class="carousel slide" data-bs-ride="carousel" data-bs-pause=false>
@@ -74,7 +74,7 @@ css: carousel-styles.css
 ```
 :::
 
-::: {.g-col-1 .g-col-sm-2 .g-col-md-3}
+::: {.g-col-1 .g-col-sm-2 .g-col-md-3 .g-col-xl-4}
 :::
 
 ::::
