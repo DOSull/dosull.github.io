@@ -120,8 +120,8 @@ pattern1 <- tibble(x = runif(n_points) * 360 - 180,
 plot_pp(pattern1)
 ```
 1. Convenient to have a single function for plotting point patterns.
-2. `expand = FALSE` stops `ggplot` adding a margin around the unit square.
-3. It's good in these plots to see the unit square!
+2. `expand = FALSE` stops `ggplot` adding a margin beyond the limits we've set.
+3. It's good to be able to see the bounds, and `theme_minimal` would not normally display a frame.
 
 Simple uniform random pattern
 :::
