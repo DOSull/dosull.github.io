@@ -5,9 +5,7 @@ title-block-banner: true
 image: rstudio.png
 ---
 
-::: {style="text-align:center;"}
-[View the slides](https://dosull.github.io/Spatial-Data-Science/site/docs/){target="_blank" style="font-family:sans-serif; background-color:#396; color:#cec; padding:10px; box-shadow: 5px 5px 5px #666; border-radius:5px;"}
-:::
+[View the slides](https://dosull.github.io/Spatial-Data-Science/site/docs/){.button-link target="_blank"}
 
 These materials aim to help GIS users (even those with limited experience) transition to a more data science-centric approach. There is a particular emphasis on open source tools and on doing geospatial analysis in code using *R* as both are becoming increasingly important across the industry.
 

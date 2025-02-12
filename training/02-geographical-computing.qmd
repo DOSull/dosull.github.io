@@ -5,9 +5,7 @@ title-block-banner: true
 image: code.jpg
 ---
 
-::: {style="text-align:center;"}
-[Go to the materials](https://github.com/DOSull/Geographical-Computing){target="_blank" style="font-family:sans-serif; background-color:#396; color:#cec; padding:10px; box-shadow: 5px 5px 5px #666; border-radius:5px;"}
-:::
+[Go to the materials](https://github.com/DOSull/Geographical-Computing){.button-link target="_blank"}
 
 These pages outline a one semester (36 contact hours) class in python programming for geospatial that was last taught at Victoria University of Wellington as GISC 420 in the first half of 2022.
 
