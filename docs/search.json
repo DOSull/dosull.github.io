@@ -725,13 +725,13 @@
     "href": "notebooks/2025-02-18-marimo.html#enter-marimo",
     "title": "Marimo notebooks",
     "section": "Enter marimo",
-    "text": "Enter marimo\nThis is where marimo comes in. Below is a marimo notebook embedded in a HTML iframe.\nYou can drag the slider to see the number of points in the plot change. You can even edit the code blocks to make changes to the code.\nThe magic here is :WebAssembly (WASM) which my python ‘source code’ has been compiled to via the Pyodide project. Because the resulting HTML page is in WebAssembly it runs in the browser, not on a python kernel on a remote server, so it is effectively a static web page and I can even serve it on github pages. Here’s a more ambitious example from my work on tiled maps of multivariate data. Be warned it takes a little while to download (about a minute to get up and running) because it has to install a bunch of relatively chunky python modules before it will work."
+    "text": "Enter marimo\nThis is where marimo comes in. Below is a marimo notebook embedded in a HTML iframe.2\nYou can drag the slider to see the number of points in the plot change. You can even edit the code blocks to see the effect of changes to the code! If you make it crash, you’ll have to relaunch the Restart kernel option in the controls dropdown menu in the upper right.\n\n\nPutting it in an iframe like this isn’t ideal. If you’d just like to visit the page, then go to southosullivan.com/misc/meet-marimo/\nThe magic here is :WebAssembly (WASM) which my python ‘source code’ has been compiled to via the Pyodide project. Because the resulting HTML page is in WebAssembly it runs in the browser, not on a python kernel on a remote server, so it is effectively a static web page and I can even serve it on github pages. Here’s a more ambitious example from my work on tiled maps of multivariate data. Be warned it takes a little while to download (about a minute to get up and running) because it has to install a bunch of relatively chunky python modules before it will work.\nAs a way to build relatively lightweight dashboards or nice interactive web-app ‘explainers’ without complicated backend hosting, this seems to hold a lot of potential!"
   },
   {
     "objectID": "notebooks/2025-02-18-marimo.html#footnotes",
     "href": "notebooks/2025-02-18-marimo.html#footnotes",
     "title": "Marimo notebooks",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\nYet… and it may never happen, given the investment of Posit in Shiny↩︎"
+    "text": "Footnotes\n\n\nYet… and it may never happen, given the investment of Posit in Shiny↩︎\nOne wrinkle here is that I have to host this notebook on another server because I can’t show a local HTML file in an iframe.↩︎"
   }
 ]
