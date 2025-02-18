@@ -732,6 +732,6 @@
     "href": "notebooks/2025-02-18-marimo.html#footnotes",
     "title": "Marimo notebooks",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\nYet… and it may never happen, given the investment of Posit in Shiny↩︎\nOne wrinkle here is that I have to host this notebook on another server because I can’t show a local HTML file in an iframe.↩︎"
+    "text": "Footnotes\n\n\nYet… and it may never happen, given the investment of Posit in Shiny↩︎\nOne wrinkle here is that I have to host this notebook on another server because I can’t show a local HTML file in an iframe because of a disallowed MIME type (“text/html”) according to my browser console.↩︎"
   }
 ]
