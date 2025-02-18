@@ -11,3 +11,4 @@ _scratch/
 _site/
 *_cache*
 /.quarto/
+notebooks/meet-marimo/
