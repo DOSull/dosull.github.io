@@ -2,7 +2,9 @@
 title: "Posts"
 subtitle: "All manner of geospatial stuff"
 listing:
-  contents: posts
+  contents: 
+    - posts
+    - notebooks
   sort: "date desc"
   type: default
   categories: true

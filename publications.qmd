@@ -5,6 +5,10 @@ title-block-banner: true
 execute:
   cache: true
   freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
 engine: knitr
 ---
 
