@@ -114,13 +114,12 @@ img.navbar-logo {
 .navbar-brand {
     overflow:visible;
     line-height:90%;
-    height:fit-content;
 }
 
-.navbar-title {
+/* .navbar-title {
     word-spacing: 100vw;
     text-wrap: pretty;
-}
+} */
 
 a.button-link {
     font-family:sans-serif; 
