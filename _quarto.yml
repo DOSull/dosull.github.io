@@ -4,6 +4,8 @@ project:
 
 website:
   title: Geospatial <br>Stuff
+  site-url: https://dosull.github.io
+  description: "All manner of geospatial stuff"  
   navbar:
     logo: /images/gs-logo-corrected.png
     right:
@@ -38,6 +40,8 @@ website:
         href: https://github.com/DOSull
       - icon: linkedin
         href: https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/
+      - icon: rss
+        href: blog.xml
   favicon: /images/gs-logo-corrected.png
   body-footer: |
     <a href="/"><img src="/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a>
