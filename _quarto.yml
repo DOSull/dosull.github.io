@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: Geospatial <br>Stuff
+  title: Geospatial Stuff
   site-url: https://dosull.github.io
   description: "All manner of geospatial stuff"  
   navbar:

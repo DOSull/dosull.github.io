@@ -113,10 +113,13 @@ img.navbar-logo {
 
 .navbar-brand {
     overflow:visible;
+    line-height:90%;
+    height:fit-content;
 }
 
-.navbar-brand {
-    line-height:90%;
+.navbar-title {
+    word-spacing: 100vw;
+    text-wrap: pretty;
 }
 
 a.button-link {
@@ -168,3 +171,4 @@ i {
 .dropdown-menu {
     width:fit-content();
 }
+
