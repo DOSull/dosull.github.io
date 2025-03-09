@@ -12,7 +12,7 @@
 <generator>quarto-1.6.39</generator>
 <lastBuildDate>Sat, 08 Mar 2025 11:00:00 GMT</lastBuildDate>
 <item>
-  <title>Tiled and woven multivariate maps without code</title>
+  <title>MapWeaver: tiled and woven multivariate maps without code</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
   <link>https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-beta.html</link>
   <description><![CDATA[ 
@@ -22,13 +22,13 @@
 
 
 <p><a href="mapweaver.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver.png" class="img-fluid"></a></p>
-<p>If you’ve seen me present at a cartographic meeting recently, there’s a fair chance you’ve heard me talk about using tiling and/or weaving to make maps of complex multivariate data.<sup>1</sup> The idea is to break up map areas into multiple units by tiling so that we have available more than one shape to colour choropleth-style so that we can represent more than one variable in each area.</p>
+<p>If you’ve seen me or my co-conspirator <a href="https://geog.ubc.ca/profile/luke-bergmann/">Luke Bergmann</a> present at a cartographic meeting recently, there’s a fair chance you’ve heard us talk about using tiling and/or weaving to make maps of complex multivariate data.<sup>1</sup> The idea is to break up map areas into multiple units by tiling so that we have available more than one shape to colour choropleth-style so that we can represent more than one variable in each area.</p>
 <p>People have been enthusiastic about the concept and the look of the maps, but (I’m fairly sure) reticent about taking up the idea because doing so demanded a willingness to dive into writing python code to make such maps, or even just to explore the idea. For example, <a href="https://dosull.github.io/weaving-space/presentations/Palmerston-North-Nov-2022/slides/">this talk</a> which gives a useful overview of the concepts is liberally sprinkled with snippets of python code. That was intended to make it easier for anyone interested to jump in and have a go at making their own maps. But realistically, it probably discouraged the vast majority!</p>
 <p>Anyway, <a href="../../notebooks/2025-02-18-marimo.html">I recently came across a tool called marimo</a> that enables creation of <a href="https://marimo.io">reactive python notebooks, which are shareable as apps</a>. That got me thinking about providing a way to make tiled maps <em>without</em> writing code, which might get a few more people interested in the idea.</p>
-<section id="a-prototype-web-app" class="level2">
-<h2 class="anchored" data-anchor-id="a-prototype-web-app">A prototype web app</h2>
+<section id="a-prototype-web-app-mapweaver" class="level2">
+<h2 class="anchored" data-anchor-id="a-prototype-web-app-mapweaver">A prototype web app: MapWeaver<sup>2</sup></h2>
 <p>We’re <em>almost</em> there. While you read the rest of this post, <a href="https://dosull.github.io/mapweaver/app/" target="_blank">load the app in another tab</a> (it takes a while to load, so keep reading…).</p>
-<p>Using the app you can experiment on a multivariate dataset: <a href="https://profiles.auckland.ac.nz/d-exeter">Dan Exeter</a>‘s <a href="https://imdmap.auckland.ac.nz/download/">Index of Multiple Deprivation</a><sup>2</sup> (IMD) for Auckland ’city’ in 2018.</p>
+<p>Using the app you can experiment on a multivariate dataset: <a href="https://profiles.auckland.ac.nz/d-exeter">Dan Exeter</a>‘s <a href="https://imdmap.auckland.ac.nz/download/">Index of Multiple Deprivation</a><sup>3</sup> (IMD) for Auckland ’city’ in 2018.</p>
 <p>You can choose how many variables you want to include (between 2 and 10), and what kind of tiling or weave pattern you want to use. You can also choose colour ramps to associated with each of the chosen variables. So with a few clicks, you can make this map</p>
 <p><a href="mapweaver-cairo.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-cairo.png" class="img-fluid"></a></p>
 <p>or this one</p>
@@ -55,7 +55,8 @@
 
 <ol>
 <li id="fn1"><p>Nothing <em>at all</em> to do with web map tiles.↩︎</p></li>
-<li id="fn2"><p>See also Exeter DJ, Zhao J, Crengle S, Lee A, Browne M, 2017, <a href="https://dx.plos.org/10.1371/journal.pone.0181260">The New Zealand Indices of Multiple Deprivation (IMD): A new suite of indicators for social and health research in Aotearoa, New Zealand</a> <em>PLOS ONE</em> <strong>12</strong>(8) e0181260↩︎</p></li>
+<li id="fn2"><p><span style="text-transform:none;">Nothing at all to do with <a href="https://maptiler.com">MapTiler</a></span>↩︎</p></li>
+<li id="fn3"><p>See also Exeter DJ, Zhao J, Crengle S, Lee A, Browne M, 2017, <a href="https://dx.plos.org/10.1371/journal.pone.0181260">The New Zealand Indices of Multiple Deprivation (IMD): A new suite of indicators for social and health research in Aotearoa, New Zealand</a> <em>PLOS ONE</em> <strong>12</strong>(8) e0181260↩︎</p></li>
 </ol>
 </section></div> ]]></description>
   <category>maps</category>

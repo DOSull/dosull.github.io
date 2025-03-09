@@ -1,5 +1,5 @@
 ---
-title: Tiled and woven multivariate maps without code
+title: "MapWeaver: tiled and woven multivariate maps without code"
 description: "How can I make this better? And: is this anything?!"
 author: "David O'Sullivan"
 toc: true
@@ -26,13 +26,13 @@ date: 03-09-2025
 
 ![](mapweaver.png)
 
-If you've seen me present at a cartographic meeting recently, there's a fair chance you've heard me talk about using tiling and/or weaving to make maps of complex multivariate data.^[Nothing _at all_ to do with web map tiles.] The idea is to break up map areas into multiple units by tiling so that we have available more than one shape to colour choropleth-style so that we can represent more than one variable in each area.
+If you've seen me or my co-conspirator [Luke Bergmann](https://geog.ubc.ca/profile/luke-bergmann/) present at a cartographic meeting recently, there's a fair chance you've heard us talk about using tiling and/or weaving to make maps of complex multivariate data.^[Nothing _at all_ to do with web map tiles.] The idea is to break up map areas into multiple units by tiling so that we have available more than one shape to colour choropleth-style so that we can represent more than one variable in each area.
 
 People have been enthusiastic about the concept and the look of the maps, but (I'm fairly sure) reticent about taking up the idea because doing so demanded a willingness to dive into writing python code to make such maps, or even just to explore the idea. For example, [this talk](https://dosull.github.io/weaving-space/presentations/Palmerston-North-Nov-2022/slides/) which gives a useful overview of the concepts is liberally sprinkled with snippets of python code. That was intended to make it easier for anyone interested to jump in and have a go at making their own maps. But realistically, it probably discouraged the vast majority!
 
 Anyway, [I recently came across a tool called marimo](../../notebooks/2025-02-18-marimo.ipynb) that enables creation of [reactive python notebooks, which are shareable as apps](https://marimo.io). That got me thinking about providing a way to make tiled maps _without_ writing code, which might get a few more people interested in the idea.
 
-## A prototype web app
+## A prototype web app: MapWeaver^[<span style="text-transform:none;">Nothing at all to do with [MapTiler](https://maptiler.com)</span>]
 We're _almost_ there. While you read the rest of this post, [load the app in another tab](https://dosull.github.io/mapweaver/app/){target="_blank"} (it takes a while to load, so keep reading...). 
 
 Using the app you can experiment on a multivariate dataset: [Dan Exeter](https://profiles.auckland.ac.nz/d-exeter)'s [Index of Multiple Deprivation](https://imdmap.auckland.ac.nz/download/)^[See also Exeter DJ, Zhao J, Crengle S, Lee A, Browne M, 2017, [The New Zealand Indices of Multiple Deprivation (IMD): A new suite of indicators for social and health research in Aotearoa, New Zealand](https://dx.plos.org/10.1371/journal.pone.0181260) _PLOS ONE_ **12**(8) e0181260] (IMD) for Auckland 'city' in 2018.
