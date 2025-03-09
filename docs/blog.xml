@@ -10,7 +10,62 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Mon, 17 Feb 2025 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 08 Mar 2025 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>Tiled and woven multivariate maps without code</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-beta.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p><a href="mapweaver.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver.png" class="img-fluid"></a></p>
+<p>If you’ve seen me present at a cartographic meeting recently, there’s a fair chance you’ve heard me talk about using tiling and/or weaving to make maps of complex multivariate data.<sup>1</sup> The idea is to break up map areas into multiple units by tiling so that we have available more than one shape to colour choropleth-style so that we can represent more than one variable in each area.</p>
+<p>People have been enthusiastic about the concept and the look of the maps, but (I’m fairly sure) reticent about taking up the idea because doing so demanded a willingness to dive into writing python code to make such maps, or even just to explore the idea. For example, <a href="https://dosull.github.io/weaving-space/presentations/Palmerston-North-Nov-2022/slides/">this talk</a> which gives a useful overview of the concepts is liberally sprinkled with snippets of python code. That was intended to make it easier for anyone interested to jump in and have a go at making their own maps. But realistically, it probably discouraged the vast majority!</p>
+<p>Anyway, <a href="../../notebooks/2025-02-18-marimo.html">I recently came across a tool called marimo</a> that enables creation of <a href="https://marimo.io">reactive python notebooks, which are shareable as apps</a>. That got me thinking about providing a way to make tiled maps <em>without</em> writing code, which might get a few more people interested in the idea.</p>
+<section id="a-prototype-web-app" class="level2">
+<h2 class="anchored" data-anchor-id="a-prototype-web-app">A prototype web app</h2>
+<p>We’re <em>almost</em> there. While you read the rest of this post, <a href="https://dosull.github.io/mapweaver/app/" target="_blank">load the app in another tab</a> (it takes a while to load, so keep reading…).</p>
+<p>Using the app you can experiment on a multivariate dataset: <a href="https://profiles.auckland.ac.nz/d-exeter">Dan Exeter</a>‘s <a href="https://imdmap.auckland.ac.nz/download/">Index of Multiple Deprivation</a><sup>2</sup> (IMD) for Auckland ’city’ in 2018.</p>
+<p>You can choose how many variables you want to include (between 2 and 10), and what kind of tiling or weave pattern you want to use. You can also choose colour ramps to associated with each of the chosen variables. So with a few clicks, you can make this map</p>
+<p><a href="mapweaver-cairo.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-cairo.png" class="img-fluid"></a></p>
+<p>or this one</p>
+<p><a href="mapweaver-basket.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-basket.png" class="img-fluid"></a></p>
+<p>You can also modify the spacing or rotation of a chosen tiling, or (for a weave) the width of the strands</p>
+<p><a href="mapweaver-basket-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-basket-2.png" class="img-fluid"></a></p>
+<p>or experiment with different colour ramps and the resulting map appearance</p>
+<p><a href="mapweaver-colour-ramps.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-colour-ramps.png" class="img-fluid"></a></p>
+</section>
+<section id="feedback-welcome" class="level2">
+<h2 class="anchored" data-anchor-id="feedback-welcome">Feedback welcome!</h2>
+<p>It’s proving trickier than I hoped to upload user data to the app (see this <a href="https://github.com/marimo-team/marimo/issues/4031">issue</a>) so this isn’t the finished product, but it would still be useful to get any thoughts or reactions from prospective users. As far as that goes:</p>
+<ul>
+<li>I <em>know</em> it is slow to load. I don’t think there is much I can do about this in a pyodide Web Assembly app that depends on several python packages beyond the core language. Just be patient… or if you have experience with this problem, get in touch and tell me how to fix it!</li>
+<li>It’s worth exploring the available options with <em>spacing</em> set to a high value so that the refresh of the map is faster. Once you have a pattern you are happy with, then adjust the spacing to the desired value.</li>
+</ul>
+<p>That aside, any thoughts just get in touch on <a href="https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/">LinkedIn</a> or <a href="mailto:osullivan512@gmail.com">email me</a>! We’re also interested in thoughts about this mapping method, not just this implementation.</p>
+
+
+</section>
+
+
+<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Nothing <em>at all</em> to do with web map tiles.↩︎</p></li>
+<li id="fn2"><p>See also Exeter DJ, Zhao J, Crengle S, Lee A, Browne M, 2017, <a href="https://dx.plos.org/10.1371/journal.pone.0181260">The New Zealand Indices of Multiple Deprivation (IMD): A new suite of indicators for social and health research in Aotearoa, New Zealand</a> <em>PLOS ONE</em> <strong>12</strong>(8) e0181260↩︎</p></li>
+</ol>
+</section></div> ]]></description>
+  <category>maps</category>
+  <category>tmap</category>
+  <category>tiling</category>
+  <category>weaving</category>
+  <category>python</category>
+  <guid>https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-beta.html</guid>
+  <pubDate>Sat, 08 Mar 2025 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Marimo notebooks</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -7164,281 +7219,6 @@ font-style: inherit;">1</span>)</span></code></pre></div>
   <category>tutorial</category>
   <guid>https://dosull.github.io/posts/2021-10-21-kde/kde.html</guid>
   <pubDate>Wed, 20 Oct 2021 11:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Uniform random points on the globe</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p>There isn’t as much land near the poles, so how do you make uniform randomly distributed points in lat-lng coordinate space. Here’s how!</p>
-<p>Needed libraries are the usual suspects plus <code>rnaturalearth</code> for basemap data</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">library</span>(sf)</span>
-<span id="cb1-2"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">library</span>(ggplot2)</span>
-<span id="cb1-3"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">library</span>(rnaturalearth)</span>
-<span id="cb1-4"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">library</span>(dplyr)</span>
-<span id="cb1-5"></span>
-<span id="cb1-6">n <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2500</span></span></code></pre></div>
-</div>
-<p>The key thing to realise here is that random uniform numbers in both latitude and longitude will not be evenly distributed on Earth’s surface, because the meridians converge toward the poles. We can make two datasets to show this. First a naive set of randomly located points:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">pts_naive <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">data.frame</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">lon =</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">runif</span>(n) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">360</span> <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">180</span>,</span>
-<span id="cb2-2">                        <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">lat =</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">runif</span>(n) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">180</span> <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">90</span>,</span>
-<span id="cb2-3">                        <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">type =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"naive"</span>)</span></code></pre></div>
-</div>
-<section id="here-comes-the-science" class="level2">
-<h2 class="anchored" data-anchor-id="here-comes-the-science">Here comes the science…</h2>
-<p>And now a set where inserting a cosine correction ensures that the distribution of latitudes is appropriately more dense close to the equator:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">pts_even <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">data.frame</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">lon =</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">runif</span>(n) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">360</span> <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">180</span>,</span>
-<span id="cb3-2">                       <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">lat =</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">acos</span>(<span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">runif</span>(n) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span> <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">180</span> <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> pi <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">90</span>,</span>
-<span id="cb3-3">                       <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">type =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"even"</span>)</span></code></pre></div>
-</div>
-<section id="compare-the-latitude-distributions" class="level3">
-<h3 class="anchored" data-anchor-id="compare-the-latitude-distributions">Compare the latitude distributions</h3>
-<p>We can make up a combined data table and directly compare the distribution of the latitudes with a nice density plot. The increased representation of points in the mid-latitudes with the cosine correction is clear.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">pts <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">bind_rows</span>(pts_naive, pts_even)</span>
-<span id="cb4-2"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">ggplot</span>(pts) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb4-3">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">geom_density</span>(<span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">y =</span> lat, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">fill =</span> type), <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">alpha =</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.5</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">lwd =</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb4-4">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">scale_fill_viridis_d</span>()</span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="make-a-map" class="level2">
-<h2 class="anchored" data-anchor-id="make-a-map">Make a map</h2>
-<p>Use an equal-area projection to clearly see the problem geographically.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">w <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">ne_countries</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">returnclass =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"sf"</span>) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span id="cb5-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">st_transform</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"+proj=hammer"</span>)</span>
-<span id="cb5-3"></span>
-<span id="cb5-4">pts_sf <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> pts <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span id="cb5-5">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">st_as_sf</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">coords =</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">crs =</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4326</span>)</span>
-<span id="cb5-6"></span>
-<span id="cb5-7"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">ggplot</span>(w) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> </span>
-<span id="cb5-8">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"#cccccc"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"white"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">lwd =</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.35</span>) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb5-9">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">data =</span> pts_sf, <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">colour =</span> type), <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">alpha =</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.35</span>) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb5-10">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">scale_colour_viridis_d</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb5-11">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The naively distributed points are clearly denser at the poles than they should be, where the cosine term in the ‘even’ points generation method makes them evenly distributed over the globe.</p>
-
-
-</section>
-
-<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p> ]]></description>
-  <category>R</category>
-  <category>geospatial</category>
-  <category>tutorial</category>
-  <guid>https://dosull.github.io/posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html</guid>
-  <pubDate>Tue, 19 Oct 2021 11:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
