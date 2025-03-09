@@ -236,8 +236,10 @@ ul.task-list li input[type="checkbox"] {
 <p>Anyway, <a href="../../notebooks/2025-02-18-marimo.html">I recently came across a tool called marimo</a> that enables creation of <a href="https://marimo.io">reactive python notebooks, which are shareable as apps</a>. That got me thinking about providing a way to make tiled maps <em>without</em> writing code, which might get a few more people interested in the idea.</p>
 <section id="a-prototype-web-app-mapweaver" class="level2">
 <h2 class="anchored" data-anchor-id="a-prototype-web-app-mapweaver">A prototype web app: MapWeaver<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></h2>
-<p>We’re <em>almost</em> there. While you read the rest of this post, <a href="https://dosull.github.io/mapweaver/app/" target="_blank">load the app in another tab</a> (it takes a while to load, so keep reading…).</p>
-<p>Using the app you can experiment on a multivariate dataset: <a href="https://profiles.auckland.ac.nz/d-exeter">Dan Exeter</a>‘s <a href="https://imdmap.auckland.ac.nz/download/">Index of Multiple Deprivation</a><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> (IMD) for Auckland ’city’ in 2018.</p>
+<p>It’s <em>almost</em> there.</p>
+<p>Load the app in another tab by clicking the button below. It takes a while to load, so in the meantime keep reading…</p>
+<p><a href="https://dosull.github.io/mapweaver/app/" class="button-link" target="_blank">Launch MapWeaver</a></p>
+<p>Using the app you can experiment with different tiling designs on a multivariate dataset: <a href="https://profiles.auckland.ac.nz/d-exeter">Dan Exeter’s</a> <a href="https://imdmap.auckland.ac.nz/download/">Index of Multiple Deprivation</a><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> for the central Auckland region in 2018.</p>
 <p>You can choose how many variables you want to include (between 2 and 10), and what kind of tiling or weave pattern you want to use. You can also choose colour ramps to associated with each of the chosen variables. So with a few clicks, you can make this map</p>
 <p><a href="mapweaver-cairo.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="mapweaver-cairo.png" class="img-fluid"></a></p>
 <p>or this one</p>
@@ -249,12 +251,13 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="feedback-welcome" class="level2">
 <h2 class="anchored" data-anchor-id="feedback-welcome">Feedback welcome!</h2>
-<p>It’s proving trickier than I hoped to upload user data to the app (see this <a href="https://github.com/marimo-team/marimo/issues/4031">issue</a>) so this isn’t the finished product, but it would still be useful to get any thoughts or reactions from prospective users. As far as that goes:</p>
+<p>It’s proving trickier than I hoped to upload user data to the app (see this <a href="https://github.com/marimo-team/marimo/issues/4031">issue</a>) so this isn’t the finished product, which will allow you to upload and tile your own data and download the results for further refinement in a GIS or graphics package. Even so, it would still be useful to get any thoughts or reactions from prospective users. Keep in mind:</p>
 <ul>
-<li>I <em>know</em> it is slow to load. I don’t think there is much I can do about this in a pyodide Web Assembly app that depends on several python packages beyond the core language. Just be patient… or if you have experience with this problem, get in touch and tell me how to fix it!</li>
+<li>I <em>know</em> it is slow to load. I don’t think there is much I can do about this in a pyodide Web Assembly app that depends on several python packages beyond the core language. Just be patient… or if you have experience with this problem, and know how to fix it, get in touch and tell me how!</li>
 <li>It’s worth exploring the available options with <em>spacing</em> set to a high value so that the refresh of the map is faster. Once you have a pattern you are happy with, then adjust the spacing to the desired value.</li>
 </ul>
 <p>That aside, any thoughts just get in touch on <a href="https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/">LinkedIn</a> or <a href="mailto:osullivan512@gmail.com">email me</a>! We’re also interested in thoughts about this mapping method, not just this implementation.</p>
+<p>For more on how <a href="https://dosull.github.io/mapweaver/app/">MapWeaver</a> does what it does, check out the <a href="https://github.com/DOSull/weaving-space"><code>weavingspace</code> code repository</a>.</p>
 
 
 </section>
@@ -263,7 +266,7 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../../"><img src="../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>Nothing <em>at all</em> to do with web map tiles.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Nothing at all to do with web map tiles.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p><span style="text-transform:none;">Nothing at all to do with <a href="https://maptiler.com">MapTiler</a></span><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>See also Exeter DJ, Zhao J, Crengle S, Lee A, Browne M, 2017, <a href="https://dx.plos.org/10.1371/journal.pone.0181260">The New Zealand Indices of Multiple Deprivation (IMD): A new suite of indicators for social and health research in Aotearoa, New Zealand</a> <em>PLOS ONE</em> <strong>12</strong>(8) e0181260<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
