@@ -61,7 +61,7 @@
 <p>The biggest obstacles to doing this are most likely:</p>
 <ul>
 <li>For <code>https</code> access you need an internet domain on which you can set up a subdomain. This is technically straightforward but you do need a domain you own and have some control over.</li>
-<li>Cloud computing price plans are pretty much meaningless until you actually sign up. You won’t know what you need until you start using it, and you won’t know what that translates to in terms of actual compute you are paying for until you have some people logged in and using a server.</li>
+<li>Cloud compute pricing plans are pretty much meaningless until you actually sign up. You won’t know what you need until you start using it, and you won’t know what that translates to in terms of actual compute you are paying for until you have some people logged in and using a server. It’s reminiscent of the <a href="https://www.youtube.com/watch?v=UcRTXAyBOcY">worst days of mobile phone plans</a>.</li>
 </ul>
 <p>The latter is a real issue. I will have to on-charge the compute costs to the client and we won’t know what those are until after we’re done. We do have a no-cost (but some nuisance) plan B involving the somewhat amazing <a href="https://github.com/features/codespaces">Github Codespaces</a>, and we might even end up using that because of the cost, or more accurately, the <em>uncertainty</em> around the cost of the Jupyter hub solution.</p>
 <p>But my main reflection on this experience would be to strongly encourage <em>any</em> organisational IT team to take a look at this. Chances are you are already using cloud compute infrastructure, so what’s the holdup?!</p>

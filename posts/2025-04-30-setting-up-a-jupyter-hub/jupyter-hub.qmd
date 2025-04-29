@@ -70,7 +70,7 @@ But really... I have had more problems getting IMAP access to an email account v
 The biggest obstacles to doing this are most likely:
 
 + For `https` access you need an internet domain on which you can set up a subdomain. This is technically straightforward but you do need a domain you own and have some control over.
-+ Cloud computing price plans are pretty much meaningless until you actually sign up. You won't know what you need until you start using it, and you won't know what that translates to in terms of actual compute you are paying for until you have some people logged in and using a server.
++ Cloud compute pricing plans are pretty much meaningless until you actually sign up. You won't know what you need until you start using it, and you won't know what that translates to in terms of actual compute you are paying for until you have some people logged in and using a server. It's reminiscent of the [worst days of mobile phone plans](https://www.youtube.com/watch?v=UcRTXAyBOcY).
 
 The latter is a real issue. I will have to on-charge the compute costs to the client and we won't know what those are until after we're done. We do have a no-cost (but some nuisance) plan B involving the somewhat amazing [Github Codespaces](https://github.com/features/codespaces), and we might even end up using that because of the cost, or more accurately, the _uncertainty_ around the cost of the Jupyter hub solution.
 
