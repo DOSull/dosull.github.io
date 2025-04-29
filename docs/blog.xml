@@ -10,7 +10,82 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Sat, 08 Mar 2025 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 29 Apr 2025 12:00:00 GMT</lastBuildDate>
+<item>
+  <title>Imagine setting up a Jupyter hub</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-04-30-setting-up-a-jupyter-hub/jupyter-hub.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="my-life-as-a-jupyter-pioneer" class="level2">
+<h2 class="anchored" data-anchor-id="my-life-as-a-jupyter-pioneer">My life as a Jupyter pioneer</h2>
+<p>I’ve worked with <a href="https://en.wikipedia.org/wiki/Project_Jupyter">:Jupyter notebooks</a> for many years. Almost—but not quite!—since their inception.</p>
+<p>I was lucky enough to be a professor at Berkeley in 2014 when the technology was emerging in education. People associated closely with the Berkeley data science program pretty much invented this stuff. I developed a ‘connector’ class in geography as a contribution to the nascent Data Science major. The (I believe correct) thinking was that that it shouldn’t be possible to graduate in Data Science alone, and that all students should have some kind of domain expertise in the form of another major in a traditional discipline. To encourage this line of thought students taking ‘data science 101’ (in fact <a href="https://www.data8.org/">:Data 8 The foundations of data science</a>) are required to take a parallel half-credit ‘connector’ class in some other discipline.</p>
+<p>I developed <a href="https://cdss.berkeley.edu/course/data-science-applications-geography">Geog 88 Data science applications in geography</a> which was was my first experience with notebooks. It was also my first encounter with a very limited (at the time) <a href="https://geopandas.org"><code>geopandas</code></a>. So limited that I had to <a href="https://github.com/DOSull/Geog-88-Labs/blob/master/Figuring%20out%20geopandas.ipynb">hack together some code to make waiting for it to plot polygon layers bearable</a>. As I recall the problem was that <code>geopandas</code> was iterating over the polygons in a dataset using a <code>for</code> loop and plotting them one at a time. The fix was to convert a <code>GeoDataFrame</code> to a <code>PatchCollection</code> and plot that instead. Anyway, they’ve fixed that problem now so this is ancient history. That was my first close-up and personal encounter with <a href="https://matplotlib.org"><code>matplotlib</code></a> a python module I continue to hate and love in near-equal measure to this day.<sup>1</sup></p>
+</section>
+<section id="and-so-to-aotearoa" class="level2">
+<h2 class="anchored" data-anchor-id="and-so-to-aotearoa">And so to Aotearoa</h2>
+<p>Anyway, in an ideal world, I’d say ‘and the rest is history’ at this point, but… while the trajectory of Jupyter notebooks has been onwards and upwards from there, my personal journey with them has been rather different.</p>
+<p>We came back to Aotearoa New Zealand in 2018 for uh… reasons (not unrelated to more recent events in the US) to a position as Professor of Geography and Geospatial Science at Victoria University of Wellington. Taking the second part of that moniker (geospatial science) somewhat seriously, I was excited to advocate for using python notebooks in teaching, and… well… basically I hit a brick wall. Turns out that Berkeley was <del>probably</del> definitely five (maybe even more) years ahead of New Zealand universities in uptake and support for Jupyter notebooks and the associated cloud computing needed to make effective use of the technology in the classroom.</p>
+<section id="its-too-hard" class="level3">
+<h3 class="anchored" data-anchor-id="its-too-hard">It’s too hard</h3>
+<p>At first when I asked for IT support to set up notebooks in the lab I encountered blank looks. Then after some research, mostly more blank looks, followed by some version of “it’s too hard” in the context of general computing labs where the GIS classes are taught. We briefly explored the free tier of Azure notebooks then on offer to the university through its everything-MS-all-the-time Microsoft subscription but the CPU cores provided through that deal were underpowered. I also contemplated using the Jupyter capability then emerging in the Esri suite, but that was <a href="https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/what-is-arcpy-.htm">ArcPy</a>, which was and remains a clunky and unwelcoming introduction to the elegant python programming language. A most ‘unpythonic’ place to begin.<sup>2</sup> The more friendly <a href="https://developers.arcgis.com/python/latest/">ArcGIS API for Python</a> had yet to emerge (ArcGIS Pro had barely emerged at this point.)</p>
+<p>So… I shelved things for a while, but returned to notebooks when it came to developing a class in Geographical Computing as part of the eventually-doomed postgraduate program in GIS at VUW. Given lab support limitations, I wound up teaching students about <code>conda</code> environments so we could all setup the same python environment on our computers and took it from there. So we never used Jupyter notebooks in the client-(remote) server mode, but instead in client-(local) server mode. It was fine, if a little deflating, given that Berkeley had been delivering notebook based instructions to classes of several hundred or more students five years earlier! On the upside, students did get to learn about virtual environments and all that good stuff.</p>
+</section>
+</section>
+<section id="anyway-fast-forward-to-today" class="level2">
+<h2 class="anchored" data-anchor-id="anyway-fast-forward-to-today">Anyway… fast forward to today</h2>
+<p>I still use notebooks all the time. It’s probably not a great habit, but they’re my go to for quickly exploring coding ideas. I even use them as a high level ‘test harness’ of sorts for the <a href="https://github.com/DOSull/weaving-space/tree/main/examples"><code>weavingspace</code> module</a>.</p>
+<p>And now, I’ve been asked to develop python training materials for a client. In that context, I once again have run into organisational IT. In brief, the course is to be delivered via Jupyter notebooks, but IT want the supplier (that would be me) to provide a solution completely outside their infrastructure. In other words, no in-house Jupyter hub or similar, student login credentials to be provided by me, and so on.</p>
+<p>Which meant I was faced with the question that VUW IT were posed by me back in 2018: can you support Jupyter notebook based instruction?</p>
+<p>At first I did the obvious thing and explored options at a number of more or less shrink-wrapped solutions such as <a href="https://colab.research.google.com/">Google Colab</a>, <a href="https://cocalc.com">CoCalc</a>, and <a href="https://saturncloud.io">SaturnCloud</a>. What I found there was more confusing than helpful. CoCalc is the only one actually focused on teaching/training and its pricing model is hard to unpick. The interface for setting up a course is also less than intuitive. The other two, like most offerings in this space are so focused on the work of machine-learning teams that it’s not at all obvious that they would work for my use-case: a relatively small group of learners working with a limited (and niche, i.e.&nbsp;geospatial) set of python modules. This pattern was repeated at all the options I looked at.</p>
+<p>And so,<sup>3</sup> I thought it was time to roll up my sleeves and give setting up my very own Jupyter hub a try. How hard could it be? <em>Really really hard</em> I thought. After all, fully grown university IT departments have shuddered at the very thought.</p>
+</section>
+<section id="reader-its-really-not-that-hard" class="level2">
+<h2 class="anchored" data-anchor-id="reader-its-really-not-that-hard">Reader, it’s really not that hard!</h2>
+<p>Seriously though, it really isn’t.</p>
+<p>It’s so easy that I’m not going to provide tutorial advice, but instead link you to the excellent instructions I followed at <a href="https://tljh.jupyter.org/en/latest/">The Littlest Jupyter Hub</a>. It took about 45 minutes.</p>
+<p>But that included registering payment details at <a href="https://www.digitalocean.com/">Digital Ocean</a><sup>4</sup> and two false starts, where first, I ignored a clear <strong>bolded</strong> instruction in the setup guide<sup>5</sup></p>
+<p><a href="tljh-bolded-instruction.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2025-04-30-setting-up-a-jupyter-hub/tljh-bolded-instruction.png" class="img-fluid" style="filter: drop-shadow(5px 5px 5px gray);"></a></p>
+<p>and then I forgot to give the server a more memorable name than the default one assigned by Digital Ocean (this isn’t a problem as such, just annoying).</p>
+<p>What can I say? It had been a long day poring over complicated cloud computing pricing structures and negotiating 2FA on new services I had only joined to take a look. If you avoid those false starts and already have a cloud computing subscription, you could be up and running in under half an hour.</p>
+<p>It took a further half hour or so to configure things on the server itself, setting up the default user environment, and most importantly <a href="https://tljh.jupyter.org/en/latest/howto/admin/https.html">setting up <code>https</code></a> rather than <code>http</code> access (for this you need an internet domain name on which you can establish subdomains).</p>
+<p>But really… I have had more problems getting IMAP access to an email account via gmail to work properly.</p>
+</section>
+<section id="the-hardest-parts" class="level2">
+<h2 class="anchored" data-anchor-id="the-hardest-parts">The hardest parts</h2>
+<p>The biggest obstacles to doing this are most likely:</p>
+<ul>
+<li>For <code>https</code> access you need an internet domain on which you can set up a subdomain. This is technically straightforward but you do need a domain you own and have some control over.</li>
+<li>Cloud computing price plans are pretty much meaningless until you actually sign up. You won’t know what you need until you start using it, and you won’t know what that translates to in terms of actual compute you are paying for until you have some people logged in and using a server.</li>
+</ul>
+<p>The latter is a real issue. I will have to on-charge the compute costs to the client and we won’t know what those are until after we’re done. We do have a no-cost (but some nuisance) plan B involving the somewhat amazing <a href="https://github.com/features/codespaces">Github Codespaces</a>, and we might even end up using that because of the cost, or more accurately, the <em>uncertainty</em> around the cost of the Jupyter hub solution.</p>
+<p>But my main reflection on this experience would be to strongly encourage <em>any</em> organisational IT team to take a look at this. Chances are you are already using cloud compute infrastructure, so what’s the holdup?!</p>
+
+
+</section>
+
+
+<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Actually, probably <code>hate &gt; love</code>. If there is a more convoluted API than <code>matplotlib</code> anywhere on the planet, I <em>really</em> don’t want to know about it.↩︎</p></li>
+<li id="fn2"><p>Yes… I’ve drunk the python koolaid.↩︎</p></li>
+<li id="fn3"><p>Egged on, I should acknowledge, by an academic buddy↩︎</p></li>
+<li id="fn4"><p>A choice dictated more than anything by them appearing first in the list on the tutorial page: do yourself a favour and give one of the options with free compute hours a try first.↩︎</p></li>
+<li id="fn5"><p>RTFM!↩︎</p></li>
+</ol>
+</section></div> ]]></description>
+  <category>python</category>
+  <category>training</category>
+  <category>aotearoa</category>
+  <guid>https://dosull.github.io/posts/2025-04-30-setting-up-a-jupyter-hub/jupyter-hub.html</guid>
+  <pubDate>Tue, 29 Apr 2025 12:00:00 GMT</pubDate>
+</item>
 <item>
   <title>MapWeaver: tiled and woven multivariate maps without code</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -6735,494 +6810,6 @@ font-style: inherit;">FALSE</span>))</span></code></pre></div>
   <category>tutorial</category>
   <guid>https://dosull.github.io/posts/2021-10-22-spatstat-idw/spatstat-idw.html</guid>
   <pubDate>Thu, 21 Oct 2021 11:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Kernel density estimation in R spatial</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2021-10-21-kde/kde.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<section id="packages" class="level2">
-<h2 class="anchored" data-anchor-id="packages">Packages</h2>
-<p>This requires a surprising number of moving parts (at least the way I did it):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">library</span>(sf)</span>
-<span id="cb1-2"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">library</span>(tmap)</span>
-<span id="cb1-3"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">library</span>(spatstat)</span>
-<span id="cb1-4"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">library</span>(raster)</span>
-<span id="cb1-5"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">library</span>(dplyr)</span></code></pre></div>
-</div>
-</section>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>The data are some <a href="abb.gpkg?raw=true">point data</a> (Airbnb listings from <a href="http://insideairbnb.com/new-zealand/">here</a>) and some <a href="sa2.gpkg?raw=true">polygon data</a> (NZ census Statistical Area 2 data).</p>
-<section id="load-the-data" class="level3">
-<h3 class="anchored" data-anchor-id="load-the-data">Load the data</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">polys <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">st_read</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"sa2.gpkg"</span>)</span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Reading layer `sa2' from data source 
-  `/Users/david/Documents/code/dosull.github.io/posts/2021-10-21-kde/sa2.gpkg' 
-  using driver `GPKG'
-Simple feature collection with 78 features and 5 fields
-Geometry type: MULTIPOLYGON
-Dimension:     XY
-Bounding box:  xmin: 1735096 ymin: 5419590 xmax: 1759041 ymax: 5443768
-Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">pts <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">st_read</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"abb.gpkg"</span>)</span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Reading layer `abb' from data source 
-  `/Users/david/Documents/code/dosull.github.io/posts/2021-10-21-kde/abb.gpkg' 
-  using driver `GPKG'
-Simple feature collection with 1254 features and 16 fields
-Geometry type: POINT
-Dimension:     XY
-Bounding box:  xmin: 1742685 ymin: 5420357 xmax: 1755385 ymax: 5442630
-Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
-</div>
-</div>
-<p>And have a look</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_shape</span>(polys) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb6-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_polygons</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> </span>
-<span id="cb6-3">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_shape</span>(pts) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> </span>
-<span id="cb6-4">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_dots</span>()</span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-kde/kde_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="spatstat-for-density-estimation" class="level2">
-<h2 class="anchored" data-anchor-id="spatstat-for-density-estimation"><code>spatstat</code> for density estimation</h2>
-<p>The best way I know to do density estimation in the <em>R</em> ecosystem is using the <a href="https://spatstat.org/"><code>spatstat</code></a> library’s specialisation of base <em>R</em>’s <code>density</code> function. That means converting the point data to a <code>spatstat</code> planar point pattern (<code>ppp</code>) object, which involves a couple of steps.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">pts.ppp <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> pts<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">$</span>geom <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">%&gt;%</span> </span>
-<span id="cb7-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">as.ppp</span>()</span></code></pre></div>
-</div>
-<p>A point pattern also needs a ‘window’, which we’ll make from the polygons.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">pts.ppp<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">$</span>window <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> polys <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">%&gt;%</span></span>
-<span id="cb8-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">st_union</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">%&gt;%</span>       <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># combine all the polygons into a single shape</span></span>
-<span id="cb8-3">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">as.owin</span>()            <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># convert to spatstat owin - again maptools...</span></span></code></pre></div>
-</div>
-<section id="now-the-kernel-density" class="level3">
-<h3 class="anchored" data-anchor-id="now-the-kernel-density">Now the kernel density</h3>
-<p>We need some bounding box info to manage the density estimation resolution</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1">bb <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">st_bbox</span>(polys)</span>
-<span id="cb9-2">cellsize <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">100</span></span>
-<span id="cb9-3">height <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> (bb<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">$</span>ymax <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> bb<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">$</span>ymin) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> cellsize</span>
-<span id="cb9-4">width <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> (bb<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">$</span>xmax <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> bb<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">$</span>xmin) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> cellsize</span></code></pre></div>
-</div>
-<p>Now we specify the size of the raster we want with <code>dimyx</code> (note the order, y then x) using <code>height</code> and <code>width</code>.</p>
-<p>We can convert this directly to a raster, but have to supply a CRS which we pull from the original points input dataset. At the time of writing (August 2021) you’ll get a complaint about the New Zealand Geodetic Datum 2000 because recent changes in how projections and datums are handled are still working themselves out.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">kde <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">density</span>(pts.ppp, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">sigma =</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">500</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">dimyx =</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">c</span>(height, width)) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">%&gt;%</span></span>
-<span id="cb10-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">raster</span>() </span>
-<span id="cb10-3"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">crs</span>(kde) <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">st_crs</span>(pts)<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">$</span>wkt  <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># a ppp has no CRS information so add it</span></span></code></pre></div>
-</div>
-</section>
-<section id="lets-see-what-we-got" class="level3">
-<h3 class="anchored" data-anchor-id="lets-see-what-we-got">Let’s see what we got</h3>
-<p>We can map this using <code>tmap</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_shape</span>(kde) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb11-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_raster</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">palette =</span>  <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Reds"</span>)</span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-kde/kde_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="a-fallback-sanity-check" class="level3">
-<h3 class="anchored" data-anchor-id="a-fallback-sanity-check">A fallback sanity check</h3>
-<p>To give us an alternative view of the data, let’s just count points in polygons</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">polys<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">$</span>n <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> polys <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">%&gt;%</span></span>
-<span id="cb12-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">st_contains</span>(pts) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">%&gt;%</span></span>
-<span id="cb12-3">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">lengths</span>()</span></code></pre></div>
-</div>
-<p>And map the result</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_shape</span>(polys) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb13-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_polygons</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"n"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">palette =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Reds"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Points in polygons"</span>)</span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-kde/kde_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="aggregate-the-density-surface-pixels-to-polygons" class="level3">
-<h3 class="anchored" data-anchor-id="aggregate-the-density-surface-pixels-to-polygons">Aggregate the density surface pixels to polygons</h3>
-<p>This isn’t at all necessary, but is also useful to know. This is also a relatively slow operation. Note that we add together the density estimates in the pixels contained by each polygon.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">summed_densities <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> raster<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">extract</span>(kde, polys, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">fun =</span> sum)</span></code></pre></div>
-</div>
-<p>Append this to the polygons and rescale so the result is an estimate of the original count. We multiply by <code>cellsize^2</code> because each cell contains an estimate of the per sq metre (in this case, but per sq distance unit in general) density, so multiplying by the area of the cells gives an estimated count.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1">polys<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">$</span>estimated_count <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">=</span> summed_densities[, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>] <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> cellsize <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">^</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span></span></code></pre></div>
-</div>
-<p>And now we can make another map</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_shape</span>(polys) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> </span>
-<span id="cb16-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_polygons</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"estimated_count"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">palette =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Reds"</span>,</span>
-<span id="cb16-3">              <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"500m KDE summed"</span>)</span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-kde/kde_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Spot the deliberate mistake?!</p>
-<p>Something doesn’t seem quite right! What’s with the large numbers in the large rural area to the west of the city? Thing is, you shouldn’t really map count data like this, but should instead convert to densities. If we include that option in the <code>tm_polygons</code> function, then order is restored.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_shape</span>(polys) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> </span>
-<span id="cb17-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_polygons</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"estimated_count"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">palette =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Reds"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">convert2density =</span> <span class="cn" style="color: #8f5902;
-background-color: null;
-font-style: inherit;">TRUE</span>,</span>
-<span id="cb17-3">              <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"500m KDE estimate"</span>)</span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-kde/kde_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Really, this should be done with the earlier map of points in polygons too, so let’s show all three side by side. <code>tmap_arrange</code> is nice for this, although it has trouble making legend title font sizes match, unless you do some creative renaming. I’ve also multiplied the KDE result by 1,000,000 to convert the density to listings per sq. km, and we can see that the three maps are comparable.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">m1 <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_shape</span>(kde <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1000000</span>) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> </span>
-<span id="cb18-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_raster</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">palette =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Reds"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"500m KDE"</span>)</span>
-<span id="cb18-3">m2 <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_shape</span>(polys) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> </span>
-<span id="cb18-4">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_fill</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"n"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">palette =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Blues"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">convert2density =</span> <span class="cn" style="color: #8f5902;
-background-color: null;
-font-style: inherit;">TRUE</span>,</span>
-<span id="cb18-5">              <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Point density"</span>)</span>
-<span id="cb18-6">m3 <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_shape</span>(polys) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> </span>
-<span id="cb18-7">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tm_fill</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"estimated_count"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">palette =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Greens"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">convert2density =</span> <span class="cn" style="color: #8f5902;
-background-color: null;
-font-style: inherit;">TRUE</span>,</span>
-<span id="cb18-8">              <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"KDE summed"</span>)</span>
-<span id="cb18-9"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">tmap_arrange</span>(m1, m2, m3, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">nrow =</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>)</span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-kde/kde_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-
-
-</section>
-</section>
-
-<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p> ]]></description>
-  <category>R</category>
-  <category>geospatial</category>
-  <category>tutorial</category>
-  <guid>https://dosull.github.io/posts/2021-10-21-kde/kde.html</guid>
-  <pubDate>Wed, 20 Oct 2021 11:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
