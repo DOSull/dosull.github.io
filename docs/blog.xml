@@ -21,7 +21,7 @@
 
 
 
-<p><strong>Note</strong>: You can have a closer look at any of the maps in this post simply by clicking on them.</p>
+<p><strong>Note</strong>: You can take a closer look at any of the maps in this post simply by clicking on them.</p>
 <p>I’ve recently talked a lot (and will again…) about using tiling as an approach to present complex multivariate data in single map views. In this post I look at a relatively simple example of this problem from a project I’ve been working on recently—just three variables—where, it might be that a different approach is warranted, although as I think will become clear, the regularities of tiled patterns are useful regardless of whether the final result is technically (or even remotely) a tiling or not!</p>
 <p>I’m deliberately not going to say what the data represent. Suffice to say we have three variables, shown below for a chunk of New Zealand. From left to right, these are a resource potentially at risk, and two risk factors. The data preparation involved in assembling these risk factors is a whole story in itself, which I might get into some other time. For now, suffice to say, we’ve been careful to stick with colouring these three elements consistently (black, red, blue) as that helps a great deal in keeping some rather complicated data organised in our heads!</p>
 <div>
@@ -47,7 +47,7 @@
 <p>Since only the red and the blue are risk factors one option using tiles is square tiles cut in half diagonally and choropleth coloured in the same manner as above. This gives us a map like this:</p>
 <p><a href="04-2-slices-square.png" class="lightbox" data-gallery="maps"><img src="https://dosull.github.io/posts/2025-05-02-multivariate-viz-1/04-2-slices-square.png" class="img-fluid"></a></p>
 <p>That seems fine, although… it might cause some unnecessary alarm given how almost the whole mapped area seems at great risk.<sup>1</sup> So, can we also show the at-risk variable to offset that effect?</p>
-<p>One option is three variable tilings. You can slice a square into three equal sized elements relatively easily. It turns out that if you cut from the centre of a square (or for that matter any regular polygon) to three points equally spaced around its perimeter, then the magic of geometry guarantees the slices will be of equal size.<sup>2</sup> Pop over to my <a href="https://dosull.github.io/mapweaver/app/">handy dandy mapweaver app</a> (I recommend opening that link in a new tab) and you can see what this looks like up close, by selecting the <strong>square-slice 3</strong> tiling and setting <strong>Offset</strong> to 1:</p>
+<p>One option is three variable tilings. You can slice a square into three equal sized elements rather easily. It turns out that if you cut from the centre of a square (or for that matter any regular polygon) to three points spaced at equal distances along its perimeter, then the magic of geometry guarantees the slices will be of equal size.<sup>2</sup> Pop over to my <a href="https://dosull.github.io/mapweaver/app/">handy dandy mapweaver app</a> (I recommend opening that link in a new tab) and you can see what this looks like up close, by selecting the <strong>square-slice 3</strong> tiling and setting <strong>Offset</strong> to 1:</p>
 <p><a href="3-slices-of-a-square.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://dosull.github.io/posts/2025-05-02-multivariate-viz-1/3-slices-of-a-square.png" class="img-fluid" style="width:40.0%"></a></p>
 <p>Mapping with this tileable unit gives us a map like the one below.</p>
 <p><a href="06-3-slices-square.png" class="lightbox" data-gallery="maps"><img src="https://dosull.github.io/posts/2025-05-02-multivariate-viz-1/06-3-slices-square.png" class="img-fluid"></a></p>
@@ -120,7 +120,7 @@
 
 <ol>
 <li id="fn1"><p>Although, it’s really not: all those areas where there is no blue have very low risk associated with that factor and if we need both to be present then they are OK.↩︎</p></li>
-<li id="fn2"><p>A potentially useful tip for children’s parties.↩︎</p></li>
+<li id="fn2"><p>A potentially useful tip for children’s parties. As for the geometry, it’s all about how the area of a triangle is given by <img src="https://latex.codecogs.com/png.latex?A=%5Cfrac%7B1%7D%7B2%7Dbh">.↩︎</p></li>
 <li id="fn3"><p>That honour now belongs to <a href="https://a5geo.org">Carto’s A5geo <em>pentagon</em> based system</a> in case you were wondering. I am of course using the word ‘coolest’ in the most nerdy of senses.↩︎</p></li>
 <li id="fn4"><p>See for example <a href="https://andywoodruff.com/blog/how-to-make-a-value-by-alpha-map/">this post</a>.↩︎</p></li>
 <li id="fn5"><p>Not technically a histogram, more a bar chart, but now I am being nitpicky.↩︎</p></li>

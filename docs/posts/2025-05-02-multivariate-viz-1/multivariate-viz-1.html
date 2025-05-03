@@ -76,6 +76,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <script defer="" src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="dosull.github.io"></script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -228,7 +257,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p><strong>Note</strong>: You can have a closer look at any of the maps in this post simply by clicking on them.</p>
+<p><strong>Note</strong>: You can take a closer look at any of the maps in this post simply by clicking on them.</p>
 <p>I’ve recently talked a lot (and will again…) about using tiling as an approach to present complex multivariate data in single map views. In this post I look at a relatively simple example of this problem from a project I’ve been working on recently—just three variables—where, it might be that a different approach is warranted, although as I think will become clear, the regularities of tiled patterns are useful regardless of whether the final result is technically (or even remotely) a tiling or not!</p>
 <p>I’m deliberately not going to say what the data represent. Suffice to say we have three variables, shown below for a chunk of New Zealand. From left to right, these are a resource potentially at risk, and two risk factors. The data preparation involved in assembling these risk factors is a whole story in itself, which I might get into some other time. For now, suffice to say, we’ve been careful to stick with colouring these three elements consistently (black, red, blue) as that helps a great deal in keeping some rather complicated data organised in our heads!</p>
 <div>
@@ -254,7 +283,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Since only the red and the blue are risk factors one option using tiles is square tiles cut in half diagonally and choropleth coloured in the same manner as above. This gives us a map like this:</p>
 <p><a href="04-2-slices-square.png" class="lightbox" data-gallery="maps"><img src="04-2-slices-square.png" class="img-fluid"></a></p>
 <p>That seems fine, although… it might cause some unnecessary alarm given how almost the whole mapped area seems at great risk.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> So, can we also show the at-risk variable to offset that effect?</p>
-<p>One option is three variable tilings. You can slice a square into three equal sized elements relatively easily. It turns out that if you cut from the centre of a square (or for that matter any regular polygon) to three points equally spaced around its perimeter, then the magic of geometry guarantees the slices will be of equal size.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Pop over to my <a href="https://dosull.github.io/mapweaver/app/">handy dandy mapweaver app</a> (I recommend opening that link in a new tab) and you can see what this looks like up close, by selecting the <strong>square-slice 3</strong> tiling and setting <strong>Offset</strong> to 1:</p>
+<p>One option is three variable tilings. You can slice a square into three equal sized elements rather easily. It turns out that if you cut from the centre of a square (or for that matter any regular polygon) to three points spaced at equal distances along its perimeter, then the magic of geometry guarantees the slices will be of equal size.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Pop over to my <a href="https://dosull.github.io/mapweaver/app/">handy dandy mapweaver app</a> (I recommend opening that link in a new tab) and you can see what this looks like up close, by selecting the <strong>square-slice 3</strong> tiling and setting <strong>Offset</strong> to 1:</p>
 <p><a href="3-slices-of-a-square.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="3-slices-of-a-square.png" class="img-fluid" style="width:40.0%"></a></p>
 <p>Mapping with this tileable unit gives us a map like the one below.</p>
 <p><a href="06-3-slices-square.png" class="lightbox" data-gallery="maps"><img src="06-3-slices-square.png" class="img-fluid"></a></p>
@@ -327,7 +356,7 @@ ul.task-list li input[type="checkbox"] {
 
 <ol>
 <li id="fn1"><p>Although, it’s really not: all those areas where there is no blue have very low risk associated with that factor and if we need both to be present then they are OK.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>A potentially useful tip for children’s parties.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>A potentially useful tip for children’s parties. As for the geometry, it’s all about how the area of a triangle is given by <span class="math inline">\(A=\frac{1}{2}bh\)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>That honour now belongs to <a href="https://a5geo.org">Carto’s A5geo <em>pentagon</em> based system</a> in case you were wondering. I am of course using the word ‘coolest’ in the most nerdy of senses.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>See for example <a href="https://andywoodruff.com/blog/how-to-make-a-value-by-alpha-map/">this post</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>Not technically a histogram, more a bar chart, but now I am being nitpicky.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
