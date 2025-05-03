@@ -60,6 +60,9 @@ Because we've used the same colours here we can still tell which variable is whi
 
 ![](3-slices-of-a-square-with-insets.png){style="width:40%; float:left; padding:0px 15px 10px 0px;"} We could fix this with 'insetting' as shown in the tileable unit to the left, although for me this is a little unsatisfactory as a pattern, and I leave generating such a map as an exercise for the reader.^[:wink:] Another problem with this tiling is that the different shapes of the three tiles, which should perhaps in theory help us with telling one variable from another are distracting. Nice idea in theory then, but maybe not so great in practice.
 
+::: {.clearfix}
+:::
+
 ## But squares are _so square_
 Yes, you're right. Squares _are_ like, totally square. Hexagons are much sexier, even if we're maybe all a bit over the hexbin moment and they are no longer the basis for the coolest discrete global grid systems.^[That honour now belongs to [Carto's A5geo _pentagon_ based system](https://a5geo.org) in case you were wondering. I am of course using the word 'coolest' in the most nerdy and loosest of senses.]
 
