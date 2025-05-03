@@ -70,11 +70,10 @@ In the current application where we are interested in three variables, hexagons 
 
 ![](07-3-slices-hex.png){group="maps"}
 
-We could even make our slices pentagonal and get the best of both worlds. Here's what that tiling would look like:
+![](3-slices-of-a-hexagon-offset-1.png){style="width:40%; float:right; padding:0px 0px 10px 15px;"} We could even make our slices pentagonal and get the best of both worlds. The problem with hexagons in this application is that the repeating hexagon shape doesn't have a consistent mapping onto out underlying square gridded data, so which underlying data any particular group of tiles represents is unclear, and it's even possible we are double counting some data and missing others. We could go back and redo all the analysis, and of course all these numbers are estimates and subject to all kinds of variation as we move data around from geometry to geometry anyway. If we really _love_ the hex output map, then probably we _should_ redo the analysis for hexagonal output areas. For now, I'm going to move on and back to another way to present these three variables using square tiles cut diagonally.
 
-![](3-slices-of-a-hexagon-offset-1.png){width=40%}
-
-The problem here is that the repeating hexagon shape doesn't have a consistent mapping onto out underlying square gridded data, so what underlying data any particular group of tiles represents is unclear. We could go back and redo all the analysis, and of course all these numbers are estimates and subject to all kinds of variation as we move data around from geometry to geometry anyway. If we really _love_ the hex output map, then probably we _should_ redo the analysis for hexagonal output areas. For now, I'm going to move on and back to another way to present these three variables using square tiles cut diagonally.
+::: {.clearfix}
+:::
 
 ## Back to square two
 The map below borrows an idea from the interesting _value-by-alpha_ approach proposed some years ago by Rob Roth and others.^[See for example [this post](https://andywoodruff.com/blog/how-to-make-a-value-by-alpha-map/).]
