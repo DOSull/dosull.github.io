@@ -59,7 +59,7 @@ Mapping with this tileable unit gives us a map like the one below.
 
 ![](06-3-slices-square.png){group="maps"}
 
-Because we've used the same colours here we can still tell which variable is which, although the tiling's shapes tend to draw our eye to the cube-like arrangement of one blue tile on the left and one red tile on the right, where these are actually the data values from _neighbouring_ grid cells, and should not strictly be paired with one another! We can fix this with 'insetting' as below, although for me at least this is a little unsatisfactory as a pattern.
+Because we've used the same colours here we can still tell which variable is which, although the tiling's shapes tend to draw our eye to the cube-like arrangement of one blue tile on the left and one red tile on the right, where these are actually the data values from _neighbouring_ grid cells, and should not strictly be paired with one another! We could fix this with 'insetting' as shown in the tileable unit below, although for me this is a little unsatisfactory as a pattern, and I leave generating such a map as an exercise for the reader.
 
 ![](3-slices-of-a-square-with-insets.png){width=40%}
 
