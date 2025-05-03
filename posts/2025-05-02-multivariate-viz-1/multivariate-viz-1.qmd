@@ -23,6 +23,7 @@ knitr:
     warning: false
     message: false
 date: 05-02-2025
+image: "04-2-slices-square.png"
 ---
 
 **Note**: You can have a closer look at any of the maps in this post simply by clicking on them.
