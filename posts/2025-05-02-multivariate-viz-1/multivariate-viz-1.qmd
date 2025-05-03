@@ -41,7 +41,7 @@ I'm deliberately not going to say what the data represent. Suffice to say we hav
 ![](03-var3.png){group="data"}
 :::
 
-You'll see also that we've calculated our three facets of the problem in a consistent geographic frame of reference, namely 10km grid squares. That's 10&times;10km, i.e. 100km<sup>2</sup> _and not_ 10km<sup>2</sup> as people so often seem to garble square units. [I was delighted to see this bugbear of mine picked up in a recent [XKCD comic](https://xkcd.com/3065/). Go. There. Now.]
+You'll see also that we've calculated our three facets of the problem in a consistent geographic frame of reference, namely 10km grid squares. That's 10&times;10km, i.e. 100km<sup>2</sup> _and not_ 10km<sup>2</sup> as people so often seem to garble square units.^[I was delighted to see this bugbear of mine picked up in a recent [XKCD comic](https://xkcd.com/3065/). Go. There. Now.]
 
 ## Tilings by squares
 It's fine looking at the three datasets in parallel, but what's really of interest is where high values of all three variables co-exist, and in given places which, if any of them, are low. Presenting more than one variable at once is exactly what our [efforts in map tiling](https://github.com/DOSull/weaving-space) have been all about. 
