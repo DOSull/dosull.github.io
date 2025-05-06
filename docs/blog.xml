@@ -70,7 +70,7 @@
 <p>The map below borrows an idea from the interesting <em>value-by-alpha</em> approach proposed some years ago by Rob Roth and others.<sup>6</sup></p>
 <p><a href="05-2-slices-square-alpha-overlay.png" class="lightbox" data-gallery="maps"><img src="https://dosull.github.io/posts/2025-05-02-tiles-and-glyphs/05-2-slices-square-alpha-overlay.png" class="img-fluid"></a></p>
 <p>I’ve never entirely got along with value-by-alpha maps. This is partly because I’m not sure they work especially well on white backgrounds and I’m not cool enough for maps with dark backgrounds, and partly because I struggle to get the alpha (transparency/opacity) channel and all the associated blending modes to play nice. Somehow or other the alpha channel never has quite the effect I hope for and expect it to have in practice.</p>
-<p>I made the map above by calculating the colours in QGIS. You set the layer symbology to <strong>Simple Fill</strong> and then edit the expression for the colour to something like the below:</p>
+<p>That said, the above map has some merit. I made it by calculating the colours in QGIS. You set the layer symbology to <strong>Simple Fill</strong> and then edit the expression for the colour to something like the below:</p>
 <pre><code>color_rgba(if("var2" &gt; 0, 204, 255),
            if("var2" &gt; 0, 0, 255),
            if("var2" &gt; 0, 0, 255),

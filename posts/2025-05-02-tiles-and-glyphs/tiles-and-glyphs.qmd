@@ -82,7 +82,7 @@ The map below borrows an idea from the interesting _value-by-alpha_ approach pro
 
 I've never entirely got along with value-by-alpha maps. This is partly because I'm not sure they work especially well on white backgrounds and I'm not cool enough for maps with dark backgrounds, and partly because I struggle to get the alpha (transparency/opacity) channel and all the associated blending modes to play nice. Somehow or other the alpha channel never has quite the effect I hope for and expect it to have in practice.
 
-I made the map above by calculating the colours in QGIS. You set the layer symbology to **Simple Fill** and then edit the expression for the colour to something like the below:
+That said, the above map has some merit. I made it by calculating the colours in QGIS. You set the layer symbology to **Simple Fill** and then edit the expression for the colour to something like the below:
 
 ```
 color_rgba(if("var2" > 0, 204, 255),
