@@ -10,6 +10,6 @@ It's early days, and my initial work is focused on marshalling data on the distr
 
 ![Sitings of kākā in the NZ Bird Atlas](kaka-map.png)
 
-If this map seems more optimistic than others you've seen that's because it is derived from raw sitings. Translating that information into more reliable 'range' maps is one aspect of the work we need to consider.
+If this map seems more optimistic than others you've seen that's because it is derived from raw sightings. Translating that information into more reliable 'range' maps is one aspect of the work we need to consider.
 
 The reason where the birds are matters in this project is that establishment of JEV in New Zealand is most likely to occur as a result of it circulating in some bird populations (likely _not_ kākā) from which mosquitoes might then pass it on to other populations.
