@@ -12,3 +12,4 @@ _site/
 *_cache*
 /.quarto/
 notebooks/meet-marimo/
+__comics/

@@ -1,0 +1,25 @@
+---
+title: Geospatial according to XKCD
+subtitle: Dare to dream
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+  loop: true
+code-annotations: hover
+filters: 
+  - nutshell
+categories:
+  - geospatial
+execute:
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 05-12-2025
+# image: "04-2-slices-square.png"
+---
+
