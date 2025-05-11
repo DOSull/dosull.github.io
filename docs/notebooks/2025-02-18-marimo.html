@@ -352,18 +352,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>And it works. For me. Locally. Here’s a video to prove it!</p>
 <div class="quarto-video"><video id="video_shortcode_videojs_video1" width="600px" class="video-js vjs-default-skin " controls="" preload="auto" data-setup="{}" title=""><source src="interactive-jupyter.mp4"></video></div>
-<p>What’s much more difficult to arrange is hosting this interactive notebook in an online environment so that end users can interact with it like I can. For that I need to set up some kind of <a href="https://docs.jupyter.org/en/latest/projects/deployment.html">server infrastructure</a>, or use an environment such a <a href="https://colab.research.google.com/">Google Colab</a>, or <a href="https://cocalc.com/">CoCalc</a>, <a href="https://notebooks.azure.com/">Azure Notebooks</a>, or <a href="https://saturncloud.io/">SaturnCloud</a>.</p>
+<p>What’s much more difficult to arrange is hosting this interactive notebook in an online environment so that end users can interact with it like I can.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> For that I need to set up some kind of <a href="https://docs.jupyter.org/en/latest/projects/deployment.html">server infrastructure</a>, or use an environment such as <a href="https://colab.research.google.com/">Google Colab</a>, or <a href="https://cocalc.com/">CoCalc</a>, <a href="https://notebooks.azure.com/">Azure Notebooks</a>, or <a href="https://saturncloud.io/">SaturnCloud</a>.</p>
 <p>Setting up your own infrastructure is technically demanding involving scary sounding tools like <a href="https://kubernetes.io/">Kubernetes</a>. It’s by no means impossible, but you need good people to set things up, and security <a href="https://jupyterhub.readthedocs.io/en/latest/tutorial/getting-started/security-basics.html">can be a concern</a>.</p>
 <p>The hosted environments can be a useful alternative, but they can also be limited by low power cores, or limited storage (on free tiers), or can get quite pricey quickly if you need more oomph, or want multiple users at a time (this is a common problem getting Jupyter notebooks into the lab in New Zealand universities).</p>
 </section>
 <section id="enter-marimo" class="level2">
 <h2 class="anchored" data-anchor-id="enter-marimo">Enter marimo</h2>
-<p>This is where marimo comes in. Below is a marimo notebook embedded in a HTML <code>iframe</code>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>This is where marimo comes in. Below is a marimo notebook embedded in a HTML <code>iframe</code>.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <p>You can drag the slider to see the number of points in the plot change. You can even edit the code blocks to see the effect of changes to the code! If you make it crash, you’ll have to relaunch the Restart kernel option in the controls dropdown menu in the upper right.</p>
 <iframe src="https://southosullivan.com/misc/meet-marimo/" width="100%" height="600" title="Simple marimo notebook" frameborder="0" style="border:none;padding:10px;">
 </iframe>
 <p>Putting it in an iframe like this isn’t ideal. If you’d just like to visit the page, then go to <a href="https://southosullivan.com/misc/meet-marimo/">southosullivan.com/misc/meet-marimo/</a></p>
-<p>The magic here is <a href="https://en.wikipedia.org/wiki/WebAssembly">:WebAssembly (WASM)</a> which my python ‘source code’ has been compiled to via the <a href="https://pyodide.org/">Pyodide</a> project. Because the resulting HTML page is in WebAssembly it runs in the browser, not on a python kernel on a remote server, so it is effectively a static web page and I can even serve it on github pages. Here’s a <a href="https://dosull.github.io/weaving-space/tiling-explorer/">more ambitious example</a> from my work on tiled maps of multivariate data. Be warned it takes a little while to download (about a minute to get up and running) because it has to install a bunch of relatively chunky python modules before it will work.</p>
+<p>The magic here is <a href="https://en.wikipedia.org/wiki/WebAssembly">:WebAssembly (WASM)</a> which my python ‘source code’ has been compiled to via the <a href="https://pyodide.org/">Pyodide</a> project. Because the resulting HTML page is in WebAssembly it runs in the browser, not on a python kernel on a remote server, so it is effectively a static web page and I can even serve it on github pages. Here’s a <a href="https://dosull.github.io/mapweaver/app/">more ambitious example</a> from my work on tiled maps of multivariate data. Be warned it takes quite a while to download (about a minute to get up and running) because it has to install a bunch of relatively chunky python modules before it will work.</p>
 <p>As a way to build relatively lightweight dashboards or nice interactive web-app ‘explainers’ without complicated backend hosting, this seems to hold a lot of potential!</p>
 
 
@@ -374,7 +374,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <ol>
 <li id="fn1"><p>Yet… and it may never happen, given the investment of <a href="https://posit.co">Posit</a> in <a href="https://shiny.posit.co">Shiny</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>One wrinkle here is that I have to host this notebook on another server because I can’t show a local HTML file in an iframe <code>because of a disallowed MIME type (“text/html”)</code> according to my browser console.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Note from future self: actually not <em>that</em> difficult. See <a href="../posts/2025-04-30-setting-up-a-jupyter-hub/jupyter-hub.html">this post</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>One wrinkle here is that I have to host this notebook on another server because I can’t show a local HTML file in an iframe <code>because of a disallowed MIME type (“text/html”)</code> according to my browser console.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
