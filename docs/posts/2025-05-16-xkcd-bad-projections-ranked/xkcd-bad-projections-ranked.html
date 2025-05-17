@@ -9,7 +9,7 @@
 <meta name="author" content="David O’Sullivan">
 <meta name="dcterms.date" content="2025-05-16">
 
-<title>XKCD bad projections: ranked! – GeospatialStuff</title>
+<title>Nine XKCD bad map projections: ranked! – Geospatial&lt;br&gt;Stuff</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -206,8 +206,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">XKCD bad projections: ranked!</h1>
-            <p class="subtitle lead">And reverse-engineered</p>
+      <h1 class="title">Nine XKCD bad map projections: ranked!<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></h1>
+            <p class="subtitle lead">Also: reverse-engineered</p>
                                 <div class="quarto-categories">
                 <div class="quarto-category">geospatial</div>
                 <div class="quarto-category">r</div>
@@ -269,9 +269,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p><strong>Warning</strong>: sensitive souls who care about geodetic accuracy should probably stop reading now. Liberal use of affine transformation of geometries throughout. You have been warned.</p>
 <p>Before I get going, huge appreciation to Randall Munroe for his generous <a href="https://xkcd.com/license.html">terms of use for the XKCD comics</a>.</p>
-<p>For a long time I thought about teaching a geography / GIS class using <a href="https://xkcd.com">XKCD comics</a> as the primary source material, or at the very least as a jumping off point for every lecture. Recently I actually went through every XKCD from the very beginning to the present to assemble a list of comics that would actually be usable in some semi-serious<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> way for this purpose. Among the things I learned is the Randall Munroe has become a lot less fixated on sex than he was when he started, and also somewhat less <a href="https://xkcd.com/135">worried about velociraptors</a>.</p>
+<p>For a long time I thought about teaching a geography / GIS class using <a href="https://xkcd.com">XKCD comics</a> as the primary source material, or at the very least as a jumping off point for every lecture. Recently I actually went through every XKCD from the very beginning to the present to assemble a list of comics that would actually be usable in some semi-serious<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> way for this purpose. Among the things I learned is the Randall Munroe has become a lot less fixated on sex than he was when he started, and also somewhat less <a href="https://xkcd.com/135">worried about velociraptors</a>.</p>
 <p>Also, his interest in map projections only seems to have kicked in about halfway through the XKCD time series. Possibly this is related to an ongoing interest in GPS, which will likely be a topic for a future post. <a href="https://xkcd.com/977">#977 Map projections</a> posted in late 2011, is the first sign of an enduring interest in projections, but things don’t really take off until <a href="https://xkcd.com/1500">#1500</a> almost 4 years later, which is the first of several ‘bad map projections’, although not actually called out as such in its title.</p>
-<p>Herewith, my ranking from worst bad projection to best bad projection of the nine examples I found,<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> accompanied in a few cases by attempts at recreating them in R (click on the code-fold links to see how). Eventually, perhaps, <a href="https://computinggeographically.org/chapters/chap2/fig2-02-cartograms.html">ongoing work on arbitrary map projections</a> might enable me to automate reverse-engineering any XKCD projection. For now, a combination of perseverance, guess-work, and sheer bloody mindedness will have to suffice.</p>
+<p>Herewith, my ranking from worst bad projection to best bad projection of the nine examples I found,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> accompanied in a few cases by attempts at recreating them in R (click on the code-fold links to see how). Eventually, perhaps, <a href="https://computinggeographically.org/chapters/chap2/fig2-02-cartograms.html">ongoing work on arbitrary map projections</a> might enable me to automate reverse-engineering any XKCD projection. For now, a combination of perseverance, guess-work, and sheer bloody mindedness will have to suffice.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -304,7 +304,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </dl>
 </div>
 </div>
-<p>For what it’s worth, by worst bad projection I mean something like ‘least interesting’ and by best, I mean something like ‘most thought-provoking’.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>For what it’s worth, by worst bad projection I mean something like ‘least interesting’ and by best, I mean something like ‘most thought-provoking’.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <section id="bad-map-projection-liquid-resize" class="level2">
 <h2 class="anchored" data-anchor-id="bad-map-projection-liquid-resize">#9 Bad Map Projection: Liquid Resize</h2>
 <div class="quarto-figure quarto-figure-center">
@@ -323,7 +323,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Alt-text: This projection distorts both area and direction, but preserves Melbourne.</figcaption>
 </figure>
 </div>
-<p><a href="https://xkcd.com/2999">XKCD 2999</a> just doesn’t work for me. I appreciate the attempt at many to one projection, that is to say more than one place on Earth mapping onto a single location in the map. It’s certainly a relief to know that Melbourne is preserved.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p><a href="https://xkcd.com/2999">XKCD 2999</a> just doesn’t work for me. I appreciate the attempt at many to one projection, that is to say more than one place on Earth mapping onto a single location in the map. It’s certainly a relief to know that Melbourne is preserved.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
 <p>I didn’t even try to replicate this one as it seems self-evidently something you’d have to do in a drawing package. Overall, I think the idea of two places into one is much better realised at <a href="#bad-map-projection-abslongitude">#2 in this list</a>.</p>
 </section>
 <section id="bad-map-projection-the-greenland-special" class="level2">
@@ -334,7 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Alt-text: The projection for those who think the Mercator projection gives people a distorted idea of how big Greenland is, but a very accurate idea of how big it SHOULD be.</figcaption>
 </figure>
 </div>
-<p>The whole Greenland thing in map projections is a bit played out. I realise it continues to blow minds how exaggerated its size is in the Mercator projection.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> Anyway, it’s not too hard to remake <a href="https://xkcd.com/2489">XKCD 2489</a> using R, provided you aren’t too respectful of, you know, actual projections.</p>
+<p>The whole Greenland thing in map projections is a bit played out. I realise it continues to blow minds how exaggerated its size is in the Mercator projection.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Anyway, it’s not too hard to remake <a href="https://xkcd.com/2489">XKCD 2489</a> using R, provided you aren’t too respectful of, you know, actual projections.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -410,7 +410,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p><a href="https://xkcd.com/2613">XKCD 2613</a> went up in my estimation after I figured out how to make it… the alt-text provides enough information to find the central coordinates, which are in <a href="https://www.openstreetmap.org/search?query=la+gogue+lake&amp;zoom=17#map=18/-4.590765/55.440863">La Gogue Lake on Mahé in the Seychelles</a>.</p>
-<p>Armed with the ludicrously precise lat-lon coordinates<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Google provided me for this spot, I figured out how to approximate this map.</p>
+<p>Armed with the ludicrously precise lat-lon coordinates<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> Google provided me for this spot, I figured out how to approximate this map.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -590,7 +590,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Alt-text: Due to their proximity across the channel, there’s long been tension between North Korea and the United Kingdom of Great Britain and Southern Ireland.</figcaption>
 </figure>
 </div>
-<p>Personally, living in Aotearoa New Zealand I enjoy the genre of ‘upside down’ maps, but have always felt that the notion they change your whole perspective on the world is overstated, so <a href="https://xkcd.com/1500">XKCD 1500</a> is a nice gentle undermining of that, which I appreciate.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>Personally, living in Aotearoa New Zealand I enjoy the genre of ‘upside down’ maps, but have always felt that the notion they change your whole perspective on the world is overstated, so <a href="https://xkcd.com/1500">XKCD 1500</a> is a nice gentle undermining of that, which I appreciate.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
 <p>I briefly contemplated an attempt at making this one, but thought better of it. Turning a whole map through 180° is not difficult:</p>
 <div class="cell">
 <details class="code-fold">
@@ -623,7 +623,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Alt-text: Positive vibes/longitudes only</figcaption>
 </figure>
 </div>
-<p>If only rendering <a href="https://xkcd.com/2807">XKCD 2807</a> was as easy as doing <code>longitude = abs(longitude)</code>.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> In R things get a bit more involved. This would really be very straightforward in a drawing package.</p>
+<p>If only rendering <a href="https://xkcd.com/2807">XKCD 2807</a> was as easy as doing <code>longitude = abs(longitude)</code>.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> In R things get a bit more involved. This would really be very straightforward in a drawing package.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -710,7 +710,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Alt-text: This is probably the first projection in cartographic history that can be criticized for its disproportionate focus on Finland, Mongolia, and the Democratic Republic of the Congo.</figcaption>
 </figure>
 </div>
-<p>I’m really not convinced <a href="https://xkcd.com/1799">XKCD 1799</a> is a bad map projection. It looks wonky as hell, but it’s certainly useful, which is all we can ask of any projection.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> I’m fairly confident Waldo Tobler would have approved, although I never had an opportunity to ask.</p>
+<p>I’m really not convinced <a href="https://xkcd.com/1799">XKCD 1799</a> is a bad map projection. It looks wonky as hell, but it’s certainly useful, which is all we can ask of any projection.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> I’m fairly confident Waldo Tobler would have approved, although I never had an opportunity to ask.</p>
 <p>It’s interesting to contemplate what kind of automated process might be used to produce this map, but… I’m not even going to try. Happy to hear from anyone who gives it a go!</p>
 <p>That’s a wrap (or fold, or cut, or… some transformation anyway).</p>
 
@@ -721,15 +721,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="../../"><img src="../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>We’re working with a loose definition of the word ‘serious’ here.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Along with #1500 which was not called out as such<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>YMMV. Don’t @ me.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>I have relatives there.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Maybe someone should have a word with a recently elected president on this matter.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>See <a href="https://xkcd.com/2170">XKCD 2170</a> on that subject<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>I’m not sure how I feel about ‘The United Kingdom of Great Britain and Southern Ireland’, but that’s a whole other matter…<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>Probably in <a href="https://d3js.org/d3-geo/projection">d3</a> it is.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p>Or for that matter, model…<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><span style="text-transform:none;">Insert ‘You won’t believe how bad they are’ or similar clickbait headline here.</span><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>We’re working with a loose definition of the word ‘serious’ here.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Along with #1500 which was not called out as such<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>YMMV. Don’t @ me.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>I have relatives there.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Maybe someone should have a word with a recently elected president on this matter.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>See <a href="https://xkcd.com/2170">XKCD 2170</a> on that subject<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>I’m not sure how I feel about ‘The United Kingdom of Great Britain and Southern Ireland’, but that’s a whole other matter…<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Probably in <a href="https://d3js.org/d3-geo/projection">d3</a> it is.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Or for that matter, model…<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

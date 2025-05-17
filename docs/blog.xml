@@ -12,7 +12,7 @@
 <generator>quarto-1.6.39</generator>
 <lastBuildDate>Thu, 15 May 2025 12:00:00 GMT</lastBuildDate>
 <item>
-  <title>XKCD bad projections: ranked!</title>
+  <title>Nine XKCD bad map projections: ranked!1</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
   <link>https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked.html</link>
   <description><![CDATA[ 
@@ -23,9 +23,9 @@
 
 <p><strong>Warning</strong>: sensitive souls who care about geodetic accuracy should probably stop reading now. Liberal use of affine transformation of geometries throughout. You have been warned.</p>
 <p>Before I get going, huge appreciation to Randall Munroe for his generous <a href="https://xkcd.com/license.html">terms of use for the XKCD comics</a>.</p>
-<p>For a long time I thought about teaching a geography / GIS class using <a href="https://xkcd.com">XKCD comics</a> as the primary source material, or at the very least as a jumping off point for every lecture. Recently I actually went through every XKCD from the very beginning to the present to assemble a list of comics that would actually be usable in some semi-serious<sup>1</sup> way for this purpose. Among the things I learned is the Randall Munroe has become a lot less fixated on sex than he was when he started, and also somewhat less <a href="https://xkcd.com/135">worried about velociraptors</a>.</p>
+<p>For a long time I thought about teaching a geography / GIS class using <a href="https://xkcd.com">XKCD comics</a> as the primary source material, or at the very least as a jumping off point for every lecture. Recently I actually went through every XKCD from the very beginning to the present to assemble a list of comics that would actually be usable in some semi-serious<sup>2</sup> way for this purpose. Among the things I learned is the Randall Munroe has become a lot less fixated on sex than he was when he started, and also somewhat less <a href="https://xkcd.com/135">worried about velociraptors</a>.</p>
 <p>Also, his interest in map projections only seems to have kicked in about halfway through the XKCD time series. Possibly this is related to an ongoing interest in GPS, which will likely be a topic for a future post. <a href="https://xkcd.com/977">#977 Map projections</a> posted in late 2011, is the first sign of an enduring interest in projections, but things don’t really take off until <a href="https://xkcd.com/1500">#1500</a> almost 4 years later, which is the first of several ‘bad map projections’, although not actually called out as such in its title.</p>
-<p>Herewith, my ranking from worst bad projection to best bad projection of the nine examples I found,<sup>2</sup> accompanied in a few cases by attempts at recreating them in R (click on the code-fold links to see how). Eventually, perhaps, <a href="https://computinggeographically.org/chapters/chap2/fig2-02-cartograms.html">ongoing work on arbitrary map projections</a> might enable me to automate reverse-engineering any XKCD projection. For now, a combination of perseverance, guess-work, and sheer bloody mindedness will have to suffice.</p>
+<p>Herewith, my ranking from worst bad projection to best bad projection of the nine examples I found,<sup>3</sup> accompanied in a few cases by attempts at recreating them in R (click on the code-fold links to see how). Eventually, perhaps, <a href="https://computinggeographically.org/chapters/chap2/fig2-02-cartograms.html">ongoing work on arbitrary map projections</a> might enable me to automate reverse-engineering any XKCD projection. For now, a combination of perseverance, guess-work, and sheer bloody mindedness will have to suffice.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -72,7 +72,7 @@ font-style: inherit;">library</span>(smoothr)</span><div class="code-annotation-
 </dl>
 </div>
 </div>
-<p>For what it’s worth, by worst bad projection I mean something like ‘least interesting’ and by best, I mean something like ‘most thought-provoking’.<sup>3</sup></p>
+<p>For what it’s worth, by worst bad projection I mean something like ‘least interesting’ and by best, I mean something like ‘most thought-provoking’.<sup>4</sup></p>
 <section id="bad-map-projection-liquid-resize" class="level2">
 <h2 class="anchored" data-anchor-id="bad-map-projection-liquid-resize">#9 Bad Map Projection: Liquid Resize</h2>
 <div class="quarto-figure quarto-figure-center">
@@ -91,7 +91,7 @@ font-style: inherit;">library</span>(smoothr)</span><div class="code-annotation-
 <figcaption>Alt-text: This projection distorts both area and direction, but preserves Melbourne.</figcaption>
 </figure>
 </div>
-<p><a href="https://xkcd.com/2999">XKCD 2999</a> just doesn’t work for me. I appreciate the attempt at many to one projection, that is to say more than one place on Earth mapping onto a single location in the map. It’s certainly a relief to know that Melbourne is preserved.<sup>4</sup></p>
+<p><a href="https://xkcd.com/2999">XKCD 2999</a> just doesn’t work for me. I appreciate the attempt at many to one projection, that is to say more than one place on Earth mapping onto a single location in the map. It’s certainly a relief to know that Melbourne is preserved.<sup>5</sup></p>
 <p>I didn’t even try to replicate this one as it seems self-evidently something you’d have to do in a drawing package. Overall, I think the idea of two places into one is much better realised at #2 in this list.</p>
 </section>
 <section id="bad-map-projection-the-greenland-special" class="level2">
@@ -102,7 +102,7 @@ font-style: inherit;">library</span>(smoothr)</span><div class="code-annotation-
 <figcaption>Alt-text: The projection for those who think the Mercator projection gives people a distorted idea of how big Greenland is, but a very accurate idea of how big it SHOULD be.</figcaption>
 </figure>
 </div>
-<p>The whole Greenland thing in map projections is a bit played out. I realise it continues to blow minds how exaggerated its size is in the Mercator projection.<sup>5</sup> Anyway, it’s not too hard to remake <a href="https://xkcd.com/2489">XKCD 2489</a> using R, provided you aren’t too respectful of, you know, actual projections.</p>
+<p>The whole Greenland thing in map projections is a bit played out. I realise it continues to blow minds how exaggerated its size is in the Mercator projection.<sup>6</sup> Anyway, it’s not too hard to remake <a href="https://xkcd.com/2489">XKCD 2489</a> using R, provided you aren’t too respectful of, you know, actual projections.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -292,7 +292,7 @@ font-style: inherit;">theme_void</span>()</span><div class="code-annotation-gutt
 </figure>
 </div>
 <p><a href="https://xkcd.com/2613">XKCD 2613</a> went up in my estimation after I figured out how to make it… the alt-text provides enough information to find the central coordinates, which are in <a href="https://www.openstreetmap.org/search?query=la+gogue+lake&amp;zoom=17#map=18/-4.590765/55.440863">La Gogue Lake on Mahé in the Seychelles</a>.</p>
-<p>Armed with the ludicrously precise lat-lon coordinates<sup>6</sup> Google provided me for this spot, I figured out how to approximate this map.</p>
+<p>Armed with the ludicrously precise lat-lon coordinates<sup>7</sup> Google provided me for this spot, I figured out how to approximate this map.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -782,7 +782,7 @@ font-style: inherit;">1</span>))</span></code></pre></div>
 <figcaption>Alt-text: Due to their proximity across the channel, there’s long been tension between North Korea and the United Kingdom of Great Britain and Southern Ireland.</figcaption>
 </figure>
 </div>
-<p>Personally, living in Aotearoa New Zealand I enjoy the genre of ‘upside down’ maps, but have always felt that the notion they change your whole perspective on the world is overstated, so <a href="https://xkcd.com/1500">XKCD 1500</a> is a nice gentle undermining of that, which I appreciate.<sup>7</sup></p>
+<p>Personally, living in Aotearoa New Zealand I enjoy the genre of ‘upside down’ maps, but have always felt that the notion they change your whole perspective on the world is overstated, so <a href="https://xkcd.com/1500">XKCD 1500</a> is a nice gentle undermining of that, which I appreciate.<sup>8</sup></p>
 <p>I briefly contemplated an attempt at making this one, but thought better of it. Turning a whole map through 180° is not difficult:</p>
 <div class="cell">
 <details class="code-fold">
@@ -865,7 +865,7 @@ font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 <figcaption>Alt-text: Positive vibes/longitudes only</figcaption>
 </figure>
 </div>
-<p>If only rendering <a href="https://xkcd.com/2807">XKCD 2807</a> was as easy as doing <code>longitude = abs(longitude)</code>.<sup>8</sup> In R things get a bit more involved. This would really be very straightforward in a drawing package.</p>
+<p>If only rendering <a href="https://xkcd.com/2807">XKCD 2807</a> was as easy as doing <code>longitude = abs(longitude)</code>.<sup>9</sup> In R things get a bit more involved. This would really be very straightforward in a drawing package.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1215,7 +1215,7 @@ font-style: inherit;">theme_void</span>()</span><div class="code-annotation-gutt
 <figcaption>Alt-text: This is probably the first projection in cartographic history that can be criticized for its disproportionate focus on Finland, Mongolia, and the Democratic Republic of the Congo.</figcaption>
 </figure>
 </div>
-<p>I’m really not convinced <a href="https://xkcd.com/1799">XKCD 1799</a> is a bad map projection. It looks wonky as hell, but it’s certainly useful, which is all we can ask of any projection.<sup>9</sup> I’m fairly confident Waldo Tobler would have approved, although I never had an opportunity to ask.</p>
+<p>I’m really not convinced <a href="https://xkcd.com/1799">XKCD 1799</a> is a bad map projection. It looks wonky as hell, but it’s certainly useful, which is all we can ask of any projection.<sup>10</sup> I’m fairly confident Waldo Tobler would have approved, although I never had an opportunity to ask.</p>
 <p>It’s interesting to contemplate what kind of automated process might be used to produce this map, but… I’m not even going to try. Happy to hear from anyone who gives it a go!</p>
 <p>That’s a wrap (or fold, or cut, or… some transformation anyway).</p>
 
@@ -1226,15 +1226,16 @@ font-style: inherit;">theme_void</span>()</span><div class="code-annotation-gutt
 <p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>We’re working with a loose definition of the word ‘serious’ here.↩︎</p></li>
-<li id="fn2"><p>Along with #1500 which was not called out as such↩︎</p></li>
-<li id="fn3"><p>YMMV. Don’t @ me.↩︎</p></li>
-<li id="fn4"><p>I have relatives there.↩︎</p></li>
-<li id="fn5"><p>Maybe someone should have a word with a recently elected president on this matter.↩︎</p></li>
-<li id="fn6"><p>See <a href="https://xkcd.com/2170">XKCD 2170</a> on that subject↩︎</p></li>
-<li id="fn7"><p>I’m not sure how I feel about ‘The United Kingdom of Great Britain and Southern Ireland’, but that’s a whole other matter…↩︎</p></li>
-<li id="fn8"><p>Probably in <a href="https://d3js.org/d3-geo/projection">d3</a> it is.↩︎</p></li>
-<li id="fn9"><p>Or for that matter, model…↩︎</p></li>
+<li id="fn1"><p><span style="text-transform:none;">Insert ‘You won’t believe how bad they are’ or similar clickbait headline here.</span>↩︎</p></li>
+<li id="fn2"><p>We’re working with a loose definition of the word ‘serious’ here.↩︎</p></li>
+<li id="fn3"><p>Along with #1500 which was not called out as such↩︎</p></li>
+<li id="fn4"><p>YMMV. Don’t @ me.↩︎</p></li>
+<li id="fn5"><p>I have relatives there.↩︎</p></li>
+<li id="fn6"><p>Maybe someone should have a word with a recently elected president on this matter.↩︎</p></li>
+<li id="fn7"><p>See <a href="https://xkcd.com/2170">XKCD 2170</a> on that subject↩︎</p></li>
+<li id="fn8"><p>I’m not sure how I feel about ‘The United Kingdom of Great Britain and Southern Ireland’, but that’s a whole other matter…↩︎</p></li>
+<li id="fn9"><p>Probably in <a href="https://d3js.org/d3-geo/projection">d3</a> it is.↩︎</p></li>
+<li id="fn10"><p>Or for that matter, model…↩︎</p></li>
 </ol>
 </section></div> ]]></description>
   <category>geospatial</category>

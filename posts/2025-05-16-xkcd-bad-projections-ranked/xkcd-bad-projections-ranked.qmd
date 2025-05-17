@@ -1,6 +1,6 @@
 ---
-title: "XKCD bad projections: ranked!"
-subtitle: "And reverse-engineered"
+title: "Nine XKCD bad map projections: ranked!^[[Insert 'You won't believe how bad they are' or similar clickbait headline here.]{style='text-transform:none;'}]"
+subtitle: "Also: reverse-engineered"
 from: markdown+emoji
 author: "David O'Sullivan"
 toc: true
