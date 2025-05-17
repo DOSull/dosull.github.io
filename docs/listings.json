@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked.html",
       "/posts/2025-05-02-tiles-and-glyphs/tiles-and-glyphs.html",
       "/posts/2025-04-30-setting-up-a-jupyter-hub/jupyter-hub.html",
       "/posts/2025-03-09-mapweaver-beta/mapweaver-beta.html",

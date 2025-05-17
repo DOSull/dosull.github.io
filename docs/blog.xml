@@ -10,7 +10,1196 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Thu, 01 May 2025 12:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 15 May 2025 12:00:00 GMT</lastBuildDate>
+<item>
+  <title>XKCD bad projections: ranked!</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p><strong>Warning</strong>: sensitive souls who care about geodetic accuracy should probably stop reading now. Liberal use of affine transformation of geometries throughout. You have been warned.</p>
+<p>Before I get going, huge appreciation to Randall Munroe for his generous <a href="https://xkcd.com/license.html">terms of use for the XKCD comics</a>.</p>
+<p>For a long time I thought about teaching a geography / GIS class using <a href="https://xkcd.com">XKCD comics</a> as the primary source material, or at the very least as a jumping off point for every lecture. Recently I actually went through every XKCD from the very beginning to the present to assemble a list of comics that would actually be usable in some semi-serious<sup>1</sup> way for this purpose. Among the things I learned is the Randall Munroe has become a lot less fixated on sex than he was when he started, and also somewhat less <a href="https://xkcd.com/135">worried about velociraptors</a>.</p>
+<p>Also, his interest in map projections only seems to have kicked in about halfway through the XKCD time series. Possibly this is related to an ongoing interest in GPS, which will likely be a topic for a future post. <a href="https://xkcd.com/977">#977 Map projections</a> posted in late 2011, is the first sign of an enduring interest in projections, but things don’t really take off until <a href="https://xkcd.com/1500">#1500</a> almost 4 years later, which is the first of several ‘bad map projections’, although not actually called out as such in its title.</p>
+<p>Herewith, my ranking from worst bad projection to best bad projection of the nine examples I found,<sup>2</sup> accompanied in a few cases by attempts at recreating them in R (click on the code-fold links to see how). Eventually, perhaps, <a href="https://computinggeographically.org/chapters/chap2/fig2-02-cartograms.html">ongoing work on enabling arbitrary map projections</a> might enable me to automate reverse-engineering any XKCD projection. For now, a combination of perseverance, guess-work, and sheer bloody mindedness will have to suffice.</p>
+<p>For what it’s worth, by worst bad projection I mean something like ‘least interesting’ and by best, I mean something like ‘most thought-provoking’.<sup>3</sup></p>
+<section id="bad-map-projection-liquid-resize" class="level2">
+<h2 class="anchored" data-anchor-id="bad-map-projection-liquid-resize">#9 Bad Map Projection: Liquid Resize</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/09-xkcd-1784-bad_map_projection_liquid_resize_2x.png" class="lightbox" data-gallery="top9" title="Alt-text: This map preserves the shapes of Tissot’s indicatrices pretty well, as long as you draw them in before running the resize."><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/images/09-xkcd-1784-bad_map_projection_liquid_resize_2x.png" class="img-fluid figure-img" alt="Alt-text: This map preserves the shapes of Tissot’s indicatrices pretty well, as long as you draw them in before running the resize."></a></p>
+<figcaption>Alt-text: This map preserves the shapes of Tissot’s indicatrices pretty well, as long as you draw them in before running the resize.</figcaption>
+</figure>
+</div>
+<p>I don’t use Adobe Photoshop so <a href="https://xkcd.com/1784">XKCD 1784</a> is just a bit too inside baseball for me. It feels like there might be a missed opportunity here to have said something about continental drift and Pangaea and supercontinents, which is a topic that has come up in other XKCDs (see <a href="https://xkcd.com/1449"># 1449 Red Rover</a>). Something about how Africa and South America fitting together so well is evidence for <del>plate tectonics</del> liquid resize.</p>
+</section>
+<section id="bad-map-projection-the-united-stralia" class="level2">
+<h2 class="anchored" data-anchor-id="bad-map-projection-the-united-stralia">#8 Bad Map Projection: The United Stralia</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/08-xkcd-2999-bad_map_projection_the_united_stralia_2x.png" class="lightbox" data-gallery="top9" title="Alt-text: This projection distorts both area and direction, but preserves Melbourne."><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/images/08-xkcd-2999-bad_map_projection_the_united_stralia_2x.png" class="img-fluid figure-img" alt="Alt-text: This projection distorts both area and direction, but preserves Melbourne."></a></p>
+<figcaption>Alt-text: This projection distorts both area and direction, but preserves Melbourne.</figcaption>
+</figure>
+</div>
+<p><a href="https://xkcd.com/2999">XKCD 2999</a> just doesn’t work for me. I appreciate the attempt at many to one projection, that is to say more than one place on Earth mapping onto a single location in the map. It’s certainly a relief to know that Melbourne is preserved.<sup>4</sup></p>
+<p>I didn’t even try to replicate this one as it seems self-evidently something you’d have to do in a drawing package. Overall, I think the idea of two places into one is much better realised at #2 in this list.</p>
+</section>
+<section id="bad-map-projection-the-greenland-special" class="level2">
+<h2 class="anchored" data-anchor-id="bad-map-projection-the-greenland-special">#7 Bad Map Projection: The Greenland Special</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/07-xkcd-2489-bad_map_projection_the_greenland_special_2x.png" class="lightbox" data-gallery="top9" title="Alt-text: The projection for those who think the Mercator projection gives people a distorted idea of how big Greenland is, but a very accurate idea of how big it SHOULD be."><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/images/07-xkcd-2489-bad_map_projection_the_greenland_special_2x.png" class="img-fluid figure-img" alt="Alt-text: The projection for those who think the Mercator projection gives people a distorted idea of how big Greenland is, but a very accurate idea of how big it SHOULD be."></a></p>
+<figcaption>Alt-text: The projection for those who think the Mercator projection gives people a distorted idea of how big Greenland is, but a very accurate idea of how big it SHOULD be.</figcaption>
+</figure>
+</div>
+<p>The whole Greenland thing in map projections is a bit played out. I realise it continues to blow minds how exaggerated its size is in the Mercator projection.<sup>5</sup> Anyway, it’s not too hard to remake <a href="https://xkcd.com/2489">XKCD 2489</a> using R, provided you aren’t too respectful of, you know, actual projections.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-1" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1">greenland <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> World <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-1-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(name <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Greenland"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-1-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=merc"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-1-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">geometry =</span> </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-5" class="code-annotation-target">    (geometry <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2e6</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3.1e6</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">diag</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.85</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-6" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_set_crs</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=merc"</span>)</span>
+<span id="annotated-cell-1-7"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-8" class="code-annotation-target">greenland_buffer <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> greenland <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-1-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_buffer</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1e5</span>)</span>
+<span id="annotated-cell-1-10"></span>
+<span id="annotated-cell-1-11">w <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> World <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-12" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=moll"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="5">5</button><span id="annotated-cell-1-13" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_make_valid</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-1-14">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_set_crs</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=merc"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="6">6</button><span id="annotated-cell-1-15" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_difference</span>(greenland_buffer) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="7">7</button><span id="annotated-cell-1-16" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">bind_rows</span>(greenland)</span>
+<span id="annotated-cell-1-17"></span>
+<span id="annotated-cell-1-18"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(w) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-1-19">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-1-20">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.2e7</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.7e7</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">expand =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-1-21">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="5" data-code-annotation="1">Experimentation suggested that some rescaling of Greenland as it is projected ‘raw’ is required to get the outcome in the comic.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="6" data-code-annotation="2">After rescaling we have to tell a white lie and tell the data it is Mercator projected.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="8" data-code-annotation="3">A buffered Greenland clears a passage between Greenland and Canada.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="12" data-code-annotation="4">Fairly confident the rest of the world is Mollweide projected.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="13" data-code-annotation="5">It’s not uncommon for world data sets to have invalid polygons after projection and that’s the case here.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="15" data-code-annotation="6">This erases the existing Greenland and removes some of Canada’s offshore islands.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="16" data-code-annotation="7">Add Mercator Greenland into the data.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bad-map-projection-madagascator" class="level2">
+<h2 class="anchored" data-anchor-id="bad-map-projection-madagascator">#6 Bad Map Projection: Madagascator</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/06-xkcd-2613-bad_map_projection_madagascator_2x.png" class="lightbox" data-gallery="top9" title="Alt-text: The projection’s north pole is in a small lake on the island of Mahé in the Seychelles, which is off the top of the map and larger than the rest of the Earth’s land area combined."><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/images/06-xkcd-2613-bad_map_projection_madagascator_2x.png" class="img-fluid figure-img" alt="Alt-text: The projection’s north pole is in a small lake on the island of Mahé in the Seychelles, which is off the top of the map and larger than the rest of the Earth’s land area combined."></a></p>
+<figcaption>Alt-text: The projection’s north pole is in a small lake on the island of Mahé in the Seychelles, which is off the top of the map and larger than the rest of the Earth’s land area combined.</figcaption>
+</figure>
+</div>
+<p><a href="https://xkcd.com/2613">XKCD 2613</a> went up in my estimation after I figured out how to make it… the alt-text provides enough information to find the central coordinates, which are in <a href="https://www.openstreetmap.org/search?query=la+gogue+lake&amp;zoom=17#map=18/-4.590765/55.440863">La Gogue Lake on Mahé in the Seychelles</a>.</p>
+<p>Armed with the ludicrously precise lat-lon coordinates<sup>6</sup> Google provided me for this spot, I figure out how to approximate this map:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-2" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-2-1">ll <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4.595750619515433</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">55.43837198904654</span>)</span>
+<span id="annotated-cell-2-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"World"</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># from tmap</span></span>
+<span id="annotated-cell-2-3"></span>
+<span id="annotated-cell-2-4">madagascator <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> World <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-2-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_glue</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=laea +lon_0={ll[2]} +lat_0={ll[1]}"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-6" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_set_crs</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=laea +lon_0=150 +lat_0=90"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-7" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=merc"</span>)</span>
+<span id="annotated-cell-2-8"></span>
+<span id="annotated-cell-2-9"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(madagascator) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-2-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lightgrey"</span>, </span>
+<span id="annotated-cell-2-11">          <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"darkgrey"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-2-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf_text</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> name), </span>
+<span id="annotated-cell-2-13">               <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">check_overlap =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>, </span>
+<span id="annotated-cell-2-14">               <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-2-15">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="1">Tell <code>sf</code> that the data are centred on somewhere different than they really are! Some experimentation was required here to find a central ‘meridian’ that didn’t cut Antarctica in half.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="7" data-code-annotation="2">Apply Mercator to the recentred data. There’s probably a setting of the Oblique Mercator (<code>+proj=omerc</code>) that can do this sequence of transforms in one go, but since what I have works, I am leaving well alone.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bad-map-projection-south-america" class="level2">
+<h2 class="anchored" data-anchor-id="bad-map-projection-south-america">#5 Bad Map Projection: South America</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/05-xkcd-2256-bad_map_projection_south_america_2x.png" class="lightbox" data-gallery="top9" title="Alt-text: The projection does a good job preserving both distance and azimuth, at the cost of really exaggerating how many South Americas there are."><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/images/05-xkcd-2256-bad_map_projection_south_america_2x.png" class="img-fluid figure-img" alt="Alt-text: The projection does a good job preserving both distance and azimuth, at the cost of really exaggerating how many South Americas there are."></a></p>
+<figcaption>Alt-text: The projection does a good job preserving both distance and azimuth, at the cost of really exaggerating how many South Americas there are.</figcaption>
+</figure>
+</div>
+<p><a href="https://xkcd.com/2256">XKCD 2256</a> is just delightfully dumb really. Truly a bad map projection. It’s also hard (for me) not to love a map projection that will throw everyone doing <a href="https://worldlegame.io">Worldle</a> off their game.</p>
+</section>
+<section id="bad-map-projection-exterior-kansas" class="level2">
+<h2 class="anchored" data-anchor-id="bad-map-projection-exterior-kansas">#4 Bad Map Projection: Exterior Kansas</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/04-xkcd-2951-bad_map_projection_exterior_kansas_2x.png" class="lightbox" data-gallery="top9" title="Alt-text: Although Kansas is widely thought to contain the geographic center of the contiguous 48 states, topologists now believe that it’s actually their outer edge."><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/images/04-xkcd-2951-bad_map_projection_exterior_kansas_2x.png" class="img-fluid figure-img" alt="Alt-text: Although Kansas is widely thought to contain the geographic center of the contiguous 48 states, topologists now believe that it’s actually their outer edge."></a></p>
+<figcaption>Alt-text: Although Kansas is widely thought to contain the geographic center of the contiguous 48 states, topologists now believe that it’s actually their outer edge.</figcaption>
+</figure>
+</div>
+<p>The ‘comical’ claim about topologists in the alt-text for <a href="https://xkcd.com/2951">XKCD 2951</a> is actually… well… true on a spherical surface.</p>
+<p>I figured out a way to approximate this projection. First, we project the contiguous 48 states centred on the geographic center and enlarge them so they ostensibly cover a greater part of Earth’s surface. Any projection should work here; I’ve used an azimuthal equidistant one.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-3" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1">ctr <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">98.583333</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">39.833333</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-2" class="code-annotation-target">anti <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(ctr[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">180</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>ctr[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>])</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-3" class="code-annotation-target">proj1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_glue</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=aeqd +lon_0={ctr[1]} +lat_0={ctr[2]}"</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3">3</button><span id="annotated-cell-3-4" class="code-annotation-target">proj2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_glue</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=aeqd +lon_0={anti[1]} +lat_0={anti[2]}"</span>)</span>
+<span id="annotated-cell-3-5"></span>
+<span id="annotated-cell-3-6">states_big <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> usmap<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">us_map</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-3-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">geometry =</span> geom) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-3-8">  smoothr<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">densify</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-3-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!</span>(abbr <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%in%</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AK"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"HI"</span>))) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-3-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(proj1) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4">4</button><span id="annotated-cell-3-11" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">geometry =</span> geometry <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">matrix</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>), <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="5">5</button><span id="annotated-cell-3-12" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_set_crs</span>(proj1)</span>
+<span id="annotated-cell-3-13"></span>
+<span id="annotated-cell-3-14"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(states_big) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="2" data-code-annotation="1">The antipode of the central location.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="2">Forward projection: this can likely be any sensible projection with a central coordinate pair.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="4" data-code-annotation="3">The distance projection from the antipode, that will ‘invert’ the space.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="11" data-code-annotation="4">This multiplication expands the extent of the states.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="12" data-code-annotation="5">After the multiplication we have to reset the projection.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Next we apply an azimuthal equidistant projection centred on the antipode of the geographical centre. At this point we have to ‘turn Kansas inside out’, then remove and add it back into the inverted states.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-4" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1">states_inv <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> states_big <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-4-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(proj2)</span>
+<span id="annotated-cell-4-3"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-4" class="code-annotation-target">kansas <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> states_inv <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-4-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_bbox</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span>                        </span>
+<span id="annotated-cell-4-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_as_sfc</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-4-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.data.frame</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-4-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_as_sf</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-4-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_difference</span>(states_inv <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="annotated-cell-4-10">                  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(abbr <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"KS"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-4-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_as_sf</span>()</span>
+<span id="annotated-cell-4-12"></span>
+<span id="annotated-cell-4-13">states_inv <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> states_inv <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-14" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(abbr <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"KS"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-15" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">bind_rows</span>(kansas)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="1">Make ‘inverse’ Kansas by subtracting Kansas from the bounding box of the data.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="14" data-code-annotation="2">Remove Kansas.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="15" data-code-annotation="3">Add back inverted Kansas.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>And now we can make the final map. Note that it seems like an adjustment to the aspect ratio has been applied in the comic. I’ve not bothered with that step here. I assume that at some point Randall Munroe exports map data to a drawing package and does final tweaks there.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(states_inv) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"white"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf_text</span>(</span>
+<span id="cb1-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> states_inv <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_point_on_surface</span>(), </span>
+<span id="cb1-5">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> full), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">check_overlap =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">expand =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">panel.background =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">element_rect</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"grey"</span>),</span>
+<span id="cb1-9">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">panel.border =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">element_rect</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NA</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"black"</span>,</span>
+<span id="cb1-10">                                    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linewidth =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>))</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="upside-down-map" class="level2">
+<h2 class="anchored" data-anchor-id="upside-down-map">#3 Upside-down Map</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/03-xkcd-1500-upside_down_map_2x.png" class="lightbox" data-gallery="top9" title="Alt-text: Due to their proximity across the channel, there’s long been tension between North Korea and the United Kingdom of Great Britain and Southern Ireland."><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/images/03-xkcd-1500-upside_down_map_2x.png" class="img-fluid figure-img" alt="Alt-text: Due to their proximity across the channel, there’s long been tension between North Korea and the United Kingdom of Great Britain and Southern Ireland."></a></p>
+<figcaption>Alt-text: Due to their proximity across the channel, there’s long been tension between North Korea and the United Kingdom of Great Britain and Southern Ireland.</figcaption>
+</figure>
+</div>
+<p>Personally, living in Aotearoa New Zealand I enjoy the genre of ‘upside down’ maps, but have always felt that the notion they change your whole perspective on the world is overstated, so <a href="https://xkcd.com/1500">XKCD 1500</a> is a nice gentle undermining of that, which I appreciate.<sup>7</sup></p>
+<p>I briefly contemplated an attempt at making this one, but thought better of it. Turning a whole map through 180° is not difficult:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">w180 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> World <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span>  </span>
+<span id="cb2-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">geometry =</span> geometry <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">diag</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_set_crs</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4326</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=eqearth"</span>)</span>
+<span id="cb2-5"></span>
+<span id="cb2-6"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(w180) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">expand =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Likely the easiest way to make this into a map like the one in the comic is to export to a drawing format and move things around by hand.</p>
+</section>
+<section id="bad-map-projection-abslongitude" class="level2">
+<h2 class="anchored" data-anchor-id="bad-map-projection-abslongitude">#2 Bad Map Projection: ABS(Longitude)</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/02-xkcd-2807-bad_map_projection_abs_longitude_2x.png" class="lightbox" data-gallery="top9" title="Alt-text: Positive vibes/longitudes only"><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/images/02-xkcd-2807-bad_map_projection_abs_longitude_2x.png" class="img-fluid figure-img" alt="Alt-text: Positive vibes/longitudes only"></a></p>
+<figcaption>Alt-text: Positive vibes/longitudes only</figcaption>
+</figure>
+</div>
+<p>If only rendering <a href="https://xkcd.com/2807">XKCD 2807</a> was as easy as doing <code>longitude = abs(longitude)</code>.<sup>8</sup> In R things get a bit more involved. This would really be very straightforward in a drawing package.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-7" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-1" class="code-annotation-target">get_hemisphere <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">central_meridian =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2">2</button><span id="annotated-cell-7-2" class="code-annotation-target">                           <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">density =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) {</span>
+<span id="annotated-cell-7-3">  lons <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>( <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> central_meridian</span>
+<span id="annotated-cell-7-4">  lats <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span></span>
+<span id="annotated-cell-7-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_polygon</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">matrix</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(lons, lats), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ncol =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-6">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_sfc</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-7">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.data.frame</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-8">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_as_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">crs =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4326</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-9">    smoothr<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">densify</span>(density)</span>
+<span id="annotated-cell-7-10">}</span>
+<span id="annotated-cell-7-11"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3">3</button><span id="annotated-cell-7-12" class="code-annotation-target">proj <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=eqearth"</span></span>
+<span id="annotated-cell-7-13">hemi_w <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_hemisphere</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>)</span>
+<span id="annotated-cell-7-14">hemi_e <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_hemisphere</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>)</span>
+<span id="annotated-cell-7-15"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4">4</button><span id="annotated-cell-7-16" class="code-annotation-target">world_w <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> World <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-17">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_intersection</span>(hemi_w) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-18">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">geometry =</span> geometry <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">matrix</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>), <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-19">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_set_crs</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4326</span>)</span>
+<span id="annotated-cell-7-20"></span>
+<span id="annotated-cell-7-21">world_e <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> World <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-22">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_intersection</span>(hemi_e)</span>
+<span id="annotated-cell-7-23"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="5">5</button><span id="annotated-cell-7-24" class="code-annotation-target">world_abs <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> world_w <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-25">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">bind_rows</span>(world_e) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-26">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-27">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(id) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-28">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarise</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-29">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">geometry =</span> geometry <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-30">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_set_crs</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4326</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-7-31">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(proj)</span>
+<span id="annotated-cell-7-32"></span>
+<span id="annotated-cell-7-33">half_globe <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_hemisphere</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">density =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="annotated-cell-7-34">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(proj)</span>
+<span id="annotated-cell-7-35"></span>
+<span id="annotated-cell-7-36"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="annotated-cell-7-37">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> half_globe, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lwd =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-7-38">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> world_abs, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"white"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-7-39">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> half_globe, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NA</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lwd =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-7-40">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">expand =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-7-41">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="1" data-code-annotation="1">It’s convenient to have a function for making hemispheres centred on a specified meridian.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="2" data-code-annotation="2">The <code>density</code> parameter gives us hemispheres that still look right after transformation to a non-rectangular projection.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="12" data-code-annotation="3">An educated guess that the map is in the Equal Earth projection.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="16" data-code-annotation="4">This is where we make all longitudes positive.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="24" data-code-annotation="5">Combine the hemispheres shift them so they are centred on the prime meridian and transform to Equal Earth</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bad-map-projection-time-zones" class="level2">
+<h2 class="anchored" data-anchor-id="bad-map-projection-time-zones">#1 Bad Map Projection: Time Zones</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/01-xkcd-1799-bad_map_projection_time_zones_2x.png" class="lightbox" data-gallery="top9" title="Alt-text: This is probably the first projection in cartographic history that can be criticized for its disproportionate focus on Finland, Mongolia, and the Democratic Republic of the Congo."><img src="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/images/01-xkcd-1799-bad_map_projection_time_zones_2x.png" class="img-fluid figure-img" alt="Alt-text: This is probably the first projection in cartographic history that can be criticized for its disproportionate focus on Finland, Mongolia, and the Democratic Republic of the Congo."></a></p>
+<figcaption>Alt-text: This is probably the first projection in cartographic history that can be criticized for its disproportionate focus on Finland, Mongolia, and the Democratic Republic of the Congo.</figcaption>
+</figure>
+</div>
+<p>I’m really not convinced <a href="https://xkcd.com/1799">XKCD 1799</a> is a bad map projection. It looks wonky as hell, but it’s certainly useful, which is all we can ask of any projection.<sup>9</sup> I’m fairly confident Waldo Tobler would have approved, although I never had an opportunity to ask.</p>
+<p>It’s interesting to contemplate what kind of automated process might be used to produce this map, but… I’m not even going to try. Happy to hear from anyone who gives it a go!</p>
+<p>That’s a wrap (or fold, or cut, or… some transformation anyway).</p>
+
+
+</section>
+
+
+<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>We’re working with a loose definition of the word ‘serious’ here.↩︎</p></li>
+<li id="fn2"><p>Along with #1500 which was not called out as such↩︎</p></li>
+<li id="fn3"><p>YMMV. Don’t @ me.↩︎</p></li>
+<li id="fn4"><p>I have relatives there.↩︎</p></li>
+<li id="fn5"><p>Maybe someone should have a word with a recently elected president on this matter.↩︎</p></li>
+<li id="fn6"><p>See <a href="https://xkcd.com/2170">XKCD 2170</a> on that subject↩︎</p></li>
+<li id="fn7"><p>I’m not sure how I feel about ‘The United Kingdom of Great Britain and Southern Ireland’, but that’s a whole other matter…↩︎</p></li>
+<li id="fn8"><p>Probably in <a href="https://d3js.org/d3-geo/projection">d3</a> it is.↩︎</p></li>
+<li id="fn9"><p>Or for that matter, model…↩︎</p></li>
+</ol>
+</section></div> ]]></description>
+  <category>geospatial</category>
+  <category>r</category>
+  <category>tutorial</category>
+  <category>stuff</category>
+  <category>cartography</category>
+  <category>xkcd</category>
+  <guid>https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked.html</guid>
+  <pubDate>Thu, 15 May 2025 12:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Mostly tiles, but also glyphs</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -6560,31 +7749,6 @@ font-style: inherit;">plot</span>()</span></code></pre></div>
   <category>geospatial</category>
   <guid>https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.html</guid>
   <pubDate>Tue, 07 Dec 2021 11:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Locations of interest in 2021 delta outbreak</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2021-10-30-locations-of-interest/locations-of-interest.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p>For a time, during the <a href="https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic_in_New_Zealand_(2021)#August_2021">August 2021 COVID</a> outbreak that started in Auckland but eventually led to the end of New Zealand’s attempt to stop COVID completely, I continuously updated the above <a href="https://kepler.gl/">kepler.gl</a> animated map of ‘locations of interest’. Kepler.gl is a nice tool which I’d recommend for making quick visualizations like this.</p>
-<p><img src="https://dosull.github.io/posts/2021-10-30-locations-of-interest/locations-of-interest.png" class="img-fluid"></p>
-<p>There was something oddly compelling about the mundane details of the reported locations of interest.</p>
-<p><a href="https://southosullivan.com/misc/loi.html" class="button-link" target="_blank">Go to the viewer</a></p>
-<p>Like most of the country I got pretty fed up doing it in the end, so I stopped… for whatever it’s worth, looking at the timeline on the visualization the delta outbreak <em>did</em> get reigned in <em>eventually</em>, but it it was pretty clear that the mood of the country had changed and lockdowns weren’t going to stick for much longer.</p>
-
-
-
-<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p> ]]></description>
-  <category>maps</category>
-  <category>visualization</category>
-  <category>covid</category>
-  <guid>https://dosull.github.io/posts/2021-10-30-locations-of-interest/locations-of-interest.html</guid>
-  <pubDate>Fri, 29 Oct 2021 11:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

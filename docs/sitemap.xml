@@ -61,68 +61,72 @@
     <lastmod>2024-12-02T20:07:21.071Z</lastmod>
   </url>
   <url>
-    <loc>https://dosull.github.io/posts/2024-10-10-giscience-2025/giscience-2025.html</loc>
-    <lastmod>2024-11-06T00:59:39.321Z</lastmod>
+    <loc>https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked.html</loc>
+    <lastmod>2025-05-17T00:40:07.943Z</lastmod>
   </url>
   <url>
-    <loc>https://dosull.github.io/posts/2022-03-09-ok-covid-you-win/ok-covid-you-win.html</loc>
-    <lastmod>2024-11-06T00:59:39.289Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2024-10-16-geopackages/in-praise-of-the-geopackage.html</loc>
-    <lastmod>2024-11-20T20:31:26.094Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.html</loc>
-    <lastmod>2025-01-13T03:23:47.373Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2024-08-30-geocart-24/geocart-24.html</loc>
-    <lastmod>2025-02-07T20:19:52.419Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2025-05-02-tiles-and-glyphs/tiles-and-glyphs.html</loc>
-    <lastmod>2025-05-13T20:16:20.345Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2024-08-02-model-zoo-latest/model-zoo.html</loc>
-    <lastmod>2024-11-06T00:59:39.297Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2025-04-30-setting-up-a-jupyter-hub/jupyter-hub.html</loc>
-    <lastmod>2025-04-29T22:51:12.124Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/books.html</loc>
-    <lastmod>2024-11-06T00:59:39.146Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators.html</loc>
-    <lastmod>2025-01-13T03:23:47.369Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-beta.html</loc>
-    <lastmod>2025-03-09T07:50:24.304Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2024-08-15-netlogo-utils/netlogo-utils.html</loc>
-    <lastmod>2025-05-06T12:00:29.785Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2021-10-30-locations-of-interest/locations-of-interest.html</loc>
-    <lastmod>2025-01-30T12:52:47.752Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2021-09-23-dulux-colours-map/dulux-colours-map.html</loc>
-    <lastmod>2025-01-30T12:50:01.414Z</lastmod>
+    <loc>https://dosull.github.io/posts/2021-10-22-spatstat-idw/spatstat-idw.html</loc>
+    <lastmod>2025-01-13T03:23:47.356Z</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2021-10-21-kde/kde.html</loc>
     <lastmod>2025-01-13T03:23:47.356Z</lastmod>
   </url>
   <url>
-    <loc>https://dosull.github.io/posts/2021-10-22-spatstat-idw/spatstat-idw.html</loc>
-    <lastmod>2025-01-13T03:23:47.356Z</lastmod>
+    <loc>https://dosull.github.io/posts/2021-09-23-dulux-colours-map/dulux-colours-map.html</loc>
+    <lastmod>2025-01-30T12:50:01.414Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2021-10-30-locations-of-interest/locations-of-interest.html</loc>
+    <lastmod>2025-01-30T12:52:47.752Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2024-08-15-netlogo-utils/netlogo-utils.html</loc>
+    <lastmod>2025-05-06T12:00:29.785Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-beta.html</loc>
+    <lastmod>2025-03-09T07:50:24.304Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators.html</loc>
+    <lastmod>2025-01-13T03:23:47.369Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/books.html</loc>
+    <lastmod>2024-11-06T00:59:39.146Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2025-04-30-setting-up-a-jupyter-hub/jupyter-hub.html</loc>
+    <lastmod>2025-04-29T22:51:12.124Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2024-08-02-model-zoo-latest/model-zoo.html</loc>
+    <lastmod>2024-11-06T00:59:39.297Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2025-05-02-tiles-and-glyphs/tiles-and-glyphs.html</loc>
+    <lastmod>2025-05-13T20:16:20.345Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2024-08-30-geocart-24/geocart-24.html</loc>
+    <lastmod>2025-02-07T20:19:52.419Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.html</loc>
+    <lastmod>2025-01-13T03:23:47.373Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2024-10-16-geopackages/in-praise-of-the-geopackage.html</loc>
+    <lastmod>2024-11-20T20:31:26.094Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2022-03-09-ok-covid-you-win/ok-covid-you-win.html</loc>
+    <lastmod>2024-11-06T00:59:39.289Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2024-10-10-giscience-2025/giscience-2025.html</loc>
+    <lastmod>2024-11-06T00:59:39.321Z</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2024-11-16-tmap-vs-ggplot/tmap4-vs-ggplot2.html</loc>
