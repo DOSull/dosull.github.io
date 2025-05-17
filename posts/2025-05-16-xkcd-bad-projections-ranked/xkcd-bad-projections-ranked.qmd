@@ -109,7 +109,7 @@ ggplot(w) +
 
 [XKCD 2613](https://xkcd.com/2613) went up in my estimation after I figured out how to make it... the alt-text provides enough information to find the central coordinates, which are in [La Gogue Lake on Mahé in the Seychelles](https://www.openstreetmap.org/search?query=la+gogue+lake&zoom=17#map=18/-4.590765/55.440863).
 
-Armed with the ludicrously precise lat-lon coordinates^[See [XKCD 2170](https://xkcd.com/2170) on that subject] Google provided me for this spot, I figure out how to approximate this map:
+Armed with the ludicrously precise lat-lon coordinates^[See [XKCD 2170](https://xkcd.com/2170) on that subject] Google provided me for this spot, I figured out how to approximate this map.
 
 ```{r}
 #| code-fold: true
@@ -289,7 +289,7 @@ ggplot() +
 2. The `density` parameter gives us hemispheres that still look right after transformation to a non-rectangular projection.
 3. An educated guess that the map is in the Equal Earth projection.
 4. This is where we make all longitudes positive.
-5. Combine the hemispheres shift them so they are centred on the prime meridian and transform to Equal Earth
+5. Combine the hemispheres and shift them so they are centred on the prime meridian and transform to Equal Earth
 
 ## #1 Bad Map Projection: Time Zones
 
