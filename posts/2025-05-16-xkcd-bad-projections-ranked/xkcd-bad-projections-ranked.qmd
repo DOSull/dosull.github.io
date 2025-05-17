@@ -51,8 +51,8 @@ library(smoothr)  # <4>
 library(xkcd)     # <5>
 ```
 
-1. For its World dataset.
-2. For its US states dataset.
+1. For its `World` dataset.
+2. For its US states dataset from `usmap::us_map()`.
 3. For forming proj strings that include values from data.
 4. To `densify` some shapes.
 5. The less said about this the better.
@@ -122,13 +122,12 @@ Armed with the ludicrously precise lat-lon coordinates^[See [XKCD 2170](https://
 
 ```{r}
 #| code-fold: true
-ll <- c(-4.595750619515433, 55.43837198904654)
-data("World") # from tmap
+ll <- c(-4.595750619515433, 55.43837198904654)                # <1>
 
 madagascator <- World |>
   st_transform(str_glue("+proj=laea +lon_0={ll[2]} +lat_0={ll[1]}")) |>
-  st_set_crs("+proj=laea +lon_0=150 +lat_0=90") |>               # <1>
-  st_transform("+proj=merc")                                     # <2>
+  st_set_crs("+proj=laea +lon_0=150 +lat_0=90") |>            # <2>
+  st_transform("+proj=merc")                                  # <3>
 
 ggplot(madagascator) +
   geom_sf(fill = "lightgrey", 
@@ -139,8 +138,9 @@ ggplot(madagascator) +
   theme_void()
 ```
 
-1. Tell `sf` that the data are centred on somewhere different than they really are! Some experimentation was required here to find a central 'meridian' that didn't cut Antarctica in half.
-2. Apply Mercator to the recentred data. There's probably a setting of the Oblique Mercator (`+proj=omerc`) that can do this sequence of transforms in one go, but since what I have works, I am leaving well alone.
+1. Those ludicrously precise coordinates from Google.
+2. Tell `sf` that the data are centred on somewhere different than they really are! Some experimentation was required here to find a central 'meridian' that didn't cut Antarctica in half.
+3. Apply Mercator to the recentred data. There's probably a setting of the Oblique Mercator (`+proj=omerc`) that can do this sequence of transforms in one go, but since what I have works, I am leaving well alone.
 
 ## #5 Bad Map Projection: South America
 
@@ -158,26 +158,27 @@ I figured out a way to approximate this projection. First, we project the contig
 
 ```{r}
 #| code-fold: true
-ctr <- c(-98.583333, 39.833333)
-anti <- c(ctr[1] + 180, -ctr[2])                                   # <1>
-proj1 <- str_glue("+proj=aeqd +lon_0={ctr[1]} +lat_0={ctr[2]}")    # <2>
-proj2 <- str_glue("+proj=aeqd +lon_0={anti[1]} +lat_0={anti[2]}")  # <3>
+ctr <- c(-98.583333, 39.833333)                                    # <1>
+anti <- c(ctr[1] + 180, -ctr[2])                                   # <2>
+proj1 <- str_glue("+proj=aeqd +lon_0={ctr[1]} +lat_0={ctr[2]}")    # <3>
+proj2 <- str_glue("+proj=aeqd +lon_0={anti[1]} +lat_0={anti[2]}")  # <4>
 
 states_big <- usmap::us_map() |>
   rename(geometry = geom) |>
   smoothr::densify(20) |>
   filter(!(abbr %in% c("AK", "HI"))) |>
   st_transform(proj1) |>
-  mutate(geometry = geometry * matrix(c(5, 0, 0, 5), 2, 2)) |>     # <4>
-  st_set_crs(proj1)                                                # <5>
+  mutate(geometry = geometry * matrix(c(5, 0, 0, 5), 2, 2)) |>     # <5>
+  st_set_crs(proj1)                                                # <6>
 
 ggplot(states_big) + geom_sf() + theme_minimal()
 ```
-1. The antipode of the central location.
-2. Forward projection: this can likely be any sensible projection with a central coordinate pair.
-3. The distance projection from the antipode, that will 'invert' the space.
-4. This multiplication expands the extent of the states.
-5. After the multiplication we have to reset the projection.
+1. The ostensible centre of the contiguous US.
+2. The antipode of the central location.
+3. Forward projection: this can likely be any sensible projection with a central coordinate pair.
+4. The distance projection from the antipode, that will 'invert' the space.
+5. This multiplication expands the extent of the states.
+6. After the multiplication we have to reset the projection.
 
 Next we apply an azimuthal equidistant projection centred on the antipode of the geographical centre. At this point we have to 'turn Kansas inside out', then remove and add it back into the inverted states.
 

@@ -289,11 +289,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1">For its World dataset.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1">For its <code>World</code> dataset.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="2">For its US states dataset.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="2">For its US states dataset from <code>usmap::us_map()</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
@@ -420,31 +420,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>ll <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">4.595750619515433</span>, <span class="fl">55.43837198904654</span>)</span>
-<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"World"</span>) <span class="co"># from tmap</span></span>
-<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>madagascator <span class="ot">&lt;-</span> World <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="fu">str_glue</span>(<span class="st">"+proj=laea +lon_0={ll[2]} +lat_0={ll[1]}"</span>)) <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-6" class="code-annotation-target"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_set_crs</span>(<span class="st">"+proj=laea +lon_0=150 +lat_0=90"</span>) <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-7" class="code-annotation-target"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="st">"+proj=merc"</span>)</span>
-<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(madagascator) <span class="sc">+</span></span>
-<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"lightgrey"</span>, </span>
-<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">"darkgrey"</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), </span>
-<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">check_overlap =</span> <span class="cn">TRUE</span>, </span>
-<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-3-15"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>ll <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">4.595750619515433</span>, <span class="fl">55.43837198904654</span>)</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>madagascator <span class="ot">&lt;-</span> World <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="fu">str_glue</span>(<span class="st">"+proj=laea +lon_0={ll[2]} +lat_0={ll[1]}"</span>)) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_set_crs</span>(<span class="st">"+proj=laea +lon_0=150 +lat_0=90"</span>) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3">3</button><span id="annotated-cell-3-6" class="code-annotation-target"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="st">"+proj=merc"</span>)</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(madagascator) <span class="sc">+</span></span>
+<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"lightgrey"</span>, </span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">"darkgrey"</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), </span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">check_overlap =</span> <span class="cn">TRUE</span>, </span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="6" data-code-annotation="1">Tell <code>sf</code> that the data are centred on somewhere different than they really are! Some experimentation was required here to find a central ‘meridian’ that didn’t cut Antarctica in half.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1">Those ludicrously precise coordinates from Google.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="7" data-code-annotation="2">Apply Mercator to the recentred data. There’s probably a setting of the Oblique Mercator (<code>+proj=omerc</code>) that can do this sequence of transforms in one go, but since what I have works, I am leaving well alone.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="2">Tell <code>sf</code> that the data are centred on somewhere different than they really are! Some experimentation was required here to find a central ‘meridian’ that didn’t cut Antarctica in half.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="6" data-code-annotation="3">Apply Mercator to the recentred data. There’s probably a setting of the Oblique Mercator (<code>+proj=omerc</code>) that can do this sequence of transforms in one go, but since what I have works, I am leaving well alone.</span>
 </dd>
 </dl>
 </div>
@@ -480,18 +483,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>ctr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">98.583333</span>, <span class="fl">39.833333</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>anti <span class="ot">&lt;-</span> <span class="fu">c</span>(ctr[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">180</span>, <span class="sc">-</span>ctr[<span class="dv">2</span>])</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>proj1 <span class="ot">&lt;-</span> <span class="fu">str_glue</span>(<span class="st">"+proj=aeqd +lon_0={ctr[1]} +lat_0={ctr[2]}"</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>proj2 <span class="ot">&lt;-</span> <span class="fu">str_glue</span>(<span class="st">"+proj=aeqd +lon_0={anti[1]} +lat_0={anti[2]}"</span>)</span>
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>ctr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">98.583333</span>, <span class="fl">39.833333</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>anti <span class="ot">&lt;-</span> <span class="fu">c</span>(ctr[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">180</span>, <span class="sc">-</span>ctr[<span class="dv">2</span>])</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>proj1 <span class="ot">&lt;-</span> <span class="fu">str_glue</span>(<span class="st">"+proj=aeqd +lon_0={ctr[1]} +lat_0={ctr[2]}"</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4">4</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>proj2 <span class="ot">&lt;-</span> <span class="fu">str_glue</span>(<span class="st">"+proj=aeqd +lon_0={anti[1]} +lat_0={anti[2]}"</span>)</span>
 <span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>states_big <span class="ot">&lt;-</span> usmap<span class="sc">::</span><span class="fu">us_map</span>() <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">geometry =</span> geom) <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>  smoothr<span class="sc">::</span><span class="fu">densify</span>(<span class="dv">20</span>) <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(abbr <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AK"</span>, <span class="st">"HI"</span>))) <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(proj1) <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4">4</button><span id="annotated-cell-4-11" class="code-annotation-target"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">geometry =</span> geometry <span class="sc">*</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">5</span>), <span class="dv">2</span>, <span class="dv">2</span>)) <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="5">5</button><span id="annotated-cell-4-12" class="code-annotation-target"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_set_crs</span>(proj1)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="5">5</button><span id="annotated-cell-4-11" class="code-annotation-target"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">geometry =</span> geometry <span class="sc">*</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">5</span>), <span class="dv">2</span>, <span class="dv">2</span>)) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="6">6</button><span id="annotated-cell-4-12" class="code-annotation-target"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_set_crs</span>(proj1)</span>
 <span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(states_big) <span class="sc">+</span> <span class="fu">geom_sf</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -499,23 +502,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="1">The antipode of the central location.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="1" data-code-annotation="1">The ostensible centre of the contiguous US.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="2">Forward projection: this can likely be any sensible projection with a central coordinate pair.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="2">The antipode of the central location.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="3">The distance projection from the antipode, that will ‘invert’ the space.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="3">Forward projection: this can likely be any sensible projection with a central coordinate pair.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="11" data-code-annotation="4">This multiplication expands the extent of the states.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="4">The distance projection from the antipode, that will ‘invert’ the space.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="12" data-code-annotation="5">After the multiplication we have to reset the projection.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="11" data-code-annotation="5">This multiplication expands the extent of the states.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="12" data-code-annotation="6">After the multiplication we have to reset the projection.</span>
 </dd>
 </dl>
 </div>
