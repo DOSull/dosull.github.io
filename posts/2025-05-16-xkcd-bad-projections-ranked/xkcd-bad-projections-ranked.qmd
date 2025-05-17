@@ -67,15 +67,15 @@ I don't use Adobe Photoshop so [XKCD 1784](https://xkcd.com/1784) is just a bit 
 
 ![Alt-text: This projection distorts both area and direction, but preserves Melbourne.](images/08-xkcd-2999-bad_map_projection_the_united_stralia_2x.png){group="top9"}
 
-[XKCD 2999](https://xkcd.com/2999) just doesn't work for me. I appreciate the attempt at many to one projection, that is to say more than one place on Earth mapping onto a single location in the map. It's certainly a relief to know that Melbourne is preserved.^[I have relatives there.] 
+[XKCD 2999](https://xkcd.com/2999) just doesn't work for me.^[I'd obviously rank it higher if it was called United [Straya](https://forvo.com/word/%27straya/).] I appreciate the attempt at many to one projection, that is to say more than one place on Earth mapping onto a single location in the map. And it's certainly a relief to know that Melbourne is preserved.^[I have relatives there.] 
 
-I didn't even try to replicate this one as it seems self-evidently something you'd have to do in a drawing package. Overall, I think the idea of two places into one is much better realised at [#2 in this list](#bad-map-projection-abslongitude).
+I didn't even try to replicate this one as it seems self-evidently something you'd have to do in a drawing package. Overall, I think the idea of two places into one is much better realised [elsewhere in this list](#bad-map-projection-abslongitude).
 
 ## #7 Bad Map Projection: The Greenland Special
 
 ![Alt-text: The projection for those who think the Mercator projection gives people a distorted idea of how big Greenland is, but a very accurate idea of how big it SHOULD be.](images/07-xkcd-2489-bad_map_projection_the_greenland_special_2x.png){group="top9"}
 
-The whole Greenland thing in map projections is a bit played out. I realise it continues to blow minds how exaggerated its size is in the Mercator projection.^[Maybe someone should have a word with a recently elected president on this matter.] Anyway, it's not too hard to remake [XKCD 2489](https://xkcd.com/2489) using R, provided you aren't too respectful of, you know, actual projections.
+The whole Greenland thing in map projections is a bit played out. I realise it continues to blow minds how exaggerated its size is in the Mercator projection.^[Maybe someone should have a word with a recently elected president on this matter.] Anyway, it's not too hard to remake [XKCD 2489](https://xkcd.com/2489) using R, provided you aren't too respectful of, you know, actual projections. Apparently Mercator Greenland is too big even for this comedy projection, as I had to downscale it to 85% of its 'raw' Mercator size to get a good match to the published map.
 
 ```{r}
 #| code-fold: true
@@ -103,7 +103,7 @@ ggplot(w) +
 ```
 
 1. Experimentation suggested that some rescaling of Greenland as it is projected 'raw' is required to get the outcome in the comic.
-2. After rescaling we have to tell a white lie and tell the data it is Mercator projected.
+2. After rescaling and shifting Greenland we have to tell a white lie and tell R the data are still Mercator projected.
 3. A buffered Greenland clears a passage between Greenland and Canada.
 4. Fairly confident the rest of the world is Mollweide projected.
 5. It's not uncommon for world data sets to have invalid polygons after projection and that's the case here.
@@ -222,7 +222,7 @@ ggplot(states_inv) +
 
 ![Alt-text: Due to their proximity across the channel, there's long been tension between North Korea and the United Kingdom of Great Britain and Southern Ireland.](images/03-xkcd-1500-upside_down_map_2x.png){group="top9"}
 
-Personally, living in Aotearoa New Zealand I enjoy the genre of 'upside down' maps, but have always felt that the notion they change your whole perspective on the world is overstated, so [XKCD 1500](https://xkcd.com/1500) is a nice gentle undermining of that, which I appreciate.^[I'm not sure how I feel about 'The United Kingdom of Great Britain and Southern Ireland', but that's a whole other matter...]
+Personally, living in Aotearoa New Zealand I enjoy the genre of 'upside down' maps, but have always felt that the notion they change your whole perspective on the world is overstated, so [XKCD 1500](https://xkcd.com/1500) is a nice gentle undermining of that, which I appreciate.^[I'm not sure how I feel about 'The United Kingdom of Great Britain and Southern Ireland', but that's a whole other question...]
 
 I briefly contemplated an attempt at making this one, but thought better of it. Turning a whole map through 180&deg; is not difficult:
 
@@ -306,4 +306,27 @@ I'm really not convinced [XKCD 1799](https://xkcd.com/1799) is a bad map project
 
 It's interesting to contemplate what kind of automated process might be used to produce this map, but... I'm not even going to try. Happy to hear from anyone who gives it a go!
 
-That's a wrap (or fold, or cut, or... some transformation anyway).
+## In conclusion
+Close analysis of the data confirms no clear long term trend in the badness of XKCD's bad map projections, although more recent examples may be getting worse.^[The same analysis suggests that while negative ranks are a possibility they remain unlikely.]
+
+```{r}
+#| echo: false
+df <- data.frame(
+    Number = c(1799, 2807, 1500, 2951, 2256, 
+               2613, 2489, 2999, 1784),
+    Rank = 1:9,
+    title = c("Time zones", "abs(Longitude)",
+              "Upside-down map", "Exterior Kansas",
+              "South America", "Madagascator",
+              "Greenland special", "United Stralia",
+              "Liquid resize"))
+ggplot(df) +
+  geom_point(aes(x = Number, y = Rank)) +
+  geom_smooth(aes(x = Number, y = Rank)) +
+  geom_label(aes(x = Number, y = Rank, label = title),
+             hjust = 0.5, vjust = -0.15, alpha = 0.5) +
+  scale_y_reverse() +
+  expand_limits(x = c(1350, 3100))
+```
+
+And that's a wrap (or fold, or cut, or... some transformation anyway).
