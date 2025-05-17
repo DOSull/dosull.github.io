@@ -28,17 +28,6 @@ date: 05-16-2025
 image: "images/01-xkcd-1799-bad_map_projection_time_zones_2x.png"
 ---
 
-```{r}
-#| echo: false
-library(sf)
-library(tmap)
-library(dplyr)
-library(ggplot2)
-library(stringr)
-library(smoothr)
-library(usmap)
-```
-
 **Warning**: sensitive souls who care about geodetic accuracy should probably stop reading now. Liberal use of affine transformation of geometries throughout. You have been warned.
 
 Before I get going, huge appreciation to Randall Munroe for his generous [terms of use for the XKCD comics](https://xkcd.com/license.html).
@@ -48,6 +37,23 @@ For a long time I thought about teaching a geography / GIS class using [XKCD com
 Also, his interest in map projections only seems to have kicked in about halfway through the XKCD time series. Possibly this is related to an ongoing interest in GPS, which will likely be a topic for a future post. [#977 Map projections](https://xkcd.com/977) posted in late 2011, is the first sign of an enduring interest in projections, but things don't really take off until [#1500](https://xkcd.com/1500) almost 4 years later, which is the first of several 'bad map projections', although not actually called out as such in its title.
 
 Herewith, my ranking from worst bad projection to best bad projection of the nine examples I found,^[Along with #1500 which was not called out as such] accompanied in a few cases by attempts at recreating them in R (click on the code-fold links to see how). Eventually, perhaps, [ongoing work on enabling arbitrary map projections](https://computinggeographically.org/chapters/chap2/fig2-02-cartograms.html) might enable me to automate reverse-engineering any XKCD projection. For now, a combination of perseverance, guess-work, and sheer bloody mindedness will have to suffice.
+
+```{r}
+#| output: false
+#| code-fold: true
+library(sf)
+library(tmap)     # <1>
+library(usmap)    # <2>
+library(dplyr)
+library(ggplot2)
+library(stringr)  # <3>
+library(smoothr)  # <4>
+```
+
+1. For its World dataset.
+2. For its US states dataset.
+3. For forming proj strings that include values from data.
+4. To `densify` some shapes.
 
 For what it's worth, by worst bad projection I mean something like 'least interesting' and by best, I mean something like 'most thought-provoking'.^[YMMV. Don't @ me.]
 
