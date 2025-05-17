@@ -49,7 +49,10 @@ background-color: null;
 font-style: inherit;">library</span>(stringr)</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-7" class="code-annotation-target"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(smoothr)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+font-style: inherit;">library</span>(smoothr)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="5">5</button><span id="annotated-cell-1-8" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(xkcd)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
 </details>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
@@ -68,6 +71,10 @@ font-style: inherit;">library</span>(smoothr)</span><div class="code-annotation-
 <dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
 <dd>
 <span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="4">To <code>densify</code> some shapes.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="8" data-code-annotation="5">The less said about this the better.</span>
 </dd>
 </dl>
 </div>
