@@ -321,10 +321,10 @@ df <- data.frame(
               "Greenland special", "United Stralia",
               "Liquid resize"))
 ggplot(df) +
-  geom_point(aes(x = Number, y = Rank)) +
+  # geom_point(aes(x = Number, y = Rank)) +
   geom_smooth(aes(x = Number, y = Rank)) +
   geom_label(aes(x = Number, y = Rank, label = title),
-             hjust = 0.5, vjust = -0.15, alpha = 0.5) +
+             hjust = 0.5, vjust = 0.5, alpha = 0.5) +
   scale_y_reverse() +
   expand_limits(x = c(1350, 3100))
 ```
