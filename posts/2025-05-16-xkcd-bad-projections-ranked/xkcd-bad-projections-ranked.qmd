@@ -30,9 +30,9 @@ image: "images/01-xkcd-1799-bad_map_projection_time_zones_2x.png"
 
 **Warning**: sensitive souls who care about geodetic accuracy should probably stop reading now. Liberal use of affine transformation of geometries throughout. You have been warned.
 
-Before I get going, huge appreciation to Randall Munroe for his generous [terms of use for the XKCD comics](https://xkcd.com/license.html).
+Before I get going, huge appreciation to Randall Munroe for the generous [terms of use for the XKCD comics](https://xkcd.com/license.html).
 
-For a long time I thought about teaching a geography / GIS class using [XKCD comics](https://xkcd.com) as the primary source material, or at the very least as a jumping off point for every lecture. Recently I actually went through every XKCD from the very beginning to the present to assemble a list of comics that would actually be usable in some semi-serious^[We're working with a loose definition of the word 'serious' here.] way for this purpose. Among the things I learned is the Randall Munroe has become a lot less fixated on sex than he was when he started, and also somewhat less [worried about velociraptors](https://xkcd.com/135). 
+For a long time I thought about teaching a geography / GIS class using [XKCD comics](https://xkcd.com) as the primary source material, or at the very least as a jumping off point for every lecture. Recently I actually went through every XKCD from the very beginning to the present to assemble a list of comics that would actually be usable in some semi-serious^[We're working with a loose definition of the word 'serious' here.] way for this purpose. Among the things I learned is that Randall Munroe has become a lot less fixated on sex than he was when he started, and also somewhat less [worried about velociraptors](https://xkcd.com/135). 
 
 Also, his interest in map projections only seems to have kicked in about halfway through the XKCD time series. Possibly this is related to an ongoing interest in GPS, which will likely be a topic for a future post. [#977 Map projections](https://xkcd.com/977) posted in late 2011, is the first sign of an enduring interest in projections, but things don't really take off until [#1500](https://xkcd.com/1500) almost 4 years later, which is the first of several 'bad map projections', although not actually called out as such in its title.
 
