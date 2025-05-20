@@ -1,6 +1,9 @@
 ---
 title: "A spatial COVID model"
 description: "Fiddling (with code) while the world burns"
+lightbox:
+  match: auto
+  loop: true
 title-block-banner: true
 ---
 

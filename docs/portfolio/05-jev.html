@@ -41,6 +41,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-966425127c30269e34501eb621c74349.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -199,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
 <p>It’s early days, and my initial work is focused on marshalling data on the distribution of bird species using the recently compiled <a href="https://ebird.org/atlasnz/about" target="blank">NZ Bird Atlas</a>. Here’s a map of <a href="https://www.rnz.co.nz/news/national/529207/wellington-s-native-bird-numbers-continue-to-soar" target="blank">local favourite kākā</a> sitings.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="kaka-map.png" class="img-fluid figure-img"></p>
+<p><a href="kaka-map.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Sitings of kākā in the NZ Bird Atlas"><img src="kaka-map.png" class="img-fluid figure-img" alt="Sitings of kākā in the NZ Bird Atlas"></a></p>
 <figcaption>Sitings of kākā in the NZ Bird Atlas</figcaption>
 </figure>
 </div>
@@ -634,6 +637,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":true,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

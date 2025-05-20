@@ -1,6 +1,9 @@
 ---
 title: "OECD report"
 description: Access to services on the rural to urban continuum
+lightbox:
+  match: auto
+  loop: true
 title-block-banner: true
 ---
 

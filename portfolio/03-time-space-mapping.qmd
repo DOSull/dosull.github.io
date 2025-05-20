@@ -1,6 +1,9 @@
 ---
 title: "Time-space mapping"
 description: "More generally: folding space"
+lightbox:
+  match: auto
+  loop: true
 title-block-banner: true
 ---
 

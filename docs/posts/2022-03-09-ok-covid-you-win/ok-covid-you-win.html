@@ -43,6 +43,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-966425127c30269e34501eb621c74349.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -223,14 +226,14 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p><img src="final-time-series.png" class="img-fluid"></p>
+<p><a href="final-time-series.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="final-time-series.png" class="img-fluid"></a></p>
 <p>From some time in March 2020 for two years I downloaded the latest reported COVID data for New Zealand, added them to my spreadsheet of the various numbers, and updated a timeline I was keeping in <em>R</em>. The download process got a lot easier when I was introduced to <a href="https://github.com/UoA-eResearch/nz-covid19-data-auto/">the data downloader at University of Auckland eResearch</a>.</p>
 <p>As you can see, by the time I stopped things had gone pretty badly off the rails, and even a log scale wasn’t helping much.</p>
 <p>I can honestly say this was when I started to become competent with the <code>ggplot2</code> package, and for that, as well as the reassurance the daily ritual provided for about a year and a half (we were doing so well…), I am grateful.</p>
 <section id="addendum" class="level3">
 <h3 class="anchored" data-anchor-id="addendum">Addendum</h3>
 <p>I also mapped the progress of the vaccination program for a (much shorter) time. At least these numbers were released weekly and in a much more accessible form. Here’s how the critical ‘second dose’ went:</p>
-<p><img src="time-series-2nd-dose.png" class="img-fluid"></p>
+<p><a href="time-series-2nd-dose.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="time-series-2nd-dose.png" class="img-fluid"></a></p>
 
 
 </section>
@@ -661,6 +664,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":true,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

@@ -43,6 +43,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-966425127c30269e34501eb621c74349.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -217,7 +220,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>I made an <a href="https://observablehq.com/@dosull/tomoko-fuse-spiral-crease-patterns">observable notebook</a> to generate crease patterns for the flat-foldable origami ‘whirpool spirals’ designed by Tomoko Fuse and presented in chapter 3 of her amazing book <a href="https://viereck-verlag.de/en/produkt/spiral-origami-art-design/"><em>Spiral: Origami|Art|Design</em></a>. You’ll find more details in the notebook.</p>
-<p><img src="spiral-fold.jpg" class="img-fluid"></p>
+<p><a href="spiral-fold.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="spiral-fold.jpg" class="img-fluid"></a></p>
 <p>The picture is an example of the folds it produces, or at any rate of the things <em>you</em> can fold by cutting out and following the crease patterns it produces. You’ll have to do the folding yourself, I’m afraid.</p>
 <p>If you’d like an idea of how the fold works without going to all the trouble of actually making one, then visit <a href="https://amandaghassaei.com/">Amanda Ghassaei</a>’s <a href="https://origamisimulator.org">Origami Simulator</a> and navigate to <strong>Examples - Tessellations - Whirlpool Spiral</strong>.</p>
 
@@ -649,6 +652,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":true,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

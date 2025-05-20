@@ -3,6 +3,9 @@ title: "GeoCart'2024"
 description: Reflections on the meeting
 author: "David O'Sullivan"
 toc: true
+lightbox:
+  match: auto
+  loop: true
 categories:
   - cartography
   - geospatial

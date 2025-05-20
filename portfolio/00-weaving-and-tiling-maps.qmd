@@ -1,6 +1,9 @@
 ---
 title: "Tiled and woven maps"
 description: "A new approach to mapping multivariate data"
+lightbox:
+  match: auto
+  loop: true
 title-block-banner: true
 ---
 

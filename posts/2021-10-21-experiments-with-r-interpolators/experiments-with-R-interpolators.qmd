@@ -3,6 +3,9 @@ title: "Experiments with R interpolators"
 description: Messing around with interpolating via a triangulation to apply coordinate transformations
 author: "David O'Sullivan"
 toc: true
+lightbox:
+  match: auto
+  loop: true
 categories:
   - R
   - geospatial

@@ -41,6 +41,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-966425127c30269e34501eb621c74349.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -198,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
 <p>During those ahem… <em>heady</em> days of the first COVID-19 lockdown in Aotearoa (7 or 8 weeks in April-May 2020) I worked intensely with colleagues on a simple spatial simulation model of the pandemic in New Zealand.</p>
 <p>Initially we hoped that we might get involved in the ongoing modelling efforts which the government was using to manage the national response given how self-evidently <em>geographical</em> a thing an epidemic is. But that clearly wasn’t a perspective shared by the public health professionals and others advising the government. Either that or they were just too damn busy dealing with events to welcome the additional distraction of thinking about the geography of the disease.</p>
 <p>Or maybe they thought it was just <em>too much</em>:</p>
-<p><img src="covid-model-view.png" class="img-fluid"></p>
+<p><a href="covid-model-view.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="covid-model-view.png" class="img-fluid"></a></p>
 <p>Whatever the reason, we never did get involved in the national response, although it was clear by the time of the outbreak in later 2021 that they <em>were</em>, at least by then, thinking geographically about how to manage things. Anyway, you can play with the model by clicking below.</p>
 <p><a href="https://southosullivan.com/misc/distributed-branching-process-RC-web.html" class="button-link" target="_blank">Go to the model</a></p>
 <p>It’s quite slow to load, and if you aren’t smart about the settings you use it’s likely to rapidly spin out of control (just like a uh… <em>pandemic</em>) and slow things down dramatically. For that reason I advise only using the <code>go-one-day</code> or <code>go-one-week</code> buttons until you get a feel for things.</p>
@@ -637,6 +640,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":true,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

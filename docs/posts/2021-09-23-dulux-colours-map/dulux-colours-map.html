@@ -43,6 +43,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-966425127c30269e34501eb621c74349.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -219,7 +222,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p><a href="https://www.dulux.co.nz/colour/colours-of-new-zealand/">Dulux have had a range of colours named for places in New Zealand</a> for several years now. Clearly this is an opportunity for mapping too good to be missed. You can thank me later.</p>
-<p><img src="dulux-colour-map.png" class="img-fluid"></p>
+<p><a href="dulux-colour-map.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="dulux-colour-map.png" class="img-fluid"></a></p>
 <p><a href="https://dosull.github.io/dulux-colours-map/maps/" class="button-link" target="_blank">Go to the map</a></p>
 <p>I gave a <a href="https://dosull.github.io/dulux-colours-map/slides/maptime-slides.html">presentation about how this map was made using <em>R</em> to a Maptime! Wellington audience</a>, and it takes you through the code in enough detail to require no further explanation from this post!</p>
 
@@ -651,6 +654,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":true,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

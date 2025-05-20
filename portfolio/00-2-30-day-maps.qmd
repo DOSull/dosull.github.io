@@ -2,6 +2,9 @@
 title: "The 30 day map challenge"
 description: "It's called 'challenge' for a reason"
 title-block-banner: true
+lightbox:
+  match: auto
+  loop: true
 image: imd-circles-map.png
 ---
 

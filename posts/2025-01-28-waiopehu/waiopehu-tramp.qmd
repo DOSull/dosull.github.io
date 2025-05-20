@@ -3,7 +3,9 @@ title: Into the (LiDAR) void
 description: "Or: who's afraid of the Tararuas?"
 author: "David O'Sullivan"
 toc: true
-lightbox: true
+lightbox:
+  match: auto
+  loop: true
 code-annotations: hover
 filters: 
   - nutshell

@@ -1,6 +1,9 @@
 ---
 title: "Agent modeling of land management"
 description: "Moving the middle"
+lightbox:
+  match: auto
+  loop: true
 title-block-banner: true
 ---
 

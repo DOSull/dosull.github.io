@@ -3,6 +3,9 @@ title: "What three chords"
 description: "Seriously, WTC?!"
 author: "David O'Sullivan"
 toc: true
+lightbox:
+  match: auto
+  loop: true
 categories:
   - javascript
   - geospatial

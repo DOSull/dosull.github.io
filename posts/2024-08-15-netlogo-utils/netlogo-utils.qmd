@@ -3,6 +3,9 @@ title: "Useful utilities for NetLogo"
 description: "For when you are missing R/python"
 author: "David O'Sullivan"
 toc: true
+lightbox:
+  match: auto
+  loop: true
 categories:
   - netlogo
   - simulation

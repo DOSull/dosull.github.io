@@ -4445,7 +4445,7 @@ Figure&nbsp;1: A particularly complicated systems diagram—which is nevertheles
 
 
 
-<p><img src="https://dosull.github.io/posts/2024-11-22-algim-2024/algim.png" class="img-fluid"></p>
+<p><a href="algim.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2024-11-22-algim-2024/algim.png" class="img-fluid"></a></p>
 <p>What is <a href="https://algim.org.nz">ALGIM</a>? According to the website,</p>
 <blockquote class="blockquote">
 <p>ALGIM is all about bringing people and technology together to deliver better local government services</p>
@@ -4476,9 +4476,9 @@ Figure&nbsp;1: A particularly complicated systems diagram—which is nevertheles
 </section>
 <section id="ps-not-forgetting" class="level2">
 <h2 class="anchored" data-anchor-id="ps-not-forgetting">PS Not forgetting</h2>
-<div class="quarto-figure quarto-figure-center" style="width:55%; float:right; margin:0px 0px 5px 10px;">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2024-11-22-algim-2024/kirikiriroa-kai-map.png" class="img-fluid figure-img"></p>
+<p><a href="kirikiriroa-kai-map.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="The Hamilton City Kai Map"><img src="https://dosull.github.io/posts/2024-11-22-algim-2024/kirikiriroa-kai-map.png" class="img-fluid figure-img" style="width:55%; float:right; margin:0px 0px 5px 10px;" alt="The Hamilton City Kai Map"></a></p>
 <figcaption>The Hamilton City Kai Map</figcaption>
 </figure>
 </div>
@@ -5970,7 +5970,7 @@ font-style: inherit;"># ...</span></span>
 <p>This approach enabled me to iterate over all 300 species in the data and assemble a ‘mini-atlas’ of <code>ggplot</code> maps of each bird’s range in under a minute (snippet below), which is about how long it was previously taking R just to open the 8GB CSV file. Not to mention that the giant data table is never in working memory, only the chunks I need one at a time.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2024-10-17-duckdb/atlas-snapshot.png" class="img-fluid figure-img"></p>
+<p><a href="atlas-snapshot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Yes, of course, Mallard is there for a reason"><img src="https://dosull.github.io/posts/2024-10-17-duckdb/atlas-snapshot.png" class="img-fluid figure-img" alt="Yes, of course, Mallard is there for a reason"></a></p>
 <figcaption>Yes, <em>of course</em>, Mallard is there for a reason</figcaption>
 </figure>
 </div>
@@ -6140,19 +6140,19 @@ Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 <p>Meanwhile, if you open a two-layer GPKG in QGIS you’ll see this:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2024-10-16-geopackages/opening-a-multilayer-gpkg-dialog.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:600px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"></p>
+<p><a href="opening-a-multilayer-gpkg-dialog.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2024-10-16-geopackages/opening-a-multilayer-gpkg-dialog.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:600px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"></a></p>
 </figure>
 </div>
 <p>That’s pretty clear. What’s unfortunately less clear than in R is the sequence of operations that will safely add a layer to an existing GeoPackage. That’s not quite fair: what is unclear is the warning message you get if you choose an existing <code>.gpkg</code> file as the destination for a dataset you’d like to save. The warning message looks like this:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2024-10-16-geopackages/gpkg-already-exists-warning.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:300px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"></p>
+<p><a href="gpkg-already-exists-warning.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://dosull.github.io/posts/2024-10-16-geopackages/gpkg-already-exists-warning.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:300px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"></a></p>
 </figure>
 </div>
 <p>This seems pretty scary. Before trying this at home I suggest you make a copy of the target geopackage if you are worried about losing your data, but if you steel yourself, and against every instinct hit <span style="font-family:sans-serif; color:#f00;">Replace</span>, then as long as you set a different name in the <span style="font-family:sans-serif;">Layer name</span> option of the <span style="font-family:sans-serif;"><strong>Save Vector Layer as…</strong></span> dialog</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2024-10-16-geopackages/new-layer-name.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:450px; border-radius:12px 0px 0px; box-shadow: 5px 5px 5px #aaa;"></p>
+<p><a href="new-layer-name.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://dosull.github.io/posts/2024-10-16-geopackages/new-layer-name.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:450px; border-radius:12px 0px 0px; box-shadow: 5px 5px 5px #aaa;"></a></p>
 </figure>
 </div>
 <p>it will be fine, and you’ll end up with an additional layer in the target GeoPackage.</p>
@@ -6271,11 +6271,11 @@ name        : Height </code></pre>
 <p>QGIS actually does better here. It certainly sees both layers:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2024-10-16-geopackages/opening-a-multilayer-gpkg-dialog-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:600px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"></p>
+<p><a href="opening-a-multilayer-gpkg-dialog-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://dosull.github.io/posts/2024-10-16-geopackages/opening-a-multilayer-gpkg-dialog-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:600px; border-radius:10px; box-shadow: 5px 5px 5px #aaa;"></a></p>
 </figure>
 </div>
 <p>It’s worth noting that the QGIS <span style="font-family:sans-serif;"><strong>Browser</strong></span> panel makes mixing raster and vector layers into your GeoPackages straightforward.</p>
-<p><a href="qgis-raster-vector-nz.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2024-10-16-geopackages/qgis-raster-vector-nz.png" class="img-fluid"></a></p>
+<p><a href="qgis-raster-vector-nz.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://dosull.github.io/posts/2024-10-16-geopackages/qgis-raster-vector-nz.png" class="img-fluid"></a></p>
 <p>Overall, I’ve been aware that I can bundle raster and vector layers in GeoPackages like this but haven’t used the capability. In part because I’ve only just figured out how to do it using the R tools(!), but mostly because I prefer to keep raster data in GeoTIFFs and vector data in GeoPackages so I can tell which is which at a glance.</p>
 </section>
 <section id="so-are-geopackages-perfect" class="level2">
@@ -6307,7 +6307,7 @@ name        : Height </code></pre>
 
 
 
-<p><img src="https://dosull.github.io/posts/2024-10-10-giscience-2025/giscience-2025.png" class="img-fluid" style="width:40.0%"></p>
+<p><a href="giscience-2025.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2024-10-10-giscience-2025/giscience-2025.png" class="img-fluid" style="width:40.0%"></a></p>
 <p>The first <a href="https://giscience2025.org/#cfp">Call for Submissions to GIScience 2025</a> has just come out (deadline for proceedings papers Jan 31 2025; for other submissions Apr 4 2025).</p>
 <p>We’re excited in Aotearoa New Zealand to be hosting this one, even if <a href="https://dosull.github.io/computing-geographically/other-stuff/giscience-not-GIScience.html">I think it should be called giscience 2025</a> (note the non-capitalisation). I’m on the program committee so look forward (a little nervously) to a flood of submissions. It’s nice for a change that it won’t be us Aotearoans making the long trip.</p>
 <p>The last big geospatial conference in NZ was Geocomputation 2019 which was greatly enjoyed by all who made it, and this one will be even better, I’m certain of it!</p>
@@ -6331,7 +6331,7 @@ name        : Height </code></pre>
 
 
 
-<p><img src="https://dosull.github.io/posts/2024-08-30-geocart-24/alexander-turnbull-library.jpg" class="img-fluid"></p>
+<p><a href="alexander-turnbull-library.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2024-08-30-geocart-24/alexander-turnbull-library.jpg" class="img-fluid"></a></p>
 <p>Another (even-number year) August coming to a close and <a href="https://cartography.org.nz/geocart2024">another GeoCart’ is over</a>.</p>
 <p>The passing last year of <a href="https://natlib.govt.nz/blog/posts/remembering-igor-drecki-1966-2023">Igor Drecki</a> inevitably cast a shadow. But importantly, and even under that shadow, it was a fun meeting, as Igor would have wanted. Given the current woes of Wellington’s public sector, attendance was as expected down a little, but there were still enough faces old and new for the meeting to retain its usual friendly buzz, without it being too overwhelming.</p>
 <p>The organisers of GeoCart’2024 can be proud of what they achieved in putting on a meeting that Igor would have enjoyed. It bore all the hallmarks of Igor’s vision for the meeting. Many keynotes (perhaps too many, but more on that below…) and many opportunities for informal discussion and exchange in the breaks between presentations, over lunch, and at the Icebreaker and Conference Dinner events. The latter in particular was really excellent—I don’t recall ever before having FOUR choices of starter, main, and dessert at a catered sit-down meal like this one: well done <a href="https://dockside.co.nz/">Dockside</a>.<sup>1</sup></p>
@@ -6452,7 +6452,7 @@ name        : Height </code></pre>
 
 <p>I’ve been diligently keeping the so-called ‘model zoo’ associated with our book <a href="../../books.html#spatial-simulation-exploring-pattern-and-process"><em>Spatial Simulation</em></a> updated for compatibility with new releases of NetLogo. Each time I generally manage to clean up a few parts of the code and slowly complete the ‘Info’ tabs (otherwise known as user documentation).</p>
 <p>The models are available from <a href="https://github.com/DOSull/model-zoo">this repo</a> and you can get an overview of what they’re all about at <a href="https://patternandprocess.org">this website</a>. Really though, you should buy <a href="../../books.html#spatial-simulation">the book</a>:</p>
-<p><img src="https://dosull.github.io/images/spatial-simulation.jpg" class="img-fluid"></p>
+<p><a href="../../images/spatial-simulation.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/images/spatial-simulation.jpg" class="img-fluid"></a></p>
 
 
 
@@ -6536,7 +6536,7 @@ font-style: inherit;">coord_equal</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="experiments-with-R-interpolators_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -6611,7 +6611,7 @@ font-style: inherit;">coord_equal</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="experiments-with-R-interpolators_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -6720,7 +6720,7 @@ font-style: inherit;">coord_equal</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="experiments-with-R-interpolators_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -6760,7 +6760,7 @@ font-style: inherit;">geom_sf</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="experiments-with-R-interpolators_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -6906,7 +6906,7 @@ font-style: inherit;">"red"</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="experiments-with-R-interpolators_files/figure-html/unnamed-chunk-9-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -7047,7 +7047,7 @@ font-style: inherit;">coord_equal</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="experiments-with-R-interpolators_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -7075,7 +7075,7 @@ font-style: inherit;">coord_equal</span>()</span></code></pre></div>
 
 
 <p>I made an <a href="https://observablehq.com/@dosull/tomoko-fuse-spiral-crease-patterns">observable notebook</a> to generate crease patterns for the flat-foldable origami ‘whirpool spirals’ designed by Tomoko Fuse and presented in chapter 3 of her amazing book <a href="https://viereck-verlag.de/en/produkt/spiral-origami-art-design/"><em>Spiral: Origami|Art|Design</em></a>. You’ll find more details in the notebook.</p>
-<p><img src="https://dosull.github.io/posts/2022-08-03-spiral-folds/spiral-fold.jpg" class="img-fluid"></p>
+<p><a href="spiral-fold.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2022-08-03-spiral-folds/spiral-fold.jpg" class="img-fluid"></a></p>
 <p>The picture is an example of the folds it produces, or at any rate of the things <em>you</em> can fold by cutting out and following the crease patterns it produces. You’ll have to do the folding yourself, I’m afraid.</p>
 <p>If you’d like an idea of how the fold works without going to all the trouble of actually making one, then visit <a href="https://amandaghassaei.com/">Amanda Ghassaei</a>’s <a href="https://origamisimulator.org">Origami Simulator</a> and navigate to <strong>Examples - Tessellations - Whirlpool Spiral</strong>.</p>
 
@@ -7098,14 +7098,14 @@ font-style: inherit;">coord_equal</span>()</span></code></pre></div>
 
 
 
-<p><img src="https://dosull.github.io/posts/2022-03-09-ok-covid-you-win/final-time-series.png" class="img-fluid"></p>
+<p><a href="final-time-series.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2022-03-09-ok-covid-you-win/final-time-series.png" class="img-fluid"></a></p>
 <p>From some time in March 2020 for two years I downloaded the latest reported COVID data for New Zealand, added them to my spreadsheet of the various numbers, and updated a timeline I was keeping in <em>R</em>. The download process got a lot easier when I was introduced to <a href="https://github.com/UoA-eResearch/nz-covid19-data-auto/">the data downloader at University of Auckland eResearch</a>.</p>
 <p>As you can see, by the time I stopped things had gone pretty badly off the rails, and even a log scale wasn’t helping much.</p>
 <p>I can honestly say this was when I started to become competent with the <code>ggplot2</code> package, and for that, as well as the reassurance the daily ritual provided for about a year and a half (we were doing so well…), I am grateful.</p>
 <section id="addendum" class="level3">
 <h3 class="anchored" data-anchor-id="addendum">Addendum</h3>
 <p>I also mapped the progress of the vaccination program for a (much shorter) time. At least these numbers were released weekly and in a much more accessible form. Here’s how the critical ‘second dose’ went:</p>
-<p><img src="https://dosull.github.io/posts/2022-03-09-ok-covid-you-win/time-series-2nd-dose.png" class="img-fluid"></p>
+<p><a href="time-series-2nd-dose.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://dosull.github.io/posts/2022-03-09-ok-covid-you-win/time-series-2nd-dose.png" class="img-fluid"></a></p>
 
 
 </section>
@@ -7282,7 +7282,7 @@ font-style: inherit;">plot</span>(square)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="low-level-sf-objects_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -7344,7 +7344,7 @@ font-style: inherit;">plot</span>(square)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="low-level-sf-objects_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -7466,7 +7466,7 @@ font-style: inherit;">plot</span>(triangle)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="low-level-sf-objects_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -7488,7 +7488,7 @@ font-style: inherit;">plot</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="low-level-sf-objects_files/figure-html/unnamed-chunk-9-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -7597,7 +7597,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="low-level-sf-objects_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -7622,7 +7622,7 @@ font-style: inherit;">plot</span>(s3)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="low-level-sf-objects_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -7653,7 +7653,7 @@ font-style: inherit;">$</span>img</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="low-level-sf-objects_files/figure-html/unnamed-chunk-14-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -7740,7 +7740,7 @@ font-style: inherit;">plot</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="low-level-sf-objects_files/figure-html/unnamed-chunk-16-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -7801,7 +7801,7 @@ font-style: inherit;">plot</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="low-level-sf-objects_files/figure-html/unnamed-chunk-18-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>

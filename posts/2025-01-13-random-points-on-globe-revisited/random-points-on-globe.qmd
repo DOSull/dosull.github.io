@@ -3,7 +3,9 @@ title: Random points on the globe revisited
 description: Of Christmas gifts and rabbit holes
 author: "David O'Sullivan"
 toc: true
-lightbox: true
+lightbox:
+  match: auto
+  loop: true
 code-annotations: hover
 filters: 
   - nutshell

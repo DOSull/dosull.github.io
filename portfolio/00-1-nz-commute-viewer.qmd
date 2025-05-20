@@ -1,6 +1,9 @@
 ---
 title: "Aotearoa New Zealand commutes viewer"
 description: "My take on the 2018 Census travel to work and study data"
+lightbox:
+  match: auto
+  loop: true
 title-block-banner: true
 ---
 

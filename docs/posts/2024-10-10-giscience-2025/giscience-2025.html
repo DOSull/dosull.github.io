@@ -43,6 +43,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-966425127c30269e34501eb621c74349.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -216,7 +219,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p><img src="giscience-2025.png" class="img-fluid" style="width:40.0%"></p>
+<p><a href="giscience-2025.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="giscience-2025.png" class="img-fluid" style="width:40.0%"></a></p>
 <p>The first <a href="https://giscience2025.org/#cfp">Call for Submissions to GIScience 2025</a> has just come out (deadline for proceedings papers Jan 31 2025; for other submissions Apr 4 2025).</p>
 <p>We’re excited in Aotearoa New Zealand to be hosting this one, even if <a href="https://dosull.github.io/computing-geographically/other-stuff/giscience-not-GIScience.html">I think it should be called giscience 2025</a> (note the non-capitalisation). I’m on the program committee so look forward (a little nervously) to a flood of submissions. It’s nice for a change that it won’t be us Aotearoans making the long trip.</p>
 <p>The last big geospatial conference in NZ was Geocomputation 2019 which was greatly enjoyed by all who made it, and this one will be even better, I’m certain of it!</p>
@@ -649,6 +652,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":true,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

@@ -1,6 +1,9 @@
 ---
 title: "Science impacts in Antarctica"
 description: "Take only pictures, leave only footprints..."
+lightbox:
+  match: auto
+  loop: true
 title-block-banner: true
 ---
 

@@ -3,6 +3,9 @@ title: "Mapping the Dulux colours"
 description: "The ultimate in categorical mapping"
 author: "David O'Sullivan"
 toc: true
+lightbox:
+  match: auto
+  loop: true
 categories:
   - R
   - geospatial

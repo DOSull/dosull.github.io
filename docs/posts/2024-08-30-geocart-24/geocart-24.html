@@ -47,6 +47,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-contrib/nutshell-1.0.7/nutshell_options.js"></script>
 <script src="../../site_libs/quarto-contrib/videojs/video.min.js"></script>
 <link href="../../site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -236,7 +239,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p><img src="alexander-turnbull-library.jpg" class="img-fluid"></p>
+<p><a href="alexander-turnbull-library.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="alexander-turnbull-library.jpg" class="img-fluid"></a></p>
 <p>Another (even-number year) August coming to a close and <a href="https://cartography.org.nz/geocart2024">another GeoCart’ is over</a>.</p>
 <p>The passing last year of <a href="https://natlib.govt.nz/blog/posts/remembering-igor-drecki-1966-2023">Igor Drecki</a> inevitably cast a shadow. But importantly, and even under that shadow, it was a fun meeting, as Igor would have wanted. Given the current woes of Wellington’s public sector, attendance was as expected down a little, but there were still enough faces old and new for the meeting to retain its usual friendly buzz, without it being too overwhelming.</p>
 <p>The organisers of GeoCart’2024 can be proud of what they achieved in putting on a meeting that Igor would have enjoyed. It bore all the hallmarks of Igor’s vision for the meeting. Many keynotes (perhaps too many, but more on that below…) and many opportunities for informal discussion and exchange in the breaks between presentations, over lunch, and at the Icebreaker and Conference Dinner events. The latter in particular was really excellent—I don’t recall ever before having FOUR choices of starter, main, and dessert at a catered sit-down meal like this one: well done <a href="https://dockside.co.nz/">Dockside</a>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
@@ -739,6 +742,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 </div> <!-- /content -->
 <script>videojs(video_shortcode_videojs_video1);</script>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":true,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

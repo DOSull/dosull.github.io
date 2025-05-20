@@ -1,6 +1,9 @@
 ---
 title: "JEV risk mapping"
 description: "The birds and the... mozzies"
+lightbox:
+  match: auto
+  loop: true
 title-block-banner: true
 ---
 
