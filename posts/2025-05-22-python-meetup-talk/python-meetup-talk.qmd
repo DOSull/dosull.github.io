@@ -1,6 +1,6 @@
 ---
 title: "Look ma! (Almost) no javascript!"
-subtitle: ""
+subtitle: "I gave a talk at the local python meetup"
 from: markdown+emoji
 author: "David O'Sullivan"
 toc: true
