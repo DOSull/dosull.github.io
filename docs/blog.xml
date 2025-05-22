@@ -26,6 +26,7 @@
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/4okZcHhQQgg?si=rqAwnsWM7DKJ4XxG" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <p>If you are mostly interested in how you can make a web app in pure python while writing no javascript, then skip to about 19 minutes in where I talk about <a href="https://docs.marimo.io">marimo</a> and more or less competently demonstrate how easy it is to do. <a href="../../notebooks/2025-02-18-marimo.html">I recently posted about marimo</a> when I first encountered it two or three months ago.</p>
 <p>The app itself is <a href="https://dosull.github.io/mapweaver/app/" target="blank">here<img src="https://dosull.github.io/images/external-link-15px.png"></a>. Be patient: it takes a little while to load, which is why I wrote <em>almost</em> no javascript. The little I did write is to show a splash screen while the app loads in the background!</p>
+<p><a href="mapweaver-ui.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2025-05-22-python-meetup-talk/mapweaver-ui.png" class="img-fluid"></a></p>
 
 
 

@@ -39,4 +39,6 @@ If you are mostly interested in how you can make a web app in pure python while 
 
 The app itself is [here<img src="../../images/external-link-15px.png">](https://dosull.github.io/mapweaver/app/){target="blank"}. Be patient: it takes a little while to load, which is why I wrote _almost_ no javascript. The little I did write is to show a splash screen while the app loads in the background!
 
+![](mapweaver-ui.png)
+
 
