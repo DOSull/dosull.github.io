@@ -37,7 +37,7 @@ The talk was recorded, although the original was pretty choppy as a result of so
 
 If you are mostly interested in how you can make a web app in pure python while writing no javascript, then skip to about 19 minutes in where I talk about [marimo](https://docs.marimo.io) and more or less competently demonstrate how easy it is to do. [I recently posted about marimo](../../notebooks/2025-02-18-marimo.html) when I first encountered it two or three months ago.
 
-The app itself is [here<img src="../../images/external-link-15px.png">](https://dosull.github.io/mapweaver/app/){target="blank"}. Be patient: it takes a little while to load, which is why I wrote _almost_ no javascript. The little I did write is to show a splash screen while the app loads in the background!
+The app itself is [here](https://dosull.github.io/mapweaver/app/){target="blank"}. Be patient: it takes a little while to load, which is why I wrote _almost_ no javascript. The little I did write is to show a splash screen while the app loads in the background!
 
 ![](mapweaver-ui.png)
 
