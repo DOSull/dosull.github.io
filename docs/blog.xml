@@ -210,7 +210,7 @@ X 1.0000000 0.8777758
 Y 0.8777758 1.0000000</code></pre>
 </div>
 </div>
-<p>With pretty high accuracy, if a place is in the ‘north’ island, it is in the ‘east’ island! There are probably better ways to ‘put a number’ on this observation (contingency tables and whatnot), but a correlation coefficient will do for now.</p>
+<p>With pretty high accuracy, if a place is in the ‘north’, it is in the ‘east’! There are probably better ways to ‘put a number’ on this observation (contingency tables and whatnot), but a correlation coefficient will do for now.</p>
 <p>To be serious—for just a paragraph—this correlation between latitudes and longitudes is something to be aware of when doing spatial modelling. In the context, for example, of species distribution models, it’s an open question if latitude or ‘island’ is a better variate to include for this reason, and it’s certainly questionable due to collinearity to include both latitude and longitude in models.<sup>3</sup></p>
 <section id="slicing-and-dicing-the-islands" class="level2">
 <h2 class="anchored" data-anchor-id="slicing-and-dicing-the-islands">Slicing and dicing the islands</h2>
