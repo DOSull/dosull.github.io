@@ -3,7 +3,7 @@ title: "A model for gene drive control of wasps"
 description: "Spoilers: it wouldn't work"
 lightbox:
   match: auto
-  loop: true
+  loop: false
 title-block-banner: true
 ---
 
@@ -11,7 +11,8 @@ Over a number of years, I developed a model of the potential for gene-drives as 
 
 Anyway, the model looks like this:
 
-![](01-1-wasp-model-screenshot.png)
+![](01-1-wasp-model-screenshot.png){group="pics"}
+
 
 The general conclusion is that while the gene drive mechanism we explored would substantially reduce wasp populations this outcome would come with substantial downsides:
 
@@ -19,7 +20,7 @@ The general conclusion is that while the gene drive mechanism we explored would 
 + If control was discontinued before complete eradication, the wild population would rapidly recover, making accurate monitoring of the wild-GM population mix essential.
 + Eradication could only be achieved by releasing _truly vast_ numbers of genetically modified wasps&mdash;many more than there are wild wasps out there! This result is summarised in the figure below
 
-![](01-1-wasp-control-strategy-success.png)
+![](01-1-wasp-control-strategy-success.png){group="pics"}
 
 where only very high intensity releases of GM wasps over many years are successful in eradicating wild wasps. This is Figure 5 from the paper explaining the inner workings and conclusions from the model:
 

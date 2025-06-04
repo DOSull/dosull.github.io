@@ -1,4 +1,5 @@
 library(sf)
+library(units)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -39,7 +40,7 @@ nz_split <- nz |>
          ew_correct = east_c == north) |>
   group_by(ns_correct, ew_correct) |>
   summarise() |>
-  mutate(area = st_area(geom) / 1e6)
+  mutate(area = st_area(geom) |> set_units("km^2"))
 
 nz_split |> st_drop_geometry()
 
@@ -101,14 +102,15 @@ bb <- nz |>
   st_as_sfc() |>
   st_buffer(1e4, nQuadSegs = 0)
 
-voronoi_islands <- nz |> 
+voronoi_islands <- nz |>
+  ms_simplify() |>
   st_cast("POINT") |> 
   st_union() |> 
   st_voronoi() |> 
   st_cast() |> 
   st_as_sf() |> 
   st_intersection(bb) |>
-  st_join(nz) |> 
+  st_join(nz) |>
   group_by(north) |>
   summarise()
 
