@@ -1,0 +1,30 @@
+---
+title: "A model for gene drive control of wasps"
+description: "Spoilers: it wouldn't work"
+lightbox:
+  match: auto
+  loop: true
+title-block-banner: true
+---
+
+Over a number of years, I developed a model of the potential for gene-drives as a control on invasive wasp populations in New Zealand. This included a two year pause for COVID when the original paper was disappointingly rejected after revisions. 
+
+Anyway, the model looks like this:
+
+![](01-1-wasp-model-screenshot.png)
+
+The general conclusion is that while the gene drive mechanism we explored would substantially reduce wasp populations this outcome would come with substantial downsides:
+
++ It would take years. This would make it highly likely that the modified genotype would make it back to the wasps home range in Eurasia, where while annoying (they are wasps after all!) they are an important part of ecosystems.
++ If control was discontinued before complete eradication, the wild population would rapidly recover, making accurate monitoring of the wild-GM population mix essential.
++ Eradication could only be achieved by releasing _truly vast_ numbers of genetically modified wasps&mdash;many more than there are wild wasps out there! This result is summarised in the figure below
+
+![](01-1-wasp-control-strategy-success.png)
+
+where only very high intensity releases of GM wasps over many years are successful in eradicating wild wasps. This is Figure 5 from the paper explaining the inner workings and conclusions from the model:
+
+> Lester PJ, D O’Sullivan and GLW Perry. 2023. Gene drives for invasive wasp control: Extinction is unlikely, with suppression dependent on dispersal and growth rates. Ecological Applications 33(7) e2912. doi: [10.1002/eap.2912](https://dx.doi.org/10.1002/eap.2912)
+
+[I presented an early version of the model](https://southosullivan.com/talks/NZGS-2020-covid-model/) at _Geocomputation 2019_ which is fondly remembered as the last conference before COVID reared its ugly head.
+
+All the materials including the model are available [here](https://figshare.com/articles/journal_contribution/Spatial_gene_drives_for_wasp_control/22144883/3).
