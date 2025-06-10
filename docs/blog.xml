@@ -206,8 +206,8 @@ background-color: null;
 font-style: inherit;">cor</span>(pts)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          X         Y
-X 1.0000000 0.8777758
-Y 0.8777758 1.0000000</code></pre>
+X 1.0000000 0.8515348
+Y 0.8515348 1.0000000</code></pre>
 </div>
 </div>
 <p>With pretty high accuracy, if a place is in the ‘north’, it is in the ‘east’! There are probably better ways to ‘put a number’ on this observation (contingency tables and whatnot), but a correlation coefficient will do for now.</p>
@@ -941,96 +941,104 @@ font-style: inherit;">+</span> g2</span></code></pre></div>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-11" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1">1</button><span id="annotated-cell-11-1" class="code-annotation-target">bb <span class="ot" style="color: #003B4F;
 background-color: null;
-font-style: inherit;">&lt;-</span> nz <span class="sc" style="color: #5E5E5E;
+font-style: inherit;">&lt;-</span> (nz <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_bbox</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5e4</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="annotated-cell-11-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">st_bbox</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span id="annotated-cell-11-3">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">st_as_sfc</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span id="annotated-cell-11-4">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">st_buffer</span>(<span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1e4</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">nQuadSegs =</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>)</span>
-<span id="annotated-cell-11-5"></span>
-<span id="annotated-cell-11-6">voronoi_islands <span class="ot" style="color: #003B4F;
+font-style: inherit;">st_as_sfc</span>()</span>
+<span id="annotated-cell-11-3"></span>
+<span id="annotated-cell-11-4">voronoi_islands <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> nz <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2">2</button><span id="annotated-cell-11-7" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2">2</button><span id="annotated-cell-11-5" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_cast</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"POINT"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="annotated-cell-11-8">  <span class="fu" style="color: #4758AB;
+<span id="annotated-cell-11-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_union</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="annotated-cell-11-9">  <span class="fu" style="color: #4758AB;
+<span id="annotated-cell-11-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_voronoi</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3">3</button><span id="annotated-cell-11-10" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3">3</button><span id="annotated-cell-11-8" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_cast</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="annotated-cell-11-11">  <span class="fu" style="color: #4758AB;
+<span id="annotated-cell-11-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_as_sf</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="annotated-cell-11-12">  <span class="fu" style="color: #4758AB;
+<span id="annotated-cell-11-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_intersection</span>(bb) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="annotated-cell-11-13">  <span class="fu" style="color: #4758AB;
+<span id="annotated-cell-11-11">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_join</span>(nz) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="4">4</button><span id="annotated-cell-11-14" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="4">4</button><span id="annotated-cell-11-12" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">group_by</span>(north) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="annotated-cell-11-15">  <span class="fu" style="color: #4758AB;
+<span id="annotated-cell-11-13">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">summarise</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="1" data-code-annotation="1">The raw Voronoi polygons produced by <code>st_voronoi</code> extend well beyond the area of interest, so make a bounding box to clip them.</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="1" data-code-annotation="1">The raw Voronoi polygons produced by <code>st_voronoi</code> extend well beyond the area of interest, so make a bounding box to clip them. The strange shenanigans with adding to the bounding box is to get properly squared off corners on extended bounding box (<code>st_buffer</code>’s settings don’t seem to allow for this).</span>
 </dd>
 <dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="7" data-code-annotation="2">It’s necessary to merge points into a single multipoint for the Voronoi function to work properly.</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="5" data-code-annotation="2">It’s necessary to merge points into a single multipoint for the Voronoi function to work properly.</span>
 </dd>
 <dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="10" data-code-annotation="3">It’s further necessary to go through a number of steps to massage the polygons into a useable simple features dataset.</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="8" data-code-annotation="3">It’s further necessary to go through a number of steps to massage the polygons into a useable simple features dataset.</span>
 </dd>
 <dt data-target-cell="annotated-cell-11" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="14" data-code-annotation="4">Finally dissolve them into single polygons.</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="12" data-code-annotation="4">Finally dissolve them into single polygons.</span>
 </dd>
 </dl>
 </div>

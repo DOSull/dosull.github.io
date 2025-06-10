@@ -218,10 +218,8 @@ Were the islands ever to split (politically,^[Not entirely impossible to imagine
 
 ```{r}
 #| output: false
-bb <- nz |>                      # <1>
-  st_bbox() |>
-  st_as_sfc() |>
-  st_buffer(1e4, nQuadSegs = 0)
+bb <- (nz |> st_bbox() + 5e4 * c(-1, -1, 1, 1)) |>  # <1>
+  st_as_sfc()
 
 voronoi_islands <- nz |>
   st_cast("POINT") |>            # <2> 
@@ -234,7 +232,7 @@ voronoi_islands <- nz |>
   group_by(north) |>             # <4>
   summarise()
 ```
-1. The raw Voronoi polygons produced by `st_voronoi` extend well beyond the area of interest, so make a bounding box to clip them.
+1. The raw Voronoi polygons produced by `st_voronoi` extend well beyond the area of interest, so make a bounding box to clip them. The strange shenanigans with adding to the bounding box is to get properly squared off corners on extended bounding box (`st_buffer`'s settings don't seem to allow for this).
 2. It's necessary to merge points into a single multipoint for the Voronoi function to work properly.
 3. It's further necessary to go through a number of steps to massage the polygons into a useable simple features dataset.
 4. Finally dissolve them into single polygons.
