@@ -23,6 +23,7 @@ knitr:
     warning: false
     message: false
 date: 06-12-2025
+image: "best-fit-quadrants-1.png"
 ---
 
 This ~~journey into the heart of darkness~~ post was inspired by a LinkedIn post from [Alasdair Rae](https://www.linkedin.com/in/alasdair-rae-17640a124/) linking to [a map he made cutting the UK into four equal population slices](https://automaticknowledge.org/quadmapuk/). The post led to a surprising amount of [complicated mathematical discussion](https://www.reddit.com/r/math/comments/13rj9wa/saw_this_graphic_showing_supposedly_the_uk_being/) on math reddit^[Yes, that's a thing.] concerning whether such a dissection should always be possible, under what conditions, and if the dissection could be extended to more slices. I _think_ the conclusion there is that if the surface (considering the population map as a surface) is everywhere continuous&mdash;roughly speaking it varies smoothly from place to place&mdash;then such a dissection should always be possible. 
@@ -271,7 +272,6 @@ Here's a map, and the estimated populations in each quadrant, which, given the d
 #| label: best-fit-quadrants
 #| lightbox:
 #|   group: maps
-#| classes: preview-image
 xs <- c(79.975, 169.975) |> lapply(bisector, pts = pop_grid)
 x_df <- data.frame(
   slope     = xs |> sapply(get_slope), 
