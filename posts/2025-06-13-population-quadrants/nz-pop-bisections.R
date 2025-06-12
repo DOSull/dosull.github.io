@@ -6,7 +6,7 @@ library(ggplot2)
 library(patchwork)
 library(spatstat)   # for weighted median function
 
-setwd("~/Documents/code/dosull.github.io/posts/_2025-06-13-population-quadrants")
+setwd("~/Documents/code/dosull.github.io/posts/2025-06-13-population-quadrants")
 
 pop_grid <- read.csv("nz-pop-grid-250m.csv")
 cx <- mean(pop_grid$x)
@@ -67,13 +67,13 @@ get_pop_one_side_of_line <- function(pts, sl, above = TRUE) {
 }
 
 # sanity check
-x30 <- weighted_bisector(pop_grid, 30)
-basemap + geom_abline(aes(slope = -x30$A / x30$B, intercept = -x30$C / x30$B),
+x0 <- weighted_bisector(pop_grid, 0)
+basemap + geom_abline(aes(slope = -x0$A / x0$B, intercept = -x0$C / x0$B),
                 linetype = "dashed", lwd = 0.5) +
   guides(fill = "none")
 
-get_pop_one_side_of_line(pop_grid, x30)
-get_pop_one_side_of_line(pop_grid, x30, FALSE)
+get_pop_one_side_of_line(pop_grid, x0)
+get_pop_one_side_of_line(pop_grid, x0, FALSE)
 
 get_quadrant_pops <- function(pts, sl1, sl2) {
   above1 <- get_cells_one_side_of_line(pts, sl1)
@@ -125,3 +125,20 @@ basemap +
   guides(fill = "none")
 
 get_quadrant_pops(pop_grid, xs[[1]], xs[[2]])
+
+
+
+
+weighted_n_sectors <- function(pts, cuts = 1:9/10, horizontal = TRUE, 
+                               xrange = c(-Inf, Inf), yrange = c(-Inf, Inf)) {
+  window <- pts |> filter(x >= xrange[1], x < xrange[2], y >= yrange[1], y < yrange[2])
+  n <- length(cuts)
+  df <- data.frame(h = rep(horizontal, 2 * n))
+  if (horizontal) {
+    intercepts <- weighted.quantile(window$y, window$pop_250m_grid, probs = cuts)
+    df |> mutate(x = rep(xrange, n), y = rep(intercepts, each = 2))
+  } else {
+    intercepts <- weighted.quantile(window$x, window$pop_250m_grid, probs = cuts)
+    df |> mutate(x = rep(intercepts, each = 2), y = rep(yrange, n))
+  }
+}
