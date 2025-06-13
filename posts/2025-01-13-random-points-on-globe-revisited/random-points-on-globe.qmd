@@ -268,7 +268,7 @@ spaced_points <- function(n = 50, choice_scaling = 1.5,
            generator = "Blue noise")
 }
 ```
-1. I use the `outer` function to do all pairwise differences differences and products of data in the two supplied matrices more efficiently than by nested loops.
+1. I use the `outer` function to do all pairwise differences and products of data in the two supplied matrices more efficiently than by nested loops.
 2. The `choice_scaling` parameter determines how rapidly the number of candidate points grows with the size of the existing data set. It should be strictly greater than 1 or no points will ever get added! Including a log factor stops the speed of the algorithm from falling too rapidly as points are added.
 3. The `apply(1, min)` operation finds the smallest distance in each row (i.e. distance to nearest neighbour in the existing set of points), and `which.max()` identifies the row with the largest minimum distance.
 
