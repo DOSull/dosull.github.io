@@ -306,14 +306,23 @@ window.Quarto = {
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
 <span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
 <span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatstat)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-6" class="code-annotation-target"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-8" class="code-annotation-target"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatstat)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="1">for weighted median function</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="6" data-code-annotation="1">For nicer numeric labels on some axes.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="2">For nice multipanel plots.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="8" data-code-annotation="3">For a weighted median function.</span>
 </dd>
 </dl>
 </div>
@@ -378,45 +387,81 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="a-population-bisector-function">A population bisector function</h2>
 <p>Here comes the science…</p>
 <p>I could search for the bisector at a given angle, by sliding a line across a map and moving it forward or backwards depending on the population on either side of it, until I found the desired spot. That would certainly be computationally satisfying, but it’s possible to derive the line directly using a <em>weighted median</em> function. The weighted median of a set of numbers that have an associated weight, is the value at which the total weight associated with numbers above and below the median is equal. <code>spatstat</code> provides a convenient implementation, so we don’t need to do that part.</p>
-<p>We know the slope of the desired straight line. So we rotate our <code>x</code>, <code>y</code> coordinates to lie flat along the horizontal axis and determine the weighted median in the vertical direction. This is the offset of the required straight line from the origin perpendicular to its direction. Some mathematical manipulation based on the <a href="https://mathworld.wolfram.com/StandardForm.html">standard form equation of a straight line</a> <span class="math inline">\(Ax+By+C=0\)</span> given that we know the line’s slope, and its <span class="math inline">\(x\)</span>- and <span class="math inline">\(y\)</span>-intercepts (based on the calculated perpendicular offset) allows us to get the <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, and <span class="math inline">\(C\)</span> coefficients we need. If the desired angle of the bisector is either horizontal or vertical no rotation is needed and we can handle these special cases easily.</p>
+<p>We know the slope of the desired straight line. So we rotate our <code>x</code>, <code>y</code> coordinates such that the bisector would lie flat along the horizontal axis and determine the weighted median in the vertical direction. This is the offset from the origin of the bisector perpendicular to its direction of slope. Some mathematical manipulation based on the <a href="https://mathworld.wolfram.com/StandardForm.html">standard form equation of a straight line</a> <span class="math inline">\(Ax+By+C=0\)</span> given that we know the line’s slope, and its <span class="math inline">\(x\)</span>- and <span class="math inline">\(y\)</span>-intercepts (based on the calculated perpendicular offset) allows us to get the <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, and <span class="math inline">\(C\)</span> coefficients we need. If the desired angle of the bisector is either horizontal or vertical no rotation is needed and we can handle these special cases easily.</p>
 <p>So here’s code for all that, along with a couple of convenience functions to return the slope and <span class="math inline">\(y\)</span> intercept of the straight line.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rotation_matrix <span class="ot">&lt;-</span> <span class="cf">function</span>(a) {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fu">cos</span>(a), <span class="sc">-</span><span class="fu">sin</span>(a), <span class="fu">sin</span>(a), <span class="fu">cos</span>(a)), <span class="dv">2</span>, <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>bisector <span class="ot">&lt;-</span> <span class="cf">function</span>(pts, angle) {</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (angle <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    median_y <span class="ot">&lt;-</span> <span class="fu">weighted.median</span>(pts<span class="sc">$</span>y, pts<span class="sc">$</span>pop_250m_grid)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    A <span class="ot">&lt;-</span> <span class="dv">0</span>; B <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># weighted median of the y's</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    C <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">weighted.median</span>(pts<span class="sc">$</span>y, pts<span class="sc">$</span>pop_250m_grid)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (angle <span class="sc">==</span> <span class="dv">90</span>) {</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    A <span class="ot">&lt;-</span> <span class="dv">1</span>; B <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># weighted median of the x's</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    C <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">weighted.median</span>(pts<span class="sc">$</span>x, pts<span class="sc">$</span>pop_250m_grid)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> angle <span class="sc">*</span> pi <span class="sc">/</span> <span class="dv">180</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    pts_r <span class="ot">&lt;-</span> <span class="fu">rotation_matrix</span>(<span class="sc">-</span>a) <span class="sc">%*%</span> <span class="fu">matrix</span>(<span class="fu">c</span>(pts<span class="sc">$</span>x, pts<span class="sc">$</span>y), </span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    median_y <span class="ot">&lt;-</span> <span class="fu">weighted.median</span>(pts_r[<span class="dv">2</span>, ], pts<span class="sc">$</span>pop_250m_grid)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    A <span class="ot">&lt;-</span>  median_y <span class="sc">/</span> <span class="fu">cos</span>(a)</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    B <span class="ot">&lt;-</span> <span class="sc">-</span>median_y <span class="sc">/</span> <span class="fu">sin</span>(a)</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    C <span class="ot">&lt;-</span> <span class="sc">-</span>A <span class="sc">*</span> B</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">A =</span> A, <span class="at">B =</span> B, <span class="at">C =</span> C)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>get_slope <span class="ot">&lt;-</span> <span class="cf">function</span>(sl) {<span class="sc">-</span>sl<span class="sc">$</span>A <span class="sc">/</span> sl<span class="sc">$</span>B}</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>get_intercept <span class="ot">&lt;-</span> <span class="cf">function</span>(sl) {<span class="sc">-</span>sl<span class="sc">$</span>C <span class="sc">/</span> sl<span class="sc">$</span>B}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>rotation_matrix <span class="ot">&lt;-</span> <span class="cf">function</span>(a) {</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fu">cos</span>(a), <span class="sc">-</span><span class="fu">sin</span>(a), <span class="fu">sin</span>(a), <span class="fu">cos</span>(a)), <span class="dv">2</span>, <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>bisector <span class="ot">&lt;-</span> <span class="cf">function</span>(pts, angle) {</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (angle <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>    median_y <span class="ot">&lt;-</span> <span class="fu">weighted.median</span>(pts<span class="sc">$</span>y, pts<span class="sc">$</span>pop_250m_grid)</span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>    A <span class="ot">&lt;-</span> <span class="dv">0</span>; B <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-9" class="code-annotation-target"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>    C <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">weighted.median</span>(pts<span class="sc">$</span>y, pts<span class="sc">$</span>pop_250m_grid)</span>
+<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (angle <span class="sc">==</span> <span class="dv">90</span>) {</span>
+<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>    A <span class="ot">&lt;-</span> <span class="dv">1</span>; B <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-12" class="code-annotation-target"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>    C <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">weighted.median</span>(pts<span class="sc">$</span>x, pts<span class="sc">$</span>pop_250m_grid)</span>
+<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> angle <span class="sc">*</span> pi <span class="sc">/</span> <span class="dv">180</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-15" class="code-annotation-target"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a>    pts_r <span class="ot">&lt;-</span> <span class="fu">rotation_matrix</span>(<span class="sc">-</span>a) <span class="sc">%*%</span></span>
+<span id="annotated-cell-4-16"><a href="#annotated-cell-4-16" aria-hidden="true" tabindex="-1"></a>             <span class="fu">matrix</span>(<span class="fu">c</span>(pts<span class="sc">$</span>x, pts<span class="sc">$</span>y), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="annotated-cell-4-17"><a href="#annotated-cell-4-17" aria-hidden="true" tabindex="-1"></a>    median_y <span class="ot">&lt;-</span> <span class="fu">weighted.median</span>(pts_r[<span class="dv">2</span>, ], pts<span class="sc">$</span>pop_250m_grid)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4">4</button><span id="annotated-cell-4-18" class="code-annotation-target"><a href="#annotated-cell-4-18" aria-hidden="true" tabindex="-1"></a>    A <span class="ot">&lt;-</span>  median_y <span class="sc">/</span> <span class="fu">cos</span>(a)</span>
+<span id="annotated-cell-4-19"><a href="#annotated-cell-4-19" aria-hidden="true" tabindex="-1"></a>    B <span class="ot">&lt;-</span> <span class="sc">-</span>median_y <span class="sc">/</span> <span class="fu">sin</span>(a)</span>
+<span id="annotated-cell-4-20"><a href="#annotated-cell-4-20" aria-hidden="true" tabindex="-1"></a>    C <span class="ot">&lt;-</span> <span class="sc">-</span>A <span class="sc">*</span> B</span>
+<span id="annotated-cell-4-21"><a href="#annotated-cell-4-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-4-22"><a href="#annotated-cell-4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">A =</span> A, <span class="at">B =</span> B, <span class="at">C =</span> C)</span>
+<span id="annotated-cell-4-23"><a href="#annotated-cell-4-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-4-24"><a href="#annotated-cell-4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-25"><a href="#annotated-cell-4-25" aria-hidden="true" tabindex="-1"></a>get_slope <span class="ot">&lt;-</span> <span class="cf">function</span>(straight_line) {</span>
+<span id="annotated-cell-4-26"><a href="#annotated-cell-4-26" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span>straight_line<span class="sc">$</span>A <span class="sc">/</span> straight_line<span class="sc">$</span>B</span>
+<span id="annotated-cell-4-27"><a href="#annotated-cell-4-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-4-28"><a href="#annotated-cell-4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-29"><a href="#annotated-cell-4-29" aria-hidden="true" tabindex="-1"></a>get_intercept <span class="ot">&lt;-</span> <span class="cf">function</span>(straight_line) {</span>
+<span id="annotated-cell-4-30"><a href="#annotated-cell-4-30" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span>straight_line<span class="sc">$</span>C <span class="sc">/</span> straight_line<span class="sc">$</span>B</span>
+<span id="annotated-cell-4-31"><a href="#annotated-cell-4-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-4-32"><a href="#annotated-cell-4-32" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="5">5</button><span id="annotated-cell-4-33" class="code-annotation-target"><a href="#annotated-cell-4-33" aria-hidden="true" tabindex="-1"></a>get_ggline <span class="ot">&lt;-</span> <span class="cf">function</span>(straight_line, ...) {</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="6">6</button><span id="annotated-cell-4-34" class="code-annotation-target"><a href="#annotated-cell-4-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (straight_line<span class="sc">$</span>B <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="annotated-cell-4-35"><a href="#annotated-cell-4-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="sc">-</span>straight_line<span class="sc">$</span>C <span class="sc">/</span> straight_line<span class="sc">$</span>A), ...)</span>
+<span id="annotated-cell-4-36"><a href="#annotated-cell-4-36" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="annotated-cell-4-37"><a href="#annotated-cell-4-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="fu">aes</span>(<span class="at">intercept =</span> <span class="fu">get_intercept</span>(straight_line), </span>
+<span id="annotated-cell-4-38"><a href="#annotated-cell-4-38" aria-hidden="true" tabindex="-1"></a>                    <span class="at">slope =</span> <span class="fu">get_slope</span>(straight_line)), ...)</span>
+<span id="annotated-cell-4-39"><a href="#annotated-cell-4-39" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-4-40"><a href="#annotated-cell-4-40" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="9" data-code-annotation="1">For the horizontal bisector we want the weighted median of the y coordinates.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="12" data-code-annotation="2">And for the vertical bisector, the weighted median of the x coordinates.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="15" data-code-annotation="3">Rotate coordinates by the negative of the line’s slope angle so we can find the weighted median perpendicular to the line.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="18" data-code-annotation="4">You’ll have to trust me on the calculation for <code>A</code>, <code>B</code>, and <code>C</code>, but keep in mind that since <span class="math inline">\(Ax+By+C=0\)</span>, the gradient of the line is given by <span class="math inline">\(-A/B\)</span> and by inspection that’s true of these calculations, so that part checks out!</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="33" data-code-annotation="5"><code>...</code> means we can pass additional plot options in from the calling code.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="34" data-code-annotation="6">When <code>B == 0</code> the line is vertical so we need a <code>geom_vline</code></span>
+</dd>
+</dl>
 </div>
-<ol type="1">
-<li>Rotate coordinates by the negative of the line’s slope angle so we can find the weighted median perpendicular to the line.</li>
-</ol>
+</div>
 <p>For a given bisector we can determine which cells are either side of it by checking if <span class="math inline">\(Ax+By+C\)</span> is positive or negative. Given that result, we can also easily determine the population either side of such a line.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -450,11 +495,9 @@ window.Quarto = {
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x30 <span class="ot">&lt;-</span> <span class="fu">bisector</span>(pop_grid, <span class="dv">30</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>basemap <span class="sc">+</span> <span class="fu">geom_abline</span>(<span class="fu">aes</span>(<span class="at">slope =</span> <span class="fu">get_slope</span>(x30), </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">intercept =</span> <span class="fu">get_intercept</span>(x30)),</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x30 <span class="ot">&lt;-</span> <span class="fu">bisector</span>(pop_grid, <span class="dv">30</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>basemap <span class="sc">+</span> <span class="fu">get_ggline</span>(x30, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -468,8 +511,8 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">get_pop_one_side_of_line</span>(pop_grid, x30),</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_pop_one_side_of_line</span>(pop_grid, x30, <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">get_pop_one_side_of_line</span>(pop_grid, x30),</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_pop_one_side_of_line</span>(pop_grid, x30, <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2542977 2543049</code></pre>
@@ -529,8 +572,9 @@ window.Quarto = {
 <span id="annotated-cell-9-16"><a href="#annotated-cell-9-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">"Estimated population"</span>) <span class="sc">+</span></span>
 <span id="annotated-cell-9-17"><a href="#annotated-cell-9-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> angles[<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">length</span>(angles), <span class="dv">10</span>)],</span>
 <span id="annotated-cell-9-18"><a href="#annotated-cell-9-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">minor_breaks =</span> angles) <span class="sc">+</span></span>
-<span id="annotated-cell-9-19"><a href="#annotated-cell-9-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
-<span id="annotated-cell-9-20"><a href="#annotated-cell-9-20" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-9-19"><a href="#annotated-cell-9-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">scale_cut =</span> <span class="fu">cut_short_scale</span>())) <span class="sc">+</span></span>
+<span id="annotated-cell-9-20"><a href="#annotated-cell-9-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
+<span id="annotated-cell-9-21"><a href="#annotated-cell-9-21" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
@@ -545,11 +589,11 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">plot_range</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">90</span>) </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>g1 <span class="sc">+</span> <span class="fu">annotate</span>(<span class="st">"rect"</span>, <span class="at">xmin =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">76.5</span>, <span class="dv">79</span>), </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">xmax =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">78.5</span>, <span class="dv">81</span>), </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill =</span> <span class="st">"goldenrod"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">lwd =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">plot_range</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">90</span>) </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>g1 <span class="sc">+</span> <span class="fu">annotate</span>(<span class="st">"rect"</span>, <span class="at">xmin =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">76.5</span>, <span class="dv">79</span>), </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">xmax =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">78.5</span>, <span class="dv">81</span>), </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill =</span> <span class="st">"goldenrod"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">lwd =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -563,10 +607,10 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">plot_range</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>,  <span class="fl">0.5</span>, <span class="fl">0.025</span>)) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>g3 <span class="ot">&lt;-</span> <span class="fu">plot_range</span>(<span class="fu">seq</span>(  <span class="dv">77</span>,   <span class="dv">78</span>, <span class="fl">0.025</span>)) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>g4 <span class="ot">&lt;-</span> <span class="fu">plot_range</span>(<span class="fu">seq</span>(<span class="fl">79.5</span>, <span class="fl">80.5</span>, <span class="fl">0.025</span>)) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>(g2 <span class="sc">+</span> g3<span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">axes =</span> <span class="st">"collect"</span>)) <span class="sc">/</span> g4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">plot_range</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>,  <span class="fl">0.5</span>, <span class="fl">0.025</span>)) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>g3 <span class="ot">&lt;-</span> <span class="fu">plot_range</span>(<span class="fu">seq</span>(  <span class="dv">77</span>,   <span class="dv">78</span>, <span class="fl">0.025</span>)) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>g4 <span class="ot">&lt;-</span> <span class="fu">plot_range</span>(<span class="fu">seq</span>(<span class="fl">79.5</span>, <span class="fl">80.5</span>, <span class="fl">0.025</span>)) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>(g2 <span class="sc">+</span> g3 <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">axes =</span> <span class="st">"collect"</span>)) <span class="sc">/</span> g4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -585,16 +629,16 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>xs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">79.975</span>, <span class="fl">169.975</span>) <span class="sc">|&gt;</span> <span class="fu">lapply</span>(bisector, <span class="at">pts =</span> pop_grid)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">slope     =</span> xs <span class="sc">|&gt;</span> <span class="fu">sapply</span>(get_slope), </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">intercept =</span> xs <span class="sc">|&gt;</span> <span class="fu">sapply</span>(get_intercept))</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>basemap <span class="sc">+</span> </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">data =</span> x_df, </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">slope =</span> slope, <span class="at">intercept =</span> intercept),</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>xs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">79.975</span>, <span class="fl">169.975</span>) <span class="sc">|&gt;</span> <span class="fu">lapply</span>(bisector, <span class="at">pts =</span> pop_grid)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">slope     =</span> xs <span class="sc">|&gt;</span> <span class="fu">sapply</span>(get_slope), </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">intercept =</span> xs <span class="sc">|&gt;</span> <span class="fu">sapply</span>(get_intercept))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>basemap <span class="sc">+</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">data =</span> x_df, </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">slope =</span> slope, <span class="at">intercept =</span> intercept),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -605,7 +649,7 @@ window.Quarto = {
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_quadrant_pops</span>(pop_grid, xs[[<span class="dv">1</span>]], xs[[<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_quadrant_pops</span>(pop_grid, xs[[<span class="dv">1</span>]], xs[[<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1271354 1271442 1271630 1271600</code></pre>

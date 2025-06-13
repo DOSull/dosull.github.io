@@ -41,10 +41,13 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 library(ggplot2)
-library(patchwork)
-library(spatstat)   # <1>
+library(scales)     # <1>
+library(patchwork)  # <2>
+library(spatstat)   # <3>
 ```
-1. for weighted median function
+1. For nicer numeric labels on some axes.
+2. For nice multipanel plots.
+3. For a weighted median function.
 
 ## Data
 I used gridded population data for New Zealand at 250m resolution. The exact dataset I used was the early release data sitting around on my hard drive from when I made [this map](https://dosull.github.io/30-day-maps-2023/maps/29-population.html). You can get current releases of the same [data here](https://datafinder.stats.govt.nz/data/?q=gridded+population). I converted the gridded data to an `x`, `y`, `population` CSV file because that's all I need for the process I followed. I also adjusted the coordinates by centring them on their mean centre. This is to keep the coordinate values in check when we start rotating points around an origin.
@@ -106,7 +109,7 @@ Here comes the science...
 
 I could search for the bisector at a given angle, by sliding a line across a map and moving it forward or backwards depending on the population on either side of it, until I found the desired spot. That would certainly be computationally satisfying, but it's possible to derive the line directly using a _weighted median_ function. The weighted median of a set of numbers that have an associated weight, is the value at which the total weight associated with numbers above and below the median is equal. `spatstat` provides a convenient implementation, so we don't need to do that part.
 
-We know the slope of the desired straight line. So we rotate our `x`, `y` coordinates to lie flat along the horizontal axis and determine the weighted median in the vertical direction. This is the offset of the required straight line from the origin perpendicular to its direction. Some mathematical manipulation based on the [standard form equation of a straight line](https://mathworld.wolfram.com/StandardForm.html) $Ax+By+C=0$ given that we know the line's slope, and its $x$- and $y$-intercepts (based on the calculated perpendicular offset) allows us to get the $A$, $B$, and $C$ coefficients we need. If the desired angle of the bisector is either horizontal or vertical no rotation is needed and we can handle these special cases easily.
+We know the slope of the desired straight line. So we rotate our `x`, `y` coordinates such that the bisector would lie flat along the horizontal axis and determine the weighted median in the vertical direction. This is the offset from the origin of the bisector perpendicular to its direction of slope. Some mathematical manipulation based on the [standard form equation of a straight line](https://mathworld.wolfram.com/StandardForm.html) $Ax+By+C=0$ given that we know the line's slope, and its $x$- and $y$-intercepts (based on the calculated perpendicular offset) allows us to get the $A$, $B$, and $C$ coefficients we need. If the desired angle of the bisector is either horizontal or vertical no rotation is needed and we can handle these special cases easily.
 
 So here's code for all that, along with a couple of convenience functions to return the slope and $y$ intercept of the straight line.
 
@@ -121,29 +124,45 @@ bisector <- function(pts, angle) {
   if (angle == 0) {
     median_y <- weighted.median(pts$y, pts$pop_250m_grid)
     A <- 0; B <- 1
-    # weighted median of the y's
-    C <- -weighted.median(pts$y, pts$pop_250m_grid)
+    C <- -weighted.median(pts$y, pts$pop_250m_grid)                 # <1>
   } else if (angle == 90) {
     A <- 1; B <- 0
-    # weighted median of the x's
-    C <- -weighted.median(pts$x, pts$pop_250m_grid)
+    C <- -weighted.median(pts$x, pts$pop_250m_grid)                 # <2>
   } else {
     a <- angle * pi / 180
-    pts_r <- rotation_matrix(-a) %*% matrix(c(pts$x, pts$y), 
-                                       nrow = 2, byrow = TRUE)
+    pts_r <- rotation_matrix(-a) %*%                                # <3>
+             matrix(c(pts$x, pts$y), nrow = 2, byrow = TRUE)
     median_y <- weighted.median(pts_r[2, ], pts$pop_250m_grid)
-    A <-  median_y / cos(a)
+    A <-  median_y / cos(a)                                         # <4>
     B <- -median_y / sin(a)
     C <- -A * B
   }
   list(A = A, B = B, C = C)
 }
 
-get_slope <- function(sl) {-sl$A / sl$B}
+get_slope <- function(straight_line) {
+  -straight_line$A / straight_line$B
+}
 
-get_intercept <- function(sl) {-sl$C / sl$B}
+get_intercept <- function(straight_line) {
+  -straight_line$C / straight_line$B
+}
+
+get_ggline <- function(straight_line, ...) {                        # <5>
+  if (straight_line$B == 0) {                                       # <6>
+    geom_vline(aes(xintercept = -straight_line$C / straight_line$A), ...)
+  } else {
+    geom_abline(aes(intercept = get_intercept(straight_line), 
+                    slope = get_slope(straight_line)), ...)
+  }
+}
 ```
-1. Rotate coordinates by the negative of the line's slope angle so we can find the weighted median perpendicular to the line.
+1. For the horizontal bisector we want the weighted median of the y coordinates.
+2. And for the vertical bisector, the weighted median of the x coordinates.
+3. Rotate coordinates by the negative of the line's slope angle so we can find the weighted median perpendicular to the line.
+4. You'll have to trust me on the calculation for `A`, `B`, and `C`, but keep in mind that since $Ax+By+C=0$, the gradient of the line is given by $-A/B$ and by inspection that's true of these calculations, so that part checks out! 
+5. `...` means we can pass additional plot options in from the calling code.
+6. When `B == 0` the line is vertical so we need a `geom_vline`
 
 For a given bisector we can determine which cells are either side of it by checking if $Ax+By+C$ is positive or negative. Given that result, we can also easily determine the population either side of such a line.
 
@@ -175,9 +194,7 @@ OK. So let's see if all that has worked by running an example for a line at 30&d
 #|   group: maps
 #| code-fold: show
 x30 <- bisector(pop_grid, 30)
-basemap + geom_abline(aes(slope = get_slope(x30), 
-                          intercept = get_intercept(x30)),
-                          linetype = "dashed", lwd = 0.5) +
+basemap + get_ggline(x30, linetype = "dashed", lwd = 0.5) +
   guides(fill = "none")
 ```
 
@@ -232,6 +249,7 @@ plot_range <- function(angles) {
     ylab("Estimated population") +
     scale_x_continuous(breaks = angles[seq(1, length(angles), 10)],
                        minor_breaks = angles) +
+    scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
     theme_minimal()
 }
 ```
@@ -259,7 +277,7 @@ As expected these are actually two pairs of equal sums given that the two lines 
 g2 <- plot_range(seq(-0.5,  0.5, 0.025)) + guides(colour = "none")
 g3 <- plot_range(seq(  77,   78, 0.025)) + guides(colour = "none")
 g4 <- plot_range(seq(79.5, 80.5, 0.025)) + guides(colour = "none")
-(g2 + g3+ plot_layout(axes = "collect")) / g4
+(g2 + g3 + plot_layout(axes = "collect")) / g4
 ```
 
 _Probably_ for a continuous, infinitely divisible population surface these would all be solutions to our quartering problem, but if we have a closer look (below) we can see that only the solution close to 80&deg; actually converges for our discretised data. The other two cases have (I assume) some population grid cells jumping back and forward across our lines as we shift them slightly. On a continuous population surface I assume the behaviour at these angles would be more like the smooth variation we see in the 80&deg; case.^[Probably... I can't be absolutely certain of this. We'd have to look more closely to investigate which grid cells are 'jumping around' at these values to confirm this assumption.]
