@@ -85,7 +85,7 @@ basemap <- ggplot(nz) +
 basemap
 ```
 
-Once again, no Chatham Islands, although, since this problem is all about medians not means, it's unlikely that outlier population would make much difference to these calculations. To a first order approximation everyone is in Auckland&mdash;that concentration of population at the narrowest point of the northern isthmus of Te Ika-a-Māui.^[Back in the day, this made a lot of sense as an overland shortcut between a harbour on the Pacific and another on the Tasman. Now as a place to concentrate your population it's not so obviously a good choice.] Not really, but Auckland does loom large in what follows, as it does in [cartograms of New Zealand population](https://computinggeographically.org/chapters/chap2/fig2-02-cartograms.html).
+The Chatham Islands are included here, although, since this problem is all about medians not means, it's unlikely that outlier population makes much difference to these calculations. In any case, to a first order approximation everyone is in Auckland&mdash;that concentration of population at the narrowest point of the northern isthmus of Te Ika-a-Māui.^[Back in the day, this made a lot of sense as an overland shortcut between a harbour on the Pacific and another on the Tasman. Now as a place to concentrate your population it's not so obviously a good choice.] Not really, but Auckland does loom large in what follows, as it does in [cartograms of New Zealand population](https://computinggeographically.org/chapters/chap2/fig2-02-cartograms.html).
 
 ## A concept of a plan of an algorithm
 I briefly contemplated taking an approach similar to that outlined in the mathematical background above, but decided against it. Partly this was because building it would involve (broadly) two steps:
