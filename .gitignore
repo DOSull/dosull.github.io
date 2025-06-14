@@ -13,3 +13,4 @@ _site/
 /.quarto/
 notebooks/meet-marimo/
 __comics/
+posts/_*/
