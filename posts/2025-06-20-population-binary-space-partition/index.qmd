@@ -1,6 +1,7 @@
 ---
 title: "A population based binary space partition"
 subtitle: "Of course there's a point, I'm just not sure what"
+description: "A process for building a hierarchical partition of a gridded population dataset"
 from: markdown+emoji
 author: "David O'Sullivan"
 toc: true

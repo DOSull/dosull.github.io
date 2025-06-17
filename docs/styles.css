@@ -171,3 +171,6 @@ i {
     width:fit-content();
 }
 
+.description {
+  display: none
+}
