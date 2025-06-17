@@ -28,6 +28,17 @@
 <p>The thought was something like, bisect the population data (by population), then bisect each half, then bisect each quarter and so on. The bisection procedure using weighted medians was thoroughly explored in the earlier post.</p>
 <p>Now, as promised, here’s that iterative bisection process, which yields something like a population quadtree. Each leaf of the tree accounts for some power-of-two fraction of the population (in the example below 1/1024th). If we had the location of every individual in the data as a point, the result is roughly what we would get if we were adding those points to a <a href="https://en.wikipedia.org/wiki/Binary_space_partitioning">binary space partition</a> data structure.</p>
 <p>It would be nice to do this as a quad-tree where at each step we subdivide the population into 4 more or less equal groups, but that would require allowing the lines subdividing the space to be at arbitrary angles at each step and would demand much more complicated coding than what follows. Sticking to halving the population at each step means we can work with only east-west or north-south bisectors and simplifies matters greatly. I’ll set the more complicated quad-tree approach to one side for now.</p>
+<p>As an indication of where we are going, here’s the end result, showing approximately equal population rectangular areas around Christchurch.</p>
+<div id="fig-christchurch-zoomed-in" class="quarto-float quarto-figure quarto-figure-center anchored" data-group="maps">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-christchurch-zoomed-in-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="chch-closeup.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;1: A zoomed in map of the Christchurch area."><img src="https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/chch-closeup.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-christchurch-zoomed-in-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: A zoomed in map of the Christchurch area.
+</figcaption>
+</figure>
+</div>
 <section id="preliminaries" class="level2">
 <h2 class="anchored" data-anchor-id="preliminaries">Preliminaries</h2>
 <p>As usual, we need some libraries and data.</p>
@@ -753,10 +764,10 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
 <div id="fig-final-layer" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-final-layer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-final-layer-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;1: All 1024 cells at level 11 of the partition."><img src="https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/index_files/figure-html/fig-final-layer-1.png" class="img-fluid figure-img" width="672"></a>
+<a href="index_files/figure-html/fig-final-layer-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;2: All 1024 cells at level 11 of the partition."><img src="https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/index_files/figure-html/fig-final-layer-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-final-layer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: All 1024 cells at level 11 of the partition.
+Figure&nbsp;2: All 1024 cells at level 11 of the partition.
 </figcaption>
 </figure>
 </div>
@@ -831,10 +842,10 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
 <div id="fig-all-layers" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-all-layers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-all-layers-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;2: The sequence of bisections along the way to 1024 rectangles."><img src="https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/index_files/figure-html/fig-all-layers-1.png" class="img-fluid figure-img" width="672"></a>
+<a href="index_files/figure-html/fig-all-layers-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;3: The sequence of bisections along the way to 1024 rectangles."><img src="https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/index_files/figure-html/fig-all-layers-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-all-layers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: The sequence of bisections along the way to 1024 rectangles.
+Figure&nbsp;3: The sequence of bisections along the way to 1024 rectangles.
 </figcaption>
 </figure>
 </div>
@@ -883,29 +894,7 @@ font-style: inherit;">+</span> </span>
 background-color: null;
 font-style: inherit;">geom_tile</span>(<span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">data =</span> pop <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">filter</span>(x <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&gt;=</span> bb[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>], x <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;=</span> bb[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">3</span>], </span>
-<span id="cb3-5">                                 y <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&gt;=</span> bb[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>], y <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;=</span> bb[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span>]), </span>
-<span id="cb3-6">            <span class="fu" style="color: #4758AB;
+font-style: inherit;">data =</span> pop, <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -916,7 +905,7 @@ background-color: null;
 font-style: inherit;">fill =</span> pop_250m_grid)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb3-7">  <span class="fu" style="color: #4758AB;
+<span id="cb3-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_fill_distiller</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -929,7 +918,7 @@ background-color: null;
 font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb3-8">  <span class="fu" style="color: #4758AB;
+<span id="cb3-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -948,7 +937,7 @@ background-color: null;
 font-style: inherit;">0.3</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> </span>
-<span id="cb3-9">  <span class="fu" style="color: #4758AB;
+<span id="cb3-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -961,7 +950,7 @@ background-color: null;
 font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">11</span>), </span>
-<span id="cb3-10">          <span class="at" style="color: #657422;
+<span id="cb3-8">          <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -976,7 +965,7 @@ background-color: null;
 font-style: inherit;">0.2</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb3-11">  <span class="fu" style="color: #4758AB;
+<span id="cb3-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">coord_sf</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1001,7 +990,7 @@ background-color: null;
 font-style: inherit;">FALSE</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb3-12">  <span class="fu" style="color: #4758AB;
+<span id="cb3-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">guides</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1010,12 +999,12 @@ background-color: null;
 font-style: inherit;">"none"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb3-13">  <span class="fu" style="color: #4758AB;
+<span id="cb3-11">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_void</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb3-14">  <span class="fu" style="color: #4758AB;
+<span id="cb3-12">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1027,10 +1016,10 @@ font-style: inherit;">fill =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
 font-style: inherit;">NA</span>, <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">linewidth =</span> <span class="dv" style="color: #AD0000;
+font-style: inherit;">linewidth =</span> <span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1</span>), </span>
-<span id="cb3-15">        <span class="at" style="color: #657422;
+font-style: inherit;">0.5</span>), </span>
+<span id="cb3-13">        <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">panel.background =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1044,10 +1033,10 @@ font-style: inherit;">"#1e90ff30"</span>))</span></code></pre></div>
 <div id="fig-close-up-auckland" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-close-up-auckland-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-close-up-auckland-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;3: A zoomed in view around Auckland of the final layer of the partition."><img src="https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/index_files/figure-html/fig-close-up-auckland-1.png" class="img-fluid figure-img" width="672"></a>
+<a href="index_files/figure-html/fig-close-up-auckland-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;4: A zoomed in view around Auckland of the final layer of the partition."><img src="https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/index_files/figure-html/fig-close-up-auckland-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-close-up-auckland-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: A zoomed in view around Auckland of the final layer of the partition.
+Figure&nbsp;4: A zoomed in view around Auckland of the final layer of the partition.
 </figcaption>
 </figure>
 </div>
@@ -1136,7 +1125,6 @@ font-style: inherit;">FALSE</span>)</span></code></pre></div>
   <category>cartography</category>
   <guid>https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/</guid>
   <pubDate>Thu, 19 Jun 2025 12:00:00 GMT</pubDate>
-  <media:content url="https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/auckland-closeup.png" medium="image" type="image/png" height="103" width="144"/>
 </item>
 <item>
   <title>How to cut a cake into four equal slices</title>

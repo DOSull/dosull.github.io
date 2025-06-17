@@ -285,6 +285,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The thought was something like, bisect the population data (by population), then bisect each half, then bisect each quarter and so on. The bisection procedure using weighted medians was thoroughly explored in the earlier post.</p>
 <p>Now, as promised, here’s that iterative bisection process, which yields something like a population quadtree. Each leaf of the tree accounts for some power-of-two fraction of the population (in the example below 1/1024th). If we had the location of every individual in the data as a point, the result is roughly what we would get if we were adding those points to a <a href="https://en.wikipedia.org/wiki/Binary_space_partitioning">binary space partition</a> data structure.</p>
 <p>It would be nice to do this as a quad-tree where at each step we subdivide the population into 4 more or less equal groups, but that would require allowing the lines subdividing the space to be at arbitrary angles at each step and would demand much more complicated coding than what follows. Sticking to halving the population at each step means we can work with only east-west or north-south bisectors and simplifies matters greatly. I’ll set the more complicated quad-tree approach to one side for now.</p>
+<p>As an indication of where we are going, here’s the end result, showing approximately equal population rectangular areas around Christchurch.</p>
+<div id="fig-christchurch-zoomed-in" class="quarto-float quarto-figure quarto-figure-center anchored" data-group="maps">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-christchurch-zoomed-in-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="chch-closeup.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;1: A zoomed in map of the Christchurch area."><img src="chch-closeup.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-christchurch-zoomed-in-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: A zoomed in map of the Christchurch area.
+</figcaption>
+</figure>
+</div>
 <section id="preliminaries" class="level2">
 <h2 class="anchored" data-anchor-id="preliminaries">Preliminaries</h2>
 <p>As usual, we need some libraries and data.</p>
@@ -484,10 +495,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="fig-final-layer" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-final-layer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-final-layer-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;1: All 1024 cells at level 11 of the partition."><img src="index_files/figure-html/fig-final-layer-1.png" class="img-fluid figure-img" width="672"></a>
+<a href="index_files/figure-html/fig-final-layer-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;2: All 1024 cells at level 11 of the partition."><img src="index_files/figure-html/fig-final-layer-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-final-layer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: All 1024 cells at level 11 of the partition.
+Figure&nbsp;2: All 1024 cells at level 11 of the partition.
 </figcaption>
 </figure>
 </div>
@@ -508,10 +519,10 @@ Figure&nbsp;1: All 1024 cells at level 11 of the partition.
 <div id="fig-all-layers" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-all-layers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-all-layers-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;2: The sequence of bisections along the way to 1024 rectangles."><img src="index_files/figure-html/fig-all-layers-1.png" class="img-fluid figure-img" width="672"></a>
+<a href="index_files/figure-html/fig-all-layers-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;3: The sequence of bisections along the way to 1024 rectangles."><img src="index_files/figure-html/fig-all-layers-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-all-layers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: The sequence of bisections along the way to 1024 rectangles.
+Figure&nbsp;3: The sequence of bisections along the way to 1024 rectangles.
 </figcaption>
 </figure>
 </div>
@@ -526,27 +537,25 @@ Figure&nbsp;2: The sequence of bisections along the way to 1024 rectangles.
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>bb <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.735e6</span>, <span class="fl">5.895e6</span>, <span class="fl">1.785e6</span>, <span class="fl">5.935e6</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> nz, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">lwd =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">data =</span> pop <span class="sc">|&gt;</span> <span class="fu">filter</span>(x <span class="sc">&gt;=</span> bb[<span class="dv">1</span>], x <span class="sc">&lt;=</span> bb[<span class="dv">3</span>], </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                                 y <span class="sc">&gt;=</span> bb[<span class="dv">2</span>], y <span class="sc">&lt;=</span> bb[<span class="dv">4</span>]), </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">fill =</span> pop_250m_grid)) <span class="sc">+</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">"Reds"</span>, <span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> nz, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">colour =</span> <span class="st">"#1e90ff80"</span>, <span class="at">lwd =</span> <span class="fl">0.3</span>) <span class="sc">+</span> </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> all_levels <span class="sc">|&gt;</span> <span class="fu">filter</span>(level <span class="sc">==</span> <span class="dv">11</span>), </span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">fill =</span> <span class="st">"#00000030"</span>, <span class="at">colour =</span> <span class="st">"white"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> bb[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], <span class="at">ylim =</span> bb[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">linewidth =</span> <span class="dv">1</span>), </span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#1e90ff30"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">data =</span> pop, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">fill =</span> pop_250m_grid)) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">"Reds"</span>, <span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> nz, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">colour =</span> <span class="st">"#1e90ff80"</span>, <span class="at">lwd =</span> <span class="fl">0.3</span>) <span class="sc">+</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> all_levels <span class="sc">|&gt;</span> <span class="fu">filter</span>(level <span class="sc">==</span> <span class="dv">11</span>), </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">fill =</span> <span class="st">"#00000030"</span>, <span class="at">colour =</span> <span class="st">"white"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> bb[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], <span class="at">ylim =</span> bb[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>), </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#1e90ff30"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-close-up-auckland" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-close-up-auckland-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-close-up-auckland-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;3: A zoomed in view around Auckland of the final layer of the partition."><img src="index_files/figure-html/fig-close-up-auckland-1.png" class="img-fluid figure-img" width="672"></a>
+<a href="index_files/figure-html/fig-close-up-auckland-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;4: A zoomed in view around Auckland of the final layer of the partition."><img src="index_files/figure-html/fig-close-up-auckland-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-close-up-auckland-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: A zoomed in view around Auckland of the final layer of the partition.
+Figure&nbsp;4: A zoomed in view around Auckland of the final layer of the partition.
 </figcaption>
 </figure>
 </div>

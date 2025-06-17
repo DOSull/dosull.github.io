@@ -25,7 +25,6 @@ knitr:
     warning: false
     message: false
 date: 06-20-2025
-image: auckland-closeup.png
 ---
 
 In a [recent post](../2025-06-13-population-quadrants/index.qmd) I developed some R code to quadrisect the population of Aotearoa New Zealand. At the end of that post I airily suggested
@@ -37,6 +36,10 @@ The thought was something like, bisect the population data (by population), then
 Now, as promised, here's that iterative bisection process, which yields something like a population quadtree. Each leaf of the tree accounts for some power-of-two fraction of the population (in the example below 1/1024th). If we had the location of every individual in the data as a point, the result is roughly what we would get if we were adding those points to a [binary space partition](https://en.wikipedia.org/wiki/Binary_space_partitioning) data structure.
 
 It would be nice to do this as a quad-tree where at each step we subdivide the population into 4 more or less equal groups, but that would require allowing the lines subdividing the space to be at arbitrary angles at each step and would demand much more complicated coding than what follows. Sticking to halving the population at each step means we can work with only east-west or north-south bisectors and simplifies matters greatly. I'll set the more complicated quad-tree approach to one side for now.
+
+As an indication of where we are going, here's the end result, showing approximately equal population rectangular areas around Christchurch.
+
+![A zoomed in map of the Christchurch area.](chch-closeup.png){#fig-christchurch-zoomed-in group="maps"}
 
 ## Preliminaries
 As usual, we need some libraries and data.
@@ -206,9 +209,7 @@ It's also useful to look at a zoomed in local areas. As I've noted previously a 
 bb <- c(1.735e6, 5.895e6, 1.785e6, 5.935e6)
 ggplot() +
   geom_sf(data = nz, fill = "white", lwd = 0) + 
-  geom_tile(data = pop |> filter(x >= bb[1], x <= bb[3], 
-                                 y >= bb[2], y <= bb[4]), 
-            aes(x = x, y = y, fill = pop_250m_grid)) +
+  geom_tile(data = pop, aes(x = x, y = y, fill = pop_250m_grid)) +
   scale_fill_distiller(palette = "Reds", direction = 1) +
   geom_sf(data = nz, fill = NA, colour = "#1e90ff80", lwd = 0.3) + 
   geom_sf(data = all_levels |> filter(level == 11), 
@@ -216,7 +217,7 @@ ggplot() +
   coord_sf(xlim = bb[c(1,3)], ylim = bb[c(2,4)], expand = FALSE) +
   guides(fill = "none") +
   theme_void() +
-  theme(panel.border = element_rect(fill = NA, linewidth = 1), 
+  theme(panel.border = element_rect(fill = NA, linewidth = 0.5), 
         panel.background = element_rect(fill = "#1e90ff30"))
 ```
 
