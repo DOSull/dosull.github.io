@@ -1,6 +1,6 @@
 ---
 title: "A population based binary space partition"
-subtitle: "There's probably a use for this, although I am not sure what"
+subtitle: "Of course there's a point, I'm just not sure what"
 from: markdown+emoji
 author: "David O'Sullivan"
 toc: true
@@ -16,6 +16,7 @@ categories:
   - tutorial
   - aotearoa
   - population
+  - cartography
 execute:
   cache: true
   freeze: auto
@@ -24,16 +25,18 @@ knitr:
     warning: false
     message: false
 date: 06-20-2025
-draft: true
+image: auckland-closeup.png
 ---
 
 In a [recent post](../2025-06-13-population-quadrants/index.qmd) I developed some R code to quadrisect the population of Aotearoa New Zealand. At the end of that post I airily suggested
 
 > that lurking in here are almost certainly the ingredients for a treemap/quad-tree approach to cartograms
 
-The thought was something like, bisect the population data (by population), then bisect each half, then bisect each quarter and so on. The bisection procedure using weighted medians was thoroughly explored in the earlier post. Now, as promised, here's that iterative bisection process, which yields something like a population quadtree structure. Each leaf of the tree accounts for some power-of-two fraction of the population (in the example below 1/1024th). If we had the location of every individual in the data as a point, the result is roughly what we would get if we were adding those points to a [binary space partition](https://en.wikipedia.org/wiki/Binary_space_partitioning) data structure.
+The thought was something like, bisect the population data (by population), then bisect each half, then bisect each quarter and so on. The bisection procedure using weighted medians was thoroughly explored in the earlier post. 
 
-It would be nice to do this as a quad-tree where at each step we subdivide the population into 4 more or less equal groups, but that would require allowing the lines subdividing the space to be at arbitrary angles at each step and would demand much more complicated coding than is described in this post. Sticking to halving the population at each step means we can work with only east-west or north-south bisectors and makes for much simpler code. I'll set the more complicated quad-tree approach to one side for now.
+Now, as promised, here's that iterative bisection process, which yields something like a population quadtree. Each leaf of the tree accounts for some power-of-two fraction of the population (in the example below 1/1024th). If we had the location of every individual in the data as a point, the result is roughly what we would get if we were adding those points to a [binary space partition](https://en.wikipedia.org/wiki/Binary_space_partitioning) data structure.
+
+It would be nice to do this as a quad-tree where at each step we subdivide the population into 4 more or less equal groups, but that would require allowing the lines subdividing the space to be at arbitrary angles at each step and would demand much more complicated coding than what follows. Sticking to halving the population at each step means we can work with only east-west or north-south bisectors and simplifies matters greatly. I'll set the more complicated quad-tree approach to one side for now.
 
 ## Preliminaries
 As usual, we need some libraries and data.
@@ -46,6 +49,7 @@ library(sf)
 library(dplyr)
 library(stringr)
 library(ggplot2)
+library(tmap)
 library(spatstat)  # for weighted median function
 library(data.tree) # to build a tree
 
@@ -58,7 +62,7 @@ nz <- st_read("nz.gpkg")
 A useful helper functions is `get_rectangle()` to return a `sf` polygon based on x and y limits.
 
 ```{r}
-#| label: rectangle-and-list-to-sf-functions
+#| label: rectangle-function
 #| code-fold: show
 get_rectangle <- function(xmin, ymin, xmax, ymax) {      # <1>
   st_polygon(list(matrix(c(xmin, xmin, xmax, xmax, xmin,
@@ -68,7 +72,7 @@ get_rectangle <- function(xmin, ymin, xmax, ymax) {      # <1>
 1. A convenience function to get an `sf` polygon given x and y limits.
 
 ## Iterative population bisection
-Central to this whole exercise is a function that given a dataframe of x, y, and population data, along with a bounding extent, returns two rectangles within the extent that each contain half the population. This is accomplished using a weighted median as in the [previous post](../2025-06-13-population-quadrants/index.qmd). Because we are working only with north-south or east-west subdivisions there isn't any especially complicated geometry needed to handle this.
+Central to this whole exercise is a function that given a dataframe of x, y, and population data, along with a bounding extent, returns two rectangles within the extent, each containing half the population. This is accomplished using a weighted median as in the [previous post](../2025-06-13-population-quadrants/index.qmd). Because we are working only with north-south or east-west subdivisions there isn't any especially complicated geometry needed to handle this.
 
 ```{r}
 #| label: split-population-function
@@ -110,16 +114,16 @@ split_population <- function(pop_pts, bounds) {
 
 The bisection runs east-west if the extent of the bounding area is longer north-south than east-west, and will run north-south otherwise. This is to promote 'squarer' rectangles as outputs, although as we'll see the vagaries of population distribution mean that plenty of long skinny rectangles make it through the process.
 
-Using this splitter function it is straightforward to iteratively subdivide the data into halves by population to some requested depth. I did a bit of digging and found an R package `data.tree` which allows the results of an iterative splitting process like this to be stored as a tree, or more accurately as a linked set of 'nodes' which can have associated attributes. As is often the case in R, where a data structure that is not really tabular appears the syntax is a little weird, so figuring out how to use it took some experimentation. The `Node$new()` and similar semantics was pretty new to me as a constructor method for the core class in the package. 
+Using this splitter function it is straightforward to iteratively subdivide the data into halves by population to some requested depth. I found an R package `data.tree` that means I can store the results of an iterative splitting process like this as a tree, or more accurately as a linked set of 'nodes' with associated attributes. As is often the case in R, when a data structure that is not tabular appears the syntax is a little weird^[I should probably say _weirder_, because, let's face it, R's syntax is weird from the get-go.], so figuring out how to use it took some experimentation. The `Node$new()` and using `$` to invoke methods on objects was new to me, but I figured it out in the end. 
 
-The end result is nice compact code, which much more clearly expresses the intent to create a tree structure than my earlier list-based code did.
+Having struggled a bit to get `data.tree` working,^[While using `data.tree` was a little confusing, it was not as bad as second guessing what R lists will do when you append `sf` polygons to them.] the reward is nice compact code, which much more clearly expresses the intent to create a tree structure than some earlier sprawling and rather kludge-y list-based code.
 
 ```{r}
 #| label: main-loop
 #| code-fold: show
-bsp <- Node$new("X", 
-                bb = get_rectangle(min(pop$x), min(pop$y),
-                                   max(pop$x), max(pop$y))) # <1>
+bsp <- Node$new(
+  "X", bb = get_rectangle(min(pop$x), min(pop$y), 
+                          max(pop$x), max(pop$y)))          # <1>
 
 for (level in 1:10) {
   leaves <- bsp$leaves                                      # <2>
@@ -135,7 +139,7 @@ for (level in 1:10) {
 1. The 'root' node which we call 'X' which has as its 'bb' attribute, a bounding box of all the population data.
 2. Then, we repeatedly split the 'leaf' nodes of the tree in two, adding them to each leaf as child nodes.
 
-While using `data.tree` was a little confusing, it was not as bad as trying to guess what R lists will do when you append `sf` polygons to them. The difficulty is that `sf` geometries are thinly wrapped R matrices and lists, and are prone to 'reverting to type' when you try to include them in R's list or vector objects. Using `data.tree` the polygons do become simple matrices, but it's relatively easy to retrieve them as polygons, which we do in the code below.
+A minor difficulty once the tree has been constructed is to retrieve the `sf` geometries intact. Because `sf` geometries are thinly wrapped R matrices and lists, they are prone to 'reverting to type' when you include them in R lists or other containers. Using `data.tree` the polygons did indeed revert to matrices, but it's not difficult to retrieve them as polygons, which we do in the code below to assemble final simple feature datasets for mapping.
 
 ```{r}
 #| label: unpack-layers-to-dataframes
@@ -147,15 +151,14 @@ all_levels <- bsp$Get("bb") |>                  # <1>
   as.data.frame() |> 
   st_sf(crs = 2193) |> 
   mutate(level = bsp$Get("level"),              # <5>
-         id = bsp$Get("name"),
-         n = 2 ^ (level - 1))
+         id = bsp$Get("name"))
 
 top_level <- all_levels |> filter(level == 11)  # <6>
 ```
 1. This is `data.tree`'s syntax for retrieving the 'bb' attribute of each node in the tree.
 2. Wrap the matrix we get back in a list.
 3. And convert to an `sf` polygon.
-4. Then we apply a relatively well-work `st_sfc() |> as.data.frame() |> st_sf()` sequence to convert to a simple features dataset.
+4. Then we apply a relatively well-work `st_as_sfc() |> as.data.frame() |> st_sf()` sequence to convert to a simple features dataset.
 5. Then we can append the binary space partition's level and id attributes to our dataframe.
 6. It's convenient to separate out the highest level of detail rectangles as a separate layer.
 
@@ -163,8 +166,11 @@ top_level <- all_levels |> filter(level == 11)  # <6>
 Subdivision completed we can make a map of the final level of the tree, with 1024 rectangles. These are of roughly equal populations of around 5000.
 
 ```{r}
-#| label: plot-final-layer
+#| label: fig-final-layer
 #| code-fold: show
+#| lightbox:
+#|   group: maps
+#| fig-cap: "All 1024 cells at level 11 of the partition."
 ggplot(nz) + 
   geom_sf(fill = "grey", lwd = 0) +
   geom_sf(data = top_level, fill = "#ff101040", 
@@ -173,25 +179,31 @@ ggplot(nz) +
   theme_void()
 ```
 
-It's also interesting to see the steps by which the final subdivision into proceeds, which is conveniently done using a `facet_wrap`.
+It's also interesting to see the stages along the way to the final subdivision, which is conveniently done using a `facet_wrap` based on the `level` attribute in the `all_levels` dataframe
 
 ```{r}
-#| label: show-all-layers
+#| label: fig-all-layers
 #| code-fold: show
+#| lightbox:
+#|   group: maps
+#| fig-cap: "The sequence of bisections along the way to 1024 rectangles."
 ggplot(nz) + 
   geom_sf(fill = "grey", lwd = 0) +
   geom_sf(data = all_levels |> filter(level > 1), 
           fill = "#ff101040", colour = "white", lwd = 0.1) + 
-  facet_wrap( ~ n, ncol = 5) +
+  facet_wrap( ~ level, ncol = 5) +
   theme_void()
 ```
 
-## Some close ups
-Finally, it's also useful to look at some zoomed in local areas. As I've noted previously a big chunk of the country's population is in Auckland, so it's interesting to look there first. What emerges is a picture over an extended area (the extent of the mapped area is 35 by 25km) of relatively evenly distributed population except for a concentration in the downtown centre. The result in terms of the space partition is relatively equal-sized areas.
+## A close up look
+It's also useful to look at a zoomed in local areas. As I've noted previously a big chunk of the country's population is in Auckland, so it's perhaps most interesting to look there. What emerges is a picture over an extended area^[The extent of the mapped area is 50 by 40km.] of relatively evenly distributed population everywhere that is inhabitated (all the pink areas of the map), except for a concentration in a tiny area of the downtown centre. The result in terms of the space partition is relatively equal-sized areas across much of the populated suburban sprawl.^[Echoes here of Austin Mithchell's phrase ['the quarter acre paradise'](https://teara.govt.nz/en/artwork/1997/the-half-gallon-quarter-acre-pavlova-paradise), which sounds rather belittling to me, but was apparently well received in New Zealand at the time.]
 
 ```{r}
-#| label: close-ups
-bb <- c(1.74e6, 5.904e6, 1.775e6, 5.929e6)
+#| label: fig-close-up-auckland
+#| lightbox:
+#|   group: maps
+#| fig-cap: A zoomed in view around Auckland of the final layer of the partition.
+bb <- c(1.735e6, 5.895e6, 1.785e6, 5.935e6)
 ggplot() +
   geom_sf(data = nz, fill = "white", lwd = 0) + 
   geom_tile(data = pop |> filter(x >= bb[1], x <= bb[3], 
@@ -202,7 +214,28 @@ ggplot() +
   geom_sf(data = all_levels |> filter(level == 11), 
           fill = "#00000030", colour = "white", lwd = 0.2) +
   coord_sf(xlim = bb[c(1,3)], ylim = bb[c(2,4)], expand = FALSE) +
+  guides(fill = "none") +
   theme_void() +
   theme(panel.border = element_rect(fill = NA, linewidth = 1), 
         panel.background = element_rect(fill = "#1e90ff30"))
 ```
+
+## And a zoomable view
+This doesn't really need any further comment. The hover shows the `id` variable which encodes the sequence of west-east or north-south choices by which any given rectangle was arrived at. See if you can find `X1111111111` and `X2222222222`. It's trickier to find `X1212121212`.^[To save it taking too much of your time: it's near Levin, not far from where my [Tararuas adventure](../2025-01-28-waiopehu/waiopehu-tramp.qmd) unfolded.]
+
+```{r}
+#| label: web-map
+#| code-fold: true
+tmap_mode("view")
+tm_shape(top_level) +
+  tm_polygons(fill = "#ff101040", border.col = "white", 
+              popup.vars = FALSE, id = "id") +
+  tm_view(use_WebGL = FALSE)
+```
+
+## But, what is it good for?
+I'm honestly not sure about this! I learned about `data.tree` while making it, which is good.
+
+For me, the next back-burner project in this line of thought is to think about how to equalize the size of the rectangles perhaps _en route_ to cartograms. I find the rectilinear cartograms in early editions of Kidron and Segal's _The State of the World Atlas_ quite compelling. See [this page](https://peoplesgdarchive.org/item/6630/the-state-of-the-world-atlas) for some spreads.^[The internet tells me that edition of the atlas is from 1981: Kidron M and R Segal. 1981. _The State of the World Atlas_. Pan Books, London. Many more recent editions have come and gone. The latest seems to be [this one](https://myriadeditions.com/books/the-state-of-the-world-atlas/), although rectilinear cartograms are no longer quite so heavily featured.] In any case, perhaps this iterative bisection technique could be used as part of an automated workflow to make them.
+
+Or perhaps there is a population-centric web map zooming mechanism somewhere to be found in all this?

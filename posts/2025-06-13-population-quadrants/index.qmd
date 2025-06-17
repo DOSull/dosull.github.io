@@ -71,7 +71,8 @@ nz <- st_read("nz.gpkg") |>
 And here is a basemap to get everyone oriented.
 
 ```{r}
-#| label: make-a-basemap
+#| label: fig-basemap
+#| fig-cap: Base map showing distribution of Aotearoa New Zealand population.
 #| lightbox:
 #|   group: maps
 basemap <- ggplot(nz) + 
@@ -189,7 +190,8 @@ get_pop_one_side_of_line <- function(pts, sl, above = TRUE) {   # <2>
 OK. So let's see if all that has worked by running an example for a line at 30&deg;
 
 ```{r}
-#| label: sanity-check
+#| label: fig-sanity-check
+#| fig-cap: A map to sanity check the methods developed so far.
 #| lightbox:
 #|   group: maps
 #| code-fold: show
@@ -258,7 +260,8 @@ plot_range <- function(angles) {
 And now we can plot the quadrant populations across a range of angles from 0 to 90&deg;.
 
 ```{r}
-#| label: quadrant-populations-for-full-range
+#| label: fig-quadrant-populations-for-full-range
+#| fig-cap: Variation in quadrant populations as the orientation of the first bisector is varied.
 #| lightbox:
 #|   group: quadrant-pop-plots
 g1 <- plot_range(-1:90) 
@@ -271,7 +274,8 @@ g1 + annotate("rect", xmin = c(-1, 76.5, 79),
 As expected these are actually two pairs of equal sums given that the two lines we are using are bisectors, so we expect diagonally opposite quadrants to have equal population, but not necessarily all four to be equal. There are three highlighted orientations where all four populations _seem_ to converge, at around 0&deg;, 77&deg;, and 80&deg;.
 
 ```{r}
-#| label: quadrant-populations-closeups
+#| label: fig-quadrant-populations-closeups
+#| fig-cap: A closer look at the quadrant populations at angles where they appear equal.
 #| lightbox:
 #|   group: quadrant-pop-plots
 g2 <- plot_range(seq(-0.5,  0.5, 0.025)) + guides(colour = "none")
@@ -288,7 +292,8 @@ The zoomed in view around 80&deg; suggests that bisectors at angles of 79.975&de
 Here's a map, and the estimated populations in each quadrant, which, given the discretisation of our population data are very close to equal.
 
 ```{r}
-#| label: best-fit-quadrants
+#| label: fig-best-fit-quadrants
+#| fig-cap: The best fit equal population quadrants.
 #| lightbox:
 #|   group: maps
 xs <- c(79.975, 169.975) |> lapply(bisector, pts = pop_grid)
