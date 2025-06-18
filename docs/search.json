@@ -227,8 +227,8 @@
     "objectID": "posts/2025-06-20-population-binary-space-partition/index.html#but-what-is-it-good-for",
     "href": "posts/2025-06-20-population-binary-space-partition/index.html#but-what-is-it-good-for",
     "title": "A population based binary space partition",
-    "section": "But, what is it good for?",
-    "text": "But, what is it good for?\nI’m honestly not sure about this! I learned about data.tree while making it, which is good.\nFor me, the next back-burner project in this line of thought is to think about how to equalize the size of the rectangles perhaps en route to cartograms. I find the rectilinear cartograms in early editions of Kidron and Segal’s The State of the World Atlas quite compelling. See this page for some spreads.6 In any case, perhaps this iterative bisection technique could be used as part of an automated workflow to make them.\nOr perhaps there is a population-centric web map zooming mechanism somewhere to be found in all this?"
+    "section": "But what is it good for?",
+    "text": "But what is it good for?\nI’m honestly not sure about this! I learned about data.tree while making it, which is good.\nFor me, the next back-burner project in this line of thought is to think about how to equalize the size of the rectangles perhaps en route to cartograms. I find the rectilinear cartograms in early editions of Kidron and Segal’s The State of the World Atlas quite compelling. See this page for some spreads.6 In any case, perhaps this iterative bisection technique could be used as part of an automated workflow to make them.\nOr perhaps there is a population-centric web map zooming mechanism somewhere to be found in all this?"
   },
   {
     "objectID": "posts/2025-06-20-population-binary-space-partition/index.html#footnotes",
@@ -1104,5 +1104,12 @@
     "title": "Marimo notebooks",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nYet… and it may never happen, given the investment of Posit in Shiny↩︎\nNote from future self: actually not that difficult. See this post.↩︎\nOne wrinkle here is that I have to host this notebook on another server because I can’t show a local HTML file in an iframe because of a disallowed MIME type (“text/html”) according to my browser console.↩︎"
+  },
+  {
+    "objectID": "posts/2025-06-20-population-binary-space-partition/index.html#some-maps-of-the-hierarchy",
+    "href": "posts/2025-06-20-population-binary-space-partition/index.html#some-maps-of-the-hierarchy",
+    "title": "A population based binary space partition",
+    "section": "Some maps of the hierarchy",
+    "text": "Some maps of the hierarchy\nSubdivision completed we can make a map of the final level of the tree, with 1024 rectangles. These are of roughly equal populations of around 5000.\n\n\nCode\nggplot(nz) + \n  geom_sf(fill = \"grey\", lwd = 0) +\n  geom_sf(data = top_level, fill = \"#ff101040\", \n          colour = \"white\", lwd = 0.15) +\n  guides(fill = \"none\") +\n  theme_void()\n\n\n\n\n\n\n\n\nFigure 2: All 1024 cells at level 11 of the partition.\n\n\n\n\n\nIt’s also interesting to see the stages along the way to the final subdivision, which is conveniently done using a facet_wrap based on the level attribute in the all_levels dataframe\n\n\nCode\nggplot(nz) + \n  geom_sf(fill = \"grey\", lwd = 0) +\n  geom_sf(data = all_levels |&gt; filter(level &gt; 1), \n          fill = \"#ff101040\", colour = \"white\", lwd = 0.1) + \n  facet_wrap( ~ level, ncol = 5) +\n  theme_void()\n\n\n\n\n\n\n\n\nFigure 3: The sequence of bisections along the way to 1024 rectangles."
   }
 ]

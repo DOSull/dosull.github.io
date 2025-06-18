@@ -166,7 +166,7 @@ top_level <- all_levels |> filter(level == 11)  # <6>
 5. Then we can append the binary space partition's level and id attributes to our dataframe.
 6. It's convenient to separate out the highest level of detail rectangles as a separate layer.
 
-# Some maps of the hierarchy
+## Some maps of the hierarchy
 Subdivision completed we can make a map of the final level of the tree, with 1024 rectangles. These are of roughly equal populations of around 5000.
 
 ```{r}
@@ -235,7 +235,7 @@ tm_shape(top_level) +
   tm_view(use_WebGL = FALSE)
 ```
 
-## But, what is it good for?
+## But what is it good for?
 I'm honestly not sure about this! I learned about `data.tree` while making it, which is good.
 
 For me, the next back-burner project in this line of thought is to think about how to equalize the size of the rectangles perhaps _en route_ to cartograms. I find the rectilinear cartograms in early editions of Kidron and Segal's _The State of the World Atlas_ quite compelling. See [this page](https://peoplesgdarchive.org/item/6630/the-state-of-the-world-atlas) for some spreads.^[The internet tells me that edition of the atlas is from 1981: Kidron M and R Segal. 1981. _The State of the World Atlas_. Pan Books, London. Many more recent editions have come and gone. The latest seems to be [this one](https://myriadeditions.com/books/the-state-of-the-world-atlas/), although rectilinear cartograms are no longer quite so heavily featured.] In any case, perhaps this iterative bisection technique could be used as part of an automated workflow to make them.

@@ -703,8 +703,8 @@ font-style: inherit;">11</span>)</span><div class="code-annotation-gutter-bg"></
 </div>
 </div>
 </section>
-<section id="some-maps-of-the-hierarchy" class="level1">
-<h1>Some maps of the hierarchy</h1>
+<section id="some-maps-of-the-hierarchy" class="level2">
+<h2 class="anchored" data-anchor-id="some-maps-of-the-hierarchy">Some maps of the hierarchy</h2>
 <p>Subdivision completed we can make a map of the final level of the tree, with 1024 rectangles. These are of roughly equal populations of around 5000.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -851,6 +851,7 @@ Figure&nbsp;3: The sequence of bisections along the way to 1024 rectangles.
 </div>
 </div>
 </div>
+</section>
 <section id="a-close-up-look" class="level2">
 <h2 class="anchored" data-anchor-id="a-close-up-look">A close up look</h2>
 <p>It’s also useful to look at a zoomed in local areas. As I’ve noted previously a big chunk of the country’s population is in Auckland, so it’s perhaps most interesting to look there. What emerges is a picture over an extended area<sup>3</sup> of relatively evenly distributed population everywhere that is inhabitated (all the pink areas of the map), except for a concentration in a tiny area of the downtown centre. The result in terms of the space partition is relatively equal-sized areas across much of the populated suburban sprawl.<sup>4</sup></p>
@@ -1096,13 +1097,12 @@ font-style: inherit;">FALSE</span>)</span></code></pre></div>
 </div>
 </section>
 <section id="but-what-is-it-good-for" class="level2">
-<h2 class="anchored" data-anchor-id="but-what-is-it-good-for">But, what is it good for?</h2>
+<h2 class="anchored" data-anchor-id="but-what-is-it-good-for">But what is it good for?</h2>
 <p>I’m honestly not sure about this! I learned about <code>data.tree</code> while making it, which is good.</p>
 <p>For me, the next back-burner project in this line of thought is to think about how to equalize the size of the rectangles perhaps <em>en route</em> to cartograms. I find the rectilinear cartograms in early editions of Kidron and Segal’s <em>The State of the World Atlas</em> quite compelling. See <a href="https://peoplesgdarchive.org/item/6630/the-state-of-the-world-atlas">this page</a> for some spreads.<sup>6</sup> In any case, perhaps this iterative bisection technique could be used as part of an automated workflow to make them.</p>
 <p>Or perhaps there is a population-centric web map zooming mechanism somewhere to be found in all this?</p>
 
 
-</section>
 </section>
 
 
