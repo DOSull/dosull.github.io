@@ -2,9 +2,7 @@
 title: "What three letters"
 subtitle: "Word games all the way to the ends of the earth"
 description: |
-   Maps of all the possible air routes where the origin and destination \
-   airport IATA codes would differ by only one letter, and of the ones that \
-   actually do. Also, grobs.
+   Maps of all the possible air routes where the origin and destination airport IATA codes would differ by only one letter, and of the ones that actually do. Also, grobs.
 from: markdown+emoji
 author: "David O'Sullivan"
 toc: true

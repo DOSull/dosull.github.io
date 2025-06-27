@@ -5,6 +5,7 @@ project:
 website:
   title: "Geospatial<br>Stuff"
   site-url: https://dosull.github.io
+  open-graph: true
   description: "All manner of geospatial stuff"  
   navbar:
     logo: /images/gs-logo-corrected.png
