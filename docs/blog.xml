@@ -1122,11 +1122,9 @@ font-style: inherit;">|&gt;</span> </span>
 <span id="annotated-cell-10-43">    <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_bbox</span>()</span>
-<span id="annotated-cell-10-44">  <span class="fu" style="color: #4758AB;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="3">3</button><span id="annotated-cell-10-44" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">ggplotGrob</span>(   <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># return complex plot as grob: less prone to memory issues?</span></span>
+font-style: inherit;">ggplotGrob</span>(</span>
 <span id="annotated-cell-10-45">    <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
@@ -1365,6 +1363,10 @@ font-style: inherit;">lapply</span>(regional_limits, get_regional_map))</span><d
 <dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
 <dd>
 <span data-code-cell="annotated-cell-10" data-code-lines="29" data-code-annotation="2">It’s necessary to ‘cast the net wide’ to make sure all countries within a window in lat-lon are on the map in the projected space, which is quite different than the lat-lon bounding box.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="44" data-code-annotation="3">Returning plots as plots caused me some memory issues, which seem to be resolved by returning them as ‘grobs’. There’s a first time for everything in my R journey.</span>
 </dd>
 </dl>
 </div>

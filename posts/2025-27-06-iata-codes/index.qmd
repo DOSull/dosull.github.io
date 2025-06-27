@@ -272,7 +272,7 @@ get_regional_map <- function(limits) {
   plot_lims <- bb |>
     st_transform(proj) |> 
     st_bbox()
-  ggplotGrob(   # return complex plot as grob: less prone to memory issues?
+  ggplotGrob(   # <3>
     ggplot() +
       geom_sf(data = world_p, fill = "#d0d0d0", colour = "white", lwd = 0.25) +
       geom_sf(data = routes_p, lwd = 0.04, colour = "#666666") +
@@ -298,6 +298,7 @@ wrap_plots(lapply(regional_limits, get_regional_map))
 ```
 1. No `lat_0` is required for this projection, but might be if I change it some time.
 2. It's necessary to 'cast the net wide' to make sure all countries within a window in lat-lon are on the map in the projected space, which is quite different than the lat-lon bounding box.
+3. Returning plots as plots caused me some memory issues, which seem to be resolved by returning them as 'grobs'. There's a first time for everything in my R journey.
 
 ## Finally: are the off-by-one routes clustered?
 It's not easy to know exactly how to approach this question. But we might expect, due to geographical patterns in naming and language that there would be some clustering of the actual off-by-one routes. A rough and ready approach to testing this idea is applied in the code cell below, based on the lengths in km of the various subsets of flights. The idea is that that shorter length routes might be more common among off-by-one routes than in scheduled flights in general.

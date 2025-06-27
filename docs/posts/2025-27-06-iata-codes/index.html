@@ -583,7 +583,7 @@ Figure&nbsp;3: Actually existing routes off-by-one in their IATA codes highlight
 <span id="annotated-cell-10-41"><a href="#annotated-cell-10-41" aria-hidden="true" tabindex="-1"></a>  plot_lims <span class="ot">&lt;-</span> bb <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-10-42"><a href="#annotated-cell-10-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_transform</span>(proj) <span class="sc">|&gt;</span> </span>
 <span id="annotated-cell-10-43"><a href="#annotated-cell-10-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_bbox</span>()</span>
-<span id="annotated-cell-10-44"><a href="#annotated-cell-10-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplotGrob</span>(   <span class="co"># return complex plot as grob: less prone to memory issues?</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="3">3</button><span id="annotated-cell-10-44" class="code-annotation-target"><a href="#annotated-cell-10-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplotGrob</span>(</span>
 <span id="annotated-cell-10-45"><a href="#annotated-cell-10-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="annotated-cell-10-46"><a href="#annotated-cell-10-46" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_sf</span>(<span class="at">data =</span> world_p, <span class="at">fill =</span> <span class="st">"#d0d0d0"</span>, <span class="at">colour =</span> <span class="st">"white"</span>, <span class="at">lwd =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
 <span id="annotated-cell-10-47"><a href="#annotated-cell-10-47" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_sf</span>(<span class="at">data =</span> routes_p, <span class="at">lwd =</span> <span class="fl">0.04</span>, <span class="at">colour =</span> <span class="st">"#666666"</span>) <span class="sc">+</span></span>
@@ -616,6 +616,10 @@ Figure&nbsp;3: Actually existing routes off-by-one in their IATA codes highlight
 <dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
 <dd>
 <span data-code-cell="annotated-cell-10" data-code-lines="29" data-code-annotation="2">It’s necessary to ‘cast the net wide’ to make sure all countries within a window in lat-lon are on the map in the projected space, which is quite different than the lat-lon bounding box.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="44" data-code-annotation="3">Returning plots as plots caused me some memory issues, which seem to be resolved by returning them as ‘grobs’. There’s a first time for everything in my R journey.</span>
 </dd>
 </dl>
 </div>
