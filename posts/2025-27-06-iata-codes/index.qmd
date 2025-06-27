@@ -192,13 +192,15 @@ sched <- read.csv(
   header = FALSE) |>
   select(3, 5) |> 
   rename(iata1 = V3, iata2 = V5) |>
-  mutate(ab = str_c(iata1, "-", iata2),
+  mutate(ab = str_c(iata1, "-", iata2),              # <1>
          ba = str_c(iata2, "-", iata1))
 
 routes_sf_actual <- routes_sf |>
   mutate(ab = str_c(iata1, "-", iata2)) |>
-  filter((ab %in% sched$ab) | (ab %in% sched$ba)) 
+  filter((ab %in% sched$ab) | (ab %in% sched$ba))    # <2>
 ```
+1. Make a route label in both directions since it might appear in either direction in the data.
+2. Check for both directions in the filter.
 
 And we can map those.
 

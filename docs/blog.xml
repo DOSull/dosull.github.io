@@ -695,22 +695,22 @@ Figure&nbsp;2: Counts of letters in the IATA codes of 482 airports
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">sched <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="annotated-cell-8" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-8-1">sched <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">read.csv</span>(</span>
-<span id="cb5-2">  <span class="st" style="color: #20794D;
+<span id="annotated-cell-8-2">  <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat"</span>, </span>
-<span id="cb5-3">  <span class="at" style="color: #657422;
+<span id="annotated-cell-8-3">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">header =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
 font-style: inherit;">FALSE</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb5-4">  <span class="fu" style="color: #4758AB;
+<span id="annotated-cell-8-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">select</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
@@ -719,7 +719,7 @@ background-color: null;
 font-style: inherit;">5</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb5-5">  <span class="fu" style="color: #4758AB;
+<span id="annotated-cell-8-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -728,7 +728,7 @@ background-color: null;
 font-style: inherit;">iata2 =</span> V5) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb5-6">  <span class="fu" style="color: #4758AB;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1">1</button><span id="annotated-cell-8-6" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -737,20 +737,20 @@ background-color: null;
 font-style: inherit;">str_c</span>(iata1, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"-"</span>, iata2),</span>
-<span id="cb5-7">         <span class="at" style="color: #657422;
+<span id="annotated-cell-8-7">         <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">ba =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">str_c</span>(iata2, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"-"</span>, iata1))</span>
-<span id="cb5-8"></span>
-<span id="cb5-9">routes_sf_actual <span class="ot" style="color: #003B4F;
+<span id="annotated-cell-8-8"></span>
+<span id="annotated-cell-8-9">routes_sf_actual <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> routes_sf <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb5-10">  <span class="fu" style="color: #4758AB;
+<span id="annotated-cell-8-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -761,7 +761,7 @@ background-color: null;
 font-style: inherit;">"-"</span>, iata2)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb5-11">  <span class="fu" style="color: #4758AB;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2">2</button><span id="annotated-cell-8-11" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>((ab <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -773,19 +773,31 @@ font-style: inherit;">|</span> (ab <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">%in%</span> sched<span class="sc" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">$</span>ba)) </span></code></pre></div>
+font-style: inherit;">$</span>ba))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
 </details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="6" data-code-annotation="1">Make a route label in both directions since it might appear in either direction in the data.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="11" data-code-annotation="2">Check for both directions in the filter.</span>
+</dd>
+</dl>
+</div>
 </div>
 <p>And we can map those.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb6-2">  <span class="fu" style="color: #4758AB;
+<span id="cb5-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -800,7 +812,7 @@ background-color: null;
 font-style: inherit;">NA</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb6-3">  <span class="fu" style="color: #4758AB;
+<span id="cb5-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -815,7 +827,7 @@ background-color: null;
 font-style: inherit;">NA</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb6-4">  <span class="fu" style="color: #4758AB;
+<span id="cb5-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -830,7 +842,7 @@ background-color: null;
 font-style: inherit;">"#666666"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb6-5">  <span class="fu" style="color: #4758AB;
+<span id="cb5-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -845,7 +857,7 @@ background-color: null;
 font-style: inherit;">"red"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb6-6">  <span class="fu" style="color: #4758AB;
+<span id="cb5-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_void</span>()</span></code></pre></div>
 </details>
@@ -1391,12 +1403,12 @@ Figure&nbsp;4: Regionally focused maps with IATA codes shown.
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">random_xy <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">random_xy <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> world <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb7-2">  <span class="fu" style="color: #4758AB;
+<span id="cb6-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(continent <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1405,17 +1417,17 @@ background-color: null;
 font-style: inherit;">"Antarctica"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb7-3">  <span class="fu" style="color: #4758AB;
+<span id="cb6-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_sample</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">250</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb7-4">  <span class="fu" style="color: #4758AB;
+<span id="cb6-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_coordinates</span>()</span>
-<span id="cb7-5">pairs <span class="ot" style="color: #003B4F;
+<span id="cb6-5">pairs <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1432,13 +1444,13 @@ background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">t</span>()</span>
-<span id="cb7-6"></span>
-<span id="cb7-7">sched_xy <span class="ot" style="color: #003B4F;
+<span id="cb6-6"></span>
+<span id="cb6-7">sched_xy <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> sched <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb7-8">  <span class="fu" style="color: #4758AB;
+<span id="cb6-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">inner_join</span>(airports, <span class="at" style="color: #657422;
 background-color: null;
@@ -1449,7 +1461,7 @@ background-color: null;
 font-style: inherit;">==</span> iata_code)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb7-9">  <span class="fu" style="color: #4758AB;
+<span id="cb6-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1460,7 +1472,7 @@ background-color: null;
 font-style: inherit;">y1 =</span> y) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb7-10">  <span class="fu" style="color: #4758AB;
+<span id="cb6-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">inner_join</span>(airports, <span class="at" style="color: #657422;
 background-color: null;
@@ -1471,7 +1483,7 @@ background-color: null;
 font-style: inherit;">==</span> iata_code)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb7-11">  <span class="fu" style="color: #4758AB;
+<span id="cb6-11">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1480,13 +1492,13 @@ background-color: null;
 font-style: inherit;">x2 =</span> x, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">y2 =</span> y)</span>
-<span id="cb7-12"></span>
-<span id="cb7-13">df <span class="ot" style="color: #003B4F;
+<span id="cb6-12"></span>
+<span id="cb6-13">df <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">list</span>(</span>
-<span id="cb7-14">  <span class="at" style="color: #657422;
+<span id="cb6-14">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">random =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1495,7 +1507,7 @@ background-color: null;
 font-style: inherit;">1</span>], ], random_xy[pairs[, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">2</span>], ]),</span>
-<span id="cb7-15">  <span class="at" style="color: #657422;
+<span id="cb6-15">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">scheduled =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1504,12 +1516,12 @@ background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">select</span>(x1, y1),</span>
-<span id="cb7-16">                      sched_xy <span class="sc" style="color: #5E5E5E;
+<span id="cb6-16">                      sched_xy <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">select</span>(x2, y2)),</span>
-<span id="cb7-17">  <span class="at" style="color: #657422;
+<span id="cb6-17">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">possible =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1522,7 +1534,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">select</span>(x1, y1),</span>
-<span id="cb7-18">                     routes_sf <span class="sc" style="color: #5E5E5E;
+<span id="cb6-18">                     routes_sf <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1531,7 +1543,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">select</span>(x2, y2)),</span>
-<span id="cb7-19">  <span class="at" style="color: #657422;
+<span id="cb6-19">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">actual =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1544,7 +1556,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">select</span>(x1, y1),</span>
-<span id="cb7-20">                   routes_sf_actual <span class="sc" style="color: #5E5E5E;
+<span id="cb6-20">                   routes_sf_actual <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1555,17 +1567,17 @@ background-color: null;
 font-style: inherit;">select</span>(x2, y2))) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb7-21">  <span class="fu" style="color: #4758AB;
+<span id="cb6-21">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">stack</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb7-22">  <span class="fu" style="color: #4758AB;
+<span id="cb6-22">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">as.data.frame</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb7-23">  <span class="fu" style="color: #4758AB;
+<span id="cb6-23">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1574,7 +1586,7 @@ background-color: null;
 font-style: inherit;">Type =</span> ind) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb7-24">  <span class="fu" style="color: #4758AB;
+<span id="cb6-24">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1583,7 +1595,7 @@ background-color: null;
 font-style: inherit;">/</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1e3</span>,</span>
-<span id="cb7-25">         <span class="at" style="color: #657422;
+<span id="cb6-25">         <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Type =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1596,12 +1608,12 @@ background-color: null;
 font-style: inherit;">"random"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"scheduled"</span>, </span>
-<span id="cb7-26">                                         <span class="st" style="color: #20794D;
+<span id="cb6-26">                                         <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"possible"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"actual"</span>),</span>
-<span id="cb7-27">                              <span class="at" style="color: #657422;
+<span id="cb6-27">                              <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">labels =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1610,19 +1622,19 @@ background-color: null;
 font-style: inherit;">"Random"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Scheduled"</span>, </span>
-<span id="cb7-28">                                         <span class="st" style="color: #20794D;
+<span id="cb6-28">                                         <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Possible off-by-one"</span>,</span>
-<span id="cb7-29">                                         <span class="st" style="color: #20794D;
+<span id="cb6-29">                                         <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Actual off-by-one"</span>)))</span>
-<span id="cb7-30"></span>
-<span id="cb7-31"><span class="fu" style="color: #4758AB;
+<span id="cb6-30"></span>
+<span id="cb6-31"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(df) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb7-32">  <span class="fu" style="color: #4758AB;
+<span id="cb6-32">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_histogram</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1633,7 +1645,7 @@ background-color: null;
 font-style: inherit;">binwidth =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">2000</span>, </span>
-<span id="cb7-33">                 <span class="at" style="color: #657422;
+<span id="cb6-33">                 <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -1648,7 +1660,7 @@ background-color: null;
 font-style: inherit;">0.25</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb7-34">  <span class="fu" style="color: #4758AB;
+<span id="cb6-34">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">facet_wrap</span>( <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1659,14 +1671,14 @@ background-color: null;
 font-style: inherit;">"free_y"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb7-35">  <span class="fu" style="color: #4758AB;
+<span id="cb6-35">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ylab</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Count"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb7-36">  <span class="fu" style="color: #4758AB;
+<span id="cb6-36">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 </details>
