@@ -29,6 +29,7 @@ knitr:
     warning: false
     message: false
 date: 06-27-2025
+image: post-preview.png
 ---
 
 Last year some time I found myself on a flight from Dubai (DXB) to Dublin (DUB) and of course my pattern detecting brain noted the off-by-one-letter difference in the [International Air Transport Association (IATA) codes](https://en.wikipedia.org/wiki/IATA_airport_code) of the two airports. It got in my head at the time and between watching bad movies and dozing and wondering if the flight would ever end (it was the third leg of a WLG - AKL - DXB - DUB endurance test) I found myself idly wondering, just how many off-by-one-letter flights there are. Are they rare or commonplace? Where are they? How many could there possibly be?
