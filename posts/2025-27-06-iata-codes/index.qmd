@@ -1,0 +1,354 @@
+---
+title: "What three letters"
+subtitle: "Word games all the way to the ends of the earth"
+description: |
+   Maps of all the possible air routes where the origin and destination \
+   airport IATA codes would differ by only one letter, and of the ones that \
+   actually do. Also, grobs.
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+code-annotations: hover
+code-fold: show
+filters: 
+  - nutshell
+categories:
+  - geospatial
+  - r
+  - tutorial
+  - networks
+  - ggplot
+  - life
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 06-27-2025
+---
+
+Last year some time I found myself on a flight from Dubai (DXB) to Dublin (DUB) and of course my pattern detecting brain noted the off-by-one-letter difference in the [International Air Transport Association (IATA) codes](https://en.wikipedia.org/wiki/IATA_airport_code) of the two airports. It got in my head at the time and between watching bad movies and dozing and wondering if the flight would ever end (it was the third leg of a WLG - AKL - DXB - DUB endurance test) I found myself idly wondering, just how many off-by-one-letter flights there are. Are they rare or commonplace? Where are they? How many could there possibly be?
+
+So, for all those similarly afflicted by such questions, here's a post with more than you ever wanted to know about this deeply trivial matter. As always, there are coding tricks to be learned along the way. The code I think is less interesting can also be viewed by clicking on the <span style="font-family:'Roboto Condensed';font-weight:400;">&#9656;&nbsp;Code</span> links.
+
+## Libraries and data
+The most interesting libraries we need are [`geosphere`](), which does all manner of great circle calculations. It [could use an update to more fully integrate with `sf`](https://github.com/rspatial/geosphere/issues/14), but that said is pretty great. [`stringdist`](https://github.com/markvanderloo/stringdist) does the needed calculation of differences between strings.
+
+```{r}
+#| label: libraries
+#| code-fold: true
+#| output: false
+library(sf)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+library(patchwork)   # <1>
+library(geosphere)   # <2>
+library(stringdist)  # <3>
+library(smoothr)     # <4>
+```
+1. For assembling multi-panel figures.
+2. For making great circle arcs.
+3. For determining similarities between strings.
+4. For densifying points along meridians to make a 'globe' polygon.
+
+We need some base world data, and I've also made a 'globe' so we can colour in the background sensibly in a non-rectangular projection. I've chosen 30&deg;E for the central meridian of my world maps because^[Spoilers...] that allows all the off-by-one routes that exist to be shown without breaks.
+
+```{r}
+#| label: world-and-globe
+#| output: false
+
+c_meridian <- 30                                 # <1>
+projection <- str_glue("+proj=natearth lon_0={c_meridian}")
+
+world <- spData::world
+world_p <- world |> 
+  st_break_antimeridian(lon_0 = c_meridian) |>   # <2>
+  st_transform(projection)
+
+globe <- st_polygon(
+  list(matrix(c(c(-1, -1, 1,  1, -1) * 179.999 + c_meridian, 
+                c(-1,  1, 1, -1, -1) * 90), ncol = 2))) |>
+  st_sfc() |>
+  as.data.frame() |>
+  st_sf(crs = 4326) |>
+  densify(100)                                   # <3> 
+globe_p <- globe |>
+  st_transform(projection)
+```
+1. Using a central meridian 30&deg;E gives a better centred final map.
+2. Break things based on a central meridian 30&deg;E
+3. For rounded 'edges' to the globe when projected.
+
+## Aviation data
+Via [ourairports.com](https://ourairports.com/data/)^[Albeit hosted by David Megginson, who appears to be [FlightGear flight simulator](https://www.flightgear.org/) [enthusiast](https://github.com/davidmegginson/fgfs-scenery-build).] we can get pretty comprehensive data on airports, large and small. So much data in fact (some 83,210 airports) that I've limited the focus for this post to a mere 482 'large' airports that also have an IATA code.
+
+```{r}
+#| label: airports
+airports <- read.csv("https://davidmegginson.github.io/ourairports-data/airports.csv") |> 
+  filter(type %in% c("large_airport"), iata_code != "") |>
+  select(name, iata_code, longitude_deg, latitude_deg) |>
+  rename(x = longitude_deg, y = latitude_deg)
+```
+
+## All possible off-by-one routes
+Finding the best way to get all the two airport combinations proved trickier than I expected, at least it did for as long as I persisted with trying to do it 'tidily'. I also took a detout via `igraph` which allows for a nice graph-based approach, round-tripping airport-pairs via a simple undirected graph. That's appropriate in some respects, but really overkill for this problem. Knowing when to give up is half the battle, and switching to using base R's `combn` is simple, give or take a bit of matrix conversion to get the results into a dataframe.
+
+After that it's a simple matter to filter for routes with a [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) between codes as calculated by `stringdist` of exactly one, and then join coordinate data for the two airports.
+
+```{r}
+#| label: routes
+routes <- combn(airports$iata_code, 2) |> 
+  matrix(ncol = 2, byrow = TRUE, 
+         dimnames = list(NULL, paste("iata", 1:2, sep = ""))) |> 
+  as.data.frame() |>
+  filter(stringdist(iata1, iata2, method = "hamming") == 1) |>
+  left_join(airports, by = join_by(iata1 == iata_code)) |>
+  rename(name1 = name, x1 = x, y1 = y) |>
+  left_join(airports, by = join_by(iata2 == iata_code)) |>
+  rename(name2 = name, x2 = x, y2 = y) |>
+  select(iata1, iata2, name1, name2, x1, y1, x2, y2)
+```
+
+### Great circle routes
+While flights might very well not follow great circle routes in all cases, they are the most appropriate general way to represent them on a world map, which is where `geoshphere`'s functionality comes in.
+
+The tricky part here was to break the great circle linestrings into multistrings at my chosen antimeridian (at 150&deg;W). While `sf::st_break_antimeridian` does this correctly, for reasons I think associated with the various necessary format conversions I wound up with duplicate copies of every flight that crossed the anti-meridian, in addition to a multilinestring broken at the meridian. Fixing this necessitated some additional steps.
+
+```{r}
+#| label: make-routes-into-flight-paths
+#| output: false
+routes_sf <- gcIntermediate(
+    routes |> select(x1:y1), routes |> select(x2:y2), 
+    n = 100, addStartEnd = TRUE, breakAtDateLine = TRUE, sp = TRUE) |>
+  st_as_sf() |>
+  st_set_crs(4326) |>
+  bind_cols(routes) |>
+  st_break_antimeridian(lon_0 = c_meridian) |>
+  mutate(route = str_c(iata1, "-", iata2))       # <1>
+
+routes_multi <- routes_sf |>                     # <2>
+  group_by(route) |>
+  summarise()
+
+routes_sf <- routes_sf |>                        # <3>
+  st_drop_geometry() |>
+  distinct(iata1, iata2, .keep_all = TRUE) |>
+  left_join(routes_multi, by = join_by(route)) |>
+  st_as_sf()
+```
+1. Add a `"AKL-WLG"` style `route` attribute to help in identifying duplicate routes.
+2. Group on the `route` attribute and summarise to create multilinestrings.
+3. Join the multilinestrings back to the data.
+
+## A map of all the potential off-by-one routes
+```{r}
+#| label: fig-all-possible-routes-map
+#| fig-cap: All possible routes between major airports differing by one letter in their IATA codes.
+#| code-fold: true
+#| lightbox:
+#|   group: maps
+ggplot() +
+  geom_sf(data = globe_p, fill = "#ddeeff", colour = NA) +
+  geom_sf(data = world_p, fill = "#dddddd", colour = NA) +
+  geom_sf(data = routes_sf, lwd = 0.05, colour = "#666666") +
+  theme_void()
+```
+
+Just to emphasise: this is not a map of actually existing off-by-one routes, it's a map of all the possible such routes between our 482 large airports. There are 782 of them. That's from a possible 116,402 routes, or about 0.67%. This is more than half as many again as we'd expect if the codes were random. There are up to 26-cubed or 17,576 codes. Any given code can connect to as many as 17,575 other codes, and of these only 75 can be off-by-one (there are 25 possible different letters in each of the three available positions). That's 75 / 17,575, which is only 0.43%
+
+Of course the codes aren't random, they generally bear some relation to the names of actual places^[[Canada's weird system](https://en.wikipedia.org/wiki/IATA_airport_code#Canada) stretches this claim pretty far.] and we'd therefore expect the distribution of letters in the codes to be uneven. We can confirm this very easily:
+
+```{r}
+#| label: fig-letter-distributions
+#| fig-cap: Counts of letters in the IATA codes of 482 airports
+letter_freqs = data.frame(
+  Letter = LETTERS,
+  Count = airports |> 
+    pull(iata_code) |>
+    str_c(collapse = "") |>
+    str_count(LETTERS)
+)
+ggplot(letter_freqs) +
+  geom_col(aes(x = Letter, y = Count), fill = "darkgrey") +
+  theme_minimal()
+```
+
+I checked for the 9000 or so airports that have codes and the pattern is not so different, with A and S still the most favoured letters.
+
+## What about actually existing routes?
+Among other reasons, actually existing routes are different from all possible ones because the [longest scheduled flights max out at a bit over 15,000km](https://en.wikipedia.org/wiki/Longest_flights#Longest_passenger_flights)^[I regret to say I've been on a couple of these, a side-effect of being from Ireland and living in New Zealand. I can't recommend such super-long flights in economy unless it's in an [A380](https://en.wikipedia.org/wiki/Airbus_A380). But can I just say? Those things are _awesome_.]
+
+Sadly, it's difficult to source open data on regularly scheduled flights, because it's commercially valuable information. The best I could do was from [openflights.org](https://openflights.org/data.php), but as they say "The third-party that OpenFlights uses for route data ceased providing updates in June 2014".^[Oh well... this is a fun little project but not one worth spending any money on.] Anyway, we can filter out routes from our off-by-one dataset that don't appear in this list.
+
+```{r}
+#| label: actual-routes
+sched <- read.csv(
+  "https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat", 
+  header = FALSE) |>
+  select(3, 5) |> 
+  rename(iata1 = V3, iata2 = V5) |>
+  mutate(ab = str_c(iata1, "-", iata2),
+         ba = str_c(iata2, "-", iata1))
+
+routes_sf_actual <- routes_sf |>
+  mutate(ab = str_c(iata1, "-", iata2)) |>
+  filter((ab %in% sched$ab) | (ab %in% sched$ba)) 
+```
+
+And we can map those.
+
+```{r}
+#| label: fig-actual-routes-map
+#| fig-cap: Actually existing routes off-by-one in their IATA codes highlighted in red.
+#| code-fold: true
+#| lightbox:
+#|   group: maps
+ggplot() +
+  geom_sf(data = globe_p, fill = "#ddeeff", colour = NA) +
+  geom_sf(data = world_p, fill = "#dddddd", colour = NA) +
+  geom_sf(data = routes_sf, lwd = 0.05, colour = "#666666") +
+  geom_sf(data = routes_sf_actual, lwd = 0.5, colour = "red") +
+  theme_void()
+```
+
+The longest of these routes is Melbourne (MEL) to Delhi (DEL) from where you could get an onward connection to Helsinki (HEL). Surprisingly New Zealand's only entrant in this list is the relatively local Auckland (AKL) to Adelaide (ADL). Amusingly, the shortest off-by-one route at 324km is between King Abdulaziz International Airport (JED) and Prince Mohammad Bin Abdulaziz Airport (MED) both in Saudi Arabia, and keeping airport naming rights in the family.
+
+### More local maps
+In lieu of a zoomable web map^[Which comes with its own challenges with respect to meridians and projections, etc.] below are four more localised views.
+
+```{r}
+#| label: fig-regional-plots
+#| fig-cap: Regionally focused maps with IATA codes shown.
+#| code-fold: true
+#| lightbox:
+#|   group: maps
+airport_labels <- airports |>
+  filter(iata_code %in% c(routes_sf_actual$iata1, 
+                          routes_sf_actual$iata2)) |>
+  st_as_sf(coords = c("x", "y"), crs = 4326)
+
+get_proj_string <- function(bounds) {
+  lon_0 <- (bounds[1] + bounds[3]) / 2
+  lats <- quantile(bounds[c(2, 4)], c(0.25, 0.5, 0.75))
+  lat_1 <- lats[1]
+  lat_0 <- lats[2]    # <1>
+  lat_2 <- lats[3]
+  str_glue("+proj=aea +lat_1={lat_1} +lat_2={lat_2} +lon_0={lon_0}")
+}
+
+get_ll_bbox <- function(bounds) {
+  st_polygon(list(
+    matrix(c(bounds[1], bounds[1], bounds[3], bounds[3], bounds[1],
+             bounds[2], bounds[4], bounds[4], bounds[2], bounds[2]), ncol = 2))) |>
+    st_sfc(crs = 4326) |> 
+    as.data.frame() |>
+    st_sf() |>
+    densify(100)  
+}
+
+get_ll_limited_gdf <- function(gdf, ll_bbox, crs) {
+  gdf |> 
+    st_filter(ll_bbox, 
+              .predicate = st_is_within_distance, 
+              dist = 1e6) |>        # <2>
+    st_transform(crs) |>
+    st_make_valid()
+}
+
+get_regional_map <- function(limits) {
+  proj     <- get_proj_string(limits$lims)
+  bb       <- get_ll_bbox(limits$lims)
+  world_p  <- get_ll_limited_gdf(world, bb, proj)
+  routes_p <- routes_sf |> st_transform(proj)
+  actual_p <- routes_sf_actual |> st_transform(proj)
+  labels_p <- get_ll_limited_gdf(airport_labels, bb, proj)
+  plot_lims <- bb |>
+    st_transform(proj) |> 
+    st_bbox()
+  ggplotGrob(   # return complex plot as grob: less prone to memory issues?
+    ggplot() +
+      geom_sf(data = world_p, fill = "#d0d0d0", colour = "white", lwd = 0.25) +
+      geom_sf(data = routes_p, lwd = 0.04, colour = "#666666") +
+      geom_sf(data = actual_p, lwd = 0.35, colour = "red") +
+      geom_sf_label(data = labels_p, aes(label = iata_code), size = 1.5) +
+      coord_sf(xlim = plot_lims[c(1, 3)], 
+               ylim = plot_lims[c(2, 4)], expand = FALSE) +
+      ggtitle(limits$region) +
+      theme_void() +
+      theme(panel.border = element_rect(fill = NA, linewidth = 0.5),
+            plot.title = element_text(size = 10))
+    )
+}
+
+regional_limits <- list(
+  list(region = "North America", lims = c(-115, 15, -65, 55)),
+  list(region = "Europe",        lims = c( -15, 30,  45, 70)),
+  list(region = "Middle East",   lims = c(  30, 10,  80, 50)),
+  list(region = "East Asia",     lims = c(  80,  0, 130, 40))
+)
+
+wrap_plots(lapply(regional_limits, get_regional_map))
+```
+1. No `lat_0` is required for this projection, but might be if I change it some time.
+2. It's necessary to 'cast the net wide' to make sure all countries within a window in lat-lon are on the map in the projected space, which is quite different than the lat-lon bounding box.
+
+## Finally: are the off-by-one routes clustered?
+It's not easy to know exactly how to approach this question. But we might expect, due to geographical patterns in naming and language that there would be some clustering of the actual off-by-one routes. A rough and ready approach to testing this idea is applied in the code cell below, based on the lengths in km of the various subsets of flights. The idea is that that shorter length routes might be more common among off-by-one routes than in scheduled flights in general.
+
+```{r}
+#| label: fig-comparison-of-distance-distributions
+#| fig-cap: A comparison of the flight length distributions of each category of flight.
+#| code-fold: true
+random_xy <- world |> 
+  filter(continent != "Antarctica") |>
+  st_sample(250) |>
+  st_coordinates()
+pairs <- combn(1:250, 2) |> t()
+
+sched_xy <- sched |>
+  inner_join(airports, by = join_by(iata1 == iata_code)) |>
+  rename(name1 = name, x1 = x, y1 = y) |>
+  inner_join(airports, by = join_by(iata2 == iata_code)) |>
+  rename(name2 = name, x2 = x, y2 = y)
+
+df <- list(
+  random = distGeo(random_xy[pairs[, 1], ], random_xy[pairs[, 2], ]),
+  scheduled = distGeo(sched_xy |> select(x1, y1),
+                      sched_xy |> select(x2, y2)),
+  possible = distGeo(routes_sf |> st_drop_geometry() |> select(x1, y1),
+                     routes_sf |> st_drop_geometry() |> select(x2, y2)),
+  actual = distGeo(routes_sf_actual |> st_drop_geometry() |>select(x1, y1),
+                   routes_sf_actual |> st_drop_geometry() |> select(x2, y2))) |>
+  stack() |>
+  as.data.frame() |> 
+  rename(Distance = values, Type = ind) |>
+  mutate(Distance = Distance / 1e3,
+         Type = ordered(Type, levels = c("random", "scheduled", 
+                                         "possible", "actual"),
+                              labels = c("Random", "Scheduled", 
+                                         "Possible off-by-one",
+                                         "Actual off-by-one")))
+
+ggplot(df) +
+  geom_histogram(aes(x = Distance), binwidth = 2000, 
+                 fill = "grey", colour = "black", linewidth = 0.25) +
+  facet_wrap( ~ Type, scales = "free_y") +
+  ylab("Count") +
+  theme_minimal()
+```
+
+Looking at these distributions there's no reason to think there's any geographical patterning, in spite of Canada's attempt to tip the scales with its weird Y-- codes. 
+
+Completely random flights with origins and destinations randomly located on land (excluding Antarctica) and our all possible off-by-one flights are similarly distributed, although the latter has a spike in shorter (sub-5000 km) flights most likely due to higher densities of within-region flights. A more sophisticate 'null' model would likely place random airports based on population densities, but that seems a bit like overkill in this context! Both these distributions have an irrelevant tail of flights longer than 15,000 km which simply don't exist (at least not yet).
+
+Meanwhile, the lengths of actually existing off-by-one flights look very much like a random sample from the lengths of all scheduled flights.
+
+Based on this evidence it would be hard to make a claim that there's any geographical pattern to where you are most likely to find yourself on one of these flights. A code after all is just a code, especially when, like IATA codes it has developed in a fairly ad hoc manner with a need for consistency locking in many early decisions.^[Unlike, for example, the numbers assigned to highways in the United States or roads in the United Kingdom according to explicitly geographical schemes).
+
+So next time, if ever, you find yourself on one of these relatively rare flights, do your best to enjoy it. But there's really no need to add this to your bucket list. Saying which, MEL-DEL-HEL seems like it could be... fun?

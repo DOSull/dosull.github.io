@@ -10,7 +10,1707 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Thu, 19 Jun 2025 12:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 26 Jun 2025 12:00:00 GMT</lastBuildDate>
+<item>
+  <title>What three letters</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-27-06-iata-codes/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Last year some time I found myself on a flight from Dubai (DXB) to Dublin (DUB) and of course my pattern detecting brain noted the off-by-one-letter difference in the <a href="https://en.wikipedia.org/wiki/IATA_airport_code">International Air Transport Association (IATA) codes</a> of the two airports. It got in my head at the time and between watching bad movies and dozing and wondering if the flight would ever end (it was the third leg of a WLG - AKL - DXB - DUB endurance test) I found myself idly wondering, just how many off-by-one-letter flights there are. Are they rare or commonplace? Where are they? How many could there possibly be?</p>
+<p>So, for all those similarly afflicted by such questions, here’s a post with more than you ever wanted to know about this deeply trivial matter. As always, there are coding tricks to be learned along the way. The code I think is less interesting can also be viewed by clicking on the <span style="font-family:'Roboto Condensed';font-weight:400;">▸&nbsp;Code</span> links.</p>
+<section id="libraries-and-data" class="level2">
+<h2 class="anchored" data-anchor-id="libraries-and-data">Libraries and data</h2>
+<p>The most interesting libraries we need are <a href=""><code>geosphere</code></a>, which does all manner of great circle calculations. It <a href="https://github.com/rspatial/geosphere/issues/14">could use an update to more fully integrate with <code>sf</code></a>, but that said is pretty great. <a href="https://github.com/markvanderloo/stringdist"><code>stringdist</code></a> does the needed calculation of differences between strings.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-1" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(sf)</span>
+<span id="annotated-cell-1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(dplyr)</span>
+<span id="annotated-cell-1-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyr)</span>
+<span id="annotated-cell-1-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(stringr)</span>
+<span id="annotated-cell-1-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(ggplot2)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-6" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(patchwork)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-7" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(geosphere)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-8" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(stringdist)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-9" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(smoothr)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="6" data-code-annotation="1">For assembling multi-panel figures.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="2">For making great circle arcs.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="8" data-code-annotation="3">For determining similarities between strings.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="9" data-code-annotation="4">For densifying points along meridians to make a ‘globe’ polygon.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>We need some base world data, and I’ve also made a ‘globe’ so we can colour in the background sensibly in a non-rectangular projection. I’ve chosen 30°E for the central meridian of my world maps because<sup>1</sup> that allows all the off-by-one routes that exist to be shown without breaks.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-2" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target">c_meridian <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span></span>
+<span id="annotated-cell-2-2">projection <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_glue</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=natearth lon_0={c_meridian}"</span>)</span>
+<span id="annotated-cell-2-3"></span>
+<span id="annotated-cell-2-4">world <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> spData<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span>world</span>
+<span id="annotated-cell-2-5">world_p <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> world <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-6" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_break_antimeridian</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lon_0 =</span> c_meridian) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-2-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(projection)</span>
+<span id="annotated-cell-2-8"></span>
+<span id="annotated-cell-2-9">globe <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_polygon</span>(</span>
+<span id="annotated-cell-2-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">matrix</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">179.999</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> c_meridian, </span>
+<span id="annotated-cell-2-11">                <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ncol =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-2-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_sfc</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-2-13">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.data.frame</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-2-14">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">crs =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4326</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3">3</button><span id="annotated-cell-2-15" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">densify</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>)</span>
+<span id="annotated-cell-2-16">globe_p <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> globe <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-2-17">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(projection)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1">Using a central meridian 30°E gives a better centred final map.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="2">Break things based on a central meridian 30°E</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="15" data-code-annotation="3">For rounded ‘edges’ to the globe when projected.</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="aviation-data" class="level2">
+<h2 class="anchored" data-anchor-id="aviation-data">Aviation data</h2>
+<p>Via <a href="https://ourairports.com/data/">ourairports.com</a><sup>2</sup> we can get pretty comprehensive data on airports, large and small. So much data in fact (some 83,210 airports) that I’ve limited the focus for this post to a mere 482 ‘large’ airports that also have an IATA code.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">airports <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">read.csv</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://davidmegginson.github.io/ourairports-data/airports.csv"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb1-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(type <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%in%</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"large_airport"</span>), iata_code <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(name, iata_code, longitude_deg, latitude_deg) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> longitude_deg, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> latitude_deg)</span></code></pre></div>
+</details>
+</div>
+</section>
+<section id="all-possible-off-by-one-routes" class="level2">
+<h2 class="anchored" data-anchor-id="all-possible-off-by-one-routes">All possible off-by-one routes</h2>
+<p>Finding the best way to get all the two airport combinations proved trickier than I expected, at least it did for as long as I persisted with trying to do it ‘tidily’. I also took a detout via <code>igraph</code> which allows for a nice graph-based approach, round-tripping airport-pairs via a simple undirected graph. That’s appropriate in some respects, but really overkill for this problem. Knowing when to give up is half the battle, and switching to using base R’s <code>combn</code> is simple, give or take a bit of matrix conversion to get the results into a dataframe.</p>
+<p>After that it’s a simple matter to filter for routes with a <a href="https://en.wikipedia.org/wiki/Hamming_distance">Hamming distance</a> between codes as calculated by <code>stringdist</code> of exactly one, and then join coordinate data for the two airports.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">routes <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">combn</span>(airports<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>iata_code, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb2-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">matrix</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ncol =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">byrow =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>, </span>
+<span id="cb2-3">         <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">dimnames =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"iata"</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sep =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>))) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb2-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.data.frame</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">stringdist</span>(iata1, iata2, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">method =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hamming"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">left_join</span>(airports, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">join_by</span>(iata1 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> iata_code)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">name1 =</span> name, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x1 =</span> x, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y1 =</span> y) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">left_join</span>(airports, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">join_by</span>(iata2 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> iata_code)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">name2 =</span> name, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x2 =</span> x, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y2 =</span> y) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(iata1, iata2, name1, name2, x1, y1, x2, y2)</span></code></pre></div>
+</details>
+</div>
+<section id="great-circle-routes" class="level3">
+<h3 class="anchored" data-anchor-id="great-circle-routes">Great circle routes</h3>
+<p>While flights might very well not follow great circle routes in all cases, they are the most appropriate general way to represent them on a world map, which is where <code>geoshphere</code>’s functionality comes in.</p>
+<p>The tricky part here was to break the great circle linestrings into multistrings at my chosen antimeridian (at 150°W). While <code>sf::st_break_antimeridian</code> does this correctly, for reasons I think associated with the various necessary format conversions I wound up with duplicate copies of every flight that crossed the anti-meridian, in addition to a multilinestring broken at the meridian. Fixing this necessitated some additional steps.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-5" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1">routes_sf <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">gcIntermediate</span>(</span>
+<span id="annotated-cell-5-2">    routes <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(x1<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>y1), routes <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(x2<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>y2), </span>
+<span id="annotated-cell-5-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">n =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">addStartEnd =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">breakAtDateLine =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sp =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-5-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_as_sf</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-5-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_set_crs</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4326</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-5-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">bind_cols</span>(routes) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-5-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_break_antimeridian</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lon_0 =</span> c_meridian) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-8" class="code-annotation-target">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">route =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_c</span>(iata1, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"-"</span>, iata2))</span>
+<span id="annotated-cell-5-9"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-10" class="code-annotation-target">routes_multi <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> routes_sf <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-5-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(route) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-5-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarise</span>()</span>
+<span id="annotated-cell-5-13"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3">3</button><span id="annotated-cell-5-14" class="code-annotation-target">routes_sf <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> routes_sf <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-5-15">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_drop_geometry</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-5-16">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">distinct</span>(iata1, iata2, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">.keep_all =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-5-17">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">left_join</span>(routes_multi, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">join_by</span>(route)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-5-18">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_as_sf</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="8" data-code-annotation="1">Add a <code>"AKL-WLG"</code> style <code>route</code> attribute to help in identifying duplicate routes.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="10" data-code-annotation="2">Group on the <code>route</code> attribute and summarise to create multilinestrings.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="14" data-code-annotation="3">Join the multilinestrings back to the data.</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+</section>
+<section id="a-map-of-all-the-potential-off-by-one-routes" class="level2">
+<h2 class="anchored" data-anchor-id="a-map-of-all-the-potential-off-by-one-routes">A map of all the potential off-by-one routes</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> globe_p, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#ddeeff"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NA</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> world_p, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#dddddd"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NA</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> routes_sf, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lwd =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.05</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#666666"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-all-possible-routes-map" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-all-possible-routes-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-all-possible-routes-map-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;1: All possible routes between major airports differing by one letter in their IATA codes."><img src="https://dosull.github.io/posts/2025-27-06-iata-codes/index_files/figure-html/fig-all-possible-routes-map-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-all-possible-routes-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: All possible routes between major airports differing by one letter in their IATA codes.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Just to emphasise: this is not a map of actually existing off-by-one routes, it’s a map of all the possible such routes between our 482 large airports. There are 782 of them. That’s from a possible 116,402 routes, or about 0.67%. This is more than half as many again as we’d expect if the codes were random. There are up to 26-cubed or 17,576 codes. Any given code can connect to as many as 17,575 other codes, and of these only 75 can be off-by-one (there are 25 possible different letters in each of the three available positions). That’s 75 / 17,575, which is only 0.43%</p>
+<p>Of course the codes aren’t random, they generally bear some relation to the names of actual places<sup>3</sup> and we’d therefore expect the distribution of letters in the codes to be uneven. We can confirm this very easily:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">letter_freqs <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data.frame</span>(</span>
+<span id="cb4-2">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Letter =</span> LETTERS,</span>
+<span id="cb4-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Count =</span> airports <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb4-4">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">pull</span>(iata_code) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb4-5">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_c</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">collapse =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb4-6">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_count</span>(LETTERS)</span>
+<span id="cb4-7">)</span>
+<span id="cb4-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(letter_freqs) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb4-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_col</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> Letter, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> Count), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"darkgrey"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb4-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-letter-distributions" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-letter-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-letter-distributions-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Counts of letters in the IATA codes of 482 airports"><img src="https://dosull.github.io/posts/2025-27-06-iata-codes/index_files/figure-html/fig-letter-distributions-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-letter-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Counts of letters in the IATA codes of 482 airports
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>I checked for the 9000 or so airports that have codes and the pattern is not so different, with A and S still the most favoured letters.</p>
+</section>
+<section id="what-about-actually-existing-routes" class="level2">
+<h2 class="anchored" data-anchor-id="what-about-actually-existing-routes">What about actually existing routes?</h2>
+<p>Among other reasons, actually existing routes are different from all possible ones because the <a href="https://en.wikipedia.org/wiki/Longest_flights#Longest_passenger_flights">longest scheduled flights max out at a bit over 15,000km</a><sup>4</sup></p>
+<p>Sadly, it’s difficult to source open data on regularly scheduled flights, because it’s commercially valuable information. The best I could do was from <a href="https://openflights.org/data.php">openflights.org</a>, but as they say “The third-party that OpenFlights uses for route data ceased providing updates in June 2014”.<sup>5</sup> Anyway, we can filter out routes from our off-by-one dataset that don’t appear in this list.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">sched <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">read.csv</span>(</span>
+<span id="cb5-2">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat"</span>, </span>
+<span id="cb5-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">header =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb5-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb5-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">iata1 =</span> V3, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">iata2 =</span> V5) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb5-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ab =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_c</span>(iata1, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"-"</span>, iata2),</span>
+<span id="cb5-7">         <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ba =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_c</span>(iata2, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"-"</span>, iata1))</span>
+<span id="cb5-8"></span>
+<span id="cb5-9">routes_sf_actual <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> routes_sf <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb5-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ab =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_c</span>(iata1, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"-"</span>, iata2)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb5-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>((ab <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%in%</span> sched<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>ab) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> (ab <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%in%</span> sched<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>ba)) </span></code></pre></div>
+</details>
+</div>
+<p>And we can map those.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> globe_p, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#ddeeff"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NA</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> world_p, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#dddddd"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NA</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> routes_sf, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lwd =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.05</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#666666"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> routes_sf_actual, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lwd =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"red"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-actual-routes-map" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-actual-routes-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-actual-routes-map-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;3: Actually existing routes off-by-one in their IATA codes highlighted in red."><img src="https://dosull.github.io/posts/2025-27-06-iata-codes/index_files/figure-html/fig-actual-routes-map-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-actual-routes-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Actually existing routes off-by-one in their IATA codes highlighted in red.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The longest of these routes is Melbourne (MEL) to Delhi (DEL) from where you could get an onward connection to Helsinki (HEL). Surprisingly New Zealand’s only entrant in this list is the relatively local Auckland (AKL) to Adelaide (ADL). Amusingly, the shortest off-by-one route at 324km is between King Abdulaziz International Airport (JED) and Prince Mohammad Bin Abdulaziz Airport (MED) both in Saudi Arabia, and keeping airport naming rights in the family.</p>
+<section id="more-local-maps" class="level3">
+<h3 class="anchored" data-anchor-id="more-local-maps">More local maps</h3>
+<p>In lieu of a zoomable web map<sup>6</sup> below are four more localised views.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-10" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1">airport_labels <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> airports <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-10-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(iata_code <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%in%</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(routes_sf_actual<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>iata1, </span>
+<span id="annotated-cell-10-3">                          routes_sf_actual<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>iata2)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-10-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_as_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">coords =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"y"</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">crs =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4326</span>)</span>
+<span id="annotated-cell-10-5"></span>
+<span id="annotated-cell-10-6">get_proj_string <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(bounds) {</span>
+<span id="annotated-cell-10-7">  lon_0 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> (bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span>
+<span id="annotated-cell-10-8">  lats <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">quantile</span>(bounds[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>)], <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.25</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.75</span>))</span>
+<span id="annotated-cell-10-9">  lat_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> lats[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-10" class="code-annotation-target">  lat_0 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> lats[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]</span>
+<span id="annotated-cell-10-11">  lat_2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> lats[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]</span>
+<span id="annotated-cell-10-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_glue</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+proj=aea +lat_1={lat_1} +lat_2={lat_2} +lon_0={lon_0}"</span>)</span>
+<span id="annotated-cell-10-13">}</span>
+<span id="annotated-cell-10-14"></span>
+<span id="annotated-cell-10-15">get_ll_bbox <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(bounds) {</span>
+<span id="annotated-cell-10-16">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_polygon</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="annotated-cell-10-17">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">matrix</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>], bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>], bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>], bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>], bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>],</span>
+<span id="annotated-cell-10-18">             bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>], bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>], bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>], bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>], bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ncol =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-10-19">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_sfc</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">crs =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4326</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="annotated-cell-10-20">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.data.frame</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-10-21">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_sf</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-10-22">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">densify</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>)  </span>
+<span id="annotated-cell-10-23">}</span>
+<span id="annotated-cell-10-24"></span>
+<span id="annotated-cell-10-25">get_ll_limited_gdf <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(gdf, ll_bbox, crs) {</span>
+<span id="annotated-cell-10-26">  gdf <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="annotated-cell-10-27">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_filter</span>(ll_bbox, </span>
+<span id="annotated-cell-10-28">              <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">.predicate =</span> st_is_within_distance, </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-29" class="code-annotation-target">              <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">dist =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1e6</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-10-30">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(crs) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-10-31">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_make_valid</span>()</span>
+<span id="annotated-cell-10-32">}</span>
+<span id="annotated-cell-10-33"></span>
+<span id="annotated-cell-10-34">get_regional_map <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(limits) {</span>
+<span id="annotated-cell-10-35">  proj     <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_proj_string</span>(limits<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>lims)</span>
+<span id="annotated-cell-10-36">  bb       <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_ll_bbox</span>(limits<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>lims)</span>
+<span id="annotated-cell-10-37">  world_p  <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_ll_limited_gdf</span>(world, bb, proj)</span>
+<span id="annotated-cell-10-38">  routes_p <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> routes_sf <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(proj)</span>
+<span id="annotated-cell-10-39">  actual_p <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> routes_sf_actual <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(proj)</span>
+<span id="annotated-cell-10-40">  labels_p <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_ll_limited_gdf</span>(airport_labels, bb, proj)</span>
+<span id="annotated-cell-10-41">  plot_lims <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> bb <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="annotated-cell-10-42">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_transform</span>(proj) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="annotated-cell-10-43">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_bbox</span>()</span>
+<span id="annotated-cell-10-44">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplotGrob</span>(   <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># return complex plot as grob: less prone to memory issues?</span></span>
+<span id="annotated-cell-10-45">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-10-46">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> world_p, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#d0d0d0"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"white"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lwd =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.25</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-10-47">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> routes_p, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lwd =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.04</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#666666"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-10-48">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> actual_p, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lwd =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.35</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"red"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-10-49">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf_label</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> labels_p, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> iata_code), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.5</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-10-50">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlim =</span> plot_lims[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)], </span>
+<span id="annotated-cell-10-51">               <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ylim =</span> plot_lims[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>)], <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">expand =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-10-52">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggtitle</span>(limits<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>region) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-10-53">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="annotated-cell-10-54">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">panel.border =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">element_rect</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NA</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linewidth =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>),</span>
+<span id="annotated-cell-10-55">            <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">plot.title =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">element_text</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>))</span>
+<span id="annotated-cell-10-56">    )</span>
+<span id="annotated-cell-10-57">}</span>
+<span id="annotated-cell-10-58"></span>
+<span id="annotated-cell-10-59">regional_limits <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="annotated-cell-10-60">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">region =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"North America"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lims =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">115</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>, <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">65</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">55</span>)),</span>
+<span id="annotated-cell-10-61">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">region =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Europe"</span>,        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lims =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>( <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>,  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">45</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">70</span>)),</span>
+<span id="annotated-cell-10-62">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">region =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Middle East"</span>,   <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lims =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>,  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">80</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>)),</span>
+<span id="annotated-cell-10-63">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">region =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"East Asia"</span>,     <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lims =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">80</span>,  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">130</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">40</span>))</span>
+<span id="annotated-cell-10-64">)</span>
+<span id="annotated-cell-10-65"></span>
+<span id="annotated-cell-10-66"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">wrap_plots</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lapply</span>(regional_limits, get_regional_map))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="10" data-code-annotation="1">No <code>lat_0</code> is required for this projection, but might be if I change it some time.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="29" data-code-annotation="2">It’s necessary to ‘cast the net wide’ to make sure all countries within a window in lat-lon are on the map in the projected space, which is quite different than the lat-lon bounding box.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div id="fig-regional-plots" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-regional-plots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-regional-plots-1.png" class="lightbox" data-gallery="maps" title="Figure&nbsp;4: Regionally focused maps with IATA codes shown."><img src="https://dosull.github.io/posts/2025-27-06-iata-codes/index_files/figure-html/fig-regional-plots-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-regional-plots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Regionally focused maps with IATA codes shown.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="finally-are-the-off-by-one-routes-clustered" class="level2">
+<h2 class="anchored" data-anchor-id="finally-are-the-off-by-one-routes-clustered">Finally: are the off-by-one routes clustered?</h2>
+<p>It’s not easy to know exactly how to approach this question. But we might expect, due to geographical patterns in naming and language that there would be some clustering of the actual off-by-one routes. A rough and ready approach to testing this idea is applied in the code cell below, based on the lengths in km of the various subsets of flights. The idea is that that shorter length routes might be more common among off-by-one routes than in scheduled flights in general.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">random_xy <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> world <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb7-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(continent <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Antarctica"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_sample</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">250</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_coordinates</span>()</span>
+<span id="cb7-5">pairs <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">combn</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">250</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">t</span>()</span>
+<span id="cb7-6"></span>
+<span id="cb7-7">sched_xy <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> sched <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inner_join</span>(airports, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">join_by</span>(iata1 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> iata_code)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">name1 =</span> name, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x1 =</span> x, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y1 =</span> y) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inner_join</span>(airports, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">join_by</span>(iata2 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> iata_code)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">name2 =</span> name, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x2 =</span> x, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y2 =</span> y)</span>
+<span id="cb7-12"></span>
+<span id="cb7-13">df <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="cb7-14">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">random =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">distGeo</span>(random_xy[pairs[, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>], ], random_xy[pairs[, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>], ]),</span>
+<span id="cb7-15">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">scheduled =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">distGeo</span>(sched_xy <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(x1, y1),</span>
+<span id="cb7-16">                      sched_xy <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(x2, y2)),</span>
+<span id="cb7-17">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">possible =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">distGeo</span>(routes_sf <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_drop_geometry</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(x1, y1),</span>
+<span id="cb7-18">                     routes_sf <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_drop_geometry</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(x2, y2)),</span>
+<span id="cb7-19">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">actual =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">distGeo</span>(routes_sf_actual <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_drop_geometry</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(x1, y1),</span>
+<span id="cb7-20">                   routes_sf_actual <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_drop_geometry</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(x2, y2))) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-21">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">stack</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-22">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.data.frame</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb7-23">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rename</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Distance =</span> values, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Type =</span> ind) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-24">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Distance =</span> Distance <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1e3</span>,</span>
+<span id="cb7-25">         <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Type =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ordered</span>(Type, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">levels =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"random"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"scheduled"</span>, </span>
+<span id="cb7-26">                                         <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"possible"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"actual"</span>),</span>
+<span id="cb7-27">                              <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">labels =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Random"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Scheduled"</span>, </span>
+<span id="cb7-28">                                         <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Possible off-by-one"</span>,</span>
+<span id="cb7-29">                                         <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Actual off-by-one"</span>)))</span>
+<span id="cb7-30"></span>
+<span id="cb7-31"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(df) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-32">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_histogram</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> Distance), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">binwidth =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2000</span>, </span>
+<span id="cb7-33">                 <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"grey"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"black"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linewidth =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.25</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-34">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">facet_wrap</span>( <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> Type, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">scales =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"free_y"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-35">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ylab</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Count"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-36">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-comparison-of-distance-distributions" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-comparison-of-distance-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-comparison-of-distance-distributions-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: A comparison of the flight length distributions of each category of flight."><img src="https://dosull.github.io/posts/2025-27-06-iata-codes/index_files/figure-html/fig-comparison-of-distance-distributions-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comparison-of-distance-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: A comparison of the flight length distributions of each category of flight.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at these distributions there’s no reason to think there’s any geographical patterning, in spite of Canada’s attempt to tip the scales with its weird Y– codes.</p>
+<p>Completely random flights with origins and destinations randomly located on land (excluding Antarctica) and our all possible off-by-one flights are similarly distributed, although the latter has a spike in shorter (sub-5000 km) flights most likely due to higher densities of within-region flights. A more sophisticate ‘null’ model would likely place random airports based on population densities, but that seems a bit like overkill in this context! Both these distributions have an irrelevant tail of flights longer than 15,000 km which simply don’t exist (at least not yet).</p>
+<p>Meanwhile, the lengths of actually existing off-by-one flights look very much like a random sample from the lengths of all scheduled flights.</p>
+<p>Based on this evidence it would be hard to make a claim that there’s any geographical pattern to where you are most likely to find yourself on one of these flights. A code after all is just a code, especially when, like IATA codes it has developed in a fairly ad hoc manner with a need for consistency locking in many early decisions.^[Unlike, for example, the numbers assigned to highways in the United States or roads in the United Kingdom according to explicitly geographical schemes).</p>
+<p>So next time, if ever, you find yourself on one of these relatively rare flights, do your best to enjoy it. But there’s really no need to add this to your bucket list. Saying which, MEL-DEL-HEL seems like it could be… fun?</p>
+
+
+</section>
+
+
+<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Spoilers…↩︎</p></li>
+<li id="fn2"><p>Albeit hosted by David Megginson, who appears to be <a href="https://www.flightgear.org/">FlightGear flight simulator</a> <a href="https://github.com/davidmegginson/fgfs-scenery-build">enthusiast</a>.↩︎</p></li>
+<li id="fn3"><p><a href="https://en.wikipedia.org/wiki/IATA_airport_code#Canada">Canada’s weird system</a> stretches this claim pretty far.↩︎</p></li>
+<li id="fn4"><p>I regret to say I’ve been on a couple of these, a side-effect of being from Ireland and living in New Zealand. I can’t recommend such super-long flights in economy unless it’s in an <a href="https://en.wikipedia.org/wiki/Airbus_A380">A380</a>. But can I just say? Those things are <em>awesome</em>.↩︎</p></li>
+<li id="fn5"><p>Oh well… this is a fun little project but not one worth spending any money on.↩︎</p></li>
+<li id="fn6"><p>Which comes with its own challenges with respect to meridians and projections, etc.↩︎</p></li>
+</ol>
+</section></div> ]]></description>
+  <category>geospatial</category>
+  <category>r</category>
+  <category>tutorial</category>
+  <category>networks</category>
+  <category>ggplot</category>
+  <category>life</category>
+  <guid>https://dosull.github.io/posts/2025-27-06-iata-codes/</guid>
+  <pubDate>Thu, 26 Jun 2025 12:00:00 GMT</pubDate>
+</item>
 <item>
   <title>A population based binary space partition</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -10123,29 +11823,6 @@ name        : Height </code></pre>
   <guid>https://dosull.github.io/posts/2024-08-15-netlogo-utils/netlogo-utils.html</guid>
   <pubDate>Wed, 14 Aug 2024 12:00:00 GMT</pubDate>
   <media:content url="https://dosull.github.io/posts/2024-08-15-netlogo-utils/netlogo-utils.png" medium="image" type="image/png" height="96" width="144"/>
-</item>
-<item>
-  <title>The model zoo</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2024-08-02-model-zoo-latest/model-zoo.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p>I’ve been diligently keeping the so-called ‘model zoo’ associated with our book <a href="../../books.html#spatial-simulation-exploring-pattern-and-process"><em>Spatial Simulation</em></a> updated for compatibility with new releases of NetLogo. Each time I generally manage to clean up a few parts of the code and slowly complete the ‘Info’ tabs (otherwise known as user documentation).</p>
-<p>The models are available from <a href="https://github.com/DOSull/model-zoo">this repo</a> and you can get an overview of what they’re all about at <a href="https://patternandprocess.org">this website</a>. Really though, you should buy <a href="../../books.html#spatial-simulation">the book</a>:</p>
-<p><a href="../../images/spatial-simulation.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/images/spatial-simulation.jpg" class="img-fluid"></a></p>
-
-
-
-<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p> ]]></description>
-  <category>netlogo</category>
-  <category>books</category>
-  <category>simulation</category>
-  <guid>https://dosull.github.io/posts/2024-08-02-model-zoo-latest/model-zoo.html</guid>
-  <pubDate>Thu, 01 Aug 2024 12:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

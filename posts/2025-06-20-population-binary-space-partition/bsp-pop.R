@@ -94,17 +94,22 @@ ggplot(nz) +
   theme_void()
 
 
-bb <- c(1.745e6, 5.907e6, 1.77e6, 5.926e6)
+# bb <- nz |> st_bbox() # c(1.745e6, 5.907e6, 1.77e6, 5.926e6)
+bb <- c(1.55e6, 5.16e6, 1.59e6, 5.20e6)
 ggplot() +
   geom_sf(data = nz, fill = "white", lwd = 0) + 
-  geom_tile(data = pop_grid |> filter(x >= bb[1], x <= bb[3], y >= bb[2], y <= bb[4]), 
+  geom_tile(data = pop_grid, 
             aes(x = x, y = y, width = 250, height = 250, fill = pop_250m_grid)) +
+  # geom_tile(data = pop_grid |> filter(x >= bb[1], x <= bb[3], y >= bb[2], y <= bb[4]), 
+  #           aes(x = x, y = y, width = 250, height = 250, fill = pop_250m_grid)) +
   scale_fill_distiller(palette = "Reds", direction = 1) +
-  geom_sf(data = nz, fill = NA, colour = "#1e90ff80", lwd = 0.35) + 
+  geom_sf(data = nz, fill = NA, colour = "#1e90ff80", lwd = 0.3) + 
   geom_sf(data = all_levels |> filter(level == 11), 
           fill = "#00000030", colour = "white", lwd = 0.2) +
   coord_sf(xlim = bb[c(1, 3)], ylim = bb[c(2, 4)], expand = FALSE, datum = 2193) +
   guides(fill = "none") +
   theme_void() +
-  theme(panel.border = element_rect(fill = NA, linewidth = 1), 
+  theme(panel.border = element_rect(fill = NA, linewidth = 0.5), 
         panel.background = element_rect(fill = "#1e90ff30", linewidth = 0))
+
+ggsave("chch-closeup.png")
