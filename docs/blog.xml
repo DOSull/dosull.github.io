@@ -25,7 +25,7 @@
 <p>So, for all those similarly afflicted by such questions, here’s a post with more than you ever wanted to know about this deeply trivial matter. As always, there are coding tricks to be learned along the way. The code I think is less interesting can also be viewed by clicking on the <span style="font-family:'Roboto Condensed';font-weight:400;">▸&nbsp;Code</span> links.</p>
 <section id="libraries-and-data" class="level2">
 <h2 class="anchored" data-anchor-id="libraries-and-data">Libraries and data</h2>
-<p>The most interesting libraries we need are <a href=""><code>geosphere</code></a>, which does all manner of great circle calculations. It <a href="https://github.com/rspatial/geosphere/issues/14">could use an update to more fully integrate with <code>sf</code></a>, but that said is pretty great. <a href="https://github.com/markvanderloo/stringdist"><code>stringdist</code></a> does the needed calculation of differences between strings.</p>
+<p>The most interesting libraries we need are <a href=""><code>geosphere</code></a>, which does all manner of great circle calculations (it <a href="https://github.com/rspatial/geosphere/issues/14">could use an update to more fully integrate with <code>sf</code></a>, but otherwise is pretty great) ; and <a href="https://github.com/markvanderloo/stringdist"><code>stringdist</code></a>, which does the needed calculation of differences between strings.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>

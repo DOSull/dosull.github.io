@@ -35,7 +35,7 @@ Last year some time I found myself on a flight from Dubai (DXB) to Dublin (DUB) 
 So, for all those similarly afflicted by such questions, here's a post with more than you ever wanted to know about this deeply trivial matter. As always, there are coding tricks to be learned along the way. The code I think is less interesting can also be viewed by clicking on the <span style="font-family:'Roboto Condensed';font-weight:400;">&#9656;&nbsp;Code</span> links.
 
 ## Libraries and data
-The most interesting libraries we need are [`geosphere`](), which does all manner of great circle calculations. It [could use an update to more fully integrate with `sf`](https://github.com/rspatial/geosphere/issues/14), but that said is pretty great. [`stringdist`](https://github.com/markvanderloo/stringdist) does the needed calculation of differences between strings.
+The most interesting libraries we need are [`geosphere`](), which does all manner of great circle calculations (it [could use an update to more fully integrate with `sf`](https://github.com/rspatial/geosphere/issues/14), but otherwise is pretty great) ; and [`stringdist`](https://github.com/markvanderloo/stringdist), which does the needed calculation of differences between strings.
 
 ```{r}
 #| label: libraries
