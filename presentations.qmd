@@ -8,6 +8,7 @@ Most talks are in web formats, and may include links that are now broken. Others
 
 Date | Title | Notes
 :-- | :-- | :--
+2025<br>July | [The latest on tiled multivariate maps](https://dosull.github.io/weaving-space/presentations/NZCS-Jul-2025/) | New Zealand Cartographic Society, Te Herenga Waka, 4 July.
 2025<br>June | [It's turtles all the way down: Simple models - complex outcomes](https://southosullivan.com/talks/cafe-complexite-2025/) | Café Complexité, Te Herenga Waka, 5 June.
 2025<br>May | [Look ma! (Almost) no javascript!](https://dosull.github.io/weaving-space/presentations/Wellington-Python-meetup-2025/) | Python NZ Wellington Meetup, Sharesies Offices, Wellington, 15 May. [Video](https://www.youtube.com/watch?v=4okZcHhQQgg)
 2024<br>August | [Time-space mapping in mountainous terrain](https://southosullivan.com/talks/GeoCart-2024/) | GeoCart 2024, National Library, Wellington, 21-23 August
