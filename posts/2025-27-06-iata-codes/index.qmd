@@ -14,7 +14,7 @@ filters:
   - nutshell
 categories:
   - geospatial
-  - r
+  - R
   - tutorial
   - networks
   - ggplot

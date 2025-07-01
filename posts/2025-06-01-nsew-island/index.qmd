@@ -12,7 +12,7 @@ filters:
   - nutshell
 categories:
   - geospatial
-  - r
+  - R
   - tutorial
   - stuff
   - aotearoa

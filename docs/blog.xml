@@ -1726,7 +1726,7 @@ Figure&nbsp;5: A comparison of the flight length distributions of each category 
 </ol>
 </section></div> ]]></description>
   <category>geospatial</category>
-  <category>r</category>
+  <category>R</category>
   <category>tutorial</category>
   <category>networks</category>
   <category>ggplot</category>
@@ -2842,7 +2842,7 @@ font-style: inherit;">FALSE</span>)</span></code></pre></div>
 </ol>
 </section></div> ]]></description>
   <category>geospatial</category>
-  <category>r</category>
+  <category>R</category>
   <category>tutorial</category>
   <category>aotearoa</category>
   <category>population</category>
@@ -4154,7 +4154,7 @@ Figure&nbsp;5: The best fit equal population quadrants.
 </ol>
 </section></div> ]]></description>
   <category>geospatial</category>
-  <category>r</category>
+  <category>R</category>
   <category>tutorial</category>
   <category>aotearoa</category>
   <guid>https://dosull.github.io/posts/2025-06-13-population-quadrants/</guid>
@@ -5375,7 +5375,7 @@ font-style: inherit;">+</span> g2</span></code></pre></div>
 </ol>
 </section></div> ]]></description>
   <category>geospatial</category>
-  <category>r</category>
+  <category>R</category>
   <category>tutorial</category>
   <category>stuff</category>
   <category>aotearoa</category>
@@ -6670,7 +6670,7 @@ font-style: inherit;">theme_void</span>()</span><div class="code-annotation-gutt
 </ol>
 </section></div> ]]></description>
   <category>geospatial</category>
-  <category>r</category>
+  <category>R</category>
   <category>tutorial</category>
   <category>stuff</category>
   <category>cartography</category>
