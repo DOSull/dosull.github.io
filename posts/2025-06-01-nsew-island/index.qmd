@@ -1,6 +1,7 @@
 ---
 title: "North-south or east-west islands?"
 subtitle: "And why both are wrong"
+description: "An exploration of just how north Te Ika-a-Maui is and how south Te Waipounamu."
 from: markdown+emoji
 author: "David O'Sullivan"
 toc: true

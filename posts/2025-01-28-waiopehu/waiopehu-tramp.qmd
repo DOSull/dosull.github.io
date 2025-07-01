@@ -1,6 +1,7 @@
 ---
 title: Into the (LiDAR) void
-description: "Or: who's afraid of the Tararuas?"
+subtitle: "Or: who's afraid of the Tararuas?"
+description: "Reflections on tramping in the (very) gnarly Tararuas, with R code for making elevation transects."
 author: "David O'Sullivan"
 toc: true
 lightbox:

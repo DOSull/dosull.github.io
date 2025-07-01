@@ -1,6 +1,7 @@
 ---
 title: "tmap vs. ggplot2 for mapping"
-description: "I think I prefer..."
+subtitle: "I think I prefer..."
+description: "For me at least the choice between ggplot2 and tmap is an ongoing question. Here are my latest thoughts on the subject (with code)."
 author: "David O'Sullivan"
 toc: true
 lightbox:

@@ -1,6 +1,7 @@
 ---
 title: "Kernel density estimation in R spatial"
-description: Here's one way to do kernel density estimation in _R_ spatial
+subtitle: Here's one way to do kernel density estimation in _R_ spatial
+description: The spatstat package is incredibly powerful but has no interest in dealing with your GIS data. Here's how to use it to do kernel density estimation on 'real' data.
 author: "David O'Sullivan"
 toc: true
 lightbox:

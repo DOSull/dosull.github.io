@@ -1,6 +1,7 @@
 ---
 title: "Locations of interest in 2021 delta outbreak"
-description: "When everything went pear-shaped"
+subtitle: "When everything went pear-shaped"
+description: "The delta outbreak of COVID in August 2021 was the beginning of the end for New Zealand's pandemic response. Here's an animated map timeline of the cases."
 author: "David O'Sullivan"
 toc: true
 lightbox:

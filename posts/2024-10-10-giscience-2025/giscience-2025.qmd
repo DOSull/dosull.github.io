@@ -1,6 +1,7 @@
 ---
 title: "Giscience 2025"
-description: "Call for papers"
+subtitle: "You know you want to..."
+description: "Call for papers."
 author: "David O'Sullivan"
 toc: true
 lightbox:

@@ -1,6 +1,7 @@
 ---
 title: "Nine XKCD bad map projections: ranked!^[[Insert 'You won't believe how bad they are' or similar clickbait headline here.]{style='text-transform:none;'}]"
 subtitle: "Also: reverse-engineered"
+description: "An attempt to rank the nine examples of so-called 'bad map projections' published by the XKCD web comic over the last few years. Not all the projections are actually bad, and I managed to reproduce some in R."
 from: markdown+emoji
 author: "David O'Sullivan"
 toc: true

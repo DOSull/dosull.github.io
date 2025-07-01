@@ -1,6 +1,7 @@
 ---
 title: "Useful utilities for NetLogo"
-description: "For when you are missing R/python"
+subtitle: "For when you are missing R/python"
+description: "I've made some useful utility functions for NetLogo that make it easier to manages lists and generate random numbers with different distributions."
 author: "David O'Sullivan"
 toc: true
 lightbox:

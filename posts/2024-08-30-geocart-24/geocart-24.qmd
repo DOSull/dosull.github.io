@@ -1,6 +1,7 @@
 ---
 title: "GeoCart'2024"
-description: Reflections on the meeting
+subtitle: Reflections on the meeting
+description: "GeoCart never disappoints, and this year was no exception. Even so the conference could probably do with a few minor adjustments to its format."
 author: "David O'Sullivan"
 toc: true
 lightbox:

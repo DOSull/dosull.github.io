@@ -1,6 +1,7 @@
 ---
 title: "What three chords"
-description: "Seriously, WTC?!"
+subtitle: "Seriously, WTC?!"
+description: "A rather silly exploration of encoding spatial location using guitar chords (lots of them, but only three at a time)."
 author: "David O'Sullivan"
 toc: true
 lightbox:

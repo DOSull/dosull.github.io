@@ -1,6 +1,7 @@
 ---
 title: "How to cut a cake into four equal slices"
 subtitle: "If the cake is a country made of people"
+description: "A procedure, including R code, for quadrisecting the population of New Zealand with two lines that intersect at 90&deg;"
 from: markdown+emoji
 author: "David O'Sullivan"
 toc: true

@@ -1,6 +1,7 @@
 ---
 title: "OK COVID, you win"
-description: "The end of the line"
+subtitle: "The end of the line"
+description: "The sorry tale of how I (and the country) gave up on managing COVID."
 author: "David O'Sullivan"
 toc: true
 lightbox:

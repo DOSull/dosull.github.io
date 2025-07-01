@@ -1,6 +1,7 @@
 ---
 title: Random points on the globe revisited
-description: Of Christmas gifts and rabbit holes
+subtitle: Of Christmas gifts and rabbit holes
+description: "Revisiting the generation of evenly-space point patterns on the globe, sparked by a rather lovely board game." 
 author: "David O'Sullivan"
 toc: true
 lightbox:
@@ -181,13 +182,17 @@ I've plotted the coordinates of the grid used to 'thin' the points at high latit
 These are the processes that were new to me, which showed up when I started looking for R packages that could do even sampling in 2D spaces. The first package to show up was [`spacefillr`](https://www.spacefillr.com/). This implements a number of such sequences, but we'll look here at the Halton sequence, because its workings are relatively easy to understand, and the implementation in the [`spbal` package](https://cran.r-project.org/web/packages/spbal/index.html) provides more options.
 
 [:_Halton sequences_](https://en.wikipedia.org/wiki/Halton_sequence) are generated using a pair of coprime numbers, i.e., two numbers with no common factors. The simplest example is 2 and 3. Each of the selected numbers specifies a sequence by repeated subdivision of the interval 0 to 1. So for 2 we get
+
 $$
 \frac{1}{2},\frac{1}{4},\frac{3}{4},\frac{1}{8},\frac{5}{8},\frac{3}{8},\frac{7}{8},\ldots
 $$
+
 and for 3 we get
+
 $$
 \frac{1}{3},\frac{2}{3},\frac{1}{9},\frac{4}{9},\frac{7}{9},\frac{2}{9},\frac{5}{9},\ldots
 $$
+
 Pairing these sequences gives us coordinates of points in the unit square. Different generating numbers can be chosen (provided they are coprime) and different starting points in each sequence can be paired, to give a wide variety of deterministically generated quasi-random patterns. The [`spbal` package](https://cran.r-project.org/web/packages/spbal/index.html) provides a highly configurable interface to generate such sequences using the `cppRSHalton_br` function. We can see the procedures inner workings clearly by examining the first few elements in the sequence:
 
 ```{r}
@@ -222,9 +227,11 @@ Details concerning generation of Halton sequences and their statistical properti
 Here I use a seemingly trivial (but not very efficient!) algorithm to generate some home-made evenly distributed points, without the need to specify any (spatial) parameter like the inhibition distance required by [rSSI](#a-couple-of-patterns-from-spatial-point-processes). I found the inspiration for this in this [detailed blog post](https://blog.demofox.org/2017/10/20/generating-blue-noise-sample-points-with-mitchells-best-candidate-algorithm/) about generating [:_blue noise_](https://en.wikipedia.org/wiki/Colors_of_noise#Blue_noise), which was in turn based on an algorithm described by Mitchell.^[Mitchell DP. 1991. [Spectrally optimal sampling for distribution ray tracing](https://dx.doi.org/10.1145/127719.122736). _SIGGRAPH Computer Graphics_. **25**(4) 157–164.] 
 
 Matters are complicated by having to calculate distances in latitude-longitude space, which we do using the [:Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula)
+
 $$
 d=2 r \arcsin\left(\sqrt{\sin^2\left(\frac{\varphi_2 - \varphi_1}{2}\right) + \cos(\varphi_1) \cos(\varphi_2)\sin^2\left(\frac{\lambda_2 - \lambda_1}{2}\right)}\right)
 $$
+
 for the distance between two lon-lat locations$\left(\lambda_1,\varphi_1\right)$ and $\left(\lambda_2,\varphi_2\right)$, although because we only need the relative distances we don't use the $2r$ scaling. The need to calculate toroidal distances described in the blogpost is obviated by calculating distances on the sphere which wraps in a similar way.
 
 The simple idea of this algorithm is that each time we add a new point we generate a set of points (`candidates`) to choose from, and select the one with the largest minimum distance to an existing point in the pattern. Making the algorithm more efficient would involve only checking the distance to points known to be close to candidate points using some kind of spatial index or binning structure.

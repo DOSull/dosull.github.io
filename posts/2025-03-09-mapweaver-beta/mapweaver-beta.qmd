@@ -1,6 +1,7 @@
 ---
 title: "MapWeaver: tiled and woven multivariate maps without code"
-description: "How can I make this better? And: is this anything?!"
+subtitle: "How can I make this better? And: is this anything?!"
+description: "Early experiences using Marimo to make a web app from the weavingspace code."
 author: "David O'Sullivan"
 toc: true
 lightbox:

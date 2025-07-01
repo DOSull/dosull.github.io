@@ -1,6 +1,7 @@
 ---
 title: "Uniform random points on the globe"
-description: "The earth's a sphere: who knew?"
+subtitle: "The earth's a sphere: who knew?"
+description: "Generating randomly distributed evenly spaced points on the sphere takes some care. This post explores why and how."
 author: "David O'Sullivan"
 toc: true
 lightbox:

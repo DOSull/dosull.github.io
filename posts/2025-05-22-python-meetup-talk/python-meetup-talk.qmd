@@ -1,6 +1,7 @@
 ---
 title: "Look ma! (Almost) no javascript!"
 subtitle: "I gave a talk at the local python meetup"
+description: "Video of a talk about marimo that I gave to the local python meetup, and related links."
 from: markdown+emoji
 author: "David O'Sullivan"
 toc: true

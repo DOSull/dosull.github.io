@@ -1,6 +1,7 @@
 ---
 title: "Mapping the Dulux colours"
-description: "The ultimate in categorical mapping"
+subtitle: "The ultimate in categorical mapping"
+description: The 'Dulux colours of New Zealand' are crying out to this geographer at least to be mapped, so I gave it a try."
 author: "David O'Sullivan"
 toc: true
 lightbox:

@@ -1,6 +1,7 @@
 ---
 title: "In praise of GeoPackages"
-description: "Shapefiles... who needs 'em?"
+subtitle: "Shapefiles... who needs 'em?"
+description: "One of the mysteries of the geospatial universe is the persistence of the shapefile. My thoughts, with example R code, on why we should all be using GeoPackages instead."
 author: "David O'Sullivan"
 toc: true
 lightbox:

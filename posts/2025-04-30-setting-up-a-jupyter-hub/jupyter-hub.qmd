@@ -1,6 +1,7 @@
 ---
 title: Imagine setting up a Jupyter hub
 subtitle: It's easy if you try
+description: "Turns out it is actually really easy to setup a Jupyter hub! So easy, even I couldn't mess it up, when I actually read the instructions."
 author: "David O'Sullivan"
 toc: true
 lightbox:

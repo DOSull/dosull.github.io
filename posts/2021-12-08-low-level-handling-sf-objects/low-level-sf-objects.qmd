@@ -1,6 +1,7 @@
 ---
 title: "Low level handling of sf objects"
-description: "Goddamnit, floating point!"
+subtitle: "Goddamnit, floating point!"
+description: "Probably you won't ever find yourself making simple features geometries from scratch, but if you do, here are some things you should know."
 author: "David O'Sullivan"
 toc: true
 lightbox:

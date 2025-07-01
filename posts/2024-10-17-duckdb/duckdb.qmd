@@ -1,6 +1,7 @@
 ---
 title: "The joy of DuckDB"
-description: "Insert duck-related joke here"
+subtitle: "Insert duck-related joke here"
+description: "DuckDB: for once a technology people are excited about that isn't a disappointment!"
 author: "David O'Sullivan"
 toc: true
 lightbox:

@@ -1,6 +1,7 @@
 ---
 title: A welcome (re)emergence of systems thinking
-description: And it's not before time!
+subtitle: And it's not before time!
+description: "Some (positive) thoughts on a surprise encounter with systems thinking at a project away day."
 author: "David O'Sullivan"
 toc: true
 lightbox:

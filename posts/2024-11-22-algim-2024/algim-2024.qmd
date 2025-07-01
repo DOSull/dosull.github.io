@@ -1,6 +1,7 @@
 ---
 title: ALGIM 2024
-description: On geospatial in local government
+subtitle: On geospatial in local government
+description: "I don't think I ever imagined attending a local government information management conference, but I did, and here are some thoughts on the experience."
 author: "David O'Sullivan"
 toc: true
 lightbox:

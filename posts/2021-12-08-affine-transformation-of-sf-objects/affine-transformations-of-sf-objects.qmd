@@ -1,6 +1,7 @@
 ---
 title: "Affine transformations of sf objects"
-description: Manipulating simple features in sf is sorta simple, sorta not...
+subtitle: Manipulating simple features in sf is sorta simple, sorta not...
+description: "Did you know the sf package lets you add vectors to geometries and multiply them by affine transformation matrices? Well, it does, and here are some examples."
 author: "David O'Sullivan"
 toc: true
 lightbox:

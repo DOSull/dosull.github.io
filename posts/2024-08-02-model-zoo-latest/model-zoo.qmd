@@ -1,6 +1,7 @@
 ---
 title: "The model zoo"
-description: "Keeping up with NetLogo"
+subtitle: "Keeping up with NetLogo"
+description: "Notice of an update to the models associated with _Spatial Simulation_."
 author: "David O'Sullivan"
 toc: true
 lightbox:

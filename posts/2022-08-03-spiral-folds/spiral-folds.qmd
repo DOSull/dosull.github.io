@@ -1,6 +1,7 @@
 ---
 title: "Spiral origami"
-description: "Things to make and do"
+subtitle: "Things to make and do"
+description: "I made a weird javascript thing that produces crease patterns you can use to fold Tomoko Fuse's spiral origami."
 author: "David O'Sullivan"
 toc: true
 lightbox:

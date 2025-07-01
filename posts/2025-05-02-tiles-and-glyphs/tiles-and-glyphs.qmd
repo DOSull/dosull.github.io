@@ -1,6 +1,7 @@
 ---
 title: Mostly tiles, but also glyphs
 subtitle: And tiles as glyphs
+description: "An exploration of some tile-based mapping options dealing with three variables, and a consideration of the relationship between tiles and glyphs in maps."
 from: markdown+emoji
 author: "David O'Sullivan"
 toc: true
