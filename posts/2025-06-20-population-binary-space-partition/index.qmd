@@ -114,7 +114,7 @@ split_population <- function(pop_pts, bounds) {
 1. Unpack the bounding box to west, east, bottom, and top values, and use these to get width `w` and height `h`. 
 2. We are only interested in the population inside the bounding box.
 3. If the area is taller than it is wide, then cut east-west at the weighted median `y` coordinate, otherwise cut north-south at the weighted median `x` coordinate.
-4. Here, and elsewhere the `125` offsets account for the fact that the grid cells are 250m, but we using their central coordinates.
+4. Here, and elsewhere the `125` offsets account for the fact that the grid cells are 250m, but we are using their central coordinates.
 
 The bisection runs east-west if the extent of the bounding area is longer north-south than east-west, and will run north-south otherwise. This is to promote 'squarer' rectangles as outputs, although as we'll see the vagaries of population distribution mean that plenty of long skinny rectangles make it through the process.
 
