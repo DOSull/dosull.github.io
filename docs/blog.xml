@@ -10,7 +10,108 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Thu, 26 Jun 2025 12:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 06 Jul 2025 12:00:00 GMT</lastBuildDate>
+<item>
+  <title>A simple atlas of projections</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-0707-projections-explorer/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>As I’ve posted previously (see <a href="../../notebooks/2025-02-18-marimo.html">here</a>, <a href="../2025-03-09-mapweaver-beta/">here</a>, and <a href="../2025-05-22-python-meetup-talk/">here</a>) <a href="https://docs.marimo.io">Marimo</a> is a promising new kind of <em>reactive</em> Python notebook. There’s a <a href="https://quarto.org">Quarto</a> <a href="https://github.com/marimo-team/quarto-marimo">extension</a> for it that makes it possible to embed reactive notebook interactivity into a blog post like this one.</p>
+<p>By the time you have finished reading that paragraph, I hope the interactive bits of this post will have appeared below… if not, then just hang on a little longer.</p>
+<div style="font-size:12px;">
+<marimo-island data-app-id="main" data-cell-id="Hbol" data-reactive="true">
+    <marimo-cell-output>
+    <marimo-mime-renderer data-mime="&quot;application/vnd.marimo+error&quot;" data-data="[{&quot;msg&quot;: &quot;An ancestor raised an exception (ModuleNotFoundError): &quot;, &quot;exception_type&quot;: &quot;ModuleNotFoundError&quot;, &quot;raising_cell&quot;: &quot;SFPL&quot;, &quot;type&quot;: &quot;exception&quot;}]"></marimo-mime-renderer>
+    </marimo-cell-output>
+    <marimo-ui-element object-id="3f34b016-0f6a-5664-6187-5719fa305abc" random-id="3f34b016-0f6a-5664-6187-5719fa305abc"><marimo-code-editor data-initial-value="&quot;get_plot()&quot;" data-label="null" data-language="&quot;python&quot;" data-placeholder="&quot;&quot;" data-disabled="false" data-show-copy-button="true" data-debounce="false"></marimo-code-editor></marimo-ui-element>
+</marimo-island>
+</div>
+<p>Pick a new projection and marvel as the map of the world changes!</p>
+<div style="font-size:12px;">
+<marimo-island data-app-id="main" data-cell-id="MJUe" data-reactive="true">
+    <marimo-cell-output>
+    <marimo-mime-renderer data-mime="&quot;application/vnd.marimo+error&quot;" data-data="[{&quot;msg&quot;: &quot;An ancestor raised an exception (ModuleNotFoundError): &quot;, &quot;exception_type&quot;: &quot;ModuleNotFoundError&quot;, &quot;raising_cell&quot;: &quot;SFPL&quot;, &quot;type&quot;: &quot;exception&quot;}]"></marimo-mime-renderer>
+    </marimo-cell-output>
+    <marimo-ui-element object-id="1c1df04c-c420-fd80-fceb-8f93a682320f" random-id="1c1df04c-c420-fd80-fceb-8f93a682320f"><marimo-code-editor data-initial-value="&quot;mo.md(f\&quot;\&quot;\&quot;\nChoose projection {proj}\\n\nShow indicatrix {show_indicatrix} Show graticule {show_graticule}\n\&quot;\&quot;\&quot;)&quot;" data-label="null" data-language="&quot;python&quot;" data-placeholder="&quot;&quot;" data-disabled="false" data-show-copy-button="true" data-debounce="false"></marimo-code-editor></marimo-ui-element>
+</marimo-island>
+</div>
+<p>There’s not really very much more to say than that. The code driving this interaction is all pure python, but compiled to WASM so that it runs in the client on a browser.</p>
+<p>The code that makes the UI elements like the drop-down and switches is part of the marimo API, so for example, the code to make the drop-down and switches looks like this:</p>
+<div style="font-size:12px;">
+<marimo-island data-app-id="main" data-cell-id="vblA" data-reactive="true">
+    <marimo-cell-output>
+    <marimo-mime-renderer data-mime="&quot;application/vnd.marimo+error&quot;" data-data="[{&quot;msg&quot;: &quot;An ancestor raised an exception (ModuleNotFoundError): &quot;, &quot;exception_type&quot;: &quot;ModuleNotFoundError&quot;, &quot;raising_cell&quot;: &quot;SFPL&quot;, &quot;type&quot;: &quot;exception&quot;}]"></marimo-mime-renderer>
+    </marimo-cell-output>
+    <marimo-ui-element object-id="8a6a2a1e-47f9-3b27-bdc3-a08f70e661c5" random-id="8a6a2a1e-47f9-3b27-bdc3-a08f70e661c5"><marimo-code-editor data-initial-value="&quot;proj = mo.ui.dropdown(options = dict, value = \&quot;WGS84\&quot;)\nshow_indicatrix = mo.ui.switch(True)\nshow_graticule = mo.ui.switch(True)&quot;" data-label="null" data-language="&quot;python&quot;" data-placeholder="&quot;&quot;" data-disabled="false" data-show-copy-button="true" data-debounce="false"></marimo-code-editor></marimo-ui-element>
+</marimo-island>
+</div>
+<p>Each of these is a <code>mo.ui.&lt;something&gt;</code> element (<code>mo</code> is the recommended marimo import alias) and they are embedded in markdown to provide labels and so on.</p>
+<p>Everything else is standard Python whether base python or whatever modules you need to do the analysis and display the results your page is showing. Here’s the <code>get_plot()</code> function invoked above to plot the projected world map. You can see it gets the values of a dropdown called <code>proj</code> and two switches <code>show_graticule</code> and <code>show_indicatrix</code> to control the plot output.</p>
+<div style="font-size:12px;">
+<marimo-island data-app-id="main" data-cell-id="bkHC" data-reactive="true">
+    <marimo-cell-output>
+    <marimo-mime-renderer data-mime="&quot;application/vnd.marimo+error&quot;" data-data="[{&quot;msg&quot;: &quot;An ancestor raised an exception (ModuleNotFoundError): &quot;, &quot;exception_type&quot;: &quot;ModuleNotFoundError&quot;, &quot;raising_cell&quot;: &quot;SFPL&quot;, &quot;type&quot;: &quot;exception&quot;}]"></marimo-mime-renderer>
+    </marimo-cell-output>
+    <marimo-ui-element object-id="16f5bc28-4ecc-3ba0-0544-45cc1d909aef" random-id="16f5bc28-4ecc-3ba0-0544-45cc1d909aef"><marimo-code-editor data-initial-value="&quot;def get_plot():\n    fig = plt.figure(figsize=(14, 7))\n    ax = fig.add_subplot(111)\n    ax.set_axis_off()\n    globe.to_crs(crs = proj.value).plot(\n        ax = ax, fc = \&quot;#00000000\&quot;, lw = 0)\n    world.to_crs(crs = proj.value).plot(\n        ax = ax, ec = \&quot;k\&quot;, lw = 0.5)\n    if show_graticule.value:\n        graticule.to_crs(crs = proj.value).plot(\n            ax = ax, fc = \&quot;#00000000\&quot;, ec = \&quot;#666666\&quot;, lw = 0.2)\n    if show_indicatrix.value:\n        indicatrix.to_crs(crs = proj.value).plot(\n            ax = ax, fc = \&quot;#ff000040\&quot;, lw = 0)\n    return ax&quot;" data-label="null" data-language="&quot;python&quot;" data-placeholder="&quot;&quot;" data-disabled="false" data-show-copy-button="true" data-debounce="false"></marimo-code-editor></marimo-ui-element>
+</marimo-island>
+</div>
+<p>The other thing to notice here is that due to marimo’s reactive nature, all this python code is ‘out of sequence’. The call to <code>get_plot()</code> comes before the function’s definition. For that matter, all the code to generate the graticule and so on is still to come:</p>
+<div style="font-size:12px;">
+<marimo-island data-app-id="main" data-cell-id="lEQa" data-reactive="true">
+    <marimo-cell-output>
+    <marimo-mime-renderer data-mime="&quot;application/vnd.marimo+error&quot;" data-data="[{&quot;msg&quot;: &quot;An ancestor raised an exception (ModuleNotFoundError): &quot;, &quot;exception_type&quot;: &quot;ModuleNotFoundError&quot;, &quot;raising_cell&quot;: &quot;SFPL&quot;, &quot;type&quot;: &quot;exception&quot;}]"></marimo-mime-renderer>
+    </marimo-cell-output>
+    <marimo-ui-element object-id="df966e46-4f71-c2f9-b0dd-3868a389e671" random-id="df966e46-4f71-c2f9-b0dd-3868a389e671"><marimo-code-editor data-initial-value="&quot;def get_parallel(lat):\n    lons = [-179.9] + list(range(-179, 180)) + [179.9]\n    return geom.LineString([(lon, lat) for lon in lons])\n\ndef get_meridian(lon):\n    lats = [-89.9] + list(range(-89, 90)) + [89.9]\n    return geom.LineString([(lon, lat) for lat in lats])\n\ndef get_graticule(spacing = 15):\n    return gpd.GeoSeries(\n        [get_parallel(lon) for lon in range(-90, 91, spacing)] +\n        [get_meridian(lat) for lat in range(-180, 181, spacing)], \n        crs = 4326)\n\ndef get_globe():\n    return gpd.GeoSeries([geom.Polygon([(x, y) for x, y in zip(\n        [-180] * 180 + [_ for _ in range(-180, 180)] + \n        [ 180] * 180 + [_ for _ in range(180, -180, -1)],\n        [_ for _ in range(-90,90)] + [ 90] * 360 + \n        [_ for _ in range(90, -90, -1)] + [-90] * 360)])],\n        crs = 4326)\n\ndef get_indicatrix():\n    xys = [(x, y) for x in range(-165, 166, 15)\n                    for y in range( -75,  76, 15)]\n    lats = [xy[1] for xy in xys]\n    xy = gpd.GeoSeries(\n        [geom.Point(xy) for xy in xys], crs = 4326).to_crs(\&quot;+proj=merc\&quot;)\n    return gpd.GeoSeries(\n        [xy.buffer(3e5 / np.cos(np.radians(lat))) \n         for xy, lat in zip(xy, lats)],\n        crs = \&quot;+proj=merc\&quot;).to_crs(4326)&quot;" data-label="null" data-language="&quot;python&quot;" data-placeholder="&quot;&quot;" data-disabled="false" data-show-copy-button="true" data-debounce="false"></marimo-code-editor></marimo-ui-element>
+</marimo-island>
+</div>
+<p>This kind of thing is what drives me nuts any time I try to figure out what’s going on with javascript code, but somehow it seems kind of obvious in this setting.</p>
+<p>Anyway, here, finally, is the code to provide the drop-down with its list of projections.</p>
+<div style="font-size:12px;">
+<marimo-island data-app-id="main" data-cell-id="PKri" data-reactive="true">
+    <marimo-cell-output>
+    <span></span>
+    </marimo-cell-output>
+    <marimo-ui-element object-id="76743c78-fe59-9296-ccef-e1af3cd5f826" random-id="76743c78-fe59-9296-ccef-e1af3cd5f826"><marimo-code-editor data-initial-value="&quot;dict = {\n    \&quot;WGS84\&quot;: \&quot;+proj=lonlat\&quot;,\n    \&quot;Adams World in a Square\&quot;: \&quot;+proj=adams_ws1\&quot;,\n    \&quot;Adams World in a Square II\&quot;: \&quot;+proj=adams_ws2\&quot;,\n    \&quot;Aitoff\&quot;: \&quot;+proj=aitoff\&quot;,\n    \&quot;Apian Globular\&quot;: \&quot;+proj=apian\&quot;,\n    \&quot;August Epicycloidal\&quot;: \&quot;+proj=august\&quot;,\n    \&quot;Azimuthal Equidistant\&quot;: \&quot;+proj=aeqd\&quot;,\n    \&quot;Boggs\&quot;: \&quot;+proj=boggs\&quot;,\n    \&quot;Bonne\&quot;: \&quot;+proj=bonne +lat_1=40\&quot;,\n    \&quot;Collignon\&quot;: \&quot;+proj=collg\&quot;,\n    \&quot;Compact Miller\&quot;: \&quot;+proj=comill\&quot;,\n    \&quot;Craster Parabolic (Putnins P4)\&quot;: \&quot;+proj=crast\&quot;,\n    \&quot;Denoyer Semi-Elliptical\&quot;: \&quot;+proj=denoy\&quot;,\n    \&quot;Eckert I\&quot;: \&quot;+proj=eck1\&quot;,\n    \&quot;Eckert II\&quot;: \&quot;+proj=eck2\&quot;,\n    \&quot;Eckert III\&quot;: \&quot;+proj=eck3\&quot;,\n    \&quot;Eckert IV\&quot;: \&quot;+proj=eck4\&quot;,\n    \&quot;Eckert V\&quot;: \&quot;+proj=eck5\&quot;,\n    \&quot;Eckert VI\&quot;: \&quot;+proj=eck6\&quot;,\n    \&quot;Equal Area Cylindrical\&quot;: \&quot;+proj=cea\&quot;,\n    \&quot;Equal Earth\&quot;: \&quot;+proj=eqearth\&quot;,\n    \&quot;Euler\&quot;: \&quot;+proj=euler +lat_1=67 +lat_2=75\&quot;,\n    \&quot;Fahey\&quot;: \&quot;+proj=fahey\&quot;,\n    \&quot;Foucaut\&quot;: \&quot;+proj=fouc\&quot;,\n    \&quot;Foucaut Sinusoidal\&quot;: \&quot;+proj=fouc_s\&quot;,\n    \&quot;Gall (Gall Stereographic)\&quot;: \&quot;+proj=gall\&quot;,\n    \&quot;General Sinusoidal\&quot;: \&quot;+proj=gn_sinu +m=2 +n=3\&quot;,\n    \&quot;Goode Homolosine\&quot;: \&quot;+proj=goode\&quot;,\n    \&quot;Ginsburg VIII\&quot;: \&quot;+proj=gins8\&quot;,\n    \&quot;Hammer &amp; Eckert-Greifendorff\&quot;: \&quot;+proj=hammer\&quot;,\n    \&quot;Hatano Asymmetrical Equal Area\&quot;: \&quot;+proj=hatano\&quot;,\n    \&quot;Kavrayskiy V\&quot;: \&quot;+proj=kav5\&quot;,\n    \&quot;Kavrayskiy VII\&quot;: \&quot;+proj=kav7\&quot;,\n    \&quot;Lagrange\&quot;: \&quot;+proj=lagrng\&quot;,\n    \&quot;Lambert Azimuthal Equal Area\&quot;: \&quot;+proj=laea\&quot;,\n    \&quot;Larrivee\&quot;: \&quot;+proj=larr\&quot;, \n    \&quot;Loximuthal\&quot;: \&quot;+proj=loxim\&quot;,\n    \&quot;McBryde-Thomas Flat-Polar Sine (No. 1)\&quot;: \&quot;+proj=mbt_s\&quot;,\n    \&quot;McBryde-Thomas Flat-Pole Sine (No. 2)\&quot;: \&quot;+proj=mbt_fps\&quot;,\n    \&quot;McBryde-Thomas Flat-Polar Parabolic\&quot;: \&quot;+proj=mbtfpp\&quot;,\n    \&quot;McBryde-Thomas Flat-Polar Quartic\&quot;: \&quot;+proj=mbtfpq\&quot;,\n    \&quot;McBryde-Thomas Flat-Polar Sinusoidal\&quot;: \&quot;+proj=mbtfps\&quot;,\n    \&quot;Miller\&quot;: \&quot;+proj=mill\&quot;,\n    \&quot;Mollweide\&quot;: \&quot;+proj=moll\&quot;, \n    \&quot;Natural Earth\&quot;: \&quot;+proj=natearth\&quot;,\n    \&quot;Natural Earth II\&quot;: \&quot;+proj=natearth2\&quot;,\n    \&quot;Nell\&quot;: \&quot;+proj=nell\&quot;,\n    \&quot;Nell-Hammer\&quot;: \&quot;+proj=nell_h\&quot;,\n    \&quot;Nicolosi-Globular\&quot;: \&quot;+proj=nicol\&quot;,\n    \&quot;Oblated Equal Area\&quot;: \&quot;+proj=oea +m=1 +n=2\&quot;,\n    \&quot;Ortelius Oval\&quot;: \&quot;+proj=ortel\&quot;,\n    \&quot;Patterson\&quot;: \&quot;+proj=patterson\&quot;,\n    \&quot;Peirce Quincuncial\&quot;: \&quot;+proj=peirce_q +lon_0=25 +shape=square\&quot;,\n    \&quot;Polyconic (American)\&quot;: \&quot;+proj=poly\&quot;,\n    \&quot;Putnins P1\&quot;: \&quot;+proj=putp1\&quot;,\n    \&quot;Putnins P2\&quot;: \&quot;+proj=putp2\&quot;,\n    \&quot;Putnins P3'\&quot;: \&quot;+proj=putp3p\&quot;,\n    \&quot;Putnins P4'\&quot;: \&quot;+proj=putp4p\&quot;,\n    \&quot;Putnins P5\&quot;: \&quot;+proj=putp5\&quot;,\n    \&quot;Putnins P5'\&quot;: \&quot;+proj=putp5p\&quot;,\n    \&quot;Putnins P6\&quot;: \&quot;+proj=putp6\&quot;,\n    \&quot;Putnins P6'\&quot;: \&quot;+proj=putp6p\&quot;,\n    \&quot;Quartic Authalic\&quot;: \&quot;+proj=qua_aut\&quot;,\n    \&quot;Rectangular Polyconic\&quot;: \&quot;+proj=rpoly\&quot;,\n    \&quot;Robinson\&quot;: \&quot;+proj=robin\&quot;,\n    \&quot;Roussilhe Stereographic\&quot;: \&quot;+proj=rouss\&quot;, \n    \&quot;Sinusoidal (Sanson-Flamsteed)\&quot;: \&quot;+proj=sinu\&quot;,\n    \&quot;Times\&quot;: \&quot;+proj=times\&quot;,\n    \&quot;Tobler-Mercator\&quot;: \&quot;+proj=tobmerc\&quot;,\n    \&quot;Two Point Equidistant\&quot;: \&quot;+proj=tpeqd +lat_1=60 +lat_2=65\&quot;,\n    \&quot;Urmaev V\&quot;: \&quot;+proj=urm5 +n=0.9 +alpha=2 +q=4\&quot;,\n    \&quot;Urmaev Flat-Polar  Stereographic\&quot;: \&quot;+proj=urmfps +n=0.5\&quot;,\n    \&quot;van der Grinten\&quot;: \&quot;+proj=vandg\&quot;,\n    \&quot;van der Grinten II\&quot;: \&quot;+proj=vandg2\&quot;,\n    \&quot;van der Grinten III\&quot;: \&quot;+proj=vandg3\&quot;,\n    \&quot;van der Grinten IV\&quot;: \&quot;+proj=vandg4\&quot;,\n    \&quot;Vitovsky I\&quot;: \&quot;+proj=vitk1 +lat_1=45 +lat_2=55\&quot;,\n    \&quot;Wagner I (Kavrayskiy VI)\&quot;: \&quot;+proj=wag1\&quot;,\n    \&quot;Wagner II\&quot;: \&quot;+proj=wag2\&quot;,\n    \&quot;Wagner III\&quot;: \&quot;+proj=wag3\&quot;,\n    \&quot;Wagner IV\&quot;: \&quot;+proj=wag4\&quot;,\n    \&quot;Wagner V\&quot;: \&quot;+proj=wag5\&quot;,\n    \&quot;Wagner VI\&quot;: \&quot;+proj=wag6\&quot;,\n    \&quot;Werenskiold\&quot;: \&quot;+proj=weren\&quot;,\n    \&quot;Winkel I\&quot;: \&quot;+proj=wink1\&quot;,\n    \&quot;Winkel II\&quot;: \&quot;+proj=wink2\&quot;,\n}&quot;" data-label="null" data-language="&quot;python&quot;" data-placeholder="&quot;&quot;" data-disabled="false" data-show-copy-button="true" data-debounce="false"></marimo-code-editor></marimo-ui-element>
+</marimo-island>
+</div>
+<p>Actually… not quite. The next two cells define the data layers and the very last cell imports all the Python modules that everything runs on!</p>
+<div style="font-size:12px;">
+<marimo-island data-app-id="main" data-cell-id="Xref" data-reactive="true">
+    <marimo-cell-output>
+    <marimo-mime-renderer data-mime="&quot;application/vnd.marimo+error&quot;" data-data="[{&quot;msg&quot;: &quot;An ancestor raised an exception (ModuleNotFoundError): &quot;, &quot;exception_type&quot;: &quot;ModuleNotFoundError&quot;, &quot;raising_cell&quot;: &quot;SFPL&quot;, &quot;type&quot;: &quot;exception&quot;}]"></marimo-mime-renderer>
+    </marimo-cell-output>
+    <marimo-ui-element object-id="c2858f53-73b5-682b-6284-217b9283f445" random-id="c2858f53-73b5-682b-6284-217b9283f445"><marimo-code-editor data-initial-value="&quot;world = gpd.read_file(\n    \&quot;https://raw.githubusercontent.com/DOSull/projection-atlas/refs/heads/main/app/ne.geojson\&quot;)\nworld.geometry = gpd.GeoSeries(\n    [geom.LineString(s.exterior).segmentize(1) for s in world.geometry])\nglobe = get_globe()\ngraticule = get_graticule()\nindicatrix = get_indicatrix()&quot;" data-label="null" data-language="&quot;python&quot;" data-placeholder="&quot;&quot;" data-disabled="false" data-show-copy-button="true" data-debounce="false"></marimo-code-editor></marimo-ui-element>
+</marimo-island>
+</div>
+<div style="font-size:12px;">
+<marimo-island data-app-id="main" data-cell-id="SFPL" data-reactive="true">
+    <marimo-cell-output>
+    <marimo-mime-renderer data-mime="&quot;application/vnd.marimo+error&quot;" data-data="[{&quot;msg&quot;: &quot;No module named 'geopandas'&quot;, &quot;exception_type&quot;: &quot;ModuleNotFoundError&quot;, &quot;raising_cell&quot;: null, &quot;type&quot;: &quot;exception&quot;}]"></marimo-mime-renderer>
+    </marimo-cell-output>
+    <marimo-ui-element object-id="8105961b-ddb7-c15e-1f1a-6a379df43492" random-id="8105961b-ddb7-c15e-1f1a-6a379df43492"><marimo-code-editor data-initial-value="&quot;import marimo as mo\nimport geopandas as gpd\nimport shapely.geometry as geom\nimport matplotlib.pyplot as plt\nimport numpy as np&quot;" data-label="null" data-language="&quot;python&quot;" data-placeholder="&quot;&quot;" data-disabled="false" data-show-copy-button="true" data-debounce="false"></marimo-code-editor></marimo-ui-element>
+</marimo-island>
+</div>
+<p>The clever thing that marimo does is to impose a couple of minor restrictions on your Python code which makes it (relatively!) easy to infer a directed acyclic graph of the dependencies in your code, so that it can decide which cells to re-run when something updates. Unfortunately, you can’t really see that in this post. That kind of meta-revelation is beyond my skillset. But you can get a feel for it by looking at the python source for a version of this page <a href="https://github.com/DOSull/projection-atlas/blob/main/proj.py">here</a>.</p>
+<p>Each cell in a notebook is wrapped in a function and added to an <code>app</code> object by the <code>@app.cell</code> decorator. You can only define any variable in a notebook in a single cell. This can be awkward making throwaway variable names like <code>i</code>, <code>j</code>, <code>k</code>, <code>x</code>, and <code>y</code> unuseable, so marimo considers any variable that starts with a <code>_</code> limited to the scope of the cell it is used in (so you can use <code>_i</code>, <code>_j</code> and so on for those convenience variables anywhere you like).</p>
+<p>All the ‘public’ variables with plain names in your notebook are considered return values of the cells (wrapped as functions) that define them, and as parameters of the cells (wrapped as functions) that consume them. This makes building the dependency graph fairly easy and allows marimo to do its reactive thing without you having to think too hard about ‘callbacks’ and all the other stuff you probably associate with trying to code reactively in other settings.</p>
+<p>Anyway, regardless of how it works, it <em>just does</em> and one outcome of that is the potential for web interactivity baked into blog posts like this one!</p>
+
+
+
+<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p> ]]></description>
+  <category>python</category>
+  <category>tutorial</category>
+  <category>marimo</category>
+  <category>projections</category>
+  <guid>https://dosull.github.io/posts/2025-0707-projections-explorer/</guid>
+  <pubDate>Sun, 06 Jul 2025 12:00:00 GMT</pubDate>
+  <media:content url="https://dosull.github.io/posts/2025-0707-projections-explorer/van-der-grinten.png" medium="image" type="image/png" height="144" width="144"/>
+</item>
 <item>
   <title>What three letters</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -11829,30 +11930,6 @@ name        : Height </code></pre>
   <category>time-space</category>
   <guid>https://dosull.github.io/posts/2024-08-30-geocart-24/geocart-24.html</guid>
   <pubDate>Thu, 29 Aug 2024 12:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Useful utilities for NetLogo</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2024-08-15-netlogo-utils/netlogo-utils.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p>An intermittent side-project of mine over (github informs me) more than three years has been assembling a collection of useful functions or rather <em>reporters</em> and <em>procedures</em> written in NetLogo to make it just a little bit easier to do a range of fairly standard things in that language.</p>
-<p>Don’t get me wrong, NetLogo is <em>wonderful</em> and I love it dearly. I find it tremendous fun to code in. But any time I start dealing in any serious way with lists and strings or slightly more obscure probability distributions, I find that I am repeating myself rewriting code I’ve written dozens of times before. This probably became most apparent when I was writing the <a href="../../portfolio/00-0-spatial-covid-model.html">spatial COVID model</a>.</p>
-<p>Anyway… the result has been <a href="https://github.com/DOSull/netlogo-utils">this extremely intermittent and informal set of netlogo source (<code>.nls</code>) files</a> that you can import into a NetLogo model to get access to more useful list and string handling without having to write an extension.</p>
-<p>No warranties of fitness are expressed or implied. If you find them useful, let me know!</p>
-
-
-
-<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p> ]]></description>
-  <category>netlogo</category>
-  <category>simulation</category>
-  <guid>https://dosull.github.io/posts/2024-08-15-netlogo-utils/netlogo-utils.html</guid>
-  <pubDate>Wed, 14 Aug 2024 12:00:00 GMT</pubDate>
-  <media:content url="https://dosull.github.io/posts/2024-08-15-netlogo-utils/netlogo-utils.png" medium="image" type="image/png" height="96" width="144"/>
 </item>
 </channel>
 </rss>

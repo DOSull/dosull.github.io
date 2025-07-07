@@ -1,0 +1,263 @@
+---
+title: "A simple atlas of projections"
+subtitle: "Blog post interactivity using marimo"
+description: |
+   The marimo quarto extension lets you make markdown posts with embedded reactive python code which can be written in any old order you like (just like observable notebooks).
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+code-annotations: hover
+code-fold: show
+filters: 
+  - marimo-team/marimo
+#   - nutshell
+categories:
+  - python
+  - tutorial
+  - marimo
+  - projections
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 07-07-2025
+image: van-der-grinten.png
+---
+
+As I've posted previously (see [here](../../notebooks/2025-02-18-marimo.ipynb), [here](../2025-03-09-mapweaver-beta/), and [here](../2025-05-22-python-meetup-talk/)) [Marimo](https://docs.marimo.io) is a promising new kind of _reactive_ Python notebook. There's a [Quarto](https://quarto.org) [extension](https://github.com/marimo-team/quarto-marimo) for it that makes it possible to embed reactive notebook interactivity into a blog post like this one.
+
+By the time you have finished reading that paragraph, I hope the interactive bits of this post will have appeared below... if not, then just hang on a little longer.
+
+::: {style="font-size:12px;"}
+```python {.marimo}
+#| echo: true
+get_plot()
+```
+:::
+
+Pick a new projection and marvel as the map of the world changes!
+
+::: {style="font-size:12px;"}
+```python {.marimo}
+#| echo: true
+mo.md(f"""
+Choose projection {proj}\n
+Show indicatrix {show_indicatrix} Show graticule {show_graticule}
+""")
+```
+:::
+
+There's not really very much more to say than that. The code driving this interaction is all pure python, but compiled to WASM so that it runs in the client on a browser.
+
+The code that makes the UI elements like the drop-down and switches is part of the marimo API, so for example, the code to make the drop-down and switches looks like this:
+
+::: {style="font-size:12px;"}
+```python {.marimo}
+#| echo: true
+proj = mo.ui.dropdown(options = dict, value = "WGS84")
+show_indicatrix = mo.ui.switch(True)
+show_graticule = mo.ui.switch(True)
+```
+:::
+
+Each of these is a `mo.ui.<something>` element (`mo` is the recommended marimo import alias) and they are embedded in markdown to provide labels and so on.
+
+Everything else is standard Python whether base python or whatever modules you need to do the analysis and display the results your page is showing.  Here's the `get_plot()` function invoked above to plot the projected world map. You can see it gets the values of a dropdown called `proj` and two switches `show_graticule` and `show_indicatrix` to control the plot output. 
+
+::: {style="font-size:12px;"}
+```python {.marimo}
+#| echo: true
+def get_plot():
+    fig = plt.figure(figsize=(14, 7))
+    ax = fig.add_subplot(111)
+    ax.set_axis_off()
+    globe.to_crs(crs = proj.value).plot(
+        ax = ax, fc = "#00000000", lw = 0)
+    world.to_crs(crs = proj.value).plot(
+        ax = ax, ec = "k", lw = 0.5)
+    if show_graticule.value:
+        graticule.to_crs(crs = proj.value).plot(
+            ax = ax, fc = "#00000000", ec = "#666666", lw = 0.2)
+    if show_indicatrix.value:
+        indicatrix.to_crs(crs = proj.value).plot(
+            ax = ax, fc = "#ff000040", lw = 0)
+    return ax
+```
+:::
+
+The other thing to notice here is that due to marimo's reactive nature, all this python code is 'out of sequence'. The call to `get_plot()` comes before the function's definition. For that matter, all the code to generate the graticule and so on is still to come:
+
+::: {style="font-size:12px;"}
+```python {.marimo}
+#| echo: true
+def get_parallel(lat):
+    lons = [-179.9] + list(range(-179, 180)) + [179.9]
+    return geom.LineString([(lon, lat) for lon in lons])
+
+def get_meridian(lon):
+    lats = [-89.9] + list(range(-89, 90)) + [89.9]
+    return geom.LineString([(lon, lat) for lat in lats])
+
+def get_graticule(spacing = 15):
+    return gpd.GeoSeries(
+        [get_parallel(lon) for lon in range(-90, 91, spacing)] +
+        [get_meridian(lat) for lat in range(-180, 181, spacing)], 
+        crs = 4326)
+
+def get_globe():
+    return gpd.GeoSeries([geom.Polygon([(x, y) for x, y in zip(
+        [-180] * 180 + [_ for _ in range(-180, 180)] + 
+        [ 180] * 180 + [_ for _ in range(180, -180, -1)],
+        [_ for _ in range(-90,90)] + [ 90] * 360 + 
+        [_ for _ in range(90, -90, -1)] + [-90] * 360)])],
+        crs = 4326)
+
+def get_indicatrix():
+    xys = [(x, y) for x in range(-165, 166, 15)
+                    for y in range( -75,  76, 15)]
+    lats = [xy[1] for xy in xys]
+    xy = gpd.GeoSeries(
+        [geom.Point(xy) for xy in xys], crs = 4326).to_crs("+proj=merc")
+    return gpd.GeoSeries(
+        [xy.buffer(3e5 / np.cos(np.radians(lat))) 
+         for xy, lat in zip(xy, lats)],
+        crs = "+proj=merc").to_crs(4326)
+```
+:::
+
+This kind of thing is what drives me nuts any time I try to figure out what's going on with javascript code, but somehow it seems kind of obvious in this setting.
+
+Anyway, here, finally, is the code to provide the drop-down with its list of projections.
+
+::: {style="font-size:12px;"}
+```python {.marimo}
+#| echo: true
+dict = {
+    "WGS84": "+proj=lonlat",
+    "Adams World in a Square": "+proj=adams_ws1",
+    "Adams World in a Square II": "+proj=adams_ws2",
+    "Aitoff": "+proj=aitoff",
+    "Apian Globular": "+proj=apian",
+    "August Epicycloidal": "+proj=august",
+    "Azimuthal Equidistant": "+proj=aeqd",
+    "Boggs": "+proj=boggs",
+    "Bonne": "+proj=bonne +lat_1=40",
+    "Collignon": "+proj=collg",
+    "Compact Miller": "+proj=comill",
+    "Craster Parabolic (Putnins P4)": "+proj=crast",
+    "Denoyer Semi-Elliptical": "+proj=denoy",
+    "Eckert I": "+proj=eck1",
+    "Eckert II": "+proj=eck2",
+    "Eckert III": "+proj=eck3",
+    "Eckert IV": "+proj=eck4",
+    "Eckert V": "+proj=eck5",
+    "Eckert VI": "+proj=eck6",
+    "Equal Area Cylindrical": "+proj=cea",
+    "Equal Earth": "+proj=eqearth",
+    "Euler": "+proj=euler +lat_1=67 +lat_2=75",
+    "Fahey": "+proj=fahey",
+    "Foucaut": "+proj=fouc",
+    "Foucaut Sinusoidal": "+proj=fouc_s",
+    "Gall (Gall Stereographic)": "+proj=gall",
+    "General Sinusoidal": "+proj=gn_sinu +m=2 +n=3",
+    "Goode Homolosine": "+proj=goode",
+    "Ginsburg VIII": "+proj=gins8",
+    "Hammer & Eckert-Greifendorff": "+proj=hammer",
+    "Hatano Asymmetrical Equal Area": "+proj=hatano",
+    "Kavrayskiy V": "+proj=kav5",
+    "Kavrayskiy VII": "+proj=kav7",
+    "Lagrange": "+proj=lagrng",
+    "Lambert Azimuthal Equal Area": "+proj=laea",
+    "Larrivee": "+proj=larr", 
+    "Loximuthal": "+proj=loxim",
+    "McBryde-Thomas Flat-Polar Sine (No. 1)": "+proj=mbt_s",
+    "McBryde-Thomas Flat-Pole Sine (No. 2)": "+proj=mbt_fps",
+    "McBryde-Thomas Flat-Polar Parabolic": "+proj=mbtfpp",
+    "McBryde-Thomas Flat-Polar Quartic": "+proj=mbtfpq",
+    "McBryde-Thomas Flat-Polar Sinusoidal": "+proj=mbtfps",
+    "Miller": "+proj=mill",
+    "Mollweide": "+proj=moll", 
+    "Natural Earth": "+proj=natearth",
+    "Natural Earth II": "+proj=natearth2",
+    "Nell": "+proj=nell",
+    "Nell-Hammer": "+proj=nell_h",
+    "Nicolosi-Globular": "+proj=nicol",
+    "Oblated Equal Area": "+proj=oea +m=1 +n=2",
+    "Ortelius Oval": "+proj=ortel",
+    "Patterson": "+proj=patterson",
+    "Peirce Quincuncial": "+proj=peirce_q +lon_0=25 +shape=square",
+    "Polyconic (American)": "+proj=poly",
+    "Putnins P1": "+proj=putp1",
+    "Putnins P2": "+proj=putp2",
+    "Putnins P3'": "+proj=putp3p",
+    "Putnins P4'": "+proj=putp4p",
+    "Putnins P5": "+proj=putp5",
+    "Putnins P5'": "+proj=putp5p",
+    "Putnins P6": "+proj=putp6",
+    "Putnins P6'": "+proj=putp6p",
+    "Quartic Authalic": "+proj=qua_aut",
+    "Rectangular Polyconic": "+proj=rpoly",
+    "Robinson": "+proj=robin",
+    "Roussilhe Stereographic": "+proj=rouss", 
+    "Sinusoidal (Sanson-Flamsteed)": "+proj=sinu",
+    "Times": "+proj=times",
+    "Tobler-Mercator": "+proj=tobmerc",
+    "Two Point Equidistant": "+proj=tpeqd +lat_1=60 +lat_2=65",
+    "Urmaev V": "+proj=urm5 +n=0.9 +alpha=2 +q=4",
+    "Urmaev Flat-Polar  Stereographic": "+proj=urmfps +n=0.5",
+    "van der Grinten": "+proj=vandg",
+    "van der Grinten II": "+proj=vandg2",
+    "van der Grinten III": "+proj=vandg3",
+    "van der Grinten IV": "+proj=vandg4",
+    "Vitovsky I": "+proj=vitk1 +lat_1=45 +lat_2=55",
+    "Wagner I (Kavrayskiy VI)": "+proj=wag1",
+    "Wagner II": "+proj=wag2",
+    "Wagner III": "+proj=wag3",
+    "Wagner IV": "+proj=wag4",
+    "Wagner V": "+proj=wag5",
+    "Wagner VI": "+proj=wag6",
+    "Werenskiold": "+proj=weren",
+    "Winkel I": "+proj=wink1",
+    "Winkel II": "+proj=wink2",
+}
+```
+:::
+
+Actually... not quite. The next two cells define the data layers and the very last cell imports all the Python modules that everything runs on!
+
+::: {style="font-size:12px;"}
+```python {.marimo}
+#| echo: true
+world = gpd.read_file(
+    "https://raw.githubusercontent.com/DOSull/projection-atlas/refs/heads/main/app/ne.geojson")
+world.geometry = gpd.GeoSeries(
+    [geom.LineString(s.exterior).segmentize(1) for s in world.geometry])
+globe = get_globe()
+graticule = get_graticule()
+indicatrix = get_indicatrix()
+```
+:::
+
+::: {style="font-size:12px;"}
+```python {.marimo}
+#| echo: true
+import marimo as mo
+import geopandas as gpd
+import shapely.geometry as geom
+import matplotlib.pyplot as plt
+import numpy as np
+```
+:::
+
+The clever thing that marimo does is to impose a couple of minor restrictions on your Python code which makes it (relatively!) easy to infer a directed acyclic graph of the dependencies in your code, so that it can decide which cells to re-run when something updates. Unfortunately, you can't really see that in this post. That kind of meta-revelation is beyond my skillset. But you can get a feel for it by looking at the python source for a version of this page [here](https://github.com/DOSull/projection-atlas/blob/main/proj.py). 
+
+Each cell in a notebook is wrapped in a function and added to an `app` object by the `@app.cell` decorator. You can only define any variable in a notebook in a single cell. This can be awkward making throwaway variable names like `i`, `j`, `k`, `x`, and `y` unuseable, so marimo considers any variable that starts with a `_` limited to the scope of the cell it is used in (so you can use `_i`, `_j` and so on for those convenience variables anywhere you like). 
+
+All the 'public' variables with plain names in your notebook are considered return values of the cells (wrapped as functions) that define them, and as parameters of the cells (wrapped as functions) that consume them. This makes building the dependency graph fairly easy and allows marimo to do its reactive thing without you having to think too hard about 'callbacks' and all the other stuff you probably associate with trying to code reactively in other settings.
+
+Anyway, regardless of how it works, it _just does_ and one outcome of that is the potential for web interactivity baked into blog posts like this one!
