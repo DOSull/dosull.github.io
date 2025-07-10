@@ -2,8 +2,8 @@ project:
   type: website
   output-dir: docs
   resources:
-    - "posts/2025-27-06-iata-codes/index.html"
-    - "posts/2025-0707-projection-explorer/index.html"
+    - "docs/posts/2025-27-06-iata-codes/index.html"
+    - "docs/posts/2025-0707-projection-explorer/index.html"
 
 website:
   title: "Geospatial<br>Stuff"

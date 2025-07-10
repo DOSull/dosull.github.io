@@ -5,6 +5,8 @@ description: |
    Maps of all the possible air routes where the origin and destination airport IATA codes would differ by only one letter, and of the ones that actually do. Also, grobs.
 from: markdown+emoji
 author: "David O'Sullivan"
+aliases: 
+  - "/posts/2025-27-06-iata-codes/index.html"
 toc: true
 lightbox:
   match: auto

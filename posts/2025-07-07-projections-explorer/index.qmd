@@ -5,6 +5,8 @@ description: |
    The marimo quarto extension lets you make markdown posts with embedded reactive python code which can be written in any old order you like (just like observable notebooks).
 from: markdown+emoji
 author: "David O'Sullivan"
+aliases: 
+  - "/posts/2025-0707-projections-explorer/index.html"
 toc: true
 lightbox:
   match: auto
