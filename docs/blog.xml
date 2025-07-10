@@ -10,7 +10,35 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Sun, 06 Jul 2025 12:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 09 Jul 2025 12:00:00 GMT</lastBuildDate>
+<item>
+  <title>A geometric origami classic</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-07-10-hulls-tetrahedra/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Apropos of nothing in particular, my most recent origami construction is my first proper attempt at <a href="http://origametry.net/">Tom Hull’s</a> <a href="http://origametry.net/fit.html"><em>Five Intersecting Tetrahedra</em></a>.</p>
+<p><a href="hulls-fit.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2025-07-10-hulls-tetrahedra/hulls-fit.jpg" class="img-fluid"></a></p>
+<p>As origami legend <a href="https://langorigami.com">Robert Lang</a> <a href="https://langorigami.com/article/polypolyhedra/">notes</a> the geometric object depicted (which goes by the quite fantastic name <a href="https://en.wikipedia.org/wiki/Compound_of_five_tetrahedra"><em>chiricosahedron</em></a>) has been known for centuries, but only appeared in origami sometime in the 1990s. Lang says that “Naturally, of course, I wished I’d thought of it”, which in the world or origami is a bit like having Paul McCartney say he wished he wrote your song.</p>
+<p>Anyway, it was an instant classic and according to <a href="http://origametry.net/CV/hullcv.html">Tom Hull’s CV</a> voted one of the top 10 origami models of all time by the British Origami Society in 2000.</p>
+<p>All I can say is that while not difficult to fold, it’s mind-bending to assemble. I only got there with the help of <a href="www.youtube.com/watch?v=q2tEO68ZCHk">this video</a>, which provides valuable guidance on where exactly to thread the edges of each tetrahedron through to make it all hang together. Even with that help, when I thought I’d finished I had one strut the wrong side of another, which I only realised when I went to photograph it.</p>
+<p>Now I’ve made it once, I have a better appreciation of the logic of its geometry. The key is to realise that each set of five tetrahedra corners form the corners of the faces of a dodecahedron. Or at any rate, I think that will help, next time. There is also a symmetry to how pairs of tetrahedra poke through the middle of one face of two of the others.</p>
+<p>But writing about origami is, as has been said of <a href="https://en.wikipedia.org/wiki/Writing_about_music_is_like_dancing_about_architecture">writing about music, like dancing about architecture</a>, so I’ll stop there.Suffice to say, I think I could probably make it a second time unassisted by YouTube.</p>
+<p>Probably.</p>
+<p>Full disclosure, I retreated to the relative safety of this model having dismally failed to make <a href="https://www.flickr.com/photos/byriahloper/6827314294/">this absurd construction</a>, <em>Sixteen Interlocking Triangles</em> by <a href="https://www.flickr.com/people/byriahloper">Byriah Loper</a> from a copy of <em>Mind-Blowing Modular Origami</em> that I found in a second hand bookshop a week or two ago. Loper’s models are extraordinary, but really… I think I’m more taken with the balance between complexity and elegance of <em>Five Intersecting Triangles</em>. I certainly won’t be tackling <a href="https://www.flickr.com/photos/byriahloper/8952536764/in/album-72157628526714515">this monstrosity</a> any time soon, although there’s something pleasingly globe-like about <a href="https://www.flickr.com/photos/mborigami/48184578347/in/album-72157685996209846"><em>Ten Intersecting Nonagons</em></a>.</p>
+
+
+
+<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p> ]]></description>
+  <category>origami</category>
+  <category>life</category>
+  <guid>https://dosull.github.io/posts/2025-07-10-hulls-tetrahedra/</guid>
+  <pubDate>Wed, 09 Jul 2025 12:00:00 GMT</pubDate>
+</item>
 <item>
   <title>A simple atlas of projections</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -11835,101 +11863,6 @@ name        : Height </code></pre>
   <category>aotearoa</category>
   <guid>https://dosull.github.io/posts/2024-10-10-giscience-2025/giscience-2025.html</guid>
   <pubDate>Wed, 09 Oct 2024 11:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>GeoCart’2024</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2024-08-30-geocart-24/geocart-24.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p><a href="alexander-turnbull-library.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://dosull.github.io/posts/2024-08-30-geocart-24/alexander-turnbull-library.jpg" class="img-fluid"></a></p>
-<p>Another (even-number year) August coming to a close and <a href="https://cartography.org.nz/geocart2024">another GeoCart’ is over</a>.</p>
-<p>The passing last year of <a href="https://natlib.govt.nz/blog/posts/remembering-igor-drecki-1966-2023">Igor Drecki</a> inevitably cast a shadow. But importantly, and even under that shadow, it was a fun meeting, as Igor would have wanted. Given the current woes of Wellington’s public sector, attendance was as expected down a little, but there were still enough faces old and new for the meeting to retain its usual friendly buzz, without it being too overwhelming.</p>
-<p>The organisers of GeoCart’2024 can be proud of what they achieved in putting on a meeting that Igor would have enjoyed. It bore all the hallmarks of Igor’s vision for the meeting. Many keynotes (perhaps too many, but more on that below…) and many opportunities for informal discussion and exchange in the breaks between presentations, over lunch, and at the Icebreaker and Conference Dinner events. The latter in particular was really excellent—I don’t recall ever before having FOUR choices of starter, main, and dessert at a catered sit-down meal like this one: well done <a href="https://dockside.co.nz/">Dockside</a>.<sup>1</sup></p>
-<section id="keynotes" class="level2">
-<h2 class="anchored" data-anchor-id="keynotes">Keynotes</h2>
-<p>So many keynotes…</p>
-<p>A two-and-a-half day meeting with six (yes SIX!) ‘all-hands’ presentations seems perhaps a little too much of a good thing. Having said that, <em>all the keynotes were excellent</em>. Like, <strong>really excellent</strong>. I didn’t necessarily agree with everything everyone said, but I was certainly engaged throughout. In chronological order:</p>
-<p><img src="https://dosull.github.io/posts/2024-08-30-geocart-24/ocean-mercier.jpg" class="img-fluid" style="width:40%; float:left; padding:0px 15px 15px 0px;"><a href="https://people.wgtn.ac.nz/ocean.mercier">Ocean Mercier</a> kicked things off with ‘Te Taunaha Whenua: Mapping Connections to Place’ emphasising the role that maps and mapping play in defining and making place, and the more than coincidental relationship between those processes and colonisation and (yay!) decolonisation. I loved that Ocean also shared her longtime passion for orienteering— and its slightly goofy (but highly functional) maps. She was even heading off <a href="https://en.wikipedia.org/wiki/Rogaining">:rogaining</a> one evening of the conference.<sup>2</sup></p>
-<div class="clearfix">
-
-</div>
-<p><img src="https://dosull.github.io/posts/2024-08-30-geocart-24/huffman.jpg" class="img-fluid" style="width:40%; float:right; padding:0px 0px 15px 15px;"><a href="https://somethingaboutmaps.wordpress.com/"><strong>Daniel Huffman</strong></a> in their presentation ‘Sharing the Emotional Work of Mapping’ spoke to a topic that has been front of mind for me lately: the rollercoaster ride of the uncertainties of taking on projects as they appear, and balancing ambitions for your creative work against the expectations of paying clients. I have to confess to some disappointment that we didn’t get some <a href="https://somethingaboutmaps.com/Client-Work">Huffman eye candy</a> along the way, but instead had to content ourselves with <a href="https://en.wikipedia.org/wiki/Flag_of_Madison%2C_Wisconsin">:Madison, Wisconsin’s—admittedly very nice—flag</a>.</p>
-<div class="clearfix">
-
-</div>
-<p><img src="https://dosull.github.io/posts/2024-08-30-geocart-24/mapscaping.png" class="img-fluid" style="width:40%; float:left; padding:0px 15px 15px 0px;"><a href="https://mapscaping.com/"><strong>Daniel O’Donohue</strong></a>. After Daniel H’s quietly reflective take on the emotional journey of making maps, next morning podcaster and self-described geospatial evangelist Daniel O <del>gave everyone a good kick in the pants</del> encouraged us all to get busy making millions on the interwebs. Some of this talk leaned a bit too much for cycnical old gen-X-er me into the social media influencer vibe, but more than a couple of people were taking notes, and I expect to see mass-market cartography rocket to the top of Aoteroa’s export earnings charts in the years to come. Seriously though, I did have a couple of conversations with folks prompted by this talk to explore the possibilities for getting paid more for their skills. Being underpaid is a problem in cartography/geospatial,<sup>3</sup> so I wish them all the best, and will join them, just as soon as I come up with an idea. Also: <a href="https://www.linkedin.com/posts/danielodonohue_map-socks-are-the-business-cards-of-the-future-activity-7061353967607263232-HVCz/">we all got socks</a>.<sup>4</sup></p>
-<div class="clearfix">
-
-</div>
-<p><img src="https://dosull.github.io/posts/2024-08-30-geocart-24/garcia.jpg" class="img-fluid" style="width:40%; float:right; padding:0px 0px 15px 15px;"><a href="https://www.linkedin.com/in/mapmakerdavid/?originalSubdomain=nz"><strong>David Garcia</strong></a> somehow managed to keep the energy going in a talk entitled ‘Revisiting the Social Nature of Mapping’. As in Daniel O’s talk, the memes were flowing, but so were the serious messages echoing both Ocean’s and Daniel H’s talks from the previous day in taking seriously the emotional heft of cartography, and its roles in colonisation and decolonisation. The recently minted <em>Dr.</em> Garcia wears his learning lightly and with great good humour, but his work is deeply serious. For a sense of just how serious, <a href="https://doi.org/10.26021/15276">here’s the thesis in full</a>. I have made my own (marginal) contributions to critical GIS and critical cartography, and even managed to inject a little of it into the <a href="https://github.com/DOSull/GISC-421/blob/master/critical-gis-essay.md">program at VUW</a> but I still learned a great deal from this talk (and I also laughed a lot…).</p>
-<div class="clearfix">
-
-</div>
-<p><img src="https://dosull.github.io/posts/2024-08-30-geocart-24/bell.png" class="img-fluid" style="width:40%; float:left; padding:0px 15px 15px 0px;"><a href="https://www.sarahbellmaps.com/"><strong>Sarah Bell</strong></a> introduced the final day with an emotionally<sup>5</sup> nuanced presentation pushing us to carefully consider the many ways that maps can be biased. So far so obvious,<sup>6</sup> but this talk added a few more dimensions for the manipulation of an audience, most poignantly sound, in an <a href="https://www.sarahbellmaps.com/reimagining-the-john-snow-cholera-map-with-animation/">animated revisiting of Snow’s cholera data</a>. As co-author of a book whose <a href="https://www.amazon.com/Geographic-Information-Analysis-David-OSullivan/dp/0471211761">first edition cover</a> featured <a href="https://en.wikipedia.org/wiki/1854_Broad_Street_cholera_outbreak#/media/File:Snow-cholera-map-1.jpg">:the John Snow map</a>, I was fully prepared to yawn my way through that part of the presentation, but this was very compelling.</p>
-<div class="clearfix">
-
-</div>
-<p><img src="https://dosull.github.io/posts/2024-08-30-geocart-24/nzgb.jpg" class="img-fluid" style="width:40%; float:right; padding:0px 0px 15px 15px;">And finally, <a href="https://www.linkedin.com/in/wendy-shaw-215a5229/?originalSubdomain=nz"><strong>Wendy Shaw</strong></a> Toitū Te Whenua - Land Information New Zealand and Secretary of Ngā Pou Taunaha o Aotearoa - New Zealand Geographic Board, on the 100th anniversary of the board, updated us on progress in the ongoing consideration and restoration of Māori placenames across Aotearoa. The quick summary is that much has been done, and that much remains to be done. I scored a couple of the <a href="https://www.linz.govt.nz/products-services/place-names/place-name-maps-and-publications/tangata-whenua-place-names/maps-te-waipounamu-and-te-ika-maui-second-edition-2023">associated maps</a> to add to Daniel O’s socks.</p>
-<div class="clearfix">
-
-</div>
-<section id="too-much-of-a-good-thing" class="level3">
-<h3 class="anchored" data-anchor-id="too-much-of-a-good-thing">Too much of a good thing?</h3>
-<p>So… I’ll say it again: all the keynotes were excellent. I can’t help wondering even so, if this balance in the meeting foregrounds the accomplishments of the already well-recognised, to the disadvantage of the great work being done by others.</p>
-<p>I am only really say this comparing GeoCart’s complement of keynotes relative to other conferences of similar size, where there is more likely to be one keynote a day, not two. In part the meeting follows this schedule to justify its two-and-a-half day duration so that there is space for two evening social events. There is likely not enough submitted work to make for two parallel tracks of presentations over that length of time. But I do wonder if in a small meeting like this two tracks are really needed. Cutting things back to three keynotes and a single track would make this a non-issue—<em>and</em> nobody would have to miss any of the talks!</p>
-<p>But really, it’s not actually a problem, especially not if the keynotes can maintain this level of quality. And I know that for Igor a key mission for GeoCart was to connect cartography in Aotearoa New Zealand with the wider world, and keynotes from afar are one important way to do this. And having our visiting keynotes see the quality of the work in Aotearoa as exemplified in the ‘home team’ keynotes doesn’t hurt either.</p>
-<p>One thing I do know is that finding that many keynote-worthy speakers every two years is a challenge: don’t hesitate to <a href="https://cartography.org.nz/about/nzcs">offer suggestions to the NZGS Committee</a>!</p>
-</section>
-</section>
-<section id="other-highlights" class="level2">
-<h2 class="anchored" data-anchor-id="other-highlights">Other highlights</h2>
-<p>As noted, with two tracks, you can’t catch ’em all, so this is inevitably a partial perspective… but among the highlights for me were:</p>
-<ul>
-<li><p><a href="https://www.linkedin.com/in/karl-baker-0864459/">Karl Baker</a> spoke with great good humour and impressive clarity about the often rather sorry tale of the mishandling of New Zealand’s longest placename in maps. Say it with me: <a href="https://gazetteer.linz.govt.nz/place/60053">Te Taumata­whaka­tangi­hanga­kōauauo­tamatea­turi­pūkākā­piki­maunga­horo­nuku­pōkai­whenua­kita­na­tahu</a>.<sup>7</sup> You can get some insight into the sorry tale of the use and abuse of the name from the <a href="https://en.wikipedia.org/wiki/Talk:Taumatawhakatangi%C2%ADhangakoauauotamatea%C2%ADturipukakapikimaunga%C2%ADhoronukupokaiwhen%C2%ADuakitanatahu">wikipedia talk page</a> for the place name, and there’s a concise correct pronunciation <a href="https://www.youtube.com/watch?v=QjS1dUJnVRQ">:here</a>.</p></li>
-<li><p><a href="https://southarrowmaps.co.nz/#">Andy Tyrell</a> presented a really cool workflow for automating the production of linework style oblique terrain maps like <a href="https://southarrowmaps.co.nz/cartography/linework/volta-glacier-2/">these</a>.</p></li>
-<li><p><a href="https://www.cartdeco.com.au/store/romanempire">Craig Devereux’s map of the Roman Empire</a> which won the map contest was a standout and hard to beat.</p></li>
-<li><p><a href="https://profiles.auckland.ac.nz/jessie-colbert">Jessie Colbert</a>’s presentation of work with <a href="https://profiles.auckland.ac.nz/katarzyna-sila-nowicka">Katarzyna Sila-Nowicka</a> and <a href="https://profiles.auckland.ac.nz/d-exeter">Dan Exeter</a> visualising maps of multiple deprivation was a model of completeness and clarity. I hope to maybe get involved in this work with my <a href="https://dosull.github.io/30-day-maps-2023/maps/27-dot.html">‘dots within dots’</a> and <a href="https://github.com/DOSull/weaving-space/blob/main/presentations/NZCS-Aug-2022/slides/images/imd-weave.png">weaving</a> contributions.</p></li>
-<li><p><a href="https://www.linkedin.com/in/sam-vdw/">Sam van der Weerden</a> gave a great great talk about <a href="https://www.maynard-design.com/project/urban-cycle-programme/">Maynard Design’s work on the mapping for Auckland’s cycle network</a>. Really interesting: particularly so was the insight that perhaps as cartographers we should sometimes resist our instinct to differentiate things by colour. After all, no matter what kind of cycle path it is, <em>it’s still a cycle path</em> and should be <span style="color:forestgreen;font-weight:700;">coloured green</span>, and perhaps the less important differences among types of cycle path should be differentiated by line style not colour!</p></li>
-<li><p>Did I mention the dinner at Boatshed?</p></li>
-</ul>
-<section id="society-business" class="level3">
-<h3 class="anchored" data-anchor-id="society-business">Society business</h3>
-<p>Also worth mentioning, the New Zealand Cartographic Society after somewhat inexplicably being refused permission to dual list its name in English and te reo Māori way back in 1989 (when doing so would have been well ahead of the curve) is finally <em>en route</em>, remaining bureaucratic hurdles notwithstanding, to adopting a te reo Māori name: Te Rōpū Tuhi Whenua o Aotearoa.</p>
-</section>
-</section>
-<section id="finally-permit-me-a-moment-of-self-promotion" class="level2">
-<h2 class="anchored" data-anchor-id="finally-permit-me-a-moment-of-self-promotion">Finally, permit me a moment of self-promotion</h2>
-<p>I enjoyed giving a <a href="https://southosullivan.com/talks/GeoCart-2024/">talk on time-space maps of mountainous terrain</a>. Here, as a bonus is an animated time-space map of a loop walk around Taranaki Maunga, which probably should have made it into the talk, but for one reason or another did not.</p>
-<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="taranaki-loop-est-time-space-imagery.mp4"></video></div>
-
-
-</section>
-
-
-<p><a href="../../"><img src="https://dosull.github.io/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>Disclaimer: I have not been recompensed in any form by Dockside.↩︎</p></li>
-<li id="fn2"><p>That word rogaining is very <em>weird</em> derived from the given names of its ‘inventors’ ROd, GAil, and NEil. The names of new sports aren’t what they used to be: see also pickleball.↩︎</p></li>
-<li id="fn3"><p>This <a href="https://mapscaping.com/podcast/way-you-talk-about-your-geospatial-skills-is-costing-you-money/">recent episode of the MapScaping podcast</a> is thought-provoking on the subject.↩︎</p></li>
-<li id="fn4"><p>I’m wearing mine now.↩︎</p></li>
-<li id="fn5"><p>There’s that word again.↩︎</p></li>
-<li id="fn6"><p>Monmonier’s <a href="https://press.uchicago.edu/ucp/books/book/chicago/H/bo27400568.html"><em>How To Lie With Maps</em></a> anyone?↩︎</p></li>
-<li id="fn7"><p>I’ve gone with the longer not yet official form.↩︎</p></li>
-</ol>
-</section></div> ]]></description>
-  <category>cartography</category>
-  <category>geospatial</category>
-  <category>aotearoa</category>
-  <category>conferences</category>
-  <category>time-space</category>
-  <guid>https://dosull.github.io/posts/2024-08-30-geocart-24/geocart-24.html</guid>
-  <pubDate>Thu, 29 Aug 2024 12:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
