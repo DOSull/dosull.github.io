@@ -256,10 +256,14 @@ import numpy as np
 ```
 :::
 
-The clever thing that marimo does is to impose a couple of minor restrictions on your Python code which makes it (relatively!) easy to infer a directed acyclic graph of the dependencies in your code, so that it can decide which cells to re-run when something updates. Unfortunately, you can't really see that in this post. That kind of meta-revelation is beyond my skillset. But you can get a feel for it by looking at the python source for a version of this page [here](https://github.com/DOSull/projection-atlas/blob/main/proj.py). 
+The clever thing that marimo does is to impose a couple of minor restrictions on your Python code which makes it (relatively!) easy to infer a [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph)(DAG) of the dependencies between cells, so that it can decide which cells to re-run when something updates. Unfortunately, you can't really see that in this post. That kind of meta-revelation is beyond my skillset. But you can get a feel for it by looking at the python source for a version of this page [here](https://github.com/DOSull/projection-atlas/blob/main/proj.py). 
 
 Each cell in a notebook is wrapped in a function and added to an `app` object by the `@app.cell` decorator. You can only define any variable in a notebook in a single cell. This can be awkward making throwaway variable names like `i`, `j`, `k`, `x`, and `y` unuseable, so marimo considers any variable that starts with a `_` limited to the scope of the cell it is used in (so you can use `_i`, `_j` and so on for those convenience variables anywhere you like). 
 
 All the 'public' variables with plain names in your notebook are considered return values of the cells (wrapped as functions) that define them, and as parameters of the cells (wrapped as functions) that consume them. This makes building the dependency graph fairly easy and allows marimo to do its reactive thing without you having to think too hard about 'callbacks' and all the other stuff you probably associate with trying to code reactively in other settings.
+
+Here'a screenshot of the DAG for an earlier version of the code on this page.
+
+![](marimo-dag.png)
 
 Anyway, regardless of how it works, it _just does_ and one outcome of that is the potential for web interactivity baked into blog posts like this one!
