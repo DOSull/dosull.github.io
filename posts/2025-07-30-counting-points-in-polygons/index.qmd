@@ -194,7 +194,7 @@ point_counts <- polygons |>
 polygons$n_points <- point_counts
 ```
 
-This is easier to make sense of than than the spatial join approach in `geopandas`, and because it's based on a spatial predicate function that does pair-wise comparisons between geometries it's also cleaner. The method relies on the base R `lengths()` function which reports the length of each vector of index numbers reported by the `st_contains` function in its default 'sparse matrix' mode. 
+This is easier to make sense of than than the spatial join approach in `geopandas`, and because it's based on a spatial predicate function that does pair-wise comparisons between geometries it's also cleaner. The method relies on the base R `lengths()` function which reports the length of each vector of index numbers reported by `st_contains` in its default 'sparse matrix' mode. 
 
 Overall, it's not at all obvious starting from a blank screen that this is how you should go about counting points in polygons in `sf`, but it works, and until someone tells me otherwise this is how I'll do it.
 
