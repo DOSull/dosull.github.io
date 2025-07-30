@@ -419,8 +419,7 @@ Name: n_points, Length: 88, dtype: int64</code></pre>
 </section>
 <section id="probably-the-right-approach-using-geodataframe.sjoin" class="level3">
 <h3 class="anchored" data-anchor-id="probably-the-right-approach-using-geodataframe.sjoin">Probably the right approach: using <code>GeoDataFrame.sjoin</code></h3>
-<p>A more conservative approach is to use spatial join operations, then do some post-join clean up, then join the resulting point counts back to the original data. Here’s a sequence of steps I’ve settled on over time.</p>
-<p>So, how to go about counting how many of those points are in each polygon. It’s a journey…</p>
+<p>A more conservative approach is to use spatial join operations, then do some post-join clean up, then join the resulting point counts back to the original data. Here’s a sequence of steps I’ve settled on over time. Strap in…</p>
 <p>First spatially join the points to the polygons.</p>
 <div class="cell">
 <details open="" class="code-fold">

@@ -102,9 +102,7 @@ polygons.geometry.apply(lambda x: x.contains(points.geometry).sum()).rename("n_p
 Whether or not these make the whole operation vector-based is unclear. The `pandas` `apply()` function should be, and the function we are applying is vectorised over the `GeoSeries` of points but limited testing the speed of all three approaches^[Using the ipython [`%timeit` magic](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-timeit)] suggests there is not much to choose between them performance-wise.
 
 ### Probably the right approach: using `GeoDataFrame.sjoin`
-A more conservative approach is to use spatial join operations, then do some post-join clean up, then join the resulting point counts back to the original data. Here's a sequence of steps I've settled on over time.
-
-So, how to go about counting how many of those points are in each polygon. It's a journey...
+A more conservative approach is to use spatial join operations, then do some post-join clean up, then join the resulting point counts back to the original data. Here's a sequence of steps I've settled on over time. Strap in...
 
 First spatially join the points to the polygons.
 
