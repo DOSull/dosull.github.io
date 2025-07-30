@@ -584,7 +584,7 @@ background-color: null;
 font-style: inherit;">&lt;-</span> point_counts</span></code></pre></div>
 </details>
 </div>
-<p>This is easier to make sense of than than the spatial join approach in <code>geopandas</code> and because it’s based on a spatial predicate function that does pair-wise comparisons between geometries it’s also cleaner than that approach in <code>geopandas</code>. The method relies on the base R <code>lengths()</code> function which reports the length of each vector of index numbers reported by the <code>st_contains</code> function in its default ‘sparse matrix’ mode.</p>
+<p>This is easier to make sense of than than the spatial join approach in <code>geopandas</code>, and because it’s based on a spatial predicate function that does pair-wise comparisons between geometries it’s also cleaner. The method relies on the base R <code>lengths()</code> function which reports the length of each vector of index numbers reported by the <code>st_contains</code> function in its default ‘sparse matrix’ mode.</p>
 <p>Overall, it’s not at all obvious starting from a blank screen that this is how you should go about counting points in polygons in <code>sf</code>, but it works, and until someone tells me otherwise this is how I’ll do it.</p>
 <p>Overall the <code>sf</code> approach isn’t so much work as to make it worth writing a function to apply it. Even so, like its <code>geopandas</code> equivalents it seems unnecessarily indirect!</p>
 <p>Anyway, if you have stuck around this long, you’ve earned another map.</p>
