@@ -110,39 +110,40 @@ First spatially join the points to the polygons.
 polygons.sjoin(points, how = "left")
 ```
 
-We have multiple copies of each polygon each associated with a single point, and because we used `how = "left"` we have retained even those polygons with no matching points. Now we can use `groupby` to group entries that share the same polygon `name` and count how many of each there are. Because `count()` method ignores missing data it will count the polygons with no matching point as zeros (this is a rather finicky, and I would guess potentially fragile detail).
+We have multiple copies of each polygon each associated with a single point, and because we used `how = "left"` we have retained even those polygons with no matching points. Now we can use `groupby` to group entries that share the same polygon `name` and count how many of each there are. Because the `count()` method ignores missing data it will count the polygons with no matching point as zeros (this is a rather finicky, and I would guess potentially fragile detail).
 
 ```{python}
-polygons.sjoin(points, how = "left") \
-    .loc[:, ["name", "point_id"]] \
-    .groupby("name", as_index = False) \
-    .count()
+(polygons.sjoin(points, how = "left")
+     .loc[:, ["name", "point_id"]]          # <1>
+     .groupby("name", as_index = False)
+     .count())
 ```
+1. Restrict to just the id variables of the two datasets
 
 We should rename that column to reflect the information it now contains.
 
 ```{python}
-polygons.sjoin(points, how = "left") \
-    .loc[:, ["name", "point_id"]] \
-    .groupby("name", as_index = False) \
-    .count() \
-    .rename(columns = {"point_id": "n_points"})
+(polygons.sjoin(points, how = "left")
+     .loc[:, ["name", "point_id"]]
+     .groupby("name", as_index = False)
+     .count()
+     .rename(columns = {"point_id": "n_points"}))
 ```
 
 And finally, we'd want to join all this back to the original data.
 
 ```{python}
 pip = polygons.merge(
-  polygons.sjoin(points, how = "left") \
-    .loc[:, ["name", "point_id"]] \
-    .groupby("name", as_index = False) \
-    .count() \
+  polygons.sjoin(points, how = "left")
+    .loc[:, ["name", "point_id"]]
+    .groupby("name", as_index = False)
+    .count()
     .rename(columns = {"point_id": "n_points"})
   )
   
 pip
 ```
-All told, that's quite the journey. Here it all is wrapped up in a reusable function, which you are free to take with you!
+All told, that's quite the journey. Here it all is wrapped up in a reusable function, which you are free to cut out and keep!
 
 ```{python}
 def count_points_in_polygons(
@@ -162,10 +163,10 @@ def count_points_in_polygons(
     """
     pt_var = pts.columns[0]
     return polys.merge(
-        polys.sjoin(pts, how = "left") \
-            .loc[:, [id_var, pt_var]] \
-            .groupby(id_var, as_index = False) \
-            .count() \
+        polys.sjoin(pts, how = "left")
+            .loc[:, [id_var, pt_var]]
+            .groupby(id_var, as_index = False)
+            .count()
             .rename(columns = {pt_var: "n_points"}))
 
 count_points_in_polygons(polygons, points, "name")

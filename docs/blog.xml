@@ -291,35 +291,37 @@ font-style: inherit;">"left"</span>)</span></code></pre></div>
 [1704 rows x 4 columns]</code></pre>
 </div>
 </div>
-<p>We have multiple copies of each polygon each associated with a single point, and because we used <code>how = "left"</code> we have retained even those polygons with no matching points. Now we can use <code>groupby</code> to group entries that share the same polygon <code>name</code> and count how many of each there are. Because <code>count()</code> method ignores missing data it will count the polygons with no matching point as zeros (this is a rather finicky, and I would guess potentially fragile detail).</p>
+<p>We have multiple copies of each polygon each associated with a single point, and because we used <code>how = "left"</code> we have retained even those polygons with no matching points. Now we can use <code>groupby</code> to group entries that share the same polygon <code>name</code> and count how many of each there are. Because the <code>count()</code> method ignores missing data it will count the polygons with no matching point as zeros (this is a rather finicky, and I would guess potentially fragile detail).</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">polygons.sjoin(points, how <span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="annotated-cell-8" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-8-1">(polygons.sjoin(points, how <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"left"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb12-2">    .loc[:, [<span class="st" style="color: #20794D;
+font-style: inherit;">"left"</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1">1</button><span id="annotated-cell-8-2" class="code-annotation-target">     .loc[:, [<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"name"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"point_id"</span>]] <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb12-3">    .groupby(<span class="st" style="color: #20794D;
+font-style: inherit;">"point_id"</span>]]</span>
+<span id="annotated-cell-8-3">     .groupby(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"name"</span>, as_index <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">False</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb12-4">    .count()</span></code></pre></div>
+font-style: inherit;">False</span>)</span>
+<span id="annotated-cell-8-4">     .count())</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
 </details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="2" data-code-annotation="1">Restrict to just the id variables of the two datasets</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                               name  point_id
 0                          Adelaide        34
@@ -341,39 +343,31 @@ font-style: inherit;">\</span></span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1">polygons.sjoin(points, how <span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1">(polygons.sjoin(points, how <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"left"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb14-2">    .loc[:, [<span class="st" style="color: #20794D;
+font-style: inherit;">"left"</span>)</span>
+<span id="cb13-2">     .loc[:, [<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"name"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"point_id"</span>]] <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb14-3">    .groupby(<span class="st" style="color: #20794D;
+font-style: inherit;">"point_id"</span>]]</span>
+<span id="cb13-3">     .groupby(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"name"</span>, as_index <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">False</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb14-4">    .count() <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb14-5">    .rename(columns <span class="op" style="color: #5E5E5E;
+font-style: inherit;">False</span>)</span>
+<span id="cb13-4">     .count()</span>
+<span id="cb13-5">     .rename(columns <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> {<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"point_id"</span>: <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"n_points"</span>})</span></code></pre></div>
+font-style: inherit;">"n_points"</span>}))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                               name  n_points
@@ -396,45 +390,37 @@ font-style: inherit;">"n_points"</span>})</span></code></pre></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1">pip <span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1">pip <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> polygons.merge(</span>
-<span id="cb16-2">  polygons.sjoin(points, how <span class="op" style="color: #5E5E5E;
+<span id="cb15-2">  polygons.sjoin(points, how <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"left"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb16-3">    .loc[:, [<span class="st" style="color: #20794D;
+font-style: inherit;">"left"</span>)</span>
+<span id="cb15-3">    .loc[:, [<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"name"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"point_id"</span>]] <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb16-4">    .groupby(<span class="st" style="color: #20794D;
+font-style: inherit;">"point_id"</span>]]</span>
+<span id="cb15-4">    .groupby(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"name"</span>, as_index <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">False</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb16-5">    .count() <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb16-6">    .rename(columns <span class="op" style="color: #5E5E5E;
+font-style: inherit;">False</span>)</span>
+<span id="cb15-5">    .count()</span>
+<span id="cb15-6">    .rename(columns <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> {<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"point_id"</span>: <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"n_points"</span>})</span>
-<span id="cb16-7">  )</span>
-<span id="cb16-8">  </span>
-<span id="cb16-9">pip</span></code></pre></div>
+<span id="cb15-7">  )</span>
+<span id="cb15-8">  </span>
+<span id="cb15-9">pip</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                               name  ... n_points
@@ -453,86 +439,78 @@ font-style: inherit;">"n_points"</span>})</span>
 [88 rows x 3 columns]</code></pre>
 </div>
 </div>
-<p>All told, that’s quite the journey. Here it all is wrapped up in a reusable function, which you are free to take with you!</p>
+<p>All told, that’s quite the journey. Here it all is wrapped up in a reusable function, which you are free to cut out and keep!</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><span class="kw" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> count_points_in_polygons(</span>
-<span id="cb18-2">    polys:gpd.GeoDataFrame, </span>
-<span id="cb18-3">    pts:gpd.GeoDataFrame, </span>
-<span id="cb18-4">    id_var:<span class="bu" style="color: null;
+<span id="cb17-2">    polys:gpd.GeoDataFrame, </span>
+<span id="cb17-3">    pts:gpd.GeoDataFrame, </span>
+<span id="cb17-4">    id_var:<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span>) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-&gt;</span> gpd.GeoDataFrame:</span>
-<span id="cb18-5">    <span class="co" style="color: #5E5E5E;
+<span id="cb17-5">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""Counts points in polygons and appends new column to GeoDataFrame.</span></span>
-<span id="cb18-6"></span>
-<span id="cb18-7"><span class="co" style="color: #5E5E5E;
+<span id="cb17-6"></span>
+<span id="cb17-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    Args:</span></span>
-<span id="cb18-8"><span class="co" style="color: #5E5E5E;
+<span id="cb17-8"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">        polys (gpd.GeoDataFrame): the polygons within which to count.</span></span>
-<span id="cb18-9"><span class="co" style="color: #5E5E5E;
+<span id="cb17-9"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">        pts (gpd.GeoDataFrame): the points to count.</span></span>
-<span id="cb18-10"><span class="co" style="color: #5E5E5E;
+<span id="cb17-10"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">        id_var (str): a variable that uniquely identifies the polygons.</span></span>
-<span id="cb18-11"></span>
-<span id="cb18-12"><span class="co" style="color: #5E5E5E;
+<span id="cb17-11"></span>
+<span id="cb17-12"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    Returns:</span></span>
-<span id="cb18-13"><span class="co" style="color: #5E5E5E;
+<span id="cb17-13"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">        gpd.GeoDataFrame: polygon GeoDataFrame with added column 'n_points' </span></span>
-<span id="cb18-14"><span class="co" style="color: #5E5E5E;
+<span id="cb17-14"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">            containing result.</span></span>
-<span id="cb18-15"><span class="co" style="color: #5E5E5E;
+<span id="cb17-15"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    """</span></span>
-<span id="cb18-16">    pt_var <span class="op" style="color: #5E5E5E;
+<span id="cb17-16">    pt_var <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pts.columns[<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span>]</span>
-<span id="cb18-17">    <span class="cf" style="color: #003B4F;
+<span id="cb17-17">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> polys.merge(</span>
-<span id="cb18-18">        polys.sjoin(pts, how <span class="op" style="color: #5E5E5E;
+<span id="cb17-18">        polys.sjoin(pts, how <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"left"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb18-19">            .loc[:, [id_var, pt_var]] <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb18-20">            .groupby(id_var, as_index <span class="op" style="color: #5E5E5E;
+font-style: inherit;">"left"</span>)</span>
+<span id="cb17-19">            .loc[:, [id_var, pt_var]]</span>
+<span id="cb17-20">            .groupby(id_var, as_index <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">False</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb18-21">            .count() <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">\</span></span>
-<span id="cb18-22">            .rename(columns <span class="op" style="color: #5E5E5E;
+font-style: inherit;">False</span>)</span>
+<span id="cb17-21">            .count()</span>
+<span id="cb17-22">            .rename(columns <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> {pt_var: <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"n_points"</span>}))</span>
-<span id="cb18-23"></span>
-<span id="cb18-24">count_points_in_polygons(polygons, points, <span class="st" style="color: #20794D;
+<span id="cb17-23"></span>
+<span id="cb17-24">count_points_in_polygons(polygons, points, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"name"</span>)</span></code></pre></div>
 </details>
@@ -563,43 +541,43 @@ font-style: inherit;">"name"</span>)</span></code></pre></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(sf)</span>
-<span id="cb20-2"><span class="fu" style="color: #4758AB;
+<span id="cb19-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(ggplot2)</span>
-<span id="cb20-3"></span>
-<span id="cb20-4">points <span class="ot" style="color: #003B4F;
+<span id="cb19-3"></span>
+<span id="cb19-4">points <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_read</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"points.gpkg"</span>)</span>
-<span id="cb20-5">polygons <span class="ot" style="color: #003B4F;
+<span id="cb19-5">polygons <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_read</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"polygons.gpkg"</span>)</span>
-<span id="cb20-6"></span>
-<span id="cb20-7">point_counts <span class="ot" style="color: #003B4F;
+<span id="cb19-6"></span>
+<span id="cb19-7">point_counts <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> polygons <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb20-8">  <span class="fu" style="color: #4758AB;
+<span id="cb19-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">st_contains</span>(points) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb20-9">  <span class="fu" style="color: #4758AB;
+<span id="cb19-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">lengths</span>()</span>
-<span id="cb20-10"></span>
-<span id="cb20-11">polygons<span class="sc" style="color: #5E5E5E;
+<span id="cb19-10"></span>
+<span id="cb19-11">polygons<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span>n_points <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -613,12 +591,12 @@ font-style: inherit;">&lt;-</span> point_counts</span></code></pre></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(polygons) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb21-2">  <span class="fu" style="color: #4758AB;
+<span id="cb20-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_sf</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -627,7 +605,7 @@ background-color: null;
 font-style: inherit;">fill =</span> n_points)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb21-3">  <span class="fu" style="color: #4758AB;
+<span id="cb20-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_fill_distiller</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -640,7 +618,7 @@ background-color: null;
 font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb21-4">  <span class="fu" style="color: #4758AB;
+<span id="cb20-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_void</span>()</span></code></pre></div>
 </details>
