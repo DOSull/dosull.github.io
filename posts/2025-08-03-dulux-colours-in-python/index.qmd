@@ -115,7 +115,7 @@ colours
 ```
 
 ## Geocoding the colours
-Next up is geocoding. For this I used [Nominatim](). It's free and unencumbered by usage restrictions. It's far from perfect. In this particular application it makes some unfortunate choices. 'Cuba Street', famously in Wellington, also exists not so far away in Petone. 'Rangitoto' famously Auckland's dormant/extinct friendly harbour volcano is also the name of a large high school on the North Shore. More perplexingly 'Te Kopua Beach', which I believe the Dulux people probably intended to refer to a [camp ground near Raglan](https://wanderlog.com/place/details/2052790/te-kopua-beach), winds up geocoded as [Beach Pizza](https://www.openstreetmap.org/search?query=te+kopua+beach&zoom=23&minlon=174.85807422548532&minlat=-36.786750147431086&maxlon=174.85830221325162&maxlat=-36.786625288993555#map=23/-36.88626730/174.64410940&layers=V) in Glendene, West Auckland for no very obvious reason.
+Next up is geocoding. For this I used [Nominatim](). It's free and unencumbered by usage restrictions. It's far from perfect. In this particular application it makes some unfortunate choices. 'Cuba Street', famously in Wellington, also exists not so far away in Petone. 'Rangitoto' famously Auckland's dormant/extinct, friendly neighbourhood volcano is also the name of a large high school on the North Shore. More perplexingly 'Te Kopua Beach', which I believe the Dulux people probably intended to refer to a [camp ground near Raglan](https://wanderlog.com/place/details/2052790/te-kopua-beach), winds up geocoded as [Beach Pizza](https://www.openstreetmap.org/search?query=te+kopua+beach&zoom=23&minlon=174.85807422548532&minlat=-36.786750147431086&maxlon=174.85830221325162&maxlat=-36.786625288993555#map=23/-36.88626730/174.64410940&layers=V) in Glendene, West Auckland for no very obvious reason.
 
 I did consider using a better geocoder. Google's is probably the pick of the bunch for quality results, but... well, this is very much a demonstration project, and their terms of use are very restrictive,^[Mapscaping have a very useful overview of the options on [this page](https://mapscaping.com/guide-to-geocoding-api-pricing/)] including not storing results or using them to make maps outside the Google maps ecosystem. Life's too short, and this project isn't serious enough for that kind of stupidity.
 
@@ -199,6 +199,7 @@ dulux_map = gpd.GeoDataFrame(
 The only real wrinkle here is that `voronoi_polygons()` must necessarily be applied to a collection of points, so we must `union_all()` the points before applying it. Also, this method doesn't guarantee returning the polygons in the same order as the points supplied, so must spatially join the resulting data set back to its originating points dataset. Finally, we clip with a New Zealand data layer to get a sensible output map.
 
 ```{python}
+#| code-fold: true
 dulux_map.explore(
   color = dulux_map.hex, 
   tiles = "CartoDB Positron", tooltip = "place", 
@@ -210,6 +211,7 @@ dulux_map.explore(
 There might be a hint in the map in the form of a band of off-white colours down the spine of Te Waipounamu of the Southern Alps. But there's not a lot else to suggest anything systematic about the colours, apart from the slightly obvious fact that the lake places are nearly all blues of one kind or another. We can see these two features in the subsetted maps below.
 
 ```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt
 
 lake_recs = dulux_map.place.str.startswith("Lake")
