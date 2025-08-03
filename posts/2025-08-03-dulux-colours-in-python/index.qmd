@@ -149,7 +149,7 @@ for col in colours.itertuples(index = False, name = "Colour"):     # <1>
   if col.place in locations:
     geocodes.append(Geocode(*(col + locations[col.place].pop(0)))) # <2>
     if len(locations[col.place]) == 0:
-        del locations[col.place]
+      del locations[col.place]
 ```
 1. Iterate over rows in the table as `Colour` named tuples.
 2. Add coordinates from the longitude-latitude tuple in the `locations` dictionary entry to the colour record to form the geocoded record.
