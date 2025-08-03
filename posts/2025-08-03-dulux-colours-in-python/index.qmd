@@ -190,9 +190,8 @@ pts = gpd.GeoDataFrame(
   .to_crs(2193)
 
 dulux_map = gpd.GeoDataFrame(
-  geometry = gpd.GeoSeries(
-      [pts.geometry.union_all()]).voronoi_polygons(), 
-      crs = 2193) \
+    geometry = gpd.GeoSeries(
+      [pts.geometry.union_all()]).voronoi_polygons(), crs = 2193) \
   .sjoin(pts) \
   .clip(nz)
 ```
