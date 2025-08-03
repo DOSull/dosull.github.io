@@ -203,6 +203,7 @@ The only real wrinkle here is that `voronoi_polygons()` must necessarily be appl
 dulux_map.explore(
   color = dulux_map.hex, 
   tiles = "CartoDB Positron", tooltip = "place", 
+  popup = ["place", "hex", "paintname"],
   style_kwds = dict(weight = 0, fillOpacity = 1))
 ```
 
