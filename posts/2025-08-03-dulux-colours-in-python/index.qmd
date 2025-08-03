@@ -65,7 +65,8 @@ In any case, that complexity accounts for having to reach _four_ levels down int
 
 Of note in the code is using `time.sleep(1)` to avoid overloading the server by introducing a 1 second delay between requesting the pages.
 
-```python
+```{python}
+#| eval: false
 for url in urls:
   page = BeautifulSoup(requests.get(url).text, "html.parser")
   data = json.loads(page.find(id = "__NEXT_DATA__").text)
@@ -77,8 +78,9 @@ for url in urls:
 
 Then we can make a data table of the colour names and their RGB hex definitions.
 
-```python
-colours = pd.DataFrame(dict(place = names, hex = hexes))
+```{python}
+#| eval: false
+colours = pd.DataFrame(dict(paintname = names, hex = hexes))
 ```
 
 ```{python}
@@ -93,15 +95,22 @@ Here's what all that gets us.
 colours
 ```
 
-Some minor cleanup is needed. Some 'places' have several variations on the paint suffixed 'Half', 'Double', or `Quarter', so we need to remove these to their own column in the data and correct the place names accordingly. 
+Some cleanup is required. Specifically, some paint names include a 'variant' suffix, 'Half', 'Double', or `Quarter', which we need to split out into their own column in the data and correct the place names accordingly. 
+
+There are a number of ways this might be done, but consistent with using a `pandas.Series.apply`, the best and clearest approach seems to be writing a helper functions as below, then applying it and expanding its output to a list so that it can be assigned to two new columns in the data table.
 
 ```{python}
 modifiers = ["Half", "Quarter", "Double"]
 
-last_words = [s.split(" ")[-1] for s in colours.place]
-colours["modifier"] = [(m if m in modifiers else "") for m in last_words]
-colours.loc[colours.modifier != "", "place"] = \
-  [" ".join(s.split(" ")[:-1]) for s in colours.place[colours.modifier != ""]]
+def handle_suffixes(s):
+  words = s.split(" ")
+  if words[-1] in modifiers:
+    return " ".join(words[:-1]), words[-1]
+  else:
+    return s, ""
+
+colours[["place", "modifier"]] = pd.DataFrame(
+  colours.paintname.apply(handle_suffixes).to_list())
 colours
 ```
 
@@ -110,37 +119,46 @@ Next up is geocoding. For this I used [Nominatim](). It's free and unencumbered 
 
 I did consider using a better geocoder. Google's is probably the pick of the bunch for quality results, but... well, this is very much a demonstration project, and their terms of use are very restrictive,^[Mapscaping have a very useful overview of the options on [this page](https://mapscaping.com/guide-to-geocoding-api-pricing/)] including not storing results or using them to make maps outside the Google maps ecosystem. Life's too short, and this project isn't serious enough for that kind of stupidity.
 
-Anyway, the code below makes up a dictionary where each place name is associated with a list of longitude-latitude pairs as returned by the geocoder. Retaining a list allows us to associate different locations with the various modified paint colours ('Half', 'Quarter', 'Double') where these exist.
+Anyway, the code below makes up a dictionary `locations` where each place name is associated with a list of longitude-latitude pairs as returned by the geocoder.
 
-```python
+```{python}
+#| eval: false
 from geopy.geocoders import Nominatim
 from collections import defaultdict
-from collections import namedtuple
-Record = namedtuple("Record", ["place", "hex", "modifier", "longitude", "latitude"])
 
 geolocator = Nominatim(user_agent = "Firefox")
-places = defaultdict(list)
+locations = defaultdict(list)
 for place in list(pd.Series.unique(colours.place)):
   geocode = geolocator.geocode(place, country_codes = ["NZ"], 
                                exactly_one = False, timeout = None)
   if geocode is not None:
-    places[place].extend([(loc.longitude, loc.latitude) for loc in geocode])
+    locations[place].extend([(loc.longitude, loc.latitude) for loc in geocode])
   time.sleep(1)
-
-avail_locs = {place: len(locs) for place, locs in places.items() if len(locs) > 0}
-used_locs = {place: 0 for place in avail_locs.keys()}
-records = []
-for place, hex, modifier in zip(colours.place, colours.hex, colours.modifier):
-  if place in avail_locs and used_locs[place] < avail_locs[place]:
-    lon, lat = places[place][used_locs[place]]
-    records.append(Record(place, hex, modifier, lon, lat))
-    used_locs[place] = used_locs[place] + 1
 ```
 
-Storing the results from the geocoding in named tuples provides for convenient conversion to a data table at the end of the process.
+Retaining a list of locations for each place allows us to associate different locations with the various modified paint colours where these exist. When we assign coordinates to each row in the data table we pop the first one off this list, and if the list is now empty remove it from the available locations, so that any later appearances of that place in the table are skipped.
 
-```python
-df = pd.DataFrame(records)
+```{python}
+#| eval: false
+from collections import namedtuple
+Colour = namedtuple("Colour", tuple(colours.columns))
+Geocode = namedtuple("Geocode", Colour._fields + ("longitude", "latitude"))
+
+geocodes = []
+for col in colours.itertuples(index = False, name = "Colour"):     # <1>
+  if col.place in locations:
+    geocodes.append(Geocode(*(col + locations[col.place].pop(0)))) # <2>
+    if len(locations[col.place]) == 0:
+        del locations[col.place]
+```
+1. Iterate over rows in the table as `Colour` named tuples.
+2. Add coordinates from the longitude-latitude tuple in the `locations` dictionary entry to the colour record to form the geocoded record.
+
+Defining named tuples for colour and geocoded records allows convenient iteration over each row in the colours table, and also adding coordinates from the geocoding to the colour records. Compiling a list of the geocoded records then allows convenient conversion to a data table at the end of the process.
+
+```{python}
+#| eval: false
+df = pd.DataFrame(geocodes)
 ```
 
 And now we have something we can make maps with:
@@ -188,6 +206,8 @@ dulux_map.explore(
   style_kwds = dict(weight = 0, fillOpacity = 1))
 ```
 
+&nbsp;
+
 There might be a hint in the map in the form of a band of off-white colours down the spine of Te Waipounamu of the Southern Alps. But there's not a lot else to suggest anything systematic about the colours, apart from the slightly obvious fact that the lake places are nearly all blues of one kind or another. We can see these two features in the subsetted maps below.
 
 ```{python}
@@ -220,6 +240,8 @@ This sort of things makes one contemplate ones life choices. Or at any rate refl
 Python's `requests`, `BeautifulSoup`, `json` combo is pretty amazing for pulling the data. Python's general purpose lists, dictionaries, named tuples are much easier to deal with than always trying to make things work as dataframe pipelines in R. I _know_ you can write functions in R too, it's just that somehow the pipeline mindset takes over and you find yourself puzzling out how to do things using tables when a dictionary makes it trivial. 
 
 By the same token, I don't know if I will ever get completely comfortable with `pandas` rather oblique subsetting and data transformation methods compared to tidyverse R's `dplyr` pipelines, but saying that, splitting strings (the paint names) to remove the paint modifier suffixes was easier in Python that using tidyverse's `separate_wider`. 
+
+I enjoyed using `namedtuples` here in the geocoding step to make the code a little clearer, although it may be overkill where a small table like this is involved. It's never a bad thing to extend your use of language features like this.
 
 As always, when it comes to visualization I miss `ggplot`, but `geopandas` `explore` method makes it trivial to create a web map, which was the end goal here.
 
