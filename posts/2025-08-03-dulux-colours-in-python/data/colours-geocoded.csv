@@ -1,1007 +1,993 @@
 paintname,hex,place,modifier,longitude,latitude
-42 Traverse,#c3c7d8,42 Traverse,,176.0236206,-37.6557578
-Abbotsford,#cc996a,Abbotsford,,170.4257886,-45.8946234
-Adele Island,#b1d9db,Adele Island,,173.0596341,-40.9805942
-Ahipara Half,#eeebe0,Ahipara,Half,173.1469345,-35.1754824
-Ahipara Double,#e4e1d4,Ahipara,Double,173.1562074,-35.1664105
-Ahipara,#eae8dd,Ahipara,,173.1320404,-35.1498809
-Albany,#f6eef2,Albany,,174.7086478,-36.7279344
-Albert Town,#d27b34,Albert Town,,169.1872642,-44.6832402
-Albury,#f5d593,Albury,,170.8728698,-44.2318201
-Alexandra,#eed2cb,Alexandra,,169.3921819,-45.2550839
-All Day Bay,#425f9b,All Day Bay,,170.892618,-45.205144
-Alligator Head Double,#847e7a,Alligator Head,Double,174.155028,-40.968556
-Amberley,#8d828c,Amberley,,172.7329869,-43.1512956
-Amodeo Bay,#495e93,Amodeo Bay,,175.44151,-36.67408
-Amorino Park,#96a7a4,Amorino Park,,174.6977914,-36.6007997
-Anaura Bay,#fcba2d,Anaura Bay,,178.3267366,-38.2333833
-Andersons Bay,#c77462,Andersons Bay,,170.5316864,-45.8961549
-Aoraki Half,#eaeeea,Aoraki,Half,170.0977232,-43.7349453
-Aoraki Double,#daddd7,Aoraki,Double,170.2410739,-43.6048727
-Aoraki Quarter,#f0f1ec,Aoraki,Quarter,170.1421677,-43.5950017
-Aotea Quay,#e5c53f,Aotea Quay,,174.7860527,-41.2688682
-Apple Tree Bay,#c6dfde,Apple Tree Bay,,173.0391833,-40.9833168
-Aratapu,#d5847e,Aratapu,,173.9055585,-36.0137488
-Ardmore,#95a28a,Ardmore,,174.9831104,-37.0333574
-Aro Street,#c69eaf,Aro Street,,174.7622315,-41.2942115
-Arrow River,#cfb059,Arrow River,,168.8175281,-44.858616
-Arrow Rock,#a89a89,Arrow Rock,,173.2570971,-41.2713737
-Arthur's Pass,#929585,Arthur's Pass,,171.5593933,-42.907413
-Ashburton,#e4898d,Ashburton,,171.7503327,-43.9024396
-Ashhurst,#8d974e,Ashhurst,,175.7557583,-40.2893295
-Auckland Islands,#b2cdeb,Auckland Islands,,166.060652,-50.88239
-Avalanche Creek,#d9dddf,Avalanche Creek,,171.5546779,-42.942382
-Avalon,#b9bcc1,Avalon,,174.9442724,-41.1928328
-Avonhead,#aac4a6,Avonhead,,172.5563302,-43.5198723
-Awaroa,#deb29a,Awaroa,,173.2838056,-35.2727799
-Awatere,#d3b266,Awatere,,173.6500506,-41.8785896
-Bainham,#6d4333,Bainham,,172.5636935,-40.7653922
-Balaena Bay,#91a2b5,Balaena Bay,,174.8036808,-41.2923578
-Balclutha,#a3acb5,Balclutha,,169.7398641,-46.2377982
-Goose Bay,#a3acb5,Balclutha,,169.7398641,-46.2377982
-Barrys Bay,#c2ebd0,Barrys Bay,,172.91183,-43.7608127
-Basin Reserve,#5a5d56,Basin Reserve,,174.7802545,-41.30036
-Baylys Beach,#dfb995,Baylys Beach,,173.7462766,-35.9494945
-Becks,#b9b6cb,Becks,,169.7494268,-44.9928068
-Benhar,#d69579,Benhar,,169.7959438,-46.2242527
-Benmore Half,#ccdfdb,Benmore,Half,168.3322921,-45.98677
-Benneydale,#5f616e,Benneydale,,175.3627608,-38.520108
-Bethells Beach,#353434,Bethells Beach,,174.4445785,-36.8957959
-Big Bay,#c4dbdb,Big Bay,,174.6424431,-37.0478489
-Big Glory Bay,#da9284,Big Glory Bay,,168.1160106,-46.9764775
-Big Lagoon,#005c6d,Big Lagoon,,174.1029347,-41.5457512
-Birdlings Flat,#c6d8e8,Birdlings Flat,,172.7047562,-43.8242634
-Bishopdale,#928ea9,Bishopdale,,172.5886622,-43.4884343
-Black Giants,#72635e,Black Giants,,167.13844,-45.51842
-Black Reef,#2e4652,Black Reef,,177.0819868,-39.6319878
-Blackball,#685f56,Blackball,,171.4119525,-42.3640296
-Blackhead Beach,#acb4c7,Blackhead Beach,,176.8360456,-40.1670106
-Blackwood Bay,#2e2e2e,Blackwood Bay,,174.095113,-41.213491
-Bland Bay,#bf9d91,Bland Bay,,174.359561,-35.3385744
-Blanket Bay,#f8f3e0,Blanket Bay,,170.589639,-45.833167
-Blue Knob,#5a6c8c,Blue Knob,,173.3280787,-41.3504493
-Blue Pools,#b1c5cb,Blue Pools,,169.2704124,-44.1622229
-Blueskin Bay,#4d5878,Blueskin Bay,,170.581558,-45.730358
-Bluff Hill,#d39f93,Bluff Hill,,176.9172861,-39.4788919
-Boggyburn,#615452,Boggyburn,,168.3719775,-46.0625281
-Borland,#906c5d,Borland,,167.451334,-45.70878
-Boulder Bay,#444c54,Boulder Bay,,174.8779853,-36.7685501
-Boulder Beach,#92908c,Boulder Beach,,170.612308,-45.8972773
-Bridal Veil Falls,#7cc5de,Bridal Veil Falls,,174.8966745,-37.9086008
-Britomart,#babf6c,Britomart,,174.7691726,-36.8445568
-Broadfield,#c48e5e,Broadfield,,172.4682617,-43.6044756
-Broadway,#d5a285,Broadway,,174.7779576,-36.8686282
-Brookby,#dcd467,Brookby,,174.9946922,-36.9868478
-Browns Bay,#425860,Browns Bay,,174.7481983,-36.7156283
-Bruce Bay,#a3a29f,Bruce Bay,,169.5917666,-43.5842248
-Bucklands Beach,#f7baa2,Bucklands Beach,,174.904601,-36.8662371
-Bunnythorpe Quarter,#f0e7d4,Bunnythorpe,Quarter,175.631499,-40.2825904
-Burgess Park,#ecf3e5,Burgess Park,,174.1154368,-39.1065583
-Burkes Pass,#e6afb0,Burkes Pass,,170.6527866,-44.0894425
-Cable Bay,#008487,Cable Bay,,173.4767457,-34.9895479
-Calm Peak,#dfc8aa,Calm Peak,,166.75976,-45.47413
-Campbells Bay,#d7ecf5,Campbells Bay,,174.7619515,-36.7454921
-Canoe Bay,#dcf0f2,Canoe Bay,,173.0479955,-40.8528458
-Canvastown,#b6a167,Canvastown,,173.6704274,-41.2911692
-Cape Brett,#5172a0,Cape Brett,,174.330918,-35.172407
-Cape Campbell,#8a4e30,Cape Campbell,,174.2746266,-41.7282357
-Cape Colville Double,#d8cfbb,Cape Colville,Double,175.3446634,-36.4692206
-Cape Jackson,#349b7f,Cape Jackson,,174.3150978,-40.9938291
-Cape Kidnappers,#fcdc81,Cape Kidnappers,,177.0960028,-39.6428005
-Cape Palliser,#958a9f,Cape Palliser,,175.2734151,-41.6127164
-Cape Runaway,#fbe0ac,Cape Runaway,,177.9827614,-37.5394005
-Cape Rēinga,#cab181,Cape Rēinga,,172.6774681,-34.4265787
-Cape Rēinga Half,#d4bc90,Cape Rēinga,Half,172.6793483,-34.4201843
-Cardrona Double,#dfdace,Cardrona,Double,169.0645478,-44.8241301
-Haast,#dfdace,Cardrona,,169.0645478,-44.8241301
-Cardrona Half,#f2f0e9,Cardrona,Half,169.0005718,-44.8832724
-Caroline Bay,#76808a,Caroline Bay,,171.2508847,-44.382599
-Carrick Range,#75615e,Carrick Range,,169.0672509,-45.0651728
-Carterton,#f9d464,Carterton,,175.5259467,-41.0243023
-Cascade Cove,#3c3a3c,Cascade Cove,,166.5930147,-45.8038052
-Cashel Street,#e6a7ae,Cashel Street,,172.653702,-43.5331046
-Cashmere,#b8b2a7,Cashmere,,172.6309889,-43.5716034
-Casino Hut,#9db8aa,Casino Hut,,176.9087473,-38.3141069
-Castlecliff,#4f504f,Castlecliff,,174.9835768,-39.9392955
-Castlepoint,#d2c1b2,Castlepoint,,176.2217236,-40.9008816
-Castor Bay,#c9e5f4,Castor Bay,,174.7671369,-36.7587345
-Catalina Bay,#c6e8ee,Catalina Bay,,174.6722037,-36.7918725
-Cathedral Cove,#555c90,Cathedral Cove,,175.7903756,-36.8286883
-Catseye Bay,#007d9b,Catseye Bay,,167.3902009,-44.8108577
-Caversham,#384669,Caversham,,170.4810145,-45.895911
-Charteris Bay,#a1c4cf,Charteris Bay,,172.708298,-43.6487828
-Chatham Islands,#3a533c,Chatham Islands,,-176.18734,-43.917534
-Chatto Creek,#2b645d,Chatto Creek,,169.5092569,-45.1409431
-Cheddar Valley,#ebd9aa,Cheddar Valley,,177.104491,-38.0257401
-Shelly Beach,#ebd9aa,Cheddar Valley,,177.104491,-38.0257401
-Cheltenham,#ede0d4,Cheltenham,,175.6608381,-40.1375859
-Cherry Bay,#d16869,Cherry Bay,,174.1857118,-41.1716903
-Cheviot,#eeac5d,Cheviot,,173.2735027,-42.8116534
-Church Road,#d4cd58,Church Road,,174.7803932,-36.9422933
-Clarence River,#e7dee7,Clarence River,,173.3054709,-42.2455393
-Claris,#90a073,Claris,,175.4645657,-36.2440248
-Clarks Beach,#eae4cc,Clarks Beach,,174.7044928,-37.1368737
-Clifford Bay,#065183,Clifford Bay,,174.1872342,-41.6456588
-Clifton,#6c939f,Clifton,,172.750042,-43.5690584
-Clive,#96913a,Clive,,176.9154754,-39.5828238
-Cloudy Range,#757361,Cloudy Range,,173.2210546,-42.3741513
-Clutha,#94aad2,Clutha,,169.7398641,-46.2377982
-Coal Island,#414a58,Coal Island,,166.6270102,-46.1181615
-Coalgate,#44372b,Coalgate,,171.9660126,-43.4819896
-Coatesville,#ad4430,Coatesville,,174.6393415,-36.7170336
-Cockle Bay,#dce0ef,Cockle Bay,,174.9430254,-36.9001875
-Colac Bay,#4dc0a6,Colac Bay,,167.9149326,-46.3695508
-Collingwood Double,#dfcfb1,Collingwood,Double,172.6844307,-40.68202
-Colombo Street,#c92c2b,Colombo Street,,174.7776937,-41.3122368
-Monkey Island,#a8adb7,Conway Flat,,173.4576416,-42.6181228
-Conway Flat,#a8adb7,Conway Flat,,173.4576416,-42.6181228
-Cook Strait,#386168,Cook Strait,,174.5445093,-41.1976586
-Cooks Beach,#9bbdc3,Cooks Beach,,175.7410613,-36.8382656
-Coopers Beach,#efebda,Coopers Beach,,173.5188316,-34.9878961
-Coopers Beach Double,#e9e0cb,Coopers Beach,Double,173.5068287,-34.9945196
-Cornwall Park,#b0e5c7,Cornwall Park,,174.7887202,-36.9009803
-Cossack Rock,#a9a594,Cossack Rock,,169.2435791,-52.5049616
-Courtenay Place,#e35840,Courtenay Place,,174.7803883,-41.2932163
-Cricklewood,#777eb0,Cricklewood,,170.8551264,-44.1710772
-Crown Range,#eab2b3,Crown Range,,168.9202465,-44.9537943
-Cuba Street,#b1c05e,Cuba Street,,174.886927,-41.2234813
-Cumberland Street,#563b37,Cumberland Street,,172.6546721,-43.519403
-D'Urville Island,#7bb5ac,D'Urville Island,,173.8696532,-40.817514
-Dannevirke,#eeebe2,Dannevirke,,176.0982442,-40.2073897
-Danseys Pass,#70384d,Danseys Pass,,170.3729642,-44.9526968
-Darfield,#c5ac7c,Darfield,,172.1087152,-43.4882301
-Dargaville,#ac7b7b,Dargaville,,173.8685702,-35.9412143
-Dark Cloud Range,#7f888f,Dark Cloud Range,,166.8696121,-45.8578985
-Dart River,#c8ebec,Dart River,,172.6454411,-41.5076571
-Dashwood Pass,#bd9369,Dashwood Pass,,174.053424,-41.6084695
-Denniston,#6a6c76,Denniston,,171.7973765,-41.7372136
-Desert Road,#ddc17e,Desert Road,,170.6934262,-45.8130893
-Devils Backbone,#7a3332,Devils Backbone,,173.449435,-41.668641
-Devils Staircase,#d43938,Devils Staircase,,173.8501946,-41.082219
-Devonport,#f0efbf,Devonport,,174.7975377,-36.8297309
-Diamond Harbour,#746a73,Diamond Harbour,,172.7399332,-43.6271963
-Diggers Valley,#83624f,Diggers Valley,,173.3113003,-35.1837349
-Dingle Burn,#c1b298,Dingle Burn,,169.498071,-44.3868358
-Dipton,#e5d398,Dipton,,168.3681178,-45.8999088
-Dog Kennel Corner,#ebeaaf,Dog Kennel Corner,,170.5673484,-44.0964519
-Double Cove,#f47369,Double Cove,,174.0137327,-41.2351902
-Doubtful Sound,#423d4b,Doubtful Sound,,167.0865205,-45.3738793
-Dunedin,#dcc5b9,Dunedin,,170.5035755,-45.8740984
-Dunsandel,#c7b796,Dunsandel,,172.197083,-43.6610056
-Duntroon,#d6bf80,Duntroon,,170.6832097,-44.8538398
-Durie Hill,#9e9cab,Durie Hill,,175.0692835,-39.9387491
-Dusky Forest,#6d6746,Dusky Forest,,169.1650575,-45.8295755
-Dusky Sound,#d4c5d5,Dusky Sound,,166.7457543,-45.7346227
-Duvauchelle,#ece7d9,Duvauchelle,,172.9445993,-43.7554266
-Earnscleugh,#ca965d,Earnscleugh,,169.3178745,-45.2162322
-Earthquake Flat,#845a4e,Earthquake Flat,,176.3018342,-38.315624
-East Beach,#3b618d,East Beach,,173.178023,-34.859788
-Eastbourne,#ddd0b7,Eastbourne,,174.8984175,-41.2913416
-Eastern Bush,#fbeceb,Eastern Bush,,167.760483,-46.013209
-Edendale Double,#c9bd9f,Edendale,Double,168.7850981,-46.3144058
-Edendale,#d7ccb2,Edendale,,172.3172871,-43.5287583
-Eketāhuna,#8cc379,Eketāhuna,,175.7033205,-40.6466355
-Ellerslie,#ca798b,Ellerslie,,174.8150298,-36.897603
-Eltham,#fad997,Eltham,,174.3048314,-39.4282209
-Emerald Lakes,#4c785f,Emerald Lakes,,175.6545348,-39.1340074
-Emerald Pools,#dbe3d1,Emerald Pools,,173.4614693,-41.3486666
-Epsom,#efeae0,Epsom,,174.7734616,-36.8858447
-Eskdale,#d2b995,Eskdale,,176.832106,-39.392223
-Ettrick,#893737,Ettrick,,169.3650466,-45.6348073
-Evans Bay,#e8944b,Evans Bay,,174.8111418,-41.3001439
-Evansdale Half,#fae8cd,Evansdale,Half,170.5700183,-45.7194832
-Farewell Spit,#93c0e7,Farewell Spit,,172.9704706,-40.5311441
-Fendalton,#b2a7a1,Fendalton,,172.598799,-43.5195232
-Fernhill,#6d6c68,Fernhill,,176.7653746,-39.5956512
-Firth of Thames,#75c9e7,Firth of Thames,,175.4079915,-37.0417475
-Fitzherbert Ave,#be7b35,Fitzherbert Ave,,174.6213884,-36.8198855
-Fitzroy,#fcebae,Fitzroy,,175.3006245,-37.8154928
-Fitzroy Beach,#9b9ea0,Fitzroy Beach,,174.0999384,-39.0418543
-Five Fingers Peninsula Quarter,#96a6b2,Five Fingers Peninsula,Quarter,166.496556,-45.702944
-Five Fingers Peninsula,#697d89,Five Fingers Peninsula,,166.5132059,-45.6842669
-Five Rivers,#5b4e39,Five Rivers,,168.4585884,-45.6234024
-Flat Island,#6d6f57,Flat Island,,175.8675538,-36.7108082
-Flat Point,#fd938f,Flat Point,,175.9541512,-41.2426269
-Flaxmere,#f8f6df,Flaxmere,,176.7861708,-39.6250691
-Fort Dorset,#8d98a1,Fort Dorset,,174.8360946,-41.3289876
-Fort Street,#e9dd24,Fort Street,,174.7694062,-36.8461766
-Fortrose,#bc8743,Fortrose,,168.800835,-46.5750891
-Foveaux Strait Half,#e0d9ca,Foveaux Strait,Half,168.3598392,-46.612088
-Fox Glacier,#a4d8f2,Fox Glacier,,170.1386966,-43.5170284
-Foxton Beach,#ffb6b2,Foxton Beach,,175.2225541,-40.4613776
-Frankton,#734833,Frankton,,175.2571104,-37.7909408
-Franz Josef Quarter,#afb0ac,Franz Josef,Quarter,170.1819048,-43.3889668
-French Bay,#266973,French Bay,,174.6615039,-36.9477714
-French Farm Bay,#7baccf,French Farm Bay,,172.9142877,-43.7773592
-Gabriel's Gully,#e7c7a9,Gabriel's Gully,,176.6026909,-39.9843487
-Gannet Island,#c2bdc2,Gannet Island,,174.5655525,-37.9723213
-Garston,#e8ded8,Garston,,168.6842791,-45.4671892
-Gentle Annie,#d9d5ad,Gentle Annie,,173.4910039,-41.1670544
-George Street,#006bac,George Street,,174.7769715,-36.8632412
-Geraldine,#a5d0ae,Geraldine,,171.2425898,-44.0921039
-Gibbston Valley,#68393d,Gibbston Valley,,168.9151536,-45.0122832
-Gillespies Beach,#9b555f,Gillespies Beach,,169.8197293,-43.4150392
-Gimblett Rd,#773938,Gimblett Rd,,176.7466266,-39.6129383
-Gisborne,#fca92f,Gisborne,,178.0206487,-38.661326
-Gladstone Road,#b35968,Gladstone Road,,174.7387241,-36.8076691
-Glen Murray,#a59788,Glen Murray,,174.9593139,-37.4475891
-Glenbrook,#454445,Glenbrook,,174.7602215,-37.1926213
-Glendhu Bay,#a6ae9f,Glendhu Bay,,169.0150554,-44.673937
-Glentui,#8fc39c,Glentui,,172.2778417,-43.219745
-Glentunnel,#816440,Glentunnel,,171.9342317,-43.4815841
-Glinks Gully,#d6cec1,Glinks Gully,,173.8576382,-36.0811046
-Goat Island,#105974,Goat Island,,170.6259739,-45.8242514
-Godley Head,#bab6b2,Godley Head,,172.8055315,-43.587304
-Golden Downs,#383c42,Golden Downs,,172.8848268,-41.542548
-Golden Springs,#f9f0ef,Golden Springs,,176.3121611,-38.4677588
-Gonville,#9bc2b3,Gonville,,175.027059,-39.9419197
-Balclutha,#a3acb5,Goose Bay,,173.5280492,-42.4778729
-Goose Bay,#a3acb5,Goose Bay,,173.5280492,-42.4778729
-Gordonton,#eed0cd,Gordonton,,175.3082395,-37.6711885
-Gore,#42392f,Gore,,168.9447811,-46.0984482
-Gouland Downs,#c99f96,Gouland Downs,,172.317131,-40.89567
-Gracefield,#2aaa41,Gracefield,,174.9169459,-41.2373917
-Grahams Beach,#455338,Grahams Beach,,174.6619752,-37.0551776
-Granity,#5d4a38,Granity,,171.8549525,-41.6301692
-Green Island,#ffac62,Green Island,,170.4301484,-45.903193
-Greenlane,#d7b3ba,Greenlane,,174.7939619,-36.893759
-Greta Valley,#3bb76f,Greta Valley,,172.9682943,-42.9640263
-Grey Lynn,#babfc2,Grey Lynn,,174.7364178,-36.859922
-Greytown,#bbbfbd,Greytown,,175.460547,-41.0806338
-Grove Arm,#6eb476,Grove Arm,,173.954833,-41.261583
-Gulf Harbour,#b4c8db,Gulf Harbour,,174.7925871,-36.6190238
-Haast Double,#d4ccbe,Haast,Double,169.2548101,-43.9424621
-Haast Half,#e3e1da,Haast,Half,169.0420322,-43.8806582
-Hagley Park,#fae5ab,Hagley Park,,172.6202505,-43.527621
-Hahei,#a3b9ce,Hahei,,175.802826,-36.8402447
-Hakataramea,#eceff0,Hakataramea,,170.4842387,-44.7219154
-Hakatere,#d6e1c1,Hakatere,,171.7503327,-43.9024396
-Halfmoon Bay,#ebddbf,Halfmoon Bay,,168.1283778,-46.8979908
-Halfway Bluff,#c6765f,Halfway Bluff,,168.3272238,-44.0581219
-Halswell,#b6dbbe,Halswell,,172.57058,-43.5855643
-Happy Valley,#32493c,Happy Valley,,174.7571462,-41.3313209
-Harihari,#eaf7f2,Harihari,,170.5581948,-43.1479196
-Haumoana,#e5ebef,Haumoana,,176.9457704,-39.6072711
-Haunui Half,#f0f0ed,Haunui,Half,176.0443211,-40.6068825
-Haunui Double,#e7e5e9,Haunui,Double,175.453991,-41.1518312
-Hauraki Gulf,#3f525e,Hauraki Gulf,,175.0915832,-36.7060245
-Havelock Half,#d2cbd0,Havelock,Half,175.0209573,-37.2629463
-Havelock,#c4bdc3,Havelock,,173.7676834,-41.278597
-Havelock North,#ff9d80,Havelock North,,176.8771367,-39.6702108
-Hawke's Bay,#cff0cc,Hawke's Bay,,176.7611457,-39.5256512
-Heaphy Track,#75917f,Heaphy Track,,172.1840486,-40.9063806
-Hedgehope,#5e5453,Hedgehope,,168.53828,-46.20732
-Herald Island,#4e4136,Herald Island,,174.6583999,-36.7782931
-Herbert,#9d7638,Herbert,,170.7875019,-45.2231962
-Herd Street,#d7a97f,Herd Street,,174.785844,-41.2911427
-Herne Bay,#7d746d,Herne Bay,,174.7341061,-36.8441306
-Hibiscus Coast,#dfc781,Hibiscus Coast,,174.7086237,-36.6095336
-Hicks Bay,#e7e0d7,Hicks Bay,,178.2900625,-37.5913283
-Hidden Falls,#e2f6ef,Hidden Falls,,168.1223868,-44.6302187
-Whiritoa,#efcfd2,Hidden Valley,,172.6575463,-43.591465
-Hidden Valley,#efcfd2,Hidden Valley,,172.6575463,-43.591465
-High Street,#a4334e,High Street,,174.8500526,-36.9443638
-Himatangi,#acc9e5,Himatangi,,175.3172905,-40.3899367
-Hinuera,#decc96,Hinuera,,175.7604638,-37.8821496
-Hobsonville,#8290b1,Hobsonville,,174.6473532,-36.799239
-Hokitika,#947d68,Hokitika,,170.9646469,-42.7178871
-Hokonui Hills,#47373a,Hokonui Hills,,168.5219874,-45.9517984
-Hole in the Rock,#0c4761,Hole in the Rock,,174.8332446,-41.3299155
-Homer Tunnel,#b09337,Homer Tunnel,,167.981358,-44.7642164
-Honeymoon Valley,#ff9f68,Honeymoon Valley,,173.493261,-35.1274821
-Hoon Hay,#b4ae98,Hoon Hay,,172.6087903,-43.564483
-Hoopers Inlet,#6f8faf,Hoopers Inlet,,170.6724401,-45.8631845
-Hopelands Half,#cbbeb3,Hopelands,Half,175.9507442,-40.3519895
-Hopelands Quarter,#d6cbc0,Hopelands,Quarter,171.4077651,-43.7775077
-Hopelands,#bbaca1,Hopelands,,171.8075104,-43.9280618
-Horeke,#a49086,Horeke,,173.593211,-35.3567081
-Horsham Downs,#c18534,Horsham Downs,,175.249722,-37.6985246
-Hot Water Beach,#8caac6,Hot Water Beach,,175.8235659,-36.889811
-Houghton Bay,#0081ac,Houghton Bay,,174.7878218,-41.3382326
-Houhora,#c89b59,Houhora,,173.1056202,-34.794711
-Howick,#ddd0bf,Howick,,174.8994161,-36.9238091
-Howick Quarter,#ece4d8,Howick,Quarter,174.9286061,-36.8956869
-Huapai,#635c61,Huapai,,174.5423206,-36.7705274
-Huka Falls,#6799a2,Huka Falls,,176.0899194,-38.648754
-Hunterville,#3c3538,Hunterville,,175.5680412,-39.9361379
-Huntly,#5075a9,Huntly,,175.1588322,-37.5583996
-Hurstmere Road,#24589a,Hurstmere Road,,174.7735343,-36.7840977
-Hurunui,#bb5f63,Hurunui,,172.6411177,-42.8251955
-Hutt River,#c8c1b1,Hutt River,,175.0637276,-41.115445
-Hāpuku,#b1a7cc,Hāpuku,,173.6750537,-42.2350132
-Hātaitai,#824657,Hātaitai,,174.7967804,-41.304278
-Hāwai,#e1c1c1,Hāwai,,177.5283851,-37.9226067
-Hāwera,#faecdd,Hāwera,,174.2837207,-39.5893462
-Ida Valley,#e3a859,Ida Valley,,169.7759325,-45.0833413
-Ilam,#4d4d58,Ilam,,172.5720494,-43.5165611
-Inglewood,#9fd196,Inglewood,,174.2076017,-39.1562038
-Invercargill,#665738,Invercargill,,168.3470632,-46.4118465
-Island Bay,#a1bad2,Island Bay,,174.7716525,-41.3323139
-Islington Bay,#635952,Islington Bay,,174.8966999,-36.7835681
-Jacks Point,#838592,Jacks Point,,168.7531685,-45.0760519
-K Road,#c84848,K Road,,174.7534219,-36.8591814
-Kai Iwi Lakes,#d0cbc2,Kai Iwi Lakes,,173.6421008,-35.8146032
-Kaiapoi,#8b818c,Kaiapoi,,172.6521689,-43.3831623
-Kaikorai Valley,#d0c8c4,Kaikorai Valley,,170.4460455,-45.9020121
-Kaikōura,#383c43,Kaikōura,,173.6811428,-42.4005999
-Kaimanawa Range,#e4d6be,Kaimanawa Range,,175.919678,-39.1975056
-Kaipara,#62403b,Kaipara,,174.2018585,-36.3796294
-Kairākau Beach,#a5b3c7,Kairākau Beach,,176.9258042,-39.9454451
-Kaitaia,#ae2b2f,Kaitaia,,173.264022,-35.1140609
-Kaiteriteri,#f6d27f,Kaiteriteri,,173.0166609,-41.0369592
-Kaitoke Beach,#0e4e4d,Kaitoke Beach,,175.4772238,-36.2432781
-Kaituna,#856b72,Kaituna,,176.3705111,-37.8644387
-Kaiwaka,#fbf0bf,Kaiwaka,,174.4435893,-36.1612116
-Kaka Point,#6398bf,Kaka Point,,168.175797,-47.052924
-Kamo,#c79535,Kamo,,174.3002928,-35.6822841
-Kaponga,#776a56,Kaponga,,174.1544821,-39.4293397
-Karaka Bay,#f1ad3c,Karaka Bay,,174.8774627,-36.8486942
-Karamea,#a6c348,Karamea,,172.1180199,-41.2487451
-Karehana Bay,#a99683,Karehana Bay,,174.8652978,-41.0819811
-Karekare,#8c8172,Karekare,,174.4787488,-36.9861424
-Karioitahi Beach,#5782ae,Karioitahi Beach,,174.6679365,-37.31134
-Karori,#313b40,Karori,,174.7387671,-41.2845495
-Katikati,#384e46,Katikati,,175.91541,-37.5522269
-Katiki,#413450,Katiki,,170.8385396,-45.3966115
-Kauri Cliffs Double,#c9beae,Kauri Cliffs,Double,173.9237415,-35.073337
-Kawau Island,#16a5a6,Kawau Island,,174.8635446,-36.4210864
-Kawerau,#806461,Kawerau,,176.7033298,-38.0857434
-Kea Point,#345e61,Kea Point,,170.074111,-43.703306
-Kelburn,#a85c60,Kelburn,,174.7623927,-41.289205
-Kellands Pond,#1f3665,Kellands Pond,,170.0662911,-44.2986831
-Kelvin Heights,#f6d37f,Kelvin Heights,,168.6876631,-45.0466397
-Kenepuru Sound,#2a3b51,Kenepuru Sound,,174.0533924,-41.1896102
-Kereta,#e0c38e,Kereta,,175.435671,-36.9062725
-Kerikeri,#c06f32,Kerikeri,,173.9491061,-35.2272607
-Khandallah,#3a3432,Khandallah,,174.7905885,-41.246742
-Kihikihi,#7e7793,Kihikihi,,175.3450108,-38.0372702
-King Country,#b6a494,King Country,,175.2158303,-38.46595
-Kingsland,#a98469,Kingsland,,174.7439365,-36.871195
-Kingston Double,#808083,Kingston,Double,168.7175147,-45.3343708
-Kingston Half,#a9aaab,Kingston,Half,174.7647252,-41.3223122
-Kinleith Double,#cdbaa2,Kinleith,Double,175.9025836,-38.2833659
-Knights Point,#5b6b7c,Knights Point,,169.2248,-43.713104
-Knottingley Park,#b6803f,Knottingley Park,,171.0563645,-44.7480523
-Knuckle Point,#897968,Knuckle Point,,173.4699313,-34.8493239
-Koekohe Beach,#b2b0bd,Koekohe Beach,,170.8270021,-45.3192494
-Kohimarama,#a6dee3,Kohimarama,,174.8368338,-36.8545594
-Kohukohunui,#bfc0aa,Kohukohunui,,175.2194517,-37.0381219
-Kohunui Bay,#aeafbb,Kohunui Bay,,174.456741,-36.9360185
-Koromiko,#fde599,Koromiko,,173.9620941,-41.3410959
-Kumeū,#403130,Kumeū,,174.5546604,-36.7753095
-Kumutoto Half,#e7d8d4,Kumutoto,Half,174.7707714,-41.2880909
-Kuratau,#eb9a76,Kuratau,,175.7717385,-38.8905969
-Kurow,#1e974e,Kurow,,170.4694561,-44.7338879
-Kākahi,#edd3c7,Kākahi,,175.3834269,-38.9354696
-Kākānui,#94302f,Kākānui,,175.1357603,-40.9647982
-Kāpiti,#cbb992,Kāpiti,,170.0201251,-46.0680144
-Kārewa Island,#157951,Kārewa Island,,176.1313914,-37.5300053
-Kāwhia,#40495c,Kāwhia,,174.826715,-38.131666
-Kōpū,#757c49,Kōpū,,175.566059,-37.1855871
-Kōwhai Park,#f3c440,Kōwhai Park,,172.5099546,-43.4967643
-Kūaotunu,#dec8ae,Kūaotunu,,175.7245723,-36.7232825
-Kūmara,#f2b66a,Kūmara,,171.1869146,-42.6298696
-Laingholm,#59524a,Laingholm,,174.6403411,-36.9676904
-Lake Alexandrina,#272e4e,Lake Alexandrina,,170.4525482,-43.9381889
-Lake Angelus,#36a9ce,Lake Angelus,,172.7459764,-41.8869663
-Lake Aviemore,#b2b8d1,Lake Aviemore,,170.2925416,-44.6105878
-Lake Bright,#276aac,Lake Bright,,167.1425186,-45.6910638
-Lake Brunner,#303f55,Lake Brunner,,171.4400701,-42.6164359
-Lake Camp,#9bb4bc,Lake Camp,,171.0562569,-43.6149097
-Lake Coleridge,#0a97bf,Lake Coleridge,,171.532599,-43.365964
-Lake Dunstan,#666f7f,Lake Dunstan,,169.2013001,-45.0523301
-Lake Ellesmere,#6eb2be,Lake Ellesmere,,172.5077026,-43.7866957
-Lake Ferry,#a39b87,Lake Ferry,,175.1469169,-41.3906208
-Lake Grassmere,#a54c4e,Lake Grassmere,,174.134728,-41.719753
-Lake Harris,#b9c5d4,Lake Harris,,168.176501,-44.7256585
-Lake Hauroko,#494e6c,Lake Hauroko,,167.3042173,-45.9551879
-Lake Hayes,#5f3935,Lake Hayes,,168.8244098,-44.9701266
-Lake Heron,#b8cfd9,Lake Heron,,171.1896475,-43.4411539
-Lake Hood,#006684,Lake Hood,,171.773739,-43.9660958
-Lake Hāwea,#4a525c,Lake Hāwea,,169.3256696,-44.439223
-Lake Karapiro,#005183,Lake Karapiro,,175.6589765,-37.9886514
-Lake Mangamahoe,#3c4b56,Lake Mangamahoe,,174.1226506,-39.1246889
-Lake Matheson,#4d546b,Lake Matheson,,169.9652356,-43.4391646
-Lake Monowai,#9fbdda,Lake Monowai,,167.6201526,-45.7902631
-Lake Pūkaki,#736c8f,Lake Pūkaki,,170.1742311,-44.0477609
-Lake Rotoiti,#33517b,Lake Rotoiti,,172.8417145,-41.8348349
-Lake Rotoma,#75929a,Lake Rotoma,,176.589625,-38.0438754
-Lake Rotomahana,#3e4258,Lake Rotomahana,,176.4396996,-38.2646488
-Lake Sumner,#525266,Lake Sumner,,172.1546142,-42.6268076
-Lake Tarawera,#606d8e,Lake Tarawera,,176.4181593,-38.2053744
-Lake Taupō,#00638b,Lake Taupō,,175.9311663,-38.806535
-Lake Taylor,#2a9dd5,Lake Taylor,,172.2298225,-42.7658239
-Lake Tekapō,#51a8bf,Lake Tekapō,,170.4777273,-44.0045194
-Lake Waihola,#e3edc1,Lake Waihola,,170.0943026,-46.0146292
-Lake Waikaremoana,#adb2c1,Lake Waikaremoana,,177.1020772,-38.7619146
-Lake Wakatipu,#a3abb3,Lake Wakatipu,,168.5211108,-45.0888042
-Lake Wardell,#7babb3,Lake Wardell,,170.1231641,-44.1967315
-Lakeside,#a9c7c3,Lakeside,,175.1488583,-37.4168978
-Lambton Quay,#d5b966,Lambton Quay,,174.7777452,-41.2792158
-Lauder,#a17a66,Lauder,,169.6727526,-45.0530863
-Lawrence,#e1bb2f,Lawrence,,169.6870009,-45.9129312
-Lepperton,#3e4463,Lepperton,,174.2118559,-39.0587991
-Levin,#76655b,Levin,,175.2865854,-40.6218161
-Lichfield,#fbe9bb,Lichfield,,175.8157468,-38.1040559
-Ligar Bay,#de9351,Ligar Bay,,172.9094837,-40.8222996
-Limehills Half,#d7c59b,Limehills,Half,168.3296911,-46.0583993
-Lincoln,#343b37,Lincoln,,172.4860237,-43.6396099
-Lindale,#f8dfa9,Lindale,,175.0213117,-40.9020098
-Lindis Pass,#9f8d77,Lindis Pass,,169.6430798,-44.5882604
-Linton,#cec2ab,Linton,,175.552844,-40.4305668
-Lion Rock,#494d55,Lion Rock,,174.467021,-36.9539305
-Little Manly Double,#efe8d7,Little Manly,Double,174.7584209,-36.6373222
-Little Shoal Bay,#394f78,Little Shoal Bay,,174.742127,-36.8213828
-Lochiel,#ffdd62,Lochiel,,168.33366,-46.20594
-Lochmara Bay Quarter,#cbe2f2,Lochmara Bay,Quarter,174.0015923,-41.2305332
-Long Harry Bay,#5a665c,Long Harry Bay,,167.7906,-46.68985
-Longwood Forest,#dbd399,Longwood Forest,,167.814289,-46.2161271
-Lottin Point,#21446b,Lottin Point,,178.171778,-37.533667
-Lyall Bay,#9dd0d8,Lyall Bay,,174.8023227,-41.3384099
-Lyttelton,#bebfba,Lyttelton,,172.7205727,-43.6024739
-MacKinnon Pass,#828ca5,MacKinnon Pass,,167.7657824,-44.8024908
-Macetown,#e9bc63,Macetown,,168.8201003,-44.8668516
-Macraes Flat,#bd8753,Macraes Flat,,170.4290349,-45.382159
-Maheno,#ded5c8,Maheno,,170.8351965,-45.1682869
-Maheno Double,#d4c8b9,Maheno,Double,174.071312,-36.069873
-Mahora,#6cac58,Mahora,,176.8485063,-39.6255734
-Mairangi Bay,#406194,Mairangi Bay,,174.752935,-36.7386335
-Makaka Bay,#5d8c9b,Makaka Bay,,174.5294577,-37.0318543
-Maketu,#5b7c9c,Maketu,,176.4540339,-37.7582634
-Malaspina Reach,#b0c3ba,Malaspina Reach,,167.0045022,-45.3335459
-Manaia,#c58c37,Manaia,,174.5169905,-35.8183188
-Manapōuri,#0f4b8c,Manapōuri,,167.6133964,-45.5651472
-Manawatū Gorge,#403d41,Manawatū Gorge,,175.7715655,-40.306929
-Manfeild,#698364,Manfeild,,175.560008,-40.2371227
-Mangakino,#969984,Mangakino,,175.7695224,-38.3706391
-Mangatainoka,#dc7842,Mangatainoka,,175.7100642,-40.5577931
-Mangaweka,#a59e92,Mangaweka,,176.0854377,-39.8177827
-Mangaweka Quarter,#cdc4b5,Mangaweka,Quarter,175.7899398,-39.8083304
-Mangawhai Heads,#3d8a96,Mangawhai Heads,,174.5871983,-36.0947939
-Manorburn Half,#e2e3e2,Manorburn,Half,169.6169533,-45.3819503
-Manorburn,#dadad5,Manorburn,,169.4405999,-45.2340434
-Manorburn Double,#d0d1ce,Manorburn,Double,169.4465061,-45.2389922
-Manorburn Quarter,#ecebe5,Manorburn,Quarter,169.4434008,-45.239622
-Mansion House Bay,#3fb4cf,Mansion House Bay,,174.8190021,-36.4292764
-Manu Bay,#77aca9,Manu Bay,,174.8174415,-37.8212333
-Manukau,#9695c5,Manukau,,174.728854,-37.0864743
-Maraetai,#747878,Maraetai,,175.0423717,-36.8807143
-Maraetai Quarter,#a5a8a5,Maraetai,Quarter,176.352278,-38.046056
-Maraetai Half,#90938f,Maraetai,Half,175.7977701,-38.3770293
-Marine Parade,#3a3c36,Marine Parade,,174.7245538,-36.8468514
-Marokopa Falls,#826c59,Marokopa Falls,,174.8519552,-38.2616381
-Martinborough,#5b4149,Martinborough,,175.4594856,-41.2183252
-Martins Creek,#b1b49a,Martins Creek,,167.7762516,-46.9388582
-Marton,#cac1ad,Marton,,175.3791977,-40.0722219
-Mason Bay,#d5ccbd,Mason Bay,,167.7090203,-46.9138463
-Massey,#bec5d3,Massey,,174.6115457,-36.8402845
-Masterton,#bf9e4a,Masterton,,175.6594413,-40.9495524
-Matakana,#87393b,Matakana,,176.0631458,-37.5600501
-Matamata,#b0a980,Matamata,,175.7732759,-37.8095635
-Matapōuri,#bc8d57,Matapōuri,,174.5030702,-35.5663974
-Matauri Bay Double,#bab072,Matauri Bay,Double,173.9175349,-35.0332024
-Matauri Bay,#cdcc99,Matauri Bay,,173.9110995,-35.0339202
-Mataī Falls,#c3e4bc,Mataī Falls,,169.4891044,-46.5030606
-Mavora Quarter,#a7a296,Mavora,Quarter,168.1763,-45.08755
-Mavora,#7b766d,Mavora,,168.1684311,-45.2255785
-Mayfield,#ede29a,Mayfield,,173.9536303,-41.5025971
-Mayor Island,#363231,Mayor Island,,176.2546801,-37.2889763
-McKellar Saddle,#7e8574,McKellar Saddle,,168.1539736,-44.8509235
-Mechanics Bay,#af9794,Mechanics Bay,,174.7836176,-36.8468148
-Medlands Beach,#ead0a2,Medlands Beach,,175.4921071,-36.2643879
-Mercer,#2a3f52,Mercer,,175.0485015,-37.2765715
-Mercury Bay Half,#fbebd3,Mercury Bay,Half,175.7024856,-36.8331861
-Mercury Bay,#fde4c6,Mercury Bay,,175.7226052,-36.8158558
-Merino Downs,#f2ded4,Merino Downs,,169.0819465,-45.9651473
-Methven,#619ed6,Methven,,171.6472608,-43.6324332
-Middlemarch,#bcbac2,Middlemarch,,170.1218572,-45.5047446
-Middlemore,#576d61,Middlemore,,174.839071,-36.9630541
-Midhirst Double,#918b7f,Midhirst,Double,174.2653117,-39.2911749
-Millers Flat,#e5a0a1,Millers Flat,,169.4115378,-45.6639043
-Millwater,#c3c4c2,Millwater,,174.6704279,-36.6010745
-Milton,#b5adb5,Milton,,169.9624539,-46.1167784
-Miramar,#544942,Miramar,,174.816551,-41.3164457
-Mission Bay,#355b78,Mission Bay,,174.831802,-36.848267
-Mititai,#ffc18a,Mititai,,173.9329912,-36.0143183
-Mitre Peak,#36343f,Mitre Peak,,167.8548891,-44.632577
-Moa Flat,#c5ab84,Moa Flat,,169.3056893,-45.7248019
-Moana Reserve Quarter,#e1e2d6,Moana Reserve,Quarter,174.6964701,-36.5859477
-Moana Reserve Half,#d6d8c9,Moana Reserve,Half,173.255641,-41.2814911
-Moawhango,#826f9f,Moawhango,,175.8642409,-39.5794201
-Moeraki,#39455c,Moeraki,,170.8515085,-45.3609866
-Molesworth,#bb9c7e,Molesworth,,173.2626623,-42.0882329
-Moncks Bay,#6a3a36,Moncks Bay,,172.7436021,-43.566388
-Monkey Island,#a8adb7,Monkey Island,,167.7283667,-46.3004661
-Conway Flat,#a8adb7,Monkey Island,,167.7283667,-46.3004661
-Moonlight Creek,#2a3249,Moonlight Creek,,168.6382026,-44.9640072
-Moores Valley Road,#e7e1e8,Moores Valley Road,,174.9808264,-41.2650351
-Morikau,#9e6a66,Morikau,,175.0974451,-39.5617096
-Morison Bush,#bcdbd3,Morison Bush,,175.4885055,-41.1542428
-Morison Bush Half,#cde5dd,Morison Bush,Half,175.4378414,-41.1197431
-Morrinsville,#f3eedf,Morrinsville,,175.5281399,-37.6581506
-Morven,#fad19c,Morven,,171.1082088,-44.8177831
-Mossburn,#9d9fb3,Mossburn,,168.2347682,-45.6693308
-Motueka,#c18562,Motueka,,173.0094875,-41.112493
-Motukiekie Island,#5e88a6,Motukiekie Island,,174.203238,-35.2177607
-Motukorea,#424b56,Motukorea,,174.8955646,-36.8313639
-Motutapu Island,#5f655a,Motutapu Island,,174.9155763,-36.7633481
-Moutere,#76362e,Moutere,,172.1920041,-40.8322023
-Mt Albert,#c2bdb2,Mt Albert,,174.7155603,-36.8841665
-Mt Aspiring,#e7e7e1,Mt Aspiring,,168.7279571,-44.3841635
-Mt Bruce,#525550,Mt Bruce,,171.6149716,-43.0537521
-Mt Cecil,#b2bbdb,Mt Cecil,,170.924167,-44.584
-Mt Difficulty,#a67284,Mt Difficulty,,169.0820402,-45.0430319
-Mt Dobson,#e2f0f5,Mt Dobson,,169.757177,-43.9218555
-Mt Hikurangi,#b6bec5,Mt Hikurangi,,178.0607394,-37.9189282
-Mt Hutt,#eae9e1,Mt Hutt,,171.5260623,-43.4714859
-Mt Inaccessible,#433f3b,Mt Inaccessible,,166.6358,-45.88097
-Mt Maunganui,#b7977c,Mt Maunganui,,176.1838841,-37.6380218
-Mt Messenger,#3d4844,Mt Messenger,,174.594361,-38.8939724
-Mt Sefton,#e7f1d0,Mt Sefton,,170.0421118,-43.6824551
-Mt Somers,#dfd9dc,Mt Somers,,171.4024346,-43.7055797
-Mt Stevens,#505238,Mt Stevens,,172.451333,-40.793889
-Mt Taranaki,#5d5041,Mt Taranaki,,174.0638945,-39.2960839
-Mt Victoria,#51a1a1,Mt Victoria,,174.7943018,-41.296076
-Mt Ward,#9eb8d0,Mt Ward,,167.18101,-45.60768
-Murchison,#bbb4a4,Murchison,,172.3286812,-41.7995251
-Muriwai,#ddd2bb,Muriwai,,172.3071548,-43.864982
-Muriwai Double,#cfc3aa,Muriwai,Double,174.4339345,-36.8246517
-Muriwai Half,#e5ddca,Muriwai,Half,177.9231726,-38.7530673
-Murrays Bay,#7d94a2,Murrays Bay,,174.7528516,-36.7329277
-Musick Point,#7d96c6,Musick Point,,174.9010348,-36.8463582
-Musket Bay,#656756,Musket Bay,,167.8268832,-44.4900781
-Mussel Point,#fee1da,Mussel Point,,174.2239956,-41.7226329
-Mystery Creek,#b0b07b,Mystery Creek,,175.3489383,-37.8706892
-Māhia,#89a6cd,Māhia,,177.898028,-39.183167
-Māngere Bridge,#d4d3e0,Māngere Bridge,,174.7852413,-36.9439039
-Māpua,#ca9c9c,Māpua,,173.0962191,-41.25321
-Mārahau,#0094a9,Mārahau,,173.0086156,-41.0061336
-Mōrere,#aabda2,Mōrere,,177.788981,-38.959024
-Mōtū River,#cadbc7,Mōtū River,,177.6514209,-38.1466538
-Naenae,#cacd40,Naenae,,174.9537984,-41.200486
-Napier,#b44970,Napier,,176.917839,-39.4902099
-Narrow Neck Half,#cdcabf,Narrow Neck,Half,166.912652,-45.42701
-Narrow Neck Double,#a6a499,Narrow Neck,Double,174.8013927,-36.8133725
-Naseby,#8e6838,Naseby,,170.1460085,-45.0249757
-Ness Valley,#9a3335,Ness Valley,,175.1277995,-36.9946522
-New Plymouth,#5ab9a1,New Plymouth,,174.0806474,-39.0579941
-Newmarket,#c67593,Newmarket,,174.7780755,-36.8674453
-Ngarunui Beach,#d6d2c8,Ngarunui Beach,,174.831995,-37.8128514
-Ngawi,#8d4f4c,Ngawi,,175.2340526,-41.5876747
-Ngongotahā,#ead4c7,Ngongotahā,,176.2127159,-38.0808401
-Ngāpuna,#c2a292,Ngāpuna,,176.27393,-38.1450538
-Ngāruawāhia,#3d343f,Ngāruawāhia,,175.1500534,-37.6662658
-Ngātaringa Bay,#b4c2b6,Ngātaringa Bay,,174.7799348,-36.81968
-Ngātea,#cfd79d,Ngātea,,175.4916548,-37.2757232
-Ngāuruhoe,#a198a2,Ngāuruhoe,,175.6319511,-39.1567868
-Nile Street,#c4795d,Nile Street,,170.4924671,-45.9068085
-Ninety Mile Beach,#f7dfb9,Ninety Mile Beach,,173.0461184,-34.8524563
-Norsewood,#797268,Norsewood,,176.2155372,-40.0707728
-North Cape,#8ca9b9,North Cape,,173.0519725,-34.4160018
-North Head,#b1a291,North Head,,174.8123571,-36.8277095
-Northcote,#7c828e,Northcote,,174.745208,-36.8010871
-Northlake,#666966,Northlake,,169.1597208,-44.6789175
-Nugget Point,#49465a,Nugget Point,,167.109,-45.014361
-O'Neills Bay,#d7f0f0,O'Neills Bay,,174.7667011,-36.821443
-Oakley Creek,#ebf7e8,Oakley Creek,,174.719485,-36.8976694
-Ocean View Beach,#194356,Ocean View Beach,,170.3414733,-45.9411115
-Ohoka,#cf9fab,Ohoka,,172.5776605,-43.3630619
-Okains Bay,#aabf8b,Okains Bay,,173.0424226,-43.7096655
-Old Man Range,#504e4e,Old Man Range,,170.3687903,-43.9858366
-Omaha,#e1c290,Omaha,,174.7747859,-36.3399886
-Omaui,#8e3646,Omaui,,168.26089,-46.51905
-One Tree Hill,#2d7f69,One Tree Hill,,174.7831302,-36.900172
-Onemana,#65768e,Onemana,,175.8765974,-37.1567649
-Onerahi,#c9d7ed,Onerahi,,174.3686964,-35.755012
-Oneroa,#3c4965,Oneroa,,175.0098094,-36.7819161
-Onetangi,#afc5d9,Onetangi,,175.0825819,-36.7891861
-Opito Bay,#e5d1c0,Opito Bay,,174.1530859,-35.2639553
-Orewa,#b9e7db,Orewa,,174.6914965,-36.5857596
-Oriental Bay,#bbd0de,Oriental Bay,,174.793919,-41.2918354
-Otūmoetai,#f5cd80,Otūmoetai,,176.1402406,-37.6717267
-Outram,#42354f,Outram,,170.2290377,-45.8598144
-Oxford Terrace,#af3f42,Oxford Terrace,,174.807967,-36.8239772
-Paekākāriki,#ead9b6,Paekākāriki,,174.9514432,-40.9883074
-Paeroa,#e6c089,Paeroa,,175.6704263,-37.3804671
-Paihia,#ffe481,Paihia,,174.0920879,-35.2812407
-Pandora,#f1c2c3,Pandora,,176.886452,-39.4913611
-Parakai,#abd0e0,Parakai,,174.4331289,-36.6604127
-Paremata,#b7c5d3,Paremata,,174.869541,-41.0976075
-Parihaka,#f6e4ee,Parihaka,,173.8394654,-39.2887721
-Parkvale,#beb7bf,Parkvale,,176.8594668,-39.64906
-Parnassus,#afd1c3,Parnassus,,173.2912573,-42.7117596
-Passage Rock,#60352e,Passage Rock,,175.1298923,-36.8575074
-Pataua Beach,#d1bc92,Pataua Beach,,174.5185218,-35.7051978
-Pauātahanui Half,#ac9c89,Pauātahanui,Half,174.8585899,-41.1088953
-Pauātahanui,#958271,Pauātahanui,,174.9166968,-41.1051387
-Pearl Island,#e7d78f,Pearl Island,,167.7089363,-47.1934909
-Peep-O-Day,#383e44,Peep-O-Day,,175.8237791,-39.9551978
-Pelorus Bridge,#5d74a9,Pelorus Bridge,,173.5723636,-41.299103
-Pencarrow,#6c7a74,Pencarrow,,174.8500366,-41.3589028
-Petone,#7570a6,Petone,,174.8790351,-41.2249675
-Pigeon Bay,#9ea8cf,Pigeon Bay,,172.8999544,-43.6867452
-Pigeon Bush,#c1b25c,Pigeon Bush,,172.3082281,-43.0913954
-Piha,#31363b,Piha,,174.4694742,-36.9556043
-Tuatapere,#31363b,Piha,,174.4694742,-36.9556043
-Pinehaven,#31817e,Pinehaven,,175.0157222,-41.1616928
-Pisa Moorings,#586880,Pisa Moorings,,169.2418048,-44.9769431
-Plimmerton,#005479,Plimmerton,,174.8652978,-41.0819811
-Pohangina,#bfd75a,Pohangina,,175.7947468,-40.1707737
-Point England,#f1dedd,Point England,,174.8652954,-36.8847075
-Point Wells,#b1b4b3,Point Wells,,174.7567087,-36.3239444
-Ponsonby,#9d6750,Ponsonby,,174.7435778,-36.8477056
-Poor Knights,#2b3746,Poor Knights,,174.7411196,-35.4810327
-Pororari River Quarter,#cdc3a7,Pororari River,Quarter,171.4138739,-42.13813
-Pororari River,#b0a47e,Pororari River,,171.3397499,-42.1062204
-Port Fitzroy,#a6b5c5,Port Fitzroy,,175.3637436,-36.1638478
-Port Hills,#e64d1b,Port Hills,,172.7304227,-43.5869302
-Port Jackson,#354a54,Port Jackson,,175.3388586,-36.4853909
-Port Ōhope,#deb45b,Port Ōhope,,177.1093318,-37.981849
-Potters Park,#c2907a,Potters Park,,174.7490073,-36.8865251
-Prebbleton,#d1b6a7,Prebbleton,,172.5141224,-43.5800673
-Pt Chevalier,#427571,Pt Chevalier,,174.7080874,-36.8665285
-Puhoi,#a0b2b9,Puhoi,,174.6611196,-36.5120922
-Puhoi Half,#b4c2c7,Puhoi,Half,174.705481,-36.51872
-Pukeatua,#becac6,Pukeatua,,175.5592547,-38.0654408
-Pukehina Half,#f7e0c9,Pukehina,Half,176.5259331,-37.8233827
-Pukehina,#f5d5ba,Pukehina,,176.5341645,-37.79195
-Pukekawa,#ecddad,Pukekawa,,174.7760429,-36.8590138
-Pukekohe,#bfb5a6,Pukekohe,,174.9036875,-37.2006384
-Pukekura Park,#8b8c6e,Pukekura Park,,174.0797393,-39.0648343
-Pukerua Bay,#5b546e,Pukerua Bay,,174.8854454,-41.0374407
-Punakaiki,#95b6b4,Punakaiki,,171.3353148,-42.1085542
-Punaromia Quarter,#dfd2ca,Punaromia,Quarter,176.3737177,-38.207085
-Punaromia,#c6b3a9,Punaromia,,176.3760003,-38.2063914
-Punchbowl Falls,#32628a,Punchbowl Falls,,171.5682515,-42.9328032
-Punga Cove,#42463e,Punga Cove,,174.15171,-41.1291371
-Pureora,#567062,Pureora,,175.5256711,-38.354859
-Purity Hut,#83d1a6,Purity Hut,,176.0563068,-39.8203028
-Puysegur Point,#9c9380,Puysegur Point,,166.6084369,-46.1567277
-Pyramid Valley,#caa66e,Pyramid Valley,,172.6012874,-42.9699729
-Pākiri,#47a6c5,Pākiri,,174.7274706,-36.2643963
-Pātea,#52383a,Pātea,,174.4757901,-39.4615307
-Pāuanui,#93907f,Pāuanui,,175.8648118,-37.0242711
-Pōhutu Geyser,#9f6e60,Pōhutu Geyser,,176.2539737,-38.1635344
-Pōkeno,#897570,Pōkeno,,175.0219505,-37.244824
-Pōrangahau,#c4552d,Pōrangahau,,176.6224496,-40.3072127
-Pūkaki,#abb2af,Pūkaki,,170.9302221,-42.826532
-Pūkaki Half,#bdc3be,Pūkaki,Half,170.1461233,-44.1903149
-Pūkaki Double,#989e98,Pūkaki,Double,170.2084302,-44.2673982
-Pūkaki Quarter,#cdd2ce,Pūkaki,Quarter,170.1742311,-44.0477609
-Pūkawa,#6d758e,Pūkawa,,175.7515667,-38.9137553
-Pūpū Springs,#dcd4c3,Pūpū Springs,,172.768685,-40.8478595
-Pūrākaunui Bay,#88a495,Pūrākaunui Bay,,170.6232857,-45.7381008
-Quay Street,#8da5bd,Quay Street,,174.779633,-36.8471683
-Queen Street,#604e64,Queen Street,,174.7623999,-36.8558192
-Queenstown Hill,#71845e,Queenstown Hill,,168.6924181,-45.0086651
-Rabbit Island,#d0cce5,Rabbit Island,,173.1450011,-41.2693151
-Raetihi,#dce6eb,Raetihi,,175.2828804,-39.4264953
-Raglan,#5e6377,Raglan,,174.8682464,-37.7997729
-Rai Valley,#d8c8a9,Rai Valley,,173.5834466,-41.2278927
-Rakaia,#938e83,Rakaia,,171.6130479,-43.4828501
-Rakaia Half,#aaa599,Rakaia,Half,172.0236842,-43.7566951
-Rakaia Double,#837b6e,Rakaia,Double,171.625,-43.495944
-Ranfurly,#814c43,Ranfurly,,170.100127,-45.1303673
-Rangatāua,#b55732,Rangatāua,,175.4553203,-39.4280128
-Rangiora,#deb2af,Rangiora,,172.5961483,-43.303171
-Rangipo,#9a886a,Rangipo,,175.290822,-37.132904
-Rangitata,#e7b7a4,Rangitata,,171.1945441,-43.7490763
-Rangitoto,#904433,Rangitoto,,174.7359167,-36.7386148
-Rangitīkei River Quarter,#9ea8a8,Rangitīkei River,Quarter,175.8152587,-39.7665195
-Rarawa Beach,#dcdce1,Rarawa Beach,,173.0769397,-34.716506
-Raumati,#d9853f,Raumati,,174.9807058,-40.9186111
-Raurimu,#5a5c64,Raurimu,,175.395994,-39.1206606
-Raymonds Gap,#817b69,Raymonds Gap,,167.88734,-46.09471
-Red Beach,#8c474d,Red Beach,,174.7019115,-36.6043568
-Red Jacks,#95352e,Red Jacks,,171.4379964,-42.4044108
-Red Rocks,#8a3b34,Red Rocks,,174.7270535,-41.3576186
-Redcliffs,#903b2f,Redcliffs,,172.7369305,-43.5609616
-Reefton,#9399a4,Reefton,,171.8634561,-42.1159384
-Remuera,#ebe9e0,Remuera,,174.8014178,-36.8759344
-Remutaka Range,#8c9d8e,Remutaka Range,,175.0993839,-41.2676833
-Riccarton,#ffc6c2,Riccarton,,172.5947946,-43.5309939
-Richmond,#d9a5ac,Richmond,,173.1872264,-41.3380953
-Riversdale,#9f9385,Riversdale,,168.7437041,-45.9013221
-Riverton,#b77e53,Riverton,,168.0202689,-46.3509977
-Riwaka,#9c9387,Riwaka,,172.9967803,-41.0802399
-Roaring Meg,#be4c3e,Roaring Meg,,175.1978749,-40.8763442
-Roberton Island,#7acdd0,Roberton Island,,174.1652304,-35.2326098
-Rongotai,#585d67,Rongotai,,174.8004653,-41.322705
-Roseneath,#c17c83,Roseneath,,170.6009244,-45.8273021
-Rothesay Bay,#49566b,Rothesay Bay,,174.7511465,-36.7215205
-Rotorua,#fcd33b,Rotorua,,176.252922,-38.1381493
-Routeburn,#3f3c3e,Routeburn,,168.3130659,-44.746615
-Roxburgh,#ffcfa0,Roxburgh,,169.3139403,-45.5393399
-Roys Peak,#cbc9c5,Roys Peak,,169.0487295,-44.6939981
-Ruahine,#6d9287,Ruahine,,176.0904272,-39.8858678
-Ruakākā,#487584,Ruakākā,,174.4557066,-35.8754355
-Ruawai,#dd7f5a,Ruawai,,174.0252849,-36.1368675
-Ruby Bay,#d18e8d,Ruby Bay,,173.0863455,-41.2350885
-Russell,#2f3049,Russell,,174.1215291,-35.2617916
-Rārangi,#85b2a0,Rārangi,,174.0432031,-41.3964098
-Rāwene,#3c3e3f,Rāwene,,173.5060587,-35.3997951
-Rāwhiti,#c2c3d2,Rāwhiti,,172.866497,-40.8853076
-Sailors Cutting,#7a8da6,Sailors Cutting,,170.079889,-44.543472
-Sandfly Point Quarter,#f2f1e9,Sandfly Point,Quarter,167.860564,-44.951564
-Mt Aspiring Quarter,#f2f1e9,Sandfly Point,Quarter,167.860564,-44.951564
-Sandfly Point Half,#f2efe4,Sandfly Point,Half,166.632236,-46.0964679
-Sandringham,#e4f5e1,Sandringham,,174.7368028,-36.892686
-Sandrock Bluff Double,#c9bca7,Sandrock Bluff,Double,168.2695888,-44.1247682
-Sandspit,#f3ebd8,Sandspit,,174.727582,-36.3930812
-Sandymount,#c0af9c,Sandymount,,170.6724353,-45.8911602
-Sandymount Half,#cebeac,Sandymount,Half,170.6410861,-45.8718884
-Sawdon,#888aa0,Sawdon,,170.5087159,-44.0599426
-Scorching Bay,#ae3b3d,Scorching Bay,,174.8346249,-41.2981623
-Selwyn,#294d6e,Selwyn,,172.2277522,-43.6495222
-Separation Point,#84a9ce,Separation Point,,174.139104,-41.314183
-Sergeants Hill,#eada82,Sergeants Hill,,171.648159,-41.7608444
-Shag Rock,#605c58,Shag Rock,,168.2718296,-46.5835919
-Sheerdown Peak,#dff2e3,Sheerdown Peak,,167.939058,-44.699325
-Sheffield,#e99e4b,Sheffield,,172.0211299,-43.3891595
-Cheddar Valley,#ebd9aa,Shelly Beach,,174.3761172,-36.5702025
-Shelly Beach,#ebd9aa,Shelly Beach,,174.3761172,-36.5702025
-Sherwood,#fcdcaf,Sherwood,,171.8223739,-43.7493194
-Shoe Island,#887b6a,Shoe Island,,175.9060468,-36.9928315
-Shotover Street,#00834a,Shotover Street,,168.6590316,-45.0318389
-Silo Park,#6b3938,Silo Park,,174.7547846,-36.8398339
-Silverdale,#f9efd8,Silverdale,,175.3304609,-37.7933758
-Silverstream,#e5e2bf,Silverstream,,175.0117941,-41.1489813
-Skippers,#656c72,Skippers,,168.6879015,-44.8436978
-Slipper Island,#8991b3,Slipper Island,,175.944856,-37.0493331
-Smugglers Bay Quarter,#eedddf,Smugglers Bay,Quarter,174.5358014,-35.8586247
-Snells Beach,#bebc35,Snells Beach,,174.7239757,-36.4204774
-Snowdon Forest,#b98278,Snowdon Forest,,168.0761736,-45.2393638
-Sockburn,#d6afaf,Sockburn,,172.5563941,-43.538496
-Southbridge,#e3dc84,Southbridge,,172.2544396,-43.8119105
-Southern Alps,#f7f8f4,Southern Alps,,169.5852659,-44.0180642
-Spectacle Lake,#526a81,Spectacle Lake,,174.6292603,-36.1820273
-Spirits Bay,#a7abb2,Spirits Bay,,172.8308035,-34.4345835
-Split Apple Rock,#c4ebe9,Split Apple Rock,,173.0202219,-41.0183173
-Spring Creek Half,#c8d5e7,Spring Creek,Half,173.966464,-41.4576978
-Spring Creek,#b9c9e0,Spring Creek,,173.9505281,-41.4570618
-Springston,#3f414c,Springston,,172.4275629,-43.6445501
-St Andrews,#faeee4,St Andrews,,175.2589399,-37.7557779
-St Bathans,#a2986a,St Bathans,,169.8111508,-44.8708134
-St Clair Double,#d1d6d9,St Clair,Double,170.4907037,-45.9114627
-St Clair Quarter,#edefee,St Clair,Quarter,170.4891455,-45.9093912
-Stewart Island,#f0eebe,Stewart Island,,167.882138,-46.9867197
-Stilwell Bay,#b2c9e1,Stilwell Bay,,173.0433582,-40.9763126
-Stirling Falls,#d1d7eb,Stirling Falls,,167.8711845,-44.609207
-Stockyard Point Half,#e2dbcc,Stockyard Point,Half,172.849667,-40.51775
-Sandrock Bluff Half,#e2dbcc,Stockyard Point,Half,172.849667,-40.51775
-Stoke,#4d3b2d,Stoke,,173.2335584,-41.3123756
-Stony River Half,#a6a29c,Stony River,Half,170.2602796,-44.3598097
-Stony River,#938f8a,Stony River,,173.9121203,-39.2356671
-Sugarloaf Island Half,#d1dbd2,Sugarloaf Island,Half,173.3616115,-34.784533
-Sumner,#9eb8d8,Sumner,,172.7528503,-43.5835253
-Surfdale,#989aa7,Surfdale,,175.0254461,-36.7932639
-Tai Tapu,#423b35,Tai Tapu,,172.5502326,-43.6595989
-Taiaroa Head,#d9dbdf,Taiaroa Head,,170.7283327,-45.775145
-Taieri,#4f513f,Taieri,,170.1394526,-45.5094643
-Taihape,#363535,Taihape,,175.7983062,-39.6766915
-Tairua,#1e4769,Tairua,,175.850199,-36.999928
-Takapuna Beach,#bc4939,Takapuna Beach,,174.7770082,-36.7892356
-Takitimu Mountains,#bdc2cf,Takitimu Mountains,,167.8507019,-45.7211667
-Tapanui,#705a89,Tapanui,,169.2619453,-45.9425171
-Tapawera,#d7bda6,Tapawera,,172.8252254,-41.3854986
-Tapeka Beach,#6cbee7,Tapeka Beach,,174.1206511,-35.245904
-Tapora,#afb75f,Tapora,,174.3022535,-36.3523611
-Taradale,#e7b6ca,Taradale,,176.8484327,-39.5334658
-Tarras,#817c58,Tarras,,169.4259579,-44.8325138
-Tata Beach,#edb959,Tata Beach,,172.9147598,-40.8111618
-Tauhara Park,#ab4d53,Tauhara Park,,175.2694799,-37.7397783
-Tauherenīkau,#a0b0a3,Tauherenīkau,,175.3791022,-41.1189507
-Taumata Quarter,#f7e5d9,Taumata,Quarter,173.392972,-35.0635
-Taumata,#f2d0bf,Taumata,,176.5403047,-40.3460617
-Tauranga Bay,#7d8797,Tauranga Bay,,173.7866956,-35.0058954
-Tawa,#9f3649,Tawa,,174.8247761,-41.1681676
-Taylors Mistake,#0d7c9f,Taylors Mistake,,172.7793067,-43.5819873
-Te Ahuahu,#d2e587,Te Ahuahu,,173.8412395,-35.3397357
-Te Araroa,#97342c,Te Araroa,,178.3610171,-37.6330949
-Te Aroha,#838e75,Te Aroha,,175.7123669,-37.543149
-Te Atatū,#f1d3e0,Te Atatū,,174.6518628,-36.8411219
-Te Awamutu,#fc7f5d,Te Awamutu,,175.3257827,-38.0101564
-Te Horo,#6d725a,Te Horo,,175.1233352,-40.808433
-Te Kaha,#d1c9be,Te Kaha,,177.6785714,-37.7391832
-Te Kopua Beach,#35383f,Te Kopua Beach,,174.6440885,-36.886297
-Te Kōpuru,#826e58,Te Kōpuru,,173.9157775,-36.0280193
-Te Kūiti,#242322,Te Kūiti,,175.1657117,-38.3341925
-Te Mata Peak,#a9896b,Te Mata Peak,,176.909684,-39.7018276
-Te Puke,#97a263,Te Puke,,176.3270238,-37.7853294
-Te Puna,#e2deae,Te Puna,,176.0746896,-37.6843423
-Te Pūpūha Point,#6f6052,Te Pūpūha Point,,175.8228343,-36.8510004
-Te Rapa,#ebe3be,Te Rapa,,175.223457,-37.734118
-Te Rapa Half,#f0eacd,Te Rapa,Half,175.2339189,-37.7521378
-Te Waewae Half,#d9c7ab,Te Waewae,Half,167.519586,-46.2353109
-Te Waewae,#ccb798,Te Waewae,,176.2239533,-40.8741024
-Te Ānau,#7da3a2,Te Ānau,,167.717489,-45.41449
-Te Āpiti,#ecebe6,Te Āpiti,,175.79992,-40.3177572
-Thames,#a36f36,Thames,,175.5418037,-37.137983
-The Bubble,#7495b3,The Bubble,,174.7645975,-36.8500193
-The Chasm,#929cac,The Chasm,,170.6817725,-45.89336
-The Domain,#fac9b5,The Domain,,174.3631217,-35.773037
-The Octagon,#7b7f88,The Octagon,,170.5036127,-45.8740662
-The Pines Beach,#8e7baa,The Pines Beach,,172.7022205,-43.3752036
-The Pinnacles,#8aaf38,The Pinnacles,,175.2467736,-41.4468023
-The Remarkables,#494d53,The Remarkables,,168.7973254,-45.0820122
-The Terrace,#daaf7d,The Terrace,,172.6344841,-43.5325945
-The Viaduct,#008e96,The Viaduct,,174.7606833,-36.8432042
-Thornbury,#9b3934,Thornbury,,168.0941062,-46.2892915
-Thorndon,#d5cbb9,Thorndon,,174.7756309,-41.2745396
-Three Kings,#a14237,Three Kings,,174.7583572,-36.9090049
-Ti Point,#d7dad8,Ti Point,,174.08301,-35.271374
-Tikitiki,#7a443a,Tikitiki,,178.4136694,-37.795285
-Tikokino,#fad0d2,Tikokino,,176.4530575,-39.8160446
-Tiniroto,#62a348,Tiniroto,,177.5670433,-38.7734746
-Tinkertown,#474c48,Tinkertown,,168.00683,-45.956
-Tinopai,#7e8e9f,Tinopai,,174.2421754,-36.24968
-Tirimoana,#96827d,Tirimoana,,174.6486756,-36.8869367
-Tiritea,#e1ebb1,Tiritea,,175.6556153,-40.4084146
-Titirangi,#3a3e40,Titirangi,,174.657172,-36.9377516
-Tokaanu,#f4e6e5,Tokaanu,,175.7685115,-38.9648687
-Tokatoka,#b56f66,Tokatoka,,173.9749135,-36.0572998
-Tokerau Beach,#ffd4d1,Tokerau Beach,,173.3713337,-34.8830436
-Tokomaru Bay,#ac542d,Tokomaru Bay,,178.3160945,-38.1275279
-Tokoroa,#88593a,Tokoroa,,175.8705389,-38.2168677
-Tongapōrutu,#514e5c,Tongapōrutu,,174.5992321,-38.8207345
-Tongariro,#5d4c45,Tongariro,,175.6353731,-39.1298788
-Torpedo Bay,#405b78,Torpedo Bay,,174.8076411,-36.8297438
-Torrent Bay,#efc87c,Torrent Bay,,173.0568568,-40.9465494
-Tory Channel,#555d66,Tory Channel,,174.2306948,-41.2391178
-Treble Cone Half,#e7e6df,Treble Cone,Half,168.8728247,-44.6323751
-Trentham,#d7c0ba,Trentham,,175.0388329,-41.1341841
-Tuakau,#c6c5d9,Tuakau,,174.9473466,-37.2625891
-Piha,#31363b,Tuatapere,,167.6907627,-46.1323096
-Tuatapere,#31363b,Tuatapere,,167.6907627,-46.1323096
-Tunnel Beach,#97a1b8,Tunnel Beach,,170.4590756,-45.9207498
-Turoa Quarter,#e0e0dc,Turoa,Quarter,175.4067772,-39.4227725
-Tutukaka,#303c40,Tutukaka,,174.5244347,-35.6083254
-Twizel,#a9bcdd,Twizel,,170.0994145,-44.257483
-Tākaka,#b1b3c4,Tākaka,,172.8062424,-40.8574983
-Tāmaki,#dbb37a,Tāmaki,,175.0115426,-36.8482569
-Tāne Mahuta,#934a35,Tāne Mahuta,,168.8614374,-46.0630219
-Tīmaru,#006569,Tīmaru,,171.2509786,-44.3930254
-Tīrau Double,#ababa9,Tīrau,Double,169.1972881,-45.0371308
-Tīrau,#bdbebb,Tīrau,,175.7565366,-37.977214
-Tītahi Bay,#e8c3ae,Tītahi Bay,,174.8374978,-41.1086925
-Tītī Islands,#d7c1cd,Tītī Islands,,174.1377949,-40.950582
+Ōpononi,#d4cdc0,Ōpononi,,173.3917291,-35.5116663
 Tōrere Quarter,#e2ddd3,Tōrere,Quarter,177.491325,-37.949759
-Tōtara Park,#ccd3c3,Tōtara Park,,175.0857771,-41.1079934
-Tōtaranui Half,#f0e2c8,Tōtaranui,Half,173.005058,-40.8224855
-Tōtaranui,#eaddc0,Tōtaranui,,174.2729169,-41.1420637
-Tūpāroa,#d5d0be,Tūpāroa,,178.3870912,-37.9200121
-Tūrangi,#bcb3c3,Tūrangi,,175.8089539,-38.9887347
-Urenui,#67788a,Urenui,,174.3877931,-38.9971291
-Uretiti,#dc939b,Uretiti,,174.4643231,-35.9477806
-Urewera Half,#b6a28b,Urewera,Half,177.1283331,-38.3277258
-Urewera,#a08b71,Urewera,,173.7585122,-35.7249384
-Urupukapuka Half,#ccd6e9,Urupukapuka,Half,174.2342095,-35.2156144
-Urupukapuka,#bdc9e2,Urupukapuka,,174.2385313,-35.2192038
-Victoria Street,#f6cd55,Victoria Street,,175.4740116,-37.8985675
-Vinegar Hill,#dba09e,Vinegar Hill,,175.6314977,-39.9252398
-Virginia Lake,#51485c,Virginia Lake,,175.0334246,-39.9135684
-Vivian Street,#bd6886,Vivian Street,,174.7790376,-41.2961033
-Vulcan Lane,#5f5b91,Vulcan Lane,,174.766325,-36.8471083
-Wadestown,#c9e3cb,Wadestown,,174.7790775,-41.2647151
-Wai o Taiki Bay,#6eb54b,Wai o Taiki Bay,,174.8742742,-36.8712597
-Waiau Bay,#dcd0bb,Waiau Bay,,174.7640775,-36.6181079
-Waihau Bay,#795235,Waihau Bay,,177.9060602,-37.6141164
-Waiheke,#2c5c4d,Waiheke,,175.0883863,-36.7931083
-Waihī,#a47d3f,Waihī,,175.8403538,-37.391462
-Waikanae,#b6bdc3,Waikanae,,175.0643045,-40.8758432
-Waikino,#5a4c39,Waikino,,175.7774876,-37.4104369
-Waikuku,#686d92,Waikuku,,172.6836745,-43.2930625
-Waimakariri River,#c9706a,Waimakariri River,,172.069178,-43.3594111
-Waimangu Valley,#f8eaed,Waimangu Valley,,176.3965256,-38.2840719
-Waimauku Half,#cee3d8,Waimauku,Half,174.4920607,-36.7692576
-Waimea,#e8f2c4,Waimea,,173.1945577,-41.2904483
-Waimārama,#4a5756,Waimārama,,176.9892201,-39.8158277
-Wainui Beach,#9ab4ac,Wainui Beach,,174.7465825,-39.8634535
-Wainuiomata,#52b960,Wainuiomata,,174.9171017,-41.3236408
-Waioeka,#526d75,Waioeka,,177.2886944,-38.0549003
-Waiomio,#c9c3d2,Waiomio,,175.6722137,-41.1969402
-Waiomio Half,#d6d1dc,Waiomio,Half,174.0736055,-35.4132566
-Waiotapu,#d8ccc8,Waiotapu,,176.3620486,-38.3395138
-Waipapakauri,#756042,Waipapakauri,,173.2276341,-35.0250402
-Waipara,#f2e9af,Waipara,,168.6818518,-44.3042729
-Waipawa,#fbd624,Waipawa,,176.589286,-39.9417436
-Waipoua Forest,#3e3431,Waipoua Forest,,173.5772942,-35.635015
-Waipukurau,#a38784,Waipukurau,,176.5567117,-39.9956
-Waipū Cove,#3f77a3,Waipū Cove,,174.504229,-36.0287842
-Wairau,#cea663,Wairau,,173.5314071,-41.5635411
-Wairoa,#f9f0d7,Wairoa,,177.4271389,-39.03939
-Champagne Springs Quarter,#f9f0d7,Wairoa,Quarter,177.4271389,-39.03939
-Wairākei,#e6e6df,Wairākei,,176.1030355,-38.6193992
+Mason Bay,#d5ccbd,Mason Bay,,167.7090203,-46.9138463
+Glinks Gully,#d6cec1,Glinks Gully,,173.8576382,-36.0811046
+St Clair Quarter,#edefee,St Clair,Quarter,170.4891455,-45.9093912
+Manorburn Half,#e2e3e2,Manorburn,Half,169.6169533,-45.3819503
+Sandfly Point Quarter,#f2f1e9,Sandfly Point,Quarter,167.860564,-44.951564
+Mt Aspiring,#e7e7e1,Mt Aspiring,,168.7279571,-44.3841635
+Cardrona Half,#f2f0e9,Cardrona,Half,169.0005718,-44.8832724
+Epsom,#efeae0,Epsom,,174.7734616,-36.8858447
+Mt Hutt,#eae9e1,Mt Hutt,,171.5260623,-43.4714859
+Hakataramea,#eceff0,Hakataramea,,170.4842387,-44.7219154
+Southern Alps,#f7f8f4,Southern Alps,,169.5852659,-44.0180642
+Haast Half,#e3e1da,Haast,Half,169.0420322,-43.8806582
+Manorburn Quarter,#ecebe5,Manorburn,Quarter,169.4434008,-45.239622
+Cape Colville Double,#d8cfbb,Cape Colville,Double,175.3446634,-36.4692206
+Stockyard Point Half,#e2dbcc,Stockyard Point,Half,172.849667,-40.51775
+Ngarunui Beach,#d6d2c8,Ngarunui Beach,,174.831995,-37.8128514
+Kai Iwi Lakes,#d0cbc2,Kai Iwi Lakes,,173.6421008,-35.8146032
+Kauri Cliffs Double,#c9beae,Kauri Cliffs,Double,173.9237415,-35.073337
+Dannevirke,#eeebe2,Dannevirke,,176.0982442,-40.2073897
+Sandspit,#f3ebd8,Sandspit,,174.727582,-36.3930812
+Morrinsville,#f3eedf,Morrinsville,,175.5281399,-37.6581506
+Haumoana,#e5ebef,Haumoana,,176.9457704,-39.6072711
+Avalanche Creek,#d9dddf,Avalanche Creek,,171.5546779,-42.942382
+Te Āpiti,#ecebe6,Te Āpiti,,175.79992,-40.3177572
 Wairākei Double,#ddded6,Wairākei,Double,176.087083,-38.611694
-Waitangi Half,#c9c3b5,Waitangi,Half,-176.561027,-43.9511999
-Waitangi Quarter,#d7d2c6,Waitangi,Quarter,174.0803091,-35.2681528
-Waitangi,#c2bba9,Waitangi,,175.686266,-39.449251
-Waitangi Double,#afa491,Waitangi,Double,174.49104,-36.57555
-Waitara Beach,#545657,Waitara Beach,,174.2314299,-38.9880528
-Waitiki Landing,#c0d5c9,Waitiki Landing,,172.8397091,-34.5166041
-Waitomo Caves,#dbd4b0,Waitomo Caves,,175.1103222,-38.2610936
-Waituna West,#c6cd87,Waituna West,,175.6399047,-40.0401431
-Waitārere Beach,#ffaa97,Waitārere Beach,,175.2395728,-40.5629044
-Waiwera,#7fcfe2,Waiwera,,174.7069809,-36.5448557
-Waiōuru,#9c8752,Waiōuru,,175.6697752,-39.4772125
-Warkworth,#5e3e41,Warkworth,,174.6642316,-36.3984914
-Warrington,#a5d0c5,Warrington,,170.5925926,-45.7091034
-Washdyke,#987444,Washdyke,,171.239831,-44.3574414
-Watchman Island,#00718d,Watchman Island,,174.7319518,-36.8350208
-Waterfall Bay,#edf4d2,Waterfall Bay,,173.9664753,-41.2286668
-Waverley,#793d29,Waverley,,174.6291448,-39.7623103
-Welcome Bay,#a73944,Welcome Bay,,176.1874502,-37.7294281
-Wellsford,#cdd1bc,Wellsford,,174.523259,-36.2957426
-Wenderholm,#aa3030,Wenderholm,,174.7015442,-36.5347056
-West Melton,#7d603f,West Melton,,172.3735742,-43.5244331
-West Plains,#ad969e,West Plains,,168.31445,-46.36936
-Western Springs,#897969,Western Springs,,174.7289119,-36.870489
-Westmere,#4b3d40,Westmere,,174.719552,-36.8534456
-Whakaari / White Island,#c9cbbf,Whakaari / White Island,,177.1814086,-37.5200619
-Whakaipo Bay,#7598b8,Whakaipo Bay,,175.947335,-38.6954873
-Whakakī Lagoon,#c1d4d6,Whakakī Lagoon,,177.5570454,-39.0444692
-Whakapapa,#5b3e3c,Whakapapa,,175.5386207,-39.200643
-Whakarewarewa Quarter,#b3afa8,Whakarewarewa,Quarter,176.256574,-38.1626866
-Whakarewarewa Half,#9f9a92,Whakarewarewa,Half,176.5958418,-38.0345293
-Whakatāne,#527698,Whakatāne,,176.9945977,-37.9519223
-Whale Bay,#e9d9c2,Whale Bay,,174.1101935,-35.1696051
-Whangamatā,#9bdcb7,Whangamatā,,175.8719724,-37.2063323
-Whanganui River,#94826f,Whanganui River,,175.0083521,-39.3145441
-Whangaparāoa,#a3bfcd,Whangaparāoa,,174.7214003,-36.6202718
-Whangapē,#68546d,Whangapē,,175.052233,-37.4760472
-Whangaroa,#3f4350,Whangaroa,,173.7420992,-35.0529406
-Whangārei Heads,#737389,Whangārei Heads,,174.5053966,-35.8164559
-Wharariki,#606a74,Wharariki,,172.6788609,-40.5027515
+Wairākei,#e6e6df,Wairākei,,176.1030355,-38.6193992
+Hoon Hay,#b4ae98,Hoon Hay,,172.6087903,-43.564483
+Remuera,#ebe9e0,Remuera,,174.8014178,-36.8759344
+Ahipara Double,#e4e1d4,Ahipara,Double,173.1562074,-35.1664105
+Ahipara Half,#eeebe0,Ahipara,Half,173.1469345,-35.1754824
+Thorndon,#d5cbb9,Thorndon,,174.7756309,-41.2745396
+Marton,#cac1ad,Marton,,175.3791977,-40.0722219
+Waiau Bay,#dcd0bb,Waiau Bay,,174.7640775,-36.6181079
+Muriwai Double,#cfc3aa,Muriwai,Double,174.4339345,-36.8246517
+Tūpāroa,#d5d0be,Tūpāroa,,178.3870912,-37.9200121
+Sandrock Bluff Double,#c9bca7,Sandrock Bluff,Double,168.2695888,-44.1247682
+Pukekohe,#bfb5a6,Pukekohe,,174.9036875,-37.2006384
+Linton,#cec2ab,Linton,,175.552844,-40.4305668
+Haast Double,#d4ccbe,Haast,Double,169.2548101,-43.9424621
+Haunui Half,#f0f0ed,Haunui,Half,176.0443211,-40.6068825
+Foveaux Strait Half,#e0d9ca,Foveaux Strait,Half,168.3598392,-46.612088
+Coopers Beach Double,#e9e0cb,Coopers Beach,Double,173.5068287,-34.9945196
+Cardrona Double,#dfdace,Cardrona,Double,169.0645478,-44.8241301
+Aoraki Quarter,#f0f1ec,Aoraki,Quarter,170.1421677,-43.5950017
+Aoraki Double,#daddd7,Aoraki,Double,170.2410739,-43.6048727
+Dingle Burn,#c1b298,Dingle Burn,,169.498071,-44.3868358
+Ōreti Double,#cdbea6,Ōreti,Double,168.4421082,-45.7380383
 Wharekauhau Quarter,#e8ddce,Wharekauhau,Quarter,175.0543703,-41.3563824
-Whiritoa,#efcfd2,Whiritoa,,175.9004113,-37.2836153
-Hidden Valley,#efcfd2,Whiritoa,,175.9004113,-37.2836153
-Whitcombe Valley,#7c6742,Whitcombe Valley,,171.0155157,-42.919123
-Whitemans Valley Half,#d6d9cb,Whitemans Valley,Half,175.0899102,-41.1481595
-Whitianga,#e9b5a8,Whitianga,,175.7024856,-36.8331861
+Little Manly Double,#efe8d7,Little Manly,Double,174.7584209,-36.6373222
+Eastbourne,#ddd0b7,Eastbourne,,174.8984175,-41.2913416
 Whāngārā Quarter,#ede5dc,Whāngārā,Quarter,178.2297407,-38.570603
 Whāngārā Half,#e6dcd2,Whāngārā,Half,178.2355498,-38.5734294
-Whāngārā,#ded0c4,Whāngārā,,175.3713657,-36.2552651
-Wigram,#3a393a,Wigram,,172.5462481,-43.5497926
-Willow Flat,#a7aa9a,Willow Flat,,173.824829,-41.6748773
-Winchester Half,#edd9d9,Winchester,Half,171.2783685,-44.1849304
-Winton,#61ba82,Winton,,168.3239863,-46.141439
-Wiroa Island,#4c6a67,Wiroa Island,,174.8076496,-37.0149859
-Woods Creek,#bcc5b2,Woods Creek,,171.3570404,-42.5678443
-Woodville,#968577,Woodville,,175.8667991,-40.3370786
-Wright Hill,#bebc99,Wright Hill,,174.7399726,-41.2961053
-Yaldhurst,#c0d3ca,Yaldhurst,,172.5057082,-43.5127622
-Young Nicks Head,#7a7c7d,Young Nicks Head,,177.9722998,-38.7563948
-Zalatown,#e4d066,Zalatown,,172.0726863,-41.7820916
-Ākitio,#624875,Ākitio,,176.3329279,-40.475515
-Āniwaniwa,#d4d8dc,Āniwaniwa,,176.7871767,-38.325971
-Āniwaniwa Double,#c7ccd1,Āniwaniwa,Double,177.1609304,-38.743648
-Āwhitu,#ffb4b4,Āwhitu,,174.6349556,-37.0843949
-Ōakura,#59bfc2,Ōakura,,173.9953941,-39.1591235
-Ōamaru,#c6bdae,Ōamaru,,170.9697933,-45.0999833
-Ōhaeawai,#a86f64,Ōhaeawai,,173.8821805,-35.3518338
-Ōhai,#8b9188,Ōhai,,167.9519,-45.93266
-Ōhakea,#8d96a0,Ōhakea,,175.3790426,-40.1976882
-Ōhakune,#ef9029,Ōhakune,,175.3996126,-39.4169455
-Ōhau,#e1ddd8,Ōhau,,169.8490796,-44.2314982
-Ōhaupō,#2f3a46,Ōhaupō,,175.307047,-37.919078
-Ōhiwa,#9b9e80,Ōhiwa,,177.1280821,-38.0109628
-Ōkete,#2c464a,Ōkete,,174.919982,-37.8054437
-Ōkiwi Bay,#007ebe,Ōkiwi Bay,,173.6581263,-41.1120967
+Waiotapu,#d8ccc8,Waiotapu,,176.3620486,-38.3395138
+Turoa Quarter,#e0e0dc,Turoa,Quarter,175.4067772,-39.4227725
+St Clair Double,#d1d6d9,St Clair,Double,170.4907037,-45.9114627
+Howick Quarter,#ece4d8,Howick,Quarter,174.9286061,-36.8956869
+Howick,#ddd0bf,Howick,,174.8994161,-36.9238091
+Garston,#e8ded8,Garston,,168.6842791,-45.4671892
+Clarks Beach,#eae4cc,Clarks Beach,,174.7044928,-37.1368737
+Castlepoint,#d2c1b2,Castlepoint,,176.2217236,-40.9008816
+Ahipara,#eae8dd,Ahipara,,173.1320404,-35.1498809
+Aoraki Half,#eaeeea,Aoraki,Half,170.0977232,-43.7349453
+Treble Cone Half,#e7e6df,Treble Cone,Half,168.8728247,-44.6323751
+Sandfly Point Half,#f2efe4,Sandfly Point,Half,166.632236,-46.0964679
+Pūpū Springs,#dcd4c3,Pūpū Springs,,172.768685,-40.8478595
+Muriwai Half,#e5ddca,Muriwai,Half,177.9231726,-38.7530673
+Muriwai,#ddd2bb,Muriwai,,172.3071548,-43.864982
+Duvauchelle,#ece7d9,Duvauchelle,,172.9445993,-43.7554266
+Coopers Beach,#efebda,Coopers Beach,,173.5188316,-34.9878961
 Ōkārito,#f1f2f1,Ōkārito,,170.214139,-43.1953256
-Ōmarama Double,#ae8e66,Ōmarama,Double,175.0183214,-38.163604
-Ōmarama,#b7a07a,Ōmarama,,169.9655968,-44.487876
-Ōmihi,#026b5a,Ōmihi,,172.8540953,-43.020694
-Ōmāpere,#fdeeaf,Ōmāpere,,173.7952856,-35.3478251
-Ōpononi,#d4cdc0,Ōpononi,,173.3917291,-35.5116663
-Ōpoutere,#a6d5e9,Ōpoutere,,175.8699151,-37.1096042
-Ōpua,#5193c4,Ōpua,,174.121422,-35.3126314
+Sandymount,#c0af9c,Sandymount,,170.6724353,-45.8911602
+Lyttelton,#bebfba,Lyttelton,,172.7205727,-43.6024739
+Maraetai,#747878,Maraetai,,175.0423717,-36.8807143
+Franz Josef Quarter,#afb0ac,Franz Josef,Quarter,170.1819048,-43.3889668
+Ti Point,#d7dad8,Ti Point,,174.08301,-35.271374
+Manorburn Double,#d0d1ce,Manorburn,Double,169.4465061,-45.2389922
+Manorburn,#dadad5,Manorburn,,169.4405999,-45.2340434
+Pukeatua,#becac6,Pukeatua,,175.5592547,-38.0654408
+Waipoua Forest,#3e3431,Waipoua Forest,,173.5772942,-35.635015
+Te Kopua Beach,#35383f,Te Kopua Beach,,174.6440885,-36.886297
+Fitzroy Beach,#9b9ea0,Fitzroy Beach,,174.0999384,-39.0418543
+Greytown,#bbbfbd,Greytown,,175.460547,-41.0806338
+Fernhill,#6d6c68,Fernhill,,176.7653746,-39.5956512
+Bruce Bay,#a3a29f,Bruce Bay,,169.5917666,-43.5842248
+Roys Peak,#cbc9c5,Roys Peak,,169.0487295,-44.6939981
+Millwater,#c3c4c2,Millwater,,174.6704279,-36.6010745
+Point Wells,#b1b4b3,Point Wells,,174.7567087,-36.3239444
+Northlake,#666966,Northlake,,169.1597208,-44.6789175
+Ōhakea,#8d96a0,Ōhakea,,175.3790426,-40.1976882
+Fort Dorset,#8d98a1,Fort Dorset,,174.8360946,-41.3289876
+Wharariki,#606a74,Wharariki,,172.6788609,-40.5027515
+Spirits Bay,#a7abb2,Spirits Bay,,172.8308035,-34.4345835
+Titirangi,#3a3e40,Titirangi,,174.657172,-36.9377516
+Waikanae,#b6bdc3,Waikanae,,175.0643045,-40.8758432
+Lake Wakatipu,#a3abb3,Lake Wakatipu,,168.5211108,-45.0888042
+Rongotai,#585d67,Rongotai,,174.8004653,-41.322705
+Cascade Cove,#3c3a3c,Cascade Cove,,166.5930147,-45.8038052
+Monkey Island,#a8adb7,Monkey Island,,167.7283667,-46.3004661
+Avalon,#b9bcc1,Avalon,,174.9442724,-41.1928328
+Raurimu,#5a5c64,Raurimu,,175.395994,-39.1206606
+Mt Hikurangi,#b6bec5,Mt Hikurangi,,178.0607394,-37.9189282
+Balclutha,#a3acb5,Balclutha,,169.7398641,-46.2377982
+Whakarewarewa Quarter,#b3afa8,Whakarewarewa,Quarter,176.256574,-38.1626866
+Huapai,#635c61,Huapai,,174.5423206,-36.7705274
+Golden Downs,#383c42,Golden Downs,,172.8848268,-41.542548
+Lion Rock,#494d55,Lion Rock,,174.467021,-36.9539305
+Stony River,#938f8a,Stony River,,173.9121203,-39.2356671
+Stony River Half,#a6a29c,Stony River,Half,170.2602796,-44.3598097
+Kingston Double,#808083,Kingston,Double,168.7175147,-45.3343708
+Young Nicks Head,#7a7c7d,Young Nicks Head,,177.9722998,-38.7563948
+Alligator Head Double,#847e7a,Alligator Head,Double,174.155028,-40.968556
+Caroline Bay,#76808a,Caroline Bay,,171.2508847,-44.382599
+Boulder Beach,#92908c,Boulder Beach,,170.612308,-45.8972773
+Old Man Range,#504e4e,Old Man Range,,170.3687903,-43.9858366
+Dark Cloud Range,#7f888f,Dark Cloud Range,,166.8696121,-45.8578985
+Mt Albert,#c2bdb2,Mt Albert,,174.7155603,-36.8841665
+Tory Channel,#555d66,Tory Channel,,174.2306948,-41.2391178
+Skippers,#656c72,Skippers,,168.6879015,-44.8436978
+The Octagon,#7b7f88,The Octagon,,170.5036127,-45.8740662
+Reefton,#9399a4,Reefton,,171.8634561,-42.1159384
+Northcote,#7c828e,Northcote,,174.745208,-36.8010871
+Narrow Neck Double,#a6a499,Narrow Neck,Double,174.8013927,-36.8133725
+Manawatū Gorge,#403d41,Manawatū Gorge,,175.7715655,-40.306929
+Hunterville,#3c3538,Hunterville,,175.5680412,-39.9361379
+Goose Bay,#a3acb5,Goose Bay,,173.5280492,-42.4778729
+Conway Flat,#a8adb7,Conway Flat,,173.4576416,-42.6181228
+Bethells Beach,#353434,Bethells Beach,,174.4445785,-36.8957959
+Boulder Bay,#444c54,Boulder Bay,,174.8779853,-36.7685501
+Āniwaniwa Double,#c7ccd1,Āniwaniwa,Double,177.1609304,-38.743648
+Midhirst Double,#918b7f,Midhirst,Double,174.2653117,-39.2911749
+Waitara Beach,#545657,Waitara Beach,,174.2314299,-38.9880528
+Wigram,#3a393a,Wigram,,172.5462481,-43.5497926
+Whakarewarewa Half,#9f9a92,Whakarewarewa,Half,176.5958418,-38.0345293
+Tīrau Double,#ababa9,Tīrau,Double,169.1972881,-45.0371308
+Te Kūiti,#242322,Te Kūiti,,175.1657117,-38.3341925
+Narrow Neck Half,#cdcabf,Narrow Neck,Half,166.912652,-45.42701
+Mt Inaccessible,#433f3b,Mt Inaccessible,,166.6358,-45.88097
+Maraetai Half,#90938f,Maraetai,Half,175.7977701,-38.3770293
+Kingston Half,#a9aaab,Kingston,Half,174.7647252,-41.3223122
+Castlecliff,#4f504f,Castlecliff,,174.9835768,-39.9392955
+Blackwood Bay,#2e2e2e,Blackwood Bay,,174.095113,-41.213491
+The Remarkables,#494d53,The Remarkables,,168.7973254,-45.0820122
+Taihape,#363535,Taihape,,175.7983062,-39.6766915
+Shag Rock,#605c58,Shag Rock,,168.2718296,-46.5835919
+Rāwene,#3c3e3f,Rāwene,,173.5060587,-35.3997951
+Piha,#31363b,Piha,,174.4694742,-36.9556043
+Grey Lynn,#babfc2,Grey Lynn,,174.7364178,-36.859922
+Godley Head,#bab6b2,Godley Head,,172.8055315,-43.587304
+Glenbrook,#454445,Glenbrook,,174.7602215,-37.1926213
+Tīrau,#bdbebb,Tīrau,,175.7565366,-37.977214
+Maraetai Quarter,#a5a8a5,Maraetai,Quarter,176.352278,-38.046056
+Āniwaniwa,#d4d8dc,Āniwaniwa,,176.7871767,-38.325971
+Amorino Park,#96a7a4,Amorino Park,,174.6977914,-36.6007997
+Glen Murray,#a59788,Glen Murray,,174.9593139,-37.4475891
+Potters Park,#c2907a,Potters Park,,174.7490073,-36.8865251
+Routeburn,#3f3c3e,Routeburn,,168.3130659,-44.746615
+Kaponga,#776a56,Kaponga,,174.1544821,-39.4293397
+Mt Taranaki,#5d5041,Mt Taranaki,,174.0638945,-39.2960839
+Blackball,#685f56,Blackball,,171.4119525,-42.3640296
+Shoe Island,#887b6a,Shoe Island,,175.9060468,-36.9928315
+Te Kōpuru,#826e58,Te Kōpuru,,173.9157775,-36.0280193
+Kaimanawa Range,#e4d6be,Kaimanawa Range,,175.919678,-39.1975056
+Te Mata Peak,#a9896b,Te Mata Peak,,176.909684,-39.7018276
+Urewera Half,#b6a28b,Urewera,Half,177.1283331,-38.3277258
+Stoke,#4d3b2d,Stoke,,173.2335584,-41.3123756
+Urewera,#a08b71,Urewera,,173.7585122,-35.7249384
+Herald Island,#4e4136,Herald Island,,174.6583999,-36.7782931
+Te Pūpūha Point,#6f6052,Te Pūpūha Point,,175.8228343,-36.8510004
+Islington Bay,#635952,Islington Bay,,174.8966999,-36.7835681
+Western Springs,#897969,Western Springs,,174.7289119,-36.870489
+Cashmere,#b8b2a7,Cashmere,,172.6309889,-43.5716034
+Hokitika,#947d68,Hokitika,,170.9646469,-42.7178871
+Knuckle Point,#897968,Knuckle Point,,173.4699313,-34.8493239
+Coalgate,#44372b,Coalgate,,171.9660126,-43.4819896
+Tai Tapu,#423b35,Tai Tapu,,172.5502326,-43.6595989
+Levin,#76655b,Levin,,175.2865854,-40.6218161
+Carrick Range,#75615e,Carrick Range,,169.0672509,-45.0651728
+Mavora Quarter,#a7a296,Mavora,Quarter,168.1763,-45.08755
+Whanganui River,#94826f,Whanganui River,,175.0083521,-39.3145441
+Sandymount Half,#cebeac,Sandymount,Half,170.6410861,-45.8718884
+Tongariro,#5d4c45,Tongariro,,175.6353731,-39.1298788
+Woodville,#968577,Woodville,,175.8667991,-40.3370786
+Hopelands Half,#cbbeb3,Hopelands,Half,175.9507442,-40.3519895
+Hopelands,#bbaca1,Hopelands,,171.8075104,-43.9280618
+Kumeū,#403130,Kumeū,,174.5546604,-36.7753095
+Black Giants,#72635e,Black Giants,,167.13844,-45.51842
+Pōkeno,#897570,Pōkeno,,175.0219505,-37.244824
+Kaikorai Valley,#d0c8c4,Kaikorai Valley,,170.4460455,-45.9020121
+Boggyburn,#615452,Boggyburn,,168.3719775,-46.0625281
+Fendalton,#b2a7a1,Fendalton,,172.598799,-43.5195232
+Hedgehope,#5e5453,Hedgehope,,168.53828,-46.20732
+Herne Bay,#7d746d,Herne Bay,,174.7341061,-36.8441306
+Westmere,#4b3d40,Westmere,,174.719552,-36.8534456
+Hokonui Hills,#47373a,Hokonui Hills,,168.5219874,-45.9517984
+Khandallah,#3a3432,Khandallah,,174.7905885,-41.246742
+Mayor Island,#363231,Mayor Island,,176.2546801,-37.2889763
+Riwaka,#9c9387,Riwaka,,172.9967803,-41.0802399
+Ōamaru,#c6bdae,Ōamaru,,170.9697933,-45.0999833
+Pauātahanui,#958271,Pauātahanui,,174.9166968,-41.1051387
+North Head,#b1a291,North Head,,174.8123571,-36.8277095
+Ōhau,#e1ddd8,Ōhau,,169.8490796,-44.2314982
+Molesworth,#bb9c7e,Molesworth,,173.2626623,-42.0882329
+Maheno,#ded5c8,Maheno,,170.8351965,-45.1682869
+Kinleith Double,#cdbaa2,Kinleith,Double,175.9025836,-38.2833659
+Mangaweka Quarter,#cdc4b5,Mangaweka,Quarter,175.7899398,-39.8083304
+Karekare,#8c8172,Karekare,,174.4787488,-36.9861424
+Maheno Double,#d4c8b9,Maheno,Double,174.071312,-36.069873
+Cumberland Street,#563b37,Cumberland Street,,172.6546721,-43.519403
+Hopelands Quarter,#d6cbc0,Hopelands,Quarter,171.4077651,-43.7775077
+Calm Peak,#dfc8aa,Calm Peak,,166.75976,-45.47413
+Diggers Valley,#83624f,Diggers Valley,,173.3113003,-35.1837349
+King Country,#b6a494,King Country,,175.2158303,-38.46595
+Arrow Rock,#a89a89,Arrow Rock,,173.2570971,-41.2713737
+Lindis Pass,#9f8d77,Lindis Pass,,169.6430798,-44.5882604
+Karehana Bay,#a99683,Karehana Bay,,174.8652978,-41.0819811
+Marokopa Falls,#826c59,Marokopa Falls,,174.8519552,-38.2616381
+Pauātahanui Half,#ac9c89,Pauātahanui,Half,174.8585899,-41.1088953
+Hicks Bay,#e7e0d7,Hicks Bay,,178.2900625,-37.5913283
+Whāngārā,#ded0c4,Whāngārā,,175.3713657,-36.2552651
+Waipukurau,#a38784,Waipukurau,,176.5567117,-39.9956
+Riversdale,#9f9385,Riversdale,,168.7437041,-45.9013221
+Rakaia Half,#aaa599,Rakaia,Half,172.0236842,-43.7566951
+Mt Maunganui,#b7977c,Mt Maunganui,,176.1838841,-37.6380218
+Te Kaha,#d1c9be,Te Kaha,,177.6785714,-37.7391832
+Rakaia Double,#837b6e,Rakaia,Double,171.625,-43.495944
+Rakaia,#938e83,Rakaia,,171.6130479,-43.4828501
+Norsewood,#797268,Norsewood,,176.2155372,-40.0707728
+Miramar,#544942,Miramar,,174.816551,-41.3164457
+Mavora,#7b766d,Mavora,,168.1684311,-45.2255785
+Mangaweka,#a59e92,Mangaweka,,176.0854377,-39.8177827
+Laingholm,#59524a,Laingholm,,174.6403411,-36.9676904
+Kohunui Bay,#aeafbb,Kohunui Bay,,174.456741,-36.9360185
+Parkvale,#beb7bf,Parkvale,,176.8594668,-39.64906
+Gouland Downs,#c99f96,Gouland Downs,,172.317131,-40.89567
+Havelock,#c4bdc3,Havelock,,173.7676834,-41.278597
+Havelock Half,#d2cbd0,Havelock,Half,175.0209573,-37.2629463
+Mt Somers,#dfd9dc,Mt Somers,,171.4024346,-43.7055797
 Ōpunake,#594d54,Ōpunake,,173.8601616,-39.4546624
-Ōrakei Kōrako,#d1c9df,Ōrakei Kōrako,,176.1438986,-38.4741211
-Ōrakei Kōrako Quarter,#e5e0ec,Ōrakei Kōrako,Quarter,176.1429966,-38.4737044
+Ngāruawāhia,#3d343f,Ngāruawāhia,,175.1500534,-37.6662658
+Milton,#b5adb5,Milton,,169.9624539,-46.1167784
+Diamond Harbour,#746a73,Diamond Harbour,,172.7399332,-43.6271963
+Amberley,#8d828c,Amberley,,172.7329869,-43.1512956
+Dusky Sound,#d4c5d5,Dusky Sound,,166.7457543,-45.7346227
+Clarence River,#e7dee7,Clarence River,,173.3054709,-42.2455393
+Tūrangi,#bcb3c3,Tūrangi,,175.8089539,-38.9887347
+Whangapē,#68546d,Whangapē,,175.052233,-37.4760472
+Rarawa Beach,#dcdce1,Rarawa Beach,,173.0769397,-34.716506
+Virginia Lake,#51485c,Virginia Lake,,175.0334246,-39.9135684
+Tuakau,#c6c5d9,Tuakau,,174.9473466,-37.2625891
+Lake Pūkaki,#736c8f,Lake Pūkaki,,170.1742311,-44.0477609
 Ōrakei Kōrako Half,#dcd6e7,Ōrakei Kōrako,Half,176.1425972,-38.4741366
-Ōreti Double,#cdbea6,Ōreti,Double,168.4421082,-45.7380383
+Moores Valley Road,#e7e1e8,Moores Valley Road,,174.9808264,-41.2650351
+Hāpuku,#b1a7cc,Hāpuku,,173.6750537,-42.2350132
+Katiki,#413450,Katiki,,170.8385396,-45.3966115
+Rabbit Island,#d0cce5,Rabbit Island,,173.1450011,-41.2693151
+Tapanui,#705a89,Tapanui,,169.2619453,-45.9425171
+The Pines Beach,#8e7baa,The Pines Beach,,172.7022205,-43.3752036
+Outram,#42354f,Outram,,170.2290377,-45.8598144
+Haunui Double,#e7e5e9,Haunui,Double,175.453991,-41.1518312
+Koekohe Beach,#b2b0bd,Koekohe Beach,,170.8270021,-45.3192494
+Whangārei Heads,#737389,Whangārei Heads,,174.5053966,-35.8164559
+Lake Sumner,#525266,Lake Sumner,,172.1546142,-42.6268076
+Tongapōrutu,#514e5c,Tongapōrutu,,174.5992321,-38.8207345
+Mossburn,#9d9fb3,Mossburn,,168.2347682,-45.6693308
+Sawdon,#888aa0,Sawdon,,170.5087159,-44.0599426
+Māngere Bridge,#d4d3e0,Māngere Bridge,,174.7852413,-36.9439039
+Mitre Peak,#36343f,Mitre Peak,,167.8548891,-44.632577
+Becks,#b9b6cb,Becks,,169.7494268,-44.9928068
+Bishopdale,#928ea9,Bishopdale,,172.5886622,-43.4884343
+Kihikihi,#7e7793,Kihikihi,,175.3450108,-38.0372702
+42 Traverse,#c3c7d8,42 Traverse,,176.0236206,-37.6557578
+Waikuku,#686d92,Waikuku,,172.6836745,-43.2930625
+Pukerua Bay,#5b546e,Pukerua Bay,,174.8854454,-41.0374407
+Nugget Point,#49465a,Nugget Point,,167.109,-45.014361
+Lepperton,#3e4463,Lepperton,,174.2118559,-39.0587991
+Pigeon Bay,#9ea8cf,Pigeon Bay,,172.8999544,-43.6867452
+Cricklewood,#777eb0,Cricklewood,,170.8551264,-44.1710772
+Petone,#7570a6,Petone,,174.8790351,-41.2249675
+Tākaka,#b1b3c4,Tākaka,,172.8062424,-40.8574983
+Vulcan Lane,#5f5b91,Vulcan Lane,,174.766325,-36.8471083
+Surfdale,#989aa7,Surfdale,,175.0254461,-36.7932639
+Jacks Point,#838592,Jacks Point,,168.7531685,-45.0760519
+Benneydale,#5f616e,Benneydale,,175.3627608,-38.520108
+Takitimu Mountains,#bdc2cf,Takitimu Mountains,,167.8507019,-45.7211667
+Ilam,#4d4d58,Ilam,,172.5720494,-43.5165611
+Lake Waikaremoana,#adb2c1,Lake Waikaremoana,,177.1020772,-38.7619146
+Raglan,#5e6377,Raglan,,174.8682464,-37.7997729
+Whangaroa,#3f4350,Whangaroa,,173.7420992,-35.0529406
+Pātea,#52383a,Pātea,,174.4757901,-39.4615307
+Aro Street,#c69eaf,Aro Street,,174.7622315,-41.2942115
+Martinborough,#5b4149,Martinborough,,175.4594856,-41.2183252
+Hātaitai,#824657,Hātaitai,,174.7967804,-41.304278
+Mt Difficulty,#a67284,Mt Difficulty,,169.0820402,-45.0430319
+Te Atatū,#f1d3e0,Te Atatū,,174.6518628,-36.8411219
+Newmarket,#c67593,Newmarket,,174.7780755,-36.8674453
+Danseys Pass,#70384d,Danseys Pass,,170.3729642,-44.9526968
+Taradale,#e7b6ca,Taradale,,176.8484327,-39.5334658
+Parihaka,#f6e4ee,Parihaka,,173.8394654,-39.2887721
+Vivian Street,#bd6886,Vivian Street,,174.7790376,-41.2961033
+Queen Street,#604e64,Queen Street,,174.844574,-36.9465017
+Middlemarch,#bcbac2,Middlemarch,,170.1218572,-45.5047446
+Kaikōura,#383c43,Kaikōura,,173.6811428,-42.4005999
+Lake Hauroko,#494e6c,Lake Hauroko,,167.3042173,-45.9551879
+Doubtful Sound,#423d4b,Doubtful Sound,,167.0865205,-45.3738793
+Denniston,#6a6c76,Denniston,,171.7973765,-41.7372136
+Waiomio Half,#d6d1dc,Waiomio,Half,174.0736055,-35.4132566
+Gannet Island,#c2bdc2,Gannet Island,,174.5655525,-37.9723213
+West Plains,#ad969e,West Plains,,168.31445,-46.36936
+Waiomio,#c9c3d2,Waiomio,,175.6722137,-41.1969402
+Sockburn,#d6afaf,Sockburn,,172.5563941,-43.538496
+Uretiti,#dc939b,Uretiti,,174.4643231,-35.9477806
+Smugglers Bay Quarter,#eedddf,Smugglers Bay,Quarter,174.5358014,-35.8586247
+Ohoka,#cf9fab,Ohoka,,172.5776605,-43.3630619
+Ōrakei Kōrako Quarter,#e5e0ec,Ōrakei Kōrako,Quarter,176.1429966,-38.4737044
+Ngāuruhoe,#a198a2,Ngāuruhoe,,175.6319511,-39.1567868
+Moawhango,#826f9f,Moawhango,,175.8642409,-39.5794201
+Māpua,#ca9c9c,Māpua,,173.0962191,-41.25321
+Kaiapoi,#8b818c,Kaiapoi,,172.6521689,-43.3831623
+Manukau,#9695c5,Manukau,,174.728854,-37.0864743
+Durie Hill,#9e9cab,Durie Hill,,175.0692835,-39.9387491
+Cape Palliser,#958a9f,Cape Palliser,,175.2734151,-41.6127164
+Rāwhiti,#c2c3d2,Rāwhiti,,172.866497,-40.8853076
+Tītī Islands,#d7c1cd,Tītī Islands,,174.1377949,-40.950582
+Slipper Island,#8991b3,Slipper Island,,175.944856,-37.0493331
+Russell,#2f3049,Russell,,174.1215291,-35.2617916
+Napier,#b44970,Napier,,176.917839,-39.4902099
+Lake Aviemore,#b2b8d1,Lake Aviemore,,170.2925416,-44.6105878
+High Street,#a4334e,High Street,,174.8500526,-36.9443638
+Cathedral Cove,#555c90,Cathedral Cove,,175.7903756,-36.8286883
+Ākitio,#624875,Ākitio,,176.3329279,-40.475515
+Kaituna,#856b72,Kaituna,,176.3705111,-37.8644387
+Ōrakei Kōrako,#d1c9df,Ōrakei Kōrako,,176.1438986,-38.4741211
+Five Fingers Peninsula,#697d89,Five Fingers Peninsula,,166.5132059,-45.6842669
+Blue Pools,#b1c5cb,Blue Pools,,169.2704124,-44.1622229
+Murrays Bay,#7d94a2,Murrays Bay,,174.7528516,-36.7329277
+Clifton,#6c939f,Clifton,,172.750042,-43.5690584
+Mangawhai Heads,#3d8a96,Mangawhai Heads,,174.5871983,-36.0947939
+Tuatapere,#31363b,Tuatapere,,167.6907627,-46.1323096
+Peep-O-Day,#383e44,Peep-O-Day,,175.8237791,-39.9551978
+Mt Cecil,#b2bbdb,Mt Cecil,,170.924167,-44.584
+Stirling Falls,#d1d7eb,Stirling Falls,,167.8711845,-44.609207
+Urupukapuka Half,#ccd6e9,Urupukapuka,Half,174.2342095,-35.2156144
+Taiaroa Head,#d9dbdf,Taiaroa Head,,170.7283327,-45.775145
+Urupukapuka,#bdc9e2,Urupukapuka,,174.2385313,-35.2192038
+Hobsonville,#8290b1,Hobsonville,,174.6473532,-36.799239
+Pūkawa,#6d758e,Pūkawa,,175.7515667,-38.9137553
+Springston,#3f414c,Springston,,172.4275629,-43.6445501
+Pisa Moorings,#586880,Pisa Moorings,,169.2418048,-44.9769431
+Lake Tarawera,#606d8e,Lake Tarawera,,176.4181593,-38.2053744
+Moeraki,#39455c,Moeraki,,170.8515085,-45.3609866
+Rothesay Bay,#49566b,Rothesay Bay,,174.7511465,-36.7215205
+Blueskin Bay,#4d5878,Blueskin Bay,,170.581558,-45.730358
+Twizel,#a9bcdd,Twizel,,170.0994145,-44.257483
+Clutha,#94aad2,Clutha,,169.7398641,-46.2377982
+Pelorus Bridge,#5d74a9,Pelorus Bridge,,173.5723636,-41.299103
+Onerahi,#c9d7ed,Onerahi,,174.3686964,-35.755012
+Amodeo Bay,#495e93,Amodeo Bay,,175.44151,-36.67408
+Lake Alexandrina,#272e4e,Lake Alexandrina,,170.4525482,-43.9381889
+Massey,#bec5d3,Massey,,174.6115457,-36.8402845
+Blackhead Beach,#acb4c7,Blackhead Beach,,176.8360456,-40.1670106
+Tunnel Beach,#97a1b8,Tunnel Beach,,170.4590756,-45.9207498
+Lake Rotomahana,#3e4258,Lake Rotomahana,,176.4396996,-38.2646488
+Lake Matheson,#4d546b,Lake Matheson,,169.9652356,-43.4391646
+MacKinnon Pass,#828ca5,MacKinnon Pass,,167.7657824,-44.8024908
+Sailors Cutting,#7a8da6,Sailors Cutting,,170.079889,-44.543472
+Onemana,#65768e,Onemana,,175.8765974,-37.1567649
+Spring Creek Half,#c8d5e7,Spring Creek,Half,173.966464,-41.4576978
+Spring Creek,#b9c9e0,Spring Creek,,173.9505281,-41.4570618
+Cape Brett,#5172a0,Cape Brett,,174.330918,-35.172407
+Little Shoal Bay,#394f78,Little Shoal Bay,,174.742127,-36.8213828
+Blue Knob,#5a6c8c,Blue Knob,,173.3280787,-41.3504493
+Stilwell Bay,#b2c9e1,Stilwell Bay,,173.0433582,-40.9763126
+Lake Monowai,#9fbdda,Lake Monowai,,167.6201526,-45.7902631
+Raetihi,#dce6eb,Raetihi,,175.2828804,-39.4264953
+Birdlings Flat,#c6d8e8,Birdlings Flat,,172.7047562,-43.8242634
+Oneroa,#3c4965,Oneroa,,175.0098094,-36.7819161
+Auckland Islands,#b2cdeb,Auckland Islands,,166.060652,-50.88239
+Sumner,#9eb8d8,Sumner,,172.7528503,-43.5835253
+Huntly,#5075a9,Huntly,,175.1588322,-37.5583996
+Māhia,#89a6cd,Māhia,,177.898028,-39.183167
+Lake Harris,#b9c5d4,Lake Harris,,168.176501,-44.7256585
+Mairangi Bay,#406194,Mairangi Bay,,174.752935,-36.7386335
+Kairākau Beach,#a5b3c7,Kairākau Beach,,176.9258042,-39.9454451
+Kāwhia,#40495c,Kāwhia,,174.826715,-38.131666
+The Chasm,#929cac,The Chasm,,170.6817725,-45.89336
+Tauranga Bay,#7d8797,Tauranga Bay,,173.7866956,-35.0058954
+Lake Dunstan,#666f7f,Lake Dunstan,,169.2013001,-45.0523301
+Spectacle Lake,#526a81,Spectacle Lake,,174.6292603,-36.1820273
+Maketu,#5b7c9c,Maketu,,176.4540339,-37.7582634
+Mt Ward,#9eb8d0,Mt Ward,,167.18101,-45.60768
+Torpedo Bay,#405b78,Torpedo Bay,,174.8076411,-36.8297438
+Onetangi,#afc5d9,Onetangi,,175.0825819,-36.7891861
+Hoopers Inlet,#6f8faf,Hoopers Inlet,,170.6724401,-45.8631845
+Karioitahi Beach,#5782ae,Karioitahi Beach,,174.6679365,-37.31134
+Himatangi,#acc9e5,Himatangi,,175.3172905,-40.3899367
+Separation Point,#84a9ce,Separation Point,,174.139104,-41.314183
+East Beach,#3b618d,East Beach,,173.178023,-34.859788
+Lake Brunner,#303f55,Lake Brunner,,171.4400701,-42.6164359
+Farewell Spit,#93c0e7,Farewell Spit,,172.9704706,-40.5311441
+Campbells Bay,#d7ecf5,Campbells Bay,,174.7619515,-36.7454921
+Lottin Point,#21446b,Lottin Point,,178.171778,-37.533667
+Lake Rotoiti,#33517b,Lake Rotoiti,,172.8417145,-41.8348349
+Lochmara Bay Quarter,#cbe2f2,Lochmara Bay,Quarter,174.0015923,-41.2305332
+Methven,#619ed6,Methven,,171.6472608,-43.6324332
+Lake Bright,#276aac,Lake Bright,,167.1425186,-45.6910638
+Hurstmere Road,#24589a,Hurstmere Road,,174.7735343,-36.7840977
+Paremata,#b7c5d3,Paremata,,174.869541,-41.0976075
+Manapōuri,#0f4b8c,Manapōuri,,167.6133964,-45.5651472
+Balaena Bay,#91a2b5,Balaena Bay,,174.8036808,-41.2923578
+Motukorea,#424b56,Motukorea,,174.8955646,-36.8313639
+Knights Point,#5b6b7c,Knights Point,,169.2248,-43.713104
+Tinopai,#7e8e9f,Tinopai,,174.2421754,-36.24968
+Port Fitzroy,#a6b5c5,Port Fitzroy,,175.3637436,-36.1638478
+Whakaipo Bay,#7598b8,Whakaipo Bay,,175.947335,-38.6954873
+Urenui,#67788a,Urenui,,174.3877931,-38.9971291
+Hot Water Beach,#8caac6,Hot Water Beach,,175.8235659,-36.889811
+Ōhaupō,#2f3a46,Ōhaupō,,175.307047,-37.919078
+Quay Street,#8da5bd,Quay Street,,174.7744263,-36.8452645
+French Farm Bay,#7baccf,French Farm Bay,,172.9142877,-43.7773592
+Mercer,#2a3f52,Mercer,,175.0485015,-37.2765715
+Waipū Cove,#3f77a3,Waipū Cove,,174.504229,-36.0287842
+Whakatāne,#527698,Whakatāne,,176.9945977,-37.9519223
+Kaka Point,#6398bf,Kaka Point,,168.175797,-47.052924
+Mt Dobson,#e2f0f5,Mt Dobson,,169.757177,-43.9218555
+Castor Bay,#c9e5f4,Castor Bay,,174.7671369,-36.7587345
+Punchbowl Falls,#32628a,Punchbowl Falls,,171.5682515,-42.9328032
+Tairua,#1e4769,Tairua,,175.850199,-36.999928
+Fox Glacier,#a4d8f2,Fox Glacier,,170.1386966,-43.5170284
+Ōkiwi Bay,#007ebe,Ōkiwi Bay,,173.6581263,-41.1120967
+Clifford Bay,#065183,Clifford Bay,,174.1872342,-41.6456588
+Tapeka Beach,#6cbee7,Tapeka Beach,,174.1206511,-35.245904
+Lake Taylor,#2a9dd5,Lake Taylor,,172.2298225,-42.7658239
+Lake Karapiro,#005183,Lake Karapiro,,175.6589765,-37.9886514
+Five Fingers Peninsula Quarter,#96a6b2,Five Fingers Peninsula,Quarter,166.496556,-45.702944
+Lake Mangamahoe,#3c4b56,Lake Mangamahoe,,174.1226506,-39.1246889
+Coal Island,#414a58,Coal Island,,166.6270102,-46.1181615
+Island Bay,#a1bad2,Island Bay,,174.7716525,-41.3323139
+Bridal Veil Falls,#7cc5de,Bridal Veil Falls,,174.8966745,-37.9086008
+Motukiekie Island,#5e88a6,Motukiekie Island,,174.203238,-35.2177607
+Parakai,#abd0e0,Parakai,,174.4331289,-36.6604127
+Gulf Harbour,#b4c8db,Gulf Harbour,,174.7925871,-36.6190238
+Pākiri,#47a6c5,Pākiri,,174.7274706,-36.2643963
+Canoe Bay,#dcf0f2,Canoe Bay,,173.0479955,-40.8528458
+Goat Island,#105974,Goat Island,,170.6259739,-45.8242514
+Taylors Mistake,#0d7c9f,Taylors Mistake,,172.7793067,-43.5819873
+Hole in the Rock,#0c4761,Hole in the Rock,,174.8332446,-41.3299155
+Catalina Bay,#c6e8ee,Catalina Bay,,174.6722037,-36.7918725
+Lake Coleridge,#0a97bf,Lake Coleridge,,171.532599,-43.365964
+Ōpoutere,#a6d5e9,Ōpoutere,,175.8699151,-37.1096042
+Lake Angelus,#36a9ce,Lake Angelus,,172.7459764,-41.8869663
+Firth of Thames,#75c9e7,Firth of Thames,,175.4079915,-37.0417475
+Lake Rotoma,#75929a,Lake Rotoma,,176.589625,-38.0438754
+Houghton Bay,#0081ac,Houghton Bay,,174.7878218,-41.3382326
+Lake Taupō,#00638b,Lake Taupō,,175.9311663,-38.806535
+Plimmerton,#005479,Plimmerton,,174.8652978,-41.0819811
+Lake Heron,#b8cfd9,Lake Heron,,171.1896475,-43.4411539
+Karori,#313b40,Karori,,174.7387671,-41.2845495
+Whangaparāoa,#a3bfcd,Whangaparāoa,,174.7214003,-36.6202718
+Browns Bay,#425860,Browns Bay,,174.7481983,-36.7156283
+Charteris Bay,#a1c4cf,Charteris Bay,,172.708298,-43.6487828
+Big Bay,#c4dbdb,Big Bay,,174.6424431,-37.0478489
+Lake Ellesmere,#6eb2be,Lake Ellesmere,,172.5077026,-43.7866957
+Lyall Bay,#9dd0d8,Lyall Bay,,174.8023227,-41.3384099
+Makaka Bay,#5d8c9b,Makaka Bay,,174.5294577,-37.0318543
+Port Jackson,#354a54,Port Jackson,,175.3388586,-36.4853909
+O'Neills Bay,#d7f0f0,O'Neills Bay,,174.7667011,-36.821443
+Kohimarama,#a6dee3,Kohimarama,,174.8368338,-36.8545594
+French Bay,#266973,French Bay,,174.6615039,-36.9477714
+Ocean View Beach,#194356,Ocean View Beach,,170.3414733,-45.9411115
+Dart River,#c8ebec,Dart River,,172.6454411,-41.5076571
+Watchman Island,#00718d,Watchman Island,,174.7319518,-36.8350208
+Lake Hood,#006684,Lake Hood,,171.773739,-43.9660958
+Mārahau,#0094a9,Mārahau,,173.0086156,-41.0061336
+Waiwera,#7fcfe2,Waiwera,,174.7069809,-36.5448557
+Big Lagoon,#005c6d,Big Lagoon,,174.1029347,-41.5457512
+Huka Falls,#6799a2,Huka Falls,,176.0899194,-38.648754
+Lake Wardell,#7babb3,Lake Wardell,,170.1231641,-44.1967315
+Adele Island,#b1d9db,Adele Island,,173.0596341,-40.9805942
 Ōtaki Forks,#2e4e5b,Ōtaki Forks,,175.2337304,-40.8679788
+Split Apple Rock,#c4ebe9,Split Apple Rock,,173.0202219,-41.0183173
+The Bubble,#7495b3,The Bubble,,174.7645975,-36.8500193
+Selwyn,#294d6e,Selwyn,,172.2277522,-43.6495222
+Whakakī Lagoon,#c1d4d6,Whakakī Lagoon,,177.5570454,-39.0444692
+Ōpua,#5193c4,Ōpua,,174.121422,-35.3126314
+North Cape,#8ca9b9,North Cape,,173.0519725,-34.4160018
+Caversham,#384669,Caversham,,170.4810145,-45.895911
+Tutukaka,#303c40,Tutukaka,,174.5244347,-35.6083254
+Black Reef,#2e4652,Black Reef,,177.0819868,-39.6319878
+Moonlight Creek,#2a3249,Moonlight Creek,,168.6382026,-44.9640072
+Catseye Bay,#007d9b,Catseye Bay,,167.3902009,-44.8108577
+All Day Bay,#425f9b,All Day Bay,,170.892618,-45.205144
+Mansion House Bay,#3fb4cf,Mansion House Bay,,174.8190021,-36.4292764
+Pūkaki Quarter,#cdd2ce,Pūkaki,Quarter,170.1742311,-44.0477609
+Rangitīkei River Quarter,#9ea8a8,Rangitīkei River,Quarter,175.8152587,-39.7665195
+Musick Point,#7d96c6,Musick Point,,174.9010348,-36.8463582
+Lake Hāwea,#4a525c,Lake Hāwea,,169.3256696,-44.439223
+Hahei,#a3b9ce,Hahei,,175.802826,-36.8402447
+Cockle Bay,#dce0ef,Cockle Bay,,174.9430254,-36.9001875
+Pūkaki Double,#989e98,Pūkaki,Double,170.2084302,-44.2673982
+Mission Bay,#355b78,Mission Bay,,174.831802,-36.848267
+Kenepuru Sound,#2a3b51,Kenepuru Sound,,174.0533924,-41.1896102
+Kellands Pond,#1f3665,Kellands Pond,,170.0662911,-44.2986831
+Hauraki Gulf,#3f525e,Hauraki Gulf,,175.0915832,-36.7060245
+Waioeka,#526d75,Waioeka,,177.2886944,-38.0549003
+Ruakākā,#487584,Ruakākā,,174.4557066,-35.8754355
+Pūkaki Half,#bdc3be,Pūkaki,Half,170.1461233,-44.1903149
+Puhoi,#a0b2b9,Puhoi,,174.6611196,-36.5120922
+Pūkaki,#abb2af,Pūkaki,,170.9302221,-42.826532
+Poor Knights,#2b3746,Poor Knights,,174.7411196,-35.4810327
+Oriental Bay,#bbd0de,Oriental Bay,,174.793919,-41.2918354
+Lake Camp,#9bb4bc,Lake Camp,,171.0562569,-43.6149097
+Lake Tekapō,#51a8bf,Lake Tekapō,,170.4777273,-44.0045194
+George Street,#006bac,George Street,,174.7769715,-36.8632412
+Cook Strait,#386168,Cook Strait,,174.5445093,-41.1976586
+Cooks Beach,#9bbdc3,Cooks Beach,,175.7410613,-36.8382656
+Puhoi Half,#b4c2c7,Puhoi,Half,174.705481,-36.51872
+Heaphy Track,#75917f,Heaphy Track,,172.1840486,-40.9063806
+Waitangi Quarter,#d7d2c6,Waitangi,Quarter,174.0803091,-35.2681528
+Queenstown Hill,#71845e,Queenstown Hill,,168.6924181,-45.0086651
+Kaitoke Beach,#0e4e4d,Kaitoke Beach,,175.4772238,-36.2432781
+Apple Tree Bay,#c6dfde,Apple Tree Bay,,173.0391833,-40.9833168
+Manu Bay,#77aca9,Manu Bay,,174.8174415,-37.8212333
+Pinehaven,#31817e,Pinehaven,,175.0157222,-41.1616928
+Mt Victoria,#51a1a1,Mt Victoria,,174.7943018,-41.296076
+Harihari,#eaf7f2,Harihari,,170.5581948,-43.1479196
+Kawau Island,#16a5a6,Kawau Island,,174.8635446,-36.4210864
+Cable Bay,#008487,Cable Bay,,173.4767457,-34.9895479
+Roberton Island,#7acdd0,Roberton Island,,174.1652304,-35.2326098
+Ōakura,#59bfc2,Ōakura,,173.9953941,-39.1591235
+Tīmaru,#006569,Tīmaru,,171.2509786,-44.3930254
+Ngātaringa Bay,#b4c2b6,Ngātaringa Bay,,174.7799348,-36.81968
+Tauherenīkau,#a0b0a3,Tauherenīkau,,175.3791022,-41.1189507
+Remutaka Range,#8c9d8e,Remutaka Range,,175.0993839,-41.2676833
+Sugarloaf Island Half,#d1dbd2,Sugarloaf Island,Half,173.3616115,-34.784533
+Long Harry Bay,#5a665c,Long Harry Bay,,167.7906,-46.68985
+Ōkete,#2c464a,Ōkete,,174.919982,-37.8054437
+Wiroa Island,#4c6a67,Wiroa Island,,174.8076496,-37.0149859
+Morison Bush Half,#cde5dd,Morison Bush,Half,175.4378414,-41.1197431
+Punakaiki,#95b6b4,Punakaiki,,171.3353148,-42.1085542
+Chatto Creek,#2b645d,Chatto Creek,,169.5092569,-45.1409431
+Warrington,#a5d0c5,Warrington,,170.5925926,-45.7091034
+Morison Bush,#bcdbd3,Morison Bush,,175.4885055,-41.1542428
+D'Urville Island,#7bb5ac,D'Urville Island,,173.8696532,-40.817514
+Hidden Falls,#e2f6ef,Hidden Falls,,168.1223868,-44.6302187
+New Plymouth,#5ab9a1,New Plymouth,,174.0806474,-39.0579941
 Ōtama Beach,#72c8b5,Ōtama Beach,,175.7631155,-36.7063847
+Orewa,#b9e7db,Orewa,,174.6914965,-36.5857596
+Cape Jackson,#349b7f,Cape Jackson,,174.3150978,-40.9938291
+Ōmihi,#026b5a,Ōmihi,,172.8540953,-43.020694
+One Tree Hill,#2d7f69,One Tree Hill,,174.7831302,-36.900172
+Whakaari / White Island,#c9cbbf,Whakaari / White Island,,177.1814086,-37.5200619
+Glendhu Bay,#a6ae9f,Glendhu Bay,,169.0150554,-44.673937
+McKellar Saddle,#7e8574,McKellar Saddle,,168.1539736,-44.8509235
+Motutapu Island,#5f655a,Motutapu Island,,174.9155763,-36.7633481
+Arthur's Pass,#929585,Arthur's Pass,,171.5593933,-42.907413
+Mt Messenger,#3d4844,Mt Messenger,,174.594361,-38.8939724
+Katikati,#384e46,Katikati,,175.91541,-37.5522269
+Ruahine,#6d9287,Ruahine,,176.0904272,-39.8858678
+Yaldhurst,#c0d3ca,Yaldhurst,,172.5057082,-43.5127622
+Gonville,#9bc2b3,Gonville,,175.027059,-39.9419197
+Waiheke,#2c5c4d,Waiheke,,175.0883863,-36.7931083
+Parnassus,#afd1c3,Parnassus,,173.2912573,-42.7117596
+Rārangi,#85b2a0,Rārangi,,174.0432031,-41.3964098
+Waimauku Half,#cee3d8,Waimauku,Half,174.4920607,-36.7692576
+Waimārama,#4a5756,Waimārama,,176.9892201,-39.8158277
+Cornwall Park,#b0e5c7,Cornwall Park,,174.7887202,-36.9009803
+Sheerdown Peak,#dff2e3,Sheerdown Peak,,167.939058,-44.699325
+Tinkertown,#474c48,Tinkertown,,168.00683,-45.956
+Barrys Bay,#c2ebd0,Barrys Bay,,172.91183,-43.7608127
+Purity Hut,#83d1a6,Purity Hut,,176.0563068,-39.8203028
+Whangamatā,#9bdcb7,Whangamatā,,175.8719724,-37.2063323
+Greta Valley,#3bb76f,Greta Valley,,172.9682943,-42.9640263
+Kurow,#1e974e,Kurow,,170.4694561,-44.7338879
+Winton,#61ba82,Winton,,168.3239863,-46.141439
+Kārewa Island,#157951,Kārewa Island,,176.1313914,-37.5300053
+Whitemans Valley Half,#d6d9cb,Whitemans Valley,Half,175.0899102,-41.1481595
+Kohukohunui,#bfc0aa,Kohukohunui,,175.2194517,-37.0381219
+Willow Flat,#a7aa9a,Willow Flat,,173.824829,-41.6748773
+Musket Bay,#656756,Musket Bay,,167.8268832,-44.4900781
+Casino Hut,#9db8aa,Casino Hut,,176.9087473,-38.3141069
+Mangakino,#969984,Mangakino,,175.7695224,-38.3706391
+Emerald Pools,#dbe3d1,Emerald Pools,,173.4614693,-41.3486666
+Pureora,#567062,Pureora,,175.5256711,-38.354859
+Wadestown,#c9e3cb,Wadestown,,174.7790775,-41.2647151
+Pūrākaunui Bay,#88a495,Pūrākaunui Bay,,170.6232857,-45.7381008
+Happy Valley,#32493c,Happy Valley,,174.7571462,-41.3313209
+Avonhead,#aac4a6,Avonhead,,172.5563302,-43.5198723
+Mōtū River,#cadbc7,Mōtū River,,177.6514209,-38.1466538
+Grove Arm,#6eb476,Grove Arm,,173.954833,-41.261583
+Chatham Islands,#3a533c,Chatham Islands,,-176.18734,-43.917534
+Sandringham,#e4f5e1,Sandringham,,174.7368028,-36.892686
+Wainuiomata,#52b960,Wainuiomata,,174.9171017,-41.3236408
+Halswell,#b6dbbe,Halswell,,172.57058,-43.5855643
+Glentui,#8fc39c,Glentui,,172.2778417,-43.219745
+Geraldine,#a5d0ae,Geraldine,,171.2425898,-44.0921039
+Shotover Street,#00834a,Shotover Street,,168.6590316,-45.0318389
+Cossack Rock,#a9a594,Cossack Rock,,169.2435791,-52.5049616
+Pāuanui,#93907f,Pāuanui,,175.8648118,-37.0242711
+Ardmore,#95a28a,Ardmore,,174.9831104,-37.0333574
+Gracefield,#2aaa41,Gracefield,,174.9169459,-41.2373917
+Grahams Beach,#455338,Grahams Beach,,174.6619752,-37.0551776
+Woods Creek,#bcc5b2,Woods Creek,,171.3570404,-42.5678443
+Claris,#90a073,Claris,,175.4645657,-36.2440248
+Tōtara Park,#ccd3c3,Tōtara Park,,175.0857771,-41.1079934
+Cloudy Range,#757361,Cloudy Range,,173.2210546,-42.3741513
+Hakatere,#d6e1c1,Hakatere,,171.7503327,-43.9024396
 Ōtatara,#4a613a,Ōtatara,,168.28698,-46.43803
-Ōtautau,#e5cec9,Ōtautau,,167.9989374,-46.1398505
+Inglewood,#9fd196,Inglewood,,174.2076017,-39.1562038
+Okains Bay,#aabf8b,Okains Bay,,173.0424226,-43.7096655
+Mt Sefton,#e7f1d0,Mt Sefton,,170.0421118,-43.6824551
+Oakley Creek,#ebf7e8,Oakley Creek,,174.719485,-36.8976694
+Mataī Falls,#c3e4bc,Mataī Falls,,169.4891044,-46.5030606
+Hawke's Bay,#cff0cc,Hawke's Bay,,176.7611457,-39.5256512
+Tiniroto,#62a348,Tiniroto,,177.5670433,-38.7734746
+Wellsford,#cdd1bc,Wellsford,,174.523259,-36.2957426
+Wai o Taiki Bay,#6eb54b,Wai o Taiki Bay,,174.8742742,-36.8712597
+Mahora,#6cac58,Mahora,,176.8485063,-39.6255734
+Eketāhuna,#8cc379,Eketāhuna,,175.7033205,-40.6466355
+Flat Island,#6d6f57,Flat Island,,175.8675538,-36.7108082
+Ōhiwa,#9b9e80,Ōhiwa,,177.1280821,-38.0109628
+Martins Creek,#b1b49a,Martins Creek,,167.7762516,-46.9388582
+Taieri,#4f513f,Taieri,,170.1394526,-45.5094643
+Ngātea,#cfd79d,Ngātea,,175.4916548,-37.2757232
+Pukekura Park,#8b8c6e,Pukekura Park,,174.0797393,-39.0648343
+Burgess Park,#ecf3e5,Burgess Park,,174.1154368,-39.1065583
+Te Puke,#97a263,Te Puke,,176.3270238,-37.7853294
+Lake Waihola,#e3edc1,Lake Waihola,,170.0943026,-46.0146292
+Waituna West,#c6cd87,Waituna West,,175.6399047,-40.0401431
+Waimea,#e8f2c4,Waimea,,173.1945577,-41.2904483
+Te Ahuahu,#d2e587,Te Ahuahu,,173.8412395,-35.3397357
+Pohangina,#bfd75a,Pohangina,,175.7947468,-40.1707737
+Waterfall Bay,#edf4d2,Waterfall Bay,,173.9664753,-41.2286668
+Tiritea,#e1ebb1,Tiritea,,175.6556153,-40.4084146
+The Pinnacles,#8aaf38,The Pinnacles,,175.2467736,-41.4468023
+Karamea,#a6c348,Karamea,,172.1180199,-41.2487451
+Mt Stevens,#505238,Mt Stevens,,172.451333,-40.793889
+Wright Hill,#bebc99,Wright Hill,,174.7399726,-41.2961053
+Tapora,#afb75f,Tapora,,174.3022535,-36.3523611
+Tarras,#817c58,Tarras,,169.4259579,-44.8325138
+St Bathans,#a2986a,St Bathans,,169.8111508,-44.8708134
+Britomart,#babf6c,Britomart,,174.7691726,-36.8445568
+Ashhurst,#8d974e,Ashhurst,,175.7557583,-40.2893295
+Matauri Bay,#cdcc99,Matauri Bay,,173.9110995,-35.0339202
+Naenae,#cacd40,Naenae,,174.9537984,-41.200486
+Puysegur Point,#9c9380,Puysegur Point,,166.6084369,-46.1567277
+Te Horo,#6d725a,Te Horo,,175.1233352,-40.808433
+Raymonds Gap,#817b69,Raymonds Gap,,167.88734,-46.09471
+Waitomo Caves,#dbd4b0,Waitomo Caves,,175.1103222,-38.2610936
+Punga Cove,#42463e,Punga Cove,,174.15171,-41.1291371
+Marine Parade,#3a3c36,Marine Parade,,174.7245538,-36.8468514
+Basin Reserve,#5a5d56,Basin Reserve,,174.7802545,-41.30036
+Mōrere,#aabda2,Mōrere,,177.788981,-38.959024
+Mt Bruce,#525550,Mt Bruce,,171.6149716,-43.0537521
+Middlemore,#576d61,Middlemore,,174.839071,-36.9630541
+Kōpū,#757c49,Kōpū,,175.566059,-37.1855871
+Manfeild,#698364,Manfeild,,175.560008,-40.2371227
+Matauri Bay Double,#bab072,Matauri Bay,Double,173.9175349,-35.0332024
+Mystery Creek,#b0b07b,Mystery Creek,,175.3489383,-37.8706892
+Emerald Lakes,#4c785f,Emerald Lakes,,175.6545348,-39.1340074
+Colac Bay,#4dc0a6,Colac Bay,,167.9149326,-46.3695508
+Malaspina Reach,#b0c3ba,Malaspina Reach,,167.0045022,-45.3335459
+Waitangi Half,#c9c3b5,Waitangi,Half,-176.561027,-43.9511999
+Pororari River Quarter,#cdc3a7,Pororari River,Quarter,171.4138739,-42.13813
+Lincoln,#343b37,Lincoln,,172.4860237,-43.6396099
+Hutt River,#c8c1b1,Hutt River,,175.0637276,-41.115445
+Murchison,#bbb4a4,Murchison,,172.3286812,-41.7995251
+Kea Point,#345e61,Kea Point,,170.074111,-43.703306
+Lake Ferry,#a39b87,Lake Ferry,,175.1469169,-41.3906208
+Moana Reserve Half,#d6d8c9,Moana Reserve,Half,173.255641,-41.2814911
+Moana Reserve Quarter,#e1e2d6,Moana Reserve,Quarter,174.6964701,-36.5859477
+Wainui Beach,#9ab4ac,Wainui Beach,,174.7465825,-39.8634535
+Waitangi Double,#afa491,Waitangi,Double,174.49104,-36.57555
+Te Aroha,#838e75,Te Aroha,,175.7123669,-37.543149
+Pt Chevalier,#427571,Pt Chevalier,,174.7080874,-36.8665285
+Waitangi,#c2bba9,Waitangi,,175.686266,-39.449251
+The Viaduct,#008e96,The Viaduct,,174.7606833,-36.8432042
+Te Ānau,#7da3a2,Te Ānau,,167.717489,-45.41449
+Pencarrow,#6c7a74,Pencarrow,,174.8500366,-41.3589028
+Ōhai,#8b9188,Ōhai,,167.9519,-45.93266
+Matamata,#b0a980,Matamata,,175.7732759,-37.8095635
+Lakeside,#a9c7c3,Lakeside,,175.1488583,-37.4168978
+Cuba Street,#b1c05e,Cuba Street,,174.886927,-41.2234813
+Benmore Half,#ccdfdb,Benmore,Half,168.3322921,-45.98677
+Dusky Forest,#6d6746,Dusky Forest,,169.1650575,-45.8295755
+Waitiki Landing,#c0d5c9,Waitiki Landing,,172.8397091,-34.5166041
+Rangipo,#9a886a,Rangipo,,175.290822,-37.132904
+Te Waewae Half,#d9c7ab,Te Waewae,Half,167.519586,-46.2353109
+Devonport,#f0efbf,Devonport,,174.7975377,-36.8297309
+Church Road,#d4cd58,Church Road,,174.7803932,-36.9422933
+Brookby,#dcd467,Brookby,,174.9946922,-36.9868478
+Southbridge,#e3dc84,Southbridge,,172.2544396,-43.8119105
+Dog Kennel Corner,#ebeaaf,Dog Kennel Corner,,170.5673484,-44.0964519
+Silverstream,#e5e2bf,Silverstream,,175.0117941,-41.1489813
+Invercargill,#665738,Invercargill,,168.3470632,-46.4118465
+Waiōuru,#9c8752,Waiōuru,,175.6697752,-39.4772125
+Longwood Forest,#dbd399,Longwood Forest,,167.814289,-46.2161271
+Te Puna,#e2deae,Te Puna,,176.0746896,-37.6843423
+Pigeon Bush,#c1b25c,Pigeon Bush,,172.3082281,-43.0913954
+Clive,#96913a,Clive,,176.9154754,-39.5828238
+Mayfield,#ede29a,Mayfield,,173.9536303,-41.5025971
+Stewart Island,#f0eebe,Stewart Island,,167.882138,-46.9867197
+Zalatown,#e4d066,Zalatown,,172.0726863,-41.7820916
+Flaxmere,#f8f6df,Flaxmere,,176.7861708,-39.6250691
+Sergeants Hill,#eada82,Sergeants Hill,,171.648159,-41.7608444
+Waipara,#f2e9af,Waipara,,168.6818518,-44.3042729
+Snells Beach,#bebc35,Snells Beach,,174.7239757,-36.4204774
+Fort Street,#e9dd24,Fort Street,,174.7694062,-36.8461766
+Dipton,#e5d398,Dipton,,168.3681178,-45.8999088
+Desert Road,#ddc17e,Desert Road,,170.6934262,-45.8130893
+Masterton,#bf9e4a,Masterton,,175.6594413,-40.9495524
+Arrow River,#cfb059,Arrow River,,168.8175281,-44.858616
+Hibiscus Coast,#dfc781,Hibiscus Coast,,174.7086237,-36.6095336
+Te Rapa Half,#f0eacd,Te Rapa,Half,175.2339189,-37.7521378
+Kaiwaka,#fbf0bf,Kaiwaka,,174.4435893,-36.1612116
+Duntroon,#d6bf80,Duntroon,,170.6832097,-44.8538398
+Wairoa,#f9f0d7,Wairoa,,177.4271389,-39.03939
+Homer Tunnel,#b09337,Homer Tunnel,,167.981358,-44.7642164
+Paihia,#ffe481,Paihia,,174.0920879,-35.2812407
+Rotorua,#fcd33b,Rotorua,,176.252922,-38.1381493
+Ōmāpere,#fdeeaf,Ōmāpere,,173.7952856,-35.3478251
+Lochiel,#ffdd62,Lochiel,,168.33366,-46.20594
+Waipawa,#fbd624,Waipawa,,176.589286,-39.9417436
+Aotea Quay,#e5c53f,Aotea Quay,,174.7860527,-41.2688682
+Lawrence,#e1bb2f,Lawrence,,169.6870009,-45.9129312
+Cheddar Valley,#ebd9aa,Cheddar Valley,,177.104491,-38.0257401
+Five Rivers,#5b4e39,Five Rivers,,168.4585884,-45.6234024
+Pataua Beach,#d1bc92,Pataua Beach,,174.5185218,-35.7051978
+Waihī,#a47d3f,Waihī,,175.8403538,-37.391462
+Naseby,#8e6838,Naseby,,170.1460085,-45.0249757
+Wairau,#cea663,Wairau,,173.5314071,-41.5635411
+Kelvin Heights,#f6d37f,Kelvin Heights,,168.6876631,-45.0466397
+Pukekawa,#ecddad,Pukekawa,,174.7760429,-36.8590138
+Kamo,#c79535,Kamo,,174.3002928,-35.6822841
+Blanket Bay,#f8f3e0,Blanket Bay,,170.589639,-45.833167
+Carterton,#f9d464,Carterton,,175.5259467,-41.0243023
+Koromiko,#fde599,Koromiko,,173.9620941,-41.3410959
 Ōtorohanga,#fbeebf,Ōtorohanga,,175.2112083,-38.186037
+Kōwhai Park,#f3c440,Kōwhai Park,,172.5099546,-43.4967643
+Cape Kidnappers,#fcdc81,Cape Kidnappers,,177.0960028,-39.6428005
+Fitzroy,#fcebae,Fitzroy,,175.3006245,-37.8154928
+Tōtaranui,#eaddc0,Tōtaranui,,174.2729169,-41.1420637
+Darfield,#c5ac7c,Darfield,,172.1087152,-43.4882301
+Pyramid Valley,#caa66e,Pyramid Valley,,172.6012874,-42.9699729
+Waikino,#5a4c39,Waikino,,175.7774876,-37.4104369
+Lindale,#f8dfa9,Lindale,,175.0213117,-40.9020098
+Whitcombe Valley,#7c6742,Whitcombe Valley,,171.0155157,-42.919123
+Tāmaki,#dbb37a,Tāmaki,,175.0115426,-36.8482569
+Houhora,#c89b59,Houhora,,173.1056202,-34.794711
+Paekākāriki,#ead9b6,Paekākāriki,,174.9514432,-40.9883074
+Macetown,#e9bc63,Macetown,,168.8201003,-44.8668516
+Washdyke,#987444,Washdyke,,171.239831,-44.3574414
+Glentunnel,#816440,Glentunnel,,171.9342317,-43.4815841
+Kaiteriteri,#f6d27f,Kaiteriteri,,173.0166609,-41.0369592
+Albury,#f5d593,Albury,,170.8728698,-44.2318201
+Silverdale,#f9efd8,Silverdale,,175.3304609,-37.7933758
+Manaia,#c58c37,Manaia,,174.5169905,-35.8183188
+Lichfield,#fbe9bb,Lichfield,,175.8157468,-38.1040559
+Torrent Bay,#efc87c,Torrent Bay,,173.0568568,-40.9465494
+Granity,#5d4a38,Granity,,171.8549525,-41.6301692
+Rai Valley,#d8c8a9,Rai Valley,,173.5834466,-41.2278927
+Halfmoon Bay,#ebddbf,Halfmoon Bay,,168.1283778,-46.8979908
+Moa Flat,#c5ab84,Moa Flat,,169.3056893,-45.7248019
+West Melton,#7d603f,West Melton,,172.3735742,-43.5244331
+Whale Bay,#e9d9c2,Whale Bay,,174.1101935,-35.1696051
+Tōtaranui Half,#f0e2c8,Tōtaranui,Half,173.005058,-40.8224855
+Pearl Island,#e7d78f,Pearl Island,,167.7089363,-47.1934909
+Paeroa,#e6c089,Paeroa,,175.6704263,-37.3804671
+Limehills Half,#d7c59b,Limehills,Half,168.3296911,-46.0583993
+Gore,#42392f,Gore,,168.9447811,-46.0984482
+Waipapakauri,#756042,Waipapakauri,,173.2276341,-35.0250402
+Edendale Double,#c9bd9f,Edendale,Double,168.7850981,-46.3144058
+Dunsandel,#c7b796,Dunsandel,,172.197083,-43.6610056
+Edendale,#d7ccb2,Edendale,,172.3172871,-43.5287583
+Dashwood Pass,#bd9369,Dashwood Pass,,174.053424,-41.6084695
+Cape Rēinga Half,#d4bc90,Cape Rēinga,Half,172.6793483,-34.4201843
+Collingwood Double,#dfcfb1,Collingwood,Double,172.6844307,-40.68202
+Cape Rēinga,#cab181,Cape Rēinga,,172.6774681,-34.4265787
+Gentle Annie,#d9d5ad,Gentle Annie,,173.4910039,-41.1670544
+Ōmarama,#b7a07a,Ōmarama,,169.9655968,-44.487876
+Kāpiti,#cbb992,Kāpiti,,170.0201251,-46.0680144
+Te Waewae,#ccb798,Te Waewae,,176.2239533,-40.8741024
+Ōmarama Double,#ae8e66,Ōmarama,Double,175.0183214,-38.163604
+Shelly Beach,#ebd9aa,Shelly Beach,,174.3761172,-36.5702025
+Pororari River,#b0a47e,Pororari River,,171.3397499,-42.1062204
+Lambton Quay,#d5b966,Lambton Quay,,174.7777452,-41.2792158
+Kereta,#e0c38e,Kereta,,175.435671,-36.9062725
+Hagley Park,#fae5ab,Hagley Park,,172.6202505,-43.527621
+Eskdale,#d2b995,Eskdale,,176.832106,-39.392223
+Awatere,#d3b266,Awatere,,173.6500506,-41.8785896
+Canvastown,#b6a167,Canvastown,,173.6704274,-41.2911692
+Herbert,#9d7638,Herbert,,170.7875019,-45.2231962
+Hinuera,#decc96,Hinuera,,175.7604638,-37.8821496
+Victoria Street,#f6cd55,Victoria Street,,175.4740116,-37.8985675
+Te Rapa,#ebe3be,Te Rapa,,175.223457,-37.734118
+Port Ōhope,#deb45b,Port Ōhope,,177.1093318,-37.981849
+Anaura Bay,#fcba2d,Anaura Bay,,178.3267366,-38.2333833
+Matapōuri,#bc8d57,Matapōuri,,174.5030702,-35.5663974
+Cape Runaway,#fbe0ac,Cape Runaway,,177.9827614,-37.5394005
+Karaka Bay,#f1ad3c,Karaka Bay,,174.8774627,-36.8486942
+Tata Beach,#edb959,Tata Beach,,172.9147598,-40.8111618
+Otūmoetai,#f5cd80,Otūmoetai,,176.1402406,-37.6717267
+Horsham Downs,#c18534,Horsham Downs,,175.249722,-37.6985246
+Gisborne,#fca92f,Gisborne,,178.0206487,-38.661326
+Ida Valley,#e3a859,Ida Valley,,169.7759325,-45.0833413
+The Terrace,#daaf7d,The Terrace,,172.6344841,-43.5325945
+Knottingley Park,#b6803f,Knottingley Park,,171.0563645,-44.7480523
+Fitzherbert Ave,#be7b35,Fitzherbert Ave,,174.6213884,-36.8198855
+Thames,#a36f36,Thames,,175.5418037,-37.137983
+Macraes Flat,#bd8753,Macraes Flat,,170.4290349,-45.382159
+Waihau Bay,#795235,Waihau Bay,,177.9060602,-37.6141164
+Fortrose,#bc8743,Fortrose,,168.800835,-46.5750891
+Evansdale Half,#fae8cd,Evansdale,Half,170.5700183,-45.7194832
+Medlands Beach,#ead0a2,Medlands Beach,,175.4921071,-36.2643879
+Omaha,#e1c290,Omaha,,174.7747859,-36.3399886
+Sherwood,#fcdcaf,Sherwood,,171.8223739,-43.7493194
+Morven,#fad19c,Morven,,171.1082088,-44.8177831
+Kūmara,#f2b66a,Kūmara,,171.1869146,-42.6298696
+Ninety Mile Beach,#f7dfb9,Ninety Mile Beach,,173.0461184,-34.8524563
+Sheffield,#e99e4b,Sheffield,,172.0211299,-43.3891595
+Cheviot,#eeac5d,Cheviot,,173.2735027,-42.8116534
+Raumati,#d9853f,Raumati,,174.9807058,-40.9186111
+Evans Bay,#e8944b,Evans Bay,,174.8111418,-41.3001439
+Riverton,#b77e53,Riverton,,168.0202689,-46.3509977
+Kūaotunu,#dec8ae,Kūaotunu,,175.7245723,-36.7232825
+Tokoroa,#88593a,Tokoroa,,175.8705389,-38.2168677
+Broadfield,#c48e5e,Broadfield,,172.4682617,-43.6044756
+Frankton,#734833,Frankton,,175.2571104,-37.7909408
+Herd Street,#d7a97f,Herd Street,,174.785844,-41.2911427
+Ligar Bay,#de9351,Ligar Bay,,172.9094837,-40.8222996
+Baylys Beach,#dfb995,Baylys Beach,,173.7462766,-35.9494945
+Abbotsford,#cc996a,Abbotsford,,170.4257886,-45.8946234
+Albert Town,#d27b34,Albert Town,,169.1872642,-44.6832402
+Pukehina Half,#f7e0c9,Pukehina,Half,176.5259331,-37.8233827
+Mercury Bay,#fde4c6,Mercury Bay,,175.7226052,-36.8158558
+Roxburgh,#ffcfa0,Roxburgh,,169.3139403,-45.5393399
+Hāwera,#faecdd,Hāwera,,174.2837207,-39.5893462
+Mercury Bay Half,#fbebd3,Mercury Bay,Half,175.7024856,-36.8331861
+Mititai,#ffc18a,Mititai,,173.9329912,-36.0143183
+Green Island,#ffac62,Green Island,,170.4301484,-45.903193
+Tapawera,#d7bda6,Tapawera,,172.8252254,-41.3854986
+Opito Bay,#e5d1c0,Opito Bay,,174.1530859,-35.2639553
+Broadway,#d5a285,Broadway,,174.7779576,-36.8686282
+Cape Campbell,#8a4e30,Cape Campbell,,174.2746266,-41.7282357
+Ngongotahā,#ead4c7,Ngongotahā,,176.2127159,-38.0808401
+Kingsland,#a98469,Kingsland,,174.7439365,-36.871195
+St Andrews,#faeee4,St Andrews,,175.261236,-37.7537848
+Bainham,#6d4333,Bainham,,172.5636935,-40.7653922
+Taumata,#f2d0bf,Taumata,,176.5403047,-40.3460617
+Taumata Quarter,#f7e5d9,Taumata,Quarter,173.392972,-35.0635
+Bucklands Beach,#f7baa2,Bucklands Beach,,174.904601,-36.8662371
+Kuratau,#eb9a76,Kuratau,,175.7717385,-38.8905969
+Ruawai,#dd7f5a,Ruawai,,174.0252849,-36.1368675
+Pōrangahau,#c4552d,Pōrangahau,,176.6224496,-40.3072127
+Coatesville,#ad4430,Coatesville,,174.6393415,-36.7170336
+Benhar,#d69579,Benhar,,169.7959438,-46.2242527
+Rangatāua,#b55732,Rangatāua,,175.4553203,-39.4280128
+Kākahi,#edd3c7,Kākahi,,175.3834269,-38.9354696
+Nile Street,#c4795d,Nile Street,,170.4924671,-45.9068085
+Tāne Mahuta,#934a35,Tāne Mahuta,,168.8614374,-46.0630219
+Waitārere Beach,#ffaa97,Waitārere Beach,,175.2395728,-40.5629044
+Havelock North,#ff9d80,Havelock North,,176.8771367,-39.6702108
+Te Awamutu,#fc7f5d,Te Awamutu,,175.3257827,-38.0101564
+The Domain,#fac9b5,The Domain,,174.3631217,-35.773037
+Ponsonby,#9d6750,Ponsonby,,174.7435778,-36.8477056
+Courtenay Place,#e35840,Courtenay Place,,174.7803883,-41.2932163
+Halfway Bluff,#c6765f,Halfway Bluff,,168.3272238,-44.0581219
+Merino Downs,#f2ded4,Merino Downs,,169.0819465,-45.9651473
+Gabriel's Gully,#e7c7a9,Gabriel's Gully,,176.6026909,-39.9843487
+Honeymoon Valley,#ff9f68,Honeymoon Valley,,173.493261,-35.1274821
+Pukehina,#f5d5ba,Pukehina,,176.5341645,-37.79195
+Eltham,#fad997,Eltham,,174.3048314,-39.4282209
+Earnscleugh,#ca965d,Earnscleugh,,169.3178745,-45.2162322
+Cheltenham,#ede0d4,Cheltenham,,175.6608381,-40.1375859
+Bunnythorpe Quarter,#f0e7d4,Bunnythorpe,Quarter,175.631499,-40.2825904
+Awaroa,#deb29a,Awaroa,,173.2838056,-35.2727799
+Rangitata,#e7b7a4,Rangitata,,171.1945441,-43.7490763
+Port Hills,#e64d1b,Port Hills,,172.7304227,-43.5869302
+Ōhakune,#ef9029,Ōhakune,,175.3996126,-39.4169455
+Kerikeri,#c06f32,Kerikeri,,173.9491061,-35.2272607
+Tokomaru Bay,#ac542d,Tokomaru Bay,,178.3160945,-38.1275279
+Tītahi Bay,#e8c3ae,Tītahi Bay,,174.8374978,-41.1086925
+Rangitoto,#904433,Rangitoto,,174.7359167,-36.7386148
+Motueka,#c18562,Motueka,,173.0094875,-41.112493
+Mangatainoka,#dc7842,Mangatainoka,,175.7100642,-40.5577931
+Te Araroa,#97342c,Te Araroa,,178.3610171,-37.6330949
+Gimblett Rd,#773938,Gimblett Rd,,176.7466266,-39.6129383
+Ranfurly,#814c43,Ranfurly,,170.100127,-45.1303673
+Prebbleton,#d1b6a7,Prebbleton,,172.5141224,-43.5800673
+Dunedin,#dcc5b9,Dunedin,,170.5035755,-45.8740984
+Lauder,#a17a66,Lauder,,169.6727526,-45.0530863
+Borland,#906c5d,Borland,,167.451334,-45.70878
+Tikitiki,#7a443a,Tikitiki,,178.4136694,-37.795285
+Golden Springs,#f9f0ef,Golden Springs,,176.3121611,-38.4677588
+Mussel Point,#fee1da,Mussel Point,,174.2239956,-41.7226329
+Takapuna Beach,#bc4939,Takapuna Beach,,174.7770082,-36.7892356
+Whitianga,#e9b5a8,Whitianga,,175.7024856,-36.8331861
+Kumutoto Half,#e7d8d4,Kumutoto,Half,174.7707714,-41.2880909
+Bland Bay,#bf9d91,Bland Bay,,174.359561,-35.3385744
+Big Glory Bay,#da9284,Big Glory Bay,,168.1160106,-46.9764775
+Moncks Bay,#6a3a36,Moncks Bay,,172.7436021,-43.566388
+Pōhutu Geyser,#9f6e60,Pōhutu Geyser,,176.2539737,-38.1635344
+Tokaanu,#f4e6e5,Tokaanu,,175.7685115,-38.9648687
+Kaipara,#62403b,Kaipara,,174.2018585,-36.3796294
+Redcliffs,#903b2f,Redcliffs,,172.7369305,-43.5609616
+Andersons Bay,#c77462,Andersons Bay,,170.5316864,-45.8961549
+Tokerau Beach,#ffd4d1,Tokerau Beach,,173.3713337,-34.8830436
+Flat Point,#fd938f,Flat Point,,175.9541512,-41.2426269
+Three Kings,#a14237,Three Kings,,174.7583572,-36.9090049
+Double Cove,#f47369,Double Cove,,174.0137327,-41.2351902
+Thornbury,#9b3934,Thornbury,,168.0941062,-46.2892915
+Riccarton,#ffc6c2,Riccarton,,172.5947946,-43.5309939
+Foxton Beach,#ffb6b2,Foxton Beach,,175.2225541,-40.4613776
+Devils Staircase,#d43938,Devils Staircase,,173.8501946,-41.082219
+Colombo Street,#c92c2b,Colombo Street,,174.7776937,-41.3122368
+Whakapapa,#5b3e3c,Whakapapa,,175.5386207,-39.200643
+Ōtautau,#e5cec9,Ōtautau,,167.9989374,-46.1398505
+Tokatoka,#b56f66,Tokatoka,,173.9749135,-36.0572998
+Vinegar Hill,#dba09e,Vinegar Hill,,175.6314977,-39.9252398
+Red Rocks,#8a3b34,Red Rocks,,174.7270535,-41.3576186
+Gordonton,#eed0cd,Gordonton,,175.3082395,-37.6711885
+Āwhitu,#ffb4b4,Āwhitu,,174.6349556,-37.0843949
+Moutere,#76362e,Moutere,,172.1920041,-40.8322023
+Waimakariri River,#c9706a,Waimakariri River,,172.069178,-43.3594111
+Aratapu,#d5847e,Aratapu,,173.9055585,-36.0137488
+Albany,#f6eef2,Albany,,174.7086478,-36.7279344
+Wenderholm,#aa3030,Wenderholm,,174.7015442,-36.5347056
+Burkes Pass,#e6afb0,Burkes Pass,,170.6527866,-44.0894425
+Whiritoa,#efcfd2,Whiritoa,,175.9004113,-37.2836153
+Ashburton,#e4898d,Ashburton,,171.7503327,-43.9024396
+Kākānui,#94302f,Kākānui,,175.1357603,-40.9647982
+Cherry Bay,#d16869,Cherry Bay,,174.1857118,-41.1716903
+Morikau,#9e6a66,Morikau,,175.0974451,-39.5617096
+Point England,#f1dedd,Point England,,174.8652954,-36.8847075
+Rangiora,#deb2af,Rangiora,,172.5961483,-43.303171
+Silo Park,#6b3938,Silo Park,,174.7547846,-36.8398339
+Warkworth,#5e3e41,Warkworth,,174.6642316,-36.3984914
+Snowdon Forest,#b98278,Snowdon Forest,,168.0761736,-45.2393638
+Devils Backbone,#7a3332,Devils Backbone,,173.449435,-41.668641
+Hāwai,#e1c1c1,Hāwai,,177.5283851,-37.9226067
+Richmond,#d9a5ac,Richmond,,173.1872264,-41.3380953
+Ruby Bay,#d18e8d,Ruby Bay,,173.0863455,-41.2350885
+Passage Rock,#60352e,Passage Rock,,175.1298923,-36.8575074
+Crown Range,#eab2b3,Crown Range,,168.9202465,-44.9537943
+Tikokino,#fad0d2,Tikokino,,176.4530575,-39.8160446
+Hurunui,#bb5f63,Hurunui,,172.6411177,-42.8251955
+Eastern Bush,#fbeceb,Eastern Bush,,167.760483,-46.013209
+Millers Flat,#e5a0a1,Millers Flat,,169.4115378,-45.6639043
+K Road,#c84848,K Road,,174.7534219,-36.8591814
+Ness Valley,#9a3335,Ness Valley,,175.1277995,-36.9946522
+Ettrick,#893737,Ettrick,,169.3650466,-45.6348073
+Punaromia Quarter,#dfd2ca,Punaromia,Quarter,176.3737177,-38.207085
+Punaromia,#c6b3a9,Punaromia,,176.3760003,-38.2063914
+Scorching Bay,#ae3b3d,Scorching Bay,,174.8346249,-41.2981623
+Horeke,#a49086,Horeke,,173.593211,-35.3567081
+Roseneath,#c17c83,Roseneath,,170.6009244,-45.8273021
+Winchester Half,#edd9d9,Winchester,Half,171.2783685,-44.1849304
+Greenlane,#d7b3ba,Greenlane,,174.7939619,-36.893759
+Ōhaeawai,#a86f64,Ōhaeawai,,173.8821805,-35.3518338
+Waimangu Valley,#f8eaed,Waimangu Valley,,176.3965256,-38.2840719
+Hidden Valley,#efcfd2,Hidden Valley,,172.6575463,-43.591465
+Red Beach,#8c474d,Red Beach,,174.7019115,-36.6043568
+Ellerslie,#ca798b,Ellerslie,,174.8150298,-36.897603
+Welcome Bay,#a73944,Welcome Bay,,176.1874502,-37.7294281
+Pandora,#f1c2c3,Pandora,,176.886452,-39.4913611
+Gladstone Road,#b35968,Gladstone Road,,174.7387241,-36.8076691
+Tauhara Park,#ab4d53,Tauhara Park,,175.2694799,-37.7397783
+Mechanics Bay,#af9794,Mechanics Bay,,174.7836176,-36.8468148
+Tirimoana,#96827d,Tirimoana,,174.6486756,-36.8869367
+Kawerau,#806461,Kawerau,,176.7033298,-38.0857434
+Gillespies Beach,#9b555f,Gillespies Beach,,169.8197293,-43.4150392
+Omaui,#8e3646,Omaui,,168.26089,-46.51905
+Tawa,#9f3649,Tawa,,174.8247761,-41.1681676
+Matakana,#87393b,Matakana,,176.0631458,-37.5600501
+Lake Hayes,#5f3935,Lake Hayes,,168.8244098,-44.9701266
+Lake Grassmere,#a54c4e,Lake Grassmere,,174.134728,-41.719753
+Dargaville,#ac7b7b,Dargaville,,173.8685702,-35.9412143
+Earthquake Flat,#845a4e,Earthquake Flat,,176.3018342,-38.315624
+Bluff Hill,#d39f93,Bluff Hill,,176.9172861,-39.4788919
+Ngāpuna,#c2a292,Ngāpuna,,176.27393,-38.1450538
+Roaring Meg,#be4c3e,Roaring Meg,,175.1978749,-40.8763442
+Waverley,#793d29,Waverley,,174.6291448,-39.7623103
+Trentham,#d7c0ba,Trentham,,175.0388329,-41.1341841
+Ngawi,#8d4f4c,Ngawi,,175.2340526,-41.5876747
+Kaitaia,#ae2b2f,Kaitaia,,173.264022,-35.1140609
+Alexandra,#eed2cb,Alexandra,,169.3921819,-45.2550839
+Red Jacks,#95352e,Red Jacks,,171.4379964,-42.4044108
+Oxford Terrace,#af3f42,Oxford Terrace,,174.807967,-36.8239772
+Kelburn,#a85c60,Kelburn,,174.7623927,-41.289205
+Gibbston Valley,#68393d,Gibbston Valley,,168.9151536,-45.0122832
+Cashel Street,#e6a7ae,Cashel Street,,172.653702,-43.5331046
