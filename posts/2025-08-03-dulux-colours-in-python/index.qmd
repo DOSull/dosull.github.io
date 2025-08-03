@@ -1,0 +1,226 @@
+---
+title: Dulux colours of Aotearoa New Zealand mapped
+subtitle: The ultimate categorical choropleth
+description: |
+  There's an earlier version of this map in R. We're repainting a couple of rooms just now and were looking at colour charts, so I thought I'd revisit the map, this time using Python.
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+code-annotations: hover
+code-fold: show
+filters: 
+  - nutshell
+categories:
+  - stuff
+  - python
+  - tutorial
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 08-03-2025
+image: "preview-image.png"
+---
+
+I'll never not want to see a map of the [Dulux colours of New Zealand](https://www.dulux.co.nz/colour/) and am frankly a bit confused why they've never put one on their website.^[Perhaps it's not unrelated to the cost of running the Google Maps API...] I especially enjoy a categorical choropleth map where the categories are the actual colours in the map, but that's probably just me.
+
+In the face of their gross dereliction of cartographic duty, I'm here to save the day. I already did this (using R, see [here](https://github.com/DOSull/dulux-colours-map)) but this time thought I'd give it a go in Python.
+
+```{r}
+#| echo: false
+library(reticulate)
+use_condaenv("dulux")
+```
+
+## Downloading the colours
+```{python}
+import requests
+from bs4 import BeautifulSoup
+import time
+import json
+import pandas as pd
+```
+
+The Python modules `requests`, `BeautifulSoup`, and `json` make grabbing the place names and RGB information about the colours relatively straightforward. The colour collections are on nine different pages, so we make up a list of the URLs we need to visit, and set up a couple of empty lists to put the colour names and hex codes in.
+
+```{python}
+base_url = "https://www.dulux.co.nz/colour"
+collections = [
+  "whites-and-neutrals", "greys", 
+  "browns", "purples-and-pinks", 
+  "blues", "greens", "yellows", 
+  "oranges", "reds",]
+urls = [f"{base_url}/{collection}/" for collection in collections]
+names, hexes = [], []
+```
+
+Some sleuthing on one of the colour collection pages led to a HTML `div` with id `__NEXT_DATA__` which is Javascript wrapped JSON containing all the information needed. Admittedly the information is _deeply_ buried in what seems like an unnecessarily complicated nested data structure.^[I don't run a paint company, so I'm probably wrong about this.] The complexity I think relates to the JSON doing double&mdash;even triple&mdash;duty structuring the web pages, providing ordering and stocking information, and also information about the actual colours themselves. 
+
+In any case, that complexity accounts for having to reach _four_ levels down into the JSON to get to the list of colours in each collection, and then another two levels further into each colour definition to get the `title` and `hex` elements to add to our `names` and `hexes` lists. These can then be used to make up a data table.
+
+Of note in the code is using `time.sleep(1)` to avoid overloading the server by introducing a 1 second delay between requesting the pages.
+
+```python
+for url in urls:
+  page = BeautifulSoup(requests.get(url).text, "html.parser")
+  data = json.loads(page.find(id = "__NEXT_DATA__").text)
+  cols = data["props"]["pageProps"]["colourCollection"]["colourEntries"]
+  names.extend([col["fields"]["title"] for col in cols])
+  hexes.extend([col["fields"]["hex"] for col in cols])
+  time.sleep(1)
+```
+
+Then we can make a data table of the colour names and their RGB hex definitions.
+
+```python
+colours = pd.DataFrame(dict(place = names, hex = hexes))
+```
+
+```{python}
+#| echo: false
+colours = pd.read_csv("data/colours.csv")
+```
+
+Here's what all that gets us.
+
+```{python}
+#| code-fold: false
+colours
+```
+
+Some minor cleanup is needed. Some 'places' have several variations on the paint suffixed 'Half', 'Double', or `Quarter', so we need to remove these to their own column in the data and correct the place names accordingly. 
+
+```{python}
+modifiers = ["Half", "Quarter", "Double"]
+
+last_words = [s.split(" ")[-1] for s in colours.place]
+colours["modifier"] = [(m if m in modifiers else "") for m in last_words]
+colours.loc[colours.modifier != "", "place"] = \
+  [" ".join(s.split(" ")[:-1]) for s in colours.place[colours.modifier != ""]]
+colours
+```
+
+## Geocoding the colours
+Next up is geocoding. For this I used [Nominatim](). It's free and unencumbered by usage restrictions. It's far from perfect. In this particular application it makes some unfortunate choices. 'Cuba Street', famously in Wellington, also exists not so far away in Petone. 'Rangitoto' famously Auckland's dormant/extinct friendly harbour volcano is also the name of a large high school on the North Shore. More perplexingly 'Te Kopua Beach', which I believe the Dulux people probably intended to refer to a [camp ground near Raglan](https://wanderlog.com/place/details/2052790/te-kopua-beach), winds up geocoded as [Beach Pizza](https://www.openstreetmap.org/search?query=te+kopua+beach&zoom=23&minlon=174.85807422548532&minlat=-36.786750147431086&maxlon=174.85830221325162&maxlat=-36.786625288993555#map=23/-36.88626730/174.64410940&layers=V) in Glendene, West Auckland for no very obvious reason.
+
+I did consider using a better geocoder. Google's is probably the pick of the bunch for quality results, but... well, this is very much a demonstration project, and their terms of use are very restrictive,^[Mapscaping have a very useful overview of the options on [this page](https://mapscaping.com/guide-to-geocoding-api-pricing/)] including not storing results or using them to make maps outside the Google maps ecosystem. Life's too short, and this project isn't serious enough for that kind of stupidity.
+
+Anyway, the code below makes up a dictionary where each place name is associated with a list of longitude-latitude pairs as returned by the geocoder. Retaining a list allows us to associate different locations with the various modified paint colours ('Half', 'Quarter', 'Double') where these exist.
+
+```python
+from geopy.geocoders import Nominatim
+from collections import defaultdict
+from collections import namedtuple
+Record = namedtuple("Record", ["place", "hex", "modifier", "longitude", "latitude"])
+
+geolocator = Nominatim(user_agent = "Firefox")
+places = defaultdict(list)
+for place in list(pd.Series.unique(colours.place)):
+  geocode = geolocator.geocode(place, country_codes = ["NZ"], 
+                               exactly_one = False, timeout = None)
+  if geocode is not None:
+    places[place].extend([(loc.longitude, loc.latitude) for loc in geocode])
+  time.sleep(1)
+
+avail_locs = {place: len(locs) for place, locs in places.items() if len(locs) > 0}
+used_locs = {place: 0 for place in avail_locs.keys()}
+records = []
+for place, hex, modifier in zip(colours.place, colours.hex, colours.modifier):
+  if place in avail_locs and used_locs[place] < avail_locs[place]:
+    lon, lat = places[place][used_locs[place]]
+    records.append(Record(place, hex, modifier, lon, lat))
+    used_locs[place] = used_locs[place] + 1
+```
+
+Storing the results from the geocoding in named tuples provides for convenient conversion to a data table at the end of the process.
+
+```python
+df = pd.DataFrame(records)
+```
+
+And now we have something we can make maps with:
+
+```{python}
+#| echo: false
+df = pd.read_csv("data/colours-geocoded.csv")
+df.modifier[df.modifier.isna()] = ""
+```
+
+```{python}
+df
+```
+
+## Making a map
+The map making part is pretty simple. Voronoi polygons are the obvious way to go.
+
+```{python}
+#| output: false
+import geopandas as gpd
+
+nz = gpd.read_file("data/nz.gpkg")
+pts = gpd.GeoDataFrame(
+  data = df, 
+  geometry = gpd.GeoSeries.from_xy(x = df.longitude,
+                                   y = df.latitude, 
+                                   crs = 4326)) \
+  .query("longitude > 0 & latitude > -47.5") \
+  .to_crs(2193)
+
+dulux_map = gpd.GeoDataFrame(
+  geometry = gpd.GeoSeries(
+      [pts.geometry.union_all()]).voronoi_polygons(), 
+      crs = 2193) \
+  .sjoin(pts) \
+  .clip(nz)
+```
+
+The only real wrinkle here is that `voronoi_polygons()` must necessarily be applied to a collection of points, so we must `union_all()` the points before applying it. Also, this method doesn't guarantee returning the polygons in the same order as the points supplied, so must spatially join the resulting data set back to its originating points dataset. Finally, we clip with a New Zealand data layer to get a sensible output map.
+
+```{python}
+dulux_map.explore(
+  color = dulux_map.hex, 
+  tiles = "CartoDB Positron", tooltip = "place", 
+  style_kwds = dict(weight = 0, fillOpacity = 1))
+```
+
+There might be a hint in the map in the form of a band of off-white colours down the spine of Te Waipounamu of the Southern Alps. But there's not a lot else to suggest anything systematic about the colours, apart from the slightly obvious fact that the lake places are nearly all blues of one kind or another. We can see these two features in the subsetted maps below.
+
+```{python}
+import matplotlib.pyplot as plt
+
+lake_recs = dulux_map.place.str.startswith("Lake")
+lakes = gpd.GeoDataFrame(
+  data = dulux_map[lake_recs][["hex"]],
+  geometry = gpd.GeoSeries(dulux_map.geometry[lake_recs]))
+
+mt_recs = dulux_map.place.str.startswith("Mt")
+mts = gpd.GeoDataFrame(
+  data = dulux_map[mt_recs][["hex"]],
+  geometry = gpd.GeoSeries(dulux_map.geometry[mt_recs]))
+
+fig, axes = plt.subplots(nrows = 1, ncols = 2,
+                         figsize = (8, 6),
+                         layout = "constrained")
+
+for ax, subset, title in zip(axes, [lakes, mts], ["Lakes", "Mountains"]):
+  nz.plot(ax = ax, fc = "none", ec = "grey", lw = 0.25)
+  subset.plot(ax = ax, fc = subset.hex, lw = 0.1, ec = "k" )
+  ax.set_title(title)
+  ax.set_axis_off()
+```
+
+## Reflection
+This sort of things makes one contemplate ones life choices. Or at any rate reflect on the never-ending comparison between R and Python. It wasn't especially difficult to make these maps in either platform.
+
+Python's `requests`, `BeautifulSoup`, `json` combo is pretty amazing for pulling the data. Python's general purpose lists, dictionaries, named tuples are much easier to deal with than always trying to make things work as dataframe pipelines in R. I _know_ you can write functions in R too, it's just that somehow the pipeline mindset takes over and you find yourself puzzling out how to do things using tables when a dictionary makes it trivial. 
+
+By the same token, I don't know if I will ever get completely comfortable with `pandas` rather oblique subsetting and data transformation methods compared to tidyverse R's `dplyr` pipelines, but saying that, splitting strings (the paint names) to remove the paint modifier suffixes was easier in Python that using tidyverse's `separate_wider`. 
+
+As always, when it comes to visualization I miss `ggplot`, but `geopandas` `explore` method makes it trivial to create a web map, which was the end goal here.
+
+Now, I should go and paint that room.
