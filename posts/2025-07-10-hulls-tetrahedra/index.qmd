@@ -37,7 +37,7 @@ All I can say is that while not difficult to fold, it's mind-bending to assemble
 
 Now I've made it once, I have a better appreciation of the logic of its geometry. The key is to realise that each set of five tetrahedra corners form the corners of the faces of a dodecahedron. Or at any rate, I think that will help, next time. There is also a symmetry to how pairs of tetrahedra poke through the middle of one face of two of the others. 
 
-But writing about origami is, as has been said of [writing about music, like dancing about architecture](https://en.wikipedia.org/wiki/Writing_about_music_is_like_dancing_about_architecture), so I'll stop there.Suffice to say, I think I could probably make it a second time unassisted by YouTube.
+But writing about origami is, as has been said of [writing about music, like dancing about architecture](https://en.wikipedia.org/wiki/Writing_about_music_is_like_dancing_about_architecture), so I'll stop there. Suffice to say, I think I could probably make it a second time unassisted by YouTube.
 
 Probably.
 
