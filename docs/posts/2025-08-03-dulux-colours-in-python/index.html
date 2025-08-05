@@ -481,7 +481,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  .clip(nz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>The only real wrinkle here is that <code>voronoi_polygons()</code> must necessarily be applied to a collection of points, so we must <code>union_all()</code> the points before applying it. Also, this method doesn’t guarantee returning the polygons in the same order as the points supplied, so must spatially join the resulting data set back to its originating points dataset. Finally, we clip with a New Zealand data layer to get a sensible output map.</p>
+<p>The only real wrinkle here is that <code>voronoi_polygons()</code> must necessarily be applied to a collection of points, so we must <code>union_all()</code> the points before applying it. Also, this method doesn’t guarantee returning the polygons in the same order as the points supplied, so we must spatially join the resulting data set back to its originating points dataset. Finally, we clip with a New Zealand data layer to get a sensible output map.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
