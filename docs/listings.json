@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/2025-08-13-temperature-dials/index.html",
       "/posts/2025-08-03-dulux-colours-in-python/index.html",
       "/posts/2025-07-30-counting-points-in-polygons/index.html",
       "/posts/2025-07-10-hulls-tetrahedra/index.html",
