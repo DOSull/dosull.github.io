@@ -436,7 +436,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  255738    7708             845,)</code></pre>
 </div>
 </div>
-<p>This code is where, if we wanted to make a set of isochrones with different total available times we could do so by iterating over a series of <code>end_time</code> values, calculating the time remaining, and if applicable dropping stops where there was no time or only negative time remaining (i.e.&nbsp;it takes longer to get to them than the time budget allows).</p>
+<p>This code is where, if we wanted to make a set of isochrones with different total available times, we could do so by iterating over a series of <code>end_time</code> values, calculating the time remaining, and if applicable dropping stops where there was no time or only negative time remaining (i.e.&nbsp;it takes longer to get to them than the time budget allows).</p>
 <section id="crows-flight-bubble-isochrones" class="level3">
 <h3 class="anchored" data-anchor-id="crows-flight-bubble-isochrones">Crow’s flight ‘bubble’ isochrones</h3>
 <p>Given the time remaining at each stop, we can use a simple buffering method to produce a circular area centred on each stop which is the potentially reachable area around that stop, assuming a walking speed of 1m/s and an ability to pass through walls, trees, and anything else in between (i.e., this ignores things like footpaths, roads, and so on).</p>
