@@ -28,6 +28,7 @@ knitr:
     warning: false
     message: false
 date: 07-07-2025
+last-modified: 08-25-2025
 image: van-der-grinten.png
 ---
 
@@ -35,19 +36,28 @@ As I've posted previously (see [here](../../notebooks/2025-02-18-marimo.ipynb), 
 
 By the time you have finished reading that paragraph, I hope the interactive bits of this post will have appeared below... if not, then just hang on a little longer.
 
+[Unfortunately, Marimo doesn't prevent programmers from making mistakes, and the original version of this post was a bit sloppy in how it generated the circles in Tissot's indicatrix. I've now corrected that issue.]
+
 ::: {style="font-size:12px;"}
 ```python {.marimo}
-#| echo: true
+#| echo: false
 get_plot()
 ```
 :::
 
 Pick a new projection and marvel as the map of the world changes!
 
+::: {style="font-size:16px;"}
+```python {.marimo}
+#| echo: false
+x
+```
+:::
+
 ::: {style="font-size:12px;"}
 ```python {.marimo}
 #| echo: true
-mo.md(f"""
+x = mo.md(f"""
 Choose projection {proj}\n
 Show indicatrix {show_indicatrix} Show graticule {show_graticule}
 """)
@@ -88,9 +98,12 @@ def get_plot():
     if show_indicatrix.value:
         indicatrix.to_crs(crs = proj.value).plot(
             ax = ax, fc = "#ff000040", lw = 0)
+    ax.set_title(f"proj-string = '{proj.value}'")
     return ax
 ```
 :::
+
+&nbsp;
 
 The other thing to notice here is that due to marimo's reactive nature, all this python code is 'out of sequence'. The call to `get_plot()` comes before the function's definition. For that matter, all the code to generate the graticule and so on is still to come:
 
@@ -119,18 +132,33 @@ def get_globe():
         [_ for _ in range(90, -90, -1)] + [-90] * 360)])],
         crs = 4326)
 
+def ll_at_bearing_and_distance(lon, lat, b, d):
+    lat2 = np.asin(np.sin(lat) * np.cos(d) + 
+                   np.cos(lat) * np.sin(d) * np.cos(b))
+    lon2 = lon + np.atan2(np.sin(b) * np.sin(d) * np.cos(lat), 
+                          np.cos(d) - np.sin(lat) * np.sin(lat))
+    # convert result to degrees before returning
+    return (np.degrees(lon2), np.degrees(lat2))
+
+def geodesic_circle(lon, lat, rd = 3):
+    lon, lat = np.radians(lon), np.radians(lat)
+    rr = np.radians(rd) 
+    pts = []
+    for bearing in range(360):
+        pts.append(
+            ll_at_bearing_and_distance(lon, lat, np.radians(bearing), rr))
+    return geom.Polygon(pts)
+
 def get_indicatrix():
-    xys = [(x, y) for x in range(-165, 166, 15)
-                    for y in range( -75,  76, 15)]
-    lats = [xy[1] for xy in xys]
-    xy = gpd.GeoSeries(
-        [geom.Point(xy) for xy in xys], crs = 4326).to_crs("+proj=merc")
+    lons = range(-165, 166, 15)
+    lats = range( -75,  76, 15)
     return gpd.GeoSeries(
-        [xy.buffer(3e5 / np.cos(np.radians(lat))) 
-         for xy, lat in zip(xy, lats)],
-        crs = "+proj=merc").to_crs(4326)
+        [geodesic_circle(lon, lat) for lon in lons for lat in lats],
+        crs = 4326)
 ```
 :::
+
+&nbsp;
 
 This kind of thing is what drives me nuts any time I try to figure out what's going on with javascript code, but somehow it seems kind of obvious in this setting.
 
@@ -164,7 +192,7 @@ dict = {
     "Euler": "+proj=euler +lat_1=67 +lat_2=75",
     "Fahey": "+proj=fahey",
     "Foucaut": "+proj=fouc",
-    "Foucaut Sinusoidal": "+proj=fouc_s",
+    "Foucaut Sinusoidal": "+proj=fouc_s +n=0.5",
     "Gall (Gall Stereographic)": "+proj=gall",
     "General Sinusoidal": "+proj=gn_sinu +m=2 +n=3",
     "Goode Homolosine": "+proj=goode",
@@ -230,6 +258,8 @@ dict = {
 ```
 :::
 
+&nbsp;
+
 Actually... not quite. The next two cells define the data layers and the very last cell imports all the Python modules that everything runs on!
 
 ::: {style="font-size:12px;"}
@@ -255,6 +285,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 ```
 :::
+
+&nbsp;
 
 The clever thing that marimo does is to impose a couple of minor restrictions on your Python code which makes it (relatively!) easy to infer a [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph)(DAG) of the dependencies between cells, so that it can decide which cells to re-run when something updates. Unfortunately, you can't really see that in this post. That kind of meta-revelation is beyond my skillset. But you can get a feel for it by looking at the python source for a version of this page [here](https://github.com/DOSull/projection-atlas/blob/main/proj.py). 
 
