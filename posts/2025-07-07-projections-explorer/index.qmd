@@ -59,7 +59,8 @@ x
 #| echo: true
 x = mo.md(f"""
 Choose projection {proj}\n
-Show indicatrix {show_indicatrix} Show graticule {show_graticule}
+{show_indicatrix}
+{show_graticule}
 """)
 ```
 :::
@@ -72,8 +73,8 @@ The code that makes the UI elements like the drop-down and switches is part of t
 ```python {.marimo}
 #| echo: true
 proj = mo.ui.dropdown(options = dict, value = "WGS84")
-show_indicatrix = mo.ui.switch(True)
-show_graticule = mo.ui.switch(True)
+show_indicatrix = mo.ui.button(value = True, on_click = lambda x: not x, label = "Toggle indicatrix")
+show_graticule = mo.ui.button(value = True, on_click = lambda x: not x, label = "Toggle graticule")
 ```
 :::
 
