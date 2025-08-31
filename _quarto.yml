@@ -6,7 +6,7 @@ project:
     - "docs/posts/2025-0707-projection-explorer/index.html"
 
 website:
-  title: "Geospatial<br>Stuff"
+  title: "Geospatial Stuff"
   site-url: https://dosull.github.io
   open-graph: true
   description: "All manner of geospatial stuff"  

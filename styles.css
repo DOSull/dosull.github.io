@@ -116,10 +116,9 @@ img.navbar-logo {
     line-height:90%;
 }
 
-/* .navbar-title {
-    word-spacing: 100vw;
-    text-wrap: pretty;
-} */
+.navbar-title {
+    text-wrap: wrap;
+}
 
 a.button-link {
     font-family:sans-serif; 
