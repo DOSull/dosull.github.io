@@ -107,25 +107,28 @@ get_measuring_pts <- function(shape, yardstick = 1e3) { # <1>
   last_position <- -1
   while (next_position > last_position) {               # <4>
     last_position <- next_position
-    buffer_line <- next_point |> 
+    buffer_line <- next_point |>                        # <5> 
       st_buffer(yardstick) |> 
-      st_boundary()                                     # <5>
-    next_points = buffer_line |>
+      st_boundary()
+    next_points = buffer_line |>                        # <6>
       st_intersection(shape) |>
       st_cast("POINT")
-    next_positions = st_line_project(shape |> st_as_sfc(),
-                                     next_points |> st_as_sfc(),
-                                     normalized = TRUE)
-    if (any(next_positions > last_position)) {          # <6>
-      next_position = min(next_positions[which(next_positions > last_position)])
-      next_point <- next_points |> slice(which(next_positions == next_position))
+    next_positions = st_line_project(                   # <7>
+      shape |> st_as_sfc(),
+      next_points |> st_as_sfc(),
+      normalized = TRUE)
+    if (any(next_positions > last_position)) {          # <8>
+      next_position = min(next_positions[
+        which(next_positions > last_position)])
+      next_point <- next_points |>                      # <9>
+        slice(which(next_positions == next_position))
       measuring_pts[[length(measuring_pts) + 1]] <- next_point
     } else { break }
   }
   measuring_pts |> 
     lapply(data.frame) |> 
     bind_rows() |> 
-    st_as_sf(crs = st_crs(shape))                       # <7>
+    st_as_sf(crs = st_crs(shape))                       # <10>
 }
 ```
 1. `shape` is an `sf` dataset containing a single `LINESTRING` geometry, and `yardstick` is the length of the measuring stick&mdash;its resolution.
@@ -133,7 +136,10 @@ get_measuring_pts <- function(shape, yardstick = 1e3) { # <1>
 3. Initialise a list to record the points at which the yardstick touches the line with the first point.
 4. `next_position` and `last_position` are how far along the line measurement has progressed. For a closed line, when `next_position` is less than `last_position` we've looped back around to the start and are done.
 5. Use a linear buffer, not a polygon, so that the intersections with the line are a set of points.
-6. Pick the closest intersection point (in terms of progress along the line) as the next point. If there are none further along the line than the last point, then we are done.
+6. Get all the potential next points: these are where the line buffer intersects the shape.
+7. Get how far along the shape the next points are.
+8. If none of the next positions are further along the shape than the last position, then we are done.
+9. Pick the closest intersection point as the next point and add it to the list of measuring points.
 7. Convert the list of points to an `sf` dataset, and return.
 
 We also need a function to convert the points to a polygon.
