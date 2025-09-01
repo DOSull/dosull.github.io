@@ -51,21 +51,11 @@ Since fractal dimension is determined from a log-log relationship it is convenie
 #| label: make-1-2-5-sequences
 #| code-fold: true
 round_to_1_2_5 <- function(x, offset = 0) {
+  offset <- ifelse(offset > 0, 1, ifelse(offset < 0, -1, 0))
   decade <- c(1, 2, 5) * 10 ^ floor(log10(x))
   idx <- sum(x >= decade)
-  if (idx == 3) {
-    if (offset == 1) {
-      return(decade[1] * 10)
-    } else {
-      return(decade[idx + offset])
-    }
-  } else if (idx == 1) {
-    if (offset == -1) {
-      return(decade[3] / 10)
-    } else {
-      return(decade[idx + offset])
-    }
-  }
+  if (idx == 3 & offset >=  1) return(decade[1] * 10)
+  if (idx == 1 & offset <= -1) return(decade[3] / 10)
   decade[idx + offset]
 }
 
