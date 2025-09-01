@@ -298,6 +298,7 @@ window.Quarto = {
   <li><a href="#method-2-raster-is-faster" id="toc-method-2-raster-is-faster" class="nav-link" data-scroll-target="#method-2-raster-is-faster">Method 2: raster is faster</a></li>
   <li><a href="#method-3-using-a-vector-hex-grid" id="toc-method-3-using-a-vector-hex-grid" class="nav-link" data-scroll-target="#method-3-using-a-vector-hex-grid">Method 3: using a vector (hex) grid</a></li>
   </ul></li>
+  <li><a href="#a-closing-thought" id="toc-a-closing-thought" class="nav-link" data-scroll-target="#a-closing-thought">A closing thought</a></li>
   </ul>
 </nav>
     </div>
@@ -655,24 +656,23 @@ Figure&nbsp;3: Map sequence for the six coastline measurements on which the esti
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sv <span class="ot">&lt;-</span> te_ika_a_maui <span class="sc">|&gt;</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as</span>(<span class="st">"SpatVector"</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>yardsticks2 <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="dv">500</span>, <span class="dv">200000</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>sums <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>rasts <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (res <span class="cf">in</span> yardsticks2) {</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> sv <span class="sc">|&gt;</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rasterize</span>(<span class="fu">rast</span>(sv, <span class="at">res =</span> res)) <span class="sc">|&gt;</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    terra<span class="sc">::</span><span class="fu">as.data.frame</span>(<span class="at">xy =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">resolution =</span> res,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">resolution_label =</span> <span class="fu">ordered</span>(</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>             <span class="fu">str_c</span>(resolution <span class="sc">/</span> <span class="dv">1000</span>, <span class="st">" km"</span>),</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">levels =</span> <span class="fu">str_c</span>(yardsticks2 <span class="sc">/</span> <span class="dv">1000</span>, <span class="st">" km"</span>)))</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  rasts[[<span class="fu">length</span>(rasts) <span class="sc">+</span> <span class="dv">1</span> ]] <span class="ot">&lt;-</span> r</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  sums <span class="ot">&lt;-</span> <span class="fu">c</span>(sums, r <span class="sc">|&gt;</span> <span class="fu">pull</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">sum</span>())</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yardstick =</span> yardsticks2, <span class="at">n =</span> sums)</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="fu">log</span>(n) <span class="sc">~</span> <span class="fu">log</span>(yardstick), <span class="at">data =</span> df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sv <span class="ot">&lt;-</span> te_ika_a_maui <span class="sc">|&gt;</span> <span class="fu">as</span>(<span class="st">"SpatVector"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>yardsticks2 <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="dv">500</span>, <span class="dv">200000</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>sums <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>rasts <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (res <span class="cf">in</span> yardsticks2) {</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> sv <span class="sc">|&gt;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rasterize</span>(<span class="fu">rast</span>(sv, <span class="at">res =</span> res)) <span class="sc">|&gt;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    terra<span class="sc">::</span><span class="fu">as.data.frame</span>(<span class="at">xy =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">resolution =</span> res,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">resolution_label =</span> <span class="fu">ordered</span>(</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>             <span class="fu">str_c</span>(resolution <span class="sc">/</span> <span class="dv">1000</span>, <span class="st">" km"</span>),</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">levels =</span> <span class="fu">str_c</span>(yardsticks2 <span class="sc">/</span> <span class="dv">1000</span>, <span class="st">" km"</span>)))</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  rasts[[<span class="fu">length</span>(rasts) <span class="sc">+</span> <span class="dv">1</span> ]] <span class="ot">&lt;-</span> r</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  sums <span class="ot">&lt;-</span> <span class="fu">c</span>(sums, r <span class="sc">|&gt;</span> <span class="fu">pull</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">sum</span>())</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yardstick =</span> yardsticks2, <span class="at">n =</span> sums)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="fu">log</span>(n) <span class="sc">~</span> <span class="fu">log</span>(yardstick), <span class="at">data =</span> df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -687,7 +687,7 @@ Coefficients:
 <p>Note that because this method is <em>much</em> faster,<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> we can extend the range of resolutions used to a lower value of only 500m without difficulty (lower still would be fine too, although you can’t then see the resulting rasterized maps of the coastline at all).</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>y_breaks <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="fu">min</span>(df2<span class="sc">$</span>n), <span class="fu">max</span>(df2<span class="sc">$</span>n), <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>))</span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>y_breaks <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="fu">min</span>(df2<span class="sc">$</span>n), <span class="fu">max</span>(df2<span class="sc">$</span>n), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log10</span>(yardstick), <span class="at">y =</span> <span class="fu">log10</span>(n))) <span class="sc">+</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
@@ -754,28 +754,40 @@ Figure&nbsp;5: Map sequence for the raster-based estimation method
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>yardsticks3 <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="dv">5000</span>, <span class="dv">200000</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>hex_sets <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (yardstick <span class="cf">in</span> yardsticks3) {</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  hex_centres <span class="ot">&lt;-</span> te_ika_a_maui <span class="sc">|&gt;</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_make_grid</span>(<span class="at">cellsize =</span> yardstick, </span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">square =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">what =</span> <span class="st">"centers"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_as_sf</span>() <span class="sc">|&gt;</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_filter</span>(te_ika_a_maui,</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">.predicate =</span> st_is_within_distance,</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">dist =</span> yardstick <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">cellsize =</span> yardstick,</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">cellsize_label =</span> <span class="fu">ordered</span>(</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>             <span class="fu">str_c</span>(cellsize <span class="sc">/</span> <span class="dv">1000</span>, <span class="st">" km"</span>),</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">levels =</span> <span class="fu">str_c</span>(yardsticks3 <span class="sc">/</span> <span class="dv">1000</span>, <span class="st">" km"</span>)))</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  hex_sets[[<span class="fu">length</span>(hex_sets) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> hex_centres</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  counts <span class="ot">&lt;-</span> <span class="fu">c</span>(counts, <span class="fu">dim</span>(hex_centres)[<span class="dv">1</span>])</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yardstick =</span> yardsticks3, <span class="at">n =</span> counts)</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="fu">log</span>(n) <span class="sc">~</span> <span class="fu">log</span>(yardstick), <span class="at">data =</span> df3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>yardsticks3 <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="dv">5000</span>, <span class="dv">200000</span>)</span>
+<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>hex_sets <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="annotated-cell-10-4"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (yardstick <span class="cf">in</span> yardsticks3) {</span>
+<span id="annotated-cell-10-5"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>  hex_centres <span class="ot">&lt;-</span> te_ika_a_maui <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-6" class="code-annotation-target"><a href="#annotated-cell-10-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_make_grid</span>(<span class="at">cellsize =</span> yardstick,</span>
+<span id="annotated-cell-10-7"><a href="#annotated-cell-10-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">square =</span> <span class="cn">FALSE</span>,</span>
+<span id="annotated-cell-10-8"><a href="#annotated-cell-10-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">what =</span> <span class="st">"centers"</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-10-9"><a href="#annotated-cell-10-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_as_sf</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-10-10"><a href="#annotated-cell-10-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_filter</span>(te_ika_a_maui,</span>
+<span id="annotated-cell-10-11"><a href="#annotated-cell-10-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">.predicate =</span> st_is_within_distance,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-12" class="code-annotation-target"><a href="#annotated-cell-10-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">dist =</span> yardstick <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-10-13"><a href="#annotated-cell-10-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">cellsize =</span> yardstick,</span>
+<span id="annotated-cell-10-14"><a href="#annotated-cell-10-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">cellsize_label =</span> <span class="fu">ordered</span>(</span>
+<span id="annotated-cell-10-15"><a href="#annotated-cell-10-15" aria-hidden="true" tabindex="-1"></a>             <span class="fu">str_c</span>(cellsize <span class="sc">/</span> <span class="dv">1000</span>, <span class="st">" km"</span>),</span>
+<span id="annotated-cell-10-16"><a href="#annotated-cell-10-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">levels =</span> <span class="fu">str_c</span>(yardsticks3 <span class="sc">/</span> <span class="dv">1000</span>, <span class="st">" km"</span>)))</span>
+<span id="annotated-cell-10-17"><a href="#annotated-cell-10-17" aria-hidden="true" tabindex="-1"></a>  hex_sets[[<span class="fu">length</span>(hex_sets) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> hex_centres</span>
+<span id="annotated-cell-10-18"><a href="#annotated-cell-10-18" aria-hidden="true" tabindex="-1"></a>  counts <span class="ot">&lt;-</span> <span class="fu">c</span>(counts, <span class="fu">dim</span>(hex_centres)[<span class="dv">1</span>])</span>
+<span id="annotated-cell-10-19"><a href="#annotated-cell-10-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-10-20"><a href="#annotated-cell-10-20" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yardstick =</span> yardsticks3, <span class="at">n =</span> counts)</span>
+<span id="annotated-cell-10-21"><a href="#annotated-cell-10-21" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="fu">log</span>(n) <span class="sc">~</span> <span class="fu">log</span>(yardstick), <span class="at">data =</span> df3)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="6" data-code-annotation="1"><code>square = FALSE</code> means the grid is hex-based, and <code>what = "centers"</code> that we get cell centres not the polygons.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="12" data-code-annotation="2">Note that the spatial filter is based on half the distance between the centres, cells with centres within that distance of the coastline will intersect it.</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -789,17 +801,17 @@ Coefficients:
 <p>Again, a similar estimate. And here are the corresponding log-log plot and map sequences.</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>y_breaks <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="fu">min</span>(df3<span class="sc">$</span>n), <span class="fu">max</span>(df3<span class="sc">$</span>n), <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df3, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log10</span>(yardstick), <span class="at">y =</span> <span class="fu">log10</span>(n))) <span class="sc">+</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">log10</span>(yardsticks3),</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> yardsticks3 <span class="sc">/</span> <span class="dv">1000</span>) <span class="sc">+</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Yardstick length, km"</span>) <span class="sc">+</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">log10</span>(y_breaks),</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> y_breaks) <span class="sc">+</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Number of yardsticks"</span>) <span class="sc">+</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>y_breaks <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="fu">min</span>(df3<span class="sc">$</span>n), <span class="fu">max</span>(df3<span class="sc">$</span>n), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df3, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log10</span>(yardstick), <span class="at">y =</span> <span class="fu">log10</span>(n))) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">log10</span>(yardsticks3),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> yardsticks3 <span class="sc">/</span> <span class="dv">1000</span>) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Yardstick length, km"</span>) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">log10</span>(y_breaks),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> y_breaks) <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Number of yardsticks"</span>) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-log-log-plot-2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -821,12 +833,12 @@ Figure&nbsp;6: Log-log plot of the hex grid centres based method.
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>centres_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(hex_sets)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> te_ika_a_maui <span class="sc">|&gt;</span> <span class="fu">st_cast</span>(<span class="st">"POLYGON"</span>), <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> centres_df, <span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> cellsize_label) <span class="sc">+</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>centres_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(hex_sets)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> te_ika_a_maui <span class="sc">|&gt;</span> <span class="fu">st_cast</span>(<span class="st">"POLYGON"</span>), <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> centres_df, <span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> cellsize_label) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-map-series-vector-method-2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -846,6 +858,10 @@ Figure&nbsp;7: Map series of the hex grid centres based method.
 </figcaption>
 </figure>
 </div>
+</section>
+</section>
+<section id="a-closing-thought" class="level2">
+<h2 class="anchored" data-anchor-id="a-closing-thought">A closing thought</h2>
 <p>This method makes me think that perhaps one way to go here might be counting discrete global grid cells along a line at a series of resolutions, although discrete global grid cells are not strictly equal in size and that might offend purists. A very cursory search suggests I am not the first person to think of this. If you are interested, see this paper:</p>
 <blockquote class="blockquote">
 <p>Ghosh P. 2025. <a href="https://arxiv.org/abs/2506.18175">Measuring fractal dimension using discrete global grid systems</a>. arXiv:2506.18175</p>
@@ -853,7 +869,6 @@ Figure&nbsp;7: Map series of the hex grid centres based method.
 <p>It’s only been on arXiv a couple of months, so I’m not that far off the pace!</p>
 
 
-</section>
 </section>
 
 

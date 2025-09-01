@@ -288,8 +288,7 @@ We replace the measuring stick with raster cells, and simply count how the numbe
 #| label: raster-method
 library(terra)
 
-sv <- te_ika_a_maui |>
-  as("SpatVector")
+sv <- te_ika_a_maui |> as("SpatVector")
 yardsticks2 <- get_decades(500, 200000)
 sums <- c()
 rasts <- list()
@@ -315,7 +314,7 @@ Note that because this method is _much_ faster,^['Much faster' is an understatem
 ```{r}
 #| label: log-log plot-2
 #| code-fold: true
-y_breaks <- get_decades(min(df2$n), max(df2$n), c(TRUE, TRUE))
+y_breaks <- get_decades(min(df2$n), max(df2$n), c(-1, 1))
 ggplot(df2, aes(x = log10(yardstick), y = log10(n))) +
   geom_point() +
   geom_smooth(formula = y ~ x, method = "lm") +
@@ -366,13 +365,13 @@ counts <- c()
 hex_sets <- list()
 for (yardstick in yardsticks3) {
   hex_centres <- te_ika_a_maui |>
-    st_make_grid(cellsize = yardstick, 
+    st_make_grid(cellsize = yardstick,                    # <1>
                  square = FALSE,
                  what = "centers") |>
     st_as_sf() |>
     st_filter(te_ika_a_maui,
               .predicate = st_is_within_distance,
-              dist = yardstick / 2) |>
+              dist = yardstick / 2) |>                    # <2>
     mutate(cellsize = yardstick,
            cellsize_label = ordered(
              str_c(cellsize / 1000, " km"),
@@ -383,6 +382,8 @@ for (yardstick in yardsticks3) {
 df3 <- data.frame(yardstick = yardsticks3, n = counts)
 lm(log(n) ~ log(yardstick), data = df3)
 ```
+1. `square = FALSE` means the grid is hex-based, and `what = "centers"` that we get cell centres not the polygons.
+2. Note that the spatial filter is based on half the distance between the centres, cells with centres within that distance of the coastline will intersect it.
 
 Again, a similar estimate. And here are the corresponding log-log plot and map sequences.
 
@@ -391,7 +392,7 @@ Again, a similar estimate. And here are the corresponding log-log plot and map s
 ```{r}
 #| label: log-log-plot-vector-method-2
 #| code-fold: true
-y_breaks <- get_decades(min(df3$n), max(df3$n), c(TRUE, TRUE))
+y_breaks <- get_decades(min(df3$n), max(df3$n), c(-1, 1))
 ggplot(df3, aes(x = log10(yardstick), y = log10(n))) +
   geom_point() +
   geom_smooth(formula = y ~ x, method = "lm") +
@@ -425,6 +426,7 @@ Map series of the hex grid centres based method.
 
 :::
 
+## A closing thought
 This method makes me think that perhaps one way to go here might be counting discrete global grid cells along a line at a series of resolutions, although discrete global grid cells are not strictly equal in size and that might offend purists. A very cursory search suggests I am not the first person to think of this. If you are interested, see this paper:
 
 > Ghosh P. 2025. [Measuring fractal dimension using discrete global grid systems](https://arxiv.org/abs/2506.18175). arXiv:2506.18175
