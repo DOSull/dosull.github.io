@@ -31,7 +31,7 @@ I've been asked relatively often when or if there will be a third edition of [_G
 
 As a limited alternative, I thought I'd write some posts providing code implementing ideas from the book. Robert Hijmans has [already done this to a large extent](https://rspatial.org/rosu/index.html#) but there's no harm in repetition, and I expect I'll wind up presenting different perspectives (or at the very least datasets).
 
-In Chapter 1 **Geographic Information Analysis and Spatial Data**, in a section called **Objects Might Have Fractal Dimension**^[_Geographic Information Analysis_, pages 13-16.] we presented fractal dimension as one instance of the scale dependence of spatial data. Herewith, some R code exploring that idea... and incidentally, as the title implies showing some of the differences between vector and raster data.^[You'll find Robert Hijmans' take on this [here](https://rspatial.org/cases/2-coastline.html).]
+In Chapter 1 **Geographic Information Analysis and Spatial Data**, in a section called **Objects Might Have Fractal Dimension**^[_Geographic Information Analysis_, pages 13-16.] we presented fractal dimension as one instance of the scale dependence of spatial data. Herewith, some R code exploring that idea^[You'll find Robert Hijmans' take on this [here](https://rspatial.org/cases/2-coastline.html).] and incidentally, as the title implies, showing some of the differences between vector and raster data.
 
 ## Measuring fractal dimension
 We need some packages - the usual suspects, really.
@@ -75,7 +75,7 @@ get_decades <- function(low = 1, high = 1000,
 ### The measurement process
 Next up, the main event, at least in vector-land.
 
-Fractal dimension reflects how the apparent length of a line (or area of a region) seems to increase the more closely we look. In practical terms in the case of measuring the lenght of (as here) coastlines, this manifests as follows. Take a measuring stick of some 'resolution' (i.e. length), say 1km, repeatedly fit it to the coastline, and count how many times it fits. A long measuring stick will miss lots of nooks and crannies. A shorter one will fit into many more, and so, as the size of your measuring stick shrinks, the measured length of the coastline will grow.
+Fractal dimension reflects how the apparent length of a line (or area of a region) seems to increase the more closely we look. In practical terms in the case of measuring the length of (as here) coastlines, this manifests as follows. Take a measuring stick of some 'resolution' (i.e. length), say 1km, repeatedly fit it to the coastline, and count how many times it fits. A long measuring stick will miss lots of nooks and crannies. A shorter one will fit into many more, and so, as the size of your measuring stick shrinks, the measured length of the coastline will grow.
 
 It turns out that the relationship between measuring stick length, $m$, and the number of times it will fit the line you are measuring, $N$ scales according to $\log{N}\propto\log{m}$ and the ratio of those two logs, is the fractal dimension, $D$, that is
 
