@@ -355,7 +355,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="the-measurement-process">The measurement process</h3>
 <p>Next up, the main event, at least in vector-land.</p>
 <p>Fractal dimension reflects how the apparent length of a line (or area of a region) seems to increase the more closely we look. In practical terms in the case of measuring the length of (as here) coastlines, this manifests as follows. Take a measuring stick of some ‘resolution’ (i.e.&nbsp;length), say 1km, repeatedly fit it to the coastline, and count how many times it fits. A long measuring stick will miss lots of nooks and crannies. A shorter one will fit into many more, and so, as the size of your measuring stick shrinks, the measured length of the coastline will grow.</p>
-<p>It turns out that the relationship between measuring stick length, <span class="math inline">\(m\)</span>, and the number of times it will fit the line you are measuring, <span class="math inline">\(N\)</span> scales according to <span class="math inline">\(\log{N}\propto\log{m}\)</span> and the ratio of those two logs, is the fractal dimension, <span class="math inline">\(D\)</span>, that is</p>
+<p>It turns out that the relationship between measuring stick length, <span class="math inline">\(m\)</span>, and the number of times it will fit the line you are measuring, <span class="math inline">\(N\)</span> scales according to <span class="math inline">\(\log{N}\propto\log{m}\)</span>, and the ratio of the logarithms of those two values, is the fractal dimension, <span class="math inline">\(D\)</span>, that is</p>
 <p><span class="math display">\[
 \log{N}=-D\log{m}+c
 \]</span> In other words, the negative slope of a log-log plot showing the relationship between <span class="math inline">\(N\)</span> and <span class="math inline">\(m\)</span> gives us the fractal dimension. The more ‘crinkly’ a line the more rapidly <span class="math inline">\(N\)</span> will increase as <span class="math inline">\(m\)</span> shrinks. In the extreme case of a space-filling curve,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> <span class="math inline">\(D=2\)</span> and the line is in effect an area!</p>
@@ -570,7 +570,7 @@ Figure&nbsp;1: Illustrating the method applied to Waiheke
 </dl>
 </div>
 </div>
-<p>The linear fit between the number of yardsticks and the is easily modelled, and the negative coefficient is our estimate of the fractal dimension, which in this case comes to 1.203. A fractal dimension of around 1.2 is about what we would expect for an extensive coastline like this, with some very crenellated sections and other relatively smooth stretches.</p>
+<p>The linear fit between the log of the number of yardsticks and the log of the yardstick length is easily modelled, and the negative coefficient is our estimate of the fractal dimension, which in this case comes to 1.203. A fractal dimension of around 1.2 is about what we would expect for an extensive coastline like this, with some very crenellated sections and other relatively smooth stretches.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -657,7 +657,7 @@ Figure&nbsp;3: Map sequence for the six coastline measurements on which the esti
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sv <span class="ot">&lt;-</span> te_ika_a_maui <span class="sc">|&gt;</span> <span class="fu">as</span>(<span class="st">"SpatVector"</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>yardsticks2 <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="dv">500</span>, <span class="dv">200000</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>yardsticks2 <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="dv">200</span>, <span class="dv">200000</span>)</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>sums <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>rasts <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (res <span class="cf">in</span> yardsticks2) {</span>
@@ -681,13 +681,13 @@ lm(formula = log(n) ~ log(yardstick), data = df2)
 
 Coefficients:
    (Intercept)  log(yardstick)  
-        17.412          -1.237  </code></pre>
+        17.274          -1.224  </code></pre>
 </div>
 </div>
-<p>Note that because this method is <em>much</em> faster,<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> we can extend the range of resolutions used to a lower value of only 500m without difficulty (lower still would be fine too, although you can’t then see the resulting rasterized maps of the coastline at all).</p>
+<p>Note that because this method is <em>much</em> faster,<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> we can extend the range of resolutions used to a lower value of only 200m without difficulty (lower still would be fine too, although you would then struggle to see the resulting rasterized maps of the coastline at all).</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>y_breaks <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="fu">min</span>(df2<span class="sc">$</span>n), <span class="fu">max</span>(df2<span class="sc">$</span>n), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>y_breaks <span class="ot">&lt;-</span> <span class="fu">get_decades</span>(<span class="fu">min</span>(df2<span class="sc">$</span>n), <span class="fu">max</span>(df2<span class="sc">$</span>n), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)) </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log10</span>(yardstick), <span class="at">y =</span> <span class="fu">log10</span>(n))) <span class="sc">+</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
@@ -725,13 +725,13 @@ Figure&nbsp;4: Log-log plot of results from the raster-based method.
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y,</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">width =</span> resolution, <span class="at">height =</span> resolution)) <span class="sc">+</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>() <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> resolution_label, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> resolution_label, <span class="at">ncol =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-map-sequence-of-raster-method" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-map-sequence-of-raster-method-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell" width="9" height="12">
+<div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -749,7 +749,7 @@ Figure&nbsp;5: Map sequence for the raster-based estimation method
 </section>
 <section id="method-3-using-a-vector-hex-grid" class="level3">
 <h3 class="anchored" data-anchor-id="method-3-using-a-vector-hex-grid">Method 3: using a vector (hex) grid</h3>
-<p>This section is by way of an addendum really. The success of the raster method got me wondering if an alternative vector grid method might be quicker than the original approach. The answer is… it works, and it is quicker than the first method above, but it’s still a lot slower than the raster method.</p>
+<p>This section is by way of an addendum really. The success of the raster method got me wondering if an alternative vector grid method might be quicker than the original approach. The answer is… it works, and it is quicker than the first vector method above, but it’s still a lot slower than the raster method.</p>
 <p>It’s nice that it’s easy to make the grid hexagon-based, which might assuage the concerns of those worried about the different distances diagonal and face-to-face across square grid cells.</p>
 <div class="cell">
 <details open="" class="code-fold">
