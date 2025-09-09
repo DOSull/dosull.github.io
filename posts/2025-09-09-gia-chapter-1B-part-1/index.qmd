@@ -1,0 +1,487 @@
+---
+title: "GIS, a transformational approach"
+subtitle: "Part 1: got points?"
+description: |
+   Second in a series of posts supporting _Geographic Information Analysis_ 
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+code-annotations: hover
+code-fold: show
+filters: 
+  - nutshell
+categories:
+  - geographic information analysis
+  - geospatial
+  - R
+  - tutorial
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 09-09-2025
+image: fig-distance-surface-1.png
+---
+
+```{=html}
+<style>
+  .tab-content {
+    border-bottom: 1pt solid black;
+  }
+  .tab-r1 {
+    text-align: center;
+    font-style: italic;
+    font-weight: bold;
+  }
+  .tab-r2 {
+    text-align: center;
+    font-style: italic;
+    border-bottom:1pt solid black;
+  }
+  .tab-c1 {
+    text-align: center;
+    vertical-align: middle;
+    font-style: italic;
+    font-weight: bold;
+  }
+  .tab-c2 {
+    text-align: right;
+    font-style: italic;
+  }
+</style>
+```
+
+Channeling Nick Chrisman, on page 26 of _Geographic Information Analysis_ we presented 'a transformational approach to GIS operations'.^[Chrisman N. 1999. A transformational approach to GIS operations. _International Journal of Geographical Information Science_. **13**(7) 617-637. doi: [10.1080/136588199241030](https://doi.org/10.1080/136588199241030).] in a table that looks something like this:^[I can't begin to tell you how long it took to make this table in HTML. At some point it was obvious that a screenshot of the actual table from the book would be a better idea, but my obstinate streak kicked in, and here we are. Saying that, I expect it took almost as long to make the original in Word, back in the day. _Plus ça change_.]
+
+::: {#table-1.1}
+Table 1.1 Spatial Geometric Operations as Transformations Between Data Types
+<table>
+  <tbody style="vertical-align:top;">
+    <tr class="tab-r1">
+      <td colspan="3"></td>
+      <td colspan="4" style="font-weight:bold; border-bottom:1pt solid black;">TO</td>
+    </tr>
+    <tr class="tab-r2">
+      <td colspan="3"></td>
+      <td>point L<span style="font-style:normal;"><sup>0</sup></span></td>
+      <td>Line L<span style="font-style:normal;"><sup>1</sup></span></td>
+      <td>Area L<span style="font-style:normal;"><sup>2</sup></span></td>
+      <td>Field L<span style="font-style:normal;"><sup>3</sup></span></td>
+    </tr>
+    <tr class="tab-content">
+      <td rowspan="4" class="tab-c1">F<br>R<br>O<br>M</td>
+      <td class="tab-c2"><nobr>Point L<span style="font-style:normal;"><sup>0</sup></span></nobr></td>
+      <td>&nbsp;</td>
+      <td>Mean centre</td>
+      <td>Network paths</td>
+      <td>Proximity polygons, TIN, Point buffer,</td>
+      <td>Interpolation, Kernel density estimation, Distance surfaces</td>
+    </tr>
+    <tr class="tab-content">
+      <td class="tab-c2"><nobr>Line L<span style="font-style:normal;"><sup>1</sup></span></nobr></td>
+      <td>&nbsp;</td>
+      <td>Intersection</td>
+      <td>Shortest distance path</td>
+      <td>Line buffer</td>
+      <td>Distance to nearest line object surface</td>
+    </tr>
+    <tr class="tab-content">
+      <td class="tab-c2"><nobr>Area L<span style="font-style:normal;"><sup>2</sup></span></nobr></td>
+      <td>&nbsp;</td>
+      <td>Centroid</td>
+      <td>Graph of area skeleton</td>
+      <td>Area buffer, Polygon overlay</td>
+      <td>Pycnophylactic smoothing and other surface models</td>
+    </tr>
+    <tr class="tab-content">
+      <td class="tab-c2"><nobr>Field L<span style="font-style:normal;"><sup>3</sup></span></nobr></td>
+      <td>&nbsp;</td>
+      <td>Surface specific points, VIPs</td>
+      <td>Surface network</td>
+      <td>Watershed delineation, Hill masses</td>
+      <td>Equivalent vector field</td>
+    </tr>
+  </tbody>
+</table>
+:::
+
+&nbsp;
+
+This table is an artifact from early in giscience's development, when imposing some kind of order on the multiplicity of ways that spatial data can be processed was one promising approach to formalising what it is people are doing when they 'do GIS'. It shares some DNA with the flowcharts that used to show up in statistics textbooks as an aid to choosing the right statistical test given the nature of your data, although it's perhaps a little less evolved than that, and more focused on simply getting oriented to the wide array of things you can do with spatial data.
+
+But, if you have ever attempted to navigate the geoprocessing toolboxes in either Esri products or QGIS and find a specific operation you need as you piece together a workflow, the value of imposing this kind of order on things is probably clear. If nothing else, it might help you home in on a subset of tools that might work for you, narrow the search space. Schemes like this are particularly important as efforts are made to automate geospatial workflows: it wouldn't do your not-so-friendly neighbourhood LLM any harm to absorb the information in this table.^[Come to think of it, I expect it long since has.] 
+
+In _Geographic Information Analysis_ there is a text box immediately following the table that brightly suggests
+
+> If you already know enough to navigate your way around a GIS, we invite you to see how many of these operations can be achieved using it.
+
+In the spirit of that innocuous little 'exercise for the reader', I thought I'd take some of my own medicine and give this exercise a go. At this precise moment (as I write these words) I don't quite know what to expect of this exercise, but I can already see that some of these are going to be tricky.^[Enjoy the _schadenfreude_.]
+
+I can also see that 16 (count 'em!) geospatial transformations is a _**lot**_ so rather than tackle them all in a single post, I'm going to do one row of the table in a series of four posts.
+
+## From points...
+My current everyday 'GIS' is the spatial stack in R, so here goes...
+
+```{r}
+#| label: imports
+#| code-fold: true
+library(sf)
+library(terra)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(cols4all)
+library(patchwork)
+
+theme_set(theme_void())
+set.seed(1)
+```
+
+Since we are in the 'From point' row of the table, we need a point dataset. We don't need it to be real, so let's just make one. In case we need to put the points on a map or relate them to some other dataset, and to prevent `sf` or `terra` moaning about projections, we'll put the points in a known projection (New Zealand Transverse Mercator, EPSG 2193), somewhere near Wellington, but really, these could be anywhere. In time-honoured statistical fashion I've set $n$ to 30.
+
+```{r}
+#| label: make-point-data
+points <- data.frame(x = rnorm(30, mean = 1.745e6, sd = 1000), 
+                     y = rnorm(30, mean = 5.425e6, sd = 1000),
+                     z = rexp(30) * 500)
+points_sf <- points |>
+  st_as_sf(coords = c("x", "y"), crs = 2193)
+```
+
+## ... to points
+### Mean centre
+The table of all geospatial knowledge&trade; proposes 'mean centre' as a transformation between points. More basic ones might be various kinds of translation, rotation, and so on. But as instructed, here's one way to find the mean centre of a bunch of points.
+
+```{r}
+#| label: mean-centre
+#| fig-cap: Mean centre of a set of points
+points_centre <- points_sf |>
+  st_union() |>    # <1>
+  st_centroid()
+
+ggplot() +
+  geom_sf(data = points_sf, colour = "black") +
+  geom_sf(data = points_centre,
+          colour = "red", shape = 4, size = 5)
+```
+1. If we don't union the points, we just end up with the same set of points all over again...
+
+And we are off and running.
+
+## ... to lines
+### Network paths
+Unfortunately, the first hurdle shows up pretty quickly. 'Network paths' is open to many interpretations. I am going to go with making a network of connections among the points based on some notion of neighbourhood, although that doesn't narrow things down a whole lot. 
+
+Using the now fairly mature [`sfdep` package](https://sfdep.josiahparry.com/) along with [`sfnetworks`](https://luukvdmeer.github.io/sfnetworks/) many options are available, so here are just two, the 3-nearest neighbours and Gabriel graph of our set of points. Once made, the networks contain both edge and vertex data, so to get strictly the lines as a standard `sf` object we have to 'activate' the edges and convert to an `sf` dataset.
+
+```{r}
+#| label: network-paths
+#| output: false
+
+library(sfdep)
+library(sfnetworks)
+
+G_k3 <- points_sf |>
+  st_as_sfc() |>
+  st_as_graph(
+    points_sf |> st_knn(3)) |>
+  activate("edges") |>
+  st_as_sf()
+ 
+G_gabriel <- points_sf |>
+  st_as_sfc() |>
+  st_as_graph(
+    points_sf |> st_as_sfc() |> st_nb_gabriel()) |>
+  activate("edges") |>
+  st_as_sf()
+```
+
+And here they both are:
+
+```{r}
+#| label: fig-network-paths-1
+#| fig-cap: 3 nearest-neighbour and Gabriel graphs of our point dataset
+#| fig-height: 4
+#| fig-width: 8
+#| code-fold: true
+g1 <- ggplot() + 
+  geom_sf(data = G_k3) +
+  geom_sf(data = points_sf) +
+  ggtitle("3 nearest neighbours")
+
+g2 <- ggplot() +
+  geom_sf(data = G_gabriel) + 
+  geom_sf(data = points_sf) +
+  ggtitle("Gabriel graph")
+
+g1 | g2
+```
+
+The [Gabriel graph](https://en.wikipedia.org/wiki/Gabriel_graph) is a thinned out close relative of the Delaunay triangulation, which we're about to see a [couple of sections on from here](#triangulated-irregular-network-tin).
+
+Following recent presentations by [René Westerholt](https://westerholt-giscience.net/) at [GIScience 2025](https://giscience2025.org/) I'll have more to say about these kinds neighbourhood structures soon.^[And also thoughts on GIScience 2025 itself...]
+
+## ... to areas
+### Proximity polygons
+This is straightforward enough. Sensible [proximity polygons](https://en.wikipedia.org/wiki/Voronoi_diagram) should probably be clipped to a region close to the input points, and you also have to join the data from the points back to the polygons. The minimal solution that yields the polygon geometries is shown in the first operation below, while reattaching the data and clipping are applied in the following operation.
+
+```{r}
+#| label: proximity-polygons
+#| fig-cap: Proximity polygons for our point data
+prox_polygons_min <- points_sf |>
+  st_union() |>           # <1>
+  st_voronoi() |>
+  st_cast()
+
+prox_polygons <- prox_polygons_min |>
+  st_intersection(
+    points_sf |> 
+      st_buffer(1500) |>
+      st_bbox() |> 
+      st_as_sfc()) |>
+  data.frame() |>
+  bind_cols(
+    points_sf |> st_drop_geometry()) |>
+  st_sf()
+
+ggplot() +
+  geom_sf(data = prox_polygons) +
+  geom_sf(data = points_sf)
+```
+1. A union operation is necessary otherwise the proximity polygons will be generated for each point in isolation.
+
+### Triangulated irregular network (TIN)
+One way to make a TIN is the [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation), which is similar to operations in either of the previous two sections. There is an `st_nb_delaunay` function in `sfdep` which is applied in the same way as `st_nb_gabriel`. But that function yields a graph of edges, not areas, and since it's areas we are trying to make here is the vanilla `sf` method, which yields polygons.
+
+As with the `st_voronoi` function, we have to apply a slightly bewildering series of operations to get the output as a _bona fide_ `sf`.
+
+```{r}
+#| label: delaunay
+#| fig-cap: Delaunay triangulation of our point data
+tin <- points_sf |>
+  st_union() |>           # <1>
+  st_triangulate() |>
+  st_cast() |>
+  st_sfc() |>
+  data.frame() |>
+  st_sf()
+
+ggplot() +
+  geom_sf(data = tin) +
+  geom_sf(data = points_sf)
+```
+1. Again, a union operation is necessary otherwise the triangulation will be generated for each point in isolation, which would be meaningless.
+
+### Point buffers
+Buffers are the ur-method in GIS and easily generated. Since our points have a `z` attribute we'll vary the buffer size using that variable.
+
+```{r}
+#| label: point-buffer
+#| fig-cap: Buffers of our point data
+pt_buffer <- points_sf |>
+  st_buffer(dist = points_sf$z) 
+
+ggplot() +
+  geom_sf(data = pt_buffer, fill = NA) +
+  geom_sf(data = points_sf)
+```
+
+The buffer regions are actually polygons, but I've rendered them showing their boundaries only, so that we can see the overlaps.
+
+## ... to fields
+This is where things start to get properly gnarly. The vector-raster divide remains surprisingly tricky to cross in almost all geospatial platforms. In R that's exacerbated by the reliance on different packages with different APIs, which can make it less than obvious how to proceed.
+
+### Interpolation
+I could be sneaky here, and argue as we do in Chapter 9 of the book that proximity polygons are already a form of interpolation. But you probably want to see some 'real' interpolation. That requires us to make a statistical model, and then apply it to predict values at some set of point locations. 
+
+Here's the statistical model for [inverse-distance weighting](https://en.wikipedia.org/wiki/Inverse_distance_weighting), made in `gstat`.
+
+```{r}
+#| label: idw-model
+library(gstat)
+
+fit_IDW <- gstat(                   # <1>  
+  formula = z ~ 1,                  # <2>
+  data = as(points_sf, "Spatial"),  # <3>
+  set = list(idp = 2)               # <4>
+)
+```
+1. Makes a statistical model.
+2. The column `z` is what we are interested in.
+3. Using `sf` but converting to `sp`, which is required here.
+4. `idp = 2` specifies an inverse-distance square.
+
+Next we set up some target locations in both raster and point formats where the model will be used to 'predict' values. The easiest way to do this is making an empty raster with some required resolution. I use the `prox_polygons` as a convenient extent extending beyond the range of the point data. Arguably, when interpolating we shouldn't go much beyond the extent of the point data, but there's no real harm in this situation.
+
+```{r}
+#| label: prep-layers-for-idw
+target_raster <- prox_polygons |>
+  as("SpatVector") |>
+  rast(res = 25)
+
+target_points <- target_raster |>
+  as.points() |>
+  st_as_sf()
+```
+
+Now we can interpolate into the target locations. First into the set of points, and then (since the purpose here is to make a raster), rasterizing the points into an actual raster data set. After doing that we rename the variable to something a bit more user-friendly than `var1.pred`.
+
+```{r}
+#| label: idw
+interp_pts <- predict(fit_IDW, target_points)
+
+interp_rast <- rasterize(
+  as(interp_pts, "SpatVector"),
+     target_raster, field = "var1.pred")
+names(interp_rast) <- "z"
+```
+
+And finally, we can make a map of what we got. This is all a bit circular, because I am using `geom_raster` for plotting, which requires that I reconvert the raster back to xyz data, but the essential point is that we've completed the transformation from point data to an interpolated raster surface!
+
+```{r}
+#| label: fig-idw
+#| fig-cap: Inverse-distance weighted interpolation of the point data 
+ggplot() +
+  geom_raster(
+    data = interp_rast |> as.data.frame(xy = TRUE),
+    aes(x = x, y = y, fill = z)) +
+  geom_sf(data = points_sf) +
+  scale_fill_continuous_c4a_seq(palette = "hcl.terrain2")
+```
+
+### Kernel density estimation
+It's rather mysterious that kernel density is not out of the box straightforward to apply in R.
+
+One easy approach is that `ggplot` will do a form of density estimation purely visually, using `geom_density2d` and often a visual output is all we need. Purists have issues with the smoothing applied by `geom_density2d`&mdash;so I gather from the documentation of the `eks` package, which we look at in passing below&mdash;but this is quick and easy.
+
+```{r}
+#| label: fig-geom_density2d
+#| fig-cap: The result of geom_density2d applied to point data
+ggplot() +
+  geom_density2d(data = points, aes(x = x, y = y)) +
+  geom_sf(data = points_sf)
+```
+
+That's all very well. But doesn't get us the desired raster output data. One option would be to round trip the data via the density functionality in `spatstat`. I've shown how to do that in a post from four years ago [here](https://dosull.github.io/posts/2021-10-21-kde/kde.html). 
+
+Other options are [`spatialEco::sf.kde()`](https://github.com/jeffreyevans/spatialEco) and [eks::st_kde()](https://cran.r-project.org/web/packages/eks/index.html). The latter does everything properly but insists on choosing its own kernel bandwidth, and how that bandwidth is determined is somewhat obscure, or at the very least highly technical. In day to day use I think of KDE as primarily a visualization method, and in that context, I want to be able to specify kernel bandwidths in units of the map projection and see how the map changes as the bandwith varies.
+
+`spatialEco::sf.kde` gives me that control.
+
+One oddity here is that the raw output from `sf.kde` has rectangular, not square cells, even though I supply the function call with a 'reference' raster that has square cells! I _think_ this is because `spatialEco` is using `eks::st_kde` behind the scenes. Anyway, this behaviour accounts for my reprojecting the results into the `target_raster`.^[Call me old fashioned, but I like my raster cells square.]
+
+```{r}
+#| label: fig-spatial-eco-kde
+#| fig-cap: The result of spatialEco's sf.kde function applied to our point data
+#| fig-height: 4
+#| fig-width: 8
+library(spatialEco)
+
+kde <- points_sf |>
+  sf.kde(bw = 1500, ref = target_raster, res = 25,
+         standardize = FALSE, scale.factor = 1) |>
+  terra::project(target_raster)
+
+kde_weighted <- points_sf |>
+  sf.kde(y = points_sf$z, 
+         bw = 1500, ref = target_raster, res = 25,
+         standardize = FALSE, scale.factor = 1) |>
+  terra::project(target_raster)
+
+g1 <- ggplot() +
+  geom_raster(
+    data = kde |> as.data.frame(xy = TRUE),
+    aes(x = x, y = y, fill = z)) +
+  geom_sf(data = points_sf) +
+  scale_fill_continuous_c4a_seq(palette = "brewer.reds") +
+  ggtitle("Unweighted KDE")
+
+g2 <- ggplot() +
+  geom_raster(
+    data = kde_weighted |> as.data.frame(xy = TRUE),
+    aes(x = x, y = y, fill = z)) +
+  geom_sf(data = points_sf, aes(size = z), alpha = 0.35) +
+  scale_fill_continuous_c4a_seq(palette = "brewer.reds") +
+  ggtitle("Weighted KDE")
+
+g1 | g2
+```
+
+`sf.kde`'s scaling behaviour is not especially well documented, but by setting `standardize = FALSE` and `scale.factor = 1` I get estimates of the density that appear to be in the units of the projection, i.e. counts per square metre in the present example. This is nice to know if you do happen to want to use an estimated density surface to, for example, aggregate cell densities up to estimaged counts for a set of areas. 
+
+You can also weight the points using the `y` parameter in the `sf.kde` function call, but it's not clear to me that the resulting density estimate respects the total weight associated with the data. If it did, I would expect the value the weighted surface to be 100 or more times greater than in the unweighted case.
+
+Another possibility here, if you'd rather not use Gaussian kernels, but instead stick with the kernels that are typically available in a GIS, then the [`SpatialKDE` package](https://jancaha.github.io/SpatialKDE/index.html) has you covered.
+
+```{r}
+#| label: fig-spatialkde-kde
+#| fig-cap: The result of SpatialKDE's kde function applied to our point data
+#| fig-height: 4
+#| fig-width: 8
+library(SpatialKDE)
+
+kde_2 <- points_sf |>
+  kde(band_width = 1500, scaled = TRUE,
+      grid = target_raster |> as("Raster"), quiet = TRUE) |>
+  as("SpatRaster")
+names(kde_2) <- "kde_value"
+
+kde_2_weighted <- points_sf |>
+  kde(band_width = 1500, scaled = TRUE, weights = points_sf$z,
+      grid = target_raster |> as("Raster"), quiet = TRUE) |>
+  as("SpatRaster")
+names(kde_2_weighted) <- "kde_value"
+
+g1 <- ggplot() +
+  geom_raster(
+    data = kde_2 |> as.data.frame(xy = TRUE),
+    aes(x = x, y = y, fill = kde_value)) +
+  geom_sf(data = points_sf) +
+  scale_fill_continuous_c4a_seq(palette = "brewer.reds") +
+  ggtitle("Unweighted KDE")
+
+g2 <- ggplot() +
+  geom_raster(
+    data = kde_2_weighted |> as.data.frame(xy = TRUE),
+    aes(x = x, y = y, fill = kde_value)) +
+  geom_sf(data = points_sf) +
+  scale_fill_continuous_c4a_seq(palette = "brewer.reds") +
+  ggtitle("Weighted KDE")
+
+g1 | g2
+```
+
+Here, we get the difference in densities we expect between the unweighted and weighted case. The `SpatialKDE::kde()` function complains about the size of the target raster being large, so it likely doesn't scale especially well. As is apparent, the interpretation of the specified bandwidth is not directly comparable to the bandwidth associated with the Gaussian kernel produced by the `spatialEco::sf.kde` function.
+
+All in all, there are no shortage of options for kernel density estimation in R. `SpatialKDE::kde()` is probably the closest to running the operation in a GIS, other than using a package like [`qgisprocess`](https://github.com/r-spatial/qgisprocess) to access this functionality in QGIS directly.
+
+### Distance surface
+After the complexities of KDE, it's nice that calculating the minimum distance to any one of a set of points from every cell in a raster is straightforward, although we do the calculation using the `target_points` data and then convert to a raster.
+
+```{r}
+#| label: fig-distance-surface
+#| fig-cap: The minimum distance to points in our data as a distance surface
+distance_surface <- target_points |>
+  mutate(
+    distance = st_distance(geometry, points_sf) |> 
+    apply(MARGIN = 1, min)) |>
+  as("SpatVector") |>
+  rasterize(target_raster, field = "distance")
+names(distance_surface) <- "distance"
+
+ggplot() +
+  geom_raster(
+    data = distance_surface |> as.data.frame(xy = TRUE),
+    aes(x = x, y = y, fill = distance)) +
+  geom_sf(data = points_sf) +
+  scale_fill_continuous_c4a_seq(palette = "brewer.prgn")
+```
+
+It's fun to notice here that the approximate boundaries of many of the [proximity polygons](#proximity-polygons) (more or less) emerge in the distance surface, at least when coloured on a diverging scheme as here.
+
+OK. That's quite enough of that for one day. Next time I post one of these, I'll assume you have line data.
