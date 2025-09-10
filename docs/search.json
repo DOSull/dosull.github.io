@@ -1461,5 +1461,12 @@
     "title": "Marimo notebooks",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nYet… and it may never happen, given the investment of Posit in Shiny↩︎\nNote from future self: actually not that difficult. See this post.↩︎\nOne wrinkle here is that I have to host this notebook on another server because I can’t show a local HTML file in an iframe because of a disallowed MIME type (“text/html”) according to my browser console.↩︎"
+  },
+  {
+    "objectID": "posts/2025-09-10-reflections-on-giscience-2025/index.html#themes",
+    "href": "posts/2025-09-10-reflections-on-giscience-2025/index.html#themes",
+    "title": "Giscience 2025",
+    "section": "Themes",
+    "text": "Themes\nA notable feature shared by all three keynotes, which might be a first for a GIScience conference is that all three speakers were asked explicity political questions, concerning the politics of funding and the duty (or not) of scientists to take political and/or ethical positions.9\nTowards the end of Computing Geographically,10 I suggest that,\n\ngiscience […] should really “never again be quite the comfortable retreat for the technically minded” (Goodchild, 200611, p. 687), which it remains, in spite of the best efforts of critical GIS scholars. (p 254)\n\nDisentangling that quote, Mike Goodchild reflecting on the impact of Ground Truth suggests that …"
   }
 ]
