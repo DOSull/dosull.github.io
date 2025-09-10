@@ -22,6 +22,8 @@ Jump to [books](#books), [papers](#in-refereed-journals), [book chapters](#book-
 
 ::: {.bib}
 ## Books
+Sila-Nowicka K, A Moore, **D O’Sullivan**, B Adams, and M Gahegan eds. 2025. [13th International Conference on Geographic Information Science (GIScience 2025)](https://dx.doi.org/10.4230/LIPICS.GISCIENCE.2025). LIPIcs 346. Leibniz International Proceedings in Informatics (LIPIcs). Schloss Dagstuhl – Leibniz-Zentrum für Informatik.
+
 **O’Sullivan D**. 2024. _Computing Geographically: Bridging Giscience and Geography_ (Guilford Press: New York).
 
 **O’Sullivan D**. 2017. Section Editor for ‘Fundamentals of GIScience’ (32 articles) in *The International Encyclopedia of Geography: People, the Earth, Environment, and Technology*. Richardson, D. (ed). New York: Wiley.
