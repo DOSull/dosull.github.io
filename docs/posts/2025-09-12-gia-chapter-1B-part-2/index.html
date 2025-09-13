@@ -340,7 +340,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Networks are a little trickier, because they necessarily also include points. The code below uses <code>spatstat::rMatClust</code> to first make a clustered set of points, then <a href="https://sfdep.josiahparry.com/reference/st_nb_delaunay"><code>sfdep::st_nb_gabriel</code></a> and <a href="https://sfdep.josiahparry.com/reference/st_as_graph"><code>sfdep::st_as_graph</code></a> to make a Gabriel graph among those points. The result <code>nw</code> is a <a href="https://tidygraph.data-imaginist.com/"><code>tidygraph</code> network object</a>, which we can extract edges (lines) as a <code>sf</code> object.</p>
+<p>Networks are a little trickier, because they necessarily also include points. The code below uses <code>spatstat::rMatClust</code> to first make a clustered set of points, then <a href="https://sfdep.josiahparry.com/reference/st_nb_delaunay"><code>sfdep::st_nb_gabriel</code></a> and <a href="https://sfdep.josiahparry.com/reference/st_as_graph"><code>sfdep::st_as_graph</code></a> to make a Gabriel graph among those points. The result <code>nw</code> is a <a href="https://tidygraph.data-imaginist.com/"><code>tidygraph</code> network object</a>, from which we can extract edges (lines) as a <code>sf</code> object.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -512,7 +512,7 @@ First 10 features:
 </div>
 </div>
 <p>Not a compelling chunk of code, but the visual effect of buffering the lines in a network is very pleasing.</p>
-<p>It would perhaps be better accomplished in a drawing package, but it’s worth knowing you can create one-side buffers too.</p>
+<p>It would perhaps be better accomplished in a drawing package, but it’s worth knowing you can create single-sided buffers too.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>

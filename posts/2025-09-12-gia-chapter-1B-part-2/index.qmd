@@ -83,7 +83,7 @@ ggplot() +
 ```
 1. So that the lines are centred somewhere near Wellington.
 
-Networks are a little trickier, because they necessarily also include points. The code below uses `spatstat::rMatClust` to first make a clustered set of points, then [`sfdep::st_nb_gabriel`](https://sfdep.josiahparry.com/reference/st_nb_delaunay) and [`sfdep::st_as_graph`](https://sfdep.josiahparry.com/reference/st_as_graph) to make a Gabriel graph among those points. The result `nw` is a [`tidygraph` network object](https://tidygraph.data-imaginist.com/), which we can extract edges (lines) as a `sf` object.
+Networks are a little trickier, because they necessarily also include points. The code below uses `spatstat::rMatClust` to first make a clustered set of points, then [`sfdep::st_nb_gabriel`](https://sfdep.josiahparry.com/reference/st_nb_delaunay) and [`sfdep::st_as_graph`](https://sfdep.josiahparry.com/reference/st_as_graph) to make a Gabriel graph among those points. The result `nw` is a [`tidygraph` network object](https://tidygraph.data-imaginist.com/), from which we can extract edges (lines) as a `sf` object.
 
 ```{r}
 #| label: make-network-data
@@ -191,7 +191,7 @@ ggplot() +
 
 Not a compelling chunk of code, but the visual effect of buffering the lines in a network is very pleasing.
 
-It would perhaps be better accomplished in a drawing package, but it's worth knowing you can create one-side buffers too.
+It would perhaps be better accomplished in a drawing package, but it's worth knowing you can create single-sided buffers too.
 
 ```{r}
 #| label: sided-line-buffers
