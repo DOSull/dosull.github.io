@@ -491,7 +491,17 @@ Figure&nbsp;5: An illustration of the skeleton of a simple polygon
 </div>
 </div>
 </div>
-<p>Unsurprisingly, things get complicated <em>quickly</em> when we move away from simple convex shapes, especially when we add the additional complication of holes. Sadly, there is no <code>st_skeleton</code> function in <code>sf</code>. Happily, this being R, there’s a package for that™. <code>raybevel</code> is a package for generating straight skeletons including extensions into 3D and roof models.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>Unsurprisingly, things get complicated <em>quickly</em> when we move away from simple convex shapes, especially when we add the additional complication of holes. Sadly, there is no <code>st_skeleton</code> function in <code>sf</code>. Happily, this being R, there’s a package for that™. <code>raybevel</code> is a package for generating straight skeletons including extensions into 3D and roof models. If you squint at the simple example, you can see the relevance of roof models to this topic. In fact, according to wikipedia, this is the context in which the straight skeleton of a polygon first appeared as far back as 1877. The picture below (snipped from a recent property listing in Wellington reinforces this point.</p>
+<div id="fig-roofline-image" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-roofline-image-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="roofline.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: A straight skeleton roofline in the wild"><img src="roofline.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-roofline-image-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: A straight skeleton roofline in the wild
+</figcaption>
+</figure>
+</div>
 <p>The <code>raybevel::skeletonize</code> function meets our requirements. The result from that function is a collection of points, and collection of source-destination pairs of point ids, which we can link to one another to create the skeleton. The <code>sfnetworks</code> package is a good way to do the linking to make the result into a <code>sf</code> dataset.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -514,10 +524,10 @@ Figure&nbsp;5: An illustration of the skeleton of a simple polygon
 <div id="fig-simple-skeleton" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-simple-skeleton-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-simple-skeleton-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Skeleton of a simple polygon"><img src="index_files/figure-html/fig-simple-skeleton-1.png" class="img-fluid figure-img" width="672"></a>
+<a href="index_files/figure-html/fig-simple-skeleton-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Skeleton of a simple polygon"><img src="index_files/figure-html/fig-simple-skeleton-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-simple-skeleton-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Skeleton of a simple polygon
+Figure&nbsp;7: Skeleton of a simple polygon
 </figcaption>
 </figure>
 </div>
@@ -546,10 +556,10 @@ Figure&nbsp;6: Skeleton of a simple polygon
 <div id="fig-more-complicated-skeleton" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-more-complicated-skeleton-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-more-complicated-skeleton-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Straight skeleton of a more complicated polygon"><img src="index_files/figure-html/fig-more-complicated-skeleton-1.png" class="img-fluid figure-img" width="672"></a>
+<a href="index_files/figure-html/fig-more-complicated-skeleton-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Straight skeleton of a more complicated polygon"><img src="index_files/figure-html/fig-more-complicated-skeleton-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-more-complicated-skeleton-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Straight skeleton of a more complicated polygon
+Figure&nbsp;8: Straight skeleton of a more complicated polygon
 </figcaption>
 </figure>
 </div>
@@ -604,10 +614,10 @@ Figure&nbsp;7: Straight skeleton of a more complicated polygon
 <div id="fig-skeleton-with-holes" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-skeleton-with-holes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-skeleton-with-holes-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Straight skeleton of a polygon with holes"><img src="index_files/figure-html/fig-skeleton-with-holes-1.png" class="img-fluid figure-img" width="672"></a>
+<a href="index_files/figure-html/fig-skeleton-with-holes-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Straight skeleton of a polygon with holes"><img src="index_files/figure-html/fig-skeleton-with-holes-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-skeleton-with-holes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Straight skeleton of a polygon with holes
+Figure&nbsp;9: Straight skeleton of a polygon with holes
 </figcaption>
 </figure>
 </div>
@@ -656,17 +666,17 @@ Figure&nbsp;8: Straight skeleton of a polygon with holes
 <div id="fig-medial-axis" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-medial-axis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-medial-axis-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: The straight skeleton and medial axis compared"><img src="index_files/figure-html/fig-medial-axis-1.png" class="img-fluid figure-img" width="768"></a>
+<a href="index_files/figure-html/fig-medial-axis-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: The straight skeleton and medial axis compared"><img src="index_files/figure-html/fig-medial-axis-1.png" class="img-fluid figure-img" width="768"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-medial-axis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9: The straight skeleton and medial axis compared
+Figure&nbsp;10: The straight skeleton and medial axis compared
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>Because the <code>sf::st_voronoi</code> function produces a set of polygons, we have to convert these to a set of lines, which is most conveniently accomplished via the <code>rmapshaper::ms_lines</code> function. Even so, there’s still a need for several <code>st_cast</code> steps along the way, which doesn’t make for the cleanest code.</p>
-<p>Perhaps surprisingly, a cleaner, less confusing sequence of operations uses the <code>dirichletEdges</code> function in <code>spatstat</code> to get the same result.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>Perhaps surprisingly, a cleaner, less confusing sequence of operations uses the <code>dirichletEdges</code> function in <code>spatstat</code> to get the same result.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -709,10 +719,10 @@ Figure&nbsp;9: The straight skeleton and medial axis compared
 <div id="fig-medial-axis-from-spatstat" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-medial-axis-from-spatstat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-medial-axis-from-spatstat-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: The medial axis as determined by spatstat"><img src="index_files/figure-html/fig-medial-axis-from-spatstat-1.png" class="img-fluid figure-img" width="672"></a>
+<a href="index_files/figure-html/fig-medial-axis-from-spatstat-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;11: The medial axis as determined by spatstat"><img src="index_files/figure-html/fig-medial-axis-from-spatstat-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-medial-axis-from-spatstat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10: The medial axis as determined by <code>spatstat</code>
+Figure&nbsp;11: The medial axis as determined by <code>spatstat</code>
 </figcaption>
 </figure>
 </div>
@@ -733,8 +743,7 @@ Figure&nbsp;10: The medial axis as determined by <code>spatstat</code>
 <ol>
 <li id="fn1"><p>The post titles and URLs are starting to read like complex case law. My apologies.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>Excuse the pun.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>If you squint at the simple example, you can see the relevance of roof models to this topic. In fact, according to wikipedia, this is the context in which the straight skeleton of a polygon first appeared as far back as 1877.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Dirichlet tessellation is <em>yet another</em> name for the variously named Voronoi, Thiessen, and proximity polygons. Great ideas have many owners, I guess.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Dirichlet tessellation is <em>yet another</em> name for the variously named Voronoi, Thiessen, and proximity polygons. Great ideas have many owners, I guess.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
