@@ -7,7 +7,7 @@ lightbox:
 title-block-banner: true
 ---
 
-This work aims to understand the potential for damaging environmental impacts in Antarctica. You can follow the work as it develops at [this website](https://dosull.github.io/antarctica).
+This work aims to understand the potential for damaging environmental impacts in Antarctica. You can follow the work as it develops at [this website](https://dosull.github.io/antarctica), and also view slides from a recent talk [here](https://dosull.github.io/antarctica/talk/).
 
 The approach I'm taking attempts to estimate 'desire lines' for human movement. Here's a typical output:
 
