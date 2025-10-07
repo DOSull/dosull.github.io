@@ -318,9 +318,8 @@ window.Quarto = {
 
 <p>A just published paper<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> by <a href="https://www.ipht.fr/en/pisp/marc-barthelemy-2/">Marc Barthelemy</a> and <a href="https://geoffboeing.com/">Geoff Boeing</a> proposes an interesting new model for making synthetic urban street networks. Setting aside the slightly breathless language (‘universal’ model? really?!<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>) the model got me, as these things tend to do when they (i) are interesting, and (ii) make cool pictures, had me scurrying for my computer to make my own version.</p>
 <p>That usually means first <a href="https://www.netlogo.org/">NetLogo</a> (it’s the tool I think with), then R (it does graphics well, even if the language itself is a bit wonky). Marc and Geoff have written their model in Python, which is probably what I would do too if my plan was to do lots of analysis. That’s not the goal here. I was just interesting in exploring the model a little. The question of what happens when you add ‘shortcuts’ to a two-dimensional graph in terms of the network structure is something I’ve explored to some degree or another since my PhD work when I used Duncan Watts’s small world rewiring method to make non-uniform 2D lattices. I returned to it at least in passing in <a href="https://computinggeographically.org/chapters/chap6/fig6-11-small-world-2d.html">Computing Geographically</a></p>
-<p>Along the way, I changed the model quite a bit, probably because I’ve recently been updating the <a href="https://patternandprocess.org/"><em>Spatial Simulation</em></a> <a href="github.com/DOSull/model-zoo">model-zoo</a> and there are a horde of Eden growth and percolation models in that work, and those were front of mind. There’s also not a lot of point in just making the <em>same</em> model, right?</p>
-<p>Although I worked out some initial ideas in NetLogo, I present the code here in R. First, as usual imports. Mostly the usual suspects, with the addition of <a href="https://igraph.org/"><code>igraph</code></a> and <a href="https://luukvdmeer.github.io/sfnetworks/"><code>sfneworks</code></a>, and <a href="https://andrisignorell.github.io/DescTools/"><code>DescTools</code></a>, which I must have used before because it was already in my R library, but I have no idea why. The last of these provides a simple <code>Gini</code> function, which I don’t use, but which is important in Marc and Geoff’s analysis, along with a function for generating all pairwise combinations of elements from a vector, a function it is surprising that base R does not offer.</p>
-<p>Anyway, here goes:</p>
+<p>Along the way, I changed the model a lot, probably because I’ve recently been updating the <a href="https://patternandprocess.org/"><em>Spatial Simulation</em></a> <a href="github.com/DOSull/model-zoo">model-zoo</a> and there are a horde of Eden growth and percolation models in that work, and those were front of mind. There’s also not a lot of point in just making the <em>same</em> model, right?</p>
+<p>Although I worked out some initial ideas in NetLogo, I present the code here in R. First, as usual imports.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -337,8 +336,10 @@ window.Quarto = {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p>Mostly the usual suspects, with the addition of <a href="https://igraph.org/"><code>igraph</code></a> and <a href="https://luukvdmeer.github.io/sfnetworks/"><code>sfneworks</code></a>, and <a href="https://andrisignorell.github.io/DescTools/"><code>DescTools</code></a>, which I must have used before because it was already in my R library, but I have no idea why. The last of these provides a simple <code>Gini</code> function, which I don’t use, but which is important in Marc and Geoff’s analysis, along with a function for generating all pairwise combinations of elements from a vector, a function it is surprising that base R does not offer.</p>
 <section id="useful-functions" class="level2">
 <h2 class="anchored" data-anchor-id="useful-functions">Useful functions</h2>
+<p>Next, some functions that find repeated use in what follows.</p>
 <section id="edges-of-a-graph-as-a-data-frame" class="level3">
 <h3 class="anchored" data-anchor-id="edges-of-a-graph-as-a-data-frame">Edges of a graph as a data frame</h3>
 <p>A function for extracting the edges of a graph as a dataframe of <em>from</em> and <em>to</em> entries, along with any additional attribute data that might be associated with the edges is nice to have.</p>
@@ -409,7 +410,7 @@ window.Quarto = {
 <span id="annotated-cell-4-21"><a href="#annotated-cell-4-21" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="annotated-cell-4-22"><a href="#annotated-cell-4-22" aria-hidden="true" tabindex="-1"></a></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="7">7</button><span id="annotated-cell-4-23" class="code-annotation-target"><a href="#annotated-cell-4-23" aria-hidden="true" tabindex="-1"></a>collapse_all_chains <span class="ot">&lt;-</span> <span class="cf">function</span>(G) {</span>
-<span id="annotated-cell-4-24"><a href="#annotated-cell-4-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="fu">degree_distribution</span>(G)[<span class="dv">3</span>] <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="8">8</button><span id="annotated-cell-4-24" class="code-annotation-target"><a href="#annotated-cell-4-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="fu">degree_distribution</span>(G)[<span class="dv">3</span>] <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
 <span id="annotated-cell-4-25"><a href="#annotated-cell-4-25" aria-hidden="true" tabindex="-1"></a>    G <span class="ot">&lt;-</span> G <span class="sc">|&gt;</span> <span class="fu">collapse_chains</span>()</span>
 <span id="annotated-cell-4-26"><a href="#annotated-cell-4-26" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="annotated-cell-4-27"><a href="#annotated-cell-4-27" aria-hidden="true" tabindex="-1"></a>  G</span>
@@ -444,6 +445,10 @@ window.Quarto = {
 <dt data-target-cell="annotated-cell-4" data-target-annotation="7">7</dt>
 <dd>
 <span data-code-cell="annotated-cell-4" data-code-lines="23" data-code-annotation="7">It may require more than one pass to remove all degree-2 vertices. For example a unit square with two adjacent corners connected to the rest of the network will see the other two corner vertices removed in a first pass, potentially making those two vertices into degree-2 vertices.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="8">8</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="24" data-code-annotation="8">Item 3 in the vector returned by <code>degree_distribution</code> is the number of degree-2 vertices in the graph.</span>
 </dd>
 </dl>
 </div>
@@ -776,7 +781,7 @@ Figure&nbsp;6: A ‘city’ of greater extent.
 <p><a href="../../"><img src="../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>Barthelemy M and G Boeing. 2025. <a href="https://dx.doi.org/10.1103/1vj4-n8vn">Universal Model of Urban Street Networks</a>. <em>Physical Review Letters</em> *135**(13): 137401.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Barthelemy M and G Boeing. 2025. <a href="https://dx.doi.org/10.1103/1vj4-n8vn">Universal Model of Urban Street Networks</a>. <em>Physical Review Letters</em> <strong>135</strong>(13): 137401.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>As Geoff notes on his blog the apparently lost indefinite article in the title, which adds to the grandiosity of the claim, is apparently because the journal doesn’t allow titles to start with an indefinite article. There’s probably something fairly deep about the psyche of phyicists to learn from that rather odd rule. Saying that, it’s not clear that the notion of ‘a’ universal model is logically coherent. But I digress…<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>Yes, I’m using em-dashes, and I don’t care if it makes you think I am an AI.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>

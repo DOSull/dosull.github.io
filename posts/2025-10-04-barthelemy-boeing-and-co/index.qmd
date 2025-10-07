@@ -29,15 +29,13 @@ date: 10-04-2025
 image: fig-make-a-city-1.png
 ---
 
-A just published paper^[Barthelemy M and G Boeing. 2025. [Universal Model of Urban Street Networks](https://dx.doi.org/10.1103/1vj4-n8vn). _Physical Review Letters_ *135**(13): 137401.] by [Marc Barthelemy](https://www.ipht.fr/en/pisp/marc-barthelemy-2/) and [Geoff Boeing](https://geoffboeing.com/) proposes an interesting new model for making synthetic urban street networks. Setting aside the slightly breathless language ('universal' model? really?!^[As Geoff notes on his blog the apparently lost indefinite article in the title, which adds to the grandiosity of the claim, is apparently because the journal doesn't allow titles to start with an indefinite article. There's probably something fairly deep about the psyche of phyicists to learn from that rather odd rule. Saying that, it's not clear that the notion of 'a' universal model is logically coherent. But I digress...]) the model got me, as these things tend to do when they (i) are interesting, and (ii) make cool pictures, had me scurrying for my computer to make my own version.
+A just published paper^[Barthelemy M and G Boeing. 2025. [Universal Model of Urban Street Networks](https://dx.doi.org/10.1103/1vj4-n8vn). _Physical Review Letters_ **135**(13): 137401.] by [Marc Barthelemy](https://www.ipht.fr/en/pisp/marc-barthelemy-2/) and [Geoff Boeing](https://geoffboeing.com/) proposes an interesting new model for making synthetic urban street networks. Setting aside the slightly breathless language ('universal' model? really?!^[As Geoff notes on his blog the apparently lost indefinite article in the title, which adds to the grandiosity of the claim, is apparently because the journal doesn't allow titles to start with an indefinite article. There's probably something fairly deep about the psyche of phyicists to learn from that rather odd rule. Saying that, it's not clear that the notion of 'a' universal model is logically coherent. But I digress...]) the model got me, as these things tend to do when they (i) are interesting, and (ii) make cool pictures, had me scurrying for my computer to make my own version.
 
 That usually means first [NetLogo](https://www.netlogo.org/) (it's the tool I think with), then R (it does graphics well, even if the language itself is a bit wonky). Marc and Geoff have written their model in Python, which is probably what I would do too if my plan was to do lots of analysis. That's not the goal here. I was just interesting in exploring the model a little. The question of what happens when you add 'shortcuts' to a two-dimensional graph in terms of the network structure is something I've explored to some degree or another since my PhD work when I used Duncan Watts's small world rewiring method to make non-uniform 2D lattices. I returned to it at least in passing in [Computing Geographically](https://computinggeographically.org/chapters/chap6/fig6-11-small-world-2d.html)
 
-Along the way, I changed the model quite a bit, probably because I've recently been updating the [_Spatial Simulation_](https://patternandprocess.org/) [model-zoo](github.com/DOSull/model-zoo) and there are a horde of Eden growth and percolation models in that work, and those were front of mind. There's also not a lot of point in just making the _same_ model, right?
+Along the way, I changed the model a lot, probably because I've recently been updating the [_Spatial Simulation_](https://patternandprocess.org/) [model-zoo](github.com/DOSull/model-zoo) and there are a horde of Eden growth and percolation models in that work, and those were front of mind. There's also not a lot of point in just making the _same_ model, right?
 
-Although I worked out some initial ideas in NetLogo, I present the code here in R. First, as usual imports. Mostly the usual suspects, with the addition of [`igraph`](https://igraph.org/) and [`sfneworks`](https://luukvdmeer.github.io/sfnetworks/), and [`DescTools`](https://andrisignorell.github.io/DescTools/), which I must have used before because it was already in my R library, but I have no idea why. The last of these provides a simple `Gini` function, which I don't use, but which is important in Marc and Geoff's analysis, along with a function for generating all pairwise combinations of elements from a vector, a function it is surprising that base R does not offer.
-
-Anyway, here goes:
+Although I worked out some initial ideas in NetLogo, I present the code here in R. First, as usual imports.
 
 ```{r}
 #| label: imports
@@ -55,7 +53,11 @@ library(patchwork)
 set.seed(1)
 ```
 
+Mostly the usual suspects, with the addition of [`igraph`](https://igraph.org/) and [`sfneworks`](https://luukvdmeer.github.io/sfnetworks/), and [`DescTools`](https://andrisignorell.github.io/DescTools/), which I must have used before because it was already in my R library, but I have no idea why. The last of these provides a simple `Gini` function, which I don't use, but which is important in Marc and Geoff's analysis, along with a function for generating all pairwise combinations of elements from a vector, a function it is surprising that base R does not offer.
+
 ## Useful functions
+Next, some functions that find repeated use in what follows.
+
 ### Edges of a graph as a data frame
 A function for extracting the edges of a graph as a dataframe of _from_ and _to_ entries, along with any additional attribute data that might be associated with the edges is nice to have.
 
@@ -124,7 +126,7 @@ collapse_chains <- function(G) {
 }
 
 collapse_all_chains <- function(G) {      # <7>
-  while (degree_distribution(G)[3] > 0) {
+  while (degree_distribution(G)[3] > 0) { # <8>
     G <- G |> collapse_chains()
   }
   G
@@ -137,6 +139,7 @@ collapse_all_chains <- function(G) {      # <7>
 5. `end_vs` removes the chain itself from the extended chain leaving only end points.
 6. A loop attached to the main network at one vertex, will yield only one additional vertex when extended and this can't be used to create a new edge, so we only add to the `es_to_add` list when the number of additional vertices is the usual two.
 7. It may require more than one pass to remove all degree-2 vertices. For example a unit square with two adjacent corners connected to the rest of the network will see the other two corner vertices removed in a first pass, potentially making those two vertices into degree-2 vertices.
+8. Item 3 in the vector returned by `degree_distribution` is the number of degree-2 vertices in the graph.
 
 ### A nice plotting function
 The `plot.igraph` function is difficult to control particularly when it comes to impose equal aspect ratios and layering graphs in the same space on top of one another, so the somewhat _ad hoc_ function below converts graphs to `sfnetwork` graphs which can be plotted by `ggplot`.
