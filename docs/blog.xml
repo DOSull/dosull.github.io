@@ -10,13 +10,27 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Mon, 13 Oct 2025 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 23 Oct 2025 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>GIS, a transformational approach</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-10-23-gia-chapter-1B-part-4/</link>
+  <description><![CDATA[ Seventh in a series of posts supporting Geographic Information Analysis ]]></description>
+  <category>geographic information analysis</category>
+  <category>transformational approach</category>
+  <category>geospatial</category>
+  <category>R</category>
+  <category>tutorial</category>
+  <guid>https://dosull.github.io/posts/2025-10-23-gia-chapter-1B-part-4/</guid>
+  <pubDate>Thu, 23 Oct 2025 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>GIS, a transformational approach</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
   <link>https://dosull.github.io/posts/2025-10-14-gia-chapter-1B-part-3C/</link>
   <description><![CDATA[ Sixth in a series of posts supporting Geographic Information Analysis ]]></description>
   <category>geographic information analysis</category>
+  <category>transformational approach</category>
   <category>geospatial</category>
   <category>R</category>
   <category>tutorial</category>
@@ -30,6 +44,7 @@
   <link>https://dosull.github.io/posts/2025-10-05-gia-chapter-1B-part-3B/</link>
   <description><![CDATA[ Fifth in a series of posts supporting Geographic Information Analysis ]]></description>
   <category>geographic information analysis</category>
+  <category>transformational approach</category>
   <category>geospatial</category>
   <category>R</category>
   <category>tutorial</category>
@@ -56,6 +71,7 @@
   <link>https://dosull.github.io/posts/2025-09-17-gia-chapter-1B-part-3A/</link>
   <description><![CDATA[ Fourth in a series of posts supporting Geographic Information Analysis ]]></description>
   <category>geographic information analysis</category>
+  <category>transformational approach</category>
   <category>geospatial</category>
   <category>R</category>
   <category>tutorial</category>
@@ -69,6 +85,7 @@
   <link>https://dosull.github.io/posts/2025-09-12-gia-chapter-1B-part-2/</link>
   <description><![CDATA[ Third in a series of posts supporting Geographic Information Analysis ]]></description>
   <category>geographic information analysis</category>
+  <category>transformational approach</category>
   <category>geospatial</category>
   <category>R</category>
   <category>tutorial</category>
@@ -93,6 +110,7 @@
   <link>https://dosull.github.io/posts/2025-09-09-gia-chapter-1B-part-1/</link>
   <description><![CDATA[ Second in a series of posts supporting Geographic Information Analysis ]]></description>
   <category>geographic information analysis</category>
+  <category>transformational approach</category>
   <category>geospatial</category>
   <category>R</category>
   <category>tutorial</category>
@@ -254,21 +272,6 @@
   <guid>https://dosull.github.io/posts/2025-05-22-python-meetup-talk/python-meetup-talk.html</guid>
   <pubDate>Wed, 21 May 2025 12:00:00 GMT</pubDate>
   <media:content url="https://dosull.github.io/posts/2025-05-22-python-meetup-talk/mapweaver-ui.png" medium="image" type="image/png" height="83" width="144"/>
-</item>
-<item>
-  <title>Nine XKCD bad map projections: ranked!1</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked.html</link>
-  <description><![CDATA[ An attempt to rank the nine examples of so-called ‘bad map projections’ published by the XKCD web comic over the last few years. Not all the projections are actually bad, and I managed to reproduce some in R. ]]></description>
-  <category>geospatial</category>
-  <category>R</category>
-  <category>tutorial</category>
-  <category>stuff</category>
-  <category>cartography</category>
-  <category>xkcd</category>
-  <guid>https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked.html</guid>
-  <pubDate>Thu, 15 May 2025 12:00:00 GMT</pubDate>
-  <media:content url="https://dosull.github.io/posts/2025-05-16-xkcd-bad-projections-ranked/images/01-xkcd-1799-bad_map_projection_time_zones_2x.png" medium="image" type="image/png" height="99" width="144"/>
 </item>
 </channel>
 </rss>

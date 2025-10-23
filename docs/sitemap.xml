@@ -66,7 +66,7 @@
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2025-10-05-gia-chapter-1B-part-3B/index.html</loc>
-    <lastmod>2025-10-14T19:53:06.657Z</lastmod>
+    <lastmod>2025-10-23T21:52:37.668Z</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/index.html</loc>
@@ -90,7 +90,7 @@
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2025-10-14-gia-chapter-1B-part-3C/index.html</loc>
-    <lastmod>2025-10-14T07:21:32.862Z</lastmod>
+    <lastmod>2025-10-23T21:53:55.396Z</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2024-10-16-geopackages/in-praise-of-the-geopackage.html</loc>
@@ -98,7 +98,7 @@
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2025-09-17-gia-chapter-1B-part-3A/index.html</loc>
-    <lastmod>2025-09-17T21:49:38.208Z</lastmod>
+    <lastmod>2025-10-23T21:52:58.170Z</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.html</loc>
@@ -117,44 +117,48 @@
     <lastmod>2025-07-01T11:17:56.219Z</lastmod>
   </url>
   <url>
-    <loc>https://dosull.github.io/posts/2025-09-10-reflections-on-giscience-2025/index.html</loc>
-    <lastmod>2025-09-11T21:01:39.216Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-beta.html</loc>
-    <lastmod>2025-07-01T11:03:01.317Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2025-09-12-gia-chapter-1B-part-2/index.html</loc>
-    <lastmod>2025-09-13T07:58:13.508Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2025-07-10-hulls-tetrahedra/index.html</loc>
-    <lastmod>2025-08-04T09:12:49.343Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/books.html</loc>
-    <lastmod>2025-10-05T07:32:46.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2025-04-30-setting-up-a-jupyter-hub/jupyter-hub.html</loc>
-    <lastmod>2025-07-01T11:01:41.933Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators.html</loc>
-    <lastmod>2025-07-01T11:32:47.828Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dosull.github.io/posts/2024-08-02-model-zoo-latest/model-zoo.html</loc>
-    <lastmod>2025-07-01T11:19:07.594Z</lastmod>
+    <loc>https://dosull.github.io/posts/2025-05-02-tiles-and-glyphs/tiles-and-glyphs.html</loc>
+    <lastmod>2025-07-01T10:59:15.611Z</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2025-05-22-python-meetup-talk/python-meetup-talk.html</loc>
     <lastmod>2025-07-01T10:56:30.455Z</lastmod>
   </url>
   <url>
-    <loc>https://dosull.github.io/posts/2025-05-02-tiles-and-glyphs/tiles-and-glyphs.html</loc>
-    <lastmod>2025-07-01T10:59:15.611Z</lastmod>
+    <loc>https://dosull.github.io/posts/2024-08-02-model-zoo-latest/model-zoo.html</loc>
+    <lastmod>2025-07-01T11:19:07.594Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2021-10-21-experiments-with-r-interpolators/experiments-with-R-interpolators.html</loc>
+    <lastmod>2025-07-01T11:32:47.828Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2025-04-30-setting-up-a-jupyter-hub/jupyter-hub.html</loc>
+    <lastmod>2025-07-01T11:01:41.933Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/books.html</loc>
+    <lastmod>2025-10-05T07:32:46.390Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2025-07-10-hulls-tetrahedra/index.html</loc>
+    <lastmod>2025-08-04T09:12:49.343Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2025-09-12-gia-chapter-1B-part-2/index.html</loc>
+    <lastmod>2025-10-23T21:53:25.026Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2025-03-09-mapweaver-beta/mapweaver-beta.html</loc>
+    <lastmod>2025-07-01T11:03:01.317Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2025-09-10-reflections-on-giscience-2025/index.html</loc>
+    <lastmod>2025-09-11T21:01:39.216Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dosull.github.io/posts/2025-10-23-gia-chapter-1B-part-4/index.html</loc>
+    <lastmod>2025-10-23T22:37:24.889Z</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2024-08-30-geocart-24/geocart-24.html</loc>
@@ -162,7 +166,7 @@
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2025-09-09-gia-chapter-1B-part-1/index.html</loc>
-    <lastmod>2025-09-09T07:56:29.898Z</lastmod>
+    <lastmod>2025-10-23T21:53:48.285Z</lastmod>
   </url>
   <url>
     <loc>https://dosull.github.io/posts/2025-08-13-temperature-dials/index.html</loc>
