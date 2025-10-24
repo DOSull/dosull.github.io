@@ -144,10 +144,8 @@ window.Quarto = {
 <link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="GIS, a transformational approach – Geospatial Stuff">
 <meta property="og:description" content="Seventh in a series of posts supporting Geographic Information Analysis">
-<meta property="og:image" content="https://dosull.github.io/posts/2025-10-23-gia-chapter-1B-part-4/index_files/figure-html/fig-base-map-1.png">
+<meta property="og:image" content="https://dosull.github.io/posts/2025-10-23-gia-chapter-1B-part-4/fig-pycno-map-1.png">
 <meta property="og:site_name" content="Geospatial Stuff">
-<meta property="og:image:height" content="2688">
-<meta property="og:image:width" content="1536">
 </head>
 
 <body class="nav-fixed">
@@ -289,7 +287,10 @@ window.Quarto = {
    
   <ul>
   <li><a href="#from-fields" id="toc-from-fields" class="nav-link active" data-scroll-target="#from-fields">From fields…</a></li>
-  <li><a href="#to-points" id="toc-to-points" class="nav-link" data-scroll-target="#to-points">… To points</a></li>
+  <li><a href="#to-points" id="toc-to-points" class="nav-link" data-scroll-target="#to-points">… To points</a>
+  <ul class="collapse">
+  <li><a href="#passes-saddle-points" id="toc-passes-saddle-points" class="nav-link" data-scroll-target="#passes-saddle-points">Passes (saddle points)</a></li>
+  </ul></li>
   <li><a href="#to-lines" id="toc-to-lines" class="nav-link" data-scroll-target="#to-lines">… To lines</a></li>
   <li><a href="#a-pause-for-breath" id="toc-a-pause-for-breath" class="nav-link" data-scroll-target="#a-pause-for-breath">A pause for breath</a></li>
   </ul>
@@ -330,7 +331,7 @@ window.Quarto = {
 </div>
 <section id="from-fields" class="level2">
 <h2 class="anchored" data-anchor-id="from-fields">From fields…</h2>
-<p>The data this time, perhaps a little ambitiously are a digital elevation model of the area around the <a href="https://www.visitzealandia.com/">Zealandia</a> wildlife sanctuary in Wellington. This is an area of about 225 hectares surrounded by a predator proof fence that keeps out the various mammalian critters that have been so devastating to Aotearoa’s birdlife providing those birds with an opportunity to get established and thrive. In combination with <a href="https://www.pfw.org.nz/">local predator trapping efforts</a> Zealandia has seen very encouragings signs of recovery in local native bird populations. Even in the few years we have been in Wellington the uptick in the numbers of kākā in particular has been obvious as a result of ‘spillover’ from the sanctuary into nearby suburbs. So much so that from time to time kākā are on the verge of becoming a pest<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>The data this time, perhaps a little ambitiously are a digital elevation model of the area around the <a href="https://www.visitzealandia.com/">Zealandia</a> wildlife sanctuary in Wellington. This is an area of about 225 hectares surrounded by a predator proof fence that keeps out the various mammalian critters that have been so devastating to Aotearoa’s birdlife providing those birds with an opportunity to get established and thrive. In combination with <a href="https://www.pfw.org.nz/">local predator trapping efforts</a> Zealandia has seen very encouraging signs of recovery in local native bird populations. Even in the few years we have been in Wellington the uptick in the numbers of kākā in particular has been obvious as a result of ‘spillover’ from the sanctuary into nearby suburbs. So much so that from time to time kākā are on the verge of becoming a pest.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -453,7 +454,7 @@ Figure&nbsp;2: Pits (blue) and peaks (red) on the original DEM surface
 </div>
 <p>Overlaying our pits and peaks on the geomorphon map confirms that the locations of pits and peaks are where we would expect to find them. Here and elsewhere click on the map for a closer look.</p>
 <div class="cell">
-<details open="" class="code-fold">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(geomorphons_cropped) <span class="sc">+</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
@@ -486,7 +487,9 @@ Figure&nbsp;3: Geomorphons detected by whitebox tools with peaks (up point trian
 </div>
 </div>
 </div>
-<p>The other surface-specific points that are of interest are passes or saddle points. These have zero slope, but opposite signed curvature in (at least) two directions. By contrast, pits and peaks have the same signed curvature in all directions. These are trickier to identify.</p>
+<section id="passes-saddle-points" class="level3">
+<h3 class="anchored" data-anchor-id="passes-saddle-points">Passes (saddle points)</h3>
+<p>The other surface-specific points that are of interest are passes or saddle points. These have zero slope, but opposite signed curvature in (at least) two directions. By contrast, pits and peaks have the same signed curvature in all directions. Passes are trickier to identify than pits and peaks.</p>
 <p>I’ve written some code to do this in a crude fashion below, although as we’ll see shortly there is much more thorough prior work on this, which we will use in the next section.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -506,8 +509,8 @@ Figure&nbsp;3: Geomorphons detected by whitebox tools with peaks (up point trian
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pass"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>The <code>is_pass()</code> first determines how many times the sign flips as we go around the outer elements in a 3-by-3 matrix of height differences between those outer elements and the focal (i.e., central) element in the matrix. Then, if the number of sign flips is 4, 6, or 8, the location is tagged as a pass.</p>
-<p>And here is the output.</p>
+<p>The <code>is_pass()</code> function first determines how many times the sign flips as we go around the outer elements in a 3-by-3 matrix of height differences between those outer elements and the focal element in the matrix. Then, if the number of sign flips is 4, 6, or 8, the location is tagged as a pass.</p>
+<p>And here is the output:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -540,19 +543,20 @@ Figure&nbsp;4: Passes mapped on top of geomorphons
 </div>
 </div>
 </div>
-<p>I should emphasise that the above is <em>not production code</em>, not by a long shot. I know for a fact that it sometimes counts an odd number of sign flips, which should never happen (think about it). It also doesn’t handle situations where the height difference between a cell and one of its eight neighbours is zero.</p>
+<p>I should emphasise that the above is <em>not production code</em>, not by a long shot. I know for a fact that it sometimes counts an odd number of sign flips, which should never happen (think about it). It also doesn’t handle situations where the height difference between a cell and one of its eight neighbours is zero. These facts are related. Smarter code would allow (as the geomorphon method does) for a ternary classification of the relationship between a cell and its neighbours (higher, lower, and almost level with), but as we’ll see in just a paragraph or three, this problem has already been addressed by somebody else, so… <em>moving on</em>.</p>
+</section>
 </section>
 <section id="to-lines" class="level2">
 <h2 class="anchored" data-anchor-id="to-lines">… To lines</h2>
-<p>OK… so why did we go to all the trouble of finding passes (however inadequately)? Thereby hangs a tale. We can use these three types of surface-specic point to construct a topological representation of a surface known as a <em>surface network</em>, and that is the designated output for field to line transformations in that pesky table on page 26 of <em>Geographic Information Analysis</em>.</p>
-<p>Anyway, topological considerations tell us that a well-formed surface should be such that peaks, pits, and passes form a tripartite network with peaks connected to passes via <em>ridges</em>, and passes to pits via <em>courses</em> (or much better via <a href="https://en.wikipedia.org/wiki/Thalweg"><em>thalwegs</em></a>).<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
-<p>Work on surface networks in giscience in spite of its very early first appearances is spotty. Gerd Wolf, a leading researcher on the topic, writes convincingly about how the approach has been taken up in other fields.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> Wolf himself proposed a method for cartographic generalisation of surfaces using the information contained in surface networks (essentially by preserving their ridge and thalweg structure) as far back as 1988.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<p>OK… so why did we go to all the trouble of finding passes (however inadequately)? Thereby hangs a tale. We can use these three types of surface-specific point to construct a topological representation of a surface known as a <em>surface network</em>, and that is the designated output for field to line transformations in that pesky table on page 26 of <em>Geographic Information Analysis</em>.</p>
+<p>Topological considerations tell us that a well-formed surface should be such that peaks, pits, and passes form a tripartite network with peaks connected to passes via <em>ridges</em>, and passes to pits via <em>courses</em> (or much better via <a href="https://en.wikipedia.org/wiki/Thalweg"><em>thalwegs</em></a>), and with no direct links between peaks and pits.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<p>Work on surface networks in giscience in spite of its very early first appearances is spotty. Gerd Wolf, a leading researcher on the topic, writes—I think a little regretfully—about how the approach has been adopted in other fields.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> Wolf himself proposed a method for cartographic generalisation of surfaces using the information contained in surface networks (essentially by preserving their ridge and thalweg structure) as far back as 1988.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
 <p>The most recent work I’ve found on the topic is by <a href="https://scholar.google.com/citations?user=QQqIxvAAAAAJ&amp;hl=en">Eric Guilbert</a> and colleagues (Guilbert 2021<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>, Guilbert et al.&nbsp;2023<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>) and hallelujah! there is runnable code that produces well-formed surface networks.</p>
-<p>The tricky thing about a surface network is that it is sensitively dependent for its construction on finding the right number of passes through which the pits and peaks can be connected. This is because the topological constraints imply that</p>
+<p>An important part of this code is finding the <em>right number</em> of passes. This is because the topological constraints imply that</p>
 <p><span class="math display">\[
 n_{\mathrm{pass}} - n_{\mathrm{pit}} - n_{\mathrm{peak}} = 2
 \]</span></p>
-<p>and the kinds of issues noted in the previous section in relation to my crude pass detection function are tricky to avoid due to the approximate nature of raster surface representations. The papers linked in the footnotes go into some detail on how these issues can be resolved.</p>
+<p>and the kinds of issues noted in the previous section in relation to my crude pass detection function are tricky to avoid due to the approximate nature of raster surface representations. The papers linked in the footnotes go into some detail on how these issues can be resolved, but in essence it revolves around introducing the right number of diagonal connections between cells in the grid to maximise the number of saddle points detected.</p>
 <p>Anyhow, all that is by the by. As noted, there is runnable <a href="https://github.com/ericguilbert/SurfaceNetwork">python code available</a>. I ran it on the Zealandia DEM data<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> and here’s the result.</p>
 <div id="fig-zealandia-sn" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -564,13 +568,13 @@ Figure&nbsp;5: The surface network generated by Eric Guilbert’s python code fo
 </figcaption>
 </figure>
 </div>
-<p>The surface network representation allows the terrain to be partitioned into hills (regions surrounded by thalwegs) and dales (regions surrounded by ridges). Terrain faces with two thalweg and two ridge sides, and as sequence of corners pit-pass-peak-pass can also be identified. The latest work by Eric Guilbert and colleagues looks to me at least to go a long way to putting surface networks into useful relation with more established methods of terrain analysis that tend to emphasise (understandably so) the identification of hydrological networks.</p>
+<p>The surface network representation allows the terrain to be partitioned into hills (regions surrounded by thalwegs) and dales (regions surrounded by ridges). Terrain faces with two thalweg and two ridge sides, and a sequence of corners pit-pass-peak-pass can also be identified. The latest work by Eric Guilbert and colleagues looks to me like it goes a long way to putting surface networks into useful relation with more established methods of terrain analysis that tend to emphasise (understandably so) the identification of hydrological networks.</p>
 </section>
 <section id="a-pause-for-breath" class="level2">
 <h2 class="anchored" data-anchor-id="a-pause-for-breath">A pause for breath</h2>
 <p>Have I mentioned before how outrageously cheeky is the casual suggestion that you see how many of these transformations you can accomplish,</p>
 <blockquote class="blockquote">
-<p>[i]f you already know enough to navigate your way around a GIS (<em>Geographic Information Analysis</em>, page 26)?!</p>
+<p>[i]f you already know enough to navigate your way around a GIS (<em>Geographic Information Analysis</em>, page 26)</p>
 </blockquote>
 <p>My belated apologies to anyone traumatised by taking this suggestion literally. Indeed these <a href="https://dosull.github.io/blog.html#category=transformational%20approach">posts on a transformational approach to GIS</a> have been an interesting exercise in discovering how preposterous that throwaway remark really is.</p>
 <p>On a more positive note, surface networks deserve more attention than they’ve gotten from the community over the decades, but their reliable construction has proved elusive. Perhaps now that there is at least one tool out there that is up to the task they’ll make their way into the mainstream and beginner would-be geospatial analysts won’t be left wondering why they can’t construct a surface network in spite of already knowing enough to navigate their way around a GIS.</p>
