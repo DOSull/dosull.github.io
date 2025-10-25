@@ -71,7 +71,8 @@ streams <- st_read("streams.gpkg") |> select()
 lake <- st_read("lake.gpkg") |> select(name)
 roads <- st_read("roads.gpkg") |> select(name, highway)
 hillshade <- shade(terrain(dem, unit = "radians"), 
-                   terrain(dem, v = "aspect", unit = "radians"), direction = 315)
+                   terrain(dem, v = "aspect", unit = "radians"), 
+                   angle = 30, direction = 135)
 ```
 
 Anyway, here's a map. The focus of this post is on the underlying DEM which characteristically for Wellington is rugged!

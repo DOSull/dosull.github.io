@@ -342,7 +342,8 @@ window.Quarto = {
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>lake <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"lake.gpkg"</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(name)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>roads <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"roads.gpkg"</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(name, highway)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>hillshade <span class="ot">&lt;-</span> <span class="fu">shade</span>(<span class="fu">terrain</span>(dem, <span class="at">unit =</span> <span class="st">"radians"</span>), </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">terrain</span>(dem, <span class="at">v =</span> <span class="st">"aspect"</span>, <span class="at">unit =</span> <span class="st">"radians"</span>), <span class="at">direction =</span> <span class="dv">315</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">terrain</span>(dem, <span class="at">v =</span> <span class="st">"aspect"</span>, <span class="at">unit =</span> <span class="st">"radians"</span>), </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">angle =</span> <span class="dv">30</span>, <span class="at">direction =</span> <span class="dv">135</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Anyway, here’s a map. The focus of this post is on the underlying DEM which characteristically for Wellington is rugged!</p>
