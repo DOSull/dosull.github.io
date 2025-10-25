@@ -70,6 +70,8 @@ fence <- st_read("fences.gpkg") |> select(NAME, TYPE) |> filter(TYPE == "Main")
 streams <- st_read("streams.gpkg") |> select()
 lake <- st_read("lake.gpkg") |> select(name)
 roads <- st_read("roads.gpkg") |> select(name, highway)
+hillshade <- shade(terrain(dem, unit = "radians"), 
+                   terrain(dem, v = "aspect", unit = "radians"), direction = 315)
 ```
 
 Anyway, here's a map. The focus of this post is on the underlying DEM which characteristically for Wellington is rugged!
@@ -85,6 +87,10 @@ tm_shape(dem) +
     col.scale = tm_scale_continuous(values = "hcl.terrain2", 
                                     limits = c(50, 400)),
     col.legend = tm_legend_hide()) +
+  tm_shape(hillshade) +
+  tm_raster(
+    col.scale = tm_scale_continuous(values = "brewer.greys"),
+    col_alpha = 0.25, col.legend = tm_legend_hide()) +
   tm_shape(fence) +
   tm_lines(col = "purple", lwd = 4) +
   tm_shape(tracks) +
