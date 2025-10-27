@@ -10,7 +10,21 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Thu, 23 Oct 2025 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 27 Oct 2025 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>XKCD 3122 ‘Interrupted spheres’</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-10-27-xkcd-3122-interrupted-spheres/</link>
+  <description><![CDATA[ Soon after I posted my definitive ranking of xkcd’s bad map projections, another was added to the pile. I’ve reverse-engineered it in R, so you don’t have to. ]]></description>
+  <category>xkcd</category>
+  <category>cartography</category>
+  <category>R</category>
+  <category>tutorial</category>
+  <category>stuff</category>
+  <category>geospatial</category>
+  <guid>https://dosull.github.io/posts/2025-10-27-xkcd-3122-interrupted-spheres/</guid>
+  <pubDate>Mon, 27 Oct 2025 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>GIS, a transformational approach</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -256,22 +270,6 @@
   <category>aotearoa</category>
   <guid>https://dosull.github.io/posts/2025-06-01-nsew-island/</guid>
   <pubDate>Sat, 31 May 2025 12:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Look ma! (Almost) no javascript!</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2025-05-22-python-meetup-talk/python-meetup-talk.html</link>
-  <description><![CDATA[ Video of a talk about marimo that I gave to the local python meetup, and related links. ]]></description>
-  <category>geospatial</category>
-  <category>python</category>
-  <category>maps</category>
-  <category>tiling</category>
-  <category>cartography</category>
-  <category>weaving</category>
-  <category>visualization</category>
-  <guid>https://dosull.github.io/posts/2025-05-22-python-meetup-talk/python-meetup-talk.html</guid>
-  <pubDate>Wed, 21 May 2025 12:00:00 GMT</pubDate>
-  <media:content url="https://dosull.github.io/posts/2025-05-22-python-meetup-talk/mapweaver-ui.png" medium="image" type="image/png" height="83" width="144"/>
 </item>
 </channel>
 </rss>
