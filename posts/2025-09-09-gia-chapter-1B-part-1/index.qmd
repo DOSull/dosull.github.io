@@ -123,7 +123,7 @@ In _Geographic Information Analysis_ there is a text box immediately following t
 
 In the spirit of that innocuous little 'exercise for the reader', I thought I'd take some of my own medicine and give this exercise a go. At this precise moment (as I write these words) I don't quite know what to expect of this exercise, but I can already see that some of these are going to be tricky.^[Enjoy the _schadenfreude_.]
 
-I can also see that 16 (count 'em!) geospatial transformations is a _**lot**_ so rather than tackle them all in a single post, I'm going to do one row of the table in a series of four posts.
+I can also see that 16 (count 'em!) geospatial transformations is a _**lot**_ so rather than tackle them all in a single post, I'm going to do one row of the table in a series of four posts.^[Note from future self: that's not quite how it turned out when things got messy in transformations from areas.]
 
 ## From points...
 My current everyday 'GIS' is the spatial stack in R, so here goes...
