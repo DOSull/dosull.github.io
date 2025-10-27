@@ -326,9 +326,17 @@ The [d3](https://d3js.org/) visualization platform is probably the best tool to 
 
 Anyway, I mention all this because with a bit of effort you can make a kind of 'polyspherical' (except they are obvious circles because they are flat) projection using the code I've written. Here's a dodecahedral projection:
 
-::: {#fig-dodecahedral-projection fig-cap="A dodecahedral projection (image from [observablehq.com](https://observablehq.com/@fil/polyhedral-projections-with-d3-geo-polygon))"}
+<!-- ::: {#fig-dodecahedral-projection fig-cap="A dodecahedral projection (image from [observablehq.com](https://observablehq.com/@fil/polyhedral-projections-with-d3-geo-polygon))"}
 ![](dodecahedral-projection.png)
-:::
+::: -->
+
+```{ojs}
+//| label: fig-dodecahedral-projection 
+//| fig-cap: "A dodecahedral projection (code to generate this map shamelessly copied from from [Philippe Rivière (fil) at observablehq.com](https://observablehq.com/@fil/dodecahedral-projection))"
+//| fig-width: 12
+//| fig-height: 8
+map(d3.geoDodecahedral())
+```
 
 And here's an interrupted spheres projection arranged the same way.
 
@@ -343,14 +351,73 @@ args2 <- data.frame(
   lon_0 = c(-12, -156, -84, -12, 60, 132, -120, -48, 24, 96, 168, -48),
   lat_0 = c(90, 30, 30, 30, 30, 30, -30, -30, -30, -30, -30, -90),
   d     = rep(5e6, 12),
-  dx    = c(3, 1.25, 2:4, 4.75, 1:4+0.5, 5.25, 2.5) * 6.2e6,
-  dy    = c(1.71, 1.1, rep(0.5, 3), 1.1, rep(-0.5, 4), -1.1, -1.71) * 4.4e6,
-  rotn  = c(0, 54, rep(0, 3), -54, rep(0, 4), 54, 0)
+  dx    = c(3, 1.24, 2:4, 4.76, 1:4+0.5, 5.26, 2.5) * 6.2e6,
+  dy    = c(1.72, 1.1, rep(0.5, 3), 1.1, rep(-0.5, 4), -1.1, -1.72) * 4.4e6,
+  rotn  = c(0, 36, rep(0, 3), -36, rep(0, 4), 36, 0)
 )
 make_world_map(args2)
 ```
 
 ## Final thoughts
-Maybe, given that my criterion in ranking the xkcd bad map projections was how thought-provoking they are, this one should be even higher than my provisional #4. Grappling with reverse-engineering it forced me to look into a few interesting rabbit holes. More than anything it reinforces my sense that we really could use much more flexible architecture around map projections in geospatial. I am somewhat in awe of what has been done in the d3-verse in that regard.
+Maybe, given that my criterion in ranking the xkcd bad map projections was how thought-provoking they are, this one should be even higher than my provisional #4. Grappling with reverse-engineering it forced me to look into a few interesting rabbit holes. 
+
+More than anything it reinforces my sense that we really could use much more flexible architecture around map projections in geospatial. I am somewhat in awe of what has been done in the d3-verse in that regard, which is one reason for grabbing some code from that realm to show a dodecahedral map. Maybe I should give the 30 Day Map Challenge a go again, this time with a view to finally cracking d3/plot.
 
 With that... I look forward with some trepidation to the next time an xkcd bad map projection appears...
+
+
+```{ojs}
+//| label: d3-code-for-dodecahedral-projection
+//| code-fold: true
+/* This code is adapted (mostly be deletion and changing colours) from
+   https://observablehq.com/@fil/dodecahedral-projection
+*/
+function map(projection) {
+  const context = DOM.context2d(width, width / 2);
+
+  projection.fitExtent([[2,2],[width-2, width/2-2]], {type:"Sphere"})
+  
+  var path = d3.geoPath(projection, context);
+  context.beginPath(), path({type:"Sphere"}), context.fillStyle = "#bbb", context.fill();
+  context.beginPath(), path(land), context.fillStyle = "white", context.fill();
+  context.beginPath(), path({type: "Sphere"}), context.strokeStyle = "#000", context.stroke();
+  
+  // Polyhedral projections expose their structure as projection.root()
+  // To draw them we need to cancel the rotate
+  var rotate = projection.rotate();
+  projection.rotate([0,0,0]);
+
+  // run the tree of faces to get all sites and folds
+  var sites = [], folds = [];
+  function recurse(face) {
+    var site = d3.geoCentroid({type:"MultiPoint", coordinates:face.face});
+    // site.id = face.id;
+	sites.push(site);
+    if (face.children) face.children.forEach(function(child){
+      folds.push({type:"LineString", coordinates: child.shared.map(
+        e => d3.geoInterpolate(e, site)(1e-5)
+      )});
+      recurse(child);
+    });
+  }
+  recurse((projection.tree || projection.root)());
+  
+  // folding lines
+  folds.forEach(fold => {
+      context.beginPath(),
+        context.lineWidth = 0.5, context.setLineDash([3,4]), context.strokeStyle = "#000",
+        path(fold), context.stroke();
+  });
+
+  // restore the projection’s rotate
+  projection.rotate(rotate);
+ 
+  return context.canvas;
+}
+
+d3 = require("d3-geo", "d3-fetch", "d3-geo-polygon")
+
+land = d3.json(
+  "https://unpkg.com/visionscarto-world-atlas@0.0.4/world/110m_land.geojson"
+)
+```
