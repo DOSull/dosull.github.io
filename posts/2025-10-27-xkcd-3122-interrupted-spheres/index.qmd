@@ -29,7 +29,7 @@ knitr:
 date: 10-28-2025
 ---
 
-Not long ago I posted my ranking of [xckd](https://xkcd.com)'s 'bad map projections' comics. Not long after that a new one appeared 'interrupted spheres' in [comic #3122](https://xkcd.com/3122). For the record, I'd place it at number 4 in my list. It's definitely a bad projection in all kinds of ways, but it is also thought provoking as I hope this post, where I reverse-engineer a version of the projection, will show.
+Not long ago I posted [my ranking](../2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked.qmd) of [xckd](https://xkcd.com)'s 'bad map projections' comics. Not long after that a new one appeared 'interrupted spheres' in [comic #3122](https://xkcd.com/3122). For the record, I'd place it at number 4 in my list. It's definitely a bad projection in all kinds of ways, but it is also thought provoking as I hope this post, where I reverse-engineer a version of the projection, will show.
 
 ::: {#fig-xkcd-3122 fig-cap="Alt-text: During the most recent glacial maximum, it's believed that land bridges extended from the surfaces and connected several of the spheres together."}
 ![](xkcd-3122-bad_map_projection_interrupted_spheres_2x.png)
