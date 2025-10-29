@@ -400,39 +400,48 @@ Figure&nbsp;1: General map of the Zealandia sanctuary showing predator proof fen
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pits <span class="ot">&lt;-</span> dem <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">focal</span>(<span class="at">w =</span> <span class="dv">3</span>, <span class="cf">function</span>(x) <span class="fu">all</span>(x[<span class="dv">5</span>] <span class="sc">&lt;</span> x[<span class="sc">-</span><span class="dv">5</span>])) <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">raster_to_points</span>()</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>peaks <span class="ot">&lt;-</span> dem <span class="sc">|&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">focal</span>(<span class="at">w =</span> <span class="dv">3</span>, <span class="cf">function</span>(x) <span class="fu">all</span>(x[<span class="dv">5</span>] <span class="sc">&gt;</span> x[<span class="sc">-</span><span class="dv">5</span>])) <span class="sc">|&gt;</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">raster_to_points</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>pits <span class="ot">&lt;-</span> dem <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">focal</span>(<span class="at">w =</span> <span class="dv">3</span>, \(x) <span class="fu">all</span>(x[<span class="dv">5</span>] <span class="sc">&lt;</span> x[<span class="sc">-</span><span class="dv">5</span>])) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">raster_to_points</span>()</span>
+<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-5"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>peaks <span class="ot">&lt;-</span> dem <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">focal</span>(<span class="at">w =</span> <span class="dv">3</span>, \(x) <span class="fu">all</span>(x[<span class="dv">5</span>] <span class="sc">&gt;</span> x[<span class="sc">-</span><span class="dv">5</span>])) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">raster_to_points</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="1"><code>\(x)</code> defines an anonymous function of the 3x3 focal matrix <code>x</code>.</span>
+</dd>
+</dl>
 </div>
-<p>If we combine these into a single point data set and tag them as pit or peak</p>
+</div>
+<p>As we will see shortly, these functions are overly simplistic. They don’t handle situations where the value at a focal location (<code>x[5]</code>) and its neighbours (<code>x[-5]</code>) are very close, or where a peak or pit might extend over more than one pixel. This limitation is non-trivial to address in any raster representation of terrain, and doing so is really beyond the scope of this post.</p>
+<p>Nevertheless, carrying on, if we combine these into a single point data set and tag them as pit or peak</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pts <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  pits <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pit"</span>),</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  peaks <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"peak"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pts <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  pits <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pit"</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  peaks <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"peak"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>then we can see them on our original surface:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(dem) <span class="sc">+</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.scale =</span> <span class="fu">tm_scale_continuous</span>(<span class="at">values =</span> <span class="st">"brewer.greys"</span>),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.legend =</span> <span class="fu">tm_legend_hide</span>()) <span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(streams) <span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>(<span class="at">col =</span> <span class="st">"dodgerblue"</span>) <span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(pts) <span class="sc">+</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">fill =</span> <span class="st">"type"</span>,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(<span class="at">values =</span> <span class="st">"brewer.set1"</span>),</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.legend =</span> <span class="fu">tm_legend_hide</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(dem) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.scale =</span> <span class="fu">tm_scale_continuous</span>(<span class="at">values =</span> <span class="st">"brewer.greys"</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.legend =</span> <span class="fu">tm_legend_hide</span>()) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(streams) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>(<span class="at">col =</span> <span class="st">"dodgerblue"</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(pts) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">fill =</span> <span class="st">"type"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(<span class="at">values =</span> <span class="st">"brewer.set1"</span>),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.legend =</span> <span class="fu">tm_legend_hide</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-pits-and-peaks-on-dem" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -451,46 +460,46 @@ Figure&nbsp;2: Pits (blue) and peaks (red) on the original DEM surface
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>geomorphon_labels <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"geomorphons.csv"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Landform.Type) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.vector</span>()</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_geomorphons</span>(dem, <span class="st">"geomorphons.tif"</span>, <span class="at">search =</span> <span class="dv">3</span>, <span class="at">threshold =</span> <span class="dv">0</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>geomorphons <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"geomorphons.tif"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">subst</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, geomorphon_labels) </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>geomorphons_cropped <span class="ot">&lt;-</span> geomorphons <span class="sc">|&gt;</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(<span class="fu">ext</span>(<span class="fu">ext</span>(geomorphons) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">15</span>, <span class="sc">-</span><span class="dv">15</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>geomorphon_labels <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"geomorphons.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Landform.Type) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.vector</span>()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_geomorphons</span>(dem, <span class="st">"geomorphons.tif"</span>, <span class="at">search =</span> <span class="dv">3</span>, <span class="at">threshold =</span> <span class="dv">0</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>geomorphons <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"geomorphons.tif"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">subst</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, geomorphon_labels) </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>geomorphons_cropped <span class="ot">&lt;-</span> geomorphons <span class="sc">|&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(<span class="fu">ext</span>(<span class="fu">ext</span>(geomorphons) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">15</span>, <span class="sc">-</span><span class="dv">15</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Overlaying our pits and peaks on the geomorphon map confirms that the locations of pits and peaks are where we would expect to find them. Here and elsewhere click on the map for a closer look.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(geomorphons_cropped) <span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.scale =</span> <span class="fu">tm_scale_categorical</span>(</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> geomorphon_labels, </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">c</span>(<span class="fu">c4a_na</span>(<span class="st">"brewer.rd_bu"</span>), <span class="fu">c4a</span>(<span class="st">"brewer.rd_bu"</span>, <span class="at">n =</span> <span class="dv">9</span>))),</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.legend =</span> <span class="fu">tm_legend</span>(</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">""</span>, <span class="at">orientation =</span> <span class="st">"landscape"</span>, </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">item.height =</span> <span class="fl">1.5</span>, <span class="at">item.width =</span> <span class="dv">4</span>)) <span class="sc">+</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(pts) <span class="sc">+</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">shape =</span> <span class="st">"type"</span>, <span class="at">size =</span> <span class="fl">0.5</span>,</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape.scale =</span> <span class="fu">tm_scale_categorical</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>)),</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape.legend =</span> <span class="fu">tm_legend_hide</span>()) <span class="sc">+</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame.lwd =</span> <span class="dv">0</span>,</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.width =</span> <span class="dv">55</span>,</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">tm_pos_out</span>(</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">cell.h =</span> <span class="st">"center"</span>, <span class="at">cell.v =</span> <span class="st">"bottom"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(geomorphons_cropped) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.scale =</span> <span class="fu">tm_scale_categorical</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> geomorphon_labels, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">c</span>(<span class="fu">c4a_na</span>(<span class="st">"brewer.rd_bu"</span>), <span class="fu">c4a</span>(<span class="st">"brewer.rd_bu"</span>, <span class="at">n =</span> <span class="dv">9</span>))),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.legend =</span> <span class="fu">tm_legend</span>(</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">""</span>, <span class="at">orientation =</span> <span class="st">"landscape"</span>, </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">item.height =</span> <span class="fl">1.5</span>, <span class="at">item.width =</span> <span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(pts) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">shape =</span> <span class="st">"type"</span>, <span class="at">size =</span> <span class="fl">0.5</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape.scale =</span> <span class="fu">tm_scale_categorical</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>)),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape.legend =</span> <span class="fu">tm_legend_hide</span>()) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame.lwd =</span> <span class="dv">0</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.width =</span> <span class="dv">55</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">tm_pos_out</span>(</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">cell.h =</span> <span class="st">"center"</span>, <span class="at">cell.v =</span> <span class="st">"bottom"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-geomorphons" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-geomorphons-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-geomorphons-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Geomorphons detected by whitebox tools with peaks (up point triangles) and pits (down pointing triangles)"><img src="index_files/figure-html/fig-geomorphons-1.png" class="img-fluid figure-img" width="768"></a>
+<a href="index_files/figure-html/fig-geomorphons-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Geomorphons detected by whitebox tools with peaks (point-up triangles) and pits (point-down triangles)"><img src="index_files/figure-html/fig-geomorphons-1.png" class="img-fluid figure-img" width="768"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-geomorphons-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Geomorphons detected by whitebox tools with peaks (up point triangles) and pits (down pointing triangles)
+Figure&nbsp;3: Geomorphons detected by whitebox tools with peaks (point-up triangles) and pits (point-down triangles)
 </figcaption>
 </figure>
 </div>
@@ -503,19 +512,19 @@ Figure&nbsp;3: Geomorphons detected by whitebox tools with peaks (up point trian
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>count_sign_flips <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  bdy_indices <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">1</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">c</span>(m)[bdy_indices[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]] <span class="sc">*</span> <span class="fu">c</span>(m)[bdy_indices[<span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>]] <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>is_pass <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count_sign_flips</span>(m) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>passes <span class="ot">&lt;-</span> dem <span class="sc">|&gt;</span> </span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">focal</span>(<span class="at">w =</span> <span class="dv">3</span>, <span class="cf">function</span>(x) <span class="fu">is_pass</span>(x[<span class="dv">5</span>] <span class="sc">-</span> x)) <span class="sc">|&gt;</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">raster_to_points</span>() <span class="sc">|&gt;</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pass"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>count_sign_flips <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  bdy_indices <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">1</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">c</span>(m)[bdy_indices[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]] <span class="sc">*</span> <span class="fu">c</span>(m)[bdy_indices[<span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>]] <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>is_pass <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count_sign_flips</span>(m) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>passes <span class="ot">&lt;-</span> dem <span class="sc">|&gt;</span> </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">focal</span>(<span class="at">w =</span> <span class="dv">3</span>, \(x) <span class="fu">is_pass</span>(x[<span class="dv">5</span>] <span class="sc">-</span> x)) <span class="sc">|&gt;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">raster_to_points</span>() <span class="sc">|&gt;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pass"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>The <code>is_pass()</code> function first determines how many times the sign flips as we go around the outer elements in a 3-by-3 matrix of height differences between those outer elements and the focal element in the matrix. Then, if the number of sign flips is 4, 6, or 8, the location is tagged as a pass.</p>
@@ -523,21 +532,21 @@ Figure&nbsp;3: Geomorphons detected by whitebox tools with peaks (up point trian
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(geomorphons_cropped) <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.scale =</span> <span class="fu">tm_scale_categorical</span>(</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> geomorphon_labels, </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">c</span>(<span class="fu">c4a_na</span>(<span class="st">"brewer.rd_bu"</span>), <span class="fu">c4a</span>(<span class="st">"brewer.rd_bu"</span>, <span class="at">n =</span> <span class="dv">9</span>))),</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.legend =</span> <span class="fu">tm_legend</span>(</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">""</span>, <span class="at">orientation =</span> <span class="st">"landscape"</span>, </span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">item.height =</span> <span class="fl">1.5</span>, <span class="at">item.width =</span> <span class="dv">4</span>)) <span class="sc">+</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(passes) <span class="sc">+</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">shape =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">0.35</span>) <span class="sc">+</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame.lwd =</span> <span class="dv">0</span>,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.width =</span> <span class="dv">55</span>,</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">tm_pos_out</span>(</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">cell.h =</span> <span class="st">"center"</span>, <span class="at">cell.v =</span> <span class="st">"bottom"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(geomorphons_cropped) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.scale =</span> <span class="fu">tm_scale_categorical</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> geomorphon_labels, </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">c</span>(<span class="fu">c4a_na</span>(<span class="st">"brewer.rd_bu"</span>), <span class="fu">c4a</span>(<span class="st">"brewer.rd_bu"</span>, <span class="at">n =</span> <span class="dv">9</span>))),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.legend =</span> <span class="fu">tm_legend</span>(</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">""</span>, <span class="at">orientation =</span> <span class="st">"landscape"</span>, </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">item.height =</span> <span class="fl">1.5</span>, <span class="at">item.width =</span> <span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(passes) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">shape =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">0.35</span>) <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame.lwd =</span> <span class="dv">0</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.width =</span> <span class="dv">55</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">tm_pos_out</span>(</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">cell.h =</span> <span class="st">"center"</span>, <span class="at">cell.v =</span> <span class="st">"bottom"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-passes" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -552,7 +561,7 @@ Figure&nbsp;4: Passes mapped on top of geomorphons
 </div>
 </div>
 </div>
-<p>I should emphasise that the above is <em>not production code</em>, not by a long shot. I know for a fact that it sometimes counts an odd number of sign flips, which should never happen (think about it). It also doesn’t handle situations where the height difference between a cell and one of its eight neighbours is zero. These facts are related. Smarter code would allow (as the geomorphon method does) for a ternary classification of the relationship between a cell and its neighbours (higher, lower, and almost level with), but as we’ll see in just a paragraph or three, this problem has already been addressed by somebody else, so… <em>moving on</em>.</p>
+<p>I should emphasise that <em>none of the above is production code</em>, not even close. For example, I know for a fact that the count of sign flips is sometimes an odd number, which should never happen (think about it). It also doesn’t handle situations where the height difference between a cell and any of its eight neighbours is zero. And, surprisingly, my code detects a lot more passes than we need to create a surface network (see next section). Smarter code would allow (as the geomorphon method does) for a ternary classification of the relationship between a cell and its neighbours (higher, lower, and almost level with), but as we’ll see in just a paragraph or three, these challenges have been addressed by others, so… <em>moving on</em>.</p>
 </section>
 </section>
 <section id="to-lines" class="level2">
@@ -560,13 +569,14 @@ Figure&nbsp;4: Passes mapped on top of geomorphons
 <p>OK… so why did we go to all the trouble of finding passes (however inadequately)? Thereby hangs a tale. We can use these three types of surface-specific point to construct a topological representation of a surface known as a <em>surface network</em>, and that is the designated output for field to line transformations in that pesky table on page 26 of <em>Geographic Information Analysis</em>.</p>
 <p>Topological considerations tell us that a well-formed surface should be such that peaks, pits, and passes form a tripartite network with peaks connected to passes via <em>ridges</em>, and passes to pits via <em>courses</em> (or much better via <a href="https://en.wikipedia.org/wiki/Thalweg"><em>thalwegs</em></a>), and with no direct links between peaks and pits.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
 <p>Work on surface networks in giscience in spite of its very early first appearances is spotty. Gerd Wolf, a leading researcher on the topic, writes—I think a little regretfully—about how the approach has been adopted in other fields.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> Wolf himself proposed a method for cartographic generalisation of surfaces using the information contained in surface networks (essentially by preserving their ridge and thalweg structure) as far back as 1988.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
-<p>The most recent work I’ve found on the topic is by <a href="https://scholar.google.com/citations?user=QQqIxvAAAAAJ&amp;hl=en">Eric Guilbert</a> and colleagues (Guilbert 2021<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>, Guilbert et al.&nbsp;2023<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>) and hallelujah! there is runnable code that produces well-formed surface networks.</p>
+<p><a href="https://www.gicentre.net/jwo/index">Jo Wood’s</a> still rather impressive <a href="https://www.staff.city.ac.uk/~jwo/landserf/">Landserf</a> software, which still runs in spite of the most recent published manual being dated 2009, can extract surface networks. Landserf is fun to explore, although its interface takes some getting used to.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p>The most recent work I’ve found on this topic is by <a href="https://scholar.google.com/citations?user=QQqIxvAAAAAJ&amp;hl=en">Eric Guilbert</a> and colleagues (Guilbert 2021<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>, Guilbert et al.&nbsp;2023<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>) and hallelujah! there is runnable code that produces well-formed surface networks.</p>
 <p>An important part of this code is finding the <em>right number</em> of passes. This is because the topological constraints imply that</p>
 <p><span class="math display">\[
-n_{\mathrm{pass}} - n_{\mathrm{pit}} - n_{\mathrm{peak}} = 2
+\#_{\mathrm{peak}} + \#_{\mathrm{pit}} - \#_{\mathrm{pass}} = 2
 \]</span></p>
-<p>and the kinds of issues noted in the previous section in relation to my crude pass detection function are tricky to avoid due to the approximate nature of raster surface representations. The papers linked in the footnotes go into some detail on how these issues can be resolved, but in essence it revolves around introducing the right number of diagonal connections between cells in the grid to maximise the number of saddle points detected.</p>
-<p>Anyhow, all that is by the by. As noted, there is runnable <a href="https://github.com/ericguilbert/SurfaceNetwork">python code available</a>. I ran it on the Zealandia DEM data<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> and here’s the result.</p>
+<p>and it’s tricky to detect peaks, pits, and passes reliably due to the approximate nature of raster surface representations. In fact, comparing my results with Guilbert et al.’s my code’s naïve approach identifies too few pits and peaks, and (surprisingly) too many passes. Some of my problems are my old friend floating point numbers and the question of when is a really small number actually The Guilbert et al.&nbsp;papers linked in the footnotes go into some detail on how these issues can be resolved, but in essence it revolves around introducing the right number of diagonal connections between cells in the grid to maximise the number of saddle points detected, and satisfy the topological constraints.</p>
+<p>Anyhow, all that is by the by. As noted, there is runnable <a href="https://github.com/ericguilbert/SurfaceNetwork">python code available</a>. I ran it on the Zealandia DEM data<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> and here’s the result.</p>
 <div id="fig-zealandia-sn" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-zealandia-sn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -604,9 +614,10 @@ Figure&nbsp;5: The surface network generated by Eric Guilbert’s python code fo
 <li id="fn6"><p>Pfaltz JL. 1976. <a href="https://dx.doi.org/10.1111/j.1538-4632.1976.tb00530.x">Surface networks</a>. <em>Geographical Analysis</em> <strong>8</strong>(1) 77-93.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p>Wolf GW. 2014. <a href="https://doi.org/10.1080/13658816.2014.889298">Knowledge diffusion from GIScience to other fields: the example of the usage of weighted surface networks in nanotechnology</a>. <em>International Journal of Geographical Information Science</em> <strong>28</strong>(7) 1401-1424.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8"><p>Wolf GW. 1988. <a href="https://doi.org/10.1007/978-3-642-74106-7_18">Weighted surface networks and their application to cartographic generalization</a>. In W Barth (ed) <em>Visualisierungstechniken und Algorithmen. Informatik-Fachberichte</em>, <strong>182</strong>. Springer, Berlin, Heidelberg. If you’re really keen complete FORTRAN code is available in this paper: Wolf GW. 1991. <a href="https://doi.org/10.1016/0098-3004(91)90002-U">A FORTRAN subroutine for cartographic generalization</a>. <em>Computers &amp; Geosciences</em> <strong>17</strong>(10) 1359-1381.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p>Guilbert E. 2021. <a href="https://dx.doi.org/10.5311/JOSIS.2021.22.681">Surface network extraction from high resolution digital terrain models</a>. <em>Journal of Spatial Information Science</em> <strong>22</strong> 33-59<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10"><p>Guilbert E, F Lessard, N Perreault, and S Jutras. 2023. <a href="https://dx.doi.org/10.5311/JOSIS.2023.26.240">Surface network and drainagenetwork: towards a common datastructure</a> <em>Journal of Spatial Information Science</em> <strong>26</strong> 53-77<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11"><p>I’m not crazy: I tried it first on something much simpler.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>While Jo’s morphometric work remains impressive (I might use Landserf for one of the remaining posts in this series…) he has long since switched focus to visualization methods, and <a href="https://observablehq.com/@jwolondon">that work is well worth checking out</a>.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Guilbert E. 2021. <a href="https://dx.doi.org/10.5311/JOSIS.2021.22.681">Surface network extraction from high resolution digital terrain models</a>. <em>Journal of Spatial Information Science</em> <strong>22</strong> 33-59<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>Guilbert E, F Lessard, N Perreault, and S Jutras. 2023. <a href="https://dx.doi.org/10.5311/JOSIS.2023.26.240">Surface network and drainagenetwork: towards a common datastructure</a> <em>Journal of Spatial Information Science</em> <strong>26</strong> 53-77<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>I’m not crazy: I tried it first on something much simpler.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

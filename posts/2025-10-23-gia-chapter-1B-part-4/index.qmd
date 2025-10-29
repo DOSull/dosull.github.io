@@ -119,15 +119,18 @@ We can find pits using a built in function in `terra` that operates on a flow di
 ```{r}
 #| label: find-pits-and-peaks
 pits <- dem |>
-  focal(w = 3, function(x) all(x[5] < x[-5])) |>
+  focal(w = 3, \(x) all(x[5] < x[-5])) |> # <1>
   raster_to_points()
 
 peaks <- dem |>
-  focal(w = 3, function(x) all(x[5] > x[-5])) |>
+  focal(w = 3, \(x) all(x[5] > x[-5])) |>
   raster_to_points()
 ```
+1. `\(x)` defines an anonymous function of the 3x3 focal matrix `x`.
 
-If we combine these into a single point data set and tag them as pit or peak
+As we will see shortly, these functions are overly simplistic. They don't handle situations where the value at a focal location (`x[5]`) and its neighbours (`x[-5]`) are very close, or where a peak or pit might extend over more than one pixel. This limitation is non-trivial to address in any raster representation of terrain, and doing so is really beyond the scope of this post.
+
+Nevertheless, carrying on, if we combine these into a single point data set and tag them as pit or peak
 
 ```{r}
 #| label: combine-pits-and-peaks
@@ -175,7 +178,7 @@ Overlaying our pits and peaks on the geomorphon map confirms that the locations 
 
 ```{r}
 #| label: fig-geomorphons
-#| fig-cap: Geomorphons detected by whitebox tools with peaks (up point triangles) and pits (down pointing triangles)
+#| fig-cap: Geomorphons detected by whitebox tools with peaks (point-up triangles) and pits (point-down triangles)
 #| fig-width: 8
 #| fig-height: 11
 #| code-fold: true
@@ -215,7 +218,7 @@ is_pass <- function(m) {
 }
 
 passes <- dem |> 
-  focal(w = 3, function(x) is_pass(x[5] - x)) |>
+  focal(w = 3, \(x) is_pass(x[5] - x)) |>
   raster_to_points() |>
   mutate(type = "pass")
 ```
@@ -247,7 +250,7 @@ tm_shape(geomorphons_cropped) +
       cell.h = "center", cell.v = "bottom", pos.h = "center"))
 ```
 
-I should emphasise that the above is _not production code_, not by a long shot. I know for a fact that it sometimes counts an odd number of sign flips, which should never happen (think about it). It also doesn't handle situations where the height difference between a cell and one of its eight neighbours is zero. These facts are related. Smarter code would allow (as the geomorphon method does) for a ternary classification of the relationship between a cell and its neighbours (higher, lower, and almost level with), but as we'll see in just a paragraph or three, this problem has already been addressed by somebody else, so... _moving on_.
+I should emphasise that _none of the above is production code_, not even close. For example, I know for a fact that the count of sign flips is sometimes an odd number, which should never happen (think about it). It also doesn't handle situations where the height difference between a cell and any of its eight neighbours is zero. And, surprisingly, my code detects a lot more passes than we need to create a surface network (see next section). Smarter code would allow (as the geomorphon method does) for a ternary classification of the relationship between a cell and its neighbours (higher, lower, and almost level with), but as we'll see in just a paragraph or three, these challenges have been addressed by others, so... _moving on_.
 
 ## ... To lines
 OK... so why did we go to all the trouble of finding passes (however inadequately)? Thereby hangs a tale. We can use these three types of surface-specific point to construct a topological representation of a surface known as a _surface network_, and that is the designated output for field to line transformations in that pesky table on page 26 of _Geographic Information Analysis_.
@@ -257,15 +260,17 @@ Topological considerations tell us that a well-formed surface should be such tha
 Work on surface networks in giscience in spite of its very early first appearances is spotty. Gerd Wolf, a leading researcher on the topic, writes&mdash;I think a little regretfully&mdash;about how the approach has been adopted in other fields.^[Wolf GW. 2014. [Knowledge diffusion from GIScience to other fields: the example of the usage of weighted surface networks in nanotechnology](https://doi.org/10.1080/13658816.2014.889298). _International Journal of Geographical Information Science_ **28**(7) 1401-1424.] Wolf himself proposed a method for cartographic generalisation of surfaces using the information contained in surface networks (essentially by preserving their ridge and thalweg structure) as far back as 1988.^[Wolf GW. 1988. [Weighted surface networks and their application to cartographic generalization](https://doi.org/10.1007/978-3-642-74106-7_18). In W Barth (ed) _Visualisierungstechniken und Algorithmen. Informatik-Fachberichte_, **182**. Springer, Berlin, Heidelberg. If you're really keen complete FORTRAN code is available in this paper: Wolf GW. 1991. [A FORTRAN subroutine for cartographic generalization](https://doi.org/10.1016/0098-3004(91)90002-U).
 _Computers & Geosciences_ **17**(10) 1359-1381.]
 
-The most recent work I've found on the topic is by [Eric Guilbert](https://scholar.google.com/citations?user=QQqIxvAAAAAJ&hl=en) and colleagues (Guilbert 2021^[Guilbert E. 2021. [Surface network extraction from high resolution digital terrain models](https://dx.doi.org/10.5311/JOSIS.2021.22.681). _Journal of Spatial Information Science_ **22** 33-59], Guilbert et al. 2023^[Guilbert E, F Lessard, N Perreault, and S Jutras. 2023. [Surface network and drainagenetwork: towards a common datastructure](https://dx.doi.org/10.5311/JOSIS.2023.26.240) _Journal of Spatial Information Science_ **26** 53-77]) and hallelujah! there is runnable code that produces well-formed surface networks. 
+[Jo Wood's](https://www.gicentre.net/jwo/index) still rather impressive [Landserf](https://www.staff.city.ac.uk/~jwo/landserf/) software, which still runs in spite of the most recent published manual being dated 2009, can extract surface networks. Landserf is fun to explore, although its interface takes some getting used to.^[While Jo's morphometric work remains impressive (I might use Landserf for one of the remaining posts in this series...) he has long since switched focus to visualization methods, and [that work is well worth checking out](https://observablehq.com/@jwolondon).]
+
+The most recent work I've found on this topic is by [Eric Guilbert](https://scholar.google.com/citations?user=QQqIxvAAAAAJ&hl=en) and colleagues (Guilbert 2021^[Guilbert E. 2021. [Surface network extraction from high resolution digital terrain models](https://dx.doi.org/10.5311/JOSIS.2021.22.681). _Journal of Spatial Information Science_ **22** 33-59], Guilbert et al. 2023^[Guilbert E, F Lessard, N Perreault, and S Jutras. 2023. [Surface network and drainagenetwork: towards a common datastructure](https://dx.doi.org/10.5311/JOSIS.2023.26.240) _Journal of Spatial Information Science_ **26** 53-77]) and hallelujah! there is runnable code that produces well-formed surface networks. 
 
 An important part of this code is finding the _right number_ of passes. This is because the topological constraints imply that 
 
 $$
-n_{\mathrm{pass}} - n_{\mathrm{pit}} - n_{\mathrm{peak}} = 2
+\#_{\mathrm{peak}} + \#_{\mathrm{pit}} - \#_{\mathrm{pass}} = 2
 $$
 
-and the kinds of issues noted in the previous section in relation to my crude pass detection function are tricky to avoid due to the approximate nature of raster surface representations. The papers linked in the footnotes go into some detail on how these issues can be resolved, but in essence it revolves around introducing the right number of diagonal connections between cells in the grid to maximise the number of saddle points detected.
+and it's tricky to detect peaks, pits, and passes reliably due to the approximate nature of raster surface representations. In fact, comparing my results with Guilbert et al.'s my code's naïve approach identifies too few pits and peaks, and (surprisingly) too many passes. Some of my problems are my old friend floating point numbers and the question of when is a really small number actually  The Guilbert et al. papers linked in the footnotes go into some detail on how these issues can be resolved, but in essence it revolves around introducing the right number of diagonal connections between cells in the grid to maximise the number of saddle points detected, and satisfy the topological constraints.
 
 Anyhow, all that is by the by. As noted, there is runnable [python code available](https://github.com/ericguilbert/SurfaceNetwork). I ran it on the Zealandia DEM data^[I'm not crazy: I tried it first on something much simpler.] and here's the result.
 
