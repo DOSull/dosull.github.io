@@ -12,4 +12,4 @@ page-layout: full
 title-block-banner: true
 ---
 
-I offer training in any of the areas listed below. [Contact me](osullivan512@gmail.com) for more details.
+I offer training in any of the areas listed below. [Contact me](contact.qmd) for more details.

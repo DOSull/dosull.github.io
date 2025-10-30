@@ -13,5 +13,5 @@ page-layout: full
 title-block-banner: true
 ---
 
-This page provides more information on projects both current and completed.
+More information on projects current and completed. You'll also find a lot of my work on [my github](https://github.com/DOSull).
 

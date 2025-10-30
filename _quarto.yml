@@ -17,6 +17,8 @@ website:
         file: portfolio.qmd
       - text: "Posts"
         file: blog.qmd
+      - text: "Contact"
+        file: contact.qmd
       - text: "Training"
         file: training.qmd
       - text: "More"
@@ -40,8 +42,6 @@ website:
             href: https://dosull.github.io/30-day-maps-2023
             target: _blank
             icon: box-arrow-up-right
-      - icon: github
-        href: https://github.com/DOSull
       - icon: linkedin
         href: https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/
       - icon: rss

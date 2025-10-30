@@ -1,0 +1,22 @@
+---
+title: "Contact"
+subtitle: "For more about any of these [[Email me](mailto:osullivan512-at-gmail-dot-com)]{style='color:firebrick;background-color:rgba(255,255,255,0.8);'}"
+title-block-banner: true
+---
+
+More than anything, I enjoy getting to the core of gnarly geospatial problems, and developing good ways to visualise, analyse, and ultimately, resolve them.
+
+### Consulting
+I usually work in R and Python developing workflows to tidy, reformat, analyse, and visualize data, especially spatial data. I am not a developer, but can write [well organised and documented code](https://dosull.github.io/weaving-space/doc/weavingspace.html) and integrate with your in-house coding standards and processes. Most of my work is linked from these pages, so have a look around, or check out [my github](https://github.com/DOSull).
+
+### Communicating
+I have presented complicated geospatial ideas to many different audiences _thousands_ of times. My engaging web-enabled visual materials illuminate complex topics. See my [talks](talks.html), or the slides from [a class](https://dosull.github.io/Spatial-Data-Science/site/docs/) for examples. I've also written [3 books](books.qmd) and [numerous articles, reviews, and book chapters](publications.qmd).
+
+### Cartography
+I am a trained cartographer. I routinely create visual analytics and maps of complex data in projects, and in 25 years of research have published hundreds of diagrams and maps of complex data.
+
+### Training
+I have taught for 25 years about all things geospatial and can develop training materials tailored to your needs. Topics include geospatial analystics, cartography and visualization, and spatial simulation. Learn these things and more from a [world authority](scholar.google.com/citations?user=6guUlvgAAAAJ&hl=en&oi=ao) on all of them!
+
+### Simulation
+I love [NetLogo](https://ccl.northwestern.edu/netlogo/). It is unrivalled for rapidly developing dynamic simulations of complex spatial systems. See, for example, [this geographical COVID model I built in a matter of weeks](https://github.com/DOSull/spatial-epi)). I've also written [a book about simulation modelling](books.qmd#spatial-simulation-exploring-pattern-and-process), and can run training in this area as required.

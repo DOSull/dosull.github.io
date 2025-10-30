@@ -73,19 +73,21 @@ make_world_map <- function(df) {
     geom_sf(data = shapes, fill = "white", colour = "black", lwd = 0.25) +
     geom_sf(data = outlines, fill = NA, colour = "black", lwd = 0.5) +
     geom_sf(data = globes, fill = NA, colour = "black", lwd = 0.75) +
-    geom_sf_text(data = globes, aes(label = facet |> str_to_upper()), size = 5) +
+    geom_sf_label(data = globes, aes(label = facet |> str_to_upper()), size = 4,
+                 label.size = 0, fill = "#ffffff80") +
     theme_void()
 }
 
 args <- data.frame(
   facet = c("North America", "Europe", "Asia", "South America", 
-            "Africa", "Antarctica", "Oceania", "Zealandia"),
-  lon_0 = c(  -88,    12,    95,   -55,    15,   -30,   137,   178),
-  lat_0 = c(   40,    53,    35,   -18,     0,   -85,   -27,   -32),
-  d     = c(4.5e6, 2.7e6, 7.0e6, 4.5e6, 5.0e6, 3.0e6, 3.6e6, 3.4e6),
-  dx    = c(-0.79, -0.11,  0.43, -0.67, -0.13,  -0.5,  0.79,  1.15) * 1e7,
-  dy    = c( 0.38,  0.44,  0.39, -0.09,  0.03, -0.45, -0.07, -0.15) * 1e7,
-  rotn  = c(    5,     0,   -25,    10,     0,   -15,     0,     0)
+            "Africa", "Antarctica", "Oceania", "Zealandia", "Australia"),
+  lon_0 = c(  -88,    12,    95,   -55,    15,   -30,   180,   178,   137),
+  lat_0 = c(   40,    53,    35,   -18,     0,   -85,     0,   -32,   -27),
+  d     = c(4.5e6, 2.7e6, 7.0e6, 4.5e6, 5.0e6, 3.0e6, 5.0e6, 3.4e6, 3.6e6),
+  dx    = c(-0.79, -0.11,  0.43, -0.67, -0.13,  -0.5,  1.08,  1.14,  0.78) * 1e7,
+  dy    = c( 0.38,  0.44,  0.39, -0.08,  0.03, -0.44,  0.28, -0.16, -0.08) * 1e7,
+  rotn  = c(    5,     0,   -25,    10,     0,   -15,     0,     0,    -5)
 )
 
 make_world_map(args)
+ggsave("nine-continents-interrupted-spheres.png", width = 8, height = 5)

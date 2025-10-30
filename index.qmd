@@ -32,7 +32,7 @@ css: carousel-styles.css
       <div class="carousel-caption">
         <h1>Consulting</h1>
         <p>Expertise in all things geospatial</p>
-        <p><a href="portfolio.html">Learn more</a></p>
+        <p style="text-transform:uppercase;"><a href="portfolio.html">More</a> | <a href="contact.html">Contact</a></p>
       </div>
     </div>
     <div class="carousel-item">
@@ -40,7 +40,7 @@ css: carousel-styles.css
       <div class="carousel-caption">
         <h1>Communication</h1>
         <p>Delivering complex ideas to diverse audiences</p>
-        <p><a a href="blog.html">Learn more</a></p>
+        <p style="text-transform:uppercase;"><a a href="blog.html">More</a> | <a href="contact.html">Contact</a></p>
       </div>
     </div>
     <div class="carousel-item">
@@ -48,7 +48,7 @@ css: carousel-styles.css
       <div class="carousel-caption">
         <h1>Cartography</h1>
         <p>New mapping methods for rich spatial data</p>
-        <p><a href="portfolio.html">Learn more</a></p>
+        <p style="text-transform:uppercase;"><a href="portfolio.html">More</a> | <a href="contact.html">Contact</a></p>
       </div>
     </div>
     <div class="carousel-item">
@@ -56,7 +56,7 @@ css: carousel-styles.css
       <div class="carousel-caption">
         <h1>Training</h1>
         <p>Helping organisations connect analytics and geospatial</p>
-        <p><a a href="training.html">Learn more</a></p>
+        <p style="text-transform:uppercase;"><a a href="training.html">More</a> | <a href="contact.html">Contact</a></p>
       </div>
     </div>
     <div class="carousel-item">
@@ -64,7 +64,7 @@ css: carousel-styles.css
       <div class="carousel-caption">
         <h1>Simulation</h1>
         <p>Understanding complex system dynamics with models</p>
-        <p><a href="portfolio.html">Learn more</a></p>
+        <p style="text-transform:uppercase;"><a href="portfolio.html">More</a> | <a href="contact.html">Contact</a></p>
       </div>
     </div>
   </div>
