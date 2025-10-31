@@ -351,7 +351,7 @@ ggplot() +
 Both these results, because they are based only on the vertices of the polygon are only approximations to the true medial axis, which should be derived from the Voronoi diagram of the polygon's _edges_. Such diagrams may contain segments that are parabolic arcs, and not only straight line segments as is the case for a Voronoi diagram derived from point data. You can get some feel for the complexities that might be involved in the precise calculation from [this post of mine](https://computinggeographically.org/chapters/chap2/fig2-08-non-point-voronoi.html), and from [this blog post](https://www.anderswallin.net/2011/08/line-segment-voronoi-diagram-notes/) by a computational geometer who knows what they are doing.
 
 ### An aside: line distance surface and the medial axis
-I mentioned that the distance surface for in the [lines &rarr; fields section of the previous post]() might contain 'spoilers' for polygon skeletons. This wasn't quite correct. However there's certainly a way to derive the medial axis of a polygon by going via a line distance surface.
+I mentioned that the distance surface in the [lines &rarr; fields section of the previous post](../2025-09-12-gia-chapter-1B-part-2/index.qmd#to-fields) might contain 'spoilers' for polygon skeletons. This wasn't quite correct. However there's certainly a way to derive the medial axis of a polygon by going via a line distance surface.
 
 Here's the code, which is adapted from that previous post. The additional step of deriving a slope layer from the distance surface helps to illustrate the relationship even more clearly.
 
@@ -417,7 +417,7 @@ And here they are plotted together showing the expected match.
 g1 + geom_sf(data = medial_axis, colour = "white", lwd = 0.2)
 ```
 
-Calculated at sufficient precision this raster approach may be a more useful approach to finding the medial axis.
+Calculated at sufficient precision this raster approach may be a more useful way to find the medial axis.
 
 ## To be continued...
 The transformations of area objects, particularly to lines, led down deeper rabbit holes than expected, so that's it for now. Tune in again soon for transformations to areas and to fields.

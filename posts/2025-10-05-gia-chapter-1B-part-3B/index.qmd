@@ -204,7 +204,7 @@ square1 |>
 
 If you are doing a lot of this kind of thing, it can get very ugly. If I sound like I've been burned by this problem, it's because I have. When developing the [`weavingspace` module](https://github.com/DOSull/weaving-space/) in both its early R and more recent python incarnations, I am working with polygons at a low-level all the time and before I had realised this was a problem it wasn't unusual for me to be working with 'rectangles' with dozens or even hundreds of corners!
 
-Using `nQuadSegs` option we can avoid the problem (usually!):
+Using `nQuadSegs` we can avoid the problem (usually!):
 
 ```{r}
 square2 <- square |> 
@@ -262,7 +262,7 @@ tas <- polygons |>
     pop_density_km2 = population / area_km2)
 ```
 
-The key point to notice here is that different variables may need to be recalculated in in different ways when we move data from one set of polygons to another. In this case population and area sum, but we can't add densities together and instead 'combine' the population densities by recalculating it from the new attributes of the dissolved dataset.
+The key point to notice here is that different variables may need to be recalculated in different ways when we move data from one set of polygons to another. In this case population and area sum, but we can't add densities together and instead 'combine' the population densities by recalculating it from the new attributes of the dissolved dataset.
 
 ```{r}
 #| label: fig-ta-population

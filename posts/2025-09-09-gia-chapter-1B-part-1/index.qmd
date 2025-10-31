@@ -223,7 +223,7 @@ g2 <- ggplot() +
 g1 | g2
 ```
 
-The [Gabriel graph](https://en.wikipedia.org/wiki/Gabriel_graph) is a thinned out close relative of the Delaunay triangulation, which we're about to see a [couple of sections on from here](#triangulated-irregular-network-tin).
+The [Gabriel graph](https://en.wikipedia.org/wiki/Gabriel_graph) is a thinned out close relative of the Delaunay triangulation, which we're about to see a [couple of sections later in this post](#triangulated-irregular-network-tin).
 
 Following recent presentations by [René Westerholt](https://westerholt-giscience.net/) at [GIScience 2025](https://giscience2025.org/) I'll have more to say about these kinds neighbourhood structures soon.^[And also thoughts on GIScience 2025 itself...]
 
@@ -257,7 +257,7 @@ ggplot() +
 1. A union operation is necessary otherwise the proximity polygons will be generated for each point in isolation.
 
 ### Triangulated irregular network (TIN)
-One way to make a TIN is the [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation), which is similar to operations in either of the previous two sections. There is an `st_nb_delaunay` function in `sfdep` which is applied in the same way as `st_nb_gabriel`. But that function yields a graph of edges, not areas, and since it's areas we are trying to make here is the vanilla `sf` method, which yields polygons.
+One way to make a TIN is the [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation), which is similar to operations in either of the previous two sections. There is an `st_nb_delaunay` function in `sfdep` which is applied in the same way as `st_nb_gabriel`. But that function yields a graph of edges, not areas, and since it's areas we are trying to make, here is the vanilla `sf` method, which yields polygons.
 
 As with the `st_voronoi` function, we have to apply a slightly bewildering series of operations to get the output as a _bona fide_ `sf`.
 
@@ -356,7 +356,7 @@ ggplot() +
 ```
 
 ### Kernel density estimation
-It's rather mysterious that kernel density is not out of the box straightforward to apply in R.
+It's rather mysterious that kernel density is not straightforward to apply in R 'out of the box'.
 
 One easy approach is that `ggplot` will do a form of density estimation purely visually, using `geom_density2d` and often a visual output is all we need. Purists have issues with the smoothing applied by `geom_density2d`&mdash;so I gather from the documentation of the `eks` package, which we look at in passing below&mdash;but this is quick and easy.
 
@@ -479,7 +479,7 @@ ggplot() +
   geom_raster(
     data = distance_surface |> as.data.frame(xy = TRUE),
     aes(x = x, y = y, fill = distance)) +
-  geom_sf(data = points_sf) +
+  geom_sf(data = points_sf, colour = "white", shape = 1) +
   scale_fill_continuous_c4a_seq(palette = "brewer.prgn")
 ```
 

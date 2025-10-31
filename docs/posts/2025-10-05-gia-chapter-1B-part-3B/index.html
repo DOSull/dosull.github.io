@@ -490,7 +490,7 @@ Figure&nbsp;4: The details of buffering up close.
 </div>
 </div>
 <p>If you are doing a lot of this kind of thing, it can get very ugly. If I sound like I’ve been burned by this problem, it’s because I have. When developing the <a href="https://github.com/DOSull/weaving-space/"><code>weavingspace</code> module</a> in both its early R and more recent python incarnations, I am working with polygons at a low-level all the time and before I had realised this was a problem it wasn’t unusual for me to be working with ‘rectangles’ with dozens or even hundreds of corners!</p>
-<p>Using <code>nQuadSegs</code> option we can avoid the problem (usually!):</p>
+<p>Using <code>nQuadSegs</code> we can avoid the problem (usually!):</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -567,7 +567,7 @@ $ pop_density_km2    &lt;dbl&gt; 1.937763, 8.485706, 7.183946, 6.398420, 272.296
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_density_km2 =</span> population <span class="sc">/</span> area_km2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>The key point to notice here is that different variables may need to be recalculated in in different ways when we move data from one set of polygons to another. In this case population and area sum, but we can’t add densities together and instead ‘combine’ the population densities by recalculating it from the new attributes of the dissolved dataset.</p>
+<p>The key point to notice here is that different variables may need to be recalculated in different ways when we move data from one set of polygons to another. In this case population and area sum, but we can’t add densities together and instead ‘combine’ the population densities by recalculating it from the new attributes of the dissolved dataset.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>

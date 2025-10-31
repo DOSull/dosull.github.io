@@ -735,7 +735,7 @@ Figure&nbsp;11: The medial axis as determined by <code>spatstat</code>
 <p>Both these results, because they are based only on the vertices of the polygon are only approximations to the true medial axis, which should be derived from the Voronoi diagram of the polygon’s <em>edges</em>. Such diagrams may contain segments that are parabolic arcs, and not only straight line segments as is the case for a Voronoi diagram derived from point data. You can get some feel for the complexities that might be involved in the precise calculation from <a href="https://computinggeographically.org/chapters/chap2/fig2-08-non-point-voronoi.html">this post of mine</a>, and from <a href="https://www.anderswallin.net/2011/08/line-segment-voronoi-diagram-notes/">this blog post</a> by a computational geometer who knows what they are doing.</p>
 <section id="an-aside-line-distance-surface-and-the-medial-axis" class="level3">
 <h3 class="anchored" data-anchor-id="an-aside-line-distance-surface-and-the-medial-axis">An aside: line distance surface and the medial axis</h3>
-<p>I mentioned that the distance surface for in the <a href="">lines → fields section of the previous post</a> might contain ‘spoilers’ for polygon skeletons. This wasn’t quite correct. However there’s certainly a way to derive the medial axis of a polygon by going via a line distance surface.</p>
+<p>I mentioned that the distance surface in the <a href="../../posts/2025-09-12-gia-chapter-1B-part-2/index.html#to-fields">lines → fields section of the previous post</a> might contain ‘spoilers’ for polygon skeletons. This wasn’t quite correct. However there’s certainly a way to derive the medial axis of a polygon by going via a line distance surface.</p>
 <p>Here’s the code, which is adapted from that previous post. The additional step of deriving a slope layer from the distance surface helps to illustrate the relationship even more clearly.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -817,7 +817,7 @@ Figure&nbsp;13: The vector and raster generated medial axis results compared
 </div>
 </div>
 </div>
-<p>Calculated at sufficient precision this raster approach may be a more useful approach to finding the medial axis.</p>
+<p>Calculated at sufficient precision this raster approach may be a more useful way to find the medial axis.</p>
 </section>
 </section>
 <section id="to-be-continued" class="level2">

@@ -589,7 +589,7 @@ Figure&nbsp;1: 3 nearest-neighbour and Gabriel graphs of our point dataset
 </div>
 </div>
 </div>
-<p>The <a href="https://en.wikipedia.org/wiki/Gabriel_graph">Gabriel graph</a> is a thinned out close relative of the Delaunay triangulation, which we’re about to see a <a href="#triangulated-irregular-network-tin">couple of sections on from here</a>.</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Gabriel_graph">Gabriel graph</a> is a thinned out close relative of the Delaunay triangulation, which we’re about to see a <a href="#triangulated-irregular-network-tin">couple of sections later in this post</a>.</p>
 <p>Following recent presentations by <a href="https://westerholt-giscience.net/">René Westerholt</a> at <a href="https://giscience2025.org/">GIScience 2025</a> I’ll have more to say about these kinds neighbourhood structures soon.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
 </section>
 </section>
@@ -641,7 +641,7 @@ Figure&nbsp;1: 3 nearest-neighbour and Gabriel graphs of our point dataset
 </section>
 <section id="triangulated-irregular-network-tin" class="level3">
 <h3 class="anchored" data-anchor-id="triangulated-irregular-network-tin">Triangulated irregular network (TIN)</h3>
-<p>One way to make a TIN is the <a href="https://en.wikipedia.org/wiki/Delaunay_triangulation">Delaunay triangulation</a>, which is similar to operations in either of the previous two sections. There is an <code>st_nb_delaunay</code> function in <code>sfdep</code> which is applied in the same way as <code>st_nb_gabriel</code>. But that function yields a graph of edges, not areas, and since it’s areas we are trying to make here is the vanilla <code>sf</code> method, which yields polygons.</p>
+<p>One way to make a TIN is the <a href="https://en.wikipedia.org/wiki/Delaunay_triangulation">Delaunay triangulation</a>, which is similar to operations in either of the previous two sections. There is an <code>st_nb_delaunay</code> function in <code>sfdep</code> which is applied in the same way as <code>st_nb_gabriel</code>. But that function yields a graph of edges, not areas, and since it’s areas we are trying to make, here is the vanilla <code>sf</code> method, which yields polygons.</p>
 <p>As with the <code>st_voronoi</code> function, we have to apply a slightly bewildering series of operations to get the output as a <em>bona fide</em> <code>sf</code>.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -797,7 +797,7 @@ Figure&nbsp;2: Inverse-distance weighted interpolation of the point data
 </section>
 <section id="kernel-density-estimation" class="level3">
 <h3 class="anchored" data-anchor-id="kernel-density-estimation">Kernel density estimation</h3>
-<p>It’s rather mysterious that kernel density is not out of the box straightforward to apply in R.</p>
+<p>It’s rather mysterious that kernel density is not straightforward to apply in R ‘out of the box’.</p>
 <p>One easy approach is that <code>ggplot</code> will do a form of density estimation purely visually, using <code>geom_density2d</code> and often a visual output is all we need. Purists have issues with the smoothing applied by <code>geom_density2d</code>—so I gather from the documentation of the <code>eks</code> package, which we look at in passing below—but this is quick and easy.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -942,7 +942,7 @@ Figure&nbsp;5: The result of SpatialKDE’s kde function applied to our point da
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>(</span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> distance_surface <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>(<span class="at">xy =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">fill =</span> distance)) <span class="sc">+</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> points_sf) <span class="sc">+</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> points_sf, <span class="at">colour =</span> <span class="st">"white"</span>, <span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous_c4a_seq</span>(<span class="at">palette =</span> <span class="st">"brewer.prgn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
