@@ -1,0 +1,394 @@
+---
+title: "GIS, a transformational approach"
+subtitle: "Part 4(B): are we there yet?"
+description: |
+   Eighth in a series of posts supporting _Geographic Information Analysis_ 
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+code-annotations: hover
+code-fold: show
+categories:
+  - geographic information analysis
+  - transformational approach
+  - geospatial
+  - R
+  - tutorial
+  - 30 day maps
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 10-31-2025
+---
+
+::: {#fig-kaka fig-cap="[Kākā](https://www.flickr.com/photos/russellstreet/8237870332) (in Zealandia) by  [russellstreet](https://www.flickr.com/photos/russellstreet/) [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/deed.en)"}
+![](kaka.jpg)
+:::
+
+What's with the kākā (_Nestor meridionalis_)?^[The collective noun for kākā is allegedly a hoon&mdash;at least according to [this podcast](https://www.podbean.com/podcast-detail/x5tpp-2d9b68/The-Hoon-Podcast), and [this website](https://www.nzbirds.com/more/nounsk.html)&mdash;although the former feels like wry comedy, and the latter doesn't find much support anywhere else on the internet. More generally hoon, in New Zealand and Australia, according to the OED means "**n** lout or idiot'; **v** behave like a hoon". The last thing kākā could be accused of being is idiotic, although like their more celebrated brethren the kea, while smart, they often hang around in groups, and _look like_ they are up to no good. Seeing them in large groups in inner suburban Wellington is a blessing we largely owe to Zealandia.] Well, they are one of the native bird species now relatively commonly seen in Wellington, largely due to the conservation efforts of the [Zealandia](https://www.visitzealandia.com/) wildlife sanctuary, and Zealandia is where the data for this post are from.
+
+But I digress... the point of this post is to round out the [GIS transformations](https://dosull.github.io/blog.html#category=transformational%20approach) with Field &rarr; Area and Field &rarr; Field examples.
+
+```{r}
+#| label: imports
+#| code-fold: true
+#| output: false
+library(sf)
+library(terra)
+library(stars)
+library(dplyr)
+library(stringr)
+library(tmap)
+library(whitebox)
+library(cols4all)
+library(ggplot2)
+library(ggnewscale)
+library(patchwork)
+library(SAiVE)
+```
+
+## From fields...
+```{r}
+#| label: read-data
+#| output: false
+#| code-fold: true
+dem       <- rast("zealandia-5m.tif")
+dem       <- dem |> crop(ext(dem) + c(0, 0, -5, 0)) # <1>
+streams   <- st_read("streams.gpkg") |> select()
+lake      <- st_read("lake.gpkg") |> select(name)
+slope     <- terrain(dem, unit = "radians")
+aspect    <- terrain(dem, v = "aspect", unit = "radians")
+hillshade <- shade(slope, aspect, angle = 30, direction = 135)
+```
+1. Turns out there is a row of NAs at the southern end of this DEM.
+
+As noted, we are using the same study area as in the [previous post](../2025-10-23-gia-chapter-1B-part-4/). For some context (and to learn about surface networks) go there and take a look. Meanwhile, here's a map for orientation again.
+
+::: {#fig-base-map fig-cap="Location map of the Zealandia study area" fig-width=8 fig-height=11}
+![](fig-base-map-1.png)
+:::
+
+## ... To areas
+Rasters are already area data&mdash;what else are we supposed to call lots of little squares?&mdash;so any operation that somehow or other aggregates those little squares into larger groups^[See e.g., [dissolve](https://dosull.github.io/posts/2025-10-05-gia-chapter-1B-part-3B/#dissolve-or-group_by)] on some basis is a Field&rarr;Area transformation. Herewith one interesting way to combine raster pixels, and one slightly less interesting one.
+
+### Watershed delineation
+Delineating drainage basins is one of those GIS operations that we've come to take for granted, although it seems clear even to this outsider that the 'hydrological modelling' you can do in a GIS, and 'real' hydrological modelling remain distinct domains. This was written in 2025:
+
+> Research gaps and challenges in existing studies are identified, emphasizing the lack of standardized methodologies, limited integration between hydrological models and GIS technologies, and difficulties in scaling GIS-based strategies to broader regional or national levels.^[Page 537, Pal D, S Saha, A Mukherjee, P Sarkar, S Banerjee and A Mukherjee. 2025. [GIS-Based Modeling for Water Resource Monitoring and Management: A Critical Review](https://dx.doi.org/10.1007/978-3-031-62376-9_24). Pages 537-561 in SC Pal and U Chatterjee (eds) _Surface, Sub-Surface Hydrology and Management Application of Geospatial and Geostatistical Techniques_. Springer.]
+
+Meanwhile, in 1999, Sui and Maggio had this to say:
+
+> We believe that there are problems in both hydrological models and the current generation of GIS. These problems must be addressed before we can make the integration of GIS with hydrological modeling theoretically consistent, scientifically rigorous, and technologically interoperable.^[Page 38, Sui DZ and RC Maggio. 1999. [Integrating GIS with hydrological modeling:
+practices, problems, and prospects](https://dx.doi.org/10.1016/S0198-9715(98)00052-0). _Computers, Environment and Urban Systems_ **23** 33-51.]
+
+So... _plus ça change, plus c'est le même chose_. Without getting too deeply into it, the fundamental difference between the hydrological modelling readily available in GIS and hydrological modelling proper is that the former is generally static, while the latter is dynamic.
+
+Having said that, watersheds are _relatively_ static and a by now well-established workflow can derive, for a given terrain, with relative ease, plausible drainage basins, or perhaps more correctly, the upstream watershed of a specified location. 
+
+Probably the best freely available tools for this kind of work are [John Lindsay's](https://geg.uoguelph.ca/faculty/lindsay-john) [Whitebox Tools](https://www.whiteboxgeo.com/) although the options are somewhat [bewildering](https://www.whiteboxgeo.com/manual/wbt_book/available_tools/hydrological_analysis.html). I found the `drainageBasins()` function available in the [`SAiVE` package](https://github.com/UO-SAiVE/SAiVE) from [Clement Bataille's lab of the same name](https://clementbataille.wixsite.com/earthscience) a handy one-liner solution for my purposes. It has the slightly unnerving side-effect of creating lots of files, and (like) Whitebox Tools, which it relies on for the analysis, often requiring that you work with shapefiles,^[Boo! Hiss! See [this post](https://dosull.github.io/posts/2024-10-16-geopackages/in-praise-of-the-geopackage.html).] but that's a small price to pay for not having to think too hard about all the options. The options are certainly there in the Whitebox suite, and if you are doing this sort of stuff seriously, you should certainly explore them.
+
+Anyway, here's that one-liner.
+
+```{r}
+#| label: run-drainage-basins
+#| output: false
+drainageBasins(
+  "./zealandia-5m.tif",
+  points = "./basin-centre.shp",
+  points_name_col = "name",
+  save_path = "./watersheds"
+)
+```
+
+The first argument is the file containing our DEM. The `points` argument specifies a file with points for which we want the upstream watershed, that is, all the land upstream that drains to that point. The `points` file should have a `name` column which is used to name resulting output files and folders. Even `SAiVE::drainageBasins` has more options than this, but let's just go with the basic configuration.
+
+The analysis generates a bunch of output raster layers:
+
+```{r}
+#| label: list-output-rasters
+output_rasters <- dir("./watersheds", pattern = "*.tif", full.names = TRUE)
+output_rasters
+```
+
+which we can stack together:
+
+```{r}
+#| label: read-output-rasters
+#| output: false
+stack <- rast(output_rasters)
+```
+
+Here's what three of those outputs look like:
+
+```{r}
+#| label: fig-hydro-steps
+#| fig-cap: Three intermediate outputs in watershed delineation
+#| fig-width: 12
+#| fig-height: 6.3
+#| code-fold: true
+
+g1 <- ggplot() +
+  geom_raster(
+    data = stack$D8pointer |> 
+      as.data.frame(xy = TRUE) |>
+      mutate(D8pointer = ordered(D8pointer)),
+    aes(x = x, y = y, fill = D8pointer)) +
+  scale_fill_discrete_c4a_seq(palette = "brewer.spectral") +
+  coord_sf() +
+  guides(fill = "none") +
+  ggtitle("Flow direction") +
+  theme_void()
+
+g2 <- ggplot() +
+  geom_raster(
+    data = stack$D8fac |>
+      as.data.frame(xy = TRUE),
+    aes(x = x, y = y, fill = sqrt(D8fac))) +
+  scale_fill_continuous_c4a_seq(palette = "-kovesi.blue_cyan") +
+  coord_sf() +
+  guides(fill = "none") +
+  ggtitle("square-root Flow accumulation") +
+  theme_void()
+
+g3 <- ggplot() +
+  geom_raster(
+    data = stack$streams_derived |> 
+      as.data.frame(xy = TRUE),
+    aes(x = x, y = y, fill = streams_derived)) +
+  coord_sf() +
+  guides(fill = "none") +
+  ggtitle("Derived streams") +
+  theme_void()
+
+g1 | g2 | g3
+```
+
+The flow direction raster records in which of the 8 directions out of each cell in the grid surface water will flow. The flow accumulation raster is derived from the flow direction raster and accumulates a count of how many cells are upstream from each cell. Finally, cells above some accumulated flow are designated as streams.
+
+One critical layer not shown here is the original DEM with depressions removed. This pre-processing step fills depressions in the DEM which would otherwise end up as sinks where streams would terminate. In the real world, such 'sinks' fill up with water, which continues to flow downhill. In effect the static flow direction analysis needs some 'nudging' to account for this dynamic process.
+
+Anyway, all that done, this workflow can identify for a given location or locations the associated upstream watershed.
+
+```{r}
+#| label: read-basin-centre-and-watershed
+#| output: false
+fence <- st_read("fences.gpkg")
+basin_centre <- st_read("./watersheds/basin-centre.shp")
+basin <- st_read(
+  "./watersheds/watersheds_2025-10-31/Lower Reservoir/Lower Reservoir_drainage_basin.shp")
+```
+
+And here it is:
+
+```{r}
+#| label: fig-drainage-basin-output
+#| fig-cap: The output watershed ('drainage basin') associated with the point shown at the north end of the lower reservoir.
+#| fig-width: 8
+#| fig-height: 12
+#| code-fold: true
+tm_shape(hillshade) +
+  tm_raster(
+    col.scale = tm_scale_continuous(values = "brewer.greys"),
+    col.legend = tm_legend_hide(), col_alpha = 0.5) +
+  tm_shape(basin) +
+  tm_fill(fill = "orange", fill_alpha = 0.35) +
+  tm_shape(streams) + 
+  tm_lines(col = "dodgerblue") +
+  tm_shape(lake) + 
+  tm_fill(fill = "dodgerblue") +
+  tm_shape(fence) +
+  tm_lines(col = "purple", lwd = 1) +
+  tm_shape(basin_centre) +
+  tm_dots()
+```
+
+As is apparent, the Zealandia reserve is more or less congruent with the watershed of the reservoir near its (human^[Birds can come and go as they please.]) entrance in the north.
+
+### Hill masses
+Our lodestar table on page 26 of _Geographic Information Analysis_ suggests hill masses as another possible outcome of transforming fields to areas. I am not 100% sure what that means,^[Keep in mind that the book is co-authored...] but I am going to go with areas enclosed by a given contour. So...
+
+The obvious approach here might be to extract contour lines then, convert those to polygons. Unfortunately, this fails, because within the extent of a given DEM contours may not be closed shapes and so they don't form proper polygons:
+
+```{r}
+#| label: fig-contour-to-area-fail
+#| fig-cap: How a contour line fails to yield a proper polygon
+#| fig-width: 8
+#| fig-height: 6
+#| code-fold: true
+line <- dem |> 
+  as.contour(levels = c(250)) |> 
+  st_as_sf()
+area <- line |> 
+  st_cast("LINESTRING") |> 
+  st_cast("POLYGON")
+
+g1   <- ggplot(line) + geom_sf() + theme_void()
+g2   <- ggplot(area) + geom_sf() + theme_void()
+
+g1 | g2
+```
+
+Conceptually, the proper way to resolve this might be by finding the full extent of a contour, and intersecting it with the extent of the DEM. All contours close eventually. Unfortunately, it's hard to know _where_ they might close and how far away that might be.^[As a regular walker in Wellington's hilly terrain, I can attest to the truth of this comment.] Furthermore, wherever it is, it's guaranteed to be beyond the scope of our current DEM.
+
+More pragmatically, we might attempt to split a rectangular extent polygon of the study area by the contour lines. Using `sf` this this turns out to be a trickier proposition than you might assume, even if you enroll [`lwgeom::st_split()`](https://search.r-project.org/CRAN/refmans/lwgeom/html/st_split.html). Given just a line, you don't know which side of the line is inside the larger closed shape of which it is a part, and you end up with a subdivision at any given level of the extent, and the problem of figuring out which subdivisions are above or below the contour. Ultimately the problem here is the artificiality of the study area extent and there's not a lot we can do about that.^[Interestingly, a related issue arises when we deal with large polygons on the Earth's spherical surface, where every line defines two polygons. When the polygons are small, it's perhaps obvious which one we mean, but when they are large it's less clear. See [this notebook](https://observablehq.com/@fil/rewind) for more on the problem on the sphere.]
+
+Fortunately, smarter tools resolve the problem. In QGIS `gdal_contour` is invoked in the **Contour polygons** geoprocessing tool and it comes as no surprise to learn there is also a wrapper for this in the R ecosystem in the [`stars` package](https://r-spatial.github.io/stars/), which handles this problem with aplomb!^[TIL...] I've tended to avoid `stars` because generally I don't need its complexity, and the learning curve is rather steep. But baby steps... here is some code that converts our DEM to a stars object, then extracts the contour _bands_ as polygons.
+
+```{r}
+#| label: get-contour-bands-as-polygons
+levels <- seq(60, 400, 20)
+contour_bands <- dem |>
+  st_as_stars() |>
+  st_contour(breaks = levels)
+```
+
+Here's what we get:
+
+```{r}
+#| label: fig-contour-bands-map
+#| fig-cap: The contour bands each have a lower and upper value
+#| fig-width: 8
+#| fig-height: 6
+#| code-fold: true
+
+g1 <- ggplot() +
+  geom_sf(data = contour_bands, aes(fill = Min), colour = NA) +
+  scale_fill_continuous_c4a_seq(palette = "hcl.terrain2") +
+  theme_void()
+
+g2 <- ggplot() +
+  geom_sf(data = contour_bands, aes(fill = Max), colour = NA) +
+  scale_fill_continuous_c4a_seq(palette = "hcl.terrain2") +
+  theme_void()
+
+g1 | g2
+```
+
+Then we can assemble these height bands into regions delineating all the land above each level.
+
+```{r}
+#| label: assemble-hill-masses
+hill_masses <- list()
+level_names <- str_c(levels, "m")
+for (i in seq_along(levels)) {
+  hill_masses[[i]] <- 
+    contour_bands |>
+    filter(Min >= levels[i]) |>
+    mutate(level = level_names[i])
+}
+hill_masses <- 
+  hill_masses |>
+  bind_rows() |>
+  mutate(level = ordered(level, level_names))
+```
+
+And just for the hell of it, here's a small multiple map series of 'hill masses' at 20m intervals.
+
+```{r}
+#| label: fig-small-multiples-hill-masses
+#| fig-cap: All the hill masses!
+#| fig-width: 12
+#| fig-height: 9.5
+#| code-fold: true
+tm_shape(hillshade) +
+  tm_raster(
+    col.scale = tm_scale_continuous(values = "brewer.greys"),
+    col.legend = tm_legend_hide(), col_alpha = 0.5) +
+  tm_shape(hill_masses) +
+  tm_fill(fill = "#ff000060") +
+  tm_facets(by = "level", ncol = 6) +
+  tm_layout(
+    frame.lwd = 0,
+    panel.label.bg.color = "white",
+    panel.label.frame.color = NA,
+    panel.label.frame.lwd = 0
+  )
+```
+
+## ... To fields
+And for my last trick^[Drum roll please!] deriving the vector field from a surface. 
+
+Every scalar surface has an associated vector field. At any point on the surface we can find the gradient vector, which is oriented downhill in the direction of steepest slope at that location. Derived `slope` and `aspect` surfaces can be used here, along with a little bit of trigonometry to create an array of line segments to represent the vector field.
+
+The final visualization works better with some smoothing of the source slope, and some of the additional processing operations are sensitive to NA values, so before going further we run that smoothing and trim the datasets to a common size with no NA values.
+
+```{r}
+#| label: prep-surfaces-for-vector-field-calcs
+gauss <- focalMat(dem, 4, "Gauss")
+dem    <- dem    |> focal(gauss, mean, expand = TRUE)
+slope  <- dem    |> terrain(unit = "radians")
+aspect <- dem    |> terrain(v = "aspect", unit = "radians")
+dem    <- dem    |> crop(ext(dem) + rep(-5, 4))
+slope  <- slope  |> crop(dem)
+aspect <- aspect |> crop(aspect)
+```
+
+
+```{r}
+#| label: derive-vector-field-of-dem
+cellsize <- res(dem)[1]
+
+df <- slope |> 
+  as.data.frame(xy = TRUE) |>
+  bind_cols(aspect |> as.data.frame()) |>
+  mutate(dx = sin(aspect) * tan(slope),              # <1>
+         dy = cos(aspect) * tan(slope))
+
+n <- nrow(df)
+offsets <- rnorm(n, 0, cellsize / 5)                 # <2>
+df <- df |> 
+  mutate(x0 = x + sample(offsets, n) - dx * cellsize * 1.5,
+         x1 = x + sample(offsets, n) + dx * cellsize * 2.5,
+         y0 = y + sample(offsets, n) - dy * cellsize * 1.5,
+         y1 = y + sample(offsets, n) + dy * cellsize * 2.5)
+
+vecs <- df |>
+  select(x0, x1, y0, y1) |>
+  apply(1, matrix, ncol = 2, simplify = FALSE) |>
+  lapply(st_linestring) |>
+  st_sfc() |>
+  as.data.frame() |>
+  st_sf(crs = 2193) |>
+  bind_cols(df |> select(slope))
+```
+1. The usual mapping of cosine to x-component and sine to y-component breaks down here because aspect is expressed as azimuth which starts at north for 0&deg; and proceeds clockwise, whereas mathematical angles start at east for 0&deg; and proceed counter-clockwise.
+2. This is to add a little bit of jitter to the vectors to reduce the visual impact of them being arranged in a strict grid.
+
+```{r}
+#| label: fig-hachures
+#| fig-cap: The vector field associated with this terrain, which is a crude hachure map
+#| fig-width: 12
+#| fig-height: 12
+#| code-fold: true
+cxy <- dem |>
+  ext() |>
+  matrix(ncol = 2) |> 
+  apply(2, mean)
+
+ggplot() +
+  geom_sf(data = vecs |> filter(slope > 0.1),
+          aes(linewidth = slope / 2)) +
+  scale_linewidth_identity() +
+  coord_sf(xlim = cxy[1] + c(-500, 500),
+           ylim = cxy[2] + c(-500, 500)) +
+  theme_void()
+```
+
+Hachure mapping has been [having a moment in the last few years](https://somethingaboutmaps.wordpress.com/2024/07/07/automated-hachuring-in-qgis/), and this is certainly not a map that advances developments in that art, although it does show how the idea works. The most obvious way to improve it would to be a bit more selective about which field lines to show and thin things out accordingly. That's a big focus of the method just linked.
+
+It's fitting to wrap up this sequence of posts based on a table in _Geographic Information Analysis_ co-authored with Dave Unwin with such a map. Dave has always insisted on the usefulness of the vector field associated with any scalar field, and way back in 1981 in _Introductory Spatial Analysis_^[To which _Geographic Information Analysis_ is effectively an expanded sequel.] he suggests that
+
+> a map of the vector field will always give a moderately good visualization of the surface relief and is the essence of the method of hachures used in early relief maps.^[Page 156 in Unwin D. 1981. _Introductory Spatial Analysis_. Methuen. See also the rest of Chapter 6.]
+
+For my crude example 'moderately good' would be a generous assessment, but hopefully it demonstrates the value of the vector field perspective on the more familiar scalar fields.
+
+## _Et fin_... for now
+So that's it for posts about a [transformational approach to GIS](https://dosull.github.io/blog.html#category=transformational%20approach) and also for the supplementary material to Chapter 1 of _Geographic Information Analysis_. Next in that larger series will be material related to Chapter 2 'The Pitfalls and Potential of Spatial Data'.
+
+Meanwhile, never forget: everything's better with a bird on it.

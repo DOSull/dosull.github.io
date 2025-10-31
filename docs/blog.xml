@@ -10,7 +10,21 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Mon, 27 Oct 2025 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 30 Oct 2025 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>GIS, a transformational approach</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-11-03-gia-chapter-1B-part-4B/</link>
+  <description><![CDATA[ Eighth in a series of posts supporting Geographic Information Analysis ]]></description>
+  <category>geographic information analysis</category>
+  <category>transformational approach</category>
+  <category>geospatial</category>
+  <category>R</category>
+  <category>tutorial</category>
+  <category>30 day maps</category>
+  <guid>https://dosull.github.io/posts/2025-11-03-gia-chapter-1B-part-4B/</guid>
+  <pubDate>Thu, 30 Oct 2025 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>XKCD 3122 ‘Interrupted spheres’</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -257,19 +271,6 @@
   <guid>https://dosull.github.io/posts/2025-06-13-population-quadrants/</guid>
   <pubDate>Wed, 11 Jun 2025 12:00:00 GMT</pubDate>
   <media:content url="https://dosull.github.io/posts/2025-06-13-population-quadrants/best-fit-quadrants-1.png" medium="image" type="image/png" height="103" width="144"/>
-</item>
-<item>
-  <title>North-south or east-west islands?</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2025-06-01-nsew-island/</link>
-  <description><![CDATA[ An exploration of just how north is Te Ika-a-Maui and how south is Te Waipounamu. ]]></description>
-  <category>geospatial</category>
-  <category>R</category>
-  <category>tutorial</category>
-  <category>stuff</category>
-  <category>aotearoa</category>
-  <guid>https://dosull.github.io/posts/2025-06-01-nsew-island/</guid>
-  <pubDate>Sat, 31 May 2025 12:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
