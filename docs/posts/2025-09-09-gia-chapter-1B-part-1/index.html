@@ -871,7 +871,7 @@ Figure&nbsp;4: The result of spatialEco’s sf.kde function applied to our point
 </div>
 </div>
 <p><code>sf.kde</code>’s scaling behaviour is not especially well documented, but by setting <code>standardize = FALSE</code> and <code>scale.factor = 1</code> I get estimates of the density that appear to be in the units of the projection, i.e.&nbsp;counts per square metre in the present example. This is nice to know if you do happen to want to use an estimated density surface to, for example, aggregate cell densities up to estimaged counts for a set of areas.</p>
-<p>You can also weight the points using the <code>y</code> parameter in the <code>sf.kde</code> function call, but it’s not clear to me that the resulting density estimate respects the total weight associated with the data. If it did, I would expect the value the weighted surface to be 100 or more times greater than in the unweighted case.</p>
+<p>You can also weight the points using the <code>y</code> parameter in the <code>sf.kde</code> function call, but it’s not clear to me that the resulting density estimate respects the total weight associated with the data. If it did, I would expect the value of the weighted surface to be 100 or more times greater than in the unweighted case.</p>
 <p>Another possibility here, if you’d rather not use Gaussian kernels, but instead stick with the kernels that are typically available in a GIS, then the <a href="https://jancaha.github.io/SpatialKDE/index.html"><code>SpatialKDE</code> package</a> has you covered.</p>
 <div class="cell">
 <details open="" class="code-fold">
