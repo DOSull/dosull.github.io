@@ -10,7 +10,20 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Thu, 30 Oct 2025 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 01 Nov 2025 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>30 Day Map Challenge 2025</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-11-03-hachures-30-day-maps-2025-day-2/</link>
+  <description><![CDATA[ Here’s one I prepared earlier, or at any rate something I happened to be doing just a few days ago which fits nicely with the ‘lines’ theme. ]]></description>
+  <category>cartography</category>
+  <category>R</category>
+  <category>tutorial</category>
+  <category>30 day maps</category>
+  <guid>https://dosull.github.io/posts/2025-11-03-hachures-30-day-maps-2025-day-2/</guid>
+  <pubDate>Sat, 01 Nov 2025 11:00:00 GMT</pubDate>
+  <media:content url="https://dosull.github.io/posts/2025-11-03-hachures-30-day-maps-2025-day-2/hachure-map.png" medium="image" type="image/png" height="222" width="144"/>
+</item>
 <item>
   <title>GIS, a transformational approach</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -258,19 +271,6 @@
   <category>cartography</category>
   <guid>https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/</guid>
   <pubDate>Thu, 19 Jun 2025 12:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>How to cut a cake into four equal slices</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2025-06-13-population-quadrants/</link>
-  <description><![CDATA[ A procedure, including R code, for quadrisecting the population of New Zealand with two lines that intersect at 90° ]]></description>
-  <category>geospatial</category>
-  <category>R</category>
-  <category>tutorial</category>
-  <category>aotearoa</category>
-  <guid>https://dosull.github.io/posts/2025-06-13-population-quadrants/</guid>
-  <pubDate>Wed, 11 Jun 2025 12:00:00 GMT</pubDate>
-  <media:content url="https://dosull.github.io/posts/2025-06-13-population-quadrants/best-fit-quadrants-1.png" medium="image" type="image/png" height="103" width="144"/>
 </item>
 </channel>
 </rss>

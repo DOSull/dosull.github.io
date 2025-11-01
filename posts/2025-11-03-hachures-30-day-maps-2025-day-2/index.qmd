@@ -1,0 +1,257 @@
+---
+title: "30 Day Map Challenge 2025"
+subtitle: "Day 2 Lines"
+description: |
+   Here's one I prepared earlier, or at any rate something I happened to be doing just a few days ago which fits nicely with the 'lines' theme.
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+code-annotations: hover
+code-fold: show
+categories:
+  - cartography
+  - R
+  - tutorial
+  - 30 day maps
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 11-02-2025
+image: hachure-map.png
+---
+
+I did all of the [30 Day Map Challenge](https://30daymapchallenge.com/) in [2023](https://dosull.github.io/30-day-maps-2023/) and I won't be repeating that experience again in a hurry. Last year I skipped it completely. This year I'll do a few here and there as the mood takes me, especially if as in this example, I already have a lot of the material to hand.
+
+Unlike some of the more 'tutorial' posts on the website, I'll leave the explanations to the code comments, and just get on with making the map.
+
+```{r}
+#| label: imports
+#| code-fold: true
+# package imports
+library(sf)
+library(rmapshaper)
+library(terra)
+library(dplyr)
+library(ggplot2)
+library(cols4all)
+```
+
+## Getting points along contour lines
+The map that got me thinking I could do 'lines' quickly was a vector field 'hachure map' of a DEM, which [you'll find here](../2025-11-03-gia-chapter-1B-part-4B/#to-fields) where the lines representing the gradient of a DEM were centred on the raster cells. Work by others on hachures^[[This post](https://somethingaboutmaps.wordpress.com/2024/07/07/automated-hachuring-in-qgis/) by Daniel Huffman links to several others and is a good place to start.] suggests that it's better to position the hachures along contour lines.
+
+First a couple of convenience functions.
+
+```{r}
+#| label: contour-convenience-functions
+# round x to nearest y
+round_to_nearest <- function(x, y) round(x / y) * y
+
+# get contour levels for supplied dem at specified interval
+contour_levels <- function(dem, interval) {
+  range_z <- range(values(dem)) |> round_to_nearest(interval)
+  seq(range_z[1], range_z[2], interval)
+}
+```
+
+These support a function to get points at equal intervals along contour lines from a DEM specified by `spacing` on contours `contour_interval` apart.
+
+```{r}
+#| label: function-to-get-points along-contour-lines
+get_contour_pts <- function(dem, spacing = 10, contour_interval = 5) {
+  contour_lines <- dem |> 
+    as.contour(levels = contour_levels(dem, contour_interval)) |>
+    st_as_sf() |>
+    ms_explode() |>                  # <1>
+    mutate(length = st_length(geometry) |> units::drop_units())
+  
+  lines <- contour_lines |> pull(geometry) |> lapply(st_sfc)
+  line_lengths <- contour_lines |> pull(length)
+  
+  mapply(st_line_interpolate,       # <2>
+         lines,
+         mapply(seq, 0, line_lengths, spacing)) |>
+    do.call(what = c) |>            # <3>
+    data.frame() |>
+    st_sf(crs = 2193)
+}
+```
+1. If I use `st_cast("LINESTRING")` here it discards all but the first line in each `MULTILINESTRING`. `rmapshaper::explode()` does what I want, which is to break the `MULTILINESTRING`s into individual `LINESTRING`s. 
+2. Probably over-using `mapply` here, but it's too much fun not to. The outer one applies `st_line_interpolate` to the linestrings, and the inner one makes sequences of steps at the required spacing along each contour.
+3. Then concatenate (`c`) to convert to a points dataframe.
+
+## Assembling geomorphometric data
+The next function takes a set of points, and assigns slope, aspect, and hillshade values from rasters to them to return a dataframe with all the information needed to make hachures (at least for my purposes).
+
+```{r}
+#| label: get-geomorphometric-attributes-dataframe-function
+get_geomorph_df <- function(pts, slope, aspect, hillshade) { 
+  dx <- sin(aspect) * tan(slope)  # <1>
+  names(dx) <- "dx"
+  dy <- cos(aspect) * tan(slope)
+  names(dy) <- "dy"
+  pts |> 
+    st_coordinates() |>
+    data.frame() |> 
+    rename(x = X, y = Y) |>
+    bind_cols(extract(slope, pts, ID = FALSE)) |>
+    bind_cols(extract(dx, pts, ID = FALSE)) |>
+    bind_cols(extract(dy, pts, ID = FALSE)) |>
+    bind_cols(extract(hillshade, pts, ID = FALSE))
+}
+```
+1. We decompose aspect into its x and y components because extracting values to points involves interpolation and you can interpolate distances, but not angles. Also note that the usual trigonometric relation of cosine and sine to x and y directions is reversed here because aspects is expressed as an azimuth clockwise from north.
+
+## Make hachures from geomorphometric data
+The function below takes the data compiled by the previous function and assembles line segments to be used as hachures. It scales the hachures to a length specified by the `scale` argument, starting from the contour and running uphill. I found this orientation gave me nicer results on this terrain than running them downhill from the contours. The function could be modified to displace the hachures in relation to the contour lines, perhaps starting a little uphill and extending downhill across them without too much difficulty.^[A nice refinement for someone to try, perhaps.] In one version of this code, I had that option, but it was too many things to think about, so in the end I left it out.^[Sometimes less is more.]
+
+```{r}
+get_hachure_vectors <- function(df, scale = 25) {
+  df |> mutate(x0 = x, x1 = x - dx * scale,
+               y0 = y, y1 = y - dy * scale) |>
+    select(x0, x1, y0, y1) |>
+    apply(1, matrix, ncol = 2, simplify = FALSE) |>   # <1>
+    lapply(st_linestring) |>
+    st_sfc() |>
+    as.data.frame() |>
+    st_sf(crs = 2193) |>
+    bind_cols(df)                                     # <2>
+}
+```
+1. This forms the matrix required to make line segments from `(x0 y0)` to `(x1 y1)` pairs.
+2. Add the geomorphometric data back to the hachures so that is available for styling.
+
+## Putting it all together
+First we read in and process the DEM.
+
+```{r}
+#| label: organise-data
+#| output: false
+dem <- rast("zealandia-5m.tif")
+cellsize <- res(dem)[1]
+# this DEM has a row of NAs so get rid of them
+dem <- dem |> crop(ext(dem) + c(0, 0, -cellsize, 0))
+
+gauss <- focalMat(dem, 4, "Gauss")
+dem <- dem |> focal(gauss, mean, expand = TRUE)
+
+slope  <- dem |> terrain(unit = "radians")
+aspect <- dem |> terrain(v = "aspect", unit = "radians")
+hillshade <- shade(slope, aspect, direction = 135, normalize = TRUE)
+
+dem <- dem |> crop(ext(dem) + rep(-cellsize, 4))   # <1>
+slope <- slope |> crop(dem)
+aspect <- aspect |> crop(dem)
+hillshade <- hillshade |> crop(dem)
+
+cxy <- dem |>    # <2>
+  ext() |>
+  matrix(ncol = 2) |>
+  apply(2, mean)
+```
+1. After smoothing and terrain analysis we lose rows and columns around the edge, so we crop all the layers to the same extent here so they have no NA values.
+2. The centre of the DEM is useful for trimming maps to restricted extents.
+
+And now we can run the functions from above to get a set of hachures. I've experimented with settings, and a contour interval of 5m with points at 10m spacing along them is quite nice for this DEM.
+
+```{r}
+#| label: get-contour-points
+points <- get_contour_pts(dem, spacing = 10, contour_interval = 5)
+points |> head()
+```
+
+Next make the geomorphometric data.
+
+```{r}
+#| label: get-geomorphic-data
+df <- get_geomorph_df(points, slope, aspect, hillshade)
+df |> glimpse()
+```
+
+And form hachures.
+
+```{r}
+#| label: get-hachures
+hachures <- get_hachure_vectors(df, 20)
+hachures |> glimpse()
+```
+
+## Make some maps
+Here's a map of a 1km square part of the area showing the relation of the hachures to the contour lines.
+
+```{r}
+#| label: map-1-with-contours
+#| fig-width: 12
+#| fig-height: 12
+#| code-fold: true
+ggplot() +
+  geom_sf(
+    data = as.contour(dem, levels = contour_levels(dem, 5)) |> st_as_sf(),
+    aes(colour = level), linewidth = 1) +
+  scale_colour_continuous_c4a_seq(
+    palette = "-tableau.green_gold", limits = c(50, 500)) +
+  geom_sf(data = hachures) +
+  coord_sf(xlim = cxy[1] + c(-500, 500),
+           ylim = cxy[2] + c(-500, 500), expand = FALSE) +
+  guides(colour = "none") +
+  theme_void()
+```
+
+Here's a final (R-generated) map, using the hillshade attribute to lighten or darken the hachures based on that attribute of the data, and making the line thickness of hachures dependent on the slope. I've added streams and lakes to show that the hachures 'make sense'.
+
+```{r}
+#| label: read-additional-data
+#| echo: false
+#| output: false
+streams <- st_read("streams.gpkg")
+lake <- st_read("lake.gpkg")
+```
+
+```{r}
+#| label: map-2
+#| fig-width: 8
+#| fig-height: 11
+#| code-fold: true
+ggplot() +
+  geom_sf(data = hachures, aes(linewidth = slope ^ 2, colour = sqrt(hillshade))) +
+  scale_linewidth_identity() +
+  scale_colour_distiller(palette = "Greys", direction = 1) +
+  geom_sf(data = lake, fill = "skyblue", colour = NA) +
+  geom_sf(data = streams, colour = "dodgerblue", linewidth = 0.5) +
+  guides(colour = "none", linewidth = "none") +
+  coord_sf(xlim = ext(dem)[1:2], ylim = ext(dem)[3:4], expand = FALSE) +
+  theme_void()
+```
+
+## Refining the hachures in QGIS
+By exporting the data to points, and working with [geometry generators in QGIS](https://www.statsmapsnpix.com/2023/03/geometry-generators-in-qgis.html) we can make hachures that are elongated triangles, so that the hachures are thicker at their lower elevation ends.
+
+Here's a map I made that way.
+
+![](hachure-map.png)
+
+If you zoom in (click on the image) you'll see that the hachures are elongated triangles. I don't know if that means they are still 'lines' or not.^[Perhaps I can double dip and count this one against day 2 (lines) and day 3 (polygons).] I tried to get this effect using the [ggarrow](https://teunbrand.github.io/ggarrow/) and [ggquiver](https://github.com/mitchelloharawild/ggquiver/) packages, but the former was memory-limited and slow for data this size, and the latter is not flexible enough.
+
+This used the following geometry generator expression to generate polygon geometries:
+
+    make_triangle(
+        make_point($x - 25 * "dx", $y - 25 * "dy"),
+        make_point($x - 2 * "dy", $y + 2 * "dx"),
+        make_point($x + 2 * "dy", $y - 2 * "dx")
+    )
+
+and the following expression for the colour fill
+
+    color_rgba(
+        0, 0, 0, 
+        255 * sqrt(scale_linear("hillshade", 0, 255, 0, 1))
+    )
+    
+A more complete hachure map solution would require that we consider relationships between the hachures and other features (streams, lakes, etc.). The kind of thing a cartographer would do, in fact.
+
+Overall this took a bit more work to refine the map from the rough cut of a few days ago than I hoped, but I'm reasonably happy with this version, even as it leaves plenty of scope for improvement.
