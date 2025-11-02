@@ -203,12 +203,12 @@ right_buffers <- edges |>
   st_buffer(-100, singleSide = TRUE)
 
 ggplot() +
-  geom_sf(data = left_buffers, fill = "orange", colour = NA) +
-  geom_sf(data = right_buffers, fill = "limegreen", colour = NA) +
+  geom_sf(data = left_buffers, fill = "#FF883E", colour = NA) +
+  geom_sf(data = right_buffers, fill = "#169B62", colour = NA) +
   geom_sf(data = edges, lwd = 2, colour = "white")
 ```
 
-I am, of course, channeling the [flag of Cóte d'Ivoire](https://en.wikipedia.org/wiki/Flag_of_Ivory_Coast) here, and not the [flag of Ireland](https://en.wikipedia.org/wiki/Flag_of_Ireland).
+I am, of course, channeling the [flag of Cóte d'Ivoire](https://en.wikipedia.org/wiki/Flag_of_Ivory_Coast) here, and not the [flag of Ireland](https://en.wikipedia.org/wiki/Flag_of_Ireland).^[Or have I? The colours in the two flags are not precisely the same, apparently.]
 
 ## ... to fields
 As in the previous post concerning transformations from points, the distance to nearest object surface is the output here, and we can adopt a similar approach.
