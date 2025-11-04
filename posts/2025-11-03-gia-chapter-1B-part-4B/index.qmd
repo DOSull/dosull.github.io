@@ -326,7 +326,7 @@ slope  <- dem    |> terrain(unit = "radians")
 aspect <- dem    |> terrain(v = "aspect", unit = "radians")
 dem    <- dem    |> crop(ext(dem) + rep(-5, 4))
 slope  <- slope  |> crop(dem)
-aspect <- aspect |> crop(aspect)
+aspect <- aspect |> crop(dem)
 ```
 
 
