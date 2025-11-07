@@ -735,7 +735,7 @@ Figure&nbsp;6: Single sphere map produced by specifying a radius of 3500km
 </div>
 </div>
 <p>The <code>lon_0</code>, <code>lat_0</code>, and <code>d</code> columns here correspond to the arguments of the same name in the <code>make_local_spherical_projection</code> function. I’ve chosen centre coordinates and radii for each continent by a process of trial and error. Having realised that I had this kind of flexibility I decided not to replicate the xkcd map, but to make my own new and improved version.</p>
-<p>The <code>facet</code> attribute is in part to help keep track of which row is which, but more importantly it used in <code>make_world_map</code> to dissolve the shapes in each sphere into a single multi-polygon which can be outlined in a thicker line xkcd-style.</p>
+<p>The <code>facet</code> attribute is in part to help keep track of which row is which, but more importantly is used in <code>make_world_map</code> to dissolve the shapes in each sphere into a single multi-polygon which can be outlined in a thicker line xkcd-style.</p>
 <p>Additional arguments for the final map are <code>dx</code>, <code>dy</code>, and <code>rotn</code>. These are offsets in the x and y directions and a rotation to be applied to each sphere. The units of the offsets are uncertain, since we are mixing the output from seven different projections. Nominally, everything is in metres, but given the perspectival aspect and the fact that each of the seven projections is from a different height, they are not the same metres in each sphere. So for present purposes it made more sense to experiment until I got numbers that put the different spheres where I wanted them!</p>
 <p>And so… to a final map!</p>
 <div class="cell">
