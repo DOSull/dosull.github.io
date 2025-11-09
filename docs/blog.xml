@@ -10,7 +10,17 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Sat, 01 Nov 2025 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 08 Nov 2025 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>30 Day Map Challenge 2025</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-11-09-origami-terrain-30-day-maps-2025-day-9/</link>
+  <description><![CDATA[ It’s hard to avoid digital completely, so I don’t know if this counts, but the final result is hand folded (more like pinched) so I’m going to say that it does. ]]></description>
+  <category>origami</category>
+  <category>cartography</category>
+  <guid>https://dosull.github.io/posts/2025-11-09-origami-terrain-30-day-maps-2025-day-9/</guid>
+  <pubDate>Sat, 08 Nov 2025 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>30 Day Map Challenge 2025</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -257,20 +267,6 @@
   <guid>https://dosull.github.io/posts/2025-06-27-iata-codes/</guid>
   <pubDate>Thu, 26 Jun 2025 12:00:00 GMT</pubDate>
   <media:content url="https://dosull.github.io/posts/2025-06-27-iata-codes/post-preview.png" medium="image" type="image/png" height="103" width="144"/>
-</item>
-<item>
-  <title>A population based binary space partition</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/</link>
-  <description><![CDATA[ A process for building a hierarchical partition of a gridded population dataset ]]></description>
-  <category>geospatial</category>
-  <category>R</category>
-  <category>tutorial</category>
-  <category>aotearoa</category>
-  <category>population</category>
-  <category>cartography</category>
-  <guid>https://dosull.github.io/posts/2025-06-20-population-binary-space-partition/</guid>
-  <pubDate>Thu, 19 Jun 2025 12:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
