@@ -9,6 +9,7 @@ lightbox:
   match: auto
   loop: true
 categories:
+  - 30 day maps
   - origami
   - cartography
 # filters:
