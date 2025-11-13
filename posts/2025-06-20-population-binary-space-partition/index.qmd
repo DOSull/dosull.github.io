@@ -162,7 +162,7 @@ top_level <- all_levels |> filter(level == 11)  # <6>
 1. This is `data.tree`'s syntax for retrieving the 'bb' attribute of each node in the tree.
 2. Wrap the matrix we get back in a list.
 3. And convert to an `sf` polygon.
-4. Then we apply a relatively well-work `st_as_sfc() |> as.data.frame() |> st_sf()` sequence to convert to a simple features dataset.
+4. Then apply the well-worn `st_as_sfc() |> as.data.frame() |> st_sf()` sequence to convert to a simple features dataset.
 5. Then we can append the binary space partition's level and id attributes to our dataframe.
 6. It's convenient to separate out the highest level of detail rectangles as a separate layer.
 
