@@ -4,6 +4,7 @@ title-block-banner: false
 title-block-style: none
 page-layout: custom
 css: carousel-styles.css
+description: "Geospatial consulting and training on spatial data analysis, simulation modelling, visualization, and cartography"
 ---
 
 ::::: {.page-layout-custom}

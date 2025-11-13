@@ -1,0 +1,283 @@
+---
+title: "30 Day Map Challenge 2025"
+subtitle: "Day 18 Out of this world"
+description: "I noted in a recent comment on someone else's map back on day 3 how I've always loved Tanaka contours, and that I'd share how to make them in R. I this post I crowbar that promise into a map using Mars digital terrain model data."
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+  loop: true
+categories:
+  - "30 day maps"
+  - origami
+  - cartography
+# filters:
+#   - nutshell
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 11-18-2025
+draft: true
+---
+
+On Day 3 of this year's [30 Day Map Challenge](https://30daymapchallenge.com) [Sam Keast](https://www.linkedin.com/in/samkeastnz/) posted a nice Tanaka illuminated contours map, which he made in Arc loosely follow a [John Nelson video](https://www.youtube.com/watch?v=RTLBgd8MmrY). 
+
+In a comment I mentioned how much I've always loved this method of terrain representation ever since encountering it during my Masters in Glasgow back in 1996-7. I liked it so much that I leaned into it hard for one coursework assignment to make a tourist promotional map of a chosen location. Donegal being very much our go-to family holiday spot I chose the area around [Sheephaven Bay and the Rosguill Peninsula](https://maps.app.goo.gl/nRgnproBVVDnwrNS7) for my subject matter. That meant that I had to manually digitise contours from a 1:50,000 topographic map of the area, and then mock up illuminated contours in CorelDraw. The map seems now to have been lost, although I dimly remember seeing it the last time we moved house, but can't right now locate it. Never mind, if you want to know why my efforts didn't score especially well [see below](#for-old-times-sake).
+
+That was a long time ago, and I'm glad to say things have got a lot easier...
+
+```{r}
+#| label: imports
+#| code-fold: true
+library(sf)
+library(terra)
+library(dplyr)
+library(stars)
+library(ggplot2)
+library(cols4all)
+library(patchwork)
+```
+
+## About Tanaka's illuminated contours
+In short, illuminated contours are an elegant way of combining contours and hillshading to represent surfaces. 
+
+The method was proposed in a paper by Kitirô Tanaka in 1950.^[Tanaka K. 1950. [The relief contour method of representing topography on maps](https://www.jstor.org/stable/211219). _Geographical Review_ **40**(3) 444-456.] Terrain is considered to be lit (as in a hillshaded map) from some direction. The idea is to draw contours on a grey (or other mid-tone) background with black lines on dark slopes facing away from the light source, and white lines on illuminated slopes.  
+
+Line thickness is also varied with the aspect of the slope relative to the light source. Thick white lines are used on slopes facing directly towards the illumination, and thick black lines on slopes facing directly away from the light source, line thickness narrowing as slopes progressively turn to lie parallel to the direction of illumination. An example for a simple circular contour is seen in the next section if this is unclear.
+
+When this idea was proposed, it required a steady hand. Tanaka noted that, "One may reasonably doubt whether such seemingly complicated contour lines can be easily and quickly drawn", before going on to reassure readers that
+
+>  A simple and exact method is available [...]. If the tip of a drawing pen [...] is filed down so that its thickness is the maximum thickness required in a contour line, and if [...] the pen-point edge is kept at a fixed orientation [...] parallel to the assumed horizontal direction of the incident light, then the thickness of the contour line will vary with the cosine of the angle $\theta$. (1950, page 449)
+
+I would venture to suggest that this was much harder to _do_ than it was to describe! I spent some time in my Masters study using ink pens to make maps by hand, and it was an exacting business even to reliably render lines of uniform thickness, never mind varying them in a consistent way as proposed for this technique. The technical challenge goes a long way to explaining why the method has remained relatively rarely used until recently.
+
+## A crude DIY implementation
+Fortunately for the unsteady of hand we can now easily approximate Tanaka's method.
+
+To illustrate my approach, I've made a single circular contour, and two copies, one offset southeast, and the other offset northwest.
+
+```{r}
+#| label: make-circles
+circle <- st_point(c(0, 0)) |> 
+  st_sfc() |> 
+  data.frame() |>
+  st_as_sf(crs = 2193) |>
+  st_buffer(1000)
+  
+circle_se <- circle |> 
+  mutate(geometry = geometry + c(50, -50)) |>
+  st_set_crs(st_crs(circle))
+  
+circle_nw <- circle |> 
+  mutate(geometry = geometry + c(-50, 50)) |>
+  st_set_crs(st_crs(circle))
+```
+
+Now, layer them on top of one another southeast, centred, and northwest, in that order, coloured black, grey, and white, respectively.
+
+```{r}
+#| label: fig-circles-on-top-of-one-another
+#| fig-cap: "A single illuminated contour showing the principle behing the method: this contour is illuminated from the northwest"
+ggplot() +
+  geom_sf(data = circle_se, fill = "black", colour = NA) +
+  geom_sf(data = circle_nw, fill = "white", colour = NA) +
+  geom_sf(data = circle, fill = "grey", colour = NA) +
+  theme_void() +
+  theme(panel.background = element_rect(fill = "darkgrey", colour = NA))
+```
+
+The effect is striking and in this crude implementation not at all hard to code. I say crude not because this approach is inaccurate but because more recent work has suggested further refinements of the method such that either the colour or thickness of contour lines varies with their facing towards the light source.^[Kenelly P and AJ Kimerling. 2001. [Modifications of Tanaka’s illuminated contour method](https://dx.doi.org/10.1559/152304001782173709). _Cartography and Geographic Information Science **28**(2) 111-123.] In terms of Tanaka's original suggestion my simple approach produces lines of the correct thickness, in this fixed case for a light source from the northwest.
+
+### Assembling some reusable code
+With the basis of an approach established we can assemble some functions to produce Tanaka contoured maps.
+
+First, it's convenient to generate from a DEM a set of evenly spaced contour levels, and given those levels to use `stars::st_contour` to get contour polygons.
+
+```{r}
+# label: functions-to-get-polygons
+round_to_nearest <- function(x, y) round(x / y) * y
+
+contour_levels <- function(dem, interval) {
+  range_z <- range(values(dem), na.rm = TRUE) |> round_to_nearest(interval)
+  seq(range_z[1]- interval, range_z[2] + interval, interval)
+}
+
+get_contour_polygons <- function(dem, levels) {
+  dem |> 
+    st_as_stars() |> 
+    st_contour(breaks = levels) |>
+    st_as_sf()
+}
+```
+
+Next a function to shift supplied contour polygons by some x and y offsets. This uses the constantly surprising functionality in `sf` where you can simply add a vector to the geometry attribute of an `sf` dataframe.
+
+```{r}
+#| label: function-to-shift-polygons
+offset_shapes <- function(shapes, dx, dy) {
+  shapes |>
+    mutate(geometry = geometry + c(dx, dy)) |>
+    st_set_crs(st_crs(shapes))
+}
+```
+
+Next we need some code to render the various layers in the right order starting at the bottom of the stack of contour polygons, and at each level going through them in a consistent order.
+
+The addition of `layer` and `group` attributes to the data enables the rendering order to be controlled. `ggplot` renders data by group, in the order that elements appear in the table, so we use `arrange` to sort in ascending order of `Min` (the elevation) and `layer`. We also assign all the data to a single group `group = 0`, and include that as an aesthetic in the call to `ggplot`, so that the data table sort order rendering isn't overridden by grouping on the `layer` attribute.
+
+```{r}
+#| label: function-to-make-map
+my_tanaka_contours <- function(dem, interval, thickness, direction = 135,
+                               colour = "grey", light = "white", dark = "black") {
+  levels <- contour_levels(dem, interval)
+  contours <- get_contour_polygons(dem, levels) |> 
+    mutate(layer = 3)
+  angle <- direction * pi / 180
+  dx <- cos(angle) * thickness
+  dy <- sin(angle) * thickness
+  contours_light <- contours |> 
+    offset_shapes(dx, dy) |> 
+    mutate(layer = 2)
+  contours_dark <- contours |> 
+    offset_shapes(-dx, -dy) |> 
+    mutate(layer = 1)
+  all_contours <- bind_rows(contours, contours_light, contours_dark) |>
+    mutate(layer = ordered(layer, levels = 1:3), group = 0) |>
+    arrange(Min, layer)
+  ggplot(all_contours) +
+    geom_sf(aes(fill = layer, group = group), colour = NA) +
+    scale_fill_manual(values = c(dark, light, colour)) +
+    guides(fill = "none") +
+    coord_sf(expand = FALSE) + 
+    theme_void()
+}
+```
+
+## Data from Mars
+Since I'm smuggling this in under the guise of Day 18 'Out of this world', we need some out of this world data, so I found some Mars surface topography. Specifically, [this dataset](https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/controlled/dtm/ESP_050125_1480_ESP_050046_1480/DTEED_050125_1480_050046_1480_G01.jpg) which is a high resolution digital elevation model of a crater,^[Mars has a lot of craters. [According to wikipedia](https://en.wikipedia.org/wiki/List_of_craters_on_Mars), hundreds of thousands greater than 1 km in diameter.] derived from [Mars Reconnaissance Orbiter](https://science.nasa.gov/mission/mars-reconnaissance-orbiter/) data by a [team at the University of Arizona](https://www.lpl.arizona.edu/missions/mro).
+
+```{r}
+#| label: get-mars-dem-data
+dem_raw <- rast("https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/controlled/dtm/ESP_050125_1480_ESP_050046_1480/DTEED_050125_1480_050046_1480_G01.tif")
+```
+
+The raw data is in an equirectangular cylindrical coordinate reference system, which means it's stretched east-west because just like on Earth meridians converge toward the poles, so we should reproject to something conformal or at least more sensible local to the area of interest. Mercator gets a lot of stick, but this is local data so it's fine. The key thing here is to specify a spheroid that is Mars-sized, hence `+R=3396190`. I am also aggregating the data five-fold because at ~2 meter resolution it's more detailed than we need (and some smoothing does no harm for this method.
+
+```{r}
+#| label: reproject-mars-dem
+#| output: false
+proj <- "+proj=merc +lat_0=-31.46 +lon_0=-22.9 +k=1 +R=3396190 +units=m"
+dem <- dem_raw |> 
+  project(proj) |>
+  terra::aggregate(5)
+names(dem) <- "z"
+```
+
+And so to a couple of maps. I've tried one using the default grey-black-white colouring, and a second using a more Martian colour scheme. 
+
+```{r}
+#| label: fig-mars-crater-tanaka-map
+#| fig-cap: Two Mars crater maps using illuminated contours, one of them (perhaps) in more Mars-appropriate colours
+#| fig-width: 12
+#| fig-height: 10
+g1 <- my_tanaka_contours(dem, 20, 20)
+g2 <- my_tanaka_contours(dem, 20, 20, colour = "#ff9020",
+                         light = "#f8e078", dark = "#B04030")
+g1 | g2
+```
+
+## There's a package for that
+I didn't follow my own advice here and went ahead and wrote my own code before checking if there was already an R package out there that does Tanaka contours. _Of course there is_.^[Duh.] In fact, there are two, [`metR`](https://github.com/eliocamp/metR) and [`tanaka`](https://github.com/riatelab/tanaka). Because the former sticks with `ggplot2` style plotting I show it here.
+
+```{r}
+#| label: fig-metr-geom-contour-tanaka-map
+#| fig-cap: A basic Tanaka contour map using `metR`
+#| fig-width: 8
+#| fig-height: 11
+library(metR)
+
+dem_xy <- dem |>
+  as.data.frame(xy = TRUE)
+
+ggplot(dem_xy) + 
+  geom_raster(aes(x = x, y = y), fill = "grey") +
+  geom_contour_tanaka(
+    aes(x = x, y = y, z = z),
+    binwidth = 20, sun.angle = 45) + 
+  coord_equal() + 
+  theme_void() 
+```
+
+What's nice about this package is that I can also colour the contours using a hypsometric colour ramp. After some experimentation (see the commented out alternatives), I decided the `hcl.heat2` ramp was the most 'Martian-looking'.
+
+```{r}
+#| label: fig-metr-geom-contour-tanaka-map-coloured
+#| fig-cap: A Tanaka contour map using `metR` with the contour intervals hypsometrcally coloured
+#| fig-width: 8
+#| fig-height: 11
+ggplot(dem_xy) + 
+  geom_raster(aes(x = x, y = y, fill = z)) +
+  scale_fill_continuous_c4a_seq(palette = "hcl.heat2") +
+  # scale_fill_continuous_c4a_seq(palette = "hcl.terrain2") +
+  # scale_fill_continuous_c4a_seq(palette = "-tableau.orange") +
+  # scale_fill_continuous_c4a_seq(palette = "met.greek") +
+  guides(fill = "none") +
+  geom_contour_tanaka(
+    aes(x = x, y = y, z = z), 
+    binwidth = 20, sun.angle = 45) + 
+  coord_equal() + 
+  theme_void()
+```
+
+The `tanaka` package functions can also do this, although the API in that case is less clean.
+
+## For old time's sake...
+... in about one-hundredth of the time it took way back when, I thought I'd' revisit the map from my Masters coursework, or at least the terrain representation part of it. 
+
+So I grabbed a relevant portion of the Continental Europe DTM from [OpenTopography](https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.092022.3035.1)^[Hengl T, L Leal Parente, J Krizan and C Bonannella. 2022. Continental Europe Digital Terrain Model.  Distributed by OpenTopography. https://doi.org/10.5069/G99021ZF. Accessed 2025-11-09] and ran it through `metR`'s `geom_contour_tanaka`.
+
+The colours I've used are from memory and I know my choices were rather bold. Keep in mind that I also had to overlay symbology, placenames, and so on. It was also supposed to be a promotional map, not a tasteful topographic map. Even so, I think I went a bit overboard.
+
+```{r}
+#| label: fig-for-old-times-sake
+#| fig-cap: A mock up of the terrain elements of that tourism map of Donegal
+#| fig-width: 8
+#| fig-height: 11
+#| code-fold: true
+donegal <- rast("sheephaven.tif") |>
+  as.data.frame(xy = TRUE)
+
+ggplot(donegal) +
+  geom_raster(aes(x = x, y = y), fill = "#209030") +
+  geom_contour_tanaka(aes(x = x, y = y, z = donegal), binwidth = 50,
+                      sun.angle = 45) +
+  coord_sf(expand = FALSE) +
+  theme_void() +
+  theme(panel.background = element_rect(fill = "#3090e0"))
+
+```
+
+The challenge of illuminated contours is finding a base colour that allows both the light and dark contours to show up well, and I recall experimenting endlessly with that in this design, every time having to print it out to figure out if it was working or not.
+
+I can't help but wonder if I'd been able to hypsometrically tint my contours back in 1996 if I'd have done a bit better on that coursework assignment.
+
+```{r}
+#| label: fig-for-old-times-sake-2
+#| fig-cap: This time with terrain colours
+#| fig-width: 8
+#| fig-height: 11
+#| code-fold: true
+ggplot(donegal) +
+  geom_raster(aes(x = x, y = y, fill = donegal)) +
+  scale_fill_continuous_c4a_seq(palette = "hcl.terrain2") +
+  guides(fill = "none") +
+  geom_contour_tanaka(aes(x = x, y = y, z = donegal), binwidth = 50,
+                      sun.angle = 45) +
+  coord_sf(expand = FALSE) +
+  theme_void() +
+  theme(panel.background = element_rect(fill = "#3090e0"))
+```
