@@ -10,7 +10,19 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Sat, 08 Nov 2025 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 13 Nov 2025 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>Spatial autocorrelation: what’s the problem?</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-11-14-gia-chapter-2A-spatial-autocorrelation/</link>
+  <description><![CDATA[ An exploration of the impact of spatial autocorrelation on the results produced by different sampling strategies. ]]></description>
+  <category>geospatial</category>
+  <category>R</category>
+  <category>tutorial</category>
+  <category>geographic information analysis</category>
+  <guid>https://dosull.github.io/posts/2025-11-14-gia-chapter-2A-spatial-autocorrelation/</guid>
+  <pubDate>Thu, 13 Nov 2025 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>30 Day Map Challenge 2025</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -253,21 +265,6 @@
   <guid>https://dosull.github.io/posts/2025-07-07-projections-explorer/</guid>
   <pubDate>Sun, 06 Jul 2025 12:00:00 GMT</pubDate>
   <media:content url="https://dosull.github.io/posts/2025-07-07-projections-explorer/van-der-grinten.png" medium="image" type="image/png" height="144" width="144"/>
-</item>
-<item>
-  <title>What three letters</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2025-06-27-iata-codes/</link>
-  <description><![CDATA[ Maps of all the possible air routes where the origin and destination airport IATA codes would differ by only one letter, and of the ones that actually do. Also, grobs. ]]></description>
-  <category>geospatial</category>
-  <category>R</category>
-  <category>tutorial</category>
-  <category>networks</category>
-  <category>ggplot</category>
-  <category>life</category>
-  <guid>https://dosull.github.io/posts/2025-06-27-iata-codes/</guid>
-  <pubDate>Thu, 26 Jun 2025 12:00:00 GMT</pubDate>
-  <media:content url="https://dosull.github.io/posts/2025-06-27-iata-codes/post-preview.png" medium="image" type="image/png" height="103" width="144"/>
 </item>
 </channel>
 </rss>
