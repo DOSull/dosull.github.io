@@ -33,7 +33,7 @@ Anway, returning to the text, on page 35, we state that,
 
 > The nonrandom distribution of phenomena in space has various consequences for conventional statistical analysis. For example, the usual parameter estimates based on samples that are not randomly distributed in space will be biased toward values prevalent in the regions favored in the sampling scheme.
 
-This post zeros in on this aspect.
+This post zeros in on that aspect of spatial autocorrelation.
 
 ```{r}
 #| label: imports
@@ -124,14 +124,18 @@ ppp_as_spatvector <- function(ppp) {
     st_as_sf() |>
     select() |>
     st_set_crs("+proj=eqc") |>
-    slice(-1) |>
+    slice(-1) |>  # <1>
     as("SpatVector")
 }
 
-sample_raster <- function(r, pts, fn) {
-  terra::extract(r, pts |> ppp_as_spatvector(), ID = FALSE) |> pull(1) |> fn()
+sample_raster_statistic <- function(r, pts, fn = mean) { # <2>
+  terra::extract(r, pts |> ppp_as_spatvector(), ID = FALSE) |> 
+    pull(1) |> 
+    fn()
 }
 ```
+1. `slice(-1)` removes the first row of the `sf` dataset which is the polygon representing the window of the point pattern.
+2. We could supply an arbitrary function if we want.
 
 Now make up some point patterns, Poisson random, evenly-spaced, clustered, and a grid-based one.
 
@@ -210,32 +214,32 @@ We can sample the surfaces 100 times each, using the four different sampling sch
 #| label: sample-surfaces
 df <- data.frame(
     Random_Grid = grid_pps |> 
-      lapply(sample_raster, r = r_random, mean) |> 
+      lapply(sample_raster_statistic, r = r_random) |> 
       unlist(),
     Smoothed_Grid = grid_pps |> 
-      lapply(sample_raster, r = r_smoothed, mean) |> 
+      lapply(sample_raster_statistic, r = r_smoothed) |> 
       unlist(),
     Random_Poisson = poisson_pps |> 
-      lapply(sample_raster, r = r_random, mean) |> 
+      lapply(sample_raster_statistic, r = r_random) |> 
       unlist(),
     Smoothed_Poisson = poisson_pps |> 
-      lapply(sample_raster, r = r_smoothed, mean) |> 
+      lapply(sample_raster_statistic, r = r_smoothed) |> 
       unlist(),
     Random_Even = ssi_pps |> 
-      lapply(sample_raster, r = r_random, mean) |>
+      lapply(sample_raster_statistic, r = r_random) |>
       unlist(),
     Smoothed_Even = ssi_pps |> 
-      lapply(sample_raster, r = r_smoothed, mean) |> 
+      lapply(sample_raster_statistic, r = r_smoothed) |> 
       unlist(),
     Random_Clustered = clustered_pps |> 
-      lapply(sample_raster, r = r_random, mean) |>
+      lapply(sample_raster_statistic, r = r_random) |>
       unlist(),
     Smoothed_Clustered = clustered_pps |>
-      lapply(sample_raster, r = r_smoothed, mean) |> 
+      lapply(sample_raster_statistic, r = r_smoothed) |> 
       unlist()) |>
   pivot_longer(cols = 1:8) |>  # <1>
   rename(Mean = value) |>
-  separate_wider_delim(
+  separate_wider_delim(        # <2>
     cols = name, delim = "_", 
     names = c("Raster", "Sampling")) |>
   mutate(
@@ -253,8 +257,8 @@ And now we can plot the distribution of estimates of the mean for the various co
 
 ```{r}
 #| label: fig-distribution-of-estimates-of-the-mean
-#| fig-cap: Density smoothed distributions of the estimates of the mean value of the surfaces with different combinations of random vs smooth surface and uniform random vs clustered sampling.
-#| fig-width: 12
+#| fig-cap: Density smoothed sampling distributions of the mean value of the surfaces with different combinations of random (red) vs smooth surface (blue) and various sampling schemes.
+#| fig-width: 10
 #| fig-height: 4
 #| code-fold: true
 ggplot(df) +
@@ -263,10 +267,11 @@ ggplot(df) +
   facet_wrap( ~ Sampling, ncol = 4, labeller = label_both) +
   ylab("Density") +
   theme_minimal() +
-  theme(panel.background = element_rect(fill = NA))
+  theme(panel.background = element_rect(fill = NA),
+        legend.position = "bottom")
 ```
 
-And in answer to the question, yes, autocorrelation of the surface means that the sampling scheme matters a great deal! Keep in mind that data values in our two surfaces are _exactly_ the same set of values. It is the difference in their spatial arrangement that causes our different sampling schemes to see different things.
+And in answer to the question, yes, autocorrelation of the surface values makes the sampling scheme matter a lot! Keep in mind that data values in our two surfaces are _exactly_ the same set of values. It is the difference in their spatial arrangement that causes our different sampling schemes to see different things.
 
 In all cases, regardless of sampling scheme the random raster yields up a similar sampling distribution of the mean. It doesn't matter how we go about picking 100 sample locations, we end up with a similar picture of the data, because regardless of how we pick 100 samples, they are an unbiased sample.
 
