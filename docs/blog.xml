@@ -10,7 +10,18 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Thu, 13 Nov 2025 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 17 Nov 2025 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>30 Day Map Challenge 2025</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-11-18-tanaka-30-day-maps-2025-day-18/</link>
+  <description><![CDATA[ I noted in a recent comment on someone else’s map back on day 3 how I’ve always loved Tanaka contours, and that I’d share how to make them in R. I this post I crowbar that promise into a map using Mars digital terrain model data. ]]></description>
+  <category>30 day maps</category>
+  <category>origami</category>
+  <category>cartography</category>
+  <guid>https://dosull.github.io/posts/2025-11-18-tanaka-30-day-maps-2025-day-18/</guid>
+  <pubDate>Mon, 17 Nov 2025 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Spatial autocorrelation: what’s the problem?</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -252,19 +263,6 @@
   <category>life</category>
   <guid>https://dosull.github.io/posts/2025-07-10-hulls-tetrahedra/</guid>
   <pubDate>Wed, 09 Jul 2025 12:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>A simple atlas of projections</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2025-07-07-projections-explorer/</link>
-  <description><![CDATA[ The marimo quarto extension lets you make markdown posts with embedded reactive python code which can be written in any old order you like (just like observable notebooks). ]]></description>
-  <category>python</category>
-  <category>tutorial</category>
-  <category>marimo</category>
-  <category>projections</category>
-  <guid>https://dosull.github.io/posts/2025-07-07-projections-explorer/</guid>
-  <pubDate>Sun, 06 Jul 2025 12:00:00 GMT</pubDate>
-  <media:content url="https://dosull.github.io/posts/2025-07-07-projections-explorer/van-der-grinten.png" medium="image" type="image/png" height="144" width="144"/>
 </item>
 </channel>
 </rss>

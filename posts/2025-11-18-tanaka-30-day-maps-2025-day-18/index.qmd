@@ -11,8 +11,8 @@ categories:
   - "30 day maps"
   - origami
   - cartography
-# filters:
-#   - nutshell
+filters:
+  - nutshell
 execute:
   cache: true
 freeze: auto
@@ -21,7 +21,6 @@ knitr:
     warning: false
     message: false
 date: 11-18-2025
-draft: true
 ---
 
 On Day 3 of this year's [30 Day Map Challenge](https://30daymapchallenge.com) [Sam Keast](https://www.linkedin.com/in/samkeastnz/) posted a nice Tanaka illuminated contours map, which he made in Arc loosely follow a [John Nelson video](https://www.youtube.com/watch?v=RTLBgd8MmrY). 
