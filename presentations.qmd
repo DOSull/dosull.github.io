@@ -6,10 +6,9 @@ title-block-banner: true
 
 Most talks are in web formats, and may include links that are now broken. Others are PDFs. Others are missing, but are listed because they give a sense of development over time.
 
-
-
 Date | Title | Notes
 :-- | :-- | :--
+2025<br>November | [Weavingspace: a new way to make multivariate maps](https://dosull.github.io/weaving-space/presentations/FOSS4G-Nov-2025/) | FOSS4G International, Auckland, 20 November.
 2025<br>September | Modelling potential environmental impacts of science activity in Antarctica ([dark](https://dosull.github.io/antarctica/talk/)&#124;[light](https://dosull.github.io/antarctica/talk/index-2.html)) theme | Regional GIS Forum, Palmerston North, 26 September.
 2025<br>July | [The latest on tiled multivariate maps](https://dosull.github.io/weaving-space/presentations/NZCS-Jul-2025/) | New Zealand Cartographic Society, Te Herenga Waka, 4 July.
 2025<br>June | [It's turtles all the way down: Simple models - complex outcomes](https://southosullivan.com/talks/cafe-complexite-2025/) | Café Complexité, Te Herenga Waka, 5 June.
