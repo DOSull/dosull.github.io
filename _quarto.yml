@@ -47,6 +47,7 @@ website:
       - icon: rss
         href: blog.xml
   favicon: /images/gs-logo-corrected.png
+  draft-mode: unlinked
   body-footer: |
     <a href="/"><img src="/images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a>
 
