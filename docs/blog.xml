@@ -10,7 +10,19 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Mon, 17 Nov 2025 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 25 Nov 2025 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>30 Day Map Challenge 2025</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-11-26-city-to-sea/</link>
+  <description><![CDATA[ I finally got around to ‘doing’ Wellington’s City to Sea Walkway. It provides some interesting data processing and mapping challenges. Debatable if it’s ‘transport’, but my journey, my rules. ]]></description>
+  <category>30 day maps</category>
+  <category>cartography</category>
+  <category>R</category>
+  <category>tutorial</category>
+  <guid>https://dosull.github.io/posts/2025-11-26-city-to-sea/</guid>
+  <pubDate>Tue, 25 Nov 2025 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>30 Day Map Challenge 2025</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -253,16 +265,6 @@
   <category>tutorial</category>
   <guid>https://dosull.github.io/posts/2025-07-30-counting-points-in-polygons/</guid>
   <pubDate>Tue, 29 Jul 2025 12:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>A geometric origami classic</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2025-07-10-hulls-tetrahedra/</link>
-  <description><![CDATA[ Not geospatial stuff, but most certainly spatial stuff. Thomas Hull’s classic ‘Five intersecting tetrahedra’, which I’ve always wanted to make, but never quite got around to until now. ]]></description>
-  <category>origami</category>
-  <category>life</category>
-  <guid>https://dosull.github.io/posts/2025-07-10-hulls-tetrahedra/</guid>
-  <pubDate>Wed, 09 Jul 2025 12:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

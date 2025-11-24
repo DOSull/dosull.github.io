@@ -7,6 +7,7 @@ toc: true
 lightbox:
   match: auto
   loop: true
+code-annotations: hover
 categories:
   - "30 day maps"
   - cartography
@@ -22,7 +23,6 @@ knitr:
     warning: false
     message: false
 date: 11-26-2025
-draft: true
 ---
 
 Among the better things about living in Wellington, a city with its fair share of challenges, is the proximity of green space almost everywhere. And threaded through all that green space are numerous paths and biking trails. I got to know a lot of paths in my neck of the woods, around Brooklyn, during the 2020 Covid lockdown when I'd wander far and wide for the allowed one hour of outdoors exercise each day. Since then I've walked pretty much all sections of the [City to Sea Walkway](https://wellington.govt.nz/recreation/outdoors/walks-and-walkways/across-the-city/city-to-sea-walkway) at some point but never all in one go. 
@@ -65,7 +65,7 @@ city_to_sea <- st_read("city-to-sea-all.gpkg") |>
 ```
 
 ## Making an elevation profile
-Now that we have a single linestring, we need also elevation data. This is extracted from Wellington LiDAR imagery available [here](https://data.linz.govt.nz/layer/105023-wellington-city-lidar-1m-dem-2019-2020/).
+Now that we have a single linestring, we also need elevation data. This is extracted from Wellington LiDAR imagery available [here](https://data.linz.govt.nz/layer/105023-wellington-city-lidar-1m-dem-2019-2020/).
 
 ```{r}
 #| label: read-dem
@@ -90,7 +90,7 @@ profile <- terra::extract(dem, points |> as("SpatVector")) |>
 1. `normalized = TRUE` means that 0 is the start of the line and 1 is the end of it.
 2. It's easier to work with distances presented as plain numbers not units.
 
-And now we can make a plot of elevation by distance along the walk. It's instructive here to show the elevation and distance at the same scale, and also with the elevation exaggerated eight-fold. Clearly, this walk is not as hilly as it feels!
+And now we can make a plot of elevation by distance along the walk. It's instructive here to show the elevation and distance at the same scale, and also with the elevation exaggerated eight-fold. The at-scale version is that barely visible horizontal sliver. Clearly, in some sense, this walk is not as hilly as it feels!
 
 ```{r}
 #| label: fig-plot-profile
@@ -137,7 +137,7 @@ named_points <- named_segments |>
          Distance = st_line_project(city_to_sea$geom, geom))
 ```
 
-And now, as before we find the elevation of each of these points. I also make a simple dataframe version of the data so we can plot the data based on the distance and elevation rather than the planimetrix map coordinates.
+And now, as before we find the elevation of each of these points. I also make a simple dataframe version of the data so we can plot the data based on the distance and elevation rather than the planimetric map coordinates.
 
 ```{r}
 #| label: add-elevations-to-named-points
@@ -177,8 +177,6 @@ g_profile_labelled
 ## Making an actual map
 I could argue that this elevation profile is a map, but my heart wouldn't really be in it. Instead, it's fun to make a parallel map of the path, and roughly line the two up next to one another. Because the elevation profile is 'landscape' mode, I want the map to also be oriented with its long axis horizontal. Given the very strong north-south orientation of the walkway, it's convenient to do this by a coordinate swap, so here is a function for that.
 
-I explored doing this with an actual map projection or by faking a projection using matrix multiplication, but in the end decided it was easier just convert my data to plain dataframes with `x` and `y` attributes and alter those as needed.
-
 ```{r}
 #| label: switch-x-and-y-coordinates
 switch_xy <- function(df) {
@@ -189,6 +187,8 @@ switch_xy <- function(df) {
 ```
 1. To swap the `x` and `y` coordinates we need a temporary third attribute, which I've imaginatively called `z`.
 2. And since it's temporary, we throw it away.
+
+I explored doing this with an actual map projection or by faking a projection using matrix multiplication^[I have previous on that score as regular readers if I have any will know...], but in the end decided it was easier just to convert my data to plain dataframes with `x` and `y` attributes and alter those as needed.
 
 The 1m resolution DEM is more detail than we really need, so I aggregate it and make a hillshade, which, because I'm using `ggplot` for mapping I also convert into a simple dataframe, and switch the coordinates.
 
@@ -266,10 +266,10 @@ Finally put the two together with `patchwork`.
 
 They're not entirely aligned, but then again, a precise alignment is impossible since the path is twisty and therefore non-uniform in terms of the relationship between progress from city (in the north) to sea (in the south) versus elapsed distance along the path.
 
-A more annoying issue is that because the labels are placed differently in each representation the `check_overlap` filter in each plot has chosen a different set of labels to include. A better approach might would likely be to hand pick the labels to include, and ensure that all of the selected labels appear in both plots. That wouldn't be too hard to arrange, but I'm happy with this version of the map and will leave it as is.
+A more annoying issue is that because the labels are placed differently in each representation the `check_overlap` filter in each plot has chosen a different set of labels to keep. A better approach might would likely be to hand pick the labels to include, and ensure that all of the selected labels appear in both plots. That wouldn't be too hard to arrange, but I'm happy enough with this version and will leave it as is.
 
 ## Addendum: making a linestring from messier data
-Above I made the unified linestring representation of the City to Sea Walkway from an input file containing a single multilinestring file. The version of the data with named segments on the walk turns out to be less cooperative than that.
+Above I made the unified linestring representation of the City to Sea Walkway from an input file containing a single multilinestring. The version of the data with named segments on the walk turns out to be less cooperative than that.
 
 ```{r}
 #| label: reload-segments
@@ -303,7 +303,7 @@ n_connections <- connections |>
 table(n_connections)
 ```
 
-If the collection of linestrings formed a single linear chain, we'd expect there to be no linestrings that touch three others, and only two (one at the start, and one at the end) that touched only one other. We can map this (although you'll have to squint to see the 'spurs' or 'on-ramp' segments, that are causing the difficuly&mdash;click on the map for a closer look).
+If the collection of linestrings formed a single linear chain, we'd expect there to be no linestrings that touch three others, and only two (one at the start, and one at the end) that touch only one other. We can map this (although you'll have to squint to see the 'spurs' or 'on-ramp' segments, that are causing the problem&mdash;click on the map for a closer look).
 
 ```{r}
 #| label: fig-show-n-connections
@@ -321,7 +321,7 @@ ggplot(segments) +
   theme_void()
 ```
 
-To piece together a maximal single linear route in this case we can proceeds as follows. First, we determine which segments in the route touch, and use those relations to build a graph.
+To piece together a maximal single linear route in this case we can proceed as follows. First, determine which segments in the route touch, and use those relations to build a graph.
 
 ```{r}
 #| label: get-segment-sequence
@@ -330,7 +330,7 @@ G <- segments_2 |>
   graph_from_adjacency_matrix(mode = "undirected")
 ```
 
-Now, we can find the longest shortest path in the graph (in graph terms, its [_diameter_](https://en.wikipedia.org/wiki/Diameter_(graph_theory))). This connects the most remote ends of the graph, which we assume will give us appropriate start and end points for the whole of the City to Sea Walkway.
+Now, find the longest shortest path in the graph (in graph terms, its [_diameter_](https://en.wikipedia.org/wiki/Diameter_(graph_theory))). This connects the most remote ends of the graph, which we assume will give us appropriate start and end points for the whole of the City to Sea Walkway.
 
 ```{r}
 #| label: shortest-path-lengths-in-touch-graph
@@ -362,7 +362,7 @@ And here's a very quick and dirty map to check we successfully extracted the 'tr
 
 ```{r}
 #| label: fig-map-of-route
-#| fig-cap: A quick and dirty map of the route.
+#| fig-cap: A quick and dirty map of the main trunk route of the walkway.
 #| fig-width: 12
 #| fig-height: 2
 #| code-fold: true

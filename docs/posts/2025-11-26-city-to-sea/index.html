@@ -111,7 +111,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <script defer="" src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="dosull.github.io"></script>
 <meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
-<meta name="quarto:status" content="draft">
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -126,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -313,7 +312,7 @@ Figure&nbsp;1: A general locator map for the City to Sea Walkway.
 </section>
 <section id="making-an-elevation-profile" class="level2">
 <h2 class="anchored" data-anchor-id="making-an-elevation-profile">Making an elevation profile</h2>
-<p>Now that we have a single linestring, we need also elevation data. This is extracted from Wellington LiDAR imagery available <a href="https://data.linz.govt.nz/layer/105023-wellington-city-lidar-1m-dem-2019-2020/">here</a>.</p>
+<p>Now that we have a single linestring, we also need elevation data. This is extracted from Wellington LiDAR imagery available <a href="https://data.linz.govt.nz/layer/105023-wellington-city-lidar-1m-dem-2019-2020/">here</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dem <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"c2s.tif"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dem) <span class="ot">&lt;-</span> <span class="st">"Elevation"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -323,13 +322,13 @@ Figure&nbsp;1: A general locator map for the City to Sea Walkway.
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>steps <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3000</span> <span class="sc">/</span> <span class="dv">3000</span></span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> city_to_sea<span class="sc">$</span>geom <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_line_interpolate</span>(steps, <span class="at">normalized =</span> <span class="cn">TRUE</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_line_interpolate</span>(steps, <span class="at">normalized =</span> <span class="cn">TRUE</span>)</span>
 <span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>profile <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(dem, points <span class="sc">|&gt;</span> <span class="fu">as</span>(<span class="st">"SpatVector"</span>)) <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Distance =</span> (city_to_sea <span class="sc">|&gt;</span> <span class="fu">st_length</span>()) <span class="sc">*</span> steps) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-8" class="code-annotation-target"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Distance =</span> <span class="fu">drop_units</span>(Distance))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-8" class="code-annotation-target"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Distance =</span> <span class="fu">drop_units</span>(Distance))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
-<dl class="code-annotation-container-grid">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
 <span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="1"><code>normalized = TRUE</code> means that 0 is the start of the line and 1 is the end of it.</span>
@@ -341,7 +340,7 @@ Figure&nbsp;1: A general locator map for the City to Sea Walkway.
 </dl>
 </div>
 </div>
-<p>And now we can make a plot of elevation by distance along the walk. It’s instructive here to show the elevation and distance at the same scale, and also with the elevation exaggerated eight-fold. Clearly, this walk is not as hilly as it feels!</p>
+<p>And now we can make a plot of elevation by distance along the walk. It’s instructive here to show the elevation and distance at the same scale, and also with the elevation exaggerated eight-fold. The at-scale version is that barely visible horizontal sliver. Clearly, in some sense, this walk is not as hilly as it feels!</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -379,11 +378,11 @@ Figure&nbsp;2: Elevation profile of the City to Sea Walkway shown at scale, and 
 <div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>named_segments <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"city-to-sea-segments.gpkg"</span>) <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">2193</span>) <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(name) <span class="sc">&amp;</span> name <span class="sc">!=</span> <span class="st">"City to Sea Walkway"</span>) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(name) <span class="sc">&amp;</span> name <span class="sc">!=</span> <span class="st">"City to Sea Walkway"</span>) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">1</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
-<dl class="code-annotation-container-grid">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
 <span data-code-cell="annotated-cell-6" data-code-lines="4" data-code-annotation="1">Any name attribute that is ‘City to Sea Walkway’ is not very useful in this context, so we drop those.</span>
@@ -401,7 +400,7 @@ Figure&nbsp;2: Elevation profile of the City to Sea Walkway shown at scale, and 
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">geom =</span> <span class="fu">st_line_interpolate</span>(geom, <span class="fl">0.5</span>, <span class="at">normalized =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Distance =</span> <span class="fu">st_line_project</span>(city_to_sea<span class="sc">$</span>geom, geom))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>And now, as before we find the elevation of each of these points. I also make a simple dataframe version of the data so we can plot the data based on the distance and elevation rather than the planimetrix map coordinates.</p>
+<p>And now, as before we find the elevation of each of these points. I also make a simple dataframe version of the data so we can plot the data based on the distance and elevation rather than the planimetric map coordinates.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>named_points <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  named_points, </span>
@@ -447,15 +446,14 @@ Figure&nbsp;3: The profile with labelled locations based on names of segments.
 <section id="making-an-actual-map" class="level2">
 <h2 class="anchored" data-anchor-id="making-an-actual-map">Making an actual map</h2>
 <p>I could argue that this elevation profile is a map, but my heart wouldn’t really be in it. Instead, it’s fun to make a parallel map of the path, and roughly line the two up next to one another. Because the elevation profile is ‘landscape’ mode, I want the map to also be oriented with its long axis horizontal. Given the very strong north-south orientation of the walkway, it’s convenient to do this by a coordinate swap, so here is a function for that.</p>
-<p>I explored doing this with an actual map projection or by faking a projection using matrix multiplication, but in the end decided it was easier just convert my data to plain dataframes with <code>x</code> and <code>y</code> attributes and alter those as needed.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>switch_xy <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
 <span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-10-3" class="code-annotation-target"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">z =</span> <span class="sc">-</span>y, <span class="at">y =</span> x, <span class="at">x =</span> z) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-10-4" class="code-annotation-target"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>z)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-3" class="code-annotation-target"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">z =</span> <span class="sc">-</span>y, <span class="at">y =</span> x, <span class="at">x =</span> z) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-4" class="code-annotation-target"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>z)</span>
 <span id="annotated-cell-10-5"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
-<dl class="code-annotation-container-grid">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
 <dd>
 <span data-code-cell="annotated-cell-10" data-code-lines="3" data-code-annotation="1">To swap the <code>x</code> and <code>y</code> coordinates we need a temporary third attribute, which I’ve imaginatively called <code>z</code>.</span>
@@ -467,6 +465,7 @@ Figure&nbsp;3: The profile with labelled locations based on names of segments.
 </dl>
 </div>
 </div>
+<p>I explored doing this with an actual map projection or by faking a projection using matrix multiplication<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, but in the end decided it was easier just to convert my data to plain dataframes with <code>x</code> and <code>y</code> attributes and alter those as needed.</p>
 <p>The 1m resolution DEM is more detail than we really need, so I aggregate it and make a hillshade, which, because I’m using <code>ggplot</code> for mapping I also convert into a simple dataframe, and switch the coordinates.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dem_x5 <span class="ot">&lt;-</span> dem <span class="sc">|&gt;</span> <span class="fu">aggregate</span>(<span class="dv">5</span>)</span>
@@ -506,18 +505,18 @@ Figure&nbsp;3: The profile with labelled locations based on names of segments.
 <span id="annotated-cell-13-10"><a href="#annotated-cell-13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> name_yxs, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> name),</span>
 <span id="annotated-cell-13-11"><a href="#annotated-cell-13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">hjust =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">15</span>), <span class="dv">0</span>), <span class="at">vjust =</span> <span class="fl">0.5</span>, </span>
 <span id="annotated-cell-13-12"><a href="#annotated-cell-13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">25</span>, <span class="sc">-</span><span class="dv">25</span>), <span class="dv">15</span>), <span class="dv">25</span>), <span class="at">check_overlap =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-13-13" class="code-annotation-target"><a href="#annotated-cell-13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"segment"</span>,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="1">1</button><span id="annotated-cell-13-13" class="code-annotation-target"><a href="#annotated-cell-13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"segment"</span>,</span>
 <span id="annotated-cell-13-14"><a href="#annotated-cell-13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> xmin <span class="sc">+</span> <span class="dv">250</span>, <span class="at">y =</span> ymax <span class="sc">+</span> <span class="dv">100</span>,</span>
 <span id="annotated-cell-13-15"><a href="#annotated-cell-13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">xend =</span> xmin <span class="sc">+</span> <span class="dv">150</span>, <span class="at">yend =</span> ymax <span class="sc">+</span> <span class="dv">100</span>,</span>
 <span id="annotated-cell-13-16"><a href="#annotated-cell-13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">type =</span> <span class="st">"closed"</span>,</span>
 <span id="annotated-cell-13-17"><a href="#annotated-cell-13-17" aria-hidden="true" tabindex="-1"></a>                  <span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"npc"</span>), <span class="at">angle =</span> <span class="dv">20</span>)) <span class="sc">+</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-13-18" class="code-annotation-target"><a href="#annotated-cell-13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="2">2</button><span id="annotated-cell-13-18" class="code-annotation-target"><a href="#annotated-cell-13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
 <span id="annotated-cell-13-19"><a href="#annotated-cell-13-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> xmin <span class="sc">+</span> <span class="dv">80</span>, <span class="at">y =</span> ymax <span class="sc">+</span> <span class="dv">100</span>, <span class="at">label =</span> <span class="st">"N"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
 <span id="annotated-cell-13-20"><a href="#annotated-cell-13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>(<span class="at">ylim =</span> <span class="fu">range</span>(hillshade_yx<span class="sc">$</span>y) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">200</span>, <span class="dv">250</span>)) <span class="sc">+</span></span>
 <span id="annotated-cell-13-21"><a href="#annotated-cell-13-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Wellington's City to Sea Walkway"</span>) <span class="sc">+</span></span>
 <span id="annotated-cell-13-22"><a href="#annotated-cell-13-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
-<dl class="code-annotation-container-grid">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
 <dd>
 <span data-code-cell="annotated-cell-13" data-code-lines="13" data-code-annotation="1">A home-made north arrow.</span>
@@ -550,11 +549,11 @@ Figure&nbsp;4: Roughly aligned map and elevation profile of the route.
 </div>
 </div>
 <p>They’re not entirely aligned, but then again, a precise alignment is impossible since the path is twisty and therefore non-uniform in terms of the relationship between progress from city (in the north) to sea (in the south) versus elapsed distance along the path.</p>
-<p>A more annoying issue is that because the labels are placed differently in each representation the <code>check_overlap</code> filter in each plot has chosen a different set of labels to include. A better approach might would likely be to hand pick the labels to include, and ensure that all of the selected labels appear in both plots. That wouldn’t be too hard to arrange, but I’m happy with this version of the map and will leave it as is.</p>
+<p>A more annoying issue is that because the labels are placed differently in each representation the <code>check_overlap</code> filter in each plot has chosen a different set of labels to keep. A better approach might would likely be to hand pick the labels to include, and ensure that all of the selected labels appear in both plots. That wouldn’t be too hard to arrange, but I’m happy enough with this version and will leave it as is.</p>
 </section>
 <section id="addendum-making-a-linestring-from-messier-data" class="level2">
 <h2 class="anchored" data-anchor-id="addendum-making-a-linestring-from-messier-data">Addendum: making a linestring from messier data</h2>
-<p>Above I made the unified linestring representation of the City to Sea Walkway from an input file containing a single multilinestring file. The version of the data with named segments on the walk turns out to be less cooperative than that.</p>
+<p>Above I made the unified linestring representation of the City to Sea Walkway from an input file containing a single multilinestring. The version of the data with named segments on the walk turns out to be less cooperative than that.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -592,7 +591,7 @@ Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
   3 137   3 </code></pre>
 </div>
 </div>
-<p>If the collection of linestrings formed a single linear chain, we’d expect there to be no linestrings that touch three others, and only two (one at the start, and one at the end) that touched only one other. We can map this (although you’ll have to squint to see the ‘spurs’ or ‘on-ramp’ segments, that are causing the difficuly—click on the map for a closer look).</p>
+<p>If the collection of linestrings formed a single linear chain, we’d expect there to be no linestrings that touch three others, and only two (one at the start, and one at the end) that touch only one other. We can map this (although you’ll have to squint to see the ‘spurs’ or ‘on-ramp’ segments, that are causing the problem—click on the map for a closer look).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>segments <span class="ot">&lt;-</span> segments_2 <span class="sc">|&gt;</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
@@ -616,13 +615,13 @@ Figure&nbsp;5: A map showing the ‘rogue’ segments
 </div>
 </div>
 </div>
-<p>To piece together a maximal single linear route in this case we can proceeds as follows. First, we determine which segments in the route touch, and use those relations to build a graph.</p>
+<p>To piece together a maximal single linear route in this case we can proceed as follows. First, determine which segments in the route touch, and use those relations to build a graph.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> segments_2 <span class="sc">|&gt;</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_touches</span>(<span class="at">sparse =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">graph_from_adjacency_matrix</span>(<span class="at">mode =</span> <span class="st">"undirected"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now, we can find the longest shortest path in the graph (in graph terms, its <a href="https://en.wikipedia.org/wiki/Diameter_(graph_theory)"><em>diameter</em></a>). This connects the most remote ends of the graph, which we assume will give us appropriate start and end points for the whole of the City to Sea Walkway.</p>
+<p>Now, find the longest shortest path in the graph (in graph terms, its <a href="https://en.wikipedia.org/wiki/Diameter_(graph_theory)"><em>diameter</em></a>). This connects the most remote ends of the graph, which we assume will give us appropriate start and end points for the whole of the City to Sea Walkway.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">distances</span>(G)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>start_finish <span class="ot">&lt;-</span> <span class="fu">which</span>(D <span class="sc">==</span> <span class="fu">max</span>(D), <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span>, ]</span>
@@ -659,10 +658,10 @@ Figure&nbsp;5: A map showing the ‘rogue’ segments
 <div id="fig-map-of-route" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-map-of-route-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-map-of-route-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: A quick and dirty map of the route."><img src="index_files/figure-html/fig-map-of-route-1.png" class="img-fluid figure-img" width="1152"></a>
+<a href="index_files/figure-html/fig-map-of-route-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: A quick and dirty map of the main trunk route of the walkway."><img src="index_files/figure-html/fig-map-of-route-1.png" class="img-fluid figure-img" width="1152"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-map-of-route-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: A quick and dirty map of the route.
+Figure&nbsp;6: A quick and dirty map of the main trunk route of the walkway.
 </figcaption>
 </figure>
 </div>
@@ -672,7 +671,13 @@ Figure&nbsp;6: A quick and dirty map of the route.
 
 </section>
 
-<p><a href="../../"><img src="../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p></main> <!-- /main -->
+
+<p><a href="../../"><img src="../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>I have previous on that score as regular readers if I have any will know…<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1038,25 +1043,64 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         }
       };
     }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
           }
-        });
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
       }
   const findCites = (el) => {
     const parentEl = el.parentElement;
