@@ -53,7 +53,7 @@ Not actually _wrong_ but, yeah, nah, not really right either. The machines are c
 ## My big picture take away
 A notable feature shared by all three keynotes (which might be a first for a GIScience conference) is that all three speakers were asked explicity political^[Throughout this section by 'political' I mean 'related to the exercise of power' not party political.] questions, concerning the politics of funding and the duty (or not) of scientists to take political and/or ethical positions.^[And importantly, not all those questions were asked by [Renée Sieber](https://www.mcgill.ca/geography/people-0/sieber).]
 
-Towards the end of [_Computing Geographically_](https://computinggeographically.org/)^[O’Sullivan D. 2024. [Computing Geographically: Bridging Giscience and Geography](https://www.guilford.com/books/Computing-Geographically/David-O'Sullivan/9781462553938).Guilford Press, New York.] I suggest that,
+Towards the end of [_Computing Geographically_](https://computinggeographically.org/)^[O’Sullivan D. 2024. [Computing Geographically: Bridging Giscience and Geography](https://www.guilford.com/books/Computing-Geographically/David-O'Sullivan/9781462553938). Guilford Press, New York.] I suggest that,
 
 > giscience [...] should _really_ "never again be quite the comfortable retreat for the technically minded" (Goodchild, 2006^[Goodchild MF. 2006. [GIScience ten years after _Ground Truth_](https://dx.doi.org/10.1111/j.1467-9671.2006.01022.x). _Transactions in GIS_, **10**(5), 687-692], p. 687), which it remains, in spite of the best efforts of critical GIS scholars. (p 254)
 
