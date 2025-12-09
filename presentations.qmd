@@ -8,6 +8,7 @@ Most talks are in web formats, and may include links that are now broken. Others
 
 Date | Title | Notes
 :-- | :-- | :--
+2025<br>December | Spatial data science: Just asking questions. [Slides](https://southosullivan.com/talks/2025-12-sdss-keynote/) (Video to follow) | Sixth Spatial Data Science Symposium, Keynote presentation, (globally distributed remote meeting), 5 December.
 2025<br>November | [Weavingspace: a new way to make multivariate maps](https://dosull.github.io/weaving-space/presentations/FOSS4G-Nov-2025/) | FOSS4G International, Auckland, 20 November.
 2025<br>September | Modelling potential environmental impacts of science activity in Antarctica ([dark](https://dosull.github.io/antarctica/talk/)&#124;[light](https://dosull.github.io/antarctica/talk/index-2.html)) theme | Regional GIS Forum, Palmerston North, 26 September.
 2025<br>July | [The latest on tiled multivariate maps](https://dosull.github.io/weaving-space/presentations/NZCS-Jul-2025/) | New Zealand Cartographic Society, Te Herenga Waka, 4 July.
