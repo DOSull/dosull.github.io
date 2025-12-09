@@ -1,0 +1,195 @@
+---
+title: "Spatial data science: just asking questions"
+author: 
+  - name: David O'Sullivan
+    affiliations: 
+      - name: University of Auckland
+format: 
+  revealjs:
+    theme: [black, custom.scss] 
+    filters: [custom.lua]
+    transition: none
+    navigation-mode: vertical
+    fragment-in-url: false
+    center: true
+    logo: logo.png
+    footer: "SDSS December 2025"
+    self-contained: true
+    image: lightbulb-2.jpg
+    include-in-header:
+      text: "<meta property='og:description' content='Keynote commentary for Spatial Data Science Symposium, 4 December 2025'><meta property='og:image' content='lightbulb-2.jpg'>"
+    template-partials: 
+      - title-slide.html
+    title-slide-attributes: 
+      data-background-image: images/bg-paparoa-phoebe-smith.jpg
+---
+
+## {data-background-image="images/bg-tui-ebird.jpg" background-opacity="0.8" background-size="cover"}
+
+::: {.fragment data-fragment-index="1"}
+### Enough already with the [_rebrandings_](#whats-in-a-name){style="background-color:rgba(0,0,0,0.25);"}! {.fragment data-fragment-index="1" }
+### Why [_data_](#why-data){style="background-color:rgba(0,0,0,0.25);"}, not _information_? {.fragment}
+### Why [_spatial_](#why-spatial){style="background-color:rgba(0,0,0,0.25);"},  not _geographical_? {.fragment}
+### What are the [_implications_](#implications){style="background-color:rgba(0,0,0,0.25);"} of any of this? {.fragment}
+:::
+
+&nbsp;
+
+&nbsp;
+
+::: {.attribution}
+New Zealand Tūī by Jan Andersson at <a href="https://ebird.org/atlasnz/species/tui1/">ebird.org</a>. Tūī are known for their cheeky personalities
+:::
+
+# What's in a name? {.smaller} 
+
+## {data-background-image="images/bg-computer-lab.jpg"}
+### For me, SDS, like many (most?) of the rebrandings^[automated cartography, spatial data handling, GIS, geographic(al) information science, spatial information theory, geocomputation, geographic data science, geomatics, geoinformatics, spatial information systems], is about belonging
+### It also signals a desire to move on from {.fragment}
+### GIS {.fragment style="font-size:250px;"}
+
+::: {.attribution}
+Image from [commons.<wbr>wikimedia.<wbr>org](https://commons.wikimedia.org/wiki/File:Conputer_lab_2.jpg) by ProjectManhattan
+:::
+
+## {data-background-image="images/bg-google-datacenter-bits.jpg" background-opacity="0.5"}
+### And to instead do _geospatial stuff_
+> "But hunt for a central term that describes what all these have in common, and what do we have? Geospatial is perhaps the strongest contender, but it’s an adjective: “What do you do?” “I do geospatial. . .er. . .stuff.”^[Goodchild MF. 2015. [Four thoughts on the future of GIS](https://www.esri.com/about/newsroom/arcwatch/four-thoughts-on-the-future-of-gis). _ArcWatch_ (February).]
+
+&nbsp;
+
+##
+![](images/geospatial-stuff.png)
+
+
+# Why 'data'? {.smaller}
+
+## What is/are data? {data-background-image="images/bg-the-thinker.jpg" background-opacity="0.75"}
+::: {style="text-align:center;"}
+### Not 'raw' or 'given'
+### Not 'facts' (although data is/are made)
+### Not information
+### Not knowledge
+### Not wisdom
+:::
+::: {.attribution}
+Rodin's _Le Penseur_ cropped from [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Le_Penseur_in_the_Jardin_du_Mus%C3%A9e_Rodin,_Paris_14_June_2015.jpg) by Douglas O'Brien
+:::
+
+## A proposition {data-background-image="images/bg-lightbulb-2.jpg"}
+### **knowledge** &Gt; **information** &Gt; **data**
+
+<!-- ## 
+::: {.columns}
+::: {.column width="55%"}
+![](images/book-data-feminism.jpg)
+:::
+::: {.column width="45%"}
+D’Ignazio C and LF Klein. 2020. [_Data Feminism_](https://mitpressonpubpub.mitpress.mit.edu/data-feminism). Cambridge, Mass., The MIT Press. 
+:::
+::: -->
+
+## {data-background-image="images/bg-quote.png"}
+>  What does it mean to retreat from knowledge to information? Knowledge is about ideas, about putting ideas together into integrated systems of thought we call disciplines. Information is about facts, about separating out a particular feature of a situation and recording it as an autonomous observation. (Taylor 1990^[Taylor PJ. 1990. Editorial comment GKS. _Political Geography Quarterly_ **9**(3) 211&ndash;212. See also: Goodchild MF. 1991. Just the facts. _Political Geography Quarterly_ **10**(4) 335&ndash;337.], page 212)
+
+## A provocation {data-background-image="images/bg-lightbulb-2.jpg"} 
+### Could a GeoAI be (or become) a GKS?
+<p class="fragment" style="text-align:center;">Spoiler: I don't think so</p>
+
+# Why 'spatial'? {.smaller}
+
+## Another proposition {data-background-image="images/bg-lightbulb-2.jpg"}
+### **geography** &#8800; **geometry**
+
+## The geo-atom {data-background-image="images/bg-quote.png"}
+> the fundamental element of geo&shy;graph&shy;ical information is the tuple
+$$  
+T=\langle x,y,z_1,z_2\ldots z_n\rangle
+$$
+
+::: aside
+Goodchild in Frank AU and MF Goodchild 1990. Two perspect&shy;ives on geographical data modelling. _NCGIA Technical Reports (9011)_. Available at [escholarship.org](https://escholarship.org/uc/item/7zn585sw).
+:::
+
+## {data-background-image="images/bg-quote.png"}
+### Here's Alfred North Whitehead: {style="text-align:left;"} 
+> [a]s soon as you have settled [...] what you mean by a definite place in space-time, you can adequately state the relation of a particular material body to space-time by saying that it is just there, in that place; and, so far as simple location is concerned, there is nothing more to be said on the subject (Whitehead [1925] 1967^[Whitehead AN. [1925] 1967. _Science and the Modern World: Lowell Lectures, 1925_. The Free Press.], page 50)
+
+<!-- ## {data-background-image="images/bg-quote.png"}
+### ... and another thing... {style="text-align:left;"}
+> Of course, substance and quality, as well as simple location, are the most natural ideas for the human mind. [...] The only question is, How concretely are we thinking when we consider nature under these conceptions? My point will be, that we are presenting ourselves with simplified editions of immediate matters of fact. When we examine the primary elements of these simplified editions, we shall find that they are [...] elaborate logical constructions of a high degree of abstraction (page 53). -->
+
+##  So... what _is_ geographical?
+![](images/book-scale-and-geographic-inquiry.jpg){width="15%"}&nbsp;![](images/book-space-and-place.jpg){width="15%"}&nbsp;![](images/book-birth-of-territory.jpg){width="15%"}&nbsp;![](images/book-abler-adams-gould.jpg){width="15%"}&nbsp;![](images/book-distance-and-space.png){width="15%"}&nbsp;![](images/book-networks-mobilities-geographies.jpg){width="15%"}
+
+## {data-background-image="images/book-computing-geographically-partial-cover.png" background-size="contain" slide-transition="slide" slide-transition-speed="fast"}
+### 😁 Your one stop shop &rarr; {style="text-align:left;"}
+### ... in geography {.fragment style="text-align:left;"}
+
+## {data-background-image="images/bg-lightbulb-2.jpg"}
+### There aren't many general<br>free-floating concepts {}
+### Our computational constructs must be grounded in domain-relevant ideas {.fragment}
+### Some 'portable' (e.g., neighbourhood, scale); others less so (e.g., home range) {.fragment}
+
+
+# Implications {.smaller}
+
+## {data-background-image="images/bg-quote.png"}
+### In _Computing Geographically_^[O’Sullivan D. 2024. _Computing Geographically: Bridging Giscience and Geography_. Guilford Press, New York.] I wrote that, {style="text-align:left;"}
+> giscience […] should _really_ “never again be quite the comfortable retreat for the technically minded” (Goodchild, 2006^[Goodchild MF. 2006. [GIScience ten years after Ground Truth](https://dx.doi.org/10.1111/j.1467-9671.2006.01022.x). _Transactions in GIS_ **10**(5), 687-692], page 687), _which it remains_, in spite of the best efforts of critical GIS scholars. (page 254, emphasis added)
+
+&nbsp;
+
+## {data-background-image="images/bg-common-ground.png" background-color="white"}
+
+::: {style="padding:20%;" .fragment .fade-out data-fragment-index="1"}
+<h2 class="fragment fade-out" style="text-shadow: 0 0 1px white, 0 0 5px white, 0 0 10px white;">Making<br>connections</h2>
+:::
+::: {.attribution style="left:0%;width:50%;background-color:rgba(255,255,255,0.75);text-align:left;" .fragment .fade-out data-fragment-index="1"}
+Thatcher JE, LR Bergmann and D O’Sullivan. 2016. [Searching for common ground (again)](https://escholarship.org/uc/item/8nq409qz). In _International Conference on GIScience Short Paper Proceedings_ eds. JA Miller, D O’Sullivan and N Wiegand, 304–307.
+:::
+
+## I would say this, but...
+::: {.fragment .grow  style="text-align:center;"} 
+![](images/book-computing-geographically.jpg)
+:::
+  
+
+# In conclusion {.smaller}
+
+## {data-background-image="images/bg-fantail-phoebe-smith.jpg" background-color="white" background-opacity="0.7"}
+
+### Enough already with the [_rebrandings_](#whats-in-a-name){style="background-color:rgba(255,255,255,0.3);"}!
+### Why [_data_](#why-data){style="background-color:rgba(255,255,255,0.3);"}, not _information_?
+### Why [_spatial_](#why-spatial){style="background-color:rgba(255,255,255,0.3);"},  not _geographical_?
+### What are the [_implications_](#implications){style="background-color:rgba(255,255,255,0.3);"} of any of this?
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+::: {.attribution style="background-color:rgba(255,255,255,0.35);"}
+Pīwakawaka (fantail) by Phoebe Smith from [wander<wbr>lust<wbr>magazine.<wbr>com](https://www.wanderlustmagazine.com/inspiration/on-the-road-again-new-zealand-west-coast-new-great-walk-paparoa-track/). The pīwakawaka is known for its inquisitive friendliness.
+:::
+
+## [Thank you!]{style="font-size:128px;"} {data-background-image="images/bg-kea.jpg"} 
+::: {.columns}
+::: {.column width="50%"}
+![](images/geospatial-stuff.png)
+[dosull.github.io](https://dosull.github.io)
+:::
+::: {.column width="30%"}
+![](images/computinggeographically.org.svg)
+:::
+::: {.column width="20%"}
+[_Computing<br>Geographically_<br>bonus material](https://computinggeographically.org)
+:::
+:::
+
+::: {.attribution style="background-color:rgba(0,0,0,0.5); width:21%;"}
+Image source [flickr.com](https://www.flickr.com/photos/volvob12b/9112326315/) by [Bernard Spragg](https://www.flickr.com/photos/volvob12b/)
+:::
+
+## {data-background-image="images/bg-kea.jpg"} 

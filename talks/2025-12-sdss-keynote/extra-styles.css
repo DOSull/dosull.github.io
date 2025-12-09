@@ -1,0 +1,89 @@
+.translucent{
+	background-color: #69c; /* fall-back */
+	background-color: rgba(0,51,102,0.5);
+}
+
+.caption{
+	background-color: #69c; /* fall-back */
+	background-color: rgba(0,51,102,0.5);
+	font-size: 30%;
+	text-align: right;
+}
+
+/* reveal.js link style from night.css for all themes */
+a:not(.image), .reveal a:not(.image) {
+  color: #e7ad52;
+ text-decoration: none;
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  -ms-transition: color .15s ease;
+  -o-transition: color .15s ease;
+  transition: color .15s ease;
+}
+
+/* I don' like borders on images! */
+.reveal section img {
+  border: 0px solid #333333;
+   box-shadow: none;
+}
+
+.reveal p.attribution{
+  background-color: #69c; /* fall-back */
+  background-color: rgba(0,51,102,0.5);
+  position: fixed;
+  bottom: 50px;
+  left: -50px;
+  overflow: hidden;
+  font-size: 0.75em;
+  color: #ffffff;
+  text-align: left;
+}
+
+.left{
+  float: left;
+  text-align: left;
+  width: 48%;
+  margin: 1%;
+}
+
+.left-alone{
+  float: left;
+  text-align: left;
+  width: auto;
+  overflow: visible;
+  clear: left;
+}
+
+.right{
+  float: right;
+  margin: 1%;
+  text-align: left;
+  width: 48%;
+}
+
+.right-alone{
+  float: right;
+  text-align: right;
+  width: auto;
+  overflow: visible;
+  clear: right;
+}
+
+.header {
+  font-family: "Arial";
+  text-align: right;
+  color: lightgrey;
+  font-size: 15px;
+  margin: 3px 5px 5px 10px;
+  z-index: 99;
+}
+
+/* Suppress reveal.js themes all uppercase for headers below h1 */
+/*.reveal h1, */
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  text-transform: none;
+}

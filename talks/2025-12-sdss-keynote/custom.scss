@@ -1,0 +1,33 @@
+/*-- scss:defaults --*/
+$link-color: orange;
+$light-bg-link-color: orangered;
+$dark-bg-link-color: orange;
+$light-bg-text-color: #333;
+
+/*-- scss:rules --*/
+
+.reveal .slide-logo {
+  top: 0;
+  left: 12px;
+}
+
+.reveal h1,
+.reveal h2 {
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.reveal h3 {
+  text-align: center;
+}
+
+.reveal .slide .attribution,
+.attribution {
+  overflow: hidden;
+  position: relative;
+  left: 70%;
+  bottom: -10%;
+  width: 30%;
+  font-size: 22px;
+  text-align:right;
+}

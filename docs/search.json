@@ -2028,5 +2028,131 @@
     "title": "30 Day Map Challenge 2025",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nI have previous on that score as regular readers if I have any will know…↩︎"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#section",
+    "href": "talks/2025-12-sdss-keynote/index.html#section",
+    "title": "Spatial data science: just asking questions",
+    "section": "",
+    "text": "Enough already with the rebrandings!\nWhy data, not information?\nWhy spatial, not geographical?\nWhat are the implications of any of this?\n\n \n \n\nNew Zealand Tūī by Jan Andersson at ebird.org. Tūī are known for their cheeky personalities"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#section-1",
+    "href": "talks/2025-12-sdss-keynote/index.html#section-1",
+    "title": "Spatial data science: just asking questions",
+    "section": "",
+    "text": "For me, SDS, like many (most?) of the rebrandings1, is about belonging\nIt also signals a desire to move on from\nGIS\n\nImage from commons.wikimedia.org by ProjectManhattan\n\nautomated cartography, spatial data handling, GIS, geographic(al) information science, spatial information theory, geocomputation, geographic data science, geomatics, geoinformatics, spatial information systems"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#section-2",
+    "href": "talks/2025-12-sdss-keynote/index.html#section-2",
+    "title": "Spatial data science: just asking questions",
+    "section": "",
+    "text": "And to instead do geospatial stuff\n\n“But hunt for a central term that describes what all these have in common, and what do we have? Geospatial is perhaps the strongest contender, but it’s an adjective: “What do you do?” “I do geospatial. . .er. . .stuff.”1\n\n \nGoodchild MF. 2015. Four thoughts on the future of GIS. ArcWatch (February)."
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#what-isare-data",
+    "href": "talks/2025-12-sdss-keynote/index.html#what-isare-data",
+    "title": "Spatial data science: just asking questions",
+    "section": "What is/are data?",
+    "text": "What is/are data?\n\nNot ‘raw’ or ‘given’\nNot ‘facts’ (although data is/are made)\nNot information\nNot knowledge\nNot wisdom\n\n\nRodin’s Le Penseur cropped from commons.wikimedia.org by Douglas O’Brien"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#a-proposition",
+    "href": "talks/2025-12-sdss-keynote/index.html#a-proposition",
+    "title": "Spatial data science: just asking questions",
+    "section": "A proposition",
+    "text": "A proposition\nknowledge ≫ information ≫ data"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#section-4",
+    "href": "talks/2025-12-sdss-keynote/index.html#section-4",
+    "title": "Spatial data science: just asking questions",
+    "section": "",
+    "text": "What does it mean to retreat from knowledge to information? Knowledge is about ideas, about putting ideas together into integrated systems of thought we call disciplines. Information is about facts, about separating out a particular feature of a situation and recording it as an autonomous observation. (Taylor 19901, page 212)\n\nTaylor PJ. 1990. Editorial comment GKS. Political Geography Quarterly 9(3) 211–212. See also: Goodchild MF. 1991. Just the facts. Political Geography Quarterly 10(4) 335–337."
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#a-provocation",
+    "href": "talks/2025-12-sdss-keynote/index.html#a-provocation",
+    "title": "Spatial data science: just asking questions",
+    "section": "A provocation",
+    "text": "A provocation\nCould a GeoAI be (or become) a GKS?\n\nSpoiler: I don’t think so"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#another-proposition",
+    "href": "talks/2025-12-sdss-keynote/index.html#another-proposition",
+    "title": "Spatial data science: just asking questions",
+    "section": "Another proposition",
+    "text": "Another proposition\ngeography ≠ geometry"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#the-geo-atom",
+    "href": "talks/2025-12-sdss-keynote/index.html#the-geo-atom",
+    "title": "Spatial data science: just asking questions",
+    "section": "The geo-atom",
+    "text": "The geo-atom\n\nthe fundamental element of geo­graph­ical information is the tuple \\[  \nT=\\langle x,y,z_1,z_2\\ldots z_n\\rangle\n\\]\n\n\n\nGoodchild in Frank AU and MF Goodchild 1990. Two perspect­ives on geographical data modelling. NCGIA Technical Reports (9011). Available at escholarship.org."
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#section-5",
+    "href": "talks/2025-12-sdss-keynote/index.html#section-5",
+    "title": "Spatial data science: just asking questions",
+    "section": "",
+    "text": "Here’s Alfred North Whitehead:\n\n[a]s soon as you have settled […] what you mean by a definite place in space-time, you can adequately state the relation of a particular material body to space-time by saying that it is just there, in that place; and, so far as simple location is concerned, there is nothing more to be said on the subject (Whitehead [1925] 19671, page 50)\n\n\nWhitehead AN. [1925] 1967. Science and the Modern World: Lowell Lectures, 1925. The Free Press."
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#so-what-is-geographical",
+    "href": "talks/2025-12-sdss-keynote/index.html#so-what-is-geographical",
+    "title": "Spatial data science: just asking questions",
+    "section": "So… what is geographical?",
+    "text": "So… what is geographical?"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#section-6",
+    "href": "talks/2025-12-sdss-keynote/index.html#section-6",
+    "title": "Spatial data science: just asking questions",
+    "section": "",
+    "text": "😁 Your one stop shop →\n… in geography"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#section-7",
+    "href": "talks/2025-12-sdss-keynote/index.html#section-7",
+    "title": "Spatial data science: just asking questions",
+    "section": "",
+    "text": "There aren’t many generalfree-floating concepts\nOur computational constructs must be grounded in domain-relevant ideas\nSome ‘portable’ (e.g., neighbourhood, scale); others less so (e.g., home range)"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#section-8",
+    "href": "talks/2025-12-sdss-keynote/index.html#section-8",
+    "title": "Spatial data science: just asking questions",
+    "section": "",
+    "text": "In Computing Geographically1 I wrote that,\n\ngiscience […] should really “never again be quite the comfortable retreat for the technically minded” (Goodchild, 20062, page 687), which it remains, in spite of the best efforts of critical GIS scholars. (page 254, emphasis added)\n\n \nO’Sullivan D. 2024. Computing Geographically: Bridging Giscience and Geography. Guilford Press, New York.Goodchild MF. 2006. GIScience ten years after Ground Truth. Transactions in GIS 10(5), 687-692"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#section-9",
+    "href": "talks/2025-12-sdss-keynote/index.html#section-9",
+    "title": "Spatial data science: just asking questions",
+    "section": "",
+    "text": "Makingconnections\n\n\n\nThatcher JE, LR Bergmann and D O’Sullivan. 2016. Searching for common ground (again). In International Conference on GIScience Short Paper Proceedings eds. JA Miller, D O’Sullivan and N Wiegand, 304–307."
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#i-would-say-this-but",
+    "href": "talks/2025-12-sdss-keynote/index.html#i-would-say-this-but",
+    "title": "Spatial data science: just asking questions",
+    "section": "I would say this, but…",
+    "text": "I would say this, but…"
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#section-10",
+    "href": "talks/2025-12-sdss-keynote/index.html#section-10",
+    "title": "Spatial data science: just asking questions",
+    "section": "",
+    "text": "Enough already with the rebrandings!\nWhy data, not information?\nWhy spatial, not geographical?\nWhat are the implications of any of this?\n \n \n \n\nPīwakawaka (fantail) by Phoebe Smith from wanderlustmagazine.com. The pīwakawaka is known for its inquisitive friendliness."
+  },
+  {
+    "objectID": "talks/2025-12-sdss-keynote/index.html#thank-you",
+    "href": "talks/2025-12-sdss-keynote/index.html#thank-you",
+    "title": "Spatial data science: just asking questions",
+    "section": "Thank you!",
+    "text": "Thank you!\n\n\n dosull.github.io\n\n\n\nComputingGeographicallybonus material\n\n\nImage source flickr.com by Bernard Spragg"
   }
 ]
