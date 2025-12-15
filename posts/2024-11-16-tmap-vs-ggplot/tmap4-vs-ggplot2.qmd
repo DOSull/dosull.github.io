@@ -348,7 +348,7 @@ The latter two assuming that you have installed `ggspatial`. The funny thing is,
 + unclassified choropleths are often fine for a quick look-see at your data;
 + I don't make many raster-based maps, and `ggplot2::geom_tile` is often good enough for my purposes;
 + Where I previously used web maps in `tmap` to get an overview of my data, now I tend to use QGIS. If I _really_ need a web map, I will certainly use `tmap`; and
-+ I am not a fan of map junk (hence: junk). Don't get me wrong, I'll but a north arrow and scalebar on a map [if necessary](https://www.esri.com/arcgis-blog/products/arcgis-pro/mapping/put-a-north-arrow-on-it/), I just don't make many maps like that.
++ I am not a fan of map junk (hence: junk). Don't get me wrong, I'll put a north arrow and scalebar on a map [if necessary](https://www.esri.com/arcgis-blog/products/arcgis-pro/mapping/put-a-north-arrow-on-it/), I just don't make many maps like that.
 
 If your mix of use-cases is different, especially if choropleth maps, raster data, and web maps loom larger in your world than they do in mine, then you might wind up making a different choice.
 
