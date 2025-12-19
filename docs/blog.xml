@@ -10,7 +10,19 @@
 <atom:link href="https://dosull.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Tue, 25 Nov 2025 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 18 Dec 2025 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>Into the void</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://dosull.github.io/posts/2025-12-20-paparoa-track/</link>
+  <description><![CDATA[ Exploring what can and can’t be seen from the Paparoa Track great walk. ]]></description>
+  <category>R</category>
+  <category>tutorial</category>
+  <category>visualization</category>
+  <category>geospatial</category>
+  <guid>https://dosull.github.io/posts/2025-12-20-paparoa-track/</guid>
+  <pubDate>Thu, 18 Dec 2025 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>30 Day Map Challenge 2025</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -253,18 +265,6 @@
   <guid>https://dosull.github.io/posts/2025-08-03-dulux-colours-in-python/</guid>
   <pubDate>Sat, 02 Aug 2025 12:00:00 GMT</pubDate>
   <media:content url="https://dosull.github.io/posts/2025-08-03-dulux-colours-in-python/preview-image.png" medium="image" type="image/png" height="128" width="144"/>
-</item>
-<item>
-  <title>Counting points in polygons</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://dosull.github.io/posts/2025-07-30-counting-points-in-polygons/</link>
-  <description><![CDATA[ For unknown reasons neither R’s sf nor Python’s geopandas makes it especially obvious how to count points in polygons. Here’s what you need to know. ]]></description>
-  <category>geospatial</category>
-  <category>R</category>
-  <category>python</category>
-  <category>tutorial</category>
-  <guid>https://dosull.github.io/posts/2025-07-30-counting-points-in-polygons/</guid>
-  <pubDate>Tue, 29 Jul 2025 12:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
