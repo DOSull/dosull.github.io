@@ -22,6 +22,7 @@ knitr:
     warning: false
     message: false
 date: 12-19-2025
+image: view-from-pororari.jpg
 ---
 
 A couple of weekends ago I walked the [Paparoa Track](https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/paparoa-track/), one of New Zealand's [Great Walks](https://www.doc.govt.nz/parks-and-recreation/things-to-do/walking-and-tramping/great-walks/). It was indeed great, although we got thoroughly soaked on days two and four of our afternoon, two days, and a morning sojourn. The [West Coast Region](https://en.wikipedia.org/wiki/West_Coast_Region) is [famously wet](https://en.wikipedia.org/wiki/West_Coast_Region#Geography), being not at all in the rain shadow of the Southern Alps (quite the reverse) with around 3m of rain a year. There is also no obvious discernible difference between the seasons in terms of monthly precipitation,^[In fact, December seems to be the wettest month on average... keep in mind that's the summer here.] so we should have expected as much.
@@ -268,6 +269,7 @@ The stack of viewsheds `sheds` can also tell us which location across the study 
 
 ```{r}
 #| label: prominence
+#| output: false
 prominence <- sheds |> sum()
 ```
 
@@ -279,8 +281,10 @@ prominence <- sheds |> sum()
 #| code-fold: true
 tm_shape(prominence) +
   tm_raster(
-    col.scale = tm_scale_continuous(values = "-brewer.blues"),
-    col.legend = tm_legend_hide()) + 
+    col = "dodgerblue",
+    col_alpha = "sum",
+    col_alpha.scale = tm_scale_continuous(),
+    col_alpha.legend = tm_legend_hide()) + 
   m_shade + 
   m_tracks_and_huts
 ```
