@@ -97,7 +97,7 @@ add_edge_lengths <- function(edge_df, vertex_df) {
 ### Collapsing chains of degree-2 vertices
 Only used once, but good to give them names and not clutter up the main workflow with their complicated workings are two functions that combine to collapse 'chains' of  vertices with only two neighbours into single edges. 
 
-If we have a local formation like A&mdash;B&mdash;C^[Yes, I'm using em-dashes, and I don't care if it makes you think I am an AI.] then the goal here is to collapse that to A&mdash;C. In the paper, Marc and Geoff avoid _creating_ vertices with two neighhours by adding two neighbours to vertices with a single neighbour. Here, because I am making the 'background' lattice of the network by removing edges, the problem is to to _remove_ all such vertices. Aesthetically, as we'll see this has the nice side-effect of introducing diagonal edges and departing a little from the strict orthogonality of the networks in the original paper.
+If we have a local formation like A&mdash;B&mdash;C^[Yes, I'm using em-dashes, and I don't care if it makes you think I am an AI.] then the goal here is to collapse that to A&mdash;C. In the paper, Marc and Geoff avoid _creating_ vertices with two neighbours by adding two neighbours to vertices with a single neighbour. Here, because I am making the 'background' lattice of the network by removing edges, the problem is to to _remove_ all such vertices. Aesthetically, as we'll see this has the nice side-effect of introducing diagonal edges and departing a little from the strict orthogonality of the networks in the original paper.
 
 This code was by far the most complicated piece of this to get working. Hover over the numbered circles for explanations of what's going on at each step.
 
