@@ -314,7 +314,7 @@ tm_shape(hillshade) +
 ## ... To fields
 And for my last trick^[Drum roll please!] deriving the vector field from a surface. 
 
-Every scalar surface has an associated vector field. At any point on the surface we can find the gradient vector, which is oriented downhill in the direction of steepest slope at that location. Derived `slope` and `aspect` surfaces can be used here, along with a little bit of trigonometry to create an array of line segments to represent the vector field.
+Every scalar surface has an associated vector field. At any point on the surface we can find the gradient vector that is oriented downhill in the direction of steepest slope at that location. Derived `slope` and `aspect` surfaces can be used here, along with a little bit of trigonometry to create an array of line segments to represent the vector field.
 
 The final visualization works better with some smoothing of the source slope, and some of the additional processing operations are sensitive to NA values, so before going further we run that smoothing and trim the datasets to a common size with no NA values.
 

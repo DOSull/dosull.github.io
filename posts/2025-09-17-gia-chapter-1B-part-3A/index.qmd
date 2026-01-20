@@ -196,7 +196,7 @@ ggplot() +
   geom_sf(data = collapsed_polys, fill = NA)
 ```
 
-Unsurprisingly, things get complicated _quickly_ when we move away from simple convex shapes, especially when we add the additional complication of holes. Sadly, there is no `st_skeleton` function in `sf`. Happily, this being R, there's a package for that&trade;. `raybevel` is a package for generating straight skeletons including extensions into 3D and roof models. If you squint at the simple example, you can see the relevance of roof models to this topic. In fact, according to wikipedia, this is the context in which the straight skeleton of a polygon first appeared as far back as 1877. The picture below (snipped from a recent property listing in Wellington reinforces this point.
+Unsurprisingly, things get complicated _quickly_ when we move away from simple convex shapes, especially when we add the additional complication of holes. Sadly, there is no `st_skeleton` function in `sf`. Happily, this being R, there's a package for that&trade;. `raybevel` is a package for generating straight skeletons including extensions into 3D and roof models. If you squint at the simple example, you can see the relevance of roof models to this topic. In fact, according to wikipedia, this is the context in which the straight skeleton of a polygon first appeared as far back as 1877. The picture below (snipped from a recent property listing in Wellington) reinforces this point.
 
 ![A straight skeleton roofline in the wild](roofline.png){#fig-roofline-image}
 
