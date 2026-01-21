@@ -17,3 +17,4 @@ posts/_*/
 climate/
 .syncthing*
 talks/*/images/
+**/*.quarto_ipynb
