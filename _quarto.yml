@@ -7,7 +7,7 @@ project:
 
 website:
   title: "Geospatial Stuff"
-  site-url: https://dosull.github.io
+  site-url: https://geospatialstuff.com
   open-graph: true
   description: "All manner of geospatial stuff"  
   navbar:
@@ -57,9 +57,9 @@ format:
     css: styles.css
     link-external-icon: true
     link-external-newwindow: true
-    link-external-filter: '^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|dosull|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|github\.com\/DOSull|patternandprocess\.org|computinggeographically\.org)'
+    link-external-filter: '^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|geospatialstuff\.com|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|patternandprocess\.org|computinggeographically\.org)'
     highlight-style: ayu
     include-in-header:
       - text: |
-          <script defer src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="dosull.github.io"></script>
+          <script defer src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="geospatialstuff.com"></script>
           <meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">

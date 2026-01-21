@@ -1,0 +1,426 @@
+---
+title: "Bivariate choropleths are go!"
+subtitle: "Another great addition in `tmap` 4"
+description: "I still have reservations about the usability of bivariate choropleth maps, but at least it's now a lot easier to make them!"
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+  loop: true
+code-annotations: hover
+code-fold: false
+categories:
+  - R
+  - tutorial
+  - visualization
+  - geospatial
+  - cartography
+  - tmap
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 01-21-2026
+image: "bivariate-palettes.png"
+---
+
+This post started out intended to be an exploration of the modifiable areal unit problem (MAUP) as the next post in [my series of posts](https://geospatialstuff.com/blog.html#category=geographic%20information%20analysis) supporting [_Geographic Information Analysis_](https://geospatialstuff.com/books.html). Along the way I wanted to make some _bivariate choropleth maps_ and lo... here we are. Bivariate maps in `tmap` turned into a bit of a rabbit hole, one worth exploring on its own. I'll get back to the MAUP in due course.^[If you're desperate, there are posts [here](https://computinggeographically.org/chapters/chap5/fig5-06-simple-maup.html) and [here](https://computinggeographically.org/chapters/chap5/fig5-07-maup-aggregation.html) to keep you occupied for the time being.]
+
+## Bivariate choropleth maps
+A bivariate choropleth blends two semi-transparent colour schemes, each independently representing a single variable. Mixes of the two colours can then be read (at least in theory) to give an overall sense of the spatial distribution of the two variables and how they are related. A [good primer on the topic](https://www.joshuastevens.net/cartography/make-a-bivariate-choropleth-map/) has been provided by [Joshua Stevens](https://www.joshuastevens.net).
+
+This approach to mapping two variables together in a map has been around for some time. There's a chapter in _Visualization in Modern Cartography_^[MacEachren AM, and DRF Taylor (eds.) 1994. _Visualization in Modern Cartography_. Pergamon.] by Cindy Brewer^[Brewer CA. 1994. Color use guidelines for mapping and visualization. Pages 123-147 in _Visualization in Modern Cartography_, AM MacEachren, DRF Taylor (eds.). Pergamon.] that puts such colour schemes in a broader general scheme for classifying how colour can be used in maps. The cover of that book presented an example, not of a bivariate choropleth, but of mixing two colours to represent slope and aspect of terrain, based on an original idea presented by Moellering and Kimerling in 1990^[Moellering, H, and JA Kimerling (1990). [A New Digital Slope-Aspect Display Process](https://dx.doi.org/10.1559/152304090783813853). _Cartography and Geographic Information Systems_ **17**(2) 151–159.], later detailed further by Cindy Brewer and Ken Marlow in 1993.^[Brewer CA and KA Marlow. 1993. [Color representation of aspect and slope simultaneously](https://cartogis.org/docs/proceedings/archive/auto-carto-11/pdf/color-representation-of-aspect-and-slope-simultaneously.pdf) pages 328-337 in RB McMaster and MP Armstrong (eds.) _Auto-Carto 11 Proceedings of the International Symposium On Computer-Assisted Cartography_.]
+
+So the idea has been out there for well over 30 years. Arguably hillshading has always been an overlay of a second colour on any other colour symbolisation present in a particular map, but really that seems like a special case, and realistically, it's only with the advent of computer graphics and the fairly routine fine-grained manipulation of colour that it's become practical to make this kind of map easily enough to explore the possibilities the approach offers.
+
+_Fairly routine_ and _easily enough_ are doing a lot of work there. It's really not been especially easy until very recently. The primer I linked to above requires quite a lot of manual work. This isn't necessarily a bad thing&mdash;the last thing the world needs is lots of badly thought out bivariate choropleth maps. Nevertheless, it's good to know that things have gotten easier lately, as this post will show.
+
+## Preliminaries
+### Libraries and data
+Mostly these are the usual suspects in terms of R libraries.
+
+```{r}
+#| label: imports
+library(sf)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(tmap)
+library(colorspace) # <1>
+library(cols4all)   # <2>
+```
+1. [`colorspace`](https://colorspace.r-forge.r-project.org/articles/colorspace.html) is useful for adjusting colours by lightening, darkening, and desaturating them.
+2. [`cols4all`](https://cols4all.github.io/cols4all-R/) is essential for the wide array of colour palettes, including bivariate ones it provides.
+
+And here's some fairly generic New Zealand census data aggregated to 'Statistical Area 2' level (roughly neighbourhood size) for Christchurch. The data aren't especially of interest, except as we'll see that it's useful to have some attributes with a range of correlations with one another as this can make for very different looking maps.
+
+```{r}
+#| label: data
+#| output: false
+place <- "Christchurch"
+alias <- "chch"
+
+df <- st_read(str_glue("{alias}-sa2-2018.gpkg"))
+context <- st_read(str_glue("{alias}-context.gpkg"))
+```
+
+### `tmap` or `ggplot2`?
+As ever in R, you have options, and for thematic mapping that invariably comes down to a choice between [`tmap`](https://r-tmap.github.io/tmap/) and [`ggplot2`](https://ggplot2.tidyverse.org/) (albeit with support from additional packages, in this case [`biscale`](https://chris-prener.github.io/biscale/index.html)). This is a topic I've [explored before](https://geospatialstuff.com/30-day-maps-2023/), [more than once](https://geospatialstuff.com/posts/2024-11-16-tmap-vs-ggplot/tmap4-vs-ggplot2.html).
+
+In short, on this occasion, I came across the enhanced bivariate choropleth support in `tmap` version 4, when I was doing something else (that would be... working on a post about MAUP), and since that's how I came to this topic I've chosen to run with it. As I've said before, both ecosystems are great, and I'm sure `biscale` is also a good choice for this approach to mapping.
+
+## Base map functions
+I've chosen to make all the maps that follow using a common 'base map' with land and sea, a title, scale bar^[Anyone who knows me will realise this has been added somewhat grudgingly], and the same set of lines delineating our map area boundaries. It's convenient to wrap these elements in functions to standardise our maps. For the details of how the base map is constructed click into the code chunk below.
+
+```{r}
+#| label: fig-basemap
+#| fig-cap: A simple base map ready for choropleth areas to be added.
+#| fig-width: 6.5
+#| fig-height: 5
+#| code-fold: true
+map_background <- function(ctx) {
+  tm_shape(ctx, unit = "km") +
+    tm_polygons(
+      fill = lighten("lightgrey", 0.5),
+      col = "lightblue") +
+    tm_title_in(
+      text = str_glue("{place} 2018 Census SA2s"),
+      bg = TRUE, bg.color = "#ffffffa0",
+      position = tm_pos_in(pos.h = "left", pos.v = "bottom")) +
+    tm_scalebar(breaks = 0:5) +
+    tm_layout(
+      bg.color = desaturate("lightblue", 0.35), 
+      inner.margins = rep(0, 4)
+    )
+}
+
+map_boundaries <- function(df) {
+  tm_shape(df) +
+    tm_lines(col = "lightgrey")
+}
+
+map_background(context) + map_boundaries(df)
+```
+
+## Adding choropleths, univariate and bivariate
+With base map built we can focus on the choropleth mapping.
+
+First, a simple univariate example, just to show the standard `tmap` approach to specifying a colour scale. We invoke `tm_fill()` to specify the variables to be symbolised by the colour fill, and establish the mapping between the data and the fill values using `tm_scale_intervals()`. 
+
+```{r}
+#| label: fig-univariate-choropleth-map
+#| fig-cap: A simple univariate choropleth map.
+#| fig-width: 7.5
+#| fig-height: 5
+map_background(context) +
+  tm_shape(df) +
+  tm_fill(
+    fill = "pc_yadult", 
+    fill.scale = tm_scale_intervals(
+      style = "quantile", n = 5, values = "brewer.reds")) +
+  map_boundaries(df)
+```
+
+I'm not too concerned here with the niceties of the map layout for now. Of more interest is what happens when you specify more than one variable for the `fill` parameter.
+
+```{r}
+#| label: fig-two-variables-facetted
+#| fig-cap: The result of specifying more than one variable for the `fill` parameter.
+#| fig-width: 10
+#| fig-height: 5.5
+map_background(context) +
+  tm_shape(df) +
+  tm_fill(
+    fill = c("pc_yadult", "pc_pakeha"), 
+    fill.scale = tm_scale_intervals(style = "quantile", values = "brewer.reds")) +
+  map_boundaries(df)
+```
+
+OK... that's interesting. We get a faceted two panel map, one facet for each of the specified variables. This is a really nice feature of `tmap` that's explained in some detail [here](https://r-tmap.github.io/tmap/articles/basics_facets). You don't have to stick with the same colour palette for each variable, and can symbolise each of them differently. But that's not our current focus. 
+
+As an aside, and for what it's worth, this is definitely an area where `tmap` has a clear advantage over `ggplot2`. Faceting based on each facet representing a different variable in `ggplot2` requires using `tidyr::pivot_longer` to make what amounts to a geographic dataset where the map areas are repeated as many times as you have variables.
+
+But I digress. It turns out there is another way to specify more than one variable, using `fill = tm_vars()`, and by specifying the `multivariate = TRUE` option, this allows us to make bivariate choropleths (although the `tm_vars()` function help doesn't make this especially obvious).
+
+```{r}
+#| label: fig-minimal-bivariate-choropleth
+#| fig-cap: A minimal bivariate choropleth example.
+#| fig-width: 6.5
+#| fig-height: 6.5
+map_background(context) +
+  tm_shape(df) +
+  tm_fill(fill = tm_vars(c("pc_yadult", "pc_pakeha"), multivariate = TRUE)) +
+  map_boundaries(df)
+```
+
+Even more interesting! Of course this example chooses defaults for the colours, and the classification scheme for each variable. We can refine the map using `tm_scale_bivariate()` and `tm_legend_bivariate()` functions.
+
+I've wrapped these options in a function below so we can explore the possibilities. The `values` parameter of `tm_scale_bivariate` specifies a bivariate colour palette to use, while `scale1` and `scale2` specify the mapping between each variable and its associated color ramp. To keep things manageable, I've gone with quartile schemes for both variables. This also helps with getting output maps that make maximal use of the colour palettes.
+
+```{r}
+#| label: map-two-variables-function
+map_two_variables <- function(ctx, df, 
+                              var1, var2, alias1, alias2,
+                              pal = "cols4all.pu_gn_bivs") {
+  map_background(ctx) +
+    tm_shape(df) +
+    tm_fill(
+      fill = tm_vars(c(var1, var2), multivariate = TRUE),
+      fill.scale = tm_scale_bivariate(
+        values = c4a(pal),
+        scale1 = tm_scale_intervals(
+          style = "quantile", n = 4, labels = paste("Q", 1:4, sep = "")), # <1>
+        scale2 = tm_scale_intervals(
+          style = "quantile", n = 4, labels = paste("Q", 1:4, sep = ""))),
+      fill.legend = tm_legend_bivariate(
+        frame = FALSE, text.size = 0.8, bg.color = "#ffffffa0",
+        position = tm_pos_in(pos.h = "left", pos.v = "top"),
+        item.r = 0, item.width = 1.4, item.height = 1.4,
+        xlab = alias2, ylab = alias1)) +  # <2>
+    map_boundaries(df)
+}
+```
+1. I've specified legend labels Q1, Q2, ... for quartile 1, quartile 2, etc., because getting more informative numerical ranges to work well is not a solved problem at this stage (see @fig-minimal-bivariate-choropleth for an example.)
+2. Note the inversion of the x and y axis of the palette label ordering. This was a source of much confusion to me.
+
+Here's an example.
+
+```{r}
+#| label: fig-using-map-two-variables
+#| fig-cap: Example map produced using the `map_two_variables` function.
+#| fig-width: 9.1
+#| fig-height: 7
+map_two_variables(
+  context, df, "pc_yadult", "pc_pakeha", "%Young adult", "%Pākehā")
+```
+
+## Bivariate colour palettes
+Bivariate colour palettes are non-trivial to design. Mixing colours is difficult to control and can produce unexpected effects.^[Most of them a muddy brown.] This has led, I think, to a conservatism in the options recommended.
+
+To show this, requires a slight digression back to `ggplot2` to make a handy dandy^[Thank you [_Blue's Clues_](https://en.wikipedia.org/wiki/Blue%27s_Clues) for lodging that phrase in my early parenting brain back in the early years of this century.] cheat sheet for the sequential-sequential bivariate palettes available in `cols4all`.
+
+```{r}
+#| label: more-libraries
+#| echo: false
+library(ggplot2)
+library(patchwork)
+```
+
+Click into the code cell below for a function that returns a plot of a bivariate colour palette (itself a matrix of hex coded colours) as a `ggplot2` object. The function includes some additional 'wrinkles', particularly the option to rescale the grid to a specified range of values, so that we can use these palette plots as a background for scatter plots later in this post.
+
+```{r}
+#| label: colour-palette-plot
+#| code-fold: true
+get_coords <- function(n, limits) {
+  base_coords <- 1:(n * 2 + 1) |> scales::rescale(to = limits)
+  base_coords[seq(2, n * 2, 2)]
+}
+
+get_palette_grid <- function(pal, n = NA, 
+                             show_text = TRUE, textsize = 7, 
+                             limits = NULL) {
+  colour_matrix <- c4a(pal, n)
+  if (is.null(limits)) {
+    xs <- 1:ncol(colour_matrix)
+    ys <- 1:nrow(colour_matrix)
+  } else {
+    xs <- get_coords(nrow(colour_matrix), limits)
+    ys <- get_coords(ncol(colour_matrix), limits)
+  }
+  expand_grid(x = xs, y = ys) |>
+    mutate(hex = c(colour_matrix)) |>
+    ggplot() +
+    geom_raster(aes(x = x, y = y, fill = hex)) +
+    scale_fill_identity() +
+    coord_equal() +
+    ggtitle(ifelse(show_text, pal, "")) +
+    theme_void() +
+    theme(plot.title = element_text(size = textsize, hjust = 0.5))
+}
+```
+
+Now let's see what we've got.
+
+### Sequential-sequential schemes
+These schemes are the ones most relevant to us here, as they are based on mixing two sequential colour ramps each of which can represent a numeric attribute.
+
+```{r}
+#| label: fig-sequential-sequential-schemes
+#| fig-cap: The sequential-sequential palettes available in `cols4all`.
+#| fig-width: 9
+#| fig-height: 9.5
+c4a_palettes(type = "bivs") |>
+  lapply(get_palette_grid, n = 4, textsize = 8) |>
+  wrap_plots()
+```
+
+The first nine of these are more 'traditional'. The remainder are from [Kamil Raczycki's](https://kamilraczycki.com/) [bivario python module](https://github.com/RaczeQ/bivario), and are a lot more colourful!^[They also have much wilder names...] 
+
+How well these more garish palettes work in making readable maps is unclear, but I say, "the more the merrier" and let's see where we end up.^[I'm skeptical about the usefulness of `kaleidoscope`, but then, cartographers and rainbows rarely get along.] In preparing this post I found the less reserved `bivario` schemes useful in avoiding clashes with even the muted background colours I've used in my maps. Admittedly, Joshua Stevens is explicit that his schemes are suited to a white background, and you can see why, given their pale, slightly washed out colours.
+
+### Other kinds of data
+`cols4all` also offers an array of sequential-diverging, sequential-categorical, and 'sequential-desaturated' palettes. I recommend viewing those using the `cols4all::c4a_gui()` function, which allows you to interactively explore all these palettes and the many, _many_ more conventional palettes `cols4all` supports. For what it's worth in most cases these palettes combine a set of categorical colours with a sequence of levels of intensity or saturation. For example, here is `tableau.classic20_biv`:
+
+```{r}
+#| label: fig-tableau-classic20-biv
+#| fig-cap: A typical sequential-categorial bivariate palette.
+#| fig-width: 5
+#| fig-height: 3
+#| echo: false
+get_palette_grid("tableau.classic20_biv", textsize = 12)
+```
+
+## Back to making maps
+It's interesting to examine how bivariate choropleth maps look given two variables that are uncorrelated, positively correlated, or negatively correlated. 
+
+Because we are using a quantile classification to make the maps, the relevant measure of correlation is [Spearman's rank](https://en.wikipedia.org/wiki/Spearman's_rank_correlation_coefficient). Inspection of the data shows that the `pc_asian` (%Asian) variable is suitably related to the `pc_pacific` (%Pacific people), `pc_yadult` (%Young adult) and `pc_pakeha` (%Pākehā) variables, respectively:
+
+```{r}
+#| label: spearmans-rank
+#| code-fold: true
+cor(df |> st_drop_geometry() |> select(13, 12, 14, 10),
+    method = "spearman")[1, ] |>
+  round(4)
+```
+
+So, now we can examine maps of these combinations of variables and see what we get.
+
+### Uncorrelated variables
+For this and the subsequent maps, I have gone with the `bivario.blade_runner` palette.^[Seriously, how could I not?!]
+
+```{r}
+#| label: fig-uncorrelated-pair
+#| fig-cap: Bivariate choropleth of two variables that are weakly correlated with a scatterplot showing the distribution of the data overplotted on the colour palette.
+#| fig-width: 12
+#| fig-height: 7
+pal <- "bivario.blade_runner"
+m1 <- map_two_variables(context, df, 
+                        "pc_asian", "pc_pacific",
+                        "%Asian", "%Pacific people", pal)
+p1 <- get_palette_grid(pal, 4, show_text = FALSE,
+                       limits = c(1, nrow(df))) +
+  geom_point(
+    data = df,
+    aes(x = rank(pc_pacific), y = rank(pc_asian)), size = 1) +
+  xlab("Rank %Pacific people") +
+  ylab("Rank %Asian") +
+  theme_minimal() +
+  theme(axis.text = element_blank(), 
+        axis.ticks = element_blank())
+
+wrap_plots(list(tmap_grob(m1), p1), widths = c(4.5, 1))
+```
+
+### Positively correlated variables
+```{r}
+#| label: fig-positively-correlated-pair
+#| fig-cap: Bivariate choropleth of two variables that are positively correlated with a scatterplot showing the distribution of the data overplotted on the colour palette.
+#| fig-width: 12
+#| fig-height: 7
+#| code-fold: true
+m2 <- map_two_variables(context, df, 
+                        "pc_asian", "pc_yadult",
+                        "%Asian", "%Young adult", pal)
+p2 <- get_palette_grid(pal, 4, show_text = FALSE, 
+                       limits = c(1, nrow(df))) +
+  geom_point(
+    data = df,
+    aes(x = rank(pc_asian), y = rank(pc_yadult)), size = 1) +
+  xlab("Rank %Young adult") +
+  ylab("Rank %Asian") +
+  theme_minimal() +
+  theme(axis.text = element_blank(), 
+        axis.ticks = element_blank())
+
+wrap_plots(list(tmap_grob(m2), p2), widths = c(4.5, 1))
+```
+
+### Negatively correlated variables
+```{r}
+#| label: fig-negatively-correlated-pair
+#| fig-cap: Bivariate choropleth of two variables that are negatively correlated with a scatterplot showing the distribution of the data overplotted on the colour palette.
+#| fig-width: 12
+#| fig-height: 7
+#| code-fold: true
+m3 <- map_two_variables(context, df, 
+                        "pc_asian", "pc_pakeha",
+                        "%Asian", "%Pākehā", pal)
+p3 <- get_palette_grid(pal, 4, show_text = FALSE, 
+                       limits = c(1, nrow(df))) +
+  geom_point(
+    data = df, 
+    aes(x = rank(pc_pakeha), y = rank(pc_asian)), size = 1) +
+  xlab("Rank %Pākehā") +
+  ylab("Rank %Asian") +
+  theme_minimal() +
+  theme(axis.text = element_blank(), 
+        axis.ticks = element_blank())
+
+wrap_plots(list(tmap_grob(m3), p3), widths = c(4.5, 1))
+```
+
+What I hope these plots show is how the overall mix of colours present in the bivariate maps can (with practice!) give an immediate clue to the correlation between the mapped variables. Uncorrelated variables pull colours from all over the palette, while positively and negatively correlated variables pull colours from opposing diagonals of the palette. In these examples, this effect is particularly apparent in the last map where colours from the upper left and lower right of the palette predominate. Areas with a relatively large Asian population presence (in the centre city and around the university to the west) have relatively low Pākehā (New Zealand European) population presence and vice-versa.
+
+## Matched univariate and bivariate maps
+In exploring the possibilities presented by these maps, I have found it helpful to make univariate maps with matched colour ramps for the two variables being combined. Code in the cell below shows how this can be done based on the `cols4all` bivariate palettes.
+
+```{r}
+#| label: make-univariate-maps
+get_palette_first_col_or_row <- function(pal = "bivario.plum_mint",
+                                         column = TRUE) {
+  if (column) {
+    return(c4a(pal)[, 1])
+  } else {
+    return(c4a(pal)[1, ])
+  }
+}
+
+map_one_variable <- function(ctx, df, var, alias, 
+                             pal = "bivario.plum_mint", 
+                             column = TRUE) {
+  map_background(ctx) +
+    tm_shape(df) +
+    tm_fill(
+      fill = var,
+      fill.scale = tm_scale_intervals(
+        style = "quantile", n = 4, 
+        values = get_palette_first_col_or_row(pal = pal, column = column)),
+      fill.legend = tm_legend(
+        reverse = TRUE, item.r = 0, item.width = 1.4,
+        title = alias, bg.color = "#ffffffa0",
+        frame = FALSE, position = tm_pos_in(pos.h = "left", pos.v = "top"))) +
+    map_boundaries(df)
+}
+```
+
+To use this function, depending on which of the two attributes we are working with we specify that the univariate colour palette should be from the first column (`column = TRUE`) or row (`column = FALSE`) of the supplied bivariate colour ramp.
+
+The two univariate maps that correspond to the bivariate map of %Asian and %Young adult population and the combined map are shown below. If you click on one of them, a zoomed in view will show, and you can slide between the three maps, and hopefully see how the variables are combined by colour overlay.
+
+```{r}
+#| label: fig-combining-univariate-maps
+#| fig-cap: 
+#|   - Univariate map 1.
+#|   - Univariate map 2.
+#|   - Combined bivariate map.
+#| fig-width: 9.1
+#| fig-height: 7
+#| lightbox: 
+#|   group: mix-maps
+#| echo: false 
+map_one_variable(context, df, "pc_asian", "%Asian", pal = pal)
+map_one_variable(context, df, "pc_yadult", "%Young adult", pal = pal, column = FALSE)
+m2
+```
+
+## Final thoughts
+As I mentioned at the top bivariate choropleth maps have been around for some time, but it has only recently become easy to make them. That's not necessarily a _bad_ thing given the complexities of making use of the technique to convey data effectively. Nevertheless, it can only be a good thing that it's now a lot easier to make such maps, and hopefully that ease will advance our understanding of what works and doesn't work in this challenging design space.
+
+Based on my (relatively limited) experience putting this post together and some past experiments with the method, it is instructive to see the univariate maps that combined to make a bivariate one, to help in interpreting the maps you are making, and also in developing your ability to read such maps.
+
+As someone who is generally fairly conservative with colour choices, I have found it interesting how compelling the more vibrant `bivario` colour palettes are (at least for me). I'd be interested to hear other opinions on this point.
+
+Finally, if you want to map _more_ than two variables consider my [`weavingspace`](https://github.com/DOSull/weaving-space) python module or its associated [MapWeaver web app](https://geospatialstuff.com/mapweaver/app), where we approach the challenge of combining multiple colour ramps in a rather different way!
