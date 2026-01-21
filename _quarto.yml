@@ -4,6 +4,7 @@ project:
   resources:
     - "docs/posts/2025-27-06-iata-codes/index.html"
     - "docs/posts/2025-0707-projection-explorer/index.html"
+    - "CNAME"
 
 website:
   title: "Geospatial Stuff"
@@ -30,16 +31,16 @@ website:
           - text: "Publications"
             file: publications.qmd
           - text: "Computing Geographically"
-            href: https://dosull.github.io/computing-geographically
+            href: https://geospatialstuff.com/computing-geographically
             target: _blank
             icon: box-arrow-up-right
           - text: "Spatial Simulation"
-            href: https://dosull.github.io/pattern-and-process
+            href: https://geospatialstuff.com/pattern-and-process
             target: _blank
             icon: box-arrow-up-right
           # trailing nbsps to give external link icon room to float right
           - text: "30 Day Map Challenge 2023\xa0\xa0\xa0\xa0\xa0\u202f"
-            href: https://dosull.github.io/30-day-maps-2023
+            href: https://geospatialstuff.com/30-day-maps-2023
             target: _blank
             icon: box-arrow-up-right
       - icon: linkedin
