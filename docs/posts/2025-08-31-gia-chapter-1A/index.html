@@ -373,80 +373,83 @@ window.Quarto = {
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>get_measuring_pts <span class="ot">&lt;-</span> <span class="cf">function</span>(shape, <span class="at">yardstick =</span> <span class="fl">1e3</span>) {</span>
-<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>  next_point <span class="ot">&lt;-</span> shape <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_cast</span>(<span class="st">"POINT"</span>) <span class="sc">|&gt;</span> </span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-4" class="code-annotation-target"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice</span>(<span class="dv">1</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3">3</button><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>  measuring_pts <span class="ot">&lt;-</span> <span class="fu">list</span>(next_point)</span>
-<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>  next_position <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>  last_position <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4">4</button><span id="annotated-cell-3-8" class="code-annotation-target"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (next_position <span class="sc">&gt;</span> last_position) {</span>
-<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>    last_position <span class="ot">&lt;-</span> next_position</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="5">5</button><span id="annotated-cell-3-10" class="code-annotation-target"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>    buffer_line <span class="ot">&lt;-</span> next_point <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">st_buffer</span>(yardstick) <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">st_boundary</span>()</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="6">6</button><span id="annotated-cell-3-13" class="code-annotation-target"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a>    next_points <span class="ot">=</span> buffer_line <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">st_intersection</span>(shape) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-3-15"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">st_cast</span>(<span class="st">"POINT"</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="7">7</button><span id="annotated-cell-3-16" class="code-annotation-target"><a href="#annotated-cell-3-16" aria-hidden="true" tabindex="-1"></a>    next_positions <span class="ot">=</span> <span class="fu">st_line_project</span>(</span>
-<span id="annotated-cell-3-17"><a href="#annotated-cell-3-17" aria-hidden="true" tabindex="-1"></a>      shape <span class="sc">|&gt;</span> <span class="fu">st_as_sfc</span>(),</span>
-<span id="annotated-cell-3-18"><a href="#annotated-cell-3-18" aria-hidden="true" tabindex="-1"></a>      next_points <span class="sc">|&gt;</span> <span class="fu">st_as_sfc</span>(),</span>
-<span id="annotated-cell-3-19"><a href="#annotated-cell-3-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">normalized =</span> <span class="cn">TRUE</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="8">8</button><span id="annotated-cell-3-20" class="code-annotation-target"><a href="#annotated-cell-3-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">any</span>(next_positions <span class="sc">&gt;</span> last_position)) {</span>
-<span id="annotated-cell-3-21"><a href="#annotated-cell-3-21" aria-hidden="true" tabindex="-1"></a>      next_position <span class="ot">=</span> <span class="fu">min</span>(next_positions[</span>
-<span id="annotated-cell-3-22"><a href="#annotated-cell-3-22" aria-hidden="true" tabindex="-1"></a>        <span class="fu">which</span>(next_positions <span class="sc">&gt;</span> last_position)])</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="9">9</button><span id="annotated-cell-3-23" class="code-annotation-target"><a href="#annotated-cell-3-23" aria-hidden="true" tabindex="-1"></a>      next_point <span class="ot">&lt;-</span> next_points <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-3-24"><a href="#annotated-cell-3-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">slice</span>(<span class="fu">which</span>(next_positions <span class="sc">==</span> next_position))</span>
-<span id="annotated-cell-3-25"><a href="#annotated-cell-3-25" aria-hidden="true" tabindex="-1"></a>      measuring_pts[[<span class="fu">length</span>(measuring_pts) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> next_point</span>
-<span id="annotated-cell-3-26"><a href="#annotated-cell-3-26" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> { <span class="cf">break</span> }</span>
-<span id="annotated-cell-3-27"><a href="#annotated-cell-3-27" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="annotated-cell-3-28"><a href="#annotated-cell-3-28" aria-hidden="true" tabindex="-1"></a>  measuring_pts <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-3-29"><a href="#annotated-cell-3-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lapply</span>(data.frame) <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-3-30"><a href="#annotated-cell-3-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>() <span class="sc">|&gt;</span> </span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="10">10</button><span id="annotated-cell-3-31" class="code-annotation-target"><a href="#annotated-cell-3-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_as_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(shape))</span>
-<span id="annotated-cell-3-32"><a href="#annotated-cell-3-32" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>get_measuring_pts <span class="ot">&lt;-</span> <span class="cf">function</span>(shape, </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">yardstick =</span> <span class="fl">1e3</span>) {</span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>  next_point <span class="ot">&lt;-</span> shape <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_cast</span>(<span class="st">"POINT"</span>) <span class="sc">|&gt;</span> </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice</span>(<span class="dv">1</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3">3</button><span id="annotated-cell-3-6" class="code-annotation-target"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>  measuring_pts <span class="ot">&lt;-</span> <span class="fu">list</span>(next_point)</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>  next_position <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>  last_position <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4">4</button><span id="annotated-cell-3-9" class="code-annotation-target"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (next_position <span class="sc">&gt;</span> last_position) {</span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>    last_position <span class="ot">&lt;-</span> next_position</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="5">5</button><span id="annotated-cell-3-11" class="code-annotation-target"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>    buffer_line <span class="ot">&lt;-</span> next_point <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">st_buffer</span>(yardstick) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">st_boundary</span>()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="6">6</button><span id="annotated-cell-3-14" class="code-annotation-target"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>    next_points <span class="ot">=</span> buffer_line <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-3-15"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">st_intersection</span>(shape) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-3-16"><a href="#annotated-cell-3-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">st_cast</span>(<span class="st">"POINT"</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="7">7</button><span id="annotated-cell-3-17" class="code-annotation-target"><a href="#annotated-cell-3-17" aria-hidden="true" tabindex="-1"></a>    next_positions <span class="ot">=</span> <span class="fu">st_line_project</span>(</span>
+<span id="annotated-cell-3-18"><a href="#annotated-cell-3-18" aria-hidden="true" tabindex="-1"></a>      shape <span class="sc">|&gt;</span> <span class="fu">st_as_sfc</span>(),</span>
+<span id="annotated-cell-3-19"><a href="#annotated-cell-3-19" aria-hidden="true" tabindex="-1"></a>      next_points <span class="sc">|&gt;</span> <span class="fu">st_as_sfc</span>(),</span>
+<span id="annotated-cell-3-20"><a href="#annotated-cell-3-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">normalized =</span> <span class="cn">TRUE</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="8">8</button><span id="annotated-cell-3-21" class="code-annotation-target"><a href="#annotated-cell-3-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">any</span>(next_positions <span class="sc">&gt;</span> last_position)) {</span>
+<span id="annotated-cell-3-22"><a href="#annotated-cell-3-22" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
+<span id="annotated-cell-3-23"><a href="#annotated-cell-3-23" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="annotated-cell-3-24"><a href="#annotated-cell-3-24" aria-hidden="true" tabindex="-1"></a>      next_position <span class="ot">=</span> <span class="fu">min</span>(next_positions[</span>
+<span id="annotated-cell-3-25"><a href="#annotated-cell-3-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">which</span>(next_positions <span class="sc">&gt;</span> last_position)])</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="9">9</button><span id="annotated-cell-3-26" class="code-annotation-target"><a href="#annotated-cell-3-26" aria-hidden="true" tabindex="-1"></a>      next_point <span class="ot">&lt;-</span> next_points <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-3-27"><a href="#annotated-cell-3-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">slice</span>(<span class="fu">which</span>(next_positions <span class="sc">==</span> next_position))</span>
+<span id="annotated-cell-3-28"><a href="#annotated-cell-3-28" aria-hidden="true" tabindex="-1"></a>      measuring_pts[[<span class="fu">length</span>(measuring_pts) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> next_point</span>
+<span id="annotated-cell-3-29"><a href="#annotated-cell-3-29" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="annotated-cell-3-30"><a href="#annotated-cell-3-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-3-31"><a href="#annotated-cell-3-31" aria-hidden="true" tabindex="-1"></a>  measuring_pts <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-3-32"><a href="#annotated-cell-3-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lapply</span>(data.frame) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-3-33"><a href="#annotated-cell-3-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>() <span class="sc">|&gt;</span> </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="10">10</button><span id="annotated-cell-3-34" class="code-annotation-target"><a href="#annotated-cell-3-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_as_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(shape))</span>
+<span id="annotated-cell-3-35"><a href="#annotated-cell-3-35" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1"><code>shape</code> is an <code>sf</code> dataset containing a single <code>LINESTRING</code> geometry, and <code>yardstick</code> is the length of the measuring stick—its resolution.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="2" data-code-annotation="1"><code>shape</code> is an <code>sf</code> dataset containing a single <code>LINESTRING</code> geometry, and <code>yardstick</code> is the length of the measuring stick—its resolution.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="4" data-code-annotation="2">We start from the first point in the line.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="2">We start from the first point in the line.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="3">Initialise a list to record the points at which the yardstick touches the line with the first point.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="6" data-code-annotation="3">Initialise a list to record the points at which the yardstick touches the line with the first point.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="8" data-code-annotation="4"><code>next_position</code> and <code>last_position</code> are how far along the line measurement has progressed. For a closed line, when <code>next_position</code> is less than <code>last_position</code> we’ve looped back around to the start and are done.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="9" data-code-annotation="4"><code>next_position</code> and <code>last_position</code> are how far along the line measurement has progressed. For a closed line, when <code>next_position</code> is less than <code>last_position</code> we’ve looped back around to the start and are done.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="10" data-code-annotation="5">Use a linear buffer, not a polygon, so that the intersections with the line are a set of points.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="11" data-code-annotation="5">Use a linear buffer, not a polygon, so that the intersections with the line are a set of points.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="13" data-code-annotation="6">Get all the potential next points: these are where the line buffer intersects the shape.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="14" data-code-annotation="6">Get all the potential next points: these are where the line buffer intersects the shape.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="16" data-code-annotation="7">Get how far along the shape the next points are.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="17" data-code-annotation="7">Get how far along the shape the next points are.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="8">8</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="20" data-code-annotation="8">If none of the next positions are further along the shape than the last position, then we are done.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="21" data-code-annotation="8">If none of the next positions are further along the shape than the last position, then we are done.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="9">9</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="23" data-code-annotation="9">Pick the closest intersection point as the next point and add it to the list of measuring points.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="26" data-code-annotation="9">Pick the closest intersection point as the next point and add it to the list of measuring points.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="10">10</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="31" data-code-annotation="10">Convert the list of points to an <code>sf</code> dataset, and return.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="34" data-code-annotation="10">Convert the list of points to an <code>sf</code> dataset, and return.</span>
 </dd>
 </dl>
 </div>

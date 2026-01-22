@@ -89,7 +89,8 @@ Anyway, to return to the issue at hand, the function below identifies the 'measu
 
 ```{r}
 #| label: get-measuring-points
-get_measuring_pts <- function(shape, yardstick = 1e3) { # <1>
+get_measuring_pts <- function(shape, 
+                              yardstick = 1e3) {        # <1>
   next_point <- shape |> 
     st_cast("POINT") |> 
     slice(1)                                            # <2>
@@ -108,13 +109,15 @@ get_measuring_pts <- function(shape, yardstick = 1e3) { # <1>
       shape |> st_as_sfc(),
       next_points |> st_as_sfc(),
       normalized = TRUE)
-    if (any(next_positions > last_position)) {          # <8>
+    if (!any(next_positions > last_position)) {         # <8>
+      break
+    } else {
       next_position = min(next_positions[
         which(next_positions > last_position)])
       next_point <- next_points |>                      # <9>
         slice(which(next_positions == next_position))
       measuring_pts[[length(measuring_pts) + 1]] <- next_point
-    } else { break }
+    }
   }
   measuring_pts |> 
     lapply(data.frame) |> 
