@@ -285,7 +285,7 @@ g4 <- plot_range(seq(79.5, 80.5, 0.025)) + guides(colour = "none")
 (g2 + g3 + plot_layout(axes = "collect")) / g4
 ```
 
-_Probably_ for a continuous, infinitely divisible population surface these would all be solutions to our quartering problem, but if we have a closer look (below) we can see that only the solution close to 80&deg; actually converges for our discretised data. The other two cases have (I assume) some population grid cells jumping back and forward across our lines as we shift them slightly. On a continuous population surface I assume the behaviour at these angles would be more like the smooth variation we see in the 80&deg; case.^[Probably... I can't be absolutely certain of this. We'd have to look more closely to investigate which grid cells are 'jumping around' at these values to confirm this assumption.]
+_Probably_ for a continuous, infinitely divisible population surface these would all be solutions to our quartering problem, but if we have a closer look (above) we can see that only the solution close to 80&deg; actually converges for our discretised data. The other two cases have (I assume) some population grid cells jumping back and forward across our lines as we shift them slightly. On a continuous population surface I assume the behaviour at these angles would be more like the smooth variation we see in the 80&deg; case.^[Probably... I can't be absolutely certain of this. We'd have to look more closely to investigate which grid cells are 'jumping around' at these values to confirm this assumption.]
 
 ## So finally...
 The zoomed in view around 80&deg; suggests that bisectors at angles of 79.975&deg; and 169.975&deg; are pretty much the 'answer'.
