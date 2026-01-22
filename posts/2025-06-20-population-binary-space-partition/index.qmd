@@ -131,8 +131,7 @@ bsp <- Node$new(
 
 for (level in 1:10) {
   leaves <- bsp$leaves                                      # <2>
-  for (i in 1:length(leaves)) {
-    leaf <- leaves[[i]]
+  for (leaf in leaves) {
     id <- leaf$name
     bbs <- split_population(pop, leaf$bb |> st_bbox())
     leaf$AddChildNode(Node$new(str_c(id, 1), bb = bbs[[1]]))
@@ -148,7 +147,8 @@ A minor difficulty once the tree has been constructed is to retrieve the `sf` ge
 ```{r}
 #| label: unpack-layers-to-dataframes
 #| code-fold: show
-all_levels <- bsp$Get("bb") |>                  # <1>
+all_levels <- 
+  bsp$Get("bb") |>                              # <1>
   lapply(list) |>                               # <2>
   lapply(st_polygon) |>                         # <3>
   st_as_sfc() |>                                # <4>

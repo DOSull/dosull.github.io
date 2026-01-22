@@ -425,14 +425,13 @@ Figure&nbsp;1: A zoomed in map of the Christchurch area.
 <span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (level <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-6" class="code-annotation-target"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>  leaves <span class="ot">&lt;-</span> bsp<span class="sc">$</span>leaves</span>
-<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(leaves)) {</span>
-<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>    leaf <span class="ot">&lt;-</span> leaves[[i]]</span>
-<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>    id <span class="ot">&lt;-</span> leaf<span class="sc">$</span>name</span>
-<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>    bbs <span class="ot">&lt;-</span> <span class="fu">split_population</span>(pop, leaf<span class="sc">$</span>bb <span class="sc">|&gt;</span> <span class="fu">st_bbox</span>())</span>
-<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>    leaf<span class="sc">$</span><span class="fu">AddChildNode</span>(Node<span class="sc">$</span><span class="fu">new</span>(<span class="fu">str_c</span>(id, <span class="dv">1</span>), <span class="at">bb =</span> bbs[[<span class="dv">1</span>]]))</span>
-<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>    leaf<span class="sc">$</span><span class="fu">AddChildNode</span>(Node<span class="sc">$</span><span class="fu">new</span>(<span class="fu">str_c</span>(id, <span class="dv">2</span>), <span class="at">bb =</span> bbs[[<span class="dv">2</span>]]))</span>
-<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (leaf <span class="cf">in</span> leaves) {</span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>    id <span class="ot">&lt;-</span> leaf<span class="sc">$</span>name</span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>    bbs <span class="ot">&lt;-</span> <span class="fu">split_population</span>(pop, leaf<span class="sc">$</span>bb <span class="sc">|&gt;</span> <span class="fu">st_bbox</span>())</span>
+<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>    leaf<span class="sc">$</span><span class="fu">AddChildNode</span>(Node<span class="sc">$</span><span class="fu">new</span>(<span class="fu">str_c</span>(id, <span class="dv">1</span>), <span class="at">bb =</span> bbs[[<span class="dv">1</span>]]))</span>
+<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>    leaf<span class="sc">$</span><span class="fu">AddChildNode</span>(Node<span class="sc">$</span><span class="fu">new</span>(<span class="fu">str_c</span>(id, <span class="dv">2</span>), <span class="at">bb =</span> bbs[[<span class="dv">2</span>]]))</span>
+<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
@@ -451,42 +450,43 @@ Figure&nbsp;1: A zoomed in map of the Christchurch area.
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>all_levels <span class="ot">&lt;-</span> bsp<span class="sc">$</span><span class="fu">Get</span>(<span class="st">"bb"</span>) <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(list) <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3">3</button><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(st_polygon) <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4">4</button><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sfc</span>() <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-5-5"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sf</span>(<span class="at">crs =</span> <span class="dv">2193</span>) <span class="sc">|&gt;</span> </span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="5">5</button><span id="annotated-cell-5-7" class="code-annotation-target"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">level =</span> bsp<span class="sc">$</span><span class="fu">Get</span>(<span class="st">"level"</span>),</span>
-<span id="annotated-cell-5-8"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">id =</span> bsp<span class="sc">$</span><span class="fu">Get</span>(<span class="st">"name"</span>))</span>
-<span id="annotated-cell-5-9"><a href="#annotated-cell-5-9" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="6">6</button><span id="annotated-cell-5-10" class="code-annotation-target"><a href="#annotated-cell-5-10" aria-hidden="true" tabindex="-1"></a>top_level <span class="ot">&lt;-</span> all_levels <span class="sc">|&gt;</span> <span class="fu">filter</span>(level <span class="sc">==</span> <span class="dv">11</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>all_levels <span class="ot">&lt;-</span> </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  bsp<span class="sc">$</span><span class="fu">Get</span>(<span class="st">"bb"</span>) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(list) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3">3</button><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(st_polygon) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4">4</button><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sfc</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sf</span>(<span class="at">crs =</span> <span class="dv">2193</span>) <span class="sc">|&gt;</span> </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="5">5</button><span id="annotated-cell-5-8" class="code-annotation-target"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">level =</span> bsp<span class="sc">$</span><span class="fu">Get</span>(<span class="st">"level"</span>),</span>
+<span id="annotated-cell-5-9"><a href="#annotated-cell-5-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">id =</span> bsp<span class="sc">$</span><span class="fu">Get</span>(<span class="st">"name"</span>))</span>
+<span id="annotated-cell-5-10"><a href="#annotated-cell-5-10" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="6">6</button><span id="annotated-cell-5-11" class="code-annotation-target"><a href="#annotated-cell-5-11" aria-hidden="true" tabindex="-1"></a>top_level <span class="ot">&lt;-</span> all_levels <span class="sc">|&gt;</span> <span class="fu">filter</span>(level <span class="sc">==</span> <span class="dv">11</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="1" data-code-annotation="1">This is <code>data.tree</code>‘s syntax for retrieving the ’bb’ attribute of each node in the tree.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="1">This is <code>data.tree</code>‘s syntax for retrieving the ’bb’ attribute of each node in the tree.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="2">Wrap the matrix we get back in a list.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="2">Wrap the matrix we get back in a list.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="3">And convert to an <code>sf</code> polygon.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="3">And convert to an <code>sf</code> polygon.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="4">Then apply the well-worn <code>st_as_sfc() |&gt; as.data.frame() |&gt; st_sf()</code> sequence to convert to a simple features dataset.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="4">Then apply the well-worn <code>st_as_sfc() |&gt; as.data.frame() |&gt; st_sf()</code> sequence to convert to a simple features dataset.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="7" data-code-annotation="5">Then we can append the binary space partition’s level and id attributes to our dataframe.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="8" data-code-annotation="5">Then we can append the binary space partition’s level and id attributes to our dataframe.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="10" data-code-annotation="6">It’s convenient to separate out the highest level of detail rectangles as a separate layer.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="11" data-code-annotation="6">It’s convenient to separate out the highest level of detail rectangles as a separate layer.</span>
 </dd>
 </dl>
 </div>
