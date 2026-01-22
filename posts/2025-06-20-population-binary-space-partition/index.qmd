@@ -87,7 +87,7 @@ split_population <- function(pop_pts, bounds) {
   width <- e - w; height <- n - s;
   xy <- pop_pts |> filter(x > w, x <= e, y > s, y <= n)        # <2>
   bbs <- list()
-  if (height > width) { # cut east-west at median y            # <3>
+  if (height > width) { # cut north-south at median y          # <3>
     my <- weighted.median(xy$y, xy$pop_250m_grid)
     south <- xy |> filter(y <= my)
     x1 <- min(south$x) - 125; x2 <- max(south$x) + 125;        # <4>
@@ -97,7 +97,7 @@ split_population <- function(pop_pts, bounds) {
     x1 <- min(north$x) - 125; x2 <- max(north$x) + 125;
     y1 <- my; y2 <- max(north$y) + 125; 
     bbs[[2]] <- get_rectangle(x1, my, x2, y2)
-  } else { # cut north-south at median x
+  } else { # cut east-west at median x
     mx <- weighted.median(xy$x, xy$pop_250m_grid)
     west <- xy |> filter(x <= mx)
     x1 <- min(west$x) - 125; x2 <- mx;
