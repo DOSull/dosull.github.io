@@ -1,6 +1,6 @@
 ---
 title: "Into the void"
-subtitle: "To infinity and beyond!"
+subtitle: "To <del>infinity</del>near at hand and beyond!"
 description: "Exploring what can and can't be seen from the Paparoa Track great walk."
 author: "David O'Sullivan"
 toc: true
