@@ -1,0 +1,458 @@
+---
+title: "The modifiable areal unit problem"
+subtitle: "It's right there in the name: this one's a problem"
+description: "Exploring how correlations between spatial variables change under aggregation to different area units."
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+code-fold: show
+code-annotations: hover
+categories:
+  - geospatial
+  - R
+  - tutorial
+  - geographic information analysis
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+message: false
+date: 01-29-2026
+---
+
+This post is a long-delayed return to my [series of posts](https://geospatialstuff.com/blog.html#category=geographic%20information%20analysis) providing examples and (mostly R) code in support of [_Geographic Information Analysis_](https://onlinelibrary.wiley.com/doi/book/10.1002/9780470549094).
+
+We're still in Chapter 2, where on pages 36-39, the modifiable areal unit problem (MAUP) is introduced. The MAUP is the [big bad](https://en.wikipedia.org/wiki/Big_Bad) of spatial analysis. The MAUP is to spatial analysis as the Mindflayer^[Or is it Vecna, or is it... oh, never mind] is to _Stranger Things_. There's a simple illustration of the MAUP in Figure 2.1 of the book:
+
+::: {#fig-maup-illustration-in-gia}
+![](gia-fig-2-1-maup.png)
+
+The simple illustration of MAUP in _Geographic Information Analysis_.
+:::
+
+I've replicated this kind of thing elsewhere, in [_Computing Geographically_](https://computinggeographically.org/), Chapter 5.^[See [this post](https://computinggeographically.org/chapters/chap5/fig5-06-simple-maup.html) and [this one](https://computinggeographically.org/chapters/chap5/fig5-07-maup-aggregation.html).] This post uses the automated zoning `azp` function in [Kyle Walker](https://github.com/walkerke)'s recently released  [`spopt`](https://walker-data.com/spopt-r/) package to enable more 'realistic' aggregations of some gridded datasets. The same technique could be applied to census small areas to generate alternative aggregations to large area units. In fact, originally I did exactly that. In the end, however, I wanted to explore how different initial statistical properties in data interacts with aggregation, and real census data didn't give me any control over that.
+
+As usual, we need a bunch of libraries.
+
+```{r}
+#| label: libraries
+#| code-fold: true
+library(dplyr)
+library(tidyr)
+library(sf)
+library(terra)
+library(gstat)
+library(sfdep)
+library(spopt)
+library(ggplot2)
+library(cols4all)
+library(patchwork)
+```
+
+## The automated zoning process in `spopt`
+I was excited when `spopt` appeared in my LinkedIn feed a month or so ago just as I was thinking about putting a post on MAUP together.
+
+Here's what we can do with it. First, make a simple grid, and add to it some variables.
+
+```{r}
+#| label: fig-make-a-simple-grid
+#| fig-cap: A simple 32&times;32 grid with some associated attributes.
+#| fig-width: 9
+#| fig-height: 3.2
+#| code-fold: true
+xy <- expand_grid(x = 1:8, y = 1:8) |>
+  mutate(
+    column = x, 
+    row = y, 
+    rnd = runif(n())) |>
+  rast(type = "xyz", crs = "+proj=eqc") |>
+  as.polygons(aggregate = FALSE) |>
+  st_as_sf()
+
+plot(xy)
+```
+
+And now we can zone it using `spopt::azp`. This is well explained at the package website [here](https://walker-data.com/spopt-r/articles/regionalization.html#azp-automatic-zoning-procedure). We're not using it here in a highly sophisticate way, the important thing is that we can do this at all. The key parameters passed to `azp` are the list of attributes (`attrs`) to use in identifying similar areas to combine, and the number of regions required (`n_regions`).
+
+Here's an example, regionalised based on similarity in the `row` attribute.
+
+```{r}
+#| label: fig-simple-azp-example
+#| fig-cap: A regionalisation of our simple grid into eight regions based on the `column` attribute. Note that due to variability in the procedure, the regionalisation does not precisely respect values of the attribute.
+#| fig-width: 4
+#| fig-height: 4
+xy |> 
+  azp(attrs = c("column"), 
+      n_regions = 8, 
+      weights = "rook",
+      method = "basic") |>
+  ggplot() + 
+    geom_sf(aes(fill = .region)) +
+    scale_fill_brewer(palette = "Set2") +
+    guides(fill = "none") + 
+    theme_void()
+```
+
+It is important to note here that `azp` is non-deterministic, and as a result it doesn't regionalise perfectly. If I have a situation like this where I wanted to regionalised based on columns, I would simply use `group_by(column)`. That's not what `azp` is for: rather, it finds regions by looking for more or less homogeneous sets of areas, which it tags with a `.region` identifier, which can subsequently be used to aggregate areas into larger areas.
+
+```{r}
+#| label: fig-simple-azp-example-2
+#| fig-cap: A regionalisation of our simple grid into eight regions based on all attributes.
+#| fig-width: 4
+#| fig-height: 4
+#| code-fold: true
+xy |> 
+  azp(n_regions = 8, 
+      weights = "rook",
+      method = "basic") |>
+  ggplot() + 
+    geom_sf(aes(fill = .region)) +
+    scale_fill_brewer(palette = "Set2") +
+    guides(fill = "none") + 
+    theme_void()
+```
+
+The real virtue of this is we can request regionalisation based on any attributes. For example, if we don't provide any attributes, it regionalises based on similarity across all attributes.
+
+## Using `azp` to make regionalisations
+It's convenient to wrap `azp` in a function that assigns a random variable and regionalises the input data on that. 
+
+```{r}
+#| label: random-regionalisation
+random_regionalisation <- function(areas, n) {
+  areas |>
+    mutate(x = rnorm(n())) |>
+    azp(attrs = c("x"), 
+        n_regions = n, 
+        weights = "rook", 
+        method = "basic") |>
+    select(-x)
+}
+```
+
+Below we use this function to generate a random regionalisation.
+
+```{r}
+#| label: fig-random-regionalisation
+#| fig-cap: An example random regionalisation of the 32&times;32 grid into 32 regions.
+#| fig-width: 4.5
+#| fig-height: 4.5
+set.seed(1)
+
+rr <- expand_grid(x = 1:32, y = 1:32) |>
+  mutate(z = runif(n())) |>
+  rast(type = "xyz", crs = "+proj=eqc") |>
+  as.polygons(aggregate = FALSE) |>
+  st_as_sf() |>
+  random_regionalisation(32) |>
+  mutate(.region = as.integer(.region))
+
+ggplot(rr) + 
+  geom_sf(aes(fill = .region), colour = NA) +
+  scale_fill_continuous_c4a_seq("tableau.20") +
+  geom_sf(data = rr |> group_by(.region) |> summarise(), 
+          fill = NA, colour = "white") +
+  guides(fill = "none") +
+  theme_void()
+```
+
+Once we've added a region attribute to a grid, we'll want to use that attribute to create new polygons, using `group_by()`.
+
+```{r}
+#| label: dissolve-fn
+dissolve <- function(df, group_var, vars, fn = mean) {
+  df |>
+    group_by({{ group_var }}) |>
+    summarise(across({{ vars }}, ~ fn(., na.rm = TRUE)))
+}
+```
+
+## Making autocorrelated spatial grids
+Here' I've used a method described in [this post](https://gawainantell.com/exploring-spatial-autocorrelation-in-r/) by [G. T. Antell](https://gawainantell.com/).
+
+```{r}
+get_xyz_surfaces <- function(n = 1, width = 32, height = 32, range = 5) {
+  xy <- expand_grid(x = 1:width, y = 1:height)
+  g <- gstat(formula = z ~ 1,
+             locations = ~ x + y,
+             dummy = TRUE, 
+             beta = 10, 
+             model = vgm(psill = 0.1, range = range, model='Exp'),
+             nmax = 20)
+  predict(g, newdata = xy, nsim = n) |>
+    rast(type = "xyz", crs = "+proj=eqc") |>
+    as.polygons(aggregate = FALSE) |>
+    st_as_sf()
+}
+```
+
+The critical parameter passed to `get_xyz_surfaces()` is `range` which specifies the scale in grid squares over which data values are correlated.
+
+```{r}
+#| label: fig-effect-of-range-on-surfaces
+#| fig-cap: How varying the range parameter changes the scale of autocorrelation in the grids.
+#| fig-width: 9
+#| fig-height: 3.2
+#| code-fold: true
+grids <- 
+  mapply(get_xyz_surfaces, range = c(0.1, 2, 10), SIMPLIFY = FALSE)
+
+g1 <- ggplot(grids[[1]]) +
+  geom_sf(aes(fill = sim1)) +
+  scale_fill_viridis_c(option = "D") +
+  guides(fill = "none") + 
+  ggtitle("Range 0.1") +
+  theme_void()
+
+g2 <- ggplot(grids[[2]]) +
+  geom_sf(aes(fill = sim1)) +
+  scale_fill_viridis_c(option = "D") +
+  guides(fill = "none") + 
+  ggtitle("Range 2") +
+  theme_void()
+
+g3 <- ggplot(grids[[3]]) +
+  geom_sf(aes(fill = sim1)) +
+  scale_fill_viridis_c(option = "D") +
+  guides(fill = "none") + 
+  ggtitle("Range 10") +
+  theme_void()
+
+g1 | g2 | g3
+```
+
+We can confirm the visual impression of increasing positive spatial autocorrelation as the range increases using Moran's index.
+
+```{r}
+#| label: morans-estimates
+#| code-fold: false
+nb <- st_contiguity(grids[[1]], queen = FALSE)
+wt <- st_weights(nb)
+global_moran_test(grids[[1]]$sim1, nb, wt)$estimate[1]
+global_moran_test(grids[[2]]$sim1, nb, wt)$estimate[1]
+global_moran_test(grids[[3]]$sim1, nb, wt)$estimate[1]
+```
+
+## How aggregation affects correlations
+We can now get to the point. 
+
+The classic statistic affected by aggregation noted in the earliest writing on the MAUP^[Gehlke CE and K Biehl. 1934. [Certain effects of grouping upon the size of the correlation coefficient in census tract material](https://dx.doi.org/10.1080/01621459.1934.10506247). _Journal of the American Statistical Association_ **29**(185) 169–170.] is the correlation coefficient between variables. 
+
+A function to calculate correlations among bunch of variables called `sim*` is shown below. We need the correlations as simple vector of values, not the matrix of all pairwise combinations of variables, the required pairs are passed as a two column matrix.
+
+```{r}
+#| label: correlations-fn
+get_correlations <- function(g, ij_pairs) {
+  (g |> 
+     select(starts_with("sim")) |> 
+     st_drop_geometry() |> 
+     cor())[ij_pairs]
+}
+```
+
+### One regionalisation &rarr; many correlations
+Finally, we can make a dataframe of 'before and after' correlations among 50 spatial data sets. To begin, we use the single regionalisation from [earlier](#fig-random-regionalisation) in all cases.
+
+```{r}
+#| label: build-data-frame
+#| output: false
+nsim <- 50
+ij <- combn(1:nsim, 2) |> t()
+ij_df <- ij |> 
+  data.frame() |> 
+  rename(i = X1, j = X2)
+ranges <- c(0.1, 1, 2, 5, 10, 20)
+
+dfs <- list()
+grid_list <- list()
+for (range in ranges) {
+  grid <- get_xyz_surfaces(n = nsim, range = range) |>
+    mutate(region = rr$.region)
+  grid_list[[as.character(range)]] <- grid
+  grid32 <- grid |>
+    dissolve(group_var = region, vars = starts_with("sim"), mean)
+  dfs[[length(dfs) + 1]] <- 
+    ij_df |>
+    mutate(c0 = grid   |> get_correlations(ij), 
+           c1 = grid32 |> get_correlations(ij),
+           range = range)
+}
+df_by_range <- bind_rows(dfs)
+```
+
+And here's how the correlations among 50 sets of data are altered when the 32&times;32 grids are aggregated to 32 areas.
+
+```{r}
+#| label: fig-maup-effect-on-correlations
+#| fig-cap: How correlations are changed by aggregation.
+#| fig-width: 9
+#| fig-height: 7
+#| code-fold: true
+ggplot(df_by_range, aes(x = c0, y = c1)) + 
+  geom_hex(binwidth = 0.08) +
+  scale_fill_distiller(palette = "Reds", direction = 1) +
+  # geom_abline(intercept = 0, slope = 1, lty = "dashed") +
+  # geom_smooth(colour = "black", linewidth = 0.5, fill = NA) +
+  coord_equal() +
+  xlab("Initial correlation") +
+  ylab("Aggregated correlation") +
+  guides(fill = "none") +
+  facet_wrap( ~ range, labeller = "label_both") +
+  theme_minimal() + 
+  theme(panel.border = element_rect(fill = NA, colour = "darkgrey"))
+```
+
+The striking thing about this result is that low range cases, where correlations among the grid variables before regionalisation are low, can see large increases in their correlations after aggregation. In some cases, initially uncorrelated data may end up with correlations as large as &pm;0.5. 
+
+Focusing on this is not to downplay the changes in correlation that arise for initially more correlated pairs of inputs, where a correlation of 0.4 might increase to 0.5 or more. However, it does suggest that perhaps quite strongly correlated variables are fairly robust to aggregation effects. This might be a source of optimism: perhaps the MAUP is not really a problem in the presence of strong correlations in disaggregate data.
+
+The problem with this perspective is that observing a correlation of (say) 0.5 in aggregated data doesn't tell us very much about how strong the correlation might be in the more disaggregate underlying data. Based on the admittedly one-off result above, a correlation (`c1`) between two attributes in the range 0.475 to 0.525 might arise from disaggregate data with a correlation (`c0`) between those attributes anywhere between -0.031 and 0.525:
+
+```{r}
+#| label: range-for-c1-around-0.5
+df_by_range |> 
+  filter(c1 > 0.475, c0 <= 0.525) |>
+  pull(c0) |>
+  summary()
+```
+
+We can be fairly certain that the correlation of the disaggregate data is lower than it is after aggregation, but we don't really know how much lower.
+
+### Many regionalisations: the zoning effect
+So much for the _aggregation effect_ of the MAUP. What about the _zoning effect_?
+
+To explore this we can apply our 50 different regionalisations to the data and see if we can make any sense of the results.
+
+```{r}
+#| label: make-dataframe-of-zoning-effect-on-correlations
+dfs <- list()
+regionalisations <- read.csv("regionalisations.csv")
+grid32_list <- list()
+for (regions in names(regionalisations)) {
+  grid <- grid_list[["5"]] |>
+    mutate(region = regionalisations[, regions])
+  grid32 <- grid |>
+    dissolve(group_var = region, vars = starts_with("sim"), mean)
+  grid32_list[[length(grid32_list) + 1]] <- grid32
+  dfs[[length(dfs) + 1]] <- 
+    ij_df |>
+    mutate(c0 = grid   |> get_correlations(ij), 
+           c1 = grid32 |> get_correlations(ij),
+           regions = regions)
+}
+df_by_regions <- bind_rows(dfs) |>  # <1>
+  mutate(x = runif(n())) |>
+  arrange(x) |>
+  select(-x)
+```
+1. Scramble the order of the table rows to avoid overplotting issues later.
+
+It's useful here to look at some of the alternative regionalisations, just to get a feel for how differently the maps come out. Below are 24 of the regionalisations with one of the attributes (`sim1`) mapped.
+
+```{r}
+#| label: fig-24-regionalisations-mapped
+#| fig-cap: Maps of attribute `sim1` for 24 of the 50 alternate regionalisations.
+#| fig-width: 12
+#| fig-height: 8
+#| code-fold: true
+simple_map <- function(gdf) {
+  ggplot(gdf) + 
+    geom_sf(aes(fill = sim1), colour = NA) +
+    scale_fill_distiller(palette = "Reds", direction = 1) +
+    guides(fill = "none") +
+    theme_void()
+}
+grid32_list[1:24] |> lapply(simple_map) |> wrap_plots(ncol = 6)
+```
+
+It's worth holding on to the fact that these maps don't seem _that_ different from one another!
+
+We have 50 different regionalisations. This may be too many to present in a series of 50 facets, although that's no reason not to give it a try. I've removed the axes labels and scales so that each hexbin plot is in effect a 'glyph'.
+
+```{r}
+#| label: fig-zoning-effect-hexbins
+#| fig-cap: The aggregation zoning effect on correlations among 50 different spatial datasets&mdash;each facet shows the before and after correlations for a different aggregation to 32 regions.
+#| fig-width: 12
+#| fig-height: 10
+#| code-fold: true
+ggplot(df_by_regions, aes(x = c0, y = c1)) + 
+  geom_hex(binwidth = 0.08) +
+  scale_fill_distiller(palette = "Reds", direction = 1) +
+  coord_equal() +
+  guides(colour = "none", fill = "none") +
+  facet_wrap( ~ regions, ncol = 10) +
+  theme_void()
+```
+
+While not readable in any detail, this plot graphically makes the point that it doesn't much matter which regionalisation we use, the impact on correlations is the same.
+
+A potentially more informative plot shows, for each of the 1225 starting correlations among our 50 spatial patterns, a line extending from the lowest to the highest correlation after aggregation. The extent of the lines shows the variation in the outcome correlations across 50 different regionalisations.
+
+```{r}
+#| label: summarise-regions-df
+#| output: false
+#| code-fold: true
+df_by_regions_summary <- 
+  df_by_regions |> 
+  group_by(i, j) |> 
+  summarise(c0 = mean(c0), 
+            mean_c1 = mean(c1),
+            min_c1 = min(c1), 
+            max_c1 = max(c1),
+            range_c1 = max_c1 - min_c1) 
+```
+
+```{r}
+#| label: fig-range-in-c1-due-to-zoning
+#| fig-cap: Each initial correlation as a vertical line from the lowest to highest correlation after regionalisation, with the mean overplotted.
+#| fig-width: 5
+#| fig-height: 6
+#| code-fold: true
+ggplot(df_by_regions_summary) + 
+  geom_linerange(aes(x = c0, ymin = min_c1, ymax = max_c1), 
+                 colour = "black", alpha = 0.2) +
+  geom_point(aes(x = c0, y = mean_c1), size = 0.35) +
+  xlab("Initial correlation") +
+  ylab("Aggregated correlation") +
+  theme_minimal()
+```
+
+This plot seems to confirm that the variability in correlations across different regionalisations (the zoning effect) is greater when the correlation of the disaggregate data is weaker. We can confirm this observation by plotting the range in correlations after aggregation against initial correlations. 
+
+```{r}
+#| label: fig-range-in-c1-due-to-zoning-2
+#| fig-cap: Each initial correlation as a vertical line from the lowest to highest correlation after regionalisation, with the mean overplotted.
+#| fig-width: 5
+#| fig-height: 6
+#| code-fold: true
+ggplot(df_by_regions_summary, aes(x = c0, y = range_c1)) +
+  geom_point(alpha = 0.5) + 
+  # geom_smooth(method = "gam") +
+  xlab("Initial correlation") +
+  ylab("Range of aggregated correlations") +
+  theme_minimal()
+```
+
+As before the cause for real concern is when the underlying disaggregate data are not very correlated at all.
+
+## So... yeah... it's a problem
+At any rate, it's a problem if you are working with aggregated data.^[And we haven't even looked into how constructing zones for homogeneity on one variable affects the outcomes for other variables more or less than the random zonings we have considered here...] 
+
+A couple of thoughts here:
+
+**First**, spatially aggregating data is really not that different than time series averaging or smoothing. Time series are routinely smoothed by averaging, a process completely analogous to aggregating spatial data to zones. The analogy is stronger still if we aggregate spatial data to grids, which is becoming increasingly common for demographic data. Smoothing of time series is often carried out so we can see trends against background noise. From this perspective, aggregating data spatially can be understood as a way to make it easier to see patterns. 
+
+The world is overwhelming complicated and it's nice to be able to make sense of it a little more easily. The danger is in starting to believe that the aggregates are real things: the point of the MAUP is, that yes, aggregation has effects on statistical summaries, but perhaps more importantly that those effects are _modifiable_. Different zones, different patterns, even if as @fig-24-regionalisations-mapped suggests _similar_ patterns will still show through across many alternative zoning schemes.  
+
+**Second**, _maybe_ the MAUP is becoming _less_ of a problem as progressively more and more detailed and disaggregate data are more routinely used. On the one hand, I don't find this argument particularly convincing. Yes "we're all individuals"^[Hat tip to [_The Life of Brian_](https://en.wikipedia.org/wiki/Monty_Python%27s_Life_of_Brian).] but that's not really how we interact with or are managed by government agencies. It might be how we interact with our digital overlords, or more accurately, how they sell our eyeballs to advertisers, but for the time being it seems very likely that in many contexts, for many purposes spatially aggregated data will remain analytically important.
+
+On the other hand, far be it from me to be optimistic about machine-learning and AI, but these tools do seem to hold out a hope of developing different tailored zoning schemes in different contexts for different purposes. One team of social scientists looking at education through the lens of income might work with a different set of spatial aggregations than another team researching housing effects on health.
+
+In sum, the MAUP really becomes a serious problem if we insist on not modifying the area units we use, because one set of area units can only be the 'right' set for a limited subset of all the things you might want to do with such data. Other than when we want to apply the same regionalisations over time for longitudinal study, we should lean into bespoke zoning systems tailored to different uses. I'm not sure I'd call that "a new geographical revolution" as Stan Openshaw did,^[Page 38 in Openshaw S. 1983. [_The Modifiable Areal Unit Problem_](https://github.com/qmrg/CATMOG/blob/Main/38-maup-openshaw.pdf). Concepts and Techniques in Modern Geography **38** Norwich, England: Geo Books.
+Available at http://www.qmrg.org.uk/catmog.] more simply a pragmatic response to the nature of spatial data.
+
+Either way, in light of all of the above, we'd best keep the MAUP firmly in mind for a long time to come.

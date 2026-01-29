@@ -10,7 +10,19 @@
 <atom:link href="https://geospatialstuff.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Tue, 20 Jan 2026 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 28 Jan 2026 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>The modifiable areal unit problem</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://geospatialstuff.com/posts/2026-01-29-gia-chapter-2B-maup/</link>
+  <description><![CDATA[ Exploring how correlations between spatial variables change under aggregation to different area units. ]]></description>
+  <category>geospatial</category>
+  <category>R</category>
+  <category>tutorial</category>
+  <category>geographic information analysis</category>
+  <guid>https://geospatialstuff.com/posts/2026-01-29-gia-chapter-2B-maup/</guid>
+  <pubDate>Wed, 28 Jan 2026 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Bivariate choropleths are go!</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -255,20 +267,6 @@
   <guid>https://geospatialstuff.com/posts/2025-08-20-street-level-isochrones/</guid>
   <pubDate>Tue, 19 Aug 2025 12:00:00 GMT</pubDate>
   <media:content url="https://geospatialstuff.com/posts/2025-08-20-street-level-isochrones/preview-image.png" medium="image" type="image/png" height="86" width="144"/>
-</item>
-<item>
-  <title>Mean temperature dials</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://geospatialstuff.com/posts/2025-08-13-temperature-dials/</link>
-  <description><![CDATA[ We’ve been writing up the tiled map work from the last couple of years and along the way came up with a neat way to use the approach to show annual weather data in an interesting way. ]]></description>
-  <category>python</category>
-  <category>tutorial</category>
-  <category>tiling</category>
-  <category>visualization</category>
-  <category>maps</category>
-  <guid>https://geospatialstuff.com/posts/2025-08-13-temperature-dials/</guid>
-  <pubDate>Thu, 14 Aug 2025 12:00:00 GMT</pubDate>
-  <media:content url="https://geospatialstuff.com/posts/2025-08-13-temperature-dials/preview-image.png" medium="image" type="image/png" height="86" width="144"/>
 </item>
 </channel>
 </rss>
