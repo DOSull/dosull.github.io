@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="David O’Sullivan">
+<meta name="dcterms.date" content="2026-02-02">
+<meta name="description" content="NetLogo is a platform for making agent- and/or cell-based models. Its syntax is weird, its atomic elements are ‘turtles’ and ‘patches’, and it would very much prefer that you not use for loops. In spite of all that it’s a great tool to think with, which is why I love it.">
+
+<title>NetLogo is weird as hell – Geospatial Stuff</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../..//images/gs-logo-corrected.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-efd6ff7163e34c65f10ccb003a1f55f5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d2f5208e6386e90d1b300444e70b7b35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/nutshell-1.0.7/nutshell.js"></script>
+<script src="../../site_libs/quarto-contrib/nutshell-1.0.7/nutshell_options.js"></script>
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="geospatialstuff.com,dosull.github.io"></script>
+<meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
+<meta name="quarto:status" content="draft">
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="NetLogo is weird as hell – Geospatial Stuff">
+<meta property="og:description" content="NetLogo is a platform for making agent- and/or cell-based models. Its syntax is weird, its atomic elements are ‘turtles’ and ‘patches’, and it would very much prefer that you not use for loops. In spite of all that it’s a great tool to think with, which is why I love it.">
+<meta property="og:image" content="https://geospatialstuff.com/posts/2026-02-02-netlogo/thurner-et-al-2025-interface.png">
+<meta property="og:site_name" content="Geospatial Stuff">
+<meta property="og:image:height" content="725">
+<meta property="og:image:width" content="1230">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/gs-logo-corrected.png" alt="" class="navbar-logo light-content">
+    <img src="../../images/gs-logo-corrected.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Geospatial Stuff</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../portfolio.html"> 
+<span class="menu-text">Portfolio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../contact.html"> 
+<span class="menu-text">Contact</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../training.html"> 
+<span class="menu-text">Training</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../../books.html">
+ <span class="dropdown-text">Books</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../presentations.html">
+ <span class="dropdown-text">Presentations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../publications.html">
+ <span class="dropdown-text">Publications</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/computing-geographically" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Computing Geographically</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/pattern-and-process" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Spatial Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/30-day-maps-2023" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">30 Day Map Challenge 2023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../blog.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">NetLogo is weird as hell</h1>
+            <p class="subtitle lead">Also: fantastic</p>
+                  <div>
+        <div class="description">
+          <p>NetLogo is a platform for making agent- and/or cell-based models. Its syntax is weird, its atomic elements are ‘turtles’ and ‘patches’, and it would very much prefer that you not use for loops. In spite of all that it’s a great tool to think with, which is why I love it.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">netlogo</div>
+                <div class="quarto-category">simulation</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>David O’Sullivan </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 2, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#my-netlogo-journey" id="toc-my-netlogo-journey" class="nav-link active" data-scroll-target="#my-netlogo-journey">My NetLogo journey</a></li>
+  <li><a href="#what-makes-netlogo-great" id="toc-what-makes-netlogo-great" class="nav-link" data-scroll-target="#what-makes-netlogo-great">What makes NetLogo great</a>
+  <ul class="collapse">
+  <li><a href="#its-turtles-and-patches-all-the-way-down" id="toc-its-turtles-and-patches-all-the-way-down" class="nav-link" data-scroll-target="#its-turtles-and-patches-all-the-way-down">It’s turtles (and patches) all the way down</a></li>
+  <li><a href="#visualization-and-gui-for-free" id="toc-visualization-and-gui-for-free" class="nav-link" data-scroll-target="#visualization-and-gui-for-free">Visualization and GUI for free</a></li>
+  <li><a href="#its-semantics-stupid" id="toc-its-semantics-stupid" class="nav-link" data-scroll-target="#its-semantics-stupid">Its semantics, stupid</a></li>
+  <li><a href="#netlogo-has-made-me-a-better-programmer" id="toc-netlogo-has-made-me-a-better-programmer" class="nav-link" data-scroll-target="#netlogo-has-made-me-a-better-programmer">NetLogo has made me a better programmer</a></li>
+  </ul></li>
+  <li><a href="#downsides" id="toc-downsides" class="nav-link" data-scroll-target="#downsides">Downsides</a>
+  <ul class="collapse">
+  <li><a href="#nobody-takes-it-seriously" id="toc-nobody-takes-it-seriously" class="nav-link" data-scroll-target="#nobody-takes-it-seriously">Nobody takes it seriously</a></li>
+  <li><a href="#development-tools" id="toc-development-tools" class="nav-link" data-scroll-target="#development-tools">Development tools</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>Just lately, I’ve had reason to mock up a couple of simple models of opinion dynamics, and its caused me to spend some time working on <em>new</em> <a href="https://www.netlogo.org/">NetLogo</a> code,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> which I always find to be a joy. The models are from Thurner et al.&nbsp;2025<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and Mathias et al.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<div id="fig-thurner-et-al" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-thurner-et-al-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="thurner-et-al-2025-interface.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: NetLogo implementation of Thurner et al.&nbsp;2025."><img src="thurner-et-al-2025-interface.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-thurner-et-al-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: NetLogo implementation of Thurner et al.&nbsp;2025.
+</figcaption>
+</figure>
+</div>
+<div id="fig-mathias-et-al" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mathias-et-al-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="mathias-et-al-2017-interface.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: NetLogo implementation of Mathias et al.&nbsp;2020."><img src="mathias-et-al-2017-interface.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mathias-et-al-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: NetLogo implementation of Mathias et al.&nbsp;2020.
+</figcaption>
+</figure>
+</div>
+<p>It doesn’t much matter what these models are about. What I’m interested in here is what makes NetLogo a great platform for a situation where, as here, I’ve just read about a model, and perhaps I don’t quite get it. Or I want to know more. Or I want to know what would happen if I changed something. For that, I need to build it. It might be my engineering background (my first degree) that means I learn by building, or maybe I just enjoy the process. Either way, there really isn’t a better tool for this approach to exploring these kinds of systems.</p>
+<p>Thinking about this question is useful in a more general sense for thinking about what makes any programming languagage useful.</p>
+<p>Before I get to that, some personal history. If you’re not interested in my backstory and just want to know why NetLogo is great jump to <a href="#what-makes-netlogo-great">that section</a>, I won’t be offended.</p>
+<section id="my-netlogo-journey" class="level2">
+<h2 class="anchored" data-anchor-id="my-netlogo-journey">My NetLogo journey</h2>
+<p>I wrote a lot of code for a tool I called <em>GraphCA</em> in Java for my PhD—. In fact,<a href="https://github.com/AlDanial/cloc"><code>cloc</code></a> informs me thus:</p>
+<pre><code>----------------------------------------------------
+Language    files      blank    comment       code
+----------------------------------------------------
+HTML          128       4350       1591      47599
+Java          101       3035       4232       8634
+Text            2          4          0         19
+CSS             1          8          8         13
+----------------------------------------------------
+SUM:          232        7397      5831      56265
+----------------------------------------------------</code></pre>
+<p>8634 lines of actual code (not comments, but over 4000 lines of those too). Being Java a ton of files too, 101 of them defining 101 or more classes!<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>While I was labouring to learn Java and build my own GUI and plotting tools, and so on, my advisor <a href="https://profiles.ucl.ac.uk/11266-michael-batty">Mike Batty</a> spent much of the time churning out interesting models (and papers) using something called <a href="https://en.wikipedia.org/wiki/StarLogo">StarLogo</a>. Needless to say I thought I was the future and Mike was a crazy old man messing about with a weird child’s toy.</p>
+<p>StarLogo was an evolution of <a href="https://en.wikipedia.org/wiki/Logo_(programming_language)">Logo</a> a LISP-like programming language. Logo is a ‘proper’ programming language, which is (perhaps unfairly) best known for its use of <a href="https://en.wikipedia.org/wiki/Turtle_graphics"><em>turtle graphics</em></a>, which is computer graphics based on issuing instructions to a pen-carrying turtle to move around the screen (<code>forward 100</code>, <code>right 90</code>, that kind of thing) and draw stuff (<code>pen-up</code>, <code>pen-down</code>, <code>set color red</code>, and so on). In essence, StarLogo is what you get if you ask (and answer) the question, “what about if I had <em>many</em> turtles?”, and supplementary question, “what about if they could interact with each other?” StarLogo, was originally developed by <a href="https://en.wikipedia.org/wiki/Mitchel_Resnick">Mitch Resnick</a> and is nicely described in <em>Turtles, Termites, and Traffic Jams</em><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> Since its original development StarLogo has stuck close to its educational mission and evolved into a building block based programming environment clearly aimed at early education settings, although <a href="https://www.slnova.org/">lately development seems to have slowed down</a>.</p>
+<p>NetLogo was originally effectively a clone of StarLogo developed at the <a href="https://ccl.northwestern.edu/">Center for Connected Learning at Northwestern</a>. There was a strange period in the late 1990s into the early 2000s when several <em>Logo variants were competing for attention. I’m not really sure what their beef was with one another, although an immediate advantage of NetLogo was that being written in Java it could be run on a PC. Whatever the reason for competing </em>Logos, eventually NetLogo won out in the application I’m interested in of using NetLogo to build models of distributed systems, most often agent-based or cell-based.</p>
+<p>But it took for me to see what Mike Batty saw in the platform. I stuck with Java well past the point where I had time to develop Java code,<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> and persisted with building agent-based models using <a href="https://repast.github.io/repast_simphony.html">Repast</a>.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>Although I had already used NetLogo quite a bit by then, I still had a residual sense that it wasn’t a serious tool. My moment of clarity arrived while on sabbatical in 2008 at the <a href="https://www.maynoothuniversity.ie/national-centre-geocomputation-ncg">National Centre for Geocomputation</a> in Ireland. I planned to use the software from my PhD to support some arguments I was making in a talk I was to give. But when I went to run it the day before the talk on the by-then 3 or 4 laptops later than the machine it was originally written on, I couldn’t get it to work. After trying and failing for several hours,<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> I gave up and decided to see if I could reimplement the essentials of <em>GraphCA</em> using NetLogo.</p>
+<p>Well… 250 or so lines of NetLogo code later and I was back in business. From 8600 lines of Java to 250 lines of NetLogo! The NetLogo version doesn’t do everything my Java code did, and I don’t need it to. I suspect another 250 lines would do the trick. In any case I haven’t even considered writing another line of Java code since. Of course, I use other languages than NetLogo (R and Python) all the time, but for building simulations, and more generally for interactively exploring spatial ideas, I often turn to NetLogo.</p>
+<div id="fig-gca-nlogo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gca-nlogo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="gca-2023-interface.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: The interface of my game-changing NetLogo model of a graph-CA."><img src="gca-2023-interface.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gca-nlogo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The interface of my game-changing NetLogo model of a graph-CA.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="what-makes-netlogo-great" class="level2">
+<h2 class="anchored" data-anchor-id="what-makes-netlogo-great">What makes NetLogo great</h2>
+<p>So what’s so great about NetLogo?</p>
+<section id="its-turtles-and-patches-all-the-way-down" class="level3">
+<h3 class="anchored" data-anchor-id="its-turtles-and-patches-all-the-way-down">It’s turtles (and patches) all the way down</h3>
+<p>The essential primitives of NetLogo, other than the usual numbers and strings are <em>turtles</em> and <em>patches</em>. It also has <em>links</em> (between turtles) and <em>lists</em> (same as lists in other languages), but turtles and patches are the core of it.</p>
+<p>When you open NetLogo there is a square <strong>View</strong> which on closer inspection is a 33×33 grid of patches. And into this ‘world’ you can add turtles with <code>create-turtles</code>. And you are then in a position to <code>ask</code> them to do stuff. The commands</p>
+<pre><code>ask patches [ set pcolor random 3 ]
+create-turtles 500 [ forward random-float 15 ]</code></pre>
+<p>will produce this picture in the view:</p>
+<div id="fig-500-turtles" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-500-turtles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="500-turtles.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: 500 turtles that have moved forward from the centre of the view."><img src="500-turtles.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-500-turtles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: 500 turtles that have moved forward from the centre of the view.
+</figcaption>
+</figure>
+</div>
+<p>The central iteration command in NetLogo is not a for loop (although it has those if you need them). Instead, it is politely <code>ask</code>ing <em>patchsets</em> and <em>turtlesets</em> to do things. The default collection of all turtles in a model is called <code>turtles</code>, and all the patches are called, well… <code>patches</code>. So</p>
+<pre><code>ask patches [ set pcolor random 3 ]</code></pre>
+<p>gets all the patches to set a colour specified by one of the values 0, 1, or 2, chosen at random. Also, in the example above the block of code enclosed in <code>[...]</code> after the <code>create-turtles</code> command will be executed by each turtle on creation.</p>
+<p>The <code>ask</code> operator iterates over sets in <em>random order</em>. This is at first confusing if you are accustomed to for loops and iterating over arrays and lists,<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> but you get used to it, and it’s an important feature in simulation contexts, where always having patches or turtles execute in the same order can produce undesirable behavioural artifacts.</p>
+<p>In addition to their built-in properties (things like colour, size, coordinate locations) turtles and patches can have properties assigned to them, and can thus be used to represent mobile entities or fixed locations with a range of characteristics. If you only want some of the turtles or patches do something, then you use <code>with</code> conditional clauses to filter the set:</p>
+<pre><code>create-turtles 500 [ set color one-of [orange blue] ]
+ask turtles [forward 5]
+ask turtles with [color = blue] [forward 5]</code></pre>
+<div id="fig-orange-blue-turtles" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-orange-blue-turtles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="orange-blue-turtles.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Turtles after they all moved forward 5 and only those with [color = blue] moved forward 5 again."><img src="orange-blue-turtles.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-orange-blue-turtles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Turtles after they all moved <code>forward 5</code> and only those <code>with [color = blue]</code> moved <code>forward 5</code> again.
+</figcaption>
+</figure>
+</div>
+<p>This isn’t the place to learn NetLogo, so I won’t get into any more details than this. The reason this is great is that these primitives come for free. It’s no work at all to create, visualize, and manipulate mobile entities and grid cells. Agents and grids are not built in primitives in other languages, and representing them graphically is often more work again. The closest analogue to this behaviour in another programming language is <a href="https://processing.org/">processing</a>.</p>
+</section>
+<section id="visualization-and-gui-for-free" class="level3">
+<h3 class="anchored" data-anchor-id="visualization-and-gui-for-free">Visualization and GUI for free</h3>
+<p>Turtles and patches are immediately graphically represented in the view. As your model runs, you see it evolve, without any additional effort. You can focus on choosing colours and shape to represent different entity states and not on visualization code to achieve this. The following is all the code needed for a voter model in NetLogo:</p>
+<pre><code>to setup
+  clear-all
+  ask patches [ set pcolor one-of [red yellow blue] ]
+  reset-ticks
+end
+
+to go
+  ask patches [ set pcolor [pcolor] of one-of neighbors4 ]
+  tick
+end</code></pre>
+<p>The <code>reset-ticks</code> and <code>tick</code> commands aren’t required but help with controlling display updating.</p>
+<p>NetLogo also has GUI elements for free: buttons, sliders, drop-downs, switches and so on. Functions (called <em>procedures</em> and <em>reporters</em> in NetLogo) can be associated with GUI elements. So if we add <code>setup</code> and <code>go</code> buttons to the GUI, then we end up with a model like this one</p>
+<iframe src="voter-model.html" width="100%" height="500px">
+</iframe>
+<p>The only comparably simple GUI experience I’ve come across was <a href="https://en.wikipedia.org/wiki/Visual_Basic_(classic)">Visual Basic</a> and for all kinds of other reasons I have no desire to go back there.</p>
+</section>
+<section id="its-semantics-stupid" class="level3">
+<h3 class="anchored" data-anchor-id="its-semantics-stupid">Its semantics, stupid</h3>
+<pre class="netlogo"><code>ask turtles [
+  move-to one-of neighbors4
+]</code></pre>
+</section>
+<section id="netlogo-has-made-me-a-better-programmer" class="level3">
+<h3 class="anchored" data-anchor-id="netlogo-has-made-me-a-better-programmer">NetLogo has made me a better programmer</h3>
+<p>List operations <code>map</code> and <code>reduce</code></p>
+</section>
+</section>
+<section id="downsides" class="level2">
+<h2 class="anchored" data-anchor-id="downsides">Downsides</h2>
+<section id="nobody-takes-it-seriously" class="level3">
+<h3 class="anchored" data-anchor-id="nobody-takes-it-seriously">Nobody takes it seriously</h3>
+<p>The kid’s toy delusion is a problem</p>
+</section>
+<section id="development-tools" class="level3">
+<h3 class="anchored" data-anchor-id="development-tools">Development tools</h3>
+
+
+</section>
+</section>
+
+
+<p><a href="../../"><img src="../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><em>New</em> is important here, but I’ll get to that.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>See: Thurner S, M Hofer, and J Korbel. 2025. <a href="https://pnas.org/doi/10.1073/pnas.2517530122">Why more social interactions lead to more polarization in societies</a>. <em>Proceedings of the National Academy of Sciences</em> <strong>122</strong>(44) e2517530122.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>See: Mathias J-D, JM Anderies, J Baggio, J Hodbod, S Huet, MA Janssen, M Milkoreit, and M Schoon. 2020. <a href="https://www.nature.com/articles/s41598-020-59713-w">Exploring non-linear transition pathways in social-ecological systems</a>. <em>Scientific Reports</em> <strong>10</strong>(1) 4136. Although it’s worth noting that Challis KJ. 2026. <a href="https://dx.doi.org/10.1016/j.ecolmodel.2025.111433">An aggregate potential landscape description of an agent-based exploitation-perception model for social-ecological tipping-point dynamics</a>. <em>Ecological Modelling</em> <strong>513</strong> 111433 describes the model better.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Thankfully, all that HTML was generated by <code>javadoc</code>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Resnick M. 1994. <em>Turtles, Termites, and Traffic Jams: Explorations in Massively Parallel Microworlds</em>. MIT Press.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>What they say is true: you’ll never have as much time to dig into things once you start an academic job as you do when you are doing your PhD.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>George Perry has never really forgiven me for persuading him to write a model of fish population dynamics using Repast. See Perry GLW and NR Bond. 2009. <a href="https://dx.doi.org/10.1890%2F08-0651.1">Spatially explicit modeling of habitat dynamics and fish population persistence in an intermittent lowland stream</a>. <em>Ecological Applications</em> <strong>19</strong>(3) 731–746.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>I have since run it successfully, so I don’t really know what was wrong.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>So much so that Python has gone out of its way to guarantee order when iterating over ostensibly unordered collections like its dictionary objects.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|geospatialstuff\.com|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|patternandprocess\.org|computinggeographically\.org)");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
+            }
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>
