@@ -24,6 +24,7 @@ knitr:
     message: false
 date: 02-02-2026
 draft: true
+draft-mode: unlinked
 ---
 
 Just lately, I've had reason to mock up a couple of simple models of opinion dynamics, and its caused me to spend some time working on _new_ [NetLogo](https://www.netlogo.org/) code,^[_New_ is important here, but I'll get to that.] which I always find to be a joy. The models are from Thurner et al. 2025[^1] and Mathias et al.[^2]
@@ -129,7 +130,7 @@ Turtles and patches are immediately graphically represented in the view. As your
 
 The `reset-ticks` and `tick` commands aren't required but help with controlling display updating.
 
-NetLogo also has GUI elements for free: buttons, sliders, drop-downs, switches and so on. Functions (called _procedures_ and _reporters_ in NetLogo) can be associated with GUI elements. So if we add `setup` and `go` buttons to the GUI, then we end up with a model like this one
+NetLogo also has GUI elements for free: buttons, sliders, drop-downs, switches and so on. Functions (called _procedures_ and _reporters_ in NetLogo) can be associated with GUI elements. So if we add `setup` and `go` buttons to the GUI, then we end up with a model like this one (did I mention it also has the option to export models to web pages?)
 
 <iframe src="voter-model.html" width=100% height=500px></iframe>
 
