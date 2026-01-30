@@ -41,6 +41,7 @@ As usual, we need a bunch of libraries.
 ```{r}
 #| label: libraries
 #| code-fold: true
+#| output: false
 library(dplyr)
 library(tidyr)
 library(sf)
@@ -78,7 +79,7 @@ plot(xy)
 
 And now we can zone it using `spopt::azp`. This is well explained at the package website [here](https://walker-data.com/spopt-r/articles/regionalization.html#azp-automatic-zoning-procedure). We're not using it here in a highly sophisticate way, the important thing is that we can do this at all. The key parameters passed to `azp` are the list of attributes (`attrs`) to use in identifying similar areas to combine, and the number of regions required (`n_regions`).
 
-Here's an example, regionalised based on similarity in the `row` attribute.
+Here's an example, regionalised based on similarity in the `column` attribute.
 
 ```{r}
 #| label: fig-simple-azp-example
@@ -97,7 +98,9 @@ xy |>
     theme_void()
 ```
 
-It is important to note here that `azp` is non-deterministic, and as a result it doesn't regionalise perfectly. If I have a situation like this where I wanted to regionalised based on columns, I would simply use `group_by(column)`. That's not what `azp` is for: rather, it finds regions by looking for more or less homogeneous sets of areas, which it tags with a `.region` identifier, which can subsequently be used to aggregate areas into larger areas.
+It is important to note here that `azp` is non-deterministic, and as a result it doesn't regionalise perfectly. In a situation like this if I wanted to regionalise based on columns, I would simply use `group_by(column)`. That's not what `azp` is for: rather, it finds regions by looking for more or less homogeneous sets of areas, which it tags with a `.region` identifier, which can subsequently be used to aggregate areas into larger areas.
+
+The real virtue of this is we can request regionalisation based on any attributes. For example, if we don't provide any attributes, it regionalises based on similarity across _all_ attributes, which in this case, since there's a random attribute in there will give us random shapes.
 
 ```{r}
 #| label: fig-simple-azp-example-2
@@ -116,7 +119,7 @@ xy |>
     theme_void()
 ```
 
-The real virtue of this is we can request regionalisation based on any attributes. For example, if we don't provide any attributes, it regionalises based on similarity across all attributes.
+Of course, `azp` can handle much larger datasets than these 8&times;8 grids. In what follows we work with 1024 cell 32&times;32 grids.
 
 ## Using `azp` to make regionalisations
 It's convenient to wrap `azp` in a function that assigns a random variable and regionalises the input data on that. 
@@ -171,7 +174,9 @@ dissolve <- function(df, group_var, vars, fn = mean) {
 }
 ```
 
-## Making autocorrelated spatial grids
+I've set `dissolve()` up to summarise a supplied list of variables (`vars`) using the `mean` function. 
+
+## Making autocorrelated grids
 Here' I've used a method described in [this post](https://gawainantell.com/exploring-spatial-autocorrelation-in-r/) by [G. T. Antell](https://gawainantell.com/).
 
 ```{r}
@@ -255,7 +260,7 @@ get_correlations <- function(g, ij_pairs) {
 ```
 
 ### One regionalisation &rarr; many correlations
-Finally, we can make a dataframe of 'before and after' correlations among 50 spatial data sets. To begin, we use the single regionalisation from [earlier](#fig-random-regionalisation) in all cases.
+Finally, we can make a dataframe of 'before and after' correlations among 50 spatial data sets. To begin, we use the single regionalisation from [earlier](#fig-random-regionalisation) in all cases. We apply this regionalisation to sets of 50 simulated grids, each sharing the `range` parameter, so that they are all realisations of the same statistical spatial process.
 
 ```{r}
 #| label: build-data-frame
@@ -282,6 +287,43 @@ for (range in ranges) {
            range = range)
 }
 df_by_range <- bind_rows(dfs)
+```
+
+We expect the sets of 50 surfaces to exhibit a range of correlations with one another, for the most part weak correlations, but with the longer range, more autocorrelated simulations more likely to yield some strong corrrelations with one another if overall trends in two surfaces happen to be somewhat aligned. We can see this by picking out the most negatively and most positively correlated pairs of grids.
+
+```{r}
+#| label: most-and-least-correlated-pair-of-grids
+df_by_range |>
+  arrange(c0) |>
+  slice(1, n())
+```
+
+Interestingly `sim24` of the range 20 grids is involved in both pairs, and we can see why this is below, where very distinctive and large scale spatial structure of that grid (in the middle) happens to align with the grid on its right and 'counter-align' with the grid on its left.
+
+```{r}
+#| label: fig-correlations
+#| fig-cap: The most negatively correlated pair of grids (left and middle), and most positively correlated pair (middle and right).
+#| fig-width: 9
+#| fig-height: 3.2
+#| code-fold: true
+ggplot(grid_list[["20"]]) +
+  geom_sf(aes(fill = sim23)) +
+  scale_fill_viridis_c(option = "D") +
+  guides(fill = "none") + 
+  ggtitle("range=20 sim23") +
+  theme_void() |
+ggplot(grid_list[["20"]]) +
+  geom_sf(aes(fill = sim24)) +
+  scale_fill_viridis_c(option = "D") +
+  guides(fill = "none") + 
+  ggtitle("range=20 sim24") +
+  theme_void() |
+ggplot(grid_list[["20"]]) +
+  geom_sf(aes(fill = sim46)) +
+  scale_fill_viridis_c(option = "D") +
+  guides(fill = "none") + 
+  ggtitle("range=20 sim46") +
+  theme_void()
 ```
 
 And here's how the correlations among 50 sets of data are altered when the 32&times;32 grids are aggregated to 32 areas.
