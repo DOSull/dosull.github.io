@@ -41,7 +41,7 @@ Before I go any further, here's the obligatory NetLogo citation:
 
 It doesn't much matter what these models are about. What I'm interested in here is why NetLogo is a great platform for a situation where, as in these examples, I've just read about a model, and perhaps I don't quite get it. Or I want to know more. Or I want to know what would happen if I changed something. For that, I need to build it. It might be my engineering background (my first degree) that means I learn by building, or maybe I just enjoy the process. Either way, there really isn't a better tool than NetLogo for exploring these kinds of systems.
 
-Thinking about this question is useful more generally for thinking about what makes any programming languagage useful, and why you might pick one over another in different cases.
+Thinking about this question is useful more generally for thinking about what makes any programming language useful, and why you might pick one over another in different cases.
 
 Before I get to that, some personal backstory. If you just want to know why NetLogo is great jump to [that section](#what-makes-netlogo-great), I won't be offended.
 
@@ -66,11 +66,11 @@ I wrote a lot of Java for a tool I called _GraphCA_ for my PhD[^phd]&mdash;. In 
 
 While I was labouring over all that Java code and building my own GUI and plotting tools, and so on, my advisor [Mike Batty](https://profiles.ucl.ac.uk/11266-michael-batty) spent much of the time churning out interesting models (and papers) using something called [StarLogo](https://en.wikipedia.org/wiki/StarLogo). Needless to say, I thought I was the future and Mike was a crazy old man messing about with a weird child's toy.
 
-StarLogo was an evolution of [Logo](https://en.wikipedia.org/wiki/Logo_(programming_language)) a Lisp-like programming language. Logo is a 'proper' programming language, which is probably best known for its [_turtle graphics_](https://en.wikipedia.org/wiki/Turtle_graphics), which is computer graphics based on issuing instructions to a 'turtle' to move around the screen (`forward 100`, `right 90`, that kind of thing) and draw stuff (`pen-up`, `pen-down`, `set color red`, and so on). This lets make drawings like this:
+StarLogo was an evolution of [Logo](https://en.wikipedia.org/wiki/Logo_(programming_language)) a Lisp-like programming language. Logo is a 'proper' programming language, which is probably best known for its [_turtle graphics_](https://en.wikipedia.org/wiki/Turtle_graphics), which is computer graphics based on issuing instructions to a 'turtle' to move around the screen (`forward 100`, `right 90`, that kind of thing) and draw stuff (`pen-up`, `pen-down`, `set color red`, and so on). This lets you make drawings like this:
 
 ![Star patterns drawn using turtle graphics.](stars.png){#fig-stars}
 
-In essence, StarLogo is what you get if you ask (then answer) the question, "what about if there were _many turtles_?", and supplementary question, "what about if they could interact with each other?" StarLogo, was originally developed by [Mitch Resnick](https://en.wikipedia.org/wiki/Mitchel_Resnick) and is nicely described in his_Turtles, Termites, and Traffic Jams_[^tttj] Since its original development StarLogo has stuck close to its educational mission and evolved into a [building block based programming environment](https://www.slnova.org/) aimed squarely at early education settings. 
+In essence, StarLogo is what you get if you ask (then answer) the question, "what about if there were _many turtles_?", and supplementary question, "what about if they could interact with each other?" StarLogo, was originally developed by [Mitch Resnick](https://en.wikipedia.org/wiki/Mitchel_Resnick) and is nicely described in his _Turtles, Termites, and Traffic Jams_[^tttj] Since its original development StarLogo has stuck close to its educational mission and evolved into a [building block based programming environment](https://www.slnova.org/) aimed squarely at early education settings. 
 
 [^tttj]: Resnick M. 1994. _Turtles, Termites, and Traffic Jams: Explorations in Massively Parallel Microworlds_. MIT Press.
 
@@ -107,11 +107,9 @@ The central iteration command in NetLogo is not a for loop (although it has thos
 
     ask patches [ set pcolor random 3 ]
     
-gets all the patches to set a colour specified by one of the values 0, 1, or 2, chosen at random. Also, in the example above the block of code `create-turtles [...]` is executed by each turtle on creation. If it's not clear, the turtles spawn on creation at the centre of the view, facing in random directions, and the `forward random-float 15` command causes them to move forward by a random distance.
+gets all the patches to set a colour specified by one of the values 0, 1, or 2, chosen at random. Also, in the example above the block of code `create-turtles [...]` is executed by each turtle on creation. If it's not clear, the turtles spawn on creation at the centre of the view, facing in random directions, and the `forward random-float 15` command causes them to move forward by a random distance. `ask` iterates over sets in _random order_. At first this is confusing if you're accustomed to iteration using for loops,^[A norm so strong that Python goes out of its way to guarantee order when iterating over ostensibly unordered collections like its dictionary objects.] but you get used to it. It's an important feature in simulation contexts, where always having patches or turtles execute in the same order can produce undesirable behavioural artifacts.
 
-`ask` iterates over sets in _random order_. At first this is confusing if you're accustomed to iterating over arrays and lists using for loops,^[A norm so strong that Python goes out of its way to guarantee order when iterating over ostensibly unordered collections like its dictionary objects.] but you get used to it. It's an important feature in simulation contexts, where always having patches or turtles execute in the same order can produce undesirable behavioural artifacts.
-
-In addition to their built-in properties (things like colour, size, coordinate locations) turtles and patches can have properties assigned to them, and can be used to represent mobile entities (the turtles) or fixed locations (the patches) with a range of characteristics. If you only want some of the turtles or patches do something, then you use a `with` conditional to filter the set:
+In addition to their built-in properties (things like colour, size, coordinate location) turtles and patches can have properties assigned to them, and can be used to represent mobile entities (the turtles) or fixed locations (the patches) with a range of characteristics. If you only want some of the turtles or patches do something, then you use a `with` conditional to filter the set:
 
     create-turtles 500 [ set color one-of [orange blue] ]
     ask turtles [forward 5]
@@ -227,12 +225,12 @@ If it's not obvious from the foregoing, you can make cool pictures with NetLogo 
 Alright, so we all agree that NetLogo is great. What's not so great? Honestly, I can only really think of a couple of actual things.
 
 ### Some missing stuff
-NetLogo's extensions architecture have added quite a few things that might be considered lacking in the core language. `CSV` makes reading and writing text files a lot easier, and there's even a `GIS` extension (hardly a core requirement, but handy all the same).
+NetLogo's extensions architecture has added quite a few things that might be considered lacking in the core language. `csv` makes reading and writing text files a lot easier, and there's even a `gis` extension (hardly a core requirement, but handy all the same).
 
 As my NetLogo programming matured, I found its list and text processing a bit light and often found myself reimplementing functions that I use all the time in Python. That's why I've written [`netlogo-utils`]((https://github.com/DOSull/netlogo-utils)) for handling lists and strings. Also included are some probability distributions that NetLogo doesn't provide natively. This isn't an extension, just some NetLogo source code files that can easily be added to any model and provide things like cumulative sums of lists^[So you don't have to figure out how to use `reduce`.] and a speedy `random-binomial` reporter.
 
 ### Development tools
-It's been 20 years since Railsback et al.'s[^railsback-et-al] mostly favourable assessment, and sadly, their major concern remains a valid one: 
+It's been 20 years since Railsback et al.'s[^railsback-et-al] mostly favourable assessment of NetLogo relative to other agent-based simulation platforms, and sadly, their major concern remains valid: 
 
 [^railsback-et-al]: Railsback SF, SL Lytinen and SK Jackson. 2006. [Agent-based simulation platforms: review and development recommendations](https://dx.doi.org/10.1177/0037549706073695). _Simulation_ **82**(9) 609–623.
 
@@ -241,11 +239,11 @@ It's been 20 years since Railsback et al.'s[^railsback-et-al] mostly favourable 
 This is why, right at the top, I noted that it's always a joy to write _new_ models in NetLogo. As models grow, which they tend to do, the lack of development tools does tend to take away from the fun of the experience. But hey, nobody's perfect.
 
 ## People don't take it seriously
-NetLogo's other problem is not NetLogo's fault, and is partly why I've written this post. The kid's toy delusion, which I laboured under for several years, persists. All I can say is that NetLogo is a whole lot more than a toy. This was recognised by Railsback et al.^[_ibid._] years ago. In that paper they set out to weigh up the relative merits of a number of agent-based modelling platforms. It's obvious reading it that they included NetLogo a little reluctantly. It's also obvious reading the code examples as they worked through the stages of the 'stupid model' they developed for the evaluation process that they did not initially 'get' NetLogo. Clearly though, at some point it clicked and they conclude:
+NetLogo's other problem is not NetLogo's fault, and is partly why I've written this post. The kid's toy delusion, which I laboured under for several years, persists. All I can say is that NetLogo is a whole lot more than a toy. This was recognised by Railsback et al.^[_ibid._]. In that paper they weigh up the relative merits of a number of agent-based modelling platforms. It's obvious reading it that they included NetLogo a little reluctantly. It's also obvious reading the code examples as they worked through the stages of the 'stupid model' they developed for the evaluation process that they did not initially 'get' NetLogo. Clearly though, at some point it clicked and they conclude:
 
 > It is easy to recommend NetLogo for models that are (i) compatible with its paradigm of short-term, local interaction of agents and a grid environment and (ii) not extremely complex. We also strongly recommend NetLogo for prototyping models that may later be implemented in lower-level platforms: starting to build a model in NetLogo can be a quick and thorough way to explore design decisions.^[_ibid_. page 621]
 
-That's pretty much my jam, but it also covers a lot of ground in agent-based models of complex systems. For examples of 'serious' models built with NetLogo, check out these examples from my own research:
+That's pretty much my jam, but it also covers a lot of ground in agent-based models of complex systems. For 'serious' models built with NetLogo, check out these examples from my own research:
 
 + [Spatial model of COVID 19](https://geospatialstuff.com/portfolio/00-0-spatial-covid-model.html)
 + [Model of gene-drives as a possible mechanism for control of invasive wasps in New Zealand](https://geospatialstuff.com/portfolio/01-1-wasp-control-model.html)
@@ -253,7 +251,7 @@ That's pretty much my jam, but it also covers a lot of ground in agent-based mod
 
 It's also worth mentioning here that since Railsback et al.'s evaluation, NetLogo has added several extensions for doing linear algebra, colour management, and integration with R and Python, which together with a pre-existing tool for conducting parameter sweeping model evaluation experiments, have further beefed up its scientific credibility.
 
-And what's so wrong with toys anyway?!
+But never mind all that: what's so wrong with toys anyway?!
 
 ### Finally
 Reflecting on all of the above, as I searched around the topic in writing this post, I came across [this post](https://functionallyimperative.com/p/netlogo-a-hidden-gem-in-computational) from [Nathan Toups](https://www.linkedin.com/in/nathan-toups), which puts it perfectly:
