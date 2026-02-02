@@ -398,12 +398,15 @@ Figure&nbsp;2: General location map of the Paparoa Track
 <p>But how would the views from the huts compare on theoretical<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> clear days?</p>
 <p>This isn’t a difficult question to address, at least in terms of <em>extent</em> of the views available from any given spot.</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>viewsheds <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(huts)) {</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  viewsheds[[huts<span class="sc">$</span>name[i]]] <span class="ot">&lt;-</span> </span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    dem <span class="sc">|&gt;</span> <span class="fu">viewshed</span>(huts<span class="sc">$</span>geom[i] <span class="sc">|&gt;</span> <span class="fu">st_coordinates</span>(), <span class="at">observer =</span> <span class="dv">5</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>viewsheds <span class="ot">&lt;-</span> <span class="fu">rast</span>(viewsheds)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>And we can map the viewsheds for comparison, shrouding the areas hidden from view at each hut in an appropriately dense grey fog.</p>
 <div class="cell">
@@ -494,6 +497,8 @@ Figure&nbsp;4: A view from Pororari Hut according to a bad smartphone camera.
 </div>
 <p>That done we can take snapshots at points equally-spaced along the track.</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>viewpoints <span class="ot">&lt;-</span> ((<span class="dv">0</span><span class="sc">:</span><span class="dv">200</span>) <span class="sc">/</span> <span class="dv">200</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_line_interpolate</span>(<span class="at">line =</span> single_track, <span class="at">normalized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
@@ -509,6 +514,7 @@ Figure&nbsp;4: A view from Pororari Hut according to a bad smartphone camera.
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>sheds <span class="ot">&lt;-</span> <span class="fu">rast</span>(sheds)</span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sheds) <span class="ot">&lt;-</span> <span class="fu">str_c</span>(<span class="st">"v"</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">200</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>Of these viewpoints, which offers the most expansive views? We can pick that spot out easily and map the associated viewshed.</p>
 <div class="cell">
@@ -541,7 +547,10 @@ Figure&nbsp;5: The maximum viewshed along the track.
 </div>
 <p>The stack of viewsheds <code>sheds</code> can also tell us which location across the study area is most visible, i.e., most often visible from some the points we’ve ranged along the track.</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>prominence <span class="ot">&lt;-</span> sheds <span class="sc">|&gt;</span> <span class="fu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div class="cell">
 <details class="code-fold">
@@ -574,6 +583,8 @@ Figure&nbsp;6: General location map of the Paparoa Track
 <h2 class="anchored" data-anchor-id="and-finally">And finally…</h2>
 <p>I used the code below to make a video of the evolving extent of the viewshed along the track. If you happen to run this be aware that it is not quick, taking 20+ minutes.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>maps <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">201</span>) {</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  maps[[i]] <span class="ot">&lt;-</span> m_base <span class="sc">+</span> </span>
@@ -586,6 +597,7 @@ Figure&nbsp;6: General location map of the Paparoa Track
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_dots</span>(<span class="at">size =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">19</span>)</span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_animation</span>(maps, <span class="st">"paparoa-viewsheds.mp4"</span>, <span class="at">width =</span> <span class="dv">1000</span>, <span class="at">height =</span> <span class="dv">1600</span>, <span class="at">delay =</span> <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="fig-video" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">

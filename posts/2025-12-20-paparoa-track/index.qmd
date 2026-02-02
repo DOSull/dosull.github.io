@@ -8,7 +8,7 @@ lightbox:
   match: auto
   loop: true
 code-annotations: hover
-code-fold: false
+code-fold: show
 categories:
   - R
   - tutorial
