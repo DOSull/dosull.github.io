@@ -25,15 +25,15 @@ knitr:
 date: 02-02-2026
 ---
 
-Just lately, I've had reason to mock up a couple of simple models of opinion dynamics, and its caused me to spend some time working on _new_ [NetLogo](https://www.netlogo.org/) code,^[_New_ is important here, but I'll [get to that](#development-tools).] which I always find to be a joy. The models are from Thurner et al. 2025[^1] and Mathias et al.[^2]
+Just lately, I've had reason to mock up a couple of simple models of opinion dynamics, and its caused me to spend some time working on _new_ [NetLogo](https://www.netlogo.org/) code,^[_New_ is important here, but I'll [get to that](#development-tools).] which I always find to be a joy. The models are from Thurner et al.[^1] and Mathias et al.[^2]
 
 ![NetLogo implementation of Thurner et al. 2025.](thurner-et-al-2025-interface.png){#fig-thurner-et-al}
 
 ![NetLogo implementation of Mathias et al. 2020.](mathias-et-al-2017-interface.png){#fig-mathias-et-al}
 
-[^1]: See: Thurner S, M Hofer, and J Korbel. 2025. [Why more social interactions lead to more polarization in societies](https://pnas.org/doi/10.1073/pnas.2517530122). _Proceedings of the National Academy of Sciences_ **122**(44) e2517530122.
+[^1]: Thurner S, M Hofer, and J Korbel. 2025. [Why more social interactions lead to more polarization in societies](https://pnas.org/doi/10.1073/pnas.2517530122). _Proceedings of the National Academy of Sciences_ **122**(44) e2517530122.
 
-[^2]: See: Mathias J-D, JM Anderies, J Baggio, J Hodbod, S Huet, MA Janssen, M Milkoreit, and M Schoon. 2020. [Exploring non-linear transition pathways in social-ecological systems](https://www.nature.com/articles/s41598-020-59713-w). _Scientific Reports_ **10**(1) 4136. Although it's worth noting that Challis KJ. 2026. [An aggregate potential landscape description of an agent-based exploitation-perception model for social-ecological tipping-point dynamics](https://dx.doi.org/10.1016/j.ecolmodel.2025.111433). _Ecological Modelling_ **513** 111433 describes the model better.
+[^2]: Mathias J-D, JM Anderies, J Baggio, J Hodbod, S Huet, MA Janssen, M Milkoreit, and M Schoon. 2020. [Exploring non-linear transition pathways in social-ecological systems](https://www.nature.com/articles/s41598-020-59713-w). _Scientific Reports_ **10**(1) 4136. Although it's worth noting that Challis KJ. 2026. [An aggregate potential landscape description of an agent-based exploitation-perception model for social-ecological tipping-point dynamics](https://dx.doi.org/10.1016/j.ecolmodel.2025.111433). _Ecological Modelling_ **513** 111433 describes the model better.
 
 Before I go any further, here's the obligatory NetLogo citation:
 
@@ -94,7 +94,7 @@ From 8600 lines of Java to 250 lines of NetLogo! The NetLogo version doesn't do 
 So what's so great about NetLogo?
 
 ### It's turtles (and patches) all the way down
-The essential primitives of NetLogo, other than the usual numbers and strings are _turtles_ and _patches_. It also has _links_ (between turtles) and _lists_, but turtles and patches are the core. When you open NetLogo there is a square **View** which on closer inspection is a 33&times;33 grid of patches. Into this 'world' you can add turtles by issuing a `create-turtles` command. You can then `ask` the turtles to do stuff. The commands
+The essential primitives of NetLogo, other than the usual numbers and strings are _turtles_ and _patches_. It also has _links_ (between turtles) and _lists_, but turtles and patches are the core. When you open NetLogo there is a square **View** which on closer inspection is a 33&times;33 grid of patches.^[I should also make clear that you can change the size of the grid...] Into this 'world' you can add turtles by issuing a `create-turtles` command. You can then `ask` the turtles to do stuff. The commands
 
     ask patches [ set pcolor random 3 ]
     create-turtles 500 [ forward random-float 15 ]
@@ -107,11 +107,11 @@ The central iteration command in NetLogo is not a for loop (although it has thos
 
     ask patches [ set pcolor random 3 ]
     
-gets all the patches to set a colour specified by one of the values 0, 1, or 2, chosen at random. Also, in the example above the block of code enclosed in `[...]` after the `create-turtles` command is executed by each turtle on creation. If it's not clear, the turtles spawn on creation at the centre of the view, facing in random directions, and the `forward random-float 15` command causes them to move forward by a random distance.
+gets all the patches to set a colour specified by one of the values 0, 1, or 2, chosen at random. Also, in the example above the block of code `create-turtles [...]` is executed by each turtle on creation. If it's not clear, the turtles spawn on creation at the centre of the view, facing in random directions, and the `forward random-float 15` command causes them to move forward by a random distance.
 
 `ask` iterates over sets in _random order_. At first this is confusing if you're accustomed to iterating over arrays and lists using for loops,^[A norm so strong that Python goes out of its way to guarantee order when iterating over ostensibly unordered collections like its dictionary objects.] but you get used to it. It's an important feature in simulation contexts, where always having patches or turtles execute in the same order can produce undesirable behavioural artifacts.
 
-In addition to their built-in properties (things like colour, size, coordinate locations) turtles and patches can have properties assigned to them, and can be used to represent mobile entities (the turtles) or fixed locations (the patches) with a range of characteristics. If you only want some of the turtles or patches do something, then you use `with` conditional to filter the set:
+In addition to their built-in properties (things like colour, size, coordinate locations) turtles and patches can have properties assigned to them, and can be used to represent mobile entities (the turtles) or fixed locations (the patches) with a range of characteristics. If you only want some of the turtles or patches do something, then you use a `with` conditional to filter the set:
 
     create-turtles 500 [ set color one-of [orange blue] ]
     ask turtles [forward 5]
@@ -119,7 +119,7 @@ In addition to their built-in properties (things like colour, size, coordinate l
 
 ![Turtles after they all moved `forward 5` and only those `with [color = blue]` moved `forward 5` again.](orange-blue-turtles.png){#fig-orange-blue-turtles}
 
-This isn't the place to learn NetLogo, so I won't get into more details than this. Turtles and patches as language primitives are great because they come for free. It's no work at all to create, visualize, and manipulate mobile entities and grid cells. Agents and grids are not included in other languages, and representing them graphically is often more work again. The closest analogue I know of to this behaviour in another language is [processing](https://processing.org/), which bills itself as "a flexible software sketchbook", and NetLogo shares many of the desirable features of that platform.
+This isn't the place to learn NetLogo, so I won't get into more details than this. Turtles and patches as language primitives are great because they come for free. It's no work at all to create, visualize, and manipulate mobile entities and grid cells. Agents and grids are not included out of the box in other languages, and representing them graphically is often more work again. The closest analogue I know to this in another language is [processing](https://processing.org/), which bills itself as "a flexible software sketchbook", and NetLogo shares many of the desirable features of that platform.
 
 ### Visualization and GUI for free
 Because turtles and patches are immediately graphically represented in the view, as your model runs, you see it evolve, without additional effort. The following is all the code needed for a [voter model](https://en.wikipedia.org/wiki/Voter_model) in NetLogo:
@@ -135,11 +135,9 @@ Because turtles and patches are immediately graphically represented in the view,
 
 Initialise patches to one of three possible colours. Then each iteration (`go`) get them to change their colour to match that of a neighbour.
 
-NetLogo also has GUI elements for free: buttons, sliders, drop-downs, switches and so on. Functions (called _procedures_ and _reporters_ in NetLogo) can be associated with GUI elements. So if we add `setup` and `go` buttons to the GUI, then we end up with a model like this one (did I mention it also has the option to export models to web pages?)
+NetLogo also has GUI elements for free: buttons, sliders, drop-downs, switches and so on. Functions (called _procedures_ and _reporters_) can be associated with GUI elements. So if we add `setup` and `go` buttons to the GUI, then we end up with a model like this one (did I mention it also has the option to export models to web pages?)
 
 <iframe src="voter-model.html" width=100% height=600px></iframe>
-
-The only comparably simple GUI experience I've come across is [Visual Basic](https://en.wikipedia.org/wiki/Visual_Basic_(classic)). For all kinds of reasons I have no desire to go back there no matter how easy it was to make GUIs.
 
 ### It's the semantics, stupid
 It takes a while for it to seep in, but while the features I've already discussed (other than `ask`) are very much _platform_ advantages, not _language_ advantages as such, it's how NetLogo _feels_ to write that really makes it stand out. The semantics of the language initially seem strange, a bit wonky, but after a while writing quite complicated statements feels like writing sentences in a natural language.
@@ -157,7 +155,7 @@ I am not a computer scientist steeped in the theory of language design, but I ca
 + `one-of` takes one argument, a set of turtles, and returns one of them at random;
 + `other` takes one argument, a set of turtles, and returns that set with the calling turtle removed;
 
-and so on. The order in which arguments are passed to functions does all the work that allows compound statements to be chained together like this. From time to time you need parentheses to disambiguate which operation should be applied first, but most of the time, you can simply construct compound statements as long run on statements. For clarity, you may want to assign some intermediate steps to variables, but there's a peculiar satisfaction to be found in constructing these phrase. It was when this landed with me that I really started to enjoy writing NetLogo code.
+and so on. The order in which arguments are passed to functions does all the work that allows compound statements to be chained together like this. From time to time you need parentheses to disambiguate which operation should be applied first, but most of the time, you can simply construct compound statements as long run on statements. For clarity, you may want to assign some intermediate steps to variables, but there's a peculiar satisfaction to be found in constructing these phrases. It was when this landed with me that I really started to enjoy writing NetLogo code.
 
 This elegance in the language syntax is clearly not accidental and speaks to the care with which it has been designed. It takes a little longer to sink in than the immediacy of Python, but it has a similar quality once absorbed: statements like the one above just seem _obvious_. This structure also subliminally encourages an approach to programming based on small procedures and reporters that can themselves be chained together in the language's governing style.[^lisp1] This is not unique to NetLogo, but it's a good habit to develop and regularly programming in NetLogo made it natural for me.
 
@@ -173,11 +171,11 @@ This turtle-centric perspective is reminiscent of a wonderful article by [Dana T
 [^duckham]: Duckham M. 2013. [_Decentralized Spatial Computing: Foundations of Geosensor Networks_](https://link.springer.com/book/10.1007/978-3-642-30853-6). Heidelberg ; New York: Springer.
 
 ### NetLogo made me a better programmer
-Another language feature, very much a product of NetLogo's roots via Logo in [Lisp](https://en.wikipedia.org/wiki/Lisp_(programming_language)) are its primitives for dealing with ordered lists. A _list_ in NetLogo is an ordered collection of things. It's all very well `ask`ing to do things in random order all the time but sometimes you need a bit more control than that. A list is a sequence of values
+Another language feature, very much a product of NetLogo's roots via Logo in [Lisp](https://en.wikipedia.org/wiki/Lisp_(programming_language)) are its primitives for dealing with lists. A _list_ in NetLogo is an ordered collection of things. It's all very well `ask`ing to do things in random order all the time but sometimes you need a bit more control than that. A list is a sequence of values
 
     let lst [3 1 4 1 5 9]
 
-The values need not all be the same type and you can nest lists in lists and so on. There are a bunch of built-in reporters you can apply like `min`, `max`, `mean`, and so on, and also things like `reverse`, `sort`, and `remove-duplicates`. You can iterate over lists using `foreach`
+The values need not all be the same type and you can nest lists within lists. There are a bunch of built-in reporters you can apply like `min`, `max`, `mean`, and so on, and also things like `reverse`, `sort`, and `remove-duplicates`. You can iterate over lists using `foreach`
 
     let squares nobody
     foreach values [ x -> 
@@ -199,7 +197,7 @@ Granted, the syntax here is a little weird. No argument there. It's a good idea 
     map [x -> x ^ 2] [1 2 3 4 5]
     [1 4 9 16 25]
 
-As in this case, the functions can be anonymous. `filter` uses the same method to make a new list from only those elements that match some conditional:
+Here the `x -> ...` notation defines an anonymous function. `filter` uses the same method to make a new list from only those elements that match some conditional:
 
     filter [x -> x mod 2 = 0] [1 2 3 4 5]
     [2 4 6]
@@ -213,7 +211,7 @@ In a simple case like that, it's easy enough to see that the output is the sum o
 
     reduce [[a b] -> lput (last a + b) a] (fput [0] lst)
 
-The joys of figuring out how to do something mildly complicated with a `reduce` statement notwithstanding, the `map` function is the real magic here
+The joys of figuring out how to do something mildly complicated with a `reduce` statement notwithstanding, the `map` function is the real magic here.
 
     sum (map [[a b] -> a * 10 ^ (- b)] [3 1 4 1 5] range 5)
     3.1415
@@ -234,18 +232,16 @@ NetLogo's extensions architecture have added quite a few things that might be co
 As my NetLogo programming matured, I found its list and text processing a bit light and often found myself reimplementing functions that I use all the time in Python. That's why I've written [`netlogo-utils`]((https://github.com/DOSull/netlogo-utils)) for handling lists and strings. Also included are some probability distributions that NetLogo doesn't provide natively. This isn't an extension, just some NetLogo source code files that can easily be added to any model and provide things like cumulative sums of lists^[So you don't have to figure out how to use `reduce`.] and a speedy `random-binomial` reporter.
 
 ### Development tools
-It's been 20 years since Railsback et al.'s favourable assessment, and sadly, their major concern remains a valid one: 
+It's been 20 years since Railsback et al.'s[^railsback-et-al] mostly favourable assessment, and sadly, their major concern remains a valid one: 
 
-> Experienced programmers, however, could be uncomfortable with NetLogo’s simplified programming environment. [... It] can be cumbersome for large models. NetLogo provides an error checker and makes it easy to develop and try code in small steps, but lacks IDE features such as a stepwise debugger.^[Railsback et al., page 621]
+[^railsback-et-al]: Railsback SF, SL Lytinen and SK Jackson. 2006. [Agent-based simulation platforms: review and development recommendations](https://dx.doi.org/10.1177/0037549706073695). _Simulation_ **82**(9) 609–623.
+
+> Experienced programmers, however, could be uncomfortable with NetLogo’s simplified programming environment. [... It] can be cumbersome for large models. NetLogo provides an error checker and makes it easy to develop and try code in small steps, but lacks IDE features such as a stepwise debugger.^[_ibid_., page 621]
 
 This is why, right at the top, I noted that it's always a joy to write _new_ models in NetLogo. As models grow, which they tend to do, the lack of development tools does tend to take away from the fun of the experience. But hey, nobody's perfect.
 
 ## People don't take it seriously
-NetLogo's other problem is not NetLogo's fault, and is partly why I've written this post. The kid's toy delusion, which I laboured under for several years, persists. All I can say to that is that NetLogo is a whole lot more than a toy. This was recognised in the literature in an excellent paper by Steve Railsback and others[^railsback-et-al] many years ago. 
-
-[^railsback-et-al]: Railsback SF, SL Lytinen and SK Jackson. 2006. [Agent-based Simulation Platforms: Review and Development Recommendations](https://dx.doi.org/10.1177/0037549706073695). _Simulation_ **82**(9) 609–623.
-
-That paper set out to weigh up the relative merits of a number of agent-based modelling platforms. It's obvious reading it that they included NetLogo a little reluctantly. It's also obvious reading the code examples as they worked through the stages of the 'stupid model' they developed for the evaluation process that they did not initially 'get' NetLogo. Clearly though, at some point it clicked and they conclude:
+NetLogo's other problem is not NetLogo's fault, and is partly why I've written this post. The kid's toy delusion, which I laboured under for several years, persists. All I can say is that NetLogo is a whole lot more than a toy. This was recognised by Railsback et al.^[_ibid._] years ago. In that paper they set out to weigh up the relative merits of a number of agent-based modelling platforms. It's obvious reading it that they included NetLogo a little reluctantly. It's also obvious reading the code examples as they worked through the stages of the 'stupid model' they developed for the evaluation process that they did not initially 'get' NetLogo. Clearly though, at some point it clicked and they conclude:
 
 > It is easy to recommend NetLogo for models that are (i) compatible with its paradigm of short-term, local interaction of agents and a grid environment and (ii) not extremely complex. We also strongly recommend NetLogo for prototyping models that may later be implemented in lower-level platforms: starting to build a model in NetLogo can be a quick and thorough way to explore design decisions.^[_ibid_. page 621]
 
@@ -264,4 +260,4 @@ Reflecting on all of the above, as I searched around the topic in writing this p
 
 > One of the beautiful things about living at this time in human history is that there is no end to the strange and beautiful things you might find. NetLogo is one of those things I’ve discovered recently, and I thought I’d share a little bit about it. 
 
-Minus the "recently"&mdash;it's been 25+ years for me&mdash;that pretty much hits the nail on the head.
+Minus the "recently"&mdash;it's been 25+ years for me&mdash;that pretty much hits the nail on the head: a strange and beautiful thing indeed.
