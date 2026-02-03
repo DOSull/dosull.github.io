@@ -25,7 +25,7 @@ knitr:
 date: 02-02-2026
 ---
 
-Just lately, I've had reason to mock up a couple of simple models of opinion dynamics, and its caused me to spend some time working on _new_ [NetLogo](https://www.netlogo.org/) code,^[_New_ is important here, but I'll [get to that](#development-tools).] which I always find to be a joy. The models are from Thurner et al.[^1] and Mathias et al.[^2]
+Just lately, I've had reason to mock up a couple of simple models of opinion dynamics, and have spent some time working on _new_ [NetLogo](https://www.netlogo.org/) code,^[_New_ is important here, but I'll [get to that](#development-tools).] which I always find to be a joy. The models are from Thurner et al.[^1] and Mathias et al.[^2]
 
 ![NetLogo implementation of Thurner et al. 2025.](thurner-et-al-2025-interface.png){#fig-thurner-et-al}
 
