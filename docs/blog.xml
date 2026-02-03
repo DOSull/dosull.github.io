@@ -9,7 +9,7 @@
 <link>https://geospatialstuff.com/blog.html</link>
 <atom:link href="https://geospatialstuff.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
-<generator>quarto-1.6.39</generator>
+<generator>quarto-1.8.27</generator>
 <lastBuildDate>Sun, 01 Feb 2026 11:00:00 GMT</lastBuildDate>
 <item>
   <title>NetLogo is weird as hell</title>

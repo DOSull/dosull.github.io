@@ -291,7 +291,7 @@ Figure&nbsp;1: The simple illustration of MAUP in <em>Geographic Information Ana
 </figcaption>
 </figure>
 </div>
-<p>I’ve replicated this kind of thing elsewhere, in <a href="https://computinggeographically.org/"><em>Computing Geographically</em></a>, Chapter 5.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> This post uses the automated zoning <code>azp</code> function in <a href="https://github.com/walkerke">Kyle Walker</a>‘s recently released <a href="https://walker-data.com/spopt-r/"><code>spopt</code></a> package to enable more ’realistic’ aggregations of some gridded datasets. The same technique could be applied to census small areas to generate alternative aggregations to large area units. In fact, originally I did exactly that. In the end, however, I wanted to explore how different initial statistical properties in data interacts with aggregation, and real census data didn’t give me any control over that.</p>
+<p>I’ve replicated this kind of thing elsewhere, in <a href="https://computinggeographically.org/"><em>Computing Geographically</em></a>, Chapter 5.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> This post uses the automated zoning <code>azp</code> function in <a href="https://github.com/walkerke">Kyle Walker</a>‘s recently released <a href="https://walker-data.com/spopt-r/"><code>spopt</code></a> package to enable more ’realistic’ aggregations of some gridded datasets. The same technique could be applied to census small areas to generate alternative aggregations to large area units. In fact, originally I did exactly that. In the end, however, I wanted to explore how different initial statistical properties in data interact with aggregation, and real census data didn’t give me any control over that.</p>
 <p>As usual, we need a bunch of libraries.</p>
 <div class="cell">
 <details class="code-fold">
@@ -339,7 +339,7 @@ Figure&nbsp;2: A simple 32×32 grid with some associated attributes.
 </div>
 </div>
 </div>
-<p>And now we can zone it using <code>spopt::azp</code>. This is well explained at the package website <a href="https://walker-data.com/spopt-r/articles/regionalization.html#azp-automatic-zoning-procedure">here</a>. We’re not using it here in a highly sophisticate way, the important thing is that we can do this at all. The key parameters passed to <code>azp</code> are the list of attributes (<code>attrs</code>) to use in identifying similar areas to combine, and the number of regions required (<code>n_regions</code>).</p>
+<p>And now we can zone it using <code>spopt::azp</code>. This is well explained at the package website <a href="https://walker-data.com/spopt-r/articles/regionalization.html#azp-automatic-zoning-procedure">here</a>. We’re not using it here in a highly sophisticated way, the important thing is that we can do this at all. The key parameters passed to <code>azp</code> are the list of attributes (<code>attrs</code>) to use in identifying similar areas to combine, and the number of regions required (<code>n_regions</code>).</p>
 <p>Here’s an example, regionalised based on similarity in the <code>column</code> attribute.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -465,7 +465,7 @@ Figure&nbsp;5: An example random regionalisation of the 32×32 grid into 32 regi
 </section>
 <section id="making-autocorrelated-grids" class="level2">
 <h2 class="anchored" data-anchor-id="making-autocorrelated-grids">Making autocorrelated grids</h2>
-<p>Here’ I’ve used a method described in <a href="https://gawainantell.com/exploring-spatial-autocorrelation-in-r/">this post</a> by <a href="https://gawainantell.com/">G. T. Antell</a>.</p>
+<p>Here I’ve used a method described in <a href="https://gawainantell.com/exploring-spatial-autocorrelation-in-r/">this post</a> by <a href="https://gawainantell.com/">G. T. Antell</a>.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -651,7 +651,7 @@ Figure&nbsp;7: The most negatively correlated pair of grids (left and middle), a
 </div>
 </div>
 </div>
-<p>And here’s how the correlations among 50 sets of data are altered when the 32×32 grids are aggregated to 32 areas.</p>
+<p>And here’s how the correlations among 50 sets of data change when the 32×32 grids are aggregated to 32 areas.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -683,7 +683,7 @@ Figure&nbsp;8: How correlations are changed by aggregation.
 </div>
 <p>The striking thing about this result is that low range cases, where correlations among the grid variables before regionalisation are low, can see large increases in their correlations after aggregation. In some cases, initially uncorrelated data may end up with correlations as large as ±0.5.</p>
 <p>Focusing on this is not to downplay the changes in correlation that arise for initially more correlated pairs of inputs, where a correlation of 0.4 might increase to 0.5 or more. However, it does suggest that perhaps quite strongly correlated variables are fairly robust to aggregation effects. This might be a source of optimism: perhaps the MAUP is not really a problem in the presence of strong correlations in disaggregate data.</p>
-<p>The problem with this perspective is that observing a correlation of (say) 0.5 in aggregated data doesn’t tell us very much about how strong the correlation might be in the more disaggregate underlying data. Based on the admittedly one-off result above, a correlation (<code>c1</code>) between two attributes in the range 0.475 to 0.525 might arise from disaggregate data with a correlation (<code>c0</code>) between those attributes anywhere between -0.031 and 0.525:</p>
+<p>The problem with this perspective is that observing a correlation of (say) 0.5 in aggregated data doesn’t tell us very much about how strong the correlation might be in the more disaggregate underlying data. Based on the admittedly one-off result above, a post-aggregation correlation (<code>c1</code>) between two attributes in the range 0.475 to 0.525 might arise from disaggregate data with a correlation (<code>c0</code>) between those attributes anywhere between -0.031 and 0.525:</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -702,7 +702,7 @@ Figure&nbsp;8: How correlations are changed by aggregation.
 <section id="many-regionalisations-the-zoning-effect" class="level3">
 <h3 class="anchored" data-anchor-id="many-regionalisations-the-zoning-effect">Many regionalisations: the zoning effect</h3>
 <p>So much for the <em>aggregation effect</em> of the MAUP. What about the <em>zoning effect</em>?</p>
-<p>To explore this we can apply our 50 different regionalisations to the data and see if we can make any sense of the results.</p>
+<p>To explore this we can 50 different regionalisations to the data and see if we can make any sense of the results. I made these previously using the <code>random_regionalisation()</code> function, so we read them in from a file.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -817,10 +817,10 @@ Figure&nbsp;10: The aggregation zoning effect on correlations among 50 different
 <div id="fig-range-in-c1-due-to-zoning" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-range-in-c1-due-to-zoning-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-range-in-c1-due-to-zoning-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;11: Each initial correlation as a vertical line from the lowest to highest correlation after regionalisation, with the mean overplotted."><img src="index_files/figure-html/fig-range-in-c1-due-to-zoning-1.png" class="img-fluid figure-img" width="480"></a>
+<a href="index_files/figure-html/fig-range-in-c1-due-to-zoning-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;11: Each initial correlation as a vertical line from the lowest to highest correlation after regionalisation, with the means overplotted as points."><img src="index_files/figure-html/fig-range-in-c1-due-to-zoning-1.png" class="img-fluid figure-img" width="480"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-range-in-c1-due-to-zoning-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11: Each initial correlation as a vertical line from the lowest to highest correlation after regionalisation, with the mean overplotted.
+Figure&nbsp;11: Each initial correlation as a vertical line from the lowest to highest correlation after regionalisation, with the means overplotted as points.
 </figcaption>
 </figure>
 </div>
@@ -855,13 +855,13 @@ Figure&nbsp;12: Each initial correlation as a vertical line from the lowest to h
 </section>
 <section id="so-yeah-its-a-problem" class="level2">
 <h2 class="anchored" data-anchor-id="so-yeah-its-a-problem">So… yeah… it’s a problem</h2>
-<p>At any rate, it’s a problem if you are working with aggregated data.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>At any rate, it’s a problem if you are working with aggregated data.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
 <p>A couple of thoughts here:</p>
 <p><strong>First</strong>, spatially aggregating data is really not that different than time series averaging or smoothing. Time series are routinely smoothed by averaging, a process completely analogous to aggregating spatial data to zones. The analogy is stronger still if we aggregate spatial data to grids, which is becoming increasingly common for demographic data. Smoothing of time series is often carried out so we can see trends against background noise. From this perspective, aggregating data spatially can be understood as a way to make it easier to see patterns.</p>
 <p>The world is overwhelming complicated and it’s nice to be able to make sense of it a little more easily. The danger is in starting to believe that the aggregates are real things: the point of the MAUP is, that yes, aggregation has effects on statistical summaries, but perhaps more importantly that those effects are <em>modifiable</em>. Different zones, different patterns, even if as <a href="#fig-24-regionalisations-mapped" class="quarto-xref">Figure&nbsp;9</a> suggests <em>similar</em> patterns will still show through across many alternative zoning schemes.</p>
-<p><strong>Second</strong>, <em>maybe</em> the MAUP is becoming <em>less</em> of a problem as progressively more and more detailed and disaggregate data are more routinely used. On the one hand, I don’t find this argument particularly convincing. Yes “we’re all individuals”<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> but that’s not really how we interact with or are managed by government agencies. It might be how we interact with our digital overlords, or more accurately, how they sell our eyeballs to advertisers, but for the time being it seems very likely that in many contexts, for many purposes spatially aggregated data will remain analytically important.</p>
-<p>On the other hand, far be it from me to be optimistic about machine-learning and AI, but these tools do seem to hold out a hope of developing different tailored zoning schemes in different contexts for different purposes. One team of social scientists looking at education through the lens of income might work with a different set of spatial aggregations than another team researching housing effects on health.</p>
-<p>In sum, the MAUP really becomes a serious problem if we insist on not modifying the area units we use, because one set of area units can only be the ‘right’ set for a limited subset of all the things you might want to do with such data. Other than when we want to apply the same regionalisations over time for longitudinal study, we should lean into bespoke zoning systems tailored to different uses. I’m not sure I’d call that “a new geographical revolution” as Stan Openshaw did,<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> more simply a pragmatic response to the nature of spatial data.</p>
+<p><strong>Second</strong>, <em>maybe</em> the MAUP is becoming <em>less</em> of a problem as progressively more and more detailed and disaggregate data are more routinely used. On the one hand, I don’t find this argument particularly convincing. Yes “we’re all individuals”<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> but that’s not really how we interact with or are managed by government agencies. It might be how we interact with our digital overlords, or more accurately, how they sell our eyeballs to advertisers, but for the time being it seems very likely that in many contexts, for many purposes spatially aggregated data will remain analytically important.</p>
+<p>On the other hand, far be it from me to be optimistic about machine-learning and AI, but these tools do seem to hold out a hope of developing different tailored zoning schemes in different contexts for different purposes. A team of social scientists looking at education through the lens of income might work with a different set of spatial aggregations than another team researching housing effects on health.</p>
+<p>In sum, the MAUP really becomes a serious problem if we insist on not modifying the area units we use, because one set of area units can only be the ‘right’ set for a limited subset of all the things you might want to do with such data. Other than when we want to apply the same regionalisations over time for longitudinal study, we should lean into bespoke zoning systems tailored to different uses. I’m not sure I’d call that “a new geographical revolution” as Stan Openshaw did,<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> it’s more a pragmatic response to the nature of spatial data.</p>
 <p>Either way, in light of all of the above, we’d best keep the MAUP firmly in mind for a long time to come.</p>
 
 
@@ -874,9 +874,10 @@ Figure&nbsp;12: Each initial correlation as a vertical line from the lowest to h
 <li id="fn1"><p>Or is it Vecna, or is it… oh, never mind<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>See <a href="https://computinggeographically.org/chapters/chap5/fig5-06-simple-maup.html">this post</a> and <a href="https://computinggeographically.org/chapters/chap5/fig5-07-maup-aggregation.html">this one</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>Gehlke CE and K Biehl. 1934. <a href="https://dx.doi.org/10.1080/01621459.1934.10506247">Certain effects of grouping upon the size of the correlation coefficient in census tract material</a>. <em>Journal of the American Statistical Association</em> <strong>29</strong>(185) 169–170.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>And we haven’t even looked into how constructing zones for homogeneity on one variable affects the outcomes for other variables more or less than the random zonings we have considered here…<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Hat tip to <a href="https://en.wikipedia.org/wiki/Monty_Python%27s_Life_of_Brian"><em>The Life of Brian</em></a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>Page 38 in Openshaw S. 1983. <a href="https://github.com/qmrg/CATMOG/blob/Main/38-maup-openshaw.pdf"><em>The Modifiable Areal Unit Problem</em></a>. Concepts and Techniques in Modern Geography <strong>38</strong> Norwich, England: Geo Books. Available at http://www.qmrg.org.uk/catmog.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>this just makes it a bit easier to manage variability from run to run as I edit and re-edit this post…<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>And we haven’t even looked into whether constructing zones for homogeneity on one variable affects outcomes for other variables more or less than these random zonings…<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Hat tip to <a href="https://en.wikipedia.org/wiki/Monty_Python%27s_Life_of_Brian"><em>The Life of Brian</em></a>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Page 38 in Openshaw S. 1983. <a href="https://github.com/qmrg/CATMOG/blob/Main/38-maup-openshaw.pdf"><em>The Modifiable Areal Unit Problem</em></a>. Concepts and Techniques in Modern Geography <strong>38</strong> Norwich, England: Geo Books. Available at http://www.qmrg.org.uk/catmog.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
