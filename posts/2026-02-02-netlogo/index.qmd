@@ -94,7 +94,7 @@ From 8600 lines of Java to 250 lines of NetLogo! The NetLogo version doesn't do 
 So what's so great about NetLogo?
 
 ### It's turtles (and patches) all the way down
-The essential primitives of NetLogo, other than the usual numbers and strings are _turtles_ and _patches_. It also has _links_ (between turtles) and _lists_, but turtles and patches are the core. When you open NetLogo there is a square **View** which on closer inspection is a 33&times;33 grid of patches.^[I should also make clear that you can change the size of the grid...] Into this 'world' you can add turtles by issuing a `create-turtles` command. You can then `ask` the turtles to do stuff. The commands
+The primitives of NetLogo, other than the usual numbers and strings are _turtles_ and _patches_. It also has _links_ (between turtles) and _lists_, but turtles and patches are the core. When you open NetLogo there is a square **View** which on closer inspection is a 33&times;33 grid of patches.^[I should also make clear that you can change the size of the size and resolution of the view...] Into this 'world' you add turtles by issuing a `create-turtles` command. You can then `ask` the turtles to do stuff. The commands
 
     ask patches [ set pcolor random 3 ]
     create-turtles 500 [ forward random-float 15 ]
@@ -103,13 +103,13 @@ will produce this picture in the View:
 
 ![500 turtles that have moved forward from the centre of the view.](500-turtles.png){#fig-500-turtles}
 
-The central iteration command in NetLogo is not a for loop (although it has those if you need them). Instead, it is politely `ask`ing _patchsets_ and _turtlesets_ to do things. The default collection of all turtles in a model is called `turtles`, and all the patches are called, well... `patches`. So 
+The central iteration command in NetLogo is not a for loop (although it has those if you need them). Instead, it is politely `ask`ing _patch-sets_ and _turtle-sets_ (collectively _agent-sets_) to do things. The default collection of all turtles in a model is called `turtles`, and all the patches are called, well... `patches`. So 
 
     ask patches [ set pcolor random 3 ]
     
-gets all the patches to set a colour specified by one of the values 0, 1, or 2, chosen at random. Also, in the example above the block of code `create-turtles [...]` is executed by each turtle on creation. If it's not clear, the turtles spawn on creation at the centre of the view, facing in random directions, and the `forward random-float 15` command causes them to move forward by a random distance. `ask` iterates over sets in _random order_. At first this is confusing if you're accustomed to iteration using for loops,^[A norm so strong that Python goes out of its way to guarantee order when iterating over ostensibly unordered collections like its dictionary objects.] but you get used to it. It's an important feature in simulation contexts, where always having patches or turtles execute in the same order can produce undesirable behavioural artifacts.
+gets all the patches to set a colour specified by one of the values 0, 1, or 2, chosen at random. In the example above the block of code after `create-turtles [...]` is executed by each turtle on creation. If it's not clear, the turtles spawn at the centre of the view, facing in random directions, and the `forward random-float 15` command causes them to move forward by a random distance. `ask` iterates over sets in _random order_. At first this is confusing if you're accustomed to iteration using for loops,^[A norm so strong that Python goes out of its way to guarantee order when iterating over ostensibly unordered collections like its dictionary objects.] but you get used to it. It's an important feature in simulation contexts, where always having patches or turtles execute in the same order can produce undesirable artifacts.
 
-In addition to their built-in properties (things like colour, size, coordinate location) turtles and patches can have properties assigned to them, and can be used to represent mobile entities (the turtles) or fixed locations (the patches) with a range of characteristics. If you only want some of the turtles or patches do something, then you use a `with` conditional to filter the set:
+In addition to built-in properties (like colour, size, coordinate location) turtles and patches can have properties assigned to them, and thus can be used to represent mobile entities (the turtles) or fixed locations (the patches) with a range of characteristics. If you only want some of the turtles or patches do something, then you use a `with` conditional to filter the set:
 
     create-turtles 500 [ set color one-of [orange blue] ]
     ask turtles [forward 5]
@@ -117,10 +117,10 @@ In addition to their built-in properties (things like colour, size, coordinate l
 
 ![Turtles after they all moved `forward 5` and only those `with [color = blue]` moved `forward 5` again.](orange-blue-turtles.png){#fig-orange-blue-turtles}
 
-This isn't the place to learn NetLogo, so I won't get into more details than this. Turtles and patches as language primitives are great because they come for free. It's no work at all to create, visualize, and manipulate mobile entities and grid cells. Agents and grids are not included out of the box in other languages, and representing them graphically is often more work again. The closest analogue I know to this in another language is [processing](https://processing.org/), which bills itself as "a flexible software sketchbook", and NetLogo shares many of the desirable features of that platform.
+This isn't the place to learn NetLogo, so I won't get into more details than this. Turtles and patches as language primitives are great because they come for free. It's no work at all to create, visualize, and manipulate mobile entities and grid cells. Agents and grids are not included out of the box in other languages, and representing them graphically is more work again. The closest analogue I know to this in another language is [processing](https://processing.org/), which bills itself as "a flexible software sketchbook", and NetLogo shares many of the desirable features of that platform.
 
 ### Visualization and GUI for free
-Because turtles and patches are immediately graphically represented in the view, as your model runs, you see it evolve, without additional effort. The following is all the code needed for a [voter model](https://en.wikipedia.org/wiki/Voter_model) in NetLogo:
+Because turtles and patches are immediately graphically represented in the view, as your model runs, you see it evolve, without additional effort. The following is all the NetLogo code needed for a [voter model](https://en.wikipedia.org/wiki/Voter_model):
 
     to setup
       clear-all
@@ -133,12 +133,12 @@ Because turtles and patches are immediately graphically represented in the view,
 
 Initialise patches to one of three possible colours. Then each iteration (`go`) get them to change their colour to match that of a neighbour.
 
-NetLogo also has GUI elements for free: buttons, sliders, drop-downs, switches and so on. Functions (called _procedures_ and _reporters_) can be associated with GUI elements. So if we add `setup` and `go` buttons to the GUI, then we end up with a model like this one (did I mention it also has the option to export models to web pages?)
+NetLogo also has GUI elements for free: buttons, sliders, drop-downs, switches, and so on. Functions (called _procedures_ and _reporters_) can be associated with GUI elements. So if we add `setup` and `go` buttons to the GUI, then we end up with a model like this one (did I mention it also has the option to export models to web pages?)
 
 <iframe src="voter-model.html" width=100% height=600px></iframe>
 
 ### It's the semantics, stupid
-It takes a while for it to seep in, but while the features I've already discussed (other than `ask`) are very much _platform_ advantages, not _language_ advantages as such, it's how NetLogo _feels_ to write that really makes it stand out. The semantics of the language initially seem strange, a bit wonky, but after a while writing quite complicated statements feels like writing sentences in a natural language.
+It takes a while for it to seep in, but while the features I've already discussed (other than `ask`) are _platform_ advantages, not _language_ advantages _per se_, it's how NetLogo _feels_ to write that really makes it stand out. The semantics of the language initially seem strange, a bit wonky, but after a while writing quite complicated statements feels a lot like writing sentences in a natural language.
 
     ask turtles [
       face one-of other turtles in-radius 4 with [color = [color] of myself]
@@ -149,11 +149,13 @@ It takes a while for it to seep in, but while the features I've already discusse
 
 I am not a computer scientist steeped in the theory of language design, but I can see that there is something subtle going on here. That long run-on line of code `face...` is functional programming without the distracting ugliness in R of `|>` pipes or in Python of chained `.` operators.^[Disclaimer: I also love coding in R and Python.] It's how the functions are defined that makes this work. 
 
-+ `face` takes one argument, a turtle or patch, and causes the turtle invoking it to change its `heading` towards that turtle;
-+ `one-of` takes one argument, a set of turtles, and returns one of them at random;
-+ `other` takes one argument, a set of turtles, and returns that set with the calling turtle removed;
++ <code>face _agent_</code> causes the turtle calling it to change its `heading` towards the supplied agent (i.e., to face it);
++ <code>one-of _set_</code> returns one member of the supplied agent-set at random;
++ <code>other _set_</code> returns the supplied agent-set with the calling agent removed;
++ <code>_set_ in-radius _x_</code> filters the supplied agent-set returning a set of agents within distance _x_ of the calling agent;
++ <code>_set_ with [_condition_]</code> applies a selection filter to the supplied agent-set.
 
-and so on. The order in which arguments are passed to functions does all the work that allows compound statements to be chained together like this. From time to time you need parentheses to disambiguate which operation should be applied first, but most of the time, you can simply construct compound statements as long run on statements. For clarity, you may want to assign some intermediate steps to variables, but there's a peculiar satisfaction to be found in constructing these phrases. It was when this landed with me that I really started to enjoy writing NetLogo code.
+The clever ordering of how arguments are passed to functions does all the work that allows compound statements to be chained together like this. From time to time you need parentheses to disambiguate which operation should be applied first, but most of the time, you can simply construct compound statements as long run on statements. For clarity, you may want to assign some intermediate steps to variables, but there's a peculiar satisfaction to be found in constructing these phrases. It was when this landed with me that I really started to enjoy writing NetLogo code. Before you get into the rhythm of the language, on first encountering the ordering of parameters passed to functions, they can seem awkward. It's when you start chaining functions together that you see why they are ordered the way they are. 
 
 This elegance in the language syntax is clearly not accidental and speaks to the care with which it has been designed. It takes a little longer to sink in than the immediacy of Python, but it has a similar quality once absorbed: statements like the one above just seem _obvious_. This structure also subliminally encourages an approach to programming based on small procedures and reporters that can themselves be chained together in the language's governing style.[^lisp1] This is not unique to NetLogo, but it's a good habit to develop and regularly programming in NetLogo made it natural for me.
 

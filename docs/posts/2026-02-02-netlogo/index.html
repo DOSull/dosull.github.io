@@ -329,7 +329,7 @@ Figure&nbsp;4: The interface of my game-changing NetLogo model of a graph-CA.
 <p>So what’s so great about NetLogo?</p>
 <section id="its-turtles-and-patches-all-the-way-down" class="level3">
 <h3 class="anchored" data-anchor-id="its-turtles-and-patches-all-the-way-down">It’s turtles (and patches) all the way down</h3>
-<p>The essential primitives of NetLogo, other than the usual numbers and strings are <em>turtles</em> and <em>patches</em>. It also has <em>links</em> (between turtles) and <em>lists</em>, but turtles and patches are the core. When you open NetLogo there is a square <strong>View</strong> which on closer inspection is a 33×33 grid of patches.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> Into this ‘world’ you can add turtles by issuing a <code>create-turtles</code> command. You can then <code>ask</code> the turtles to do stuff. The commands</p>
+<p>The primitives of NetLogo, other than the usual numbers and strings are <em>turtles</em> and <em>patches</em>. It also has <em>links</em> (between turtles) and <em>lists</em>, but turtles and patches are the core. When you open NetLogo there is a square <strong>View</strong> which on closer inspection is a 33×33 grid of patches.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> Into this ‘world’ you add turtles by issuing a <code>create-turtles</code> command. You can then <code>ask</code> the turtles to do stuff. The commands</p>
 <pre><code>ask patches [ set pcolor random 3 ]
 create-turtles 500 [ forward random-float 15 ]</code></pre>
 <p>will produce this picture in the View:</p>
@@ -343,10 +343,10 @@ Figure&nbsp;5: 500 turtles that have moved forward from the centre of the view.
 </figcaption>
 </figure>
 </div>
-<p>The central iteration command in NetLogo is not a for loop (although it has those if you need them). Instead, it is politely <code>ask</code>ing <em>patchsets</em> and <em>turtlesets</em> to do things. The default collection of all turtles in a model is called <code>turtles</code>, and all the patches are called, well… <code>patches</code>. So</p>
+<p>The central iteration command in NetLogo is not a for loop (although it has those if you need them). Instead, it is politely <code>ask</code>ing <em>patch-sets</em> and <em>turtle-sets</em> (collectively <em>agent-sets</em>) to do things. The default collection of all turtles in a model is called <code>turtles</code>, and all the patches are called, well… <code>patches</code>. So</p>
 <pre><code>ask patches [ set pcolor random 3 ]</code></pre>
-<p>gets all the patches to set a colour specified by one of the values 0, 1, or 2, chosen at random. Also, in the example above the block of code <code>create-turtles [...]</code> is executed by each turtle on creation. If it’s not clear, the turtles spawn on creation at the centre of the view, facing in random directions, and the <code>forward random-float 15</code> command causes them to move forward by a random distance. <code>ask</code> iterates over sets in <em>random order</em>. At first this is confusing if you’re accustomed to iteration using for loops,<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> but you get used to it. It’s an important feature in simulation contexts, where always having patches or turtles execute in the same order can produce undesirable behavioural artifacts.</p>
-<p>In addition to their built-in properties (things like colour, size, coordinate location) turtles and patches can have properties assigned to them, and can be used to represent mobile entities (the turtles) or fixed locations (the patches) with a range of characteristics. If you only want some of the turtles or patches do something, then you use a <code>with</code> conditional to filter the set:</p>
+<p>gets all the patches to set a colour specified by one of the values 0, 1, or 2, chosen at random. In the example above the block of code after <code>create-turtles [...]</code> is executed by each turtle on creation. If it’s not clear, the turtles spawn at the centre of the view, facing in random directions, and the <code>forward random-float 15</code> command causes them to move forward by a random distance. <code>ask</code> iterates over sets in <em>random order</em>. At first this is confusing if you’re accustomed to iteration using for loops,<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> but you get used to it. It’s an important feature in simulation contexts, where always having patches or turtles execute in the same order can produce undesirable artifacts.</p>
+<p>In addition to built-in properties (like colour, size, coordinate location) turtles and patches can have properties assigned to them, and thus can be used to represent mobile entities (the turtles) or fixed locations (the patches) with a range of characteristics. If you only want some of the turtles or patches do something, then you use a <code>with</code> conditional to filter the set:</p>
 <pre><code>create-turtles 500 [ set color one-of [orange blue] ]
 ask turtles [forward 5]
 ask turtles with [color = blue] [forward 5]</code></pre>
@@ -360,11 +360,11 @@ Figure&nbsp;6: Turtles after they all moved <code>forward 5</code> and only thos
 </figcaption>
 </figure>
 </div>
-<p>This isn’t the place to learn NetLogo, so I won’t get into more details than this. Turtles and patches as language primitives are great because they come for free. It’s no work at all to create, visualize, and manipulate mobile entities and grid cells. Agents and grids are not included out of the box in other languages, and representing them graphically is often more work again. The closest analogue I know to this in another language is <a href="https://processing.org/">processing</a>, which bills itself as “a flexible software sketchbook”, and NetLogo shares many of the desirable features of that platform.</p>
+<p>This isn’t the place to learn NetLogo, so I won’t get into more details than this. Turtles and patches as language primitives are great because they come for free. It’s no work at all to create, visualize, and manipulate mobile entities and grid cells. Agents and grids are not included out of the box in other languages, and representing them graphically is more work again. The closest analogue I know to this in another language is <a href="https://processing.org/">processing</a>, which bills itself as “a flexible software sketchbook”, and NetLogo shares many of the desirable features of that platform.</p>
 </section>
 <section id="visualization-and-gui-for-free" class="level3">
 <h3 class="anchored" data-anchor-id="visualization-and-gui-for-free">Visualization and GUI for free</h3>
-<p>Because turtles and patches are immediately graphically represented in the view, as your model runs, you see it evolve, without additional effort. The following is all the code needed for a <a href="https://en.wikipedia.org/wiki/Voter_model">voter model</a> in NetLogo:</p>
+<p>Because turtles and patches are immediately graphically represented in the view, as your model runs, you see it evolve, without additional effort. The following is all the NetLogo code needed for a <a href="https://en.wikipedia.org/wiki/Voter_model">voter model</a>:</p>
 <pre><code>to setup
   clear-all
   ask patches [ set pcolor one-of [red yellow blue] ]
@@ -374,13 +374,13 @@ to go
   ask patches [ set pcolor [pcolor] of one-of neighbors4 ]
 end</code></pre>
 <p>Initialise patches to one of three possible colours. Then each iteration (<code>go</code>) get them to change their colour to match that of a neighbour.</p>
-<p>NetLogo also has GUI elements for free: buttons, sliders, drop-downs, switches and so on. Functions (called <em>procedures</em> and <em>reporters</em>) can be associated with GUI elements. So if we add <code>setup</code> and <code>go</code> buttons to the GUI, then we end up with a model like this one (did I mention it also has the option to export models to web pages?)</p>
+<p>NetLogo also has GUI elements for free: buttons, sliders, drop-downs, switches, and so on. Functions (called <em>procedures</em> and <em>reporters</em>) can be associated with GUI elements. So if we add <code>setup</code> and <code>go</code> buttons to the GUI, then we end up with a model like this one (did I mention it also has the option to export models to web pages?)</p>
 <iframe src="voter-model.html" width="100%" height="600px">
 </iframe>
 </section>
 <section id="its-the-semantics-stupid" class="level3">
 <h3 class="anchored" data-anchor-id="its-the-semantics-stupid">It’s the semantics, stupid</h3>
-<p>It takes a while for it to seep in, but while the features I’ve already discussed (other than <code>ask</code>) are very much <em>platform</em> advantages, not <em>language</em> advantages as such, it’s how NetLogo <em>feels</em> to write that really makes it stand out. The semantics of the language initially seem strange, a bit wonky, but after a while writing quite complicated statements feels like writing sentences in a natural language.</p>
+<p>It takes a while for it to seep in, but while the features I’ve already discussed (other than <code>ask</code>) are <em>platform</em> advantages, not <em>language</em> advantages <em>per se</em>, it’s how NetLogo <em>feels</em> to write that really makes it stand out. The semantics of the language initially seem strange, a bit wonky, but after a while writing quite complicated statements feels a lot like writing sentences in a natural language.</p>
 <pre><code>ask turtles [
   face one-of other turtles in-radius 4 with [color = [color] of myself]
   forward 1
@@ -397,11 +397,13 @@ Figure&nbsp;7: The behaviour resulting from the above code snippet (after a litt
 </div>
 <p>I am not a computer scientist steeped in the theory of language design, but I can see that there is something subtle going on here. That long run-on line of code <code>face...</code> is functional programming without the distracting ugliness in R of <code>|&gt;</code> pipes or in Python of chained <code>.</code> operators.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> It’s how the functions are defined that makes this work.</p>
 <ul>
-<li><code>face</code> takes one argument, a turtle or patch, and causes the turtle invoking it to change its <code>heading</code> towards that turtle;</li>
-<li><code>one-of</code> takes one argument, a set of turtles, and returns one of them at random;</li>
-<li><code>other</code> takes one argument, a set of turtles, and returns that set with the calling turtle removed;</li>
+<li><code>face <em>agent</em></code> causes the turtle calling it to change its <code>heading</code> towards the supplied agent (i.e., to face it);</li>
+<li><code>one-of <em>set</em></code> returns one member of the supplied agent-set at random;</li>
+<li><code>other <em>set</em></code> returns the supplied agent-set with the calling agent removed;</li>
+<li><code><em>set</em> in-radius <em>x</em></code> filters the supplied agent-set returning a set of agents within distance <em>x</em> of the calling agent;</li>
+<li><code><em>set</em> with [<em>condition</em>]</code> applies a selection filter to the supplied agent-set.</li>
 </ul>
-<p>and so on. The order in which arguments are passed to functions does all the work that allows compound statements to be chained together like this. From time to time you need parentheses to disambiguate which operation should be applied first, but most of the time, you can simply construct compound statements as long run on statements. For clarity, you may want to assign some intermediate steps to variables, but there’s a peculiar satisfaction to be found in constructing these phrases. It was when this landed with me that I really started to enjoy writing NetLogo code.</p>
+<p>The clever ordering of how arguments are passed to functions does all the work that allows compound statements to be chained together like this. From time to time you need parentheses to disambiguate which operation should be applied first, but most of the time, you can simply construct compound statements as long run on statements. For clarity, you may want to assign some intermediate steps to variables, but there’s a peculiar satisfaction to be found in constructing these phrases. It was when this landed with me that I really started to enjoy writing NetLogo code. Before you get into the rhythm of the language, on first encountering the ordering of parameters passed to functions, they can seem awkward. It’s when you start chaining functions together that you see why they are ordered the way they are.</p>
 <p>This elegance in the language syntax is clearly not accidental and speaks to the care with which it has been designed. It takes a little longer to sink in than the immediacy of Python, but it has a similar quality once absorbed: statements like the one above just seem <em>obvious</em>. This structure also subliminally encourages an approach to programming based on small procedures and reporters that can themselves be chained together in the language’s governing style.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> This is not unique to NetLogo, but it’s a good habit to develop and regularly programming in NetLogo made it natural for me.</p>
 </section>
 <section id="thinking-like-a-turtle" class="level3">
@@ -512,7 +514,7 @@ Figure&nbsp;8: Turtles ordered by size by iterating over turtle and patch lists 
 <li id="fn7"><p>George Perry has never really forgiven me for persuading him to write a model of fish population dynamics using Repast. See Perry GLW and NR Bond. 2009. <a href="https://dx.doi.org/10.1890%2F08-0651.1">Spatially explicit modeling of habitat dynamics and fish population persistence in an intermittent lowland stream</a>. <em>Ecological Applications</em> <strong>19</strong>(3) 731–746.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8"><p>In fairness to Java this was several years and several computers after the last time I’d run it, and I have since run it successfully, so I don’t really know what was wrong.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn9"><p>I didn’t need it to.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10"><p>I should also make clear that you can change the size of the grid…<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>I should also make clear that you can change the size of the size and resolution of the view…<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn11"><p>A norm so strong that Python goes out of its way to guarantee order when iterating over ostensibly unordered collections like its dictionary objects.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn12"><p>Disclaimer: I also love coding in R and Python.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn13"><p>Based on the little I’ve read on the subject, I think this might be (Net)Logo’s <a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)">Lisp</a>-lineage showing through.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
