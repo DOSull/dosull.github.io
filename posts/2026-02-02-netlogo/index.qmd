@@ -47,7 +47,7 @@ Before I get to that, some personal backstory. If you just want to know why NetL
 
 
 ## My NetLogo journey
-I wrote a lot of Java for a tool I called _GraphCA_ for my PhD[^phd]&mdash;. In fact,[`cloc`](https://github.com/AlDanial/cloc) informs me thus:
+I wrote a lot of Java for a tool I called _GraphCA_ for my PhD[^phd]&mdash;in fact,[`cloc`](https://github.com/AlDanial/cloc) informs me thus:
 
     ----------------------------------------------------
     Language    files      blank    comment       code
