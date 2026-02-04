@@ -104,7 +104,7 @@ ggplot() +
   geom_sf(data = centroids)
 ```
 
-As is likely well-known, the centroid of an area is not guaranteed to be inside the area. There are a couple of examples of that in these data. A function that returns a point guaranteed to be inside the area is `st_point_on_surface` and this should be used in preference to `st_centroid` when the point^[Excuse the pun.] is to enable data to be reliably joined between different polygon layers&mdash;say, for example, a set of polygons, and a set of the 'same' polygons which have been simplified or generalised.
+As is likely well-known, the centroid of an area is not guaranteed to be inside the area. There are a couple of examples of that in these data. A function that returns a point guaranteed to be inside the area is `st_point_on_surface` and this should be used in preference to `st_centroid` when the goal is to enable data to be reliably joined between different polygon layers&mdash;say, for example, a set of polygons, and a set of the 'same' polygons which have been simplified or generalised.
 
 The difference is shown in the figure below.
 
@@ -164,13 +164,13 @@ u_polygons <-
   summarise() |>
   mutate(geometry = st_simplify(geometry, dTolerance = 1e-6))
 
-us_centroids <- u_polygons |> st_centroid()
+u_centroids <- u_polygons |> st_centroid()
 
 ggplot() +
   geom_sf(data = u_polygons) +
   geom_sf_label(data = u_polygons, aes(label = ID)) +
-  geom_sf(data = us_centroids) +
-  geom_sf_label(data = us_centroids, aes(label = ID), colour = "red")
+  geom_sf(data = u_centroids) +
+  geom_sf_label(data = u_centroids, aes(label = ID), colour = "red")
 ```
 
 TL;DR: be careful using centroids as a convenient way to summarise the location of polygons!

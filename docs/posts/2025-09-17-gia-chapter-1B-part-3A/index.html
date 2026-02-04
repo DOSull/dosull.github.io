@@ -379,7 +379,7 @@ Figure&nbsp;2: Centroids for all the Wellington SA2s
 </div>
 </div>
 </div>
-<p>As is likely well-known, the centroid of an area is not guaranteed to be inside the area. There are a couple of examples of that in these data. A function that returns a point guaranteed to be inside the area is <code>st_point_on_surface</code> and this should be used in preference to <code>st_centroid</code> when the point<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> is to enable data to be reliably joined between different polygon layers—say, for example, a set of polygons, and a set of the ‘same’ polygons which have been simplified or generalised.</p>
+<p>As is likely well-known, the centroid of an area is not guaranteed to be inside the area. There are a couple of examples of that in these data. A function that returns a point guaranteed to be inside the area is <code>st_point_on_surface</code> and this should be used in preference to <code>st_centroid</code> when the goal is to enable data to be reliably joined between different polygon layers—say, for example, a set of polygons, and a set of the ‘same’ polygons which have been simplified or generalised.</p>
 <p>The difference is shown in the figure below.</p>
 <div class="cell">
 <details class="code-fold">
@@ -445,13 +445,13 @@ Figure&nbsp;3: Three centroids (black points) that are not inside their ‘paren
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>() <span class="sc">|&gt;</span></span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">geometry =</span> <span class="fu">st_simplify</span>(geometry, <span class="at">dTolerance =</span> <span class="fl">1e-6</span>))</span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>us_centroids <span class="ot">&lt;-</span> u_polygons <span class="sc">|&gt;</span> <span class="fu">st_centroid</span>()</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>u_centroids <span class="ot">&lt;-</span> u_polygons <span class="sc">|&gt;</span> <span class="fu">st_centroid</span>()</span>
 <span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> u_polygons) <span class="sc">+</span></span>
 <span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf_label</span>(<span class="at">data =</span> u_polygons, <span class="fu">aes</span>(<span class="at">label =</span> ID)) <span class="sc">+</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> us_centroids) <span class="sc">+</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf_label</span>(<span class="at">data =</span> us_centroids, <span class="fu">aes</span>(<span class="at">label =</span> ID), <span class="at">colour =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> u_centroids) <span class="sc">+</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf_label</span>(<span class="at">data =</span> u_centroids, <span class="fu">aes</span>(<span class="at">label =</span> ID), <span class="at">colour =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-u-shaped-polygons" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -685,7 +685,7 @@ Figure&nbsp;10: The straight skeleton and medial axis compared
 </div>
 </div>
 <p>Because the <code>sf::st_voronoi</code> function produces a set of polygons, we have to convert these to a set of lines, which is most conveniently accomplished via the <code>rmapshaper::ms_lines</code> function. Even so, there’s still a need for several <code>st_cast</code> steps along the way, which doesn’t make for the cleanest code.</p>
-<p>Perhaps surprisingly, a cleaner, less confusing sequence of operations uses the <code>dirichletEdges</code> function in <code>spatstat</code> to get the same result.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>Perhaps surprisingly, a cleaner, less confusing sequence of operations uses the <code>dirichletEdges</code> function in <code>spatstat</code> to get the same result.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -837,8 +837,7 @@ Figure&nbsp;13: The vector and raster generated medial axis results compared
 
 <ol>
 <li id="fn1"><p>The post titles and URLs are starting to read like complex case law. My apologies.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Excuse the pun.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Dirichlet tessellation is <em>yet another</em> name for the variously named Voronoi, Thiessen, and proximity polygons. Great ideas have many owners, I guess.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Dirichlet tessellation is <em>yet another</em> name for the variously named Voronoi, Thiessen, and proximity polygons. Great ideas have many owners, I guess.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
