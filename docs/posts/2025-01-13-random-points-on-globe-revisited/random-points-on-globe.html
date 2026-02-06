@@ -317,7 +317,7 @@ window.Quarto = {
 
 
 <p><strong>NOTE</strong>: There were a few over-simplifications in the original version of this post, which I’ve done my best to correct. Turns out point patterns on the globe are even more complicated than I realised…</p>
-<p>This holiday season I had reason to revisit a post from November 2021 about <a href="../../posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html">generating evenly distributed random points on the globe</a>. This was in the course of writing (for fun) a <a href="https://ccl.northwestern.edu/netlogo/index.shtml">NetLogo</a> simulation of <a href="https://www.cmyk.games/products/lacuna">the boardgame <em>Lacuna</em></a>. You can find the simulation <a href="https://southosullivan.com/misc/lacuna.html">here</a>. The simulation isn’t very developed and it turns out that the web version of NetLogo doesn’t implement some functions important to its operation, so pending developing my Javascript skills further that’s likely where it will remain.</p>
+<p>This holiday season I had reason to revisit a post from November 2021 about <a href="../2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.qmd">generating evenly distributed random points on the globe</a>. This was in the course of writing (for fun) a <a href="https://ccl.northwestern.edu/netlogo/index.shtml">NetLogo</a> simulation of <a href="https://www.cmyk.games/products/lacuna">the boardgame <em>Lacuna</em></a>. You can find the simulation <a href="https://southosullivan.com/misc/lacuna.html">here</a>. The simulation isn’t very developed and it turns out that the web version of NetLogo doesn’t implement some functions important to its operation, so pending developing my Javascript skills further that’s likely where it will remain.</p>
 <p>Anyway, the setup rules for the physical version of <em>Lacuna</em> stipulate that the players should</p>
 <blockquote class="blockquote">
 <p>Distribute the flower pieces as evenly as your can without clumping, using your hands to spread them out as needed.</p>
@@ -691,7 +691,7 @@ Figure&nbsp;6: A pattern generated using a ‘blue noise’ algorithm by iterati
 </section>
 <section id="putting-all-these-points-on-the-globe" class="level2">
 <h2 class="anchored" data-anchor-id="putting-all-these-points-on-the-globe">Putting all these points on the globe</h2>
-<p>We now apply a transformation from the lat-lon Cartesian coordinates to the globe that is equal-area as shown in the <a href="../../posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html">previous post</a>. We can combine all the points into a single data set and use <code>facet_wrap</code> for side-by-side comparison.</p>
+<p>We now apply a transformation from the lat-lon Cartesian coordinates to the globe that is equal-area as shown in the <a href="../2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.qmd">previous post</a>. We can combine all the points into a single data set and use <code>facet_wrap</code> for side-by-side comparison.</p>
 <div id="fig-all-sets-on-globe" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-all-sets-on-globe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">

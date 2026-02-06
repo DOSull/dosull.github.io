@@ -4,6 +4,14 @@ project:
   resources:
     - "docs/posts/2025-27-06-iata-codes/index.html"
     - "docs/posts/2025-0707-projection-explorer/index.html"
+    - "docs/posts/2021-09-23-dulux-colours-map/dulux-colours-map.html"
+    - "docs/posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html"
+    - "docs/posts/2021-10-21-experiments-with-R-interpolators/experiments-with-R-interpolators.html"
+    - "docs/posts/2021-10-21-kde/kde.html"
+    - "docs/posts/2021-10-22-spatstat-idw/spatstat-idw.html"
+    - "docs/posts/2021-10-30-locations-of-interest/locations-of-interest.html"
+    - "docs/posts/2021-12-08-affine-transformation-of-sf-objects/affine-transformation-of-sf-objects.html"
+    - "docs/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.html"
     - "CNAME"
 
 website:
