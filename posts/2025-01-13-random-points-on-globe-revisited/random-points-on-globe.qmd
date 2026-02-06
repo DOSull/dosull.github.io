@@ -29,7 +29,7 @@ image: Lacuna_Shot8_800x.jpg
 
 **NOTE**: There were a few over-simplifications in the original version of this post, which I've done my best to correct. Turns out point patterns on the globe are even more complicated than I realised...
 
-This holiday season I had reason to revisit a post from November 2021 about [generating evenly distributed random points on the globe](../2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.qmd). This was in the course of writing (for fun) a [NetLogo](https://ccl.northwestern.edu/netlogo/index.shtml) simulation of [the boardgame _Lacuna_](https://www.cmyk.games/products/lacuna). You can find the simulation [here](https://southosullivan.com/misc/lacuna.html). The simulation isn't very developed and it turns out that the web version of NetLogo doesn't implement some functions important to its operation, so pending developing my Javascript skills further that's likely where it will remain.
+This holiday season I had reason to revisit a post from November 2021 about [generating evenly distributed random points on the globe](../2021/10/20/random-even-points-on-the-globe/index.qmd). This was in the course of writing (for fun) a [NetLogo](https://ccl.northwestern.edu/netlogo/index.shtml) simulation of [the boardgame _Lacuna_](https://www.cmyk.games/products/lacuna). You can find the simulation [here](https://southosullivan.com/misc/lacuna.html). The simulation isn't very developed and it turns out that the web version of NetLogo doesn't implement some functions important to its operation, so pending developing my Javascript skills further that's likely where it will remain.
 
 Anyway, the setup rules for the physical version of _Lacuna_ stipulate that the players should
 
@@ -295,7 +295,7 @@ A pattern generated using a 'blue noise' algorithm by iteratively choosing the m
 :::
 
 ## Putting all these points on the globe
-We now apply a transformation from the lat-lon Cartesian coordinates to the globe that is equal-area as shown in the [previous post](../2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.qmd). We can combine all the points into a single data set and use `facet_wrap` for side-by-side comparison.
+We now apply a transformation from the lat-lon Cartesian coordinates to the globe that is equal-area as shown in the [previous post](../2021/10/20/random-even-points-on-the-globe/index.qmd). We can combine all the points into a single data set and use `facet_wrap` for side-by-side comparison.
 
 ::: {#fig-all-sets-on-globe}
 ```{r}
