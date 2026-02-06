@@ -7,6 +7,8 @@ toc: true
 lightbox:
   match: auto
   loop: true
+aliases: 
+  - "/posts/2026-01-21-bivariate-choropleths/index.html"
 code-annotations: hover
 code-fold: false
 categories:

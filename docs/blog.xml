@@ -14,29 +14,29 @@
 <item>
   <title>NetLogo is weird as hell</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://geospatialstuff.com/posts/2026-02-02-netlogo/</link>
+  <link>https://geospatialstuff.com/posts/2026/02/02/netlogo/</link>
   <description><![CDATA[ NetLogo is a platform for making agent- and/or cell-based models. Its syntax is weird, its atomic elements are ‘turtles’, and it would very much prefer that you not use for loops. In spite of all that it’s a great tool to think with. ]]></description>
   <category>netlogo</category>
   <category>simulation</category>
-  <guid>https://geospatialstuff.com/posts/2026-02-02-netlogo/</guid>
+  <guid>https://geospatialstuff.com/posts/2026/02/02/netlogo/</guid>
   <pubDate>Sun, 01 Feb 2026 11:00:00 GMT</pubDate>
 </item>
 <item>
   <title>The modifiable areal unit problem</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://geospatialstuff.com/posts/2026-01-29-gia-chapter-2B-maup/</link>
+  <link>https://geospatialstuff.com/posts/2026/01/29/gia-chapter-2B-maup/</link>
   <description><![CDATA[ Exploring how correlations between spatial variables change under aggregation to different area units. ]]></description>
   <category>geospatial</category>
   <category>R</category>
   <category>tutorial</category>
   <category>geographic information analysis</category>
-  <guid>https://geospatialstuff.com/posts/2026-01-29-gia-chapter-2B-maup/</guid>
+  <guid>https://geospatialstuff.com/posts/2026/01/29/gia-chapter-2B-maup/</guid>
   <pubDate>Wed, 28 Jan 2026 11:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Bivariate choropleths are go!</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://geospatialstuff.com/posts/2026-01-21-bivariate-choropleths/</link>
+  <link>https://geospatialstuff.com/posts/2026/01/21/bivariate-choropleths/</link>
   <description><![CDATA[ I still have reservations about the usability of bivariate choropleth maps, but at least it’s now a lot easier to make them! ]]></description>
   <category>R</category>
   <category>tutorial</category>
@@ -44,9 +44,9 @@
   <category>geospatial</category>
   <category>cartography</category>
   <category>tmap</category>
-  <guid>https://geospatialstuff.com/posts/2026-01-21-bivariate-choropleths/</guid>
+  <guid>https://geospatialstuff.com/posts/2026/01/21/bivariate-choropleths/</guid>
   <pubDate>Tue, 20 Jan 2026 11:00:00 GMT</pubDate>
-  <media:content url="https://geospatialstuff.com/posts/2026-01-21-bivariate-choropleths/bivariate-palettes.png" medium="image" type="image/png" height="152" width="144"/>
+  <media:content url="https://geospatialstuff.com/posts/2026/01/21/bivariate-choropleths/bivariate-palettes.png" medium="image" type="image/png" height="152" width="144"/>
 </item>
 <item>
   <title>Into the void</title>

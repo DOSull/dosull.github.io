@@ -8,6 +8,8 @@ author: "David O'Sullivan"
 toc: true
 lightbox:
   match: auto
+aliases: 
+  - "/posts/2026-02-02-netlogo/index.html"
 code-annotations: hover
 code-fold: show
 filters: 

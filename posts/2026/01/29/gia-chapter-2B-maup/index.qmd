@@ -7,6 +7,8 @@ author: "David O'Sullivan"
 toc: true
 lightbox:
   match: auto
+aliases: 
+  - "/posts/2026-01-29-gia-chapter-2B-maup/index.html"
 code-fold: show
 code-annotations: hover
 categories:
