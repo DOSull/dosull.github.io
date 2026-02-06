@@ -1,0 +1,470 @@
+---
+title: "GIS, a transformational approach"
+subtitle: "Part 3(B): still got areas?"
+description: |
+   Fifth in a series of posts supporting _Geographic Information Analysis_ 
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+aliases: 
+  - "/posts/2025-10-05-gia-chapter-1B-part-3B/index.html"
+code-annotations: hover
+code-fold: show
+filters: 
+  - nutshell
+categories:
+  - geographic information analysis
+  - transformational approach
+  - geospatial
+  - R
+  - tutorial
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 10-05-2025
+---
+
+Earlier posts in this series, wherein I exhaustively implement many of the GIS transformations possible among the four main data types, point, lines, areas, and fields, are linked below:
+
++ [Part 1: got points?](/posts/2025/09/09/gia-chapter-1B-part-1/)
++ [Part 2: got lines?](/posts/2025/09/12/gia-chapter-1B-part-2/)
++ [Part 3(A): got areas?](/posts/2025/09/17/gia-chapter-1B-part-3A/)
+
+As noted in the last of these, "area data are complicated", so I ~~gave up~~ chose to split the post on area transformations halfway through and now I'm back to slay the dragon of area &rarr; area transformations. Yep... there will be _yet another_ post after this one dealing with area &rarr; field transformations sometime soon.
+
+```{r}
+#| label: imports
+#| code-fold: true
+#| output: false
+library(sf)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(patchwork)
+library(ggplot2)
+library(tmap)
+
+theme_set(theme_void())
+```
+
+## From areas...
+As always, we need some data.
+
+```{r}
+#| label: read-data
+#| output: false
+polygons <- st_read("sa2-generalised.gpkg") |> 
+  mutate(
+    area_km2 = (st_area(geom) |> units::drop_units()) / 1e6,
+    pop_density_km2 = population / area_km2)
+```
+
+These are Statistics New Zealand census data from 2023. I have augmented the data with a population density attribute to make a point later on. Before I get to that, a personal bug-bear here is how annoying I find it that I have to suppress `sf`'s default addition of units to calculated areas to do something as simple as create a population density, without getting caught up in endlessly assigning units to simple scaling factors.
+
+Anyway, here are what those look like.
+
+```{r}
+#| label: fig-map-data
+#| fig-cap: The SA2 population data, by count, and by density
+#| fig-width: 8
+#| fig-height: 6
+#| code-fold: true
+g1 <- ggplot() +
+  geom_sf(data = polygons, aes(fill = population), colour = NA) +
+  scale_fill_distiller("Population", palette = "Reds", direction = 1) +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        legend.title.position = "top",
+        legend.key.width = unit(1, "cm"),
+        legend.text = element_text(angle = 45, hjust = 1))
+
+g2 <- ggplot() +
+  geom_sf(data = polygons, aes(fill = pop_density_km2), colour = NA) +
+  scale_fill_distiller("Population per sq.km", 
+                       palette = "Reds", direction = 1) +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        legend.title.position = "top",
+        legend.key.width = unit(1, "cm"),
+        legend.text = element_text(angle = 45, hjust = 1))
+
+g1 | g2
+```
+
+A year or two ago, a nice alternative here would have been to use `tmap`, which had a `convert2density` option for choropleth maps, which seamlessly did all the work required to make your map a density map. In version 4, you get a warning that the `convert2density` option is deprecated, and a recommendation to perform the calculation I performed above anyway. Oh well. Progress, gotta love it!
+
+`tmap` does make it easier to classify the map, which emphasises the essential lack of much in the way of population density in New Zealand. I promise, there are some census areas with those higher population densities, you just can't see them at this scale.
+
+```{r}
+#| label: fig-tmap-population
+#| fig-cap: "A classed choropleth population density map done right using `tmap`. Is there anybody home? Anybody at all?!"
+#| fig-width: 8
+#| fig-height: 6
+#| code-fold: true
+tm_shape(polygons) +
+  tm_fill(
+    "pop_density_km2",
+    fill.scale = tm_scale_intervals(n = 10, values = "brewer.reds"),
+    fill.legend = tm_legend(title = "Pop density sq.km", frame = FALSE)) +
+  tm_options(frame = FALSE)
+```
+
+OK, on to the transformations.
+
+## ... to areas
+### Polygon buffer
+Well... we can dispense with this one quickly. Rather than apply it to all the polygons, I'll just grab one and apply it to that, to demonstrate a couple of things.
+
+```{r}
+#| label: fig-buffer-options
+#| fig-cap: A single polygon buffered with the default settings and with `nQuadSegs = 0` and `joinStyle = "MITRE"`.
+#| fig-width: 8
+#| fig-height: 4
+poly <- polygons$geom[100]
+bb <- st_bbox(poly) 
+xr <- bb[c(1, 3)] + c(-400, 400)
+yr <- bb[c(2, 4)] + c(-400, 400)
+
+poly_b_400 <- poly |> st_buffer(400)
+poly_b_400sq <- poly |> st_buffer(400, nQuadSegs = 0, joinStyle = "MITRE")
+
+par(mfrow = c(1, 2), mai = rep(0.1, 4))
+plot(poly, col = "grey", xlim = xr, ylim = yr)
+plot(poly_b_400, add = TRUE)
+plot(poly, col = "grey", xlim = xr, ylim = yr)
+plot(poly_b_400sq, add = TRUE)
+```
+
+The first of these with the default settings is what we tend to think of buffering as doing. Why would you want to use the other options?
+
+#### Not so fast
+So maybe we can't dispense with this quite so quickly.
+
+Just to clarify what's going on it's worth zooming in on the figure above.
+
+```{r}
+#| code-fold: true
+#| label: fig-buffering-zoomed-in
+#| fig-cap: The details of buffering up close.
+#| fig-width: 8
+#| fig-height: 4
+par(mfrow = c(1, 2), mai = rep(0.1, 4))
+bb <- poly |> st_bbox()
+xr <- bb[c(1, 3)] + c(2000, -200)
+yr <- bb[c(2, 4)] + c(1500, -500)
+plot(poly, col = "grey", xlim = xr, ylim = yr)
+plot(poly_b_400, add = TRUE)
+plot(poly_b_400 |> st_cast("POINT"), add = TRUE, cex = 0.5)
+plot(poly, col = "grey", xlim = xr, ylim = yr)
+plot(poly_b_400sq, add = TRUE)
+plot(poly_b_400sq |> st_cast("POINT"), add = TRUE, cex = 0.5)
+```
+
+So default buffering adds a _lot_ of points to create the curve associated with each corner. Setting `nQuadSegs` to `0` reduces this explosion in points.
+
+Generally speaking, the `st_buffer` defaults are fine, and limiting the number of additional corners inserted using `nQuadSegs` is unnecessary. You _want_ nice rounded corners. But it's good to know the option to limit the number of added corners is available, and there is at least one case I can think of where it can be useful.
+
+Sometimes if you encounter polygon topology errors, either as a result of a series of transformations, or if those errors are present in supplied data, and repair methods like `st_make_valid` aren't working, a recommended 'fix' is to 'buffer up then buffer down'^[Or down then up...] the offending polygons, by a small amount. Now, _really_, I recommend that you figure out where the topology error came from in the first place. Sometimes however, if you're working on some problem, fixing topology is something you'd prefer to come back to later, and you just need a quick fix for the time being, and buffer-up buffer-down _might_ be that quick fix. 
+
+But beware: here be dragons! To see this, make a square, and see how many points it has.
+
+```{r}
+square <- st_polygon(
+  list(matrix(c(0, 0, 1, 1, 0,
+                0, 1, 1, 0, 0) * 100,
+              ncol = 2))) |> st_sfc()
+square |> 
+  st_cast("POINT") |>
+  length()
+```
+
+Allowing for `sf`'s requirement that polygons be explicitly closed so that the first corner is repeated, there are four corners, and five is the correct answer. Now, buffer up and down, per the quick topology fix, and what do we get?
+
+```{r}
+square1 <- square |> 
+  st_buffer( 1) |> 
+  st_buffer(-1)
+square1 |> 
+  st_cast("POINT") |> 
+  length()
+```
+
+We can repair things, although repairing a repair seems like it's missing the point a bit! 
+
+```{r}
+square1 |> 
+  st_simplify(preserveTopology = TRUE, dTolerance = 2) |>
+  st_cast("POINT") |> 
+  length()
+```
+
+If you are doing a lot of this kind of thing, it can get very ugly. If I sound like I've been burned by this problem, it's because I have. When developing the [`weavingspace` module](https://github.com/DOSull/weaving-space/) in both its early R and more recent python incarnations, I am working with polygons at a low-level all the time and before I had realised this was a problem it wasn't unusual for me to be working with 'rectangles' with dozens or even hundreds of corners!
+
+Using `nQuadSegs` we can avoid the problem (usually!):
+
+```{r}
+square2 <- square |> 
+  st_buffer( 1, nQuadSegs = 0, joinStyle = "MITRE") |> 
+  st_buffer(-1, nQuadSegs = 0, joinStyle = "MITRE")
+square2 |> 
+  st_cast("POINT") |> 
+  length()
+```
+
+Having said that, the vagaries of floating point might still have messed up your data anyway:
+
+```{r}
+square2
+```
+
+Oh well. The lesson here is that it's probably better to figure out where the problem with your data came from than to attempt running repairs with quick fixes from the internet.^[Says the person offering advice on the internet...] The other lesson is that if you care deeply about geometries and their integrity as opposed to using them as a step along the way to perform analyses, then one or more of the following is true:
+
+(i) You should read up on [floating point](https://en.wikipedia.org/wiki/Floating-point_arithmetic), or
+
+(ii) You need to look into [`sf`'s precision options](https://r-spatial.github.io/sf/reference/st_precision.html), or
+
+(iii) You should look into topology aware formats, such as [topojson](https://github.com/topojson/topojson), or
+
+(iv) You should look into libraries that can do precise geometry such as [euclid](https://r-euclid.com/)^[I have not been able to install this on a Mac], or
+
+(v) If this sort of thing is going to drive you nuts, then you should consider a career in something other than geospatial, because this is not going to be fixed any time soon, if ever.
+
+### Polygon overlay
+Ah... polygon overlay. If there's a more iconic GIS transformation, I'm not sure what it is.^[It's buffering, you fool.]
+
+Having said that it's a little hard to be entirely clear what 'polygon overlay' even is. I am going to interpret it here to mean any transformation that moves data from one set of polygon units to a different set of polygon units, in some more or less principled way.
+
+#### 'Dissolve' or `group_by`
+A dissolve operation allows us to combine polygons into larger polygons based on some shared attribute, and is a cornerstone of many administrative geospatial data sets, such as, for example, census data.^[[Shall we ever see their like again?](https://www.rnz.co.nz/news/in-depth/564560/the-traditional-census-has-been-switched-off-what-happens-now)]
+
+For mysterious reasons, although Aoteroa New Zealand in common with other countries organises census data hierarchically, it does not assign nice hierarchical IDs to the census units. So the smallest units in the hierarchy, meshblocks, can't be conveniently merged based on IDs into _Statistical Area 1_ (SA1), or _Statistical Area 2_ (SA2), or anything else for that matter without access to a [_concordance table_](https://datafinder.stats.govt.nz/table/111243-geographic-areas-table-2023/), which is a front runner in the race to be the most boring dataset on Earth, recording as it does, for every meshblock, the SA1, SA2, and the many other administrative and statistical areas of which it is a part.
+
+To add to the fun, all the meshblock IDs are _strings_ composed of digits... with leading zeros. Let that sink in.^[Seriously, some of the locked-in decisions around the New Zealand census almost make me glad to see the back of it. _Almost_.] Anyway, the data we loaded, which are SA2s^[Previously known by the more descriptive if equally anodyne name _Census Area Unit_.] have an additional attribute from the concordance file included, designating which [_Territorial Authority_ (TA)](https://en.wikipedia.org/wiki/Territorial_authorities_of_New_Zealand) each SA2 belongs to.
+
+```{r}
+#| label: concordance-head
+glimpse(polygons)
+```
+
+We can use this column as a basis for a dissolve operation, which in R is actually a tidyverse standard [`group_by`](https://dplyr.tidyverse.org/reference/group_by.html) operation.
+
+```{r}
+#| label: group-by
+tas <- polygons |>
+  group_by(TA2018_V1_00_NAME) |>
+  summarise(
+    population = sum(population), 
+    area_km2 = sum(area_km2),
+    pop_density_km2 = population / area_km2)
+```
+
+The key point to notice here is that different variables may need to be recalculated in different ways when we move data from one set of polygons to another. In this case population and area sum, but we can't add densities together and instead 'combine' the population densities by recalculating it from the new attributes of the dissolved dataset.
+
+```{r}
+#| label: fig-ta-population
+#| fig-cap: New Zealand population by Territorial Authority.
+#| fig-width: 8
+#| fig-height: 6
+#| code-fold: true
+g1 <- ggplot() +
+  geom_sf(data = tas, aes(fill = population), colour = NA) +
+  scale_fill_distiller("Population", palette = "Reds", direction = 1) +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        legend.title.position = "top",
+        legend.key.width = unit(1, "cm"),
+        legend.text = element_text(angle = 45, hjust = 1))
+
+g2 <- ggplot() +
+  geom_sf(data = tas, aes(fill = pop_density_km2), colour = NA) +
+  scale_fill_distiller("Population per sq.km", 
+                       palette = "Reds", direction = 1) +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        legend.title.position = "top",
+        legend.key.width = unit(1, "cm"),
+        legend.text = element_text(angle = 45, hjust = 1))
+
+g1 | g2
+```
+
+There are now a few glimmers of life outside of Auckland, but further confirmation that to a first order approximation, everyone in New Zealand is crammed into the cities.^[See also [this post](https://dosull.github.io/posts/2025-06-13-population-quadrants/).]
+
+### Zooming in
+Regular readers will be surprised by how long I have tolerated the Chatham Islands in this post. I will now ~~get rid of them~~ focus on a more manageable subset of the data, and zoom in on Wellington.
+
+```{r}
+#| label: fig-filter-to-wellington
+#| fig-cap: The population density data restricted to the Wellington City TA.
+#| fig-width: 8
+#| fig-height: 6
+#| code-fold: true
+wellington <- polygons |>
+  filter(TA2018_V1_00_NAME == "Wellington City")
+bb <- st_bbox(wellington)
+xr <- bb[c(1, 3)]
+yr <- bb[c(2, 4)]
+
+basemap <- ggplot() + 
+  geom_sf(data = tas, fill = "lightgrey", colour = NA) +
+  theme_void() +
+  theme(panel.border = element_rect(fill = NA))
+
+basemap +
+  geom_sf(data = wellington, aes(fill = pop_density_km2)) +
+  scale_fill_distiller("Pop density sq.km", palette = "Reds", direction = 1) +
+  coord_sf(xlim = xr, ylim = yr)
+```
+
+Like the country as a whole, Wellington has a big low population area (Makara-Ohariu), which is that huge zone along the west coast.
+
+### _Real_ overlay
+A lot of folks won't consider dissolve to _really_ be an overlay operation, although I don't see why not. But for the overlay enthusiasts, here's another polygon dataset, not aligned with the SA2 data.
+
+```{r}
+#| label: read-schoolzones
+#| code-fold: true
+#| output: false
+schoolzones <- st_read("school-zones.gpkg") |>
+  mutate(School_name = str_replace(School_name, "\x20*School", ""))
+```
+
+```{r}
+#| label: glimpse-schoolzones
+glimpse(schoolzones)
+```
+
+These are primary school zones for the region. Unfortunately, they overlap one another, because school enrolment zones in New Zealand are not centrally administered exclusive areas^[Many schools don't even have an enrolment zone.]&mdash;in GIS terms they are not a _coverage_. That makes mapping them a bit of a pain, but that's not our central concern for now.
+
+```{r}
+#| label: fig-school-zones
+#| fig-cap: School zones in the Wellington City TA.
+#| fig-width: 8
+#| fig-height: 6
+#| code-fold: true
+basemap +
+  geom_sf(data = wellington, fill = "grey", colour = "white") +
+  geom_sf(data = schoolzones, fill = NA, colour = "black") +
+  geom_sf_text(data = schoolzones, aes(label = School_name),
+               size = 3, check_overlap = TRUE) +
+  coord_sf(xlim = xr, ylim = yr)
+```
+
+A classic polygon overlay operation is to estimate population for the school zones based on populations in the SA2s. 
+
+This is where one of `sf`'s best kept secrets `st_interpolate_aw` comes into its own. We could go through the tedious business of spatially joining polygons and calculating areas of overlap and using those to assign fractions of the population from the source SA2s to the overlap areas, and so on, but `st_interpolate_aw` allows us to do all of this in a single step.
+
+```{r}
+#| label: meet-st-interpolate-aw
+schoolzones_pop <- wellington |> 
+  select(population, pop_density_km2) |>
+  st_interpolate_aw(schoolzones, extensive = TRUE) |>
+  bind_cols(schoolzones |> st_drop_geometry())
+
+glimpse(schoolzones_pop)
+```
+
+And now we can map them:
+
+```{r}
+#| label: fig-map-schoolzone-pops-take-1
+#| fig-cap: Maps of estimated school zone population and (incorrect) school zone population density
+#| fig-width: 8
+#| fig-height: 3.5
+#| code-fold: true
+g1 <- basemap +
+  geom_sf(data = schoolzones_pop, aes(fill = population)) +
+  scale_fill_distiller("Population", palette = "Reds", direction = 1) +
+  coord_sf(xlim = xr, ylim = yr)
+
+g2 <- basemap +
+  geom_sf(data = schoolzones_pop, aes(fill = pop_density_km2)) +
+  scale_fill_distiller("NOT REALLY\npop density\nsq.km", palette = "Reds", 
+                       direction = 1) +
+  coord_sf(xlim = xr, ylim = yr)
+
+g1 | g2
+```
+
+**BUT** (and it's big but^[&copy;Stan Openshaw.]) we have to be careful here. While population can be interpolated this way, population density cannot. That's what the `extensive` option in `st_interpolate_aw` is for. As the documentation points out
+
+> `extensive` logical; if TRUE, the attribute variables are assumed to be spatially extensive (like population) and the sum is preserved, otherwise, spatially intensive (like population density) and the mean is preserved.
+
+So, the proper way to proceed is.
+
+```{r}
+#| label: st-interpolate-aw-done-right
+sz_pop <- wellington |> 
+  select(population) |>
+  st_interpolate_aw(schoolzones, extensive = TRUE)
+
+sz_pop_density <- wellington |> 
+  select(pop_density_km2) |>
+  st_interpolate_aw(schoolzones, extensive = FALSE)
+```
+
+Which gives us the correct result below.
+
+```{r}
+#| label: fig-map-schoolzone-pops-take-2
+#| fig-cap: Maps of estimated school zone population and correct school zone population density
+#| fig-width: 8
+#| fig-height: 3.5
+#| code-fold: true
+g1 <- basemap +
+  geom_sf(data = sz_pop, aes(fill = population)) +
+  scale_fill_distiller("Population", palette = "Reds", direction = 1) +
+  coord_sf(xlim = xr, ylim = yr)
+
+g2 <- basemap +
+  geom_sf(data = sz_pop_density, aes(fill = pop_density_km2)) +
+  scale_fill_distiller("Pop density\nsq.km", palette = "Reds", 
+                       direction = 1) +
+  coord_sf(xlim = xr, ylim = yr)
+
+g1 | g2
+```
+
+Provided we keep this aspect in mind `st_interpolate_aw` is a great tool. You can even use it to assign polygon data to 'raster' layers, if you are so inclined. Below, I make a 'raster' layer, which is actually a set of grid cell polygons, and assign population to them.
+
+```{r}
+#| label: fig-cells-map
+#| fig-cap: Population per ha. mapped as vector polygon cells.
+#| fig-width: 8
+#| fig-height: 6
+cells <- wellington |> 
+  st_make_grid(cellsize = 100) |>
+  st_sf() |>
+  st_filter(wellington) |>
+  st_interpolate_aw(x = wellington |> select(population),
+                    extensive = TRUE)
+
+basemap + 
+  geom_sf(data = cells, aes(fill = population), colour = NA) +
+  scale_fill_distiller("Population\n(per ha.)",
+                       palette = "Reds", direction = 1) +
+  coord_sf(xlim = xr, ylim = yr)
+```
+
+What's (potentially) interesting about this idea, is that at polygon boundaries this process assigns different populations to the 'raster' cells. We can see this if we zoom in a bit.
+
+```{r}
+#| label: fig-cells-map-zoomed-in
+#| fig-cap: A closer look at the population per ha. map.
+#| fig-width: 8
+#| fig-height: 6
+basemap + 
+  geom_sf(data = cells, aes(fill = population), colour = NA) +
+  scale_fill_distiller("Population\n(per ha.)",
+                       palette = "Reds", direction = 1) +
+  geom_sf(data = wellington, fill = NA) +
+  coord_sf(xlim = c(1.746e6, 1.749e6), ylim = c(5.425e6, 5.428e6))
+```
+
+And there we have it, at least for now. This is a good point to stop before the next post which will be about area &rarr; field transformations, because, after all, raster data sets are actually large numbers of small, albeit identical polygons...

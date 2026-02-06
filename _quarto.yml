@@ -1,6 +1,7 @@
 project:
   type: website
   output-dir: docs
+  # resources to redirect from mistaken folder names and old folder structure
   resources:
     - "docs/posts/2025-27-06-iata-codes/index.html"
     - "docs/posts/2025-0707-projection-explorer/index.html"
@@ -31,8 +32,33 @@ project:
     - "docs/posts/2025-05-02-tiles-and-glyphs/tiles-and-glyphs.html"
     - "docs/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked.html"
     - "docs/posts/2025-05-22-python-meetup-talk/python-meetup-talk.html"
+    - "docs/posts/2025-06-01-nsew-island/index.html"
+    - "docs/posts/2025-06-13-population-quadrants/index.html"
+    - "docs/posts/2025-06-20-population-binary-space-partition/index.html"
+    - "docs/posts/2025-06-27-iata-codes/index.html"
+    - "docs/posts/2025-07-10-hulls-tetrahedra/index.html"
+    - "docs/posts/2025-07-30-counting-points-in-polygons/index.html"
+    - "docs/posts/2025-08-03-dulux-colours-in-python/index.html"
+    - "docs/posts/2025-08-13-temperature-dials/index.html"
+    - "docs/posts/2025-08-20-street-level-isochrones/index.html"
+    - "docs/posts/2025-08-31-gia-chapter-1A/index.html"
+    - "docs/posts/2025-09-09-gia-chapter-1B-part-1/index.html"
+    - "docs/posts/2025-09-10-reflections-on-giscience-2025/index.html"
+    - "docs/posts/2025-09-12-gia-chapter-1B-part-2/index.html"
+    - "docs/posts/2025-09-17-gia-chapter-1B-part-3A/index.html"
+    - "docs/posts/2025-10-04-barthelemy-boeing-and-co/index.html"
+    - "docs/posts/2025-10-05-gia-chapter-1B-part-3B/index.html"
+    - "docs/posts/2025-10-14-gia-chapter-1B-part-3C/index.html"
+    - "docs/posts/2025-10-23-gia-chapter-1B-part-4/index.html"
+    - "docs/posts/2025-10-27-xkcd-3122-interrupted-spheres/index.html"
+    - "docs/posts/2025-11-03-gia-chapter-1B-part-4B/index.html"
+    - "docs/posts/2025-11-03-hachures-30-day-maps-2025-day-2/index.html"
+    - "docs/posts/2025-11-09-origami-terrain-30-day-maps-2025-day-9/index.html"
+    - "docs/posts/2025-11-14-gia-chapter-2A-spatial-autocorrelation/index.html"
+    - "docs/posts/2025-11-18-tanaka-30-day-maps-2025-day-18/index.html"
+    - "docs/posts/2025-11-26-city-to-sea/index.html"
+    - "docs/posts/2025-12-20-paparoa-track/index.html"
     - "CNAME"
-
 website:
   title: "Geospatial Stuff"
   site-url: https://geospatialstuff.com

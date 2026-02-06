@@ -13,6 +13,6 @@ This is one aspect of a wider project aimed at developing maps where the geometr
 
 Time-space mapping is a particular subset of this wider project focused on relations of estimated travel time between locations in a mountainous environment. There's more detail on what we're up to in [this presentation](https://southosullivan.com/talks/GeoCart-2024/) I gave at GeoCart 2024.
 
-You'll find a video of dynamic time-space in the presentation and there's another in [my diary entry about GeoCart](../posts/2024/08/30/geocart-24/index.qmd). Meanwhile, here's a series of maps of estimated hiking times from a given starting location on a series of idealised conical mountains of increasing steepness.
+You'll find a video of dynamic time-space in the presentation and there's another in [my diary entry about GeoCart](/posts/2024/08/30/geocart-24/). Meanwhile, here's a series of maps of estimated hiking times from a given starting location on a series of idealised conical mountains of increasing steepness.
 
 ![](cone-times-multiple.png)

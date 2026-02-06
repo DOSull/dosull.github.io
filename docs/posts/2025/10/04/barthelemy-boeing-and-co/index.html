@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="David O’Sullivan">
+<meta name="dcterms.date" content="2025-10-04">
+<meta name="description" content="An interesting new paper out this week from Marc Barthelemy and Geoff Boeing got me hacking">
+
+<title>Synthetic urban networks – Geospatial Stuff</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<link href="../../../../..//images/gs-logo-corrected.png" rel="icon" type="image/png">
+<script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-efd6ff7163e34c65f10ccb003a1f55f5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap-d2f5208e6386e90d1b300444e70b7b35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../../site_libs/quarto-contrib/nutshell-1.0.7/nutshell.js"></script>
+<script src="../../../../../site_libs/quarto-contrib/nutshell-1.0.7/nutshell_options.js"></script>
+<script src="../../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="geospatialstuff.com,dosull.github.io"></script>
+<meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../../../styles.css">
+<meta property="og:title" content="Synthetic urban networks – Geospatial Stuff">
+<meta property="og:description" content="An interesting new paper out this week from Marc Barthelemy and Geoff Boeing got me hacking">
+<meta property="og:image" content="https://geospatialstuff.com/posts/2025/10/04/barthelemy-boeing-and-co/fig-make-a-city-1.png">
+<meta property="og:site_name" content="Geospatial Stuff">
+<meta property="og:image:height" content="1536">
+<meta property="og:image:width" content="1536">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo light-content">
+    <img src="../../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../../../../index.html">
+    <span class="navbar-title">Geospatial Stuff</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../portfolio.html"> 
+<span class="menu-text">Portfolio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../blog.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../contact.html"> 
+<span class="menu-text">Contact</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../training.html"> 
+<span class="menu-text">Training</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../../../../../books.html">
+ <span class="dropdown-text">Books</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../presentations.html">
+ <span class="dropdown-text">Presentations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../publications.html">
+ <span class="dropdown-text">Publications</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/computing-geographically" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Computing Geographically</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/pattern-and-process" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Spatial Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/30-day-maps-2023" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">30 Day Map Challenge 2023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../../../../blog.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Synthetic urban networks</h1>
+            <p class="subtitle lead">Messing around with networks in R (and NetLogo, but mostly R)</p>
+                  <div>
+        <div class="description">
+          <p>An interesting new paper out this week from Marc Barthelemy and Geoff Boeing got me hacking</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">networks</div>
+                <div class="quarto-category">models</div>
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">netlogo</div>
+                <div class="quarto-category">tutorial</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>David O’Sullivan </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 4, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#useful-functions" id="toc-useful-functions" class="nav-link active" data-scroll-target="#useful-functions">Useful functions</a>
+  <ul class="collapse">
+  <li><a href="#edges-of-a-graph-as-a-data-frame" id="toc-edges-of-a-graph-as-a-data-frame" class="nav-link" data-scroll-target="#edges-of-a-graph-as-a-data-frame">Edges of a graph as a data frame</a></li>
+  <li><a href="#adding-the-lengths-of-edges" id="toc-adding-the-lengths-of-edges" class="nav-link" data-scroll-target="#adding-the-lengths-of-edges">Adding the lengths of edges</a></li>
+  <li><a href="#collapsing-chains-of-degree-2-vertices" id="toc-collapsing-chains-of-degree-2-vertices" class="nav-link" data-scroll-target="#collapsing-chains-of-degree-2-vertices">Collapsing chains of degree-2 vertices</a></li>
+  <li><a href="#a-nice-plotting-function" id="toc-a-nice-plotting-function" class="nav-link" data-scroll-target="#a-nice-plotting-function">A nice plotting function</a></li>
+  </ul></li>
+  <li><a href="#and-so-to-work" id="toc-and-so-to-work" class="nav-link" data-scroll-target="#and-so-to-work">And so to work</a>
+  <ul class="collapse">
+  <li><a href="#make-a-complete-lattice" id="toc-make-a-complete-lattice" class="nav-link" data-scroll-target="#make-a-complete-lattice">Make a complete lattice</a></li>
+  <li><a href="#thin-the-lattice" id="toc-thin-the-lattice" class="nav-link" data-scroll-target="#thin-the-lattice">Thin the lattice</a></li>
+  <li><a href="#minimum-spanning-tree" id="toc-minimum-spanning-tree" class="nav-link" data-scroll-target="#minimum-spanning-tree">Minimum spanning tree</a></li>
+  </ul></li>
+  <li><a href="#viewing-the-resulting-networks" id="toc-viewing-the-resulting-networks" class="nav-link" data-scroll-target="#viewing-the-resulting-networks">Viewing the resulting networks</a>
+  <ul class="collapse">
+  <li><a href="#with-added-backbone" id="toc-with-added-backbone" class="nav-link" data-scroll-target="#with-added-backbone">With added backbone</a></li>
+  </ul></li>
+  <li><a href="#and-finally-a-more-substantial-network" id="toc-and-finally-a-more-substantial-network" class="nav-link" data-scroll-target="#and-finally-a-more-substantial-network">And finally… a more substantial network</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>A just published paper<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> by <a href="https://www.ipht.fr/en/pisp/marc-barthelemy-2/">Marc Barthelemy</a> and <a href="https://geoffboeing.com/">Geoff Boeing</a> proposes an interesting new model for making synthetic urban street networks. Setting aside the slightly breathless language (‘universal’ model? really?!<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>) the model had me scurrying for my computer to make my own version, as these things tend to do when they (i) are interesting, and (ii) make cool pictures.</p>
+<p>That usually means first <a href="https://www.netlogo.org/">NetLogo</a> (it’s the tool I think with), then R (it does graphics well, even if the language itself is a bit wonky). Marc and Geoff have written their model in Python, which is probably what I would do too if my plan was to do lots of analysis. That’s not the goal here. I was just interesting in exploring the model a little. The question of what happens when you add ‘shortcuts’ to a two-dimensional graph in terms of the network structure is something I’ve explored to some degree or another since my PhD work when I used Duncan Watts’s small world rewiring method to make non-uniform 2D lattices. I returned to it at least in passing in <a href="https://computinggeographically.org/chapters/chap6/fig6-11-small-world-2d.html">Computing Geographically</a></p>
+<p>Along the way, I changed the model a lot, probably because I’ve recently been updating the <a href="https://patternandprocess.org/"><em>Spatial Simulation</em></a> <a href="github.com/DOSull/model-zoo">model-zoo</a> and there are a horde of Eden growth and percolation models in that work, and those were front of mind. There’s also not a lot of point in just making the <em>same</em> model, right?</p>
+<p>Although I worked out some initial ideas in NetLogo, I present the code here in R. First, as usual imports.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sfnetworks)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cols4all)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Mostly the usual suspects, with the addition of <a href="https://igraph.org/"><code>igraph</code></a> and <a href="https://luukvdmeer.github.io/sfnetworks/"><code>sfneworks</code></a>, and <a href="https://andrisignorell.github.io/DescTools/"><code>DescTools</code></a>, which I must have used before because it was already in my R library, but I have no idea why. The last of these provides a simple <code>Gini</code> function, which I don’t use, but which is important in Marc and Geoff’s analysis, along with a function for generating all pairwise combinations of elements from a vector, a function it is surprising that base R does not offer.</p>
+<section id="useful-functions" class="level2">
+<h2 class="anchored" data-anchor-id="useful-functions">Useful functions</h2>
+<p>Next, some functions that find repeated use in what follows.</p>
+<section id="edges-of-a-graph-as-a-data-frame" class="level3">
+<h3 class="anchored" data-anchor-id="edges-of-a-graph-as-a-data-frame">Edges of a graph as a data frame</h3>
+<p>A function for extracting the edges of a graph as a dataframe of <em>from</em> and <em>to</em> entries, along with any additional attribute data that might be associated with the edges is nice to have.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>get_edge_df <span class="ot">&lt;-</span> <span class="cf">function</span>(G) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> G <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_edgelist</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">from =</span> V1, <span class="at">to =</span> V2)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># if there are edge attributes also include those</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(<span class="fu">edge_attr_names</span>(G)) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">bind_cols</span>(G <span class="sc">|&gt;</span> <span class="fu">edge.attributes</span>() <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>())</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  df</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="adding-the-lengths-of-edges" class="level3">
+<h3 class="anchored" data-anchor-id="adding-the-lengths-of-edges">Adding the lengths of edges</h3>
+<p>Also useful is a function to add distances (i.e., edge lengths) to an edge dataset, given a table of vertices with <code>x</code>and <code>y</code> coordinate locations. This assumes that the edges dataframe has <code>from</code> and <code>to</code> attributes that correspond to the <code>name</code>attribute in the vertex dataframe.</p>
+<p>Coordinates are added by joining based on the <code>from</code> and <code>to</code> columns and used to find distances. <code>igraph</code> treats any edge attribute called <code>weight</code>as special for use in path length calculations and the like, so we give the length that name as a convenience.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>add_edge_lengths <span class="ot">&lt;-</span> <span class="cf">function</span>(edge_df, vertex_df) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  edge_df <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(vertex_df, <span class="at">by =</span> <span class="fu">join_by</span>(from <span class="sc">==</span> name)) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">x1 =</span> x, <span class="at">y1 =</span> y) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(vertex_df, <span class="at">by =</span> <span class="fu">join_by</span>(to <span class="sc">==</span> name)) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">x2 =</span> x, <span class="at">y2 =</span> y) <span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">weight =</span> <span class="fu">sqrt</span>((x2 <span class="sc">-</span> x1) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">+</span> (y2 <span class="sc">-</span> y1) <span class="sc">^</span> <span class="dv">2</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>x1, <span class="sc">-</span>y1, <span class="sc">-</span>x2, <span class="sc">-</span>y2)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="collapsing-chains-of-degree-2-vertices" class="level3">
+<h3 class="anchored" data-anchor-id="collapsing-chains-of-degree-2-vertices">Collapsing chains of degree-2 vertices</h3>
+<p>Only used once, but good to give them names and not clutter up the main workflow with their complicated workings are two functions that combine to collapse ‘chains’ of vertices with only two neighbours into single edges.</p>
+<p>If we have a local formation like A—B—C<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> then the goal here is to collapse that to A—C. In the paper, Marc and Geoff avoid <em>creating</em> vertices with two neighbours by adding two neighbours to vertices with a single neighbour. Here, because I am making the ‘background’ lattice of the network by removing edges, the problem is to to <em>remove</em> all such vertices. Aesthetically, as we’ll see this has the nice side-effect of introducing diagonal edges and departing a little from the strict orthogonality of the networks in the original paper.</p>
+<p>This code was by far the most complicated piece of this to get working. Hover over the numbered circles for explanations of what’s going on at each step.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>collapse_chains <span class="ot">&lt;-</span> <span class="cf">function</span>(G) {</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  chains <span class="ot">&lt;-</span> G <span class="sc">|&gt;</span> </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">subgraph</span>(<span class="fu">V</span>(G)[<span class="fu">which</span>(<span class="fu">degree</span>(G) <span class="sc">==</span> <span class="dv">2</span>)]) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">components</span>()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>  vs_to_delete <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>  es_to_add <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>chains<span class="sc">$</span>no) {</span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>    vs <span class="ot">&lt;-</span> <span class="fu">names</span>(chains<span class="sc">$</span>membership)[<span class="fu">which</span>(chains<span class="sc">$</span>membership <span class="sc">==</span> i)]</span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>    vs_to_delete <span class="ot">&lt;-</span> <span class="fu">c</span>(vs_to_delete, vs)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4">4</button><span id="annotated-cell-4-10" class="code-annotation-target"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>    ext_chain <span class="ot">&lt;-</span> <span class="fu">neighborhood</span>(G, <span class="at">order =</span> <span class="dv">1</span>, <span class="at">nodes =</span> vs) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unlist</span>() <span class="sc">|&gt;</span> <span class="fu">names</span>() <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="5">5</button><span id="annotated-cell-4-12" class="code-annotation-target"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>    end_vs <span class="ot">&lt;-</span> ext_chain[<span class="fu">which</span>(<span class="sc">!</span>(ext_chain <span class="sc">%in%</span> vs))]</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="6">6</button><span id="annotated-cell-4-13" class="code-annotation-target"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(end_vs) <span class="sc">==</span> <span class="dv">2</span>) {</span>
+<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>      es_to_add <span class="ot">&lt;-</span> <span class="fu">c</span>(es_to_add, end_vs)</span>
+<span id="annotated-cell-4-15"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="annotated-cell-4-16"><a href="#annotated-cell-4-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-4-17"><a href="#annotated-cell-4-17" aria-hidden="true" tabindex="-1"></a>  G <span class="sc">|&gt;</span> <span class="fu">add_edges</span>(es_to_add) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-18"><a href="#annotated-cell-4-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">delete_vertices</span>(vs_to_delete) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-19"><a href="#annotated-cell-4-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">largest_component</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-20"><a href="#annotated-cell-4-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simplify</span>()</span>
+<span id="annotated-cell-4-21"><a href="#annotated-cell-4-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-4-22"><a href="#annotated-cell-4-22" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="7">7</button><span id="annotated-cell-4-23" class="code-annotation-target"><a href="#annotated-cell-4-23" aria-hidden="true" tabindex="-1"></a>collapse_all_chains <span class="ot">&lt;-</span> <span class="cf">function</span>(G) {</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="8">8</button><span id="annotated-cell-4-24" class="code-annotation-target"><a href="#annotated-cell-4-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="fu">degree_distribution</span>(G)[<span class="dv">3</span>] <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="annotated-cell-4-25"><a href="#annotated-cell-4-25" aria-hidden="true" tabindex="-1"></a>    G <span class="ot">&lt;-</span> G <span class="sc">|&gt;</span> <span class="fu">collapse_chains</span>()</span>
+<span id="annotated-cell-4-26"><a href="#annotated-cell-4-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-4-27"><a href="#annotated-cell-4-27" aria-hidden="true" tabindex="-1"></a>  G</span>
+<span id="annotated-cell-4-28"><a href="#annotated-cell-4-28" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="1">Use <code>subgraph</code> in combination with <code>degree</code> to get all vertices with only two neighbors.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="2">The <code>components</code>function provides us with information on which of the subgraphs of vertices of degree 2 are connected to one another.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="3"><code>vs_to_delete</code> and <code>es_to_add</code> are lists of the degree-2 vertices we will remove, and edges that will be added back in to reconnect the graph across gaps left by removing vertices.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="10" data-code-annotation="4"><code>ext_chain</code> extends the chain of degree-2 vertices to any neighbors by one-link. The added vertices in the extended chain are the ones that may have to be reconnected.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="12" data-code-annotation="5"><code>end_vs</code> removes the chain itself from the extended chain leaving only end points.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="13" data-code-annotation="6">A loop attached to the main network at one vertex, will yield only one additional vertex when extended and this can’t be used to create a new edge, so we only add to the <code>es_to_add</code> list when the number of additional vertices is the usual two.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="23" data-code-annotation="7">It may require more than one pass to remove all degree-2 vertices. For example a unit square with two adjacent corners connected to the rest of the network will see the other two corner vertices removed in a first pass, potentially making those two vertices into degree-2 vertices.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="8">8</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="24" data-code-annotation="8">Item 3 in the vector returned by <code>degree_distribution</code> is the number of degree-2 vertices in the graph.</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="a-nice-plotting-function" class="level3">
+<h3 class="anchored" data-anchor-id="a-nice-plotting-function">A nice plotting function</h3>
+<p>The <code>plot.igraph</code> function is difficult to control particularly when it comes to imposing equal aspect ratios and layering graphs in the same space on top of one another, so the somewhat <em>ad hoc</em> function below converts graphs to <code>sfnetwork</code> graphs which can be plotted by <code>ggplot</code>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ggplot_graph <span class="ot">&lt;-</span> <span class="cf">function</span>(G, <span class="at">plot =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  G_sf <span class="ot">&lt;-</span> <span class="fu">sfnetwork</span>(<span class="at">nodes =</span> G <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">vertex.attributes</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">edges =</span> G <span class="sc">|&gt;</span> <span class="fu">get_edge_df</span>(),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">directed =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">edges_as_lines =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  edges <span class="ot">&lt;-</span> G_sf <span class="sc">|&gt;</span> <span class="fu">activate</span>(<span class="st">"edges"</span>) <span class="sc">|&gt;</span> <span class="fu">st_as_sf</span>()</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(plot)) {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="st">"betweenness"</span> <span class="sc">%in%</span> <span class="fu">names</span>(edges)) {</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      plot <span class="ot">&lt;-</span> plot <span class="sc">+</span> </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_sf</span>(<span class="at">data =</span> edges, <span class="fu">aes</span>(<span class="at">colour =</span> betweenness, <span class="at">linewidth =</span> betweenness)) <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_color_binned_c4a_seq</span>(<span class="at">palette =</span> <span class="st">"tableau.classic_red"</span>) <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_linewidth</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>, <span class="at">linewidth =</span> <span class="st">"none"</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      plot <span class="ot">&lt;-</span> plot <span class="sc">+</span> </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_sf</span>(<span class="at">data =</span> edges)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    plot <span class="ot">&lt;-</span> plot <span class="sc">+</span> </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_sf</span>(<span class="at">data =</span> edges, <span class="at">colour =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="dv">2</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  plot <span class="sc">+</span> <span class="fu">theme_void</span>()</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+</section>
+<section id="and-so-to-work" class="level2">
+<h2 class="anchored" data-anchor-id="and-so-to-work">And so to work</h2>
+<p>In this section I work through the process of creating a small network, assembling a series of functions along the way, so that at the end of this notebook it’s simple to chain them all together to make a larger ‘synthetic city network’.</p>
+<p>First we need some very basic parameters</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>radius <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>n_mst <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>prop_retained <span class="ot">&lt;-</span> <span class="fl">0.85</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1">Coordinates in the x and y directions will range from <code>-radius</code> to <code>+radius</code> inclusive.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="2">The number of nodes in min spanning tree.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="3">The proportion of lattice edges to retain.</span>
+</dd>
+</dl>
+</div>
+</div>
+<section id="make-a-complete-lattice" class="level3">
+<h3 class="anchored" data-anchor-id="make-a-complete-lattice">Make a complete lattice</h3>
+<p>We start with a complete lattice, optionally trimmed to a ‘circle’. Astute observers will notice that trimming the lattice to a circle assumes that the coordinates are centred on <span class="math inline">\((0, 0)\)</span>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>get_lattice <span class="ot">&lt;-</span> <span class="cf">function</span>(radius, <span class="at">circular =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  lims <span class="ot">&lt;-</span> <span class="sc">-</span>radius<span class="sc">:</span>radius</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  extent <span class="ot">&lt;-</span> <span class="fu">length</span>(lims)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  size <span class="ot">&lt;-</span> extent <span class="sc">*</span> extent</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  lattice <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">make_lattice</span>(<span class="fu">c</span>(extent, extent), <span class="at">dim =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_vertex_attr</span>(<span class="st">"name"</span>, <span class="at">value =</span> <span class="dv">1</span><span class="sc">:</span>size <span class="sc">|&gt;</span> <span class="fu">as.character</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_vertex_attr</span>(<span class="st">"x"</span>, <span class="at">value =</span> <span class="fu">rep</span>(lims, extent)) <span class="sc">|&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_vertex_attr</span>(<span class="st">"y"</span>, <span class="at">value =</span> <span class="fu">rep</span>(lims, <span class="at">each =</span> extent))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (circular) {</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    disc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">vertex_attr</span>(lattice, <span class="st">"x"</span>) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">+</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">vertex_attr</span>(lattice, <span class="st">"y"</span>) <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">&lt;=</span> radius</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    lattice <span class="ot">&lt;-</span> lattice <span class="sc">|&gt;</span> </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">subgraph</span>(<span class="at">vids =</span> <span class="fu">V</span>(lattice)<span class="sc">$</span>name[disc])    </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  lattice</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>lattice <span class="ot">&lt;-</span> <span class="fu">get_lattice</span>(radius)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Having made the lattice, let’s see what it looks like.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot_graph</span>(lattice)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-plot-lattice" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plot-lattice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-plot-lattice-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: The starting lattice."><img src="index_files/figure-html/fig-plot-lattice-1.png" class="img-fluid figure-img" width="768"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-lattice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The starting lattice.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="thin-the-lattice" class="level3">
+<h3 class="anchored" data-anchor-id="thin-the-lattice">Thin the lattice</h3>
+<p>The lattice ‘thinning’ is a two stage process. First we randomly remove some edges, then we apply the degree-2 vertex collapsing process explained in the previous section.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the lattice edge and vertex dataframes</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>get_thinned_lattice <span class="ot">&lt;-</span> <span class="cf">function</span>(G, proportion_retained) {</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  vs <span class="ot">&lt;-</span> G <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vertex.attributes</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>()</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  G <span class="sc">|&gt;</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_edge_df</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>(<span class="at">prop =</span> proportion_retained) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">graph_from_data_frame</span>(<span class="at">directed =</span> <span class="cn">FALSE</span>, <span class="at">vertices =</span> vs) <span class="sc">|&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">largest_component</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collapse_all_chains</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_edge_df</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_edge_lengths</span>(vs) <span class="sc">|&gt;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">graph_from_data_frame</span>(<span class="at">directed =</span> <span class="cn">FALSE</span>, <span class="at">vertices =</span> vs) <span class="sc">|&gt;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">largest_component</span>()</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>thinned_lattice <span class="ot">&lt;-</span> <span class="fu">get_thinned_lattice</span>(lattice, prop_retained)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>And again, we can see what this looks like.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">ggplot_graph</span>(thinned_lattice)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plot1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-thinned-lattice" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-thinned-lattice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-thinned-lattice-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: The thinned and degree-2 vertex collapsed lattice."><img src="index_files/figure-html/fig-thinned-lattice-1.png" class="img-fluid figure-img" width="768"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-thinned-lattice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The thinned and degree-2 vertex collapsed lattice.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="minimum-spanning-tree" class="level3">
+<h3 class="anchored" data-anchor-id="minimum-spanning-tree">Minimum spanning tree</h3>
+<p>Central to the Barthelemy and Boeing model is a network backbone derived from a minimum spanning tree. As we’ll see, the current model doesn’t seem to need this backbone to yield skewed distributions of the edge betweenness centrality, but it’s easy enough to make a minimum spanning tree and add it to the thinned lattice to see its effect on the overall structure.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>get_mst_from_random_subset <span class="ot">&lt;-</span> <span class="cf">function</span>(G, n) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  vs <span class="ot">&lt;-</span> G <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vertex.attributes</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>()</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  es <span class="ot">&lt;-</span> G <span class="sc">|&gt;</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_edge_df</span>() <span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_edge_lengths</span>(vs)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  mst_vs <span class="ot">&lt;-</span> vs <span class="sc">|&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>(<span class="at">n =</span> n)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  mst_all_es <span class="ot">&lt;-</span> <span class="fu">CombPairs</span>(mst_vs<span class="sc">$</span>name) <span class="sc">|&gt;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">from =</span> <span class="fu">as.character</span>(X1), <span class="at">to =</span> <span class="fu">as.character</span>(X2)) <span class="sc">|&gt;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>X1, <span class="sc">-</span>X2) <span class="sc">|&gt;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_edge_lengths</span>(vs)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  mst_all_es <span class="sc">|&gt;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">graph_from_data_frame</span>(<span class="at">directed =</span> <span class="cn">FALSE</span>, <span class="at">vertices =</span> mst_vs) <span class="sc">%&gt;%</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mst</span>()</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>min_ST <span class="ot">&lt;-</span> <span class="fu">get_mst_from_random_subset</span>(thinned_lattice, n_mst)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>And we can use our nice graph plotting function to overlay this on the thinned lattice, noting that so far the two graphs are entirely separate.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> <span class="fu">ggplot_graph</span>(min_ST, <span class="at">plot =</span> plot1)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>plot2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-graph-and-mst" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-graph-and-mst-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-graph-and-mst-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: The thinned lattice with minimum spanning tree system of ‘shortcuts’ overlaid in red."><img src="index_files/figure-html/fig-graph-and-mst-1.png" class="img-fluid figure-img" width="768"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-and-mst-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The thinned lattice with minimum spanning tree system of ‘shortcuts’ overlaid in red.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>That long east-west edge in the minimum spanning tree won’t make a lot of difference in this example, because when we calculate centrality based on shortest paths (see the next section) it is based on edge weights and it doesn’t provide a shortcut. This is a lot more likely to happen in a small network like this one, but it’s an important thing to keep in mind when considering overall characteristics of this approach. The Barthelemy and Boeing model grows the lattice part of the network out from the nodes of the minimum spanning tree, so that the MST edges are <em>necessarily</em> shortcuts. Adding the MST to an existing lattice, in the absence of different ‘speeds’ along edges (imagine the MST was the freeway network or transit) is unlikely to make as much difference as the backbone does in their model.</p>
+</section>
+</section>
+<section id="viewing-the-resulting-networks" class="level2">
+<h2 class="anchored" data-anchor-id="viewing-the-resulting-networks">Viewing the resulting networks</h2>
+<p>OK. Here’s a betweenness centrality map of the thinned lattice without any included minimum spanning tree backbone.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>eb1 <span class="ot">&lt;-</span> thinned_lattice <span class="sc">|&gt;</span> <span class="fu">edge_betweenness</span>(<span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>thinned_lattice <span class="ot">&lt;-</span> thinned_lattice <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_edge_attr</span>(<span class="at">name =</span> <span class="st">"betweenness"</span>, <span class="at">value =</span> eb1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plot3 <span class="ot">&lt;-</span> <span class="fu">ggplot_graph</span>(thinned_lattice) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Thinned lattice"</span>) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>plot3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-plot-thinned-lattice-betweenness" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plot-thinned-lattice-betweenness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-plot-thinned-lattice-betweenness-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Thinned lattice with edge betweenness shown by line weight and colour."><img src="index_files/figure-html/fig-plot-thinned-lattice-betweenness-1.png" class="img-fluid figure-img" width="768"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-thinned-lattice-betweenness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Thinned lattice with edge betweenness shown by line weight and colour.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It seems like this process has resulted in a network structure that already has a fairly defined backbone of higher centrality edges. I’m not making any claims here about how congruent with empirical data on real city networks this structure is: that kind of thing is very much in Marc and Geoff’s realm of expertise. Nevertheless the structure is interesting.</p>
+<section id="with-added-backbone" class="level3">
+<h3 class="anchored" data-anchor-id="with-added-backbone">With added backbone</h3>
+<p>Now we can add the minimum spanning tree backbone into the thinned lattice.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># merge the new edges into the existing</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>add_subgraph <span class="ot">&lt;-</span> <span class="cf">function</span>(G, x) {</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  vs <span class="ot">&lt;-</span> G <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vertex.attributes</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>()</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  G <span class="sc">|&gt;</span> <span class="fu">get_edge_df</span>() <span class="sc">|&gt;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>(x <span class="sc">|&gt;</span> <span class="fu">get_edge_df</span>() <span class="sc">|&gt;</span> <span class="fu">add_edge_lengths</span>(vs)) <span class="sc">|&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">graph_from_data_frame</span>(<span class="at">directed =</span> <span class="cn">FALSE</span>, <span class="at">vertices =</span> vs)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>combined_lattice <span class="ot">&lt;-</span> <span class="fu">add_subgraph</span>(thinned_lattice, min_ST)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>eb2 <span class="ot">&lt;-</span> combined_lattice <span class="sc">|&gt;</span> <span class="fu">edge_betweenness</span>(<span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>combined_lattice <span class="ot">&lt;-</span> combined_lattice <span class="sc">|&gt;</span> </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_edge_attr</span>(<span class="at">name =</span> <span class="st">"betweenness"</span>, <span class="at">value =</span> eb2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>And map the two networks side-by-side. For the very little that it’s worth, the distribution of betweenness centrality doesn’t appear as different as I’d have expected, going into this process. But clearly much more extensive investigation would be required before jumping to any conclusions.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>plot4 <span class="ot">&lt;-</span> <span class="fu">ggplot_graph</span>(combined_lattice) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Combined with MST"</span>) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plot3 <span class="sc">|</span> plot4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-plot-combined-lattice-betweenness" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plot-combined-lattice-betweenness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-plot-combined-lattice-betweenness-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Comparison of the thinned lattice and the same lattice augmented with a minimum spanning tree."><img src="index_files/figure-html/fig-plot-combined-lattice-betweenness-1.png" class="img-fluid figure-img" width="768"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-combined-lattice-betweenness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Comparison of the thinned lattice and the same lattice augmented with a minimum spanning tree.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="and-finally-a-more-substantial-network" class="level2">
+<h2 class="anchored" data-anchor-id="and-finally-a-more-substantial-network">And finally… a more substantial network</h2>
+<p>The small network shown above is really to illustrate the process step by step. In the code below, a wrapper function let’s us run everything at once and generate a bigger network in one go.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>make_city <span class="ot">&lt;-</span> <span class="cf">function</span>(radius, prop, <span class="at">n_mst =</span> <span class="dv">0</span>, <span class="at">circular =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  L <span class="ot">&lt;-</span> <span class="fu">get_lattice</span>(radius, <span class="at">circular =</span> circular) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_thinned_lattice</span>(prop)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n_mst <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    M <span class="ot">&lt;-</span> <span class="fu">get_mst_from_random_subset</span>(L, n_mst)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    L <span class="ot">&lt;-</span> <span class="fu">add_subgraph</span>(L, M)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  L <span class="sc">|&gt;</span> <span class="fu">set_edge_attr</span>(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"betweenness"</span>, </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">edge_betweenness</span>(L, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>city <span class="ot">&lt;-</span> <span class="fu">make_city</span>(<span class="dv">50</span>, <span class="fl">0.75</span>, <span class="dv">0</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>plot5 <span class="ot">&lt;-</span> <span class="fu">ggplot_graph</span>(city)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>plot5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-make-a-city" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-make-a-city-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-make-a-city-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: A ‘city’ of greater extent."><img src="index_files/figure-html/fig-make-a-city-1.png" class="img-fluid figure-img" width="768"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-make-a-city-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: A ‘city’ of greater extent.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Even if this is all just a bit of messing around with network code, the pictures are satisfyingly ‘city-like’!</p>
+
+
+</section>
+
+
+<p><a href="../../../../../"><img src="../../../../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Barthelemy M and G Boeing. 2025. <a href="https://dx.doi.org/10.1103/1vj4-n8vn">Universal Model of Urban Street Networks</a>. <em>Physical Review Letters</em> <strong>135</strong>(13): 137401.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>As Geoff notes on his blog the apparently lost indefinite article in the title, which adds to the grandiosity of the claim, is apparently because the journal doesn’t allow titles to start with an indefinite article. There’s probably something fairly deep about the psyche of phyicists to learn from that rather odd rule. Saying that, it’s not clear that the notion of ‘a’ universal model is logically coherent. But I digress…<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Yes, I’m using em-dashes, and I don’t care if it makes you think I am an AI.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|geospatialstuff\.com|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|patternandprocess\.org|computinggeographically\.org)");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
+            }
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

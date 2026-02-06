@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="David O’Sullivan">
+<meta name="dcterms.date" content="2025-11-09">
+<meta name="description" content="It’s hard to avoid digital completely, so I don’t know if this counts, but the final result is hand folded (more like pinched) so I’m going to say that it does.">
+
+<title>30 Day Map Challenge 2025 – Geospatial Stuff</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<link href="../../../../..//images/gs-logo-corrected.png" rel="icon" type="image/png">
+<script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-efd6ff7163e34c65f10ccb003a1f55f5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap-d2f5208e6386e90d1b300444e70b7b35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="geospatialstuff.com,dosull.github.io"></script>
+<meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
+
+
+<link rel="stylesheet" href="../../../../../styles.css">
+<meta property="og:title" content="30 Day Map Challenge 2025 – Geospatial Stuff">
+<meta property="og:description" content="It’s hard to avoid digital completely, so I don’t know if this counts, but the final result is hand folded (more like pinched) so I’m going to say that it does.">
+<meta property="og:image" content="https://geospatialstuff.com/posts/2025/11/09/origami-terrain-30-day-maps-2025-day-9/01-crumpled-hillshade-2.jpg">
+<meta property="og:site_name" content="Geospatial Stuff">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo light-content">
+    <img src="../../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../../../../index.html">
+    <span class="navbar-title">Geospatial Stuff</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../portfolio.html"> 
+<span class="menu-text">Portfolio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../blog.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../contact.html"> 
+<span class="menu-text">Contact</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../training.html"> 
+<span class="menu-text">Training</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../../../../../books.html">
+ <span class="dropdown-text">Books</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../presentations.html">
+ <span class="dropdown-text">Presentations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../publications.html">
+ <span class="dropdown-text">Publications</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/computing-geographically" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Computing Geographically</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/pattern-and-process" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Spatial Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/30-day-maps-2023" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">30 Day Map Challenge 2023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../../../../blog.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">30 Day Map Challenge 2025</h1>
+            <p class="subtitle lead">Day 9 Analogue</p>
+                  <div>
+        <div class="description">
+          <p>It’s hard to avoid digital completely, so I don’t know if this counts, but the final result is hand folded (more like pinched) so I’m going to say that it does.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">30 day maps</div>
+                <div class="quarto-category">origami</div>
+                <div class="quarto-category">cartography</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>David O’Sullivan </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 9, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tin-and-hillshade-of-chosen-terrain" id="toc-tin-and-hillshade-of-chosen-terrain" class="nav-link active" data-scroll-target="#tin-and-hillshade-of-chosen-terrain">TIN and hillshade of chosen terrain</a></li>
+  <li><a href="#drawing-crease-lines" id="toc-drawing-crease-lines" class="nav-link" data-scroll-target="#drawing-crease-lines">Drawing (crease) lines</a></li>
+  <li><a href="#curved-lines" id="toc-curved-lines" class="nav-link" data-scroll-target="#curved-lines">Curved lines</a></li>
+  <li><a href="#what-about-using-just-one-set-of-creases" id="toc-what-about-using-just-one-set-of-creases" class="nav-link" data-scroll-target="#what-about-using-just-one-set-of-creases">What about using just one set of creases?</a></li>
+  <li><a href="#and-finally" id="toc-and-finally" class="nav-link" data-scroll-target="#and-finally">And finally…</a></li>
+  <li><a href="#next-time" id="toc-next-time" class="nav-link" data-scroll-target="#next-time">Next time</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>Have you ever flattened out a piece of crumpled paper and thought to yourself, “hmm, that looks quite like a hillshaded map”? If you don’t believe me, here’s an example.</p>
+<p><a href="01-crumpled-hillshade-2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="01-crumpled-hillshade-2.jpg" class="img-fluid"></a></p>
+<p>So, that’s the motivation here: to make a crumpled hillshade map of a real place—unlike the image above which is just crumpled paper.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <a href="https://geospatialstuff.com/30-day-maps-2023/maps/05-analog-map.html">I tried this the last time I engaged with the 30 Day Map Challenge in 2023</a>. There’s some more background on the idea there. Herewith the steps I went through this time around.</p>
+<section id="tin-and-hillshade-of-chosen-terrain" class="level3">
+<h3 class="anchored" data-anchor-id="tin-and-hillshade-of-chosen-terrain">TIN and hillshade of chosen terrain</h3>
+<p>Since I’ve been <a href="../../../../../posts/2025/10/23/gia-chapter-1B-part-4/">working with it</a> <a href="../../../../../posts/2025/11/03a/gia-chapter-1B-part-4B/">a lot lately</a> <a href="../../../../../posts/2025/11/03b/hachures-30-day-maps-2025-day-2/">the terrain around Zealandia once more</a>. Last time I tried this, I used geomorphons as my guide to finding the folds I want to make.</p>
+<p>This time, knowing that there really isn’t an automated method that works,<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> I went with a more interpretative approach. I generated a TIN using the still excellent<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> <a href="https://www.staff.city.ac.uk/~jwo/landserf/">Landserf</a> from Jo Wood. This TIN seemed better attuned to the structure of the terrain than those generated by other tools. I also tried using my <a href="../../../../../posts/2025/10/23/gia-chapter-1B-part-4/">new-found pass, peak, and pit-finding skillz</a> to generate my own terrain aware TINs but that didn’t really work out. I don’t know if the Landserf TIN really is better, but it was my impression.</p>
+<p>I then used the points from that TIN to generate a hillshaded TIN using the <a href="https://plugins.qgis.org/plugins/wbt_for_qgis/">QGIS Whitebox Tools plugin</a>. Then I loaded that, along with a hillshade view of the terrain into a drawing package.</p>
+<div class="columns">
+<div class="column">
+<p><a href="02-landserf-tin-shaded-with-points.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="02-landserf-tin-shaded-with-points.png" class="img-fluid"></a></p>
+</div><div class="column">
+<p><a href="03-basic-hillshade.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="03-basic-hillshade.png" class="img-fluid"></a></p>
+</div>
+</div>
+</section>
+<section id="drawing-crease-lines" class="level2">
+<h2 class="anchored" data-anchor-id="drawing-crease-lines">Drawing (crease) lines</h2>
+<p>Next, I imported those layers into Inkscape and drew some red and blue lines. Red lines for ridges, blue ones for courses (or <a href=""><em>thalwegs</em></a> as I’ve come to enjoy calling them). From there, I print the lines on a piece of A4 and fold the lines ‘backwards’. What I mean by that is that I pinch the blue valley folds towards me on the printed side of the paper, so they come out as valleys on the other side of the sheet; and I also pinch the red mountain folds (but looking through the sheet of paper to find them) so that they come out as ridges. The reason for pinching the folds will become clear to you if you try this yourself. It’s just much easier to accurately follow an irregular crease line by sliding along it, pinching as you go.</p>
+<p>Because I’m folding ‘backwards’ like this I have to mirror the fold pattern before printing it.</p>
+<p>Anyway, at first I thought I’d try using just selected edges in the TIN. The image on the left is printed on the back of the sheet, and the image on the right is the resulting map on the other side. Hopefully you can see it reflects some of the landscape structure.</p>
+<div class="columns">
+<div class="column">
+<p><a href="04-prototype-tin.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="04-prototype-tin.jpg" class="img-fluid"></a></p>
+</div><div class="column">
+<p><a href="05-prototype-result.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="05-prototype-result.jpg" class="img-fluid"></a></p>
+</div>
+</div>
+<p>Not terrible, but it’s not a great idea to have opposite creases run right up to one another. There’s a whole mathematics of <a href="https://en.wikipedia.org/wiki/Mathematics_of_paper_folding#Flat_folding"><em>flat-foldability</em> in origami</a> that tells us what combinations of what kinds of creases meeting at a point can be collapsed flat, but flat isn’t what we are aiming for here. It also turns out that _the paper itself will do some of the work for you if you let it, by leaving gaps between the creases.</p>
+</section>
+<section id="curved-lines" class="level2">
+<h2 class="anchored" data-anchor-id="curved-lines">Curved lines</h2>
+<p>Anyway, next, I allowed myself leeway to follow the hillshade more than the TIN, and also made the crease lines curved. Curved folds on paper do interesting things all on their own.</p>
+<div class="columns">
+<div class="column">
+<p><a href="06-parallel-sinusoids.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="06-parallel-sinusoids.jpg" class="img-fluid"></a></p>
+</div><div class="column">
+<p><a href="07-concentric-circles.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="07-concentric-circles.jpg" class="img-fluid"></a></p>
+</div>
+</div>
+<p>I thought I’d lean into that in my ‘map’.</p>
+<p>In practical terms, the process of pinch-folding curved lines creates extra indentations and marks, unless you are impossibly precise at manually folding this kind of thing. and those actually <em>help</em><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> as much as any curved fold side-effects do.</p>
+<p>So, here’s the curved creasline pattern I wound up with.</p>
+<p><a href="08-folds-from-hillshade-mirrored.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="08-folds-from-hillshade-mirrored.svg" class="img-fluid"></a></p>
+</section>
+<section id="what-about-using-just-one-set-of-creases" class="level2">
+<h2 class="anchored" data-anchor-id="what-about-using-just-one-set-of-creases">What about using just one set of creases?</h2>
+<p>And here’s what I got folding only the valleys (on the left), and only the ridges (on the right).</p>
+<div class="columns">
+<div class="column">
+<p><a href="09-only-the-courses.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="09-only-the-courses.jpg" class="img-fluid"></a></p>
+</div><div class="column">
+<p><a href="10-only-the-ridges.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="10-only-the-ridges.jpg" class="img-fluid"></a></p>
+</div>
+</div>
+<p>I was interested to see if either set of folds alone, but assisted by the paper’s curved-crease induced preferences would do a better job than the other. I was surprised to find, at least for the set of creases I am using, that the ridge lines seem more effective. The valleys in this terrain are more incised than the ridgelines hence my expectation that they would work better. It may be that the ridgelines, as a discontinuous set of more ‘gestural’ lines do a better job of carrying the overall landscape structure.</p>
+<p>In any case, it’s pretty clear we need both. Below is the result of making both sets of creases next to a GIS hillshade.</p>
+<div class="columns">
+<div class="column">
+<p><a href="11-ridges-and-courses.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="11-ridges-and-courses.jpg" class="img-fluid"></a></p>
+</div><div class="column">
+<p><a href="12-hillshade-clipped-to-page.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="12-hillshade-clipped-to-page.png" class="img-fluid"></a></p>
+</div>
+</div>
+<p>Clearly, I’d need a much bigger sheet of paper<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> to come close to capturing the detail that the GIS hillshade includes, but as a generalised view reflecting the largest structural features of the terrain I’m reasonably happy with this. With the addition of some other elements it can become a <em>bona fide</em> map.</p>
+</section>
+<section id="and-finally" class="level2">
+<h2 class="anchored" data-anchor-id="and-finally">And finally…</h2>
+<p>For a final map, I also printed the Zealandia fenceline on the back of the sheet and traced it through in pencil to give at least a little context. For the purists I’ve added a north arrow, a title, and an (approximate) scalebar.</p>
+<p><a href="13-final-map.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="13-final-map.jpg" class="img-fluid"></a></p>
+<p>For the record I printed the crease pattern on day 8, and did all the drawing and folding on day 9, so I didn’t use a computer to make this map… so, notwithstanding all the digital prep, this is an analogue map.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+</section>
+<section id="next-time" class="level2">
+<h2 class="anchored" data-anchor-id="next-time">Next time</h2>
+<p>If there’s a next time I may explore the possibilities of using a heavier paper and wetting it. So-called <a href="https://en.wikipedia.org/wiki/Wet-folding"><em>wet-folding</em></a> allows for the use of heavier paper and fixes the final shape more permanently, a bit like papier-mâché. The pinch-folding I do to make these terrains is already quite ‘sculptural’, and heavier paper that could eventually hold the shape permanently feels like a good next step.</p>
+
+
+</section>
+
+
+<p><a href="../../../../../"><img src="../../../../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>In an infinite universe it must be a map of somewhere, right?<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>And after abandoning surface networks as just too intricate.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>If slightly arcane.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>At least I think they do<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>And a lot more time.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Setting to one side the fact that the only way I can show you it is using a photograph taken with a digital camera and posted on the inter… wait, wut?! Doh!<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|geospatialstuff\.com|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|patternandprocess\.org|computinggeographically\.org)");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":true,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

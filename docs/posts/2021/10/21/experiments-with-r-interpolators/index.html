@@ -330,7 +330,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="get-input-datasets">Get input datasets</h2>
 <section id="the-empirical-projection" class="level3">
 <h3 class="anchored" data-anchor-id="the-empirical-projection">The empirical projection</h3>
-<p>This file contains points on a global grid system, generated using the <a href="https://github.com/r-barnes/dggridR/">dggridR</a> package. We can see the points in ‘lat-lon’ space below. Note how because this is a global grid system the points appear to ‘thin out’ towards the poles. This is an artifact of plotting the points in lat-lon, which is also explored in <a href="../2021-10-20-random-even-points-on-the-globe/">this post</a>.</p>
+<p>This file contains points on a global grid system, generated using the <a href="https://github.com/r-barnes/dggridR/">dggridR</a> package. We can see the points in ‘lat-lon’ space below. Note how because this is a global grid system the points appear to ‘thin out’ towards the poles. This is an artifact of plotting the points in lat-lon, which is also explored in <a href="../../../../../posts/2021/10/20/random-even-points-on-the-globe/">this post</a>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>emp_proj <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"dgg-2432-no-offsets-p4-briesemeister.csv"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(emp_proj) <span class="sc">+</span></span>

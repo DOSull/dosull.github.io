@@ -1,0 +1,294 @@
+---
+title: "GIS, a transformational approach"
+subtitle: "Part 4(A): got field data?"
+description: |
+   Seventh in a series of posts supporting _Geographic Information Analysis_ 
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+aliases: 
+  - "/posts/2025-10-23-gia-chapter-1B-part-4/index.html"
+code-annotations: hover
+code-fold: show
+filters:
+  - nutshell
+categories:
+  - geographic information analysis
+  - transformational approach
+  - geospatial
+  - R
+  - tutorial
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 10-24-2025
+---
+
+Like a few of the earlier posts on a transformational approach to GIS this one turned into a rabbit hole, and so it will only cover field&rarr;point and field&rarr;line transformations. This takes us into the realm of _surface networks_ and the journey has given me a better appreciation of some of the reasons that this seemingly promising approach to surface analysis has never quite taken off.^[TL;DR; data problems make constructing surface networks challenging.]
+
+```{r}
+#| label: imports
+#| code-fold: true
+#| output: false
+library(sf)
+library(terra)
+library(dplyr)
+library(stringr)
+library(tmap)
+library(whitebox)
+library(cols4all)
+```
+
+Before we get started, a convenience function for making binary rasters into point data sets.
+
+```{r}
+#| label: fn-to-vector-functions
+raster_to_points <- function(r) {
+  pts <- r |> 
+    as.points() |>
+    st_as_sf() |>
+    rename(value = 1) |>
+    dplyr::filter(as.logical(value))
+}
+```
+
+## From fields...
+The data this time, perhaps a little ambitiously are a digital elevation model of the area around the [Zealandia](https://www.visitzealandia.com/)
+wildlife sanctuary in Wellington. This is an area of about 225 hectares surrounded by a predator proof fence that keeps out the various mammalian critters that have been so devastating to Aotearoa's birdlife providing those birds with an opportunity to get established and thrive. In combination with [local predator trapping efforts](https://www.pfw.org.nz/) Zealandia has seen very encouraging signs of recovery in local native bird populations. Even in the few years we have been in Wellington the uptick in the numbers of kākā in particular has been obvious as a result of 'spillover' from the sanctuary into nearby suburbs. So much so that from time to time kākā are on the verge of becoming a pest.^[We worry for our gutters from time to time&mdash;those beaks are _powerful_.] 
+
+```{r}
+#| label: read-data
+#| output: false
+#| code-fold: true
+dem <- rast("zealandia-5m.tif")
+tracks <- st_read("tracks.gpkg") |> select(highway)
+fence <- st_read("fences.gpkg") |> select(NAME, TYPE) |> filter(TYPE == "Main")
+streams <- st_read("streams.gpkg") |> select()
+lake <- st_read("lake.gpkg") |> select(name)
+roads <- st_read("roads.gpkg") |> select(name, highway)
+hillshade <- shade(terrain(dem, unit = "radians"), 
+                   terrain(dem, v = "aspect", unit = "radians"), 
+                   angle = 30, direction = 135)
+```
+
+Anyway, here's a map. The focus of this post is on the underlying DEM which characteristically for Wellington is rugged!
+
+```{r}
+#| label: fig-base-map
+#| fig-cap: General map of the Zealandia sanctuary showing predator proof fence (purple), tracks (dashed lines), and surrounding urban streets.
+#| fig-width: 8
+#| fig-height: 14
+#| code-fold: true
+tm_shape(dem) +
+  tm_raster(
+    col.scale = tm_scale_continuous(values = "hcl.terrain2", 
+                                    limits = c(50, 400)),
+    col.legend = tm_legend_hide()) +
+  tm_shape(hillshade) +
+  tm_raster(
+    col.scale = tm_scale_continuous(values = "brewer.greys"),
+    col_alpha = 0.25, col.legend = tm_legend_hide()) +
+  tm_shape(fence) +
+  tm_lines(col = "purple", lwd = 4) +
+  tm_shape(tracks) +
+  tm_lines(lwd = 1, lty = "dashed") +
+  tm_shape(streams) +
+  tm_lines(col = "dodgerblue") +
+  tm_shape(roads) +
+  tm_lines(col = "black", lwd = 2.5) +
+  tm_lines(col = "white", lwd =1.5) +
+  tm_shape(lake) +
+  tm_fill(fill = "dodgerblue") +
+  tm_scalebar(position = c(0.01, 0.04), text.size = .75,
+              bg = TRUE, bg.color = "white", bg.alpha = 0.5)
+```
+
+OK, on to the code (such as it is).
+
+## ... To points
+_Surface specific points_ to be more precise. According to an early computer cartography text
+
+> Surface-specific points have a higher information content than surface random-points. Surface-specific points, however, exhibit a hierarchy among themselves. These points are, in decreasing order, peaks and pits, passes, and ridge and course lines. These features not only tell their values, but also give some idea about their surroundings. In the environs of a peak, we can say that everything else will be lower (Peucker 1972^[Peucker T. [_Computer Cartography_](https://archive.org/details/computercartogra0000peuc/). Resource Paper No. 17, College Geography Commission, Association of American Geographers, 1972], page 29)
+
+We can find pits using a built in function in `terra` that operates on a flow direction surface,^[And by inverting the surface we can also find peaks.] but we can also find pits and peaks directly with simple focal operations on the DEM.
+
+```{r}
+#| label: find-pits-and-peaks
+pits <- dem |>
+  focal(w = 3, \(x) all(x[5] < x[-5])) |> # <1>
+  raster_to_points()
+
+peaks <- dem |>
+  focal(w = 3, \(x) all(x[5] > x[-5])) |>
+  raster_to_points()
+```
+1. `\(x)` defines an anonymous function of the 3x3 focal matrix `x`.
+
+As we will see shortly, these functions are overly simplistic. They don't handle situations where the value at a focal location (`x[5]`) and its neighbours (`x[-5]`) are very close, or where a peak or pit might extend over more than one pixel. This limitation is non-trivial to address in any raster representation of terrain, and doing so is really beyond the scope of this post.
+
+Nevertheless, carrying on, if we combine these into a single point data set and tag them as pit or peak
+
+```{r}
+#| label: combine-pits-and-peaks
+pts <- bind_rows(
+  pits |> mutate(type = "pit"),
+  peaks |> mutate(type = "peak")
+)
+```
+
+then we can see them on our original surface:
+
+```{r}
+#| label: fig-pits-and-peaks-on-dem
+#| fig-cap: Pits (blue) and peaks (red) on the original DEM surface
+#| fig-width: 8
+#| fig-height: 12
+#| code-fold: true
+tm_shape(dem) +
+  tm_raster(
+    col.scale = tm_scale_continuous(values = "brewer.greys"),
+    col.legend = tm_legend_hide()) +
+  tm_shape(streams) +
+  tm_lines(col = "dodgerblue") +
+  tm_shape(pts) +
+  tm_dots(fill = "type",
+    fill.scale = tm_scale_categorical(values = "brewer.set1"),
+    fill.legend = tm_legend_hide())
+```
+
+It's easy to see that pits are generally found in valleys and peaks on ridge lines. We can get further reassurance on this by mapping the peaks and pits relative to the surface's [_geomorphons_]()^[See Jasiewicz J and TF Stepinski. 2013. [Geomorphons — a pattern recognition approach to classification and mapping of landforms](https://dx.doi.org/10.1016/j.geomorph.2012.11.005). _Geomorphology_ **182** 147–156.] using the [Whitebox Tools](https://www.whiteboxgeo.com/) `whitebox::wbt_geomorphons()` function.
+
+```{r}
+#| label: geomorphons
+geomorphon_labels <- read.csv("geomorphons.csv") |>
+  pull(Landform.Type) |>
+  as.vector()
+wbt_geomorphons(dem, "geomorphons.tif", search = 3, threshold = 0)
+geomorphons <- rast("geomorphons.tif") |>
+  subst(1:10, geomorphon_labels) 
+geomorphons_cropped <- geomorphons |>
+  crop(ext(ext(geomorphons) + c(-15, -15)))
+```
+
+Overlaying our pits and peaks on the geomorphon map confirms that the locations of pits and peaks are where we would expect to find them. Here and elsewhere click on the map for a closer look.
+
+```{r}
+#| label: fig-geomorphons
+#| fig-cap: Geomorphons detected by whitebox tools with peaks (point-up triangles) and pits (point-down triangles)
+#| fig-width: 8
+#| fig-height: 11
+#| code-fold: true
+tm_shape(geomorphons_cropped) +
+  tm_raster(
+    col.scale = tm_scale_categorical(
+      levels = geomorphon_labels, 
+      values = c(c4a_na("brewer.rd_bu"), c4a("brewer.rd_bu", n = 9))),
+    col.legend = tm_legend(
+      title = "", orientation = "landscape", 
+      item.height = 1.5, item.width = 4)) +
+  tm_shape(pts) +
+  tm_dots(shape = "type", size = 0.5,
+    shape.scale = tm_scale_categorical(values = c(2, 6)),
+    shape.legend = tm_legend_hide()) +
+  tm_layout(
+    legend.frame.lwd = 0,
+    legend.width = 55,
+    legend.position = tm_pos_out(
+      cell.h = "center", cell.v = "bottom", pos.h = "center"))
+```
+
+### Passes (saddle points)
+The other surface-specific points that are of interest are passes or saddle points. These have zero slope, but opposite signed curvature in (at least) two directions. By contrast, pits and peaks have the same signed curvature in all directions. Passes are trickier to identify than pits and peaks.
+
+I've written some code to do this in a crude fashion below, although as we'll see shortly there is much more thorough prior work on this, which we will use in the next section.
+
+```{r}
+#| label: find-passes-1
+count_sign_flips <- function(m) {
+  bdy_indices <- c(1, 2, 3, 6, 9, 8, 7, 4, 1)
+  sum(c(m)[bdy_indices[1:8]] * c(m)[bdy_indices[2:9]] < 0)
+}
+
+is_pass <- function(m) {
+  count_sign_flips(m) %in% c(4, 6, 8)
+}
+
+passes <- dem |> 
+  focal(w = 3, \(x) is_pass(x[5] - x)) |>
+  raster_to_points() |>
+  mutate(type = "pass")
+```
+
+The `is_pass()` function first determines how many times the sign flips as we go around the outer elements in a 3-by-3 matrix of height differences between those outer elements and the focal element in the matrix. Then, if the number of sign flips is 4, 6, or 8, the location is tagged as a pass. 
+
+And here is the output:
+
+```{r}
+#| label: fig-passes
+#| fig-cap: Passes mapped on top of geomorphons
+#| fig-width: 8
+#| fig-height: 11
+#| code-fold: true
+tm_shape(geomorphons_cropped) +
+  tm_raster(
+    col.scale = tm_scale_categorical(
+      levels = geomorphon_labels, 
+      values = c(c4a_na("brewer.rd_bu"), c4a("brewer.rd_bu", n = 9))),
+    col.legend = tm_legend(
+      title = "", orientation = "landscape", 
+      item.height = 1.5, item.width = 4)) +
+  tm_shape(passes) +
+  tm_dots(shape = 1, size = 0.35) +
+  tm_layout(
+    legend.frame.lwd = 0,
+    legend.width = 55,
+    legend.position = tm_pos_out(
+      cell.h = "center", cell.v = "bottom", pos.h = "center"))
+```
+
+I should emphasise that _none of the above is production code_, not even close. For example, I know for a fact that the count of sign flips is sometimes an odd number, which should never happen (think about it). It also doesn't handle situations where the height difference between a cell and any of its eight neighbours is zero. And, surprisingly, my code detects a lot more passes than we need to create a surface network (see next section). Smarter code would allow (as the geomorphon method does) for a ternary classification of the relationship between a cell and its neighbours (higher, lower, and almost level with), but as we'll see in just a paragraph or three, these challenges have been addressed by others, so... _moving on_.
+
+## ... To lines
+OK... so why did we go to all the trouble of finding passes (however inadequately)? Thereby hangs a tale. We can use these three types of surface-specific point to construct a topological representation of a surface known as a _surface network_, and that is the designated output for field to line transformations in that pesky table on page 26 of _Geographic Information Analysis_.
+
+Topological considerations tell us that a well-formed surface should be such that peaks, pits, and passes form a tripartite network with peaks connected to passes via _ridges_, and passes to pits via _courses_ (or much better via [_thalwegs_](https://en.wikipedia.org/wiki/Thalweg)), and with no direct links between peaks and pits.^[Pfaltz JL. 1976. [Surface networks](https://dx.doi.org/10.1111/j.1538-4632.1976.tb00530.x). _Geographical Analysis_ **8**(1) 77-93.]
+
+Work on surface networks in giscience in spite of its very early first appearances is spotty. Gerd Wolf, a leading researcher on the topic, writes&mdash;I think a little regretfully&mdash;about how the approach has been adopted in other fields.^[Wolf GW. 2014. [Knowledge diffusion from GIScience to other fields: the example of the usage of weighted surface networks in nanotechnology](https://doi.org/10.1080/13658816.2014.889298). _International Journal of Geographical Information Science_ **28**(7) 1401-1424.] Wolf himself proposed a method for cartographic generalisation of surfaces using the information contained in surface networks (essentially by preserving their ridge and thalweg structure) as far back as 1988.^[Wolf GW. 1988. [Weighted surface networks and their application to cartographic generalization](https://doi.org/10.1007/978-3-642-74106-7_18). In W Barth (ed) _Visualisierungstechniken und Algorithmen. Informatik-Fachberichte_, **182**. Springer, Berlin, Heidelberg. If you're really keen complete FORTRAN code is available in this paper: Wolf GW. 1991. [A FORTRAN subroutine for cartographic generalization](https://doi.org/10.1016/0098-3004(91)90002-U).
+_Computers & Geosciences_ **17**(10) 1359-1381.]
+
+[Jo Wood's](https://www.gicentre.net/jwo/index) impressive [Landserf](https://www.staff.city.ac.uk/~jwo/landserf/) software, which still runs in spite of the most recent published manual being dated 2009, can extract surface networks. Landserf is fun to explore, although its interface takes some getting used to.^[While Jo's morphometric work remains impressive (I might use Landserf for one of the remaining posts in this series...) he has long since switched focus to visualization methods, and [that work is well worth checking out](https://observablehq.com/@jwolondon).]
+
+The most recent work I've found on this topic is by [Eric Guilbert](https://scholar.google.com/citations?user=QQqIxvAAAAAJ&hl=en) and colleagues (Guilbert 2021^[Guilbert E. 2021. [Surface network extraction from high resolution digital terrain models](https://dx.doi.org/10.5311/JOSIS.2021.22.681). _Journal of Spatial Information Science_ **22** 33-59], Guilbert et al. 2023^[Guilbert E, F Lessard, N Perreault, and S Jutras. 2023. [Surface network and drainagenetwork: towards a common datastructure](https://dx.doi.org/10.5311/JOSIS.2023.26.240) _Journal of Spatial Information Science_ **26** 53-77]) and hallelujah! there is runnable code that produces well-formed surface networks. 
+
+An important part of this code is finding the _right number_ of passes. This is because the topological constraints imply that 
+
+$$
+\#_{\mathrm{peak}} + \#_{\mathrm{pit}} - \#_{\mathrm{pass}} = 2
+$$
+
+and it's tricky to detect peaks, pits, and passes reliably due to the approximate nature of raster surface representations. In fact, comparing my results with Guilbert et al.'s my code's naïve approach identifies too few pits and peaks, and (surprisingly) too many passes. Some of my problems are my old friend floating point numbers and the question of when is a really small number actually zero. The Guilbert et al. papers linked in the footnotes go into some detail on how these issues can be resolved, but in essence it revolves around introducing the right number of diagonal connections between cells in the grid to maximise the number of saddle points detected, and satisfy the topological constraints.
+
+Anyhow, all that is by the by. As noted, there is runnable [python code available](https://github.com/ericguilbert/SurfaceNetwork). I ran it on the Zealandia DEM data^[I'm not crazy: I tried it first on something much simpler.] and here's the result.
+
+::: {#fig-zealandia-sn fig-cap="The surface network generated by Eric Guilbert's python code for the Zealandia study area, showing ridges (red) and thalwegs (blue)"}
+![](zealandia-sn.png)
+:::
+
+The surface network representation allows the terrain to be partitioned into hills (regions surrounded by thalwegs) and dales (regions surrounded by ridges). Terrain faces with two thalweg and two ridge sides, and a sequence of corners pit-pass-peak-pass can also be identified. The latest work by Eric Guilbert and colleagues looks to me like it goes a long way to putting surface networks into useful relation with more established methods of terrain analysis that tend to emphasise (understandably so) the identification of hydrological networks.
+
+## A pause for breath
+Have I mentioned before how outrageously cheeky is the casual suggestion that you see how many of these transformations you can accomplish, 
+
+> [i]f you already know enough to navigate your way around a GIS (_Geographic Information Analysis_, page 26) 
+
+My belated apologies to anyone traumatised by taking this suggestion literally. Indeed these [posts on a transformational approach to GIS](https://dosull.github.io/blog.html#category=transformational%20approach) have been an interesting exercise in discovering how preposterous that throwaway remark really is. 
+
+On a more positive note, surface networks deserve more attention than they've gotten from the community over the decades, but their reliable construction has proved elusive. Perhaps now that there is at least one tool out there that is up to the task they'll make their way into the mainstream and beginner would-be geospatial analysts won't be left wondering why they can't construct a surface network in spite of already knowing enough to navigate their way around a GIS.
+
+Next up, and closing out this series will be field&rarr;area and field&rarr;field transformations. 

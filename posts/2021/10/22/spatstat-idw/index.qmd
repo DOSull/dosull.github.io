@@ -103,7 +103,7 @@ plot(pp)
 
 Success! 
 
-A [previous notebook](../2021-10-21-kde/) showed an even quicker way to do this, but where the window will be formed from a bounding box (and where's the fun in that?)
+A [previous notebook](/posts/2021/10/21/kde/) showed an even quicker way to do this, but where the window will be formed from a bounding box (and where's the fun in that?)
 
 ```
 pts |>

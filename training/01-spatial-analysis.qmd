@@ -7,7 +7,7 @@ image: kernel.gif
 
 [Go to the materials](https://github.com/DOSull/Spatial-Analysis-and-Modelling){.button-link target="_blank"}
 
-These materials outline a one semester (36 contact hours) class in spatial analysis and modelling that was last taught at Victoria University of Wellington as GISC 422 in the second half of 2023. The materials cover many of the topics introduced in my book [_Geographic Information Analysis_](../books.qmd#geographic-information-analysis) a recognised classic text in the field.
+These materials outline a one semester (36 contact hours) class in spatial analysis and modelling that was last taught at Victoria University of Wellington as GISC 422 in the second half of 2023. The materials cover many of the topics introduced in my book [_Geographic Information Analysis_](/books.qmd#geographic-information-analysis) a recognised classic text in the field.
 
 I am still in the process of cleaning the materials up for conversion into training materials. For the time being the materials are provided gratis with no warrant as to their accuracy as a guide to spatial analysis in R but you may still find them useful all the same!
 
