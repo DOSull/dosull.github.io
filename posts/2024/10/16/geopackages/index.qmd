@@ -7,6 +7,8 @@ toc: true
 lightbox:
   match: auto
   loop: true
+aliases: 
+  - "/posts/2024-10-16-geopackages/in-praise-of-the-geopackage.html"
 categories:
   - geospatial
   - R

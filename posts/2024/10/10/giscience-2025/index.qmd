@@ -7,6 +7,8 @@ toc: true
 lightbox:
   match: auto
   loop: true
+aliases: 
+  - "/posts/2024-10-10-giscience-2025/giscience-2025.html"
 categories:
   - conferences
   - geospatial

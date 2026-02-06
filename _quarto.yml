@@ -24,6 +24,13 @@ project:
     - "docs/posts/2024-11-16-tmap-vs-ggplot/tmap4-vs-ggplot2.html"
     - "docs/posts/2024-11-22-algim-2024/algim-2024.html"
     - "docs/posts/2024-11-27-systems-thinking/systems-thinking.html"
+    - "docs/posts/2025-01-13-random-points-on-globe-revisited/random-points-on-globe.html"
+    - "docs/posts/2025-01-28-waiopehu/waiopehu-tramp.html"
+    - "docs/posts/2025-03-09-mapweaver-beta/mapweaver-beta.html"
+    - "docs/posts/2025-04-30-setting-up-a-jupyter-hub/jupyter-hub.html"
+    - "docs/posts/2025-05-02-tiles-and-glyphs/tiles-and-glyphs.html"
+    - "docs/posts/2025-05-16-xkcd-bad-projections-ranked/xkcd-bad-projections-ranked.html"
+    - "docs/posts/2025-05-22-python-meetup-talk/python-meetup-talk.html"
     - "CNAME"
 
 website:

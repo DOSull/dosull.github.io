@@ -1,0 +1,394 @@
+---
+title: Random points on the globe revisited
+subtitle: Of Christmas gifts and rabbit holes
+description: "Revisiting the generation of evenly-space point patterns on the globe, sparked by a rather lovely board game." 
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+  loop: true
+aliases: 
+  - "/posts/2025-01-13-random-points-on-globe-revisited/random-points-on-globe.html"
+code-annotations: hover
+filters: 
+  - nutshell
+categories:
+  - geospatial
+  - R
+  - tutorial
+  - life
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+date: 01-14-2025
+date-modified: 01-16-2025
+image: Lacuna_Shot8_800x.jpg
+---
+
+**NOTE**: There were a few over-simplifications in the original version of this post, which I've done my best to correct. Turns out point patterns on the globe are even more complicated than I realised...
+
+This holiday season I had reason to revisit a post from November 2021 about [generating evenly distributed random points on the globe](/posts/2021/10/20/random-even-points-on-the-globe/index.qmd). This was in the course of writing (for fun) a [NetLogo](https://ccl.northwestern.edu/netlogo/index.shtml) simulation of [the boardgame _Lacuna_](https://www.cmyk.games/products/lacuna). You can find the simulation [here](https://southosullivan.com/misc/lacuna.html). The simulation isn't very developed and it turns out that the web version of NetLogo doesn't implement some functions important to its operation, so pending developing my Javascript skills further that's likely where it will remain.
+
+Anyway, the setup rules for the physical version of _Lacuna_ stipulate that the players should
+
+> Distribute the flower pieces as evenly as your can without clumping, using your hands to spread them out as needed.
+
+Writing the code for this immediately had me reaching for a _sequential spatial inhibition_ process using `spatstat` in R, or for that matter an [implementation of it in NetLogo](https://patternandprocess.org/chapter-2/2.5.html)^[Having said that, the circular game board eventually led me to generate the patterns in NetLogo by randomly displacing each new flower from the centre of the circle by a random distance in a random direction, and retrying until they were no closer to another flower than some set distance.] This also reminded me that spatial inhibition processes require an inhibition distance to be specified, and got me wondering if there is a spatial point process that generates randomly distributed points 'without clumping' but with no need to specify a spacing parameter. 
+
+This is what is known as a [rabbit hole](https://www.merriam-webster.com/dictionary/rabbit%20hole).
+
+For whatever reason, there doesn't seem to be a widely used spatial point process model with this property, but there are [:_low discrepancy sequences_](https://en.wikipedia.org/wiki/Low-discrepancy_sequence) most often used for balanced sampling in operations like Monte Carlo simulation that can generate evenly spaced spatial patterns in two dimensions. In this post, I look at a couple of these along with some other alternatives, in the context set by my earlier post of generating random point patterns of even intensity on the globe.
+
+## Some preliminaries
+To make things easier, I am going to generate patterns in latitude-longitude space, and then transform them to patterns on the globe. Before we get started here are all the libraries I'm using.
+
+```{r}
+library(rnaturalearth)
+library(dplyr)
+library(tidyr)
+library(sf)
+library(spbal)      # <1>
+library(spatstat)   # <2>
+library(ggplot2)
+library(cols4all)
+
+theme_set(theme_minimal())
+theme_update(axis.title = element_blank())
+
+set.seed(1)         # <3>
+
+projection <- "+proj=moll"
+aspect_ratio <- 2
+R <- 6371000
+n_points <- 1152
+```
+1. `spbal` provides Halton sequences.
+2. `spatstat` provides a wide range of spatial point processes.
+3. For replicability.
+
+And we'll set up a globe polygon and a world map.
+
+```{r}
+angles <- 0:719 / 720 * 2 * pi
+angles <- c(angles, angles[1])
+x <- R * cos(angles) * 2 * sqrt(aspect_ratio)
+y <- R * sin(angles) * 2 / sqrt(aspect_ratio)
+
+globe <- c(x, y) |> 
+  matrix(ncol = 2) |>
+  list() |>
+  st_polygon() |>
+  st_sfc() |>
+  st_as_sf(crs = projection)
+
+world <- ne_countries() |>
+  select() |>
+  st_transform(projection)
+```
+
+And make a quick map to make sure everything is in order.
+
+::: {#fig-world-map}
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+ggplot() +
+  geom_sf(data = globe, fill = "#cceeff", linewidth = 0) +
+  geom_sf(data = world, fill = "grey", linewidth = 0)
+```
+
+World map in Mollweide
+:::
+
+## Patterns in latitude-longitude space
+### A simple random pattern
+We can make this by drawing x and y coordinates from uniform distributions.
+
+::: {#fig-uniform-random}
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+plot_pp <- function(df) {                               # <1>
+  ggplot() +
+    geom_point(data = df, aes(x = x, y = y)) +
+    coord_equal(xlim = 180 * c (-1, 1),
+                ylim = 90 * c(-1, 1), expand = FALSE) + # <2>
+    theme(panel.background = element_rect(fill = NA))   # <3>
+}
+pattern1 <- tibble(x = runif(n_points) * 360 - 180,
+                   y = runif(n_points) * 180 - 90,
+                   generator = "Uniform random")
+plot_pp(pattern1)
+```
+1. Convenient to have a single function for plotting point patterns.
+2. `expand = FALSE` stops `ggplot` adding a margin beyond the limits we've set.
+3. It's good to be able to see the bounds, and `theme_minimal` would not normally display a frame.
+
+Simple uniform random pattern
+:::
+
+### Simple random pattern with a cosine correction for latitude
+Next up the same pattern with the cosine correction from my earlier post.
+
+::: {#fig-uniform-random-cosine-corrected}
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+pattern2 <- tibble(x = runif(n_points) * 360 - 180,
+                   y = acos(runif(n_points, -1, 1)) / pi * 180 - 90,
+                   generator = "Uniform random cosine-corrected")
+plot_pp(pattern2)
+```
+
+Uniform random pattern with cosine correction
+:::
+
+In later patterns I have applied this cosine correction where the underlying process generates uniformly distributed y coordinates.
+
+### A pattern from a spatial point process
+My first thought here was to use a _sequential spatial inhibition process_. This is a spatial point process where points are generated at random locations, but rejected if they are closer than some _inhibition distance_ to an existing point already in the pattern. This is easily done in Euclidean space using the `spatstat::rSSI` function. In latitude-longitude space this won't work because distances are not calculable using the Pythagorean function on coordinates.
+
+Instead, I have opted for the uniform point process (just as above), but specifying a tiling (a tessellation) of the space with _approximately_ equal-area tiles. Using the formula for the y coordinate of a cylindrical equal-area projection $y=sin\phi$, we can generate _approximately_ equal-area rectangles in latitude-longitude space as below. I emphasise the approximation here, because it is only approximate. Rectangles in lat-lon space are not rectangles on the globe after all.
+
+::: {#fig-stratified-point-pattern}
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+nx <- sqrt(n_points / 2) * 2 + 1                   # <1>
+ny <- sqrt(n_points / 2) + 1
+xg <- seq(-1, 1, length.out = nx) * 180            # <2>
+yg <- asin(seq(-1, 1, length.out = ny)) / pi * 180 # <3>
+
+pp <- runifpoint(n = 1, win = tess(xgrid = xg, ygrid = yg))
+pattern3 <- pp |>
+  as.data.frame() |>
+  mutate(generator = "Stratified point process")
+plot_pp(pattern3) +
+  geom_point(data = expand_grid(xg, yg), aes(x = xg, y = yg), 
+             colour = "red", shape = 3, size = 0.5)
+```
+1. The number of gridlines we need in each direction is determined here.
+2. x coordinates are trivially equally spaced.
+3. y coordinates approximately equally spaced in the transformed space.
+
+Stratified random point process
+:::
+
+I've plotted the coordinates of the grid used to 'thin' the points at high latitudes for reference. The process generates only one point in each of these cells. However... the thinning is not continuous and there are a number of points very close to the poles, where of course the available area is zero! 
+
+### Quasi-random sequences
+These are the processes that were new to me, which showed up when I started looking for R packages that could do even sampling in 2D spaces. The first package to show up was [`spacefillr`](https://www.spacefillr.com/). This implements a number of such sequences, but we'll look here at the Halton sequence, because its workings are relatively easy to understand, and the implementation in the [`spbal` package](https://cran.r-project.org/web/packages/spbal/index.html) provides more options.
+
+[:_Halton sequences_](https://en.wikipedia.org/wiki/Halton_sequence) are generated using a pair of coprime numbers, i.e., two numbers with no common factors. The simplest example is 2 and 3. Each of the selected numbers specifies a sequence by repeated subdivision of the interval 0 to 1. So for 2 we get
+
+$$
+\frac{1}{2},\frac{1}{4},\frac{3}{4},\frac{1}{8},\frac{5}{8},\frac{3}{8},\frac{7}{8},\ldots
+$$
+
+and for 3 we get
+
+$$
+\frac{1}{3},\frac{2}{3},\frac{1}{9},\frac{4}{9},\frac{7}{9},\frac{2}{9},\frac{5}{9},\ldots
+$$
+
+Pairing these sequences gives us coordinates of points in the unit square. Different generating numbers can be chosen (provided they are coprime) and different starting points in each sequence can be paired, to give a wide variety of deterministically generated quasi-random patterns. The [`spbal` package](https://cran.r-project.org/web/packages/spbal/index.html) provides a highly configurable interface to generate such sequences using the `cppRSHalton_br` function. We can see the procedures inner workings clearly by examining the first few elements in the sequence:
+
+```{r}
+cppRSHalton_br(10, bases = 2:3, seeds = 0)$pts
+```
+
+These appear entirely regular, and some regularity is evident in the patterns generated (see @fig-offset-halton-sequence), although it is less apparent than might be anticipated on considering the numerical values alone. The main interest in Halton sequences is their desirable evenness of distribution for sampling purposes, which is apparent in @fig-offset-halton-sequence.
+
+::: {#fig-offset-halton-sequence}
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+pattern4 <- cppRSHalton_br(n_points, 
+                           bases = c(2, 3),            # <1>
+                           seeds = c(14, 21))$pts |>   # <2>
+  as.data.frame() |>
+  rename(x = V1, y = V2) |> 
+  mutate(x = x * 360 - 180, 
+         y = acos(y * 2 - 1) / pi * 180 - 90,
+         generator = "Halton")
+plot_pp(pattern4)
+```
+1. The coprime generating values.
+2. The starting positions in the sequence for each generating value.
+
+Points generated by a Halton sequence
+:::
+
+Details concerning generation of Halton sequences and their statistical properties are provided by Faure and Lemieux.^[Faure H and C Lemieux. 2009. [Generalized Halton sequences in 2008: A comparative study](https://dx.doi.org/10.1145/1596519.1596520). _ACM Transactions on Modeling and Computer Simulation_ **19**(4) 15:1-15:31.] 
+
+### A 'home-grown' parameter-free pattern generator
+Here I use a seemingly trivial (but not very efficient!) algorithm to generate some home-made evenly distributed points, without the need to specify any (spatial) parameter like the inhibition distance required by [rSSI](#a-couple-of-patterns-from-spatial-point-processes). I found the inspiration for this in this [detailed blog post](https://blog.demofox.org/2017/10/20/generating-blue-noise-sample-points-with-mitchells-best-candidate-algorithm/) about generating [:_blue noise_](https://en.wikipedia.org/wiki/Colors_of_noise#Blue_noise), which was in turn based on an algorithm described by Mitchell.^[Mitchell DP. 1991. [Spectrally optimal sampling for distribution ray tracing](https://dx.doi.org/10.1145/127719.122736). _SIGGRAPH Computer Graphics_. **25**(4) 157–164.] 
+
+Matters are complicated by having to calculate distances in latitude-longitude space, which we do using the [:Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula)
+
+$$
+d=2 r \arcsin\left(\sqrt{\sin^2\left(\frac{\varphi_2 - \varphi_1}{2}\right) + \cos(\varphi_1) \cos(\varphi_2)\sin^2\left(\frac{\lambda_2 - \lambda_1}{2}\right)}\right)
+$$
+
+for the distance between two lon-lat locations$\left(\lambda_1,\varphi_1\right)$ and $\left(\lambda_2,\varphi_2\right)$, although because we only need the relative distances we don't use the $2r$ scaling. The need to calculate toroidal distances described in the blogpost is obviated by calculating distances on the sphere which wraps in a similar way.
+
+The simple idea of this algorithm is that each time we add a new point we generate a set of points (`candidates`) to choose from, and select the one with the largest minimum distance to an existing point in the pattern. Making the algorithm more efficient would involve only checking the distance to points known to be close to candidate points using some kind of spatial index or binning structure.
+
+```{r}
+ll_distances <- function(p1, p2) {                                   # <1>
+  lon1 <- p1[,1]; lat1 <- p1[,2]
+  lon2 <- p2[,1]; lat2 <- p2[,2] 
+  asin(sqrt(
+    sin(outer(lat1, lat2, "-") / 2) ^ 2 +
+    outer(cos(p1[, 2]), cos(p2[, 2]), "*") * 
+      sin(outer(lon1, lon2, "-") / 2) ^ 2
+  ))
+}
+
+rescale <- function(x, x1min, x2min, x1max, x2max) {
+  x2min + (x - x1min) / (x1max - x1min) * (x2max - x2min)
+}
+
+spaced_points <- function(n = 50, choice_scaling = 1.5,
+                          input_bb = c(0, 0, 1, 1),
+                          output_bb = c(0, 0, 1, 1), dist_fn) {
+  points <- c(runif(1, input_bb[1], input_bb[3]), 
+              runif(1, input_bb[2], input_bb[4])) |> 
+    matrix(ncol = 2)
+  for (i in 1:(n-1)) {
+    n_candidates <- ceiling(log(i * exp(1) * choice_scaling))       # <2>
+    candidates <- c(runif(n_candidates, input_bb[1], input_bb[3]), 
+                    runif(n_candidates, input_bb[2], input_bb[4])) |> 
+      matrix(ncol = 2)
+    r_max <- dist_fn(candidates, points) |> 
+      apply(1, min) |>                                              # <3>
+      which.max()
+    points <- rbind(points, candidates[r_max, ])
+  }
+  points |> 
+    as.data.frame() |>
+    rename(x = V1, y = V2) |>
+    mutate(x = rescale(x, input_bb[1], output_bb[1], input_bb[3], output_bb[3]),
+           y = rescale(y, input_bb[2], output_bb[2], input_bb[4], output_bb[4]),
+           generator = "Blue noise")
+}
+```
+1. I use the `outer` function to do all pairwise differences and products of data in the two supplied matrices more efficiently than by nested loops.
+2. The `choice_scaling` parameter determines how rapidly the number of candidate points grows with the size of the existing data set. It should be strictly greater than 1 or no points will ever get added! Including a log factor stops the speed of the algorithm from falling too rapidly as points are added.
+3. The `apply(1, min)` operation finds the smallest distance in each row (i.e. distance to nearest neighbour in the existing set of points), and `which.max()` identifies the row with the largest minimum distance.
+
+::: {#fig-homebrew-blue-noise}
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| echo: false
+pattern5 <- spaced_points(n = n_points, 
+                          input_bb = c(-pi, -pi/2, pi, pi/2),
+                          output_bb = c(-180, -90, 180, 90),
+                          dist_fn = ll_distances)
+plot_pp(pattern5)
+```
+
+A pattern generated using a 'blue noise' algorithm by iteratively choosing the most remote random additional point among a set of choices
+:::
+
+## Putting all these points on the globe
+We now apply a transformation from the lat-lon Cartesian coordinates to the globe that is equal-area as shown in the [previous post](../2021/10/20/random-even-points-on-the-globe/index.qmd). We can combine all the points into a single data set and use `facet_wrap` for side-by-side comparison.
+
+::: {#fig-all-sets-on-globe}
+```{r}
+#| fig-width: 8
+#| fig-height: 7
+transform_to_globe <- function(df, proj) {
+  df |>
+    st_as_sf(coords = c("x", "y"), crs = 4326) |> 
+    st_transform(proj)  
+}
+
+all_points <- bind_rows(pattern1, pattern2, pattern3, pattern4, pattern5) |>
+  transform_to_globe(projection) |>
+  mutate(generator = ordered(generator, c("Uniform random", 
+                                          "Uniform random cosine-corrected",
+                                          "Stratified point process",
+                                          "Halton", "Blue noise")))
+ggplot(globe) +
+  geom_sf(fill = "#cceeff", linewidth = 0) +
+  geom_sf(data = world, fill = "grey", linewidth = 0) +
+  geom_sf(data = all_points, size = 0.35, colour = "red") +
+  facet_wrap( ~ generator, ncol = 2) +
+  theme_void()
+```
+
+Side-by-side comparison of five patterns projected onto the globe
+:::
+
+With the obvious exception of the uniform random pattern, which exhibits definite clumping, all of these seem to do a reasonable job of producing a random arrangement of points evenly distributed over the globe. 
+
+From the perspective of avoiding clumping we can try to make the comparison slightly more precise by making hexbin density plots of the points.
+
+::: {#fig-all-sets-on-globe}
+```{r}
+#| fig-width: 8
+#| fig-height: 7
+
+xy <- all_points |>
+  st_coordinates() |>
+  as.data.frame() |>
+  bind_cols(all_points)
+
+nx <- sqrt(n_points / pi) * 2 * sqrt(aspect_ratio)
+ny <- nx * 2 / sqrt(3) / sqrt(aspect_ratio)
+
+ggplot(xy) +
+  geom_hex(aes(x = X, y = Y, fill = as.factor(after_stat(count))), 
+           bins = c(nx, ny), linewidth = 0.1, colour = "#666666") +
+  scale_fill_manual(values = c4a("brewer.yl_gn_bu", 11),                # <1>
+                    breaks = 1:10, guide = "legend", name = "#Points") +
+  annotate(geom = "path", x = x, y = y, linewidth = 0.2) +
+  coord_equal() +
+  facet_wrap( ~ generator, ncol = 2) +
+  theme_void()
+```
+1. `ggplot2::geom_hex` insists that the point counts are 'continuous' which is what forces me to convert at a factor, so that I can use a legend not a colour ramp here. Another instance of `ggplot2`'s strong preference for not classing data, see [this recent post](../2024-11-16-tmap-vs-ggplot/) in the context of choropleth maps.
+
+Side-by-side comparison of hexbin density plots of the five point patterns
+:::
+
+The uniform random pattern clearly exhibits the most uneven distribution of points. The cosine-corrected version is better although there is still unevenness in the mid-latitudes, as we would expect because there is no interaction between points in the pattern: the presence of a previous point does not block another point showing up close by. The stratified point process and Halton patterns are better again. The latter of these is particularly surprising, given its completely deterministic generative process.
+
+Somewhat to my surprise my 'homebrew' blue noise compares well with the other four patterns for evenness of distribution. This is particularly nice given that it requires no spatial parameter to be supplied, only one that (perhaps only marginally) affects the quality of the patterns produced.
+
+## Final thoughts
+It is intriguing to me that blue noise is seemingly not a standard spatial point process. Unlike sequential spatial inhibition to which it is similar it requires no spatial parameter to be tuned to get a desired result, and it cannot fail to produce the requested number of points. It is also a reasonable plausible process from a 'mechanism' perspective. Imagine for example retailers considering premises in which to set up shop and examining a number of different sites, then choosing the one farthest from any potential competitor. It's at least as compelling in that respect as a model of the outcome of competition between event locations as SSI.
+
+Since it seems useful, I provided some 'hooks' in the implementation above to allow use of different distance functions and 'windows' for point generation. Here's an example in a simple Euclidean space, using [:Manhattan distance](https://en.wikipedia.org/wiki/Taxicab_geometry) to determine the best new point among candidates.
+
+::: {#fig-blue-noise-in-unit-square}
+```{r}
+#| fig-width: 6
+#| fig-height: 6
+
+abs_diffs <- function(v1, v2) {
+  outer(v1, v2, "-") |> abs()
+}
+
+manhattan_distances <- function(p1, p2) {
+  dx <- abs_diffs(p1[, 1], p2[, 1])
+  dy <- abs_diffs(p1[, 2], p2[, 2])
+  dx + dy
+}
+
+spaced_points(n_points, dist_fn = manhattan_distances) |>
+  ggplot() +
+    geom_point(aes(x = x, y = y)) +
+    coord_equal(xlim = c(0, 1), ylim = c(0, 1), expand = FALSE)
+```
+
+A blue noise pattern in Euclidean space
+:::
+
+An interesting rabbit hole indeed!

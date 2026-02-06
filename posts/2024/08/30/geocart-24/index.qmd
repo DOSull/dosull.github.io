@@ -7,6 +7,8 @@ toc: true
 lightbox:
   match: auto
   loop: true
+aliases: 
+  - "/posts/2024-08-30-geocart-24/geocart-24.html"
 categories:
   - cartography
   - geospatial

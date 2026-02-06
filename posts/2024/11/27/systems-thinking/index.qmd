@@ -7,6 +7,8 @@ toc: true
 lightbox:
   match: auto
   loop: true
+aliases: 
+  - "/posts/2024-11-27-systems-thinking/systems-thinking.html"
 categories:
   - complexity
   - aotearoa

@@ -7,6 +7,8 @@ toc: true
 lightbox:
   match: auto
   loop: true
+aliases: 
+  - "/posts/2024-08-15-netlogo-utils/netlogo-utils.html"
 categories:
   - netlogo
   - simulation

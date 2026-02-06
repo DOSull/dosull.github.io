@@ -7,6 +7,8 @@ toc: true
 lightbox:
   match: auto
   loop: true
+aliases: 
+  - "/posts/2024-08-02-model-zoo-latest/model-zoo.html"
 categories:
   - netlogo
   - books
