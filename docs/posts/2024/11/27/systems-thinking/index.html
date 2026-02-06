@@ -6,9 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="More generally: folding space">
+<meta name="author" content="David O’Sullivan">
+<meta name="dcterms.date" content="2024-12-01">
+<meta name="description" content="Some (positive) thoughts on a surprise encounter with systems thinking at a project away day.">
 
-<title>Time-space mapping – Geospatial Stuff</title>
+<title>A welcome (re)emergence of systems thinking – Geospatial Stuff</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,28 +26,30 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="..//images/gs-logo-corrected.png" rel="icon" type="image/png">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-efd6ff7163e34c65f10ccb003a1f55f5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-d2f5208e6386e90d1b300444e70b7b35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<link href="../../../../..//images/gs-logo-corrected.png" rel="icon" type="image/png">
+<script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-efd6ff7163e34c65f10ccb003a1f55f5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap-d2f5208e6386e90d1b300444e70b7b35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../../site_libs/quarto-contrib/nutshell-1.0.7/nutshell.js"></script>
+<script src="../../../../../site_libs/quarto-contrib/nutshell-1.0.7/nutshell_options.js"></script>
+<script src="../../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -77,27 +81,25 @@ ul.task-list li input[type="checkbox"] {
 <meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
 
 
-<link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Time-space mapping – Geospatial Stuff">
-<meta property="og:description" content="More generally: folding space">
-<meta property="og:image" content="https://geospatialstuff.com/portfolio/cone-times-multiple.png">
+<link rel="stylesheet" href="../../../../../styles.css">
+<meta property="og:title" content="A welcome (re)emergence of systems thinking – Geospatial Stuff">
+<meta property="og:description" content="Some (positive) thoughts on a surprise encounter with systems thinking at a project away day.">
+<meta property="og:image" content="https://geospatialstuff.com/posts/2024/11/27/systems-thinking/coin-dynamics.gif">
 <meta property="og:site_name" content="Geospatial Stuff">
-<meta property="og:image:height" content="1600">
-<meta property="og:image:width" content="2560">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/gs-logo-corrected.png" alt="" class="navbar-logo light-content">
-    <img src="../images/gs-logo-corrected.png" alt="" class="navbar-logo dark-content">
+    <a href="../../../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo light-content">
+    <img src="../../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo dark-content">
     </a>
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../../../../index.html">
     <span class="navbar-title">Geospatial Stuff</span>
     </a>
   </div>
@@ -108,19 +110,19 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../portfolio.html"> 
+    <a class="nav-link" href="../../../../../portfolio.html"> 
 <span class="menu-text">Portfolio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../blog.html"> 
+    <a class="nav-link" href="../../../../../blog.html"> 
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../contact.html"> 
+    <a class="nav-link" href="../../../../../contact.html"> 
 <span class="menu-text">Contact</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../training.html"> 
+    <a class="nav-link" href="../../../../../training.html"> 
 <span class="menu-text">Training</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -129,15 +131,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-more">    
         <li>
-    <a class="dropdown-item" href="../books.html">
+    <a class="dropdown-item" href="../../../../../books.html">
  <span class="dropdown-text">Books</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../presentations.html">
+    <a class="dropdown-item" href="../../../../../presentations.html">
  <span class="dropdown-text">Presentations</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../publications.html">
+    <a class="dropdown-item" href="../../../../../publications.html">
  <span class="dropdown-text">Publications</span></a>
   </li>  
         <li>
@@ -163,7 +165,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="../blog.xml"> <i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../../../../../blog.xml"> <i class="bi bi-rss" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -178,19 +180,38 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Time-space mapping</h1>
+      <h1 class="title">A welcome (re)emergence of systems thinking</h1>
+            <p class="subtitle lead">And it’s not before time!</p>
                   <div>
         <div class="description">
-          More generally: folding space
+          Some (positive) thoughts on a surprise encounter with systems thinking at a project away day.
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">complexity</div>
+                <div class="quarto-category">aotearoa</div>
+                <div class="quarto-category">conferences</div>
+                <div class="quarto-category">systems</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>David O’Sullivan </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 1, 2024</p>
+      </div>
+    </div>
     
       
     </div>
@@ -199,7 +220,18 @@ ul.task-list li input[type="checkbox"] {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#systems-thinking-spotted-in-the-wild" id="toc-systems-thinking-spotted-in-the-wild" class="nav-link active" data-scroll-target="#systems-thinking-spotted-in-the-wild">Systems thinking spotted in the wild</a></li>
+  <li><a href="#making-models-and-having-conversations" id="toc-making-models-and-having-conversations" class="nav-link" data-scroll-target="#making-models-and-having-conversations">Making models and having conversations</a></li>
+  <li><a href="#postscript-uncomplex-thinking-and-big-data-analytics" id="toc-postscript-uncomplex-thinking-and-big-data-analytics" class="nav-link" data-scroll-target="#postscript-uncomplex-thinking-and-big-data-analytics">Postscript: <span style="font-style:italic;">un</span>complex thinking and big data analytics</a></li>
+  <li><a href="#looking-ahead" id="toc-looking-ahead" class="nav-link" data-scroll-target="#looking-ahead">Looking ahead</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -207,15 +239,61 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Another ongoing project in collaboration with <a href="https://geog.ubc.ca/profile/luke-bergmann/" target="blank">Luke Bergmann</a> at University of British Columbia.</p>
-<p>This is one aspect of a wider project aimed at developing maps where the geometry is based not on ‘location’ but on the relationships — whether of time, money, people, or anything else of interest between places. Space conceived not as a fixed absolute background to things but as a living moving thing that both shapes and is shaped by unfolding events.</p>
-<p>Time-space mapping is a particular subset of this wider project focused on relations of estimated travel time between locations in a mountainous environment. There’s more detail on what we’re up to in <a href="https://southosullivan.com/talks/GeoCart-2024/">this presentation</a> I gave at GeoCart 2024.</p>
-<p>You’ll find a video of dynamic time-space in the presentation and there’s another in <a href="../posts/2024/08/30/geocart-24/index.html">my diary entry about GeoCart</a>. Meanwhile, here’s a series of maps of estimated hiking times from a given starting location on a series of idealised conical mountains of increasing steepness.</p>
-<p><a href="cone-times-multiple.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="cone-times-multiple.png" class="img-fluid"></a></p>
+<p>I wrote a paper <em>waaaay</em> back in 2004<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> which among other things was a plea for qualitatively inclined geographers to take complexity science seriously, as a sincere attempt to understand the world as it is, in all its, uh… complexity. It’s a tricky argument to make because the preferred tools of complexity science are computational or mathematical models, which are <em>necessarily simplifications</em>. Models, after all, are only useful if we can make sense of them and that’s only likely to be possible if they simplify the complex realities we are trying to understand.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>The paper has been widely cited, but a glance at <em>where</em> it has been cited suggests that my its readership has mostly been already sympathetic fellow-travellers in quantitative geography, not the more diverse audience I was hoping for, from across the discipline and beyond. While writing the paper I sent a draft to <a href="https://en.wikipedia.org/wiki/Doreen_Massey_(geographer)">:Doreen Massey</a> who was enthusiastic. The paper is framed as a response to her calls around that time for more dialogue across the divide between human and physical geography. The emergence of critical physical geography<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> suggests that Massey’s call has not gone unheard.</p>
+<p>It would be absurd to suggest that my paper has had even a fraction of that impact. Equally, it would be wrong to think that geography as a discipline has enthusiastically embraced the more holistic and open attitude to methods that taking seriously Massey’s call (or my paper) would entail.</p>
+<p>But wait!</p>
+<section id="systems-thinking-spotted-in-the-wild" class="level2">
+<h2 class="anchored" data-anchor-id="systems-thinking-spotted-in-the-wild">Systems thinking spotted in the wild</h2>
+<p>A workshop I was at last week suggests that maybe (just maybe) under the guise of <em>systems thinking</em>, complexity science might be starting to have an impact on more qualitative approaches.</p>
+<p>The workshop was a gathering of some of the many researchers involved in the <a href="https://www.landcareresearch.co.nz/discover-our-research/environment/sustainable-society-and-policy/moving-the-middle/"><em>Moving the Middle</em> (MtM) project</a> down in Christchurch, ahead of the Agents of Change team’s <a href="https://knowyourplace.nz/">Know Your Place environment + art</a> event in Lyttelton Harbour. One of the presentations to the assembled team on the first morning of the workshop took me by (pleasant) surprise, as it was on <a href="https://en.wikipedia.org/wiki/Systems_thinking">:systems thinking</a>. And one of the first things to be put on the screen was some version of the diagram below.</p>
+<div id="fig-coin-dynamics" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coin-dynamics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="coin-dynamics.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A particularly complicated systems diagram—which is nevertheless a simplification"><img src="coin-dynamics.gif" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coin-dynamics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: A particularly complicated systems diagram—which is nevertheless a simplification<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>
+</figcaption>
+</figure>
+</div>
+<p>This was part of an enjoyable talk by <a href="https://www.gns.cri.nz/about-us/staff-search/nicholas-cradock-henry/">Nick Cradock-Henry</a> summarising the elements of systems thinking, which the <a href="https://www.landcareresearch.co.nz/discover-our-research/environment/sustainable-society-and-policy/moving-the-middle/agents-of-change/">Agents of Change team</a> have really picked up and run with in the last year as a framework for organising their thinking around the wider somewhat disparate MtM project.</p>
+<p>As a long-time fan of <a href="https://en.wikipedia.org/wiki/Complex_system">:complexity science</a>, which I consider to be either an evolution from systems thinking or a broader framework within which systems thinking sits,<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> this was a big deal. I’ve wanted for years to see qualitatively inclined social scientists—the kind that talk about more-than-human geographies and such—to whole-heartedly engage with systems thinking!</p>
+<p>I’m not really sure what’s brought this on. Maybe it’s recent excitement about the <a href="https://en.wikipedia.org/wiki/Circular_economy">:circular economy</a>? Or a delayed reaction to COVID models? (Unlikely) Or maybe <a href="https://en.wikipedia.org/wiki/Te_P%C5%ABnaha_Matatini">:Te Pūnaha Matatini</a> is getting some traction with a wider audience? Whatever the reason, I’m glad it’s happening.</p>
+</section>
+<section id="making-models-and-having-conversations" class="level2">
+<h2 class="anchored" data-anchor-id="making-models-and-having-conversations">Making models and having conversations</h2>
+<p>The primary tool of systems thinking the Agents of Change team seem to have been working with so far is causal loop diagrams (see <a href="#fig-coin-dynamics" class="quarto-xref">Figure&nbsp;1</a>), which were ably explained both by Nick Cradock-Henry and by <a href="https://deliberate.co.nz/">Justin Connolly</a>. What this take on complexity/systems thinking brings to the fore is the importance of creating models (in this case primarily a visual model) collaboratively as things to talk about in a constructive way as groups of people try to understand some problem at hand.</p>
+<p>The point of such models is not simulation or prediction, but understanding. Not even understanding necessarily, but arriving at sufficient agreement in a particular problem solving context about what makes things tick, so that useful conversations can be had.</p>
+<p>If visual models eventually form a starting point for building system dynamics models, or agent-based models, or other kinds of computational models, that’s fine. But it’s also fine if that doesn’t happen. In fact, computational models can muddy the waters. They are expected or required to be predictive, and everyone becomes fixated on prediction and <em>stops thinking</em>. Or the model becomes a fall-guy (‘the model told me to do it!’). Or models are dragged into a role in monitoring and management that they weren’t designed for.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> When an organisation invests in building a simulation model, the chance of it being drafted into use for purposes well beyond its original scope are high, often with unintended consequences.</p>
+<p>Once a computational model exists, there’s a danger of thinking that the topic at hand is now well enough understood that we have everything under control. But often it’s not really the model as end-product that is important, it’s the focus for conversation and discussion provided by collaboratively creating a model (informed by complexity/systems thinking that’s the important step), and that’s true whether the model is visual, computational, or even statistical.</p>
+</section>
+<section id="postscript-uncomplex-thinking-and-big-data-analytics" class="level2">
+<h2 class="anchored" data-anchor-id="postscript-uncomplex-thinking-and-big-data-analytics">Postscript: <span style="font-style:italic;">un</span>complex thinking and big data analytics</h2>
+<p>Another reason I am happy to see a new audience get excited about the complexity/systems thinking approach to model-building is because there is far too much excitement about a very linear approach to model-building these days, in the multi-headed shape of big data analytics, machine-learning, and AI.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>It’s not that these methods aren’t useful. <em>Of course</em> they are! The problem is that they too often skip the collaborative model-building, or leave the model-building to machines, so that the most important opportunity for learning is lost. That’s not quite correct. The analyst developing such models often learns a lot in the process. The problem is that the point of the exercise is often not the learning along the way, but the final model that results, and once that’s done the assumption is that now we understand, and can predict and manage the problem at hand. And of course, for as long as the world continues to be open, interconnected, and processual (i.e., forever), that kind of model will inevitably be wrong if not today, then some day very soon.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+</section>
+<section id="looking-ahead" class="level2">
+<h2 class="anchored" data-anchor-id="looking-ahead">Looking ahead</h2>
+<p>The qualitative social scientists I was hanging out with last week are rightly skeptical of such uncomplex models. Their enthusiasm for complexity/systems thinking models on the other hand reflects how such approaches really do give us a better chance of getting a handle on the world. I really hope their enthusiasm isn’t a one-off but a harbinger of many more fruitful conversations ahead, across what have often seemed unbridgeable divides.</p>
 
 
+</section>
 
-<p><a href="../"><img src="../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p></main> <!-- /main -->
+
+<p><a href="../../../../../"><img src="../../../../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>O’Sullivan D. 2004. <a href="https://dx.doi.org/10.1111/j.0020-2754.2004.00321.x">Complexity science and human geography</a>. <em>Transactions of the Institute of British Geographers</em> <strong>29</strong>(3) 282-295. It’s paywalled, but get in touch if you’d like a copy.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>I’ll note here that models “are never true, but fortunately it is only necessary that they be useful”, p.2 in Box GP. 1979. <a href="https://www.jstor.org/stable/2286713">Some problems of statistics and everyday life</a>. <em>Journal of the American Statistical Association</em> <strong>74</strong>(365) 1-4. Paywalled, I’m afraid.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>The original paper on this is Lave R et al.&nbsp;2014. <a href="https://dx.doi.org/10.1111/cag.12061">Intervention: Critical physical geography</a>. <em>The Canadian Geographer / Le Géographe canadien</em> <strong>58</strong>(1) 1–10. But that is paywalled. An open access paper which gives a sense of what critical physical geography aims to accomplish is Lave R. 2015. <a href="https://dx.doi.org/10.14288/ACME.V13I4.1034">Engaging within the Academy: A Call for Critical Physical Geography</a>. <em>ACME: An International Journal for Critical Geographies</em> <strong>13</strong>(4) 508-515.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Figure from Monat JP and TF Gannon. 2015. <a href="http://article.sapub.org/10.5923.j.ajss.20150402.02.html">Using systems thinking to analyze ISIS</a>. <em>American Journal of Systems Science</em> <strong>4</strong>(2) 36–49.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Depending on my mood, I can go either way, but if you need convincing of the links, see Merali Y and PM Allen. 2011. <a href="https://www.researchgate.net/publication/292653679_Complexity_and_systems_thinking">Complexity and Systems Thinking</a>, 31-52 in <em>The Sage Handbook of Complexity and Management</em> PM Allen, S Maguire, and B McKelvey (eds) Sage.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Yes, I’m looking at you, <a href="https://www.mpi.govt.nz/agriculture/farm-management-the-environment-and-land-use/overseer-a-nutrient-management-tool-for-farmers-and-growers/">Overseer</a>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>This is something I’ve written about before: O’Sullivan D 2018. <a href="https://dx.doi.org/10.2307/j.ctt21h4z6m">Big data … why (oh why?) this computational social science?</a> In <em>Thinking Big Data in Geography: New Regimes, New Research</em> eds.&nbsp;JE Thatcher, J Eckert, and A Shears, 21–38. University of Nebraska Press. Again, paywalled: let me know if you’re interested to read a copy.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Ironically, models are most urgently needed for prediction precisely when prediction is difficult or even impossible.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

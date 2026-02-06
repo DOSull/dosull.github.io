@@ -15,6 +15,15 @@ project:
     - "docs/posts/2021-12-08-low-level-handling-sf-objects/low-level-sf-objects.html"
     - "docs/posts/2022-03-09-ok-covid-you-win/ok-covid-you-win.html"
     - "docs/posts/2022-08-03-spiral-folds/spiral-folds.html"
+    - "docs/posts/2024-08-02-model-zoo-latest/model-zoo.html"
+    - "docs/posts/2024-08-15-netlogo-utils/netlogo-utils.html"
+    - "docs/posts/2024-08-30-geocart-24/geocart-24.html"
+    - "docs/posts/2024-10-10-giscience-2025/giscience-2025.html"
+    - "docs/posts/2024-10-16-geopackages/in-praise-of-the-geopackage.html"
+    - "docs/posts/2024-10-17-duckdb/duckdb.html"
+    - "docs/posts/2024-11-16-tmap-vs-ggplot/tmap4-vs-ggplot2.html"
+    - "docs/posts/2024-11-22-algim-2024/algim-2024.html"
+    - "docs/posts/2024-11-27-systems-thinking/systems-thinking.html"
     - "CNAME"
 
 website:

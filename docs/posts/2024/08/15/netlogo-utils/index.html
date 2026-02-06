@@ -6,9 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="More generally: folding space">
+<meta name="author" content="David O’Sullivan">
+<meta name="dcterms.date" content="2024-08-15">
+<meta name="description" content="I’ve made some useful utility functions for NetLogo that make it easier to manages lists and generate random numbers with different distributions.">
 
-<title>Time-space mapping – Geospatial Stuff</title>
+<title>Useful utilities for NetLogo – Geospatial Stuff</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,28 +26,25 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="..//images/gs-logo-corrected.png" rel="icon" type="image/png">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-efd6ff7163e34c65f10ccb003a1f55f5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-d2f5208e6386e90d1b300444e70b7b35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<link href="../../../../..//images/gs-logo-corrected.png" rel="icon" type="image/png">
+<script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-efd6ff7163e34c65f10ccb003a1f55f5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap-d2f5208e6386e90d1b300444e70b7b35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -77,27 +76,27 @@ ul.task-list li input[type="checkbox"] {
 <meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
 
 
-<link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Time-space mapping – Geospatial Stuff">
-<meta property="og:description" content="More generally: folding space">
-<meta property="og:image" content="https://geospatialstuff.com/portfolio/cone-times-multiple.png">
+<link rel="stylesheet" href="../../../../../styles.css">
+<meta property="og:title" content="Useful utilities for NetLogo – Geospatial Stuff">
+<meta property="og:description" content="I’ve made some useful utility functions for NetLogo that make it easier to manages lists and generate random numbers with different distributions.">
+<meta property="og:image" content="https://geospatialstuff.com/posts/2024/08/15/netlogo-utils/netlogo-utils.png">
 <meta property="og:site_name" content="Geospatial Stuff">
-<meta property="og:image:height" content="1600">
-<meta property="og:image:width" content="2560">
+<meta property="og:image:height" content="892">
+<meta property="og:image:width" content="1340">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/gs-logo-corrected.png" alt="" class="navbar-logo light-content">
-    <img src="../images/gs-logo-corrected.png" alt="" class="navbar-logo dark-content">
+    <a href="../../../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo light-content">
+    <img src="../../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo dark-content">
     </a>
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../../../../index.html">
     <span class="navbar-title">Geospatial Stuff</span>
     </a>
   </div>
@@ -108,19 +107,19 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../portfolio.html"> 
+    <a class="nav-link" href="../../../../../portfolio.html"> 
 <span class="menu-text">Portfolio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../blog.html"> 
+    <a class="nav-link" href="../../../../../blog.html"> 
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../contact.html"> 
+    <a class="nav-link" href="../../../../../contact.html"> 
 <span class="menu-text">Contact</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../training.html"> 
+    <a class="nav-link" href="../../../../../training.html"> 
 <span class="menu-text">Training</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -129,15 +128,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-more">    
         <li>
-    <a class="dropdown-item" href="../books.html">
+    <a class="dropdown-item" href="../../../../../books.html">
  <span class="dropdown-text">Books</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../presentations.html">
+    <a class="dropdown-item" href="../../../../../presentations.html">
  <span class="dropdown-text">Presentations</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../publications.html">
+    <a class="dropdown-item" href="../../../../../publications.html">
  <span class="dropdown-text">Publications</span></a>
   </li>  
         <li>
@@ -163,7 +162,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="../blog.xml"> <i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../../../../../blog.xml"> <i class="bi bi-rss" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -178,19 +177,36 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Time-space mapping</h1>
+      <h1 class="title">Useful utilities for NetLogo</h1>
+            <p class="subtitle lead">For when you are missing R/python</p>
                   <div>
         <div class="description">
-          More generally: folding space
+          I’ve made some useful utility functions for NetLogo that make it easier to manages lists and generate random numbers with different distributions.
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">netlogo</div>
+                <div class="quarto-category">simulation</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>David O’Sullivan </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 15, 2024</p>
+      </div>
+    </div>
     
       
     </div>
@@ -199,7 +215,9 @@ ul.task-list li input[type="checkbox"] {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -207,15 +225,14 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Another ongoing project in collaboration with <a href="https://geog.ubc.ca/profile/luke-bergmann/" target="blank">Luke Bergmann</a> at University of British Columbia.</p>
-<p>This is one aspect of a wider project aimed at developing maps where the geometry is based not on ‘location’ but on the relationships — whether of time, money, people, or anything else of interest between places. Space conceived not as a fixed absolute background to things but as a living moving thing that both shapes and is shaped by unfolding events.</p>
-<p>Time-space mapping is a particular subset of this wider project focused on relations of estimated travel time between locations in a mountainous environment. There’s more detail on what we’re up to in <a href="https://southosullivan.com/talks/GeoCart-2024/">this presentation</a> I gave at GeoCart 2024.</p>
-<p>You’ll find a video of dynamic time-space in the presentation and there’s another in <a href="../posts/2024/08/30/geocart-24/index.html">my diary entry about GeoCart</a>. Meanwhile, here’s a series of maps of estimated hiking times from a given starting location on a series of idealised conical mountains of increasing steepness.</p>
-<p><a href="cone-times-multiple.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="cone-times-multiple.png" class="img-fluid"></a></p>
+<p>An intermittent side-project of mine over (github informs me) more than three years has been assembling a collection of useful functions or rather <em>reporters</em> and <em>procedures</em> written in NetLogo to make it just a little bit easier to do a range of fairly standard things in that language.</p>
+<p>Don’t get me wrong, NetLogo is <em>wonderful</em> and I love it dearly. I find it tremendous fun to code in. But any time I start dealing in any serious way with lists and strings or slightly more obscure probability distributions, I find that I am repeating myself rewriting code I’ve written dozens of times before. This probably became most apparent when I was writing the <a href="../../../../../portfolio/00-0-spatial-covid-model.html">spatial COVID model</a>.</p>
+<p>Anyway… the result has been <a href="https://github.com/DOSull/netlogo-utils">this extremely intermittent and informal set of netlogo source (<code>.nls</code>) files</a> that you can import into a NetLogo model to get access to more useful list and string handling without having to write an extension.</p>
+<p>No warranties of fitness are expressed or implied. If you find them useful, let me know!</p>
 
 
 
-<p><a href="../"><img src="../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p></main> <!-- /main -->
+<p><a href="../../../../../"><img src="../../../../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -624,38 +641,6 @@ ul.task-list li input[type="checkbox"] {
   });
   </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":true,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 
