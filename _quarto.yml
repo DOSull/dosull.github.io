@@ -3,8 +3,6 @@ project:
   output-dir: docs
   # resources to redirect from mistaken folder names and old folder structure
   resources:
-    - "docs/posts/2025-27-06-iata-codes/index.html"
-    - "docs/posts/2025-0707-projection-explorer/index.html"
     - "docs/posts/2020-07-18-what-the-chord/what-3-chords.html"
     - "docs/posts/2021-09-23-dulux-colours-map/dulux-colours-map.html"
     - "docs/posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html"
@@ -35,7 +33,11 @@ project:
     - "docs/posts/2025-06-01-nsew-island/index.html"
     - "docs/posts/2025-06-13-population-quadrants/index.html"
     - "docs/posts/2025-06-20-population-binary-space-partition/index.html"
+    - "docs/posts/2025-27-06-iata-codes/index.html"
     - "docs/posts/2025-06-27-iata-codes/index.html"
+    - "docs/posts/2025-0707-projection-explorer/index.html"
+    - "docs/posts/2025-07-07-projection-explorer/index.html"
+    - "docs/posts/2025/07/07/projection-explorer/index.html"
     - "docs/posts/2025-07-10-hulls-tetrahedra/index.html"
     - "docs/posts/2025-07-30-counting-points-in-polygons/index.html"
     - "docs/posts/2025-08-03-dulux-colours-in-python/index.html"
@@ -62,6 +64,7 @@ project:
     - "docs/posts/2026-01-29-gia-chapter-2B-maup/index.html"
     - "docs/posts/2026-02-02-netlogo/index.html"
     - "CNAME"
+
 website:
   title: "Geospatial Stuff"
   site-url: https://geospatialstuff.com
@@ -120,3 +123,4 @@ format:
       - text: |
           <script defer src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="geospatialstuff.com,dosull.github.io"></script>
           <meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
+
