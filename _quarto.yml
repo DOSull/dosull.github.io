@@ -1,8 +1,8 @@
 project:
   type: website
   output-dir: docs
-  # resources to redirect from mistaken folder names and old folder structure
   resources:
+  # resources to redirect from mistaken folder names and old folder structure
     - "docs/posts/2020-07-18-what-the-chord/what-3-chords.html"
     - "docs/posts/2021-09-23-dulux-colours-map/dulux-colours-map.html"
     - "docs/posts/2021-10-20-random-even-points-on-the-globe/random-even-points-on-the-globe.html"
@@ -35,9 +35,8 @@ project:
     - "docs/posts/2025-06-20-population-binary-space-partition/index.html"
     - "docs/posts/2025-27-06-iata-codes/index.html"
     - "docs/posts/2025-06-27-iata-codes/index.html"
-    - "docs/posts/2025-0707-projection-explorer/index.html"
-    - "docs/posts/2025-07-07-projection-explorer/index.html"
-    - "docs/posts/2025/07/07/projection-explorer/index.html"
+    - "docs/posts/2025-0707-projections-explorer/index.html"
+    - "docs/posts/2025-07-07-projections-explorer/index.html"
     - "docs/posts/2025-07-10-hulls-tetrahedra/index.html"
     - "docs/posts/2025-07-30-counting-points-in-polygons/index.html"
     - "docs/posts/2025-08-03-dulux-colours-in-python/index.html"
@@ -63,6 +62,10 @@ project:
     - "docs/posts/2026-01-21-bivariate-choropleths/index.html"
     - "docs/posts/2026-01-29-gia-chapter-2B-maup/index.html"
     - "docs/posts/2026-02-02-netlogo/index.html"
+    # archived version of working marimo quarto example
+    - "posts/2025/07/07/projections-explorer/index.html"
+    - "posts/2025/07/07/projections-explorer/marimo-dag.png"
+    - "posts/2025/07/07/projections-explorer/van-der-grinten.png"
     - "CNAME"
 
 website:
