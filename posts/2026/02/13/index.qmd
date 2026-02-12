@@ -1,0 +1,496 @@
+---
+title: "Colour blind design for categorical maps"
+subtitle: "A challenging problem"
+description: "Getting a handle on colour blind friendly schemes available in R for mapping."
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+code-fold: show
+code-annotations: hover
+categories:
+  - R
+  - cartography
+  - tutorial
+  - visualization
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+message: false
+date: 02-13-2026
+image: fig-eight-candidate-cbd-schemes-1.png
+---
+
+Recently in preparing a manuscript about [`weavingspace`](https://github.com/DOSull/weaving-space) for publication concerns about the colour schemes used in some of the figures were raised because they were not colour blind friendly. Seeking to address that concern, one thing led to another, and here I am.
+
+I am in no way an expert on this topic. Colour blindness is [relatively well understood and characterised](https://en.wikipedia.org/wiki/Color_blindness), as resulting from anomalous (or a complete lack of) cone cells among the long (L), medium (M), or short (S) wavelength sensitive cones. The L- and M-cones are most sensitive to colour either side of cyan in the spectrum and issues with these result in two forms of red-green colour blindness known respectively as _protanopia_ and _deuteranopia_. Blue-yellow colour-blindness, _tritanopia_ results from anomalous or absent S-cones sensitive to blue colours. The more severe _achromatopsia_ results in an ability only to differentiate colours by their lightness. As we will see the effects of these different colour vision deficiencies (CVDs) can be simulated.
+
+In spite of this good understanding, colour palettes readable by those with CVDs have only come to widespread attention recently. That said, there are now many options in R for exploring the readability of graphics under different CVDs. In the way of R, perhaps a few _too many_, making it a little difficult to pick a path through things.
+
+My explorations suggest that the most straightforward support for solving design challenges in this area lie in the [`cols4all` package](https://cols4all.github.io/cols4all-R/), although in this post I use a couple of other packages besides. First the usual suspects:
+
+```{r}
+#| label: imports
+#| output: false
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(sf)
+library(ggplot2)
+library(patchwork)
+```
+
+And also three specifically colour-related packages:
+
+```{r}
+#| label: colour-related-imports
+#| output: false
+# Colour related imports
+library(colorspace)      # <1>
+library(colorblindr)     # <2>
+library(colorblindcheck) # <3>
+library(cols4all)        # <4>
+```
+1. To simulate colour vision deficiencies applied to a vector of colours.
+2. For a function `cvd_grid()` that can simulate how an existing plot appears under different colour vision deficiencies. 
+3. For a function `palette_dist` to estimate differences among colours in a palette.
+4. For a range of colour blind friendly palettes.
+
+The [`colorspace` package](https://colorspace.r-forge.r-project.org/articles/colorspace.html) provides the underlying 'machinery' to drive all of this, supporting ways to manipulate colours, such as darkening or lightening them, increasing or decreasing saturation, and, particularly relevant here, simulating different CVDs. [`colorblindr`](https://github.com/clauswilke/colorblindr) and  [`colorblindcheck`](https://jakubnowosad.com/colorblindcheck/) wrap the `colorspace` functionality up in various ways making some low-level operations more convenient. 
+
+### TL;DR;
+There has been a proliferation of packages for work on this topic. Not included here but also encountered along the way were [scico](https://github.com/thomasp85/scico), and [khroma](https://packages.tesselle.org/khroma/index.html). These have their uses, but  it's easy to wind up with an R environment awash with conflicting function names, or at the very least with too many different options to keep track of. For that reason if no other, once you've explored the options, I highly recommend using `cols4all`: it does everything you are likely to need in routine map production. In particular, its interactive GUI, invoked by `c4a_gui()` allows you to filter, select, and examine the characteristics of the many colour schemes it supports, including from the perspective of various colour vision deficiencies. A good guide to how to proceed&mdash;with much more background information than I can offer&mdash;is available [here](https://cols4all.github.io/cols4all-R/articles/01_paper.html).
+
+## A basemap
+To make the code chunks for the maps less cluttered we make a basemap with a very pale blue for ocean and white for land. When coloured areas are overlaid on this, NA values will show through in white.
+
+```{r}
+#| label: basemap
+#| code-fold: true
+#| output: false
+land <- st_read("land.gpkg")
+bb <- st_bbox(land)
+xr <- bb[c(1, 3)]
+yr <- bb[c(2, 4)]
+
+basemap <- ggplot() + 
+  geom_sf(data = land, fill = "white", colour = "black", lwd = 0.5) +
+  theme_void() +
+  theme(
+    panel.border = element_rect(fill = NA, colour = "black"),
+    panel.background = element_rect(fill = lighten("lightblue", 0.8), colour = NA))
+
+frame <- 
+  coord_sf(xlim = xr, ylim = yr, expand = FALSE) 
+```
+
+Here is the resulting base map.
+
+```{r}
+#| label: fig-basemap
+#| fig-cap: Land-ocean basemap, which will show NA areas in white.
+#| fig-width: 10
+#| fig-height: 6
+#| code-fold: true
+basemap + frame
+```
+
+The data are three different simple demographic classifications of census tracts in the San Francisco Bay Area into 5, 10, and 15 demographic clusters, loosely based on data assembled by [Luc Guillemot](https://lucguillemot.com/). See [this page](https://computinggeographically.org/chapters/chap5/fig5-10-san-fran-clusters.html) for more background. The clusters have been stored as integer values, so we convert them to factors that will be correctly associated with discrete (i.e., qualitative) colour schemes by `ggplot2`.
+
+```{r}
+#| label: spatial-data
+#| output: false
+gdf <- st_read("sf-clusters.gpkg") |>
+  mutate(k5 = factor(k5, levels = as.character(1:5)),
+         k10 = factor(k10, levels = as.character(1:10)),
+         k15 = factor(k15, levels = as.character(1:15)))
+```
+
+```{r}
+#| label: glimpse-data
+gdf |> glimpse()
+```
+
+## The trouble with defaults
+So, let's make a map of the five-cluster solution, using the default colour fill provided by `ggplot2`.
+
+```{r}
+#| label: fig-default-5-cluster-map
+#| fig-cap: Default `ggplot` map of five demographic clusters.
+#| fig-width: 10
+#| fig-height: 6
+map <- basemap + 
+  geom_sf(data = gdf, aes(fill = k5), colour = "lightgrey") +
+  frame
+map
+```
+
+This is not even that great a selection of colours for normal colour vision(!), with the second and third, and third and fourth, clusters easily confused. If it's bad for normal vision, it's terrible for CVD viewers, as the `colorblindr::cvd_grid()` function reveals (click on the image for a closer look).
+
+```{r}
+#| label: fig-default-5-cluster-cvd-map
+#| fig-cap: Default `ggplot` map of five demographic clusters showing how it would appear to viewers with different CVDs.
+#| fig-width: 10
+#| fig-height: 6
+cvd_grid(map)
+```
+
+Under red-green conditions in the top two simulated maps, the colours break down to two hard to differentiate groups, while the blue-yellow colour blindness simulation in the third panel is a little better, but not by much. The achromatopsia simulation hints at the problem which lies in the default colour scheme deliberately picking a set of similar lightness hues evenly spaced around the colour wheel. Using `cols4all::c4a_plot_cvd()` we can see the problem with this palette in close-up.
+
+```{r}
+#| label: fig-ggplot-5-cvd
+#| fig-cap: Simulation of CVD appearance of the five-colour version of `ggplot2`'s default categorical scheme.
+#| fig-width: 6
+#| fig-height: 4
+c4a_plot_cvd(scales::pal_hue()(5))
+```
+
+We have to use the `scales::pal_hue()` function to access the five-colour version of `ggplot2`'s default categorical scheme. On paper, the default scheme in `ggplot2` seems like a good idea. The problem becomes clearer if we inspect what happens with a larger number of classes.
+
+```{r}
+#| label: fig-ggplot-25-cvd
+#| fig-cap: Simulation of CVD appearance of `ggplot2`'s default categorical scheme with 25 classes.
+#| fig-width: 6
+#| fig-height: 4
+c4a_plot_cvd(scales::pal_hue()(25))
+```
+
+Extended to 25 colours the approach becomes essentially 'spectral' and it is impossible to avoid sections of the spectrum where different CVDs struggle. Similar colours are inevitable (even with normal vision), and whole regions of the spectrum where some colour sensitivity is lost under different CVDs become indistinguishable.
+
+## But surely ColorBrewer will save us
+[Cindy Brewer's colour palettes](https://colorbrewer2.org) have been widely adopted, and were a huge leap forward when they were introduced. As a loyal member of the cartographic tribe, I am a loyal user,^[With periods of my career at Penn State and also Berkeley, I have an affinity for both the Brewer palettes, and the [Viridis palettes](https://sjmgarnier.github.io/viridis/articles/intro-to-viridis.html).] but unfortunately one area where the categorical palettes in this series fall down is colour blindness friendliness. To show this, I've made my own function to show the CVD simulations of multiple palettes in a single plot (click into the code below for a closer look.^[I wrote this code only because I couldn't get any of the various available packages to label their simulated plots with the palette name as a title... a weird and surprisingly annoying omission!])
+
+```{r}
+#| label: cvd-plots-functions
+#| code-fold: true
+modes <- ordered(
+  c("Normal", "Deuteranopia", "Protanopia", "Tritanopia", "Achromatopsia"),
+  levels = c("Normal", "Deuteranopia", "Protanopia", "Tritanopia", "Achromatopsia"))
+
+get_cvd_colours <- function(cols, mode) {
+  chooser <- str_to_lower(str_sub(mode, 1, 4))
+  if (chooser == "deut") {
+    return(deutan(cols)) # <1>
+  } else if (chooser == "prot") {
+    return(protan(cols))
+  } else if (chooser == "trit") {
+    return(tritan(cols))
+  } else if (chooser == "achr") {
+    return(desaturate(cols))
+  } else {
+    return(cols)
+  }
+}
+
+my_c4a_plot_cvd <- function(pals, cb_modes = modes, n = NULL) { # <2>
+  dfs <- list()
+  for (pal in pals) {
+    cols <- c4a(pal)
+    if (!is.null(n)) { cols <- c4a(pal)[1:n] }
+    ncols <- length(cols)
+    dfs[[length(dfs) + 1]] <- 
+      expand.grid(x = 1:ncols, y = cb_modes) |>
+      mutate(
+        hex = cb_modes |>
+          lapply(get_cvd_colours, cols = cols) |> unlist(), pal = pal)
+  }
+  ggplot(bind_rows(dfs)) +
+    geom_tile(aes(x = x, y = y, fill = hex), height = 0.92) +
+    scale_y_discrete(limits = rev) +
+    scale_fill_identity() +
+    facet_wrap( ~ pal, scales = "free_x") +
+    theme_void() +
+    theme(axis.text.y = element_text(hjust = 1, size = 8),
+          strip.text = element_text(vjust = 1))
+}
+```
+1. `deutan`, `protan`, `tritan`, and `desaturate` are from the `colorspace` package.
+2. The default `n = NA` will display all colours in the palette; if a value is supplied only that number of colours will be shown.
+
+Here's what we get for the Brewer categorical palettes.
+
+```{r}
+#| label: fig-cvd-plots-brewer
+#| fig-width: 8
+#| fig-height: 6
+my_c4a_plot_cvd(c4a_palettes("cat", "brewer"))
+```
+
+It's apparent from this display that the Brewer palettes won't save us. We _can_ hand-pick a five colour subset from a palette for present purposes, guided by the simulations. For example, colours 1, 2, 4, 5, and 7 of the `brewer.accent` palette might work (disregarding achromatopsia):
+
+```{r}
+#| label: fig-hand-picked-accent-scheme
+#| fig-cap: Five clusters mapped using selected colours from the Brewer Accent scheme.
+#| fig-width: 10
+#| fig-height: 12
+#| code-fold: true
+map2 <- basemap +
+  geom_sf(data = gdf, aes(fill = k5), colour = "lightgrey") +
+  scale_fill_manual(values = c4a("brewer.accent")[c(1, 2, 4, 5, 7)]) +
+  frame
+map2 / plot_spacer() / cvd_grid(map2) + plot_layout(heights = c(2, 0.1, 2.5))
+```
+
+Again, click on the image for a closer look.
+
+## A more systematic approach
+Picking our way through palettes 'by hand' like this, while do-able, is far from easy, and rapidly becomes more difficult if we want to map more categories. This is where the `cols4all::c4a_gui()` tool for interactively selecting palettes and exploring their properties comes into its own.
+
+In the static form of this post, the best approximation to this I can provide is a tabulation of palettes that might suit our purposes. We can create this from the scores that `cols4all` associates with its palettes, using the `c4a_scores()` function, and some filtering and sorting.
+
+```{r}
+#| label: make-cat-schemes-table
+c4a_cat_schemes <- 
+  c4a_palettes("cat") |>
+  lapply(c4a_scores) |>
+  bind_rows()
+
+top20 <- 
+  c4a_cat_schemes |>
+  filter(n >= 5) |>
+  select(fullname, n, cbfriendly) |>
+  arrange(desc(cbfriendly), n) |>
+  slice(1:20)
+
+top20
+```
+
+There are many more metrics in the data, than the number of colours (`n`) and a measure of their colour blind friendliness (`cbfriendly`), but to keep things manageable, I've selected only those. The interactive tool provides complete information. In the GUI tool you would see a display more like this:
+
+::: {#fig-c4a-gui}
+![](c4a-gui.png)
+
+The `c4a_gui` interactive tool.
+:::
+
+Many of the palettes in our first cut of the data allow for more categories than the requested five. I think that palettes that accommodate only five colours, or only one or two more than that, are likely to make better use of colour space than more expansive ones, which necessarily have more colours, more similar to one another. That's why the table has been sorted on both `cbfriendly` and increasing `n`.
+
+At this point, having found some possible schemes suited to our purposes it makes sense to examine them more closely. Using the `cols4all` GUI this would be an interactive process. Here, a more limited list of favoured schemes throws up eight plausible options, which we can plot with my CVD simulation wrapper function.
+
+```{r}
+#| label: fig-eight-candidate-cbd-schemes
+#| fig-cap: CVD simulations of eight candidate colour blind friendly schemes for five class maps.
+#| fig-width: 10
+#| fig-height: 7
+candidates5 <- 
+  c4a_cat_schemes |>
+  filter(n >= 5, n < 8, contrastWT, cbfriendly > 1) |>  # <1>
+  arrange(desc(cbfriendly), n) |>
+  pull(fullname)
+
+my_c4a_plot_cvd(candidates5, cb_modes = modes[1:4], n = 5)
+```
+1. `contrastWT` indicates schemes that contrast well with a white background.
+
+Of these five candidates, I like _cols4all.friendly5_, so here goes.
+
+```{r}
+#| label: fig-five-classes-using-cols4all.friendly
+#| fig-cap: Five demographic clusters mapped using the _cols4all.friendly5_ scheme.
+#| fig-width: 10
+#| fig-height: 12
+#| code-fold: true
+map3 <- basemap +
+  geom_sf(data = gdf, aes(fill = k5), colour = "lightgrey") +
+  scale_fill_manual(values = c4a("cols4all.friendly5")) +
+  frame
+map3 / plot_spacer() / cvd_grid(map3) + plot_layout(heights = c(2, 0.1, 2.5))
+```
+
+It's perhaps notable that the colours in this scheme are not dissimilar to those hand-picked form the _brewer.accent_ scheme in @fig-hand-picked-accent-scheme. The [_parks_](https://github.com/kevinsblake/NatParksPalettes) and [_met_](https://www.blakerobertmills.com/my-work/met-brewer) series which feature in these lists are new to me, and some of them seem to have potential for striking colourblind friendly maps.
+
+### Ten classes
+For the ten class case we need to impose a more restrictive requirement on the palettes we consider. For a start, they need to have at least 10 ten different colours! It turns out that only three categorical schemes in the `cols4all` collection meet this requirement.
+
+```{r}
+#| label: fig-three-candidate-10-color-cbd-schemes
+#| fig-cap: CVD simulations of three colour blind friendly schemes for mapping categorical maps with ten classes.
+#| fig-width: 10
+#| fig-height: 3
+candidates5 <- 
+  c4a_cat_schemes |>
+  filter(n >= 10, cbfriendly > 1) |>
+  arrange(desc(cbfriendly), n) |>
+  pull(fullname)
+
+my_c4a_plot_cvd(candidates5, cb_modes = modes[1:4], n = 10)
+```
+
+This time, in addition to a couple more of `cols4all` home-brew colourblind friendly schemes^[Developed using the `cols4all` tools!] there is a scheme by Paul Tol, named here as _tol.muted_. Full details of this family of palettes can be found [at Paul Tol's website](https://sronpersonalpages.nl/~pault/).
+
+Here's ten classes in our data mapped using the _tol.muted_ scheme.
+
+```{r}
+#| label: fig-10-colour-map-using-tol-muted
+#| fig-cap: Ten demographic clusters mapped using the _tol.muted_ scheme.
+#| fig-width: 10
+#| fig-height: 6
+#| code-fold: true
+map4 <- basemap +
+  geom_sf(data = gdf, aes(fill = k10), colour = "grey") +
+  scale_fill_discrete_c4a_cat("tol.muted") +
+  guides(fill = "none") +
+  frame
+map4
+```
+
+Ten classes seems to be at about the limit of what can be reliably mapped using categorical colour schemes. The CVD simulations in @fig-three-candidate-10-color-cbd-schemes clearly show that some of the colours in those palettes are very close to one another. It may make sense in a case like this to consider which colours from the palette might are best mapped to which clusters. This requires close analysis of which clusters most often neighbour one another, something I explore in outline [a bit further on](#matching-cluster-adjacencies-and-colour-differences).
+
+### _More_ classes?
+Categorical colour schemes that are colour blind friendly run out of steam around 10 classes. The options here demand a bit more thought. One possibility is to think carefully about the classification scheme itself: perhaps it can be simplified? Alternatively, it may be possible to organise it into a meaningful hierarchy. Having done so, colours can be assigned to upper levels in the hierarchy and lightness variations on these to classes within each. Geological maps are an example of this kind of design, but great care and long experience are required to make this work. Even then, with a complex classification colour blindness friendly outcomes will be difficult to achieve.
+
+A more rough and ready option is to use a sequential colour ramp, known to be colour blind friendly, and apply it as a discrete palette with the required number of classes.
+
+```{r}
+#| label: fig-viridis-palette
+#| fig-cap: The viridis palette.
+#| fig-width: 6
+#| fig-height: 2
+c4a_plot_cvd("matplotlib.viridis", n = 15)
+```
+
+```{r}
+#| label: fig-15-colour-map-using-viridis
+#| fig-cap: Fifteen demographic clusters mapped using the _matplotlib.viridis_ scheme.
+#| fig-width: 10
+#| fig-height: 12
+#| code-fold: true
+map5 <- basemap +
+  geom_sf(data = gdf, aes(fill = k15), colour = "lightgrey") +
+  scale_fill_discrete_c4a_seq("matplotlib.viridis") +
+  guides(fill = "none") +
+  frame
+map5 / plot_spacer() / cvd_grid(map5) + plot_layout(heights = c(2, 0.1, 2.5))
+```
+
+A map like this seems unlikely to be useable for reliable identification of clusters, even for those with normal vision, but crucially, using a colour blind friendly sequential palette like this, should mean it is not any _less_ useable for those with colour vision deficiencies. With this many classes, it's probable that a different mapping approach entirely^[Or, as noted, a different classification entirely.] should be considered.
+
+## Matching cluster adjacencies and colour differences
+This section is _highly_ speculative.
+
+I mentioned above, in relation to @fig-10-colour-map-using-tol-muted that analysis of which clusters neighbour one another in a map might be a useful adjunct to the process of applying a suitable colour scheme. By assigning colours from a scheme that are the most different from one another to the most common neighbourhood relations in the data, it may be possible to make maps more readable than the essentially random association of clusters to colours shown previously. This section explores how we might proceed.
+
+To count neighbouring relations among clusters, we can use a joins count function, `spdep::joincount.multi`. [`spdep`](https://r-spatial.github.io/spdep/) is a very useful but rather obtuse package. We construct a list of weights between neighbouring pairs of areas in our data, using the `poly2nb` and `listw` functions, then supply it together with the values of interest to the `joincount.multi` function. Up to now the spatial data extend well beyond the map area. For this analysis we restrict the areas to those in the mapped area using `st_intersection`.
+ 
+```{r}
+#| label: join-counts
+#| output: false
+library(spdep)
+
+gdf_bb <- gdf |> st_intersection(land) # <1>
+
+lw <- gdf_bb |> poly2nb() |> nb2listw(style = "B")
+jc <- joincount.multi(gdf_bb$k10, lw)
+```
+
+Here are a few rows of the result.^[I am showing only a few rows of the joins count result, because there are 55 pairwise combinations.]
+
+```{r}
+#| label: show-joins-count-selection
+#| code-fold: true
+jc |> head(28) |> tail(8)
+```
+
+Only the `Joincount` column is of interest here.^[The others are relevant to assessment of [spatial autocorrelation](../../../2025/11/14/gia-chapter-2A-spatial-autocorrelation/).] It tells us how many 'joins' i.e., neighbouring pairs of areas, have the corresponding classes, so for example, while there are no neighbouring pairs of members of cluster 6 with clusters 1 or 2, there are 51 neighbouring pairs of cluster 6 with cluster 5. 
+
+Prioritising common pairings for symbolisation by the most different pairs of colours is the goal. To get there one approach is to convert this list of join counts into a matrix:
+
+```{r}
+#| label: make-matrix-from-join-counts
+row_col_jc <- jc |> 
+  data.frame() |> 
+  select(1) |> 
+  slice(-n()) |>                               # <1>
+  tibble::rownames_to_column(var = "pair") |>  # <2>
+  separate(pair, c("row", "col")) |>
+  mutate(row = as.integer(row),
+         col = as.integer(col))
+
+m_jc <- xtabs(Joincount ~ col + row, row_col_jc) |>
+  unname()
+m_jc <- m_jc + t(m_jc) - diag(diag(m_jc + t(m_jc))) # <3>
+m_jc
+```
+1. The last row of the data is the total number of joins, which we don't need to know.
+2. The row names include the row and column indices of the matrix we want to make.
+3. This makes an upper-triangular matrix into a symmetric matrix with zeros in its main diagonal.
+
+We need a similar matrix reflecting differences among the colours in the palette we plan to use. The `colourblindcheck::palette_dist()` function provides exactly this, although the raw output needs some light post-processing to convert `NA`s in its upper triangular distance matrix to a symmetric distance matrix. This is what the `get_colour_distances()` wrapper I've written does. Meanwhile, we also have to measure distances for our three CVDs and take the minimum distance across all four results.^[My understanding is that this an important element in `cols4all`'s assessment of colour blindness friendliness.]
+
+```{r}
+#| label: make-matrix-from-colour-distances
+get_colour_distances <- function(pal) {
+  m_cols <- palette_dist(pal) |> 
+    round(0) |>
+    c() |>
+    replace_na(0) |>
+    matrix(length(pal), length(pal))
+  m_cols + t(m_cols)
+}
+pal <- c4a("tol.muted")
+m_cols <- get_colour_distances(pal)
+for (mode in modes[2:4]) {
+  m_cols <- pmin(
+    m_cols, 
+    get_colour_distances(get_cvd_colours(pal, mode)))
+}
+m_cols
+```
+
+Now, we want to know what permutation, or swapping of rows and columns in this matrix will make it as much like the joins count matrix as possible. There is likely no efficient algorithm for this process in general as the number of possible permutations increases rapidly with the size of the matrices. With ten colours there are factorial 10 or 3,628,800 possibities, so we content ourselves with trying 10,000 permutations and retaining the best one. For smaller problems we could carry out an exhaustive search, while for larger ones we would need a better heuristic to guide the search. This seems likely to be a known problem, but in the time I allowed for preparing this post, I couldn't find an exact solution.^[[This](https://alinetalhouk.github.io/diceR/reference/min_fnorm.html) comes close, but permutes only columns, not rows and columns together.] 
+
+The [`GraphAlignment`](https://master.bioconductor.org/packages/release/bioc/html/GraphAlignment.html) and [`pracma`](https://github.com/cran/pracma) packages provide the needed functions here. I also made a rough and ready function for calculating a difference between two matrices based on the [Frobenius norm](https://en.wikipedia.org/wiki/Matrix_norm#Frobenius_norm) of their difference. The Frobenius norm is analogous to the magnitude of a vector, but for matrices.
+
+```{r}
+#| label: find-best-permutation
+#| output: false
+library(GraphAlignment)
+library(pracma)
+
+d_m1_m2 <- function(m1, m2) { norm((m1 - m2), "F") }
+
+size <- ncol(m_cols)
+d12 <- d_m1_m2(m_jc, m_cols)
+min_d12 <- d12
+min_perm <- 1:size
+for (i in 1:10000) {
+  perm <- randperm(1:10, 10)
+  d12 <- d_m1_m2(m_jc, Permute(m_cols, perm))
+  if (d12 < min_d12) {
+    min_d12 <- d12
+    min_perm <- perm
+  }
+}
+```
+
+There is nothing very clever here: we simply iterate over 10,000 random permutations, and retain the permutation associated with the least difference between the two matrices that we encounter. We can then use this to permute the colours in our palette, applied using `scale_fill_manual`.
+
+```{r}
+#| label: fig-original-and-permuted-maps
+#| fig-cap: The original 10 class map, and the same map after permutation of the colour scheme.
+#| fig-width: 10
+#| fig-height: 18
+#| code-fold: true
+map6 <- basemap +
+  geom_sf(data = gdf, aes(fill = k10), colour = "grey") +
+  scale_fill_manual(values = pal[min_perm]) +
+  guides(fill = "none") +
+  ggtitle("Permuted colour scheme") +
+  frame
+
+(map4 + ggtitle("Original map")) / 
+  map6 / 
+  plot_spacer() / 
+  cvd_grid(map6) + plot_layout(heights = c(2, 2, 0.1, 2.5))
+```
+
+I don't know if the permuted map is better than the original. I _do know_ that while developing this post, I have seen many different permuted maps, because this crude implementation is certainly not finding a unique 'best' permutation. Even so, this seems like an interesting avenue for further investigation. 
+
+One area where the example shown seems like an improvement is in downtown San Francisco where two very similar colours were juxtaposed in the original map, and are not in the permuted colour scheme map, although it's highly likely that there are other map areas where the comparison is less favourable.
+
+## In conclusion
+While design with colour vision deficiency&mdash;like all design!&mdash;remains challenging, it's a lot easier than I realised to pay attention to this important consideration in making choices for colour use in maps. `cols4all` does a great job of supporting this in the R ecosystem. It's worth knowing too that you can export colour schemes from `cols4all` to Python and web friendly formats, so even if you are not a regular user of R you might find this tool useful.

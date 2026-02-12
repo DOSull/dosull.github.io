@@ -10,7 +10,20 @@
 <atom:link href="https://geospatialstuff.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Sun, 01 Feb 2026 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 12 Feb 2026 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>Colour blind design for categorical maps</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://geospatialstuff.com/posts/2026/02/13/</link>
+  <description><![CDATA[ Getting a handle on colour blind friendly schemes available in R for mapping. ]]></description>
+  <category>R</category>
+  <category>cartography</category>
+  <category>tutorial</category>
+  <category>visualization</category>
+  <guid>https://geospatialstuff.com/posts/2026/02/13/</guid>
+  <pubDate>Thu, 12 Feb 2026 11:00:00 GMT</pubDate>
+  <media:content url="https://geospatialstuff.com/posts/2026/02/13/fig-eight-candidate-cbd-schemes-1.png" medium="image" type="image/png" height="101" width="144"/>
+</item>
 <item>
   <title>NetLogo is weird as hell</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -254,18 +267,6 @@
   <guid>https://geospatialstuff.com/posts/2025/09/09/gia-chapter-1B-part-1/</guid>
   <pubDate>Mon, 08 Sep 2025 12:00:00 GMT</pubDate>
   <media:content url="https://geospatialstuff.com/posts/2025/09/09/gia-chapter-1B-part-1/fig-distance-surface-1.png" medium="image" type="image/png" height="103" width="144"/>
-</item>
-<item>
-  <title>Raster really is faster</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://geospatialstuff.com/posts/2025/08/31/gia-chapter-1A/</link>
-  <description><![CDATA[ First in a series of posts supporting Geographic Information Analysis ]]></description>
-  <category>geographic information analysis</category>
-  <category>fractals</category>
-  <category>R</category>
-  <category>tutorial</category>
-  <guid>https://geospatialstuff.com/posts/2025/08/31/gia-chapter-1A/</guid>
-  <pubDate>Sat, 30 Aug 2025 12:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

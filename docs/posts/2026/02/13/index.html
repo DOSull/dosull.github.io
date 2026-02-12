@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="David O’Sullivan">
+<meta name="dcterms.date" content="2026-02-13">
+<meta name="description" content="Getting a handle on colour blind friendly schemes available in R for mapping.">
+
+<title>Colour blind design for categorical maps – Geospatial Stuff</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<link href="../../../..//images/gs-logo-corrected.png" rel="icon" type="image/png">
+<script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-efd6ff7163e34c65f10ccb003a1f55f5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap-d2f5208e6386e90d1b300444e70b7b35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="geospatialstuff.com,dosull.github.io"></script>
+<meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
+
+
+<link rel="stylesheet" href="../../../../styles.css">
+<meta property="og:title" content="Colour blind design for categorical maps – Geospatial Stuff">
+<meta property="og:description" content="Getting a handle on colour blind friendly schemes available in R for mapping.">
+<meta property="og:image" content="https://geospatialstuff.com/posts/2026/02/13/fig-eight-candidate-cbd-schemes-1.png">
+<meta property="og:site_name" content="Geospatial Stuff">
+<meta property="og:image:height" content="1344">
+<meta property="og:image:width" content="1920">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo light-content">
+    <img src="../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../../../index.html">
+    <span class="navbar-title">Geospatial Stuff</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../portfolio.html"> 
+<span class="menu-text">Portfolio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../blog.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../contact.html"> 
+<span class="menu-text">Contact</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../training.html"> 
+<span class="menu-text">Training</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../../../../books.html">
+ <span class="dropdown-text">Books</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../presentations.html">
+ <span class="dropdown-text">Presentations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../publications.html">
+ <span class="dropdown-text">Publications</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/computing-geographically" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Computing Geographically</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/pattern-and-process" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Spatial Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/30-day-maps-2023" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">30 Day Map Challenge 2023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../../../blog.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Colour blind design for categorical maps</h1>
+            <p class="subtitle lead">A challenging problem</p>
+                  <div>
+        <div class="description">
+          Getting a handle on colour blind friendly schemes available in R for mapping.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">cartography</div>
+                <div class="quarto-category">tutorial</div>
+                <div class="quarto-category">visualization</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>David O’Sullivan </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 13, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tldr" id="toc-tldr" class="nav-link active" data-scroll-target="#tldr">TL;DR;</a></li>
+  <li><a href="#a-basemap" id="toc-a-basemap" class="nav-link" data-scroll-target="#a-basemap">A basemap</a></li>
+  <li><a href="#the-trouble-with-defaults" id="toc-the-trouble-with-defaults" class="nav-link" data-scroll-target="#the-trouble-with-defaults">The trouble with defaults</a></li>
+  <li><a href="#but-surely-colorbrewer-will-save-us" id="toc-but-surely-colorbrewer-will-save-us" class="nav-link" data-scroll-target="#but-surely-colorbrewer-will-save-us">But surely ColorBrewer will save us</a></li>
+  <li><a href="#a-more-systematic-approach" id="toc-a-more-systematic-approach" class="nav-link" data-scroll-target="#a-more-systematic-approach">A more systematic approach</a>
+  <ul class="collapse">
+  <li><a href="#ten-classes" id="toc-ten-classes" class="nav-link" data-scroll-target="#ten-classes">Ten classes</a></li>
+  <li><a href="#more-classes" id="toc-more-classes" class="nav-link" data-scroll-target="#more-classes"><em>More</em> classes?</a></li>
+  </ul></li>
+  <li><a href="#matching-cluster-adjacencies-and-colour-differences" id="toc-matching-cluster-adjacencies-and-colour-differences" class="nav-link" data-scroll-target="#matching-cluster-adjacencies-and-colour-differences">Matching cluster adjacencies and colour differences</a></li>
+  <li><a href="#in-conclusion" id="toc-in-conclusion" class="nav-link" data-scroll-target="#in-conclusion">In conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>Recently in preparing a manuscript about <a href="https://github.com/DOSull/weaving-space"><code>weavingspace</code></a> for publication concerns about the colour schemes used in some of the figures were raised because they were not colour blind friendly. Seeking to address that concern, one thing led to another, and here I am.</p>
+<p>I am in no way an expert on this topic. Colour blindness is <a href="https://en.wikipedia.org/wiki/Color_blindness">relatively well understood and characterised</a>, as resulting from anomalous (or a complete lack of) cone cells among the long (L), medium (M), or short (S) wavelength sensitive cones. The L- and M-cones are most sensitive to colour either side of cyan in the spectrum and issues with these result in two forms of red-green colour blindness known respectively as <em>protanopia</em> and <em>deuteranopia</em>. Blue-yellow colour-blindness, <em>tritanopia</em> results from anomalous or absent S-cones sensitive to blue colours. The more severe <em>achromatopsia</em> results in an ability only to differentiate colours by their lightness. As we will see the effects of these different colour vision deficiencies (CVDs) can be simulated.</p>
+<p>In spite of this good understanding, colour palettes readable by those with CVDs have only come to widespread attention recently. That said, there are now many options in R for exploring the readability of graphics under different CVDs. In the way of R, perhaps a few <em>too many</em>, making it a little difficult to pick a path through things.</p>
+<p>My explorations suggest that the most straightforward support for solving design challenges in this area lie in the <a href="https://cols4all.github.io/cols4all-R/"><code>cols4all</code> package</a>, although in this post I use a couple of other packages besides. First the usual suspects:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>And also three specifically colour-related packages:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Colour related imports</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(colorspace)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-3" class="code-annotation-target"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(colorblindr)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3">3</button><span id="annotated-cell-2-4" class="code-annotation-target"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(colorblindcheck)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="4">4</button><span id="annotated-cell-2-5" class="code-annotation-target"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cols4all)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="2" data-code-annotation="1">To simulate colour vision deficiencies applied to a vector of colours.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="2">For a function <code>cvd_grid()</code> that can simulate how an existing plot appears under different colour vision deficiencies.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="4" data-code-annotation="3">For a function <code>palette_dist</code> to estimate differences among colours in a palette.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="5" data-code-annotation="4">For a range of colour blind friendly palettes.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>The <a href="https://colorspace.r-forge.r-project.org/articles/colorspace.html"><code>colorspace</code> package</a> provides the underlying ‘machinery’ to drive all of this, supporting ways to manipulate colours, such as darkening or lightening them, increasing or decreasing saturation, and, particularly relevant here, simulating different CVDs. <a href="https://github.com/clauswilke/colorblindr"><code>colorblindr</code></a> and <a href="https://jakubnowosad.com/colorblindcheck/"><code>colorblindcheck</code></a> wrap the <code>colorspace</code> functionality up in various ways making some low-level operations more convenient.</p>
+<section id="tldr" class="level3">
+<h3 class="anchored" data-anchor-id="tldr">TL;DR;</h3>
+<p>There has been a proliferation of packages for work on this topic. Not included here but also encountered along the way were <a href="https://github.com/thomasp85/scico">scico</a>, and <a href="https://packages.tesselle.org/khroma/index.html">khroma</a>. These have their uses, but it’s easy to wind up with an R environment awash with conflicting function names, or at the very least with too many different options to keep track of. For that reason if no other, once you’ve explored the options, I highly recommend using <code>cols4all</code>: it does everything you are likely to need in routine map production. In particular, its interactive GUI, invoked by <code>c4a_gui()</code> allows you to filter, select, and examine the characteristics of the many colour schemes it supports, including from the perspective of various colour vision deficiencies. A good guide to how to proceed—with much more background information than I can offer—is available <a href="https://cols4all.github.io/cols4all-R/articles/01_paper.html">here</a>.</p>
+</section>
+<section id="a-basemap" class="level2">
+<h2 class="anchored" data-anchor-id="a-basemap">A basemap</h2>
+<p>To make the code chunks for the maps less cluttered we make a basemap with a very pale blue for ocean and white for land. When coloured areas are overlaid on this, NA values will show through in white.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>land <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"land.gpkg"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>bb <span class="ot">&lt;-</span> <span class="fu">st_bbox</span>(land)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>xr <span class="ot">&lt;-</span> bb[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>yr <span class="ot">&lt;-</span> bb[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>basemap <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> land, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">colour =</span> <span class="st">"black"</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="fu">lighten</span>(<span class="st">"lightblue"</span>, <span class="fl">0.8</span>), <span class="at">colour =</span> <span class="cn">NA</span>))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>frame <span class="ot">&lt;-</span> </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> xr, <span class="at">ylim =</span> yr, <span class="at">expand =</span> <span class="cn">FALSE</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Here is the resulting base map.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>basemap <span class="sc">+</span> frame</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-basemap" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-basemap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-basemap-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Land-ocean basemap, which will show NA areas in white."><img src="index_files/figure-html/fig-basemap-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-basemap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Land-ocean basemap, which will show NA areas in white.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The data are three different simple demographic classifications of census tracts in the San Francisco Bay Area into 5, 10, and 15 demographic clusters, loosely based on data assembled by <a href="https://lucguillemot.com/">Luc Guillemot</a>. See <a href="https://computinggeographically.org/chapters/chap5/fig5-10-san-fran-clusters.html">this page</a> for more background. The clusters have been stored as integer values, so we convert them to factors that will be correctly associated with discrete (i.e., qualitative) colour schemes by <code>ggplot2</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gdf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"sf-clusters.gpkg"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">k5 =</span> <span class="fu">factor</span>(k5, <span class="at">levels =</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">k10 =</span> <span class="fu">factor</span>(k10, <span class="at">levels =</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">k15 =</span> <span class="fu">factor</span>(k15, <span class="at">levels =</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>gdf <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,546
+Columns: 4
+$ k5   &lt;fct&gt; 5, 4, 4, 1, 1, 2, 3, 3, 4, 3, 4, 1, 1, 4, 4, 4, 4, 4, 3, 4, 2, 3,…
+$ k10  &lt;fct&gt; 5, 5, 10, 9, 9, 3, 2, 2, 10, 2, 5, 9, 9, 5, 10, 10, 1, 1, 1, 1, 8…
+$ k15  &lt;fct&gt; 7, 7, 8, 6, 15, 10, 12, 12, 12, 14, 7, 15, 15, 7, 12, 12, 12, 3, …
+$ geom &lt;MULTIPOLYGON [m]&gt; MULTIPOLYGON (((1844733 650..., MULTIPOLYGON (((1842…</code></pre>
+</div>
+</div>
+</section>
+<section id="the-trouble-with-defaults" class="level2">
+<h2 class="anchored" data-anchor-id="the-trouble-with-defaults">The trouble with defaults</h2>
+<p>So, let’s make a map of the five-cluster solution, using the default colour fill provided by <code>ggplot2</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>map <span class="ot">&lt;-</span> basemap <span class="sc">+</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> gdf, <span class="fu">aes</span>(<span class="at">fill =</span> k5), <span class="at">colour =</span> <span class="st">"lightgrey"</span>) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  frame</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>map</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-default-5-cluster-map" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-default-5-cluster-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-default-5-cluster-map-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Default ggplot map of five demographic clusters."><img src="index_files/figure-html/fig-default-5-cluster-map-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-default-5-cluster-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Default <code>ggplot</code> map of five demographic clusters.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This is not even that great a selection of colours for normal colour vision(!), with the second and third, and third and fourth, clusters easily confused. If it’s bad for normal vision, it’s terrible for CVD viewers, as the <code>colorblindr::cvd_grid()</code> function reveals (click on the image for a closer look).</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cvd_grid</span>(map)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-default-5-cluster-cvd-map" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-default-5-cluster-cvd-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-default-5-cluster-cvd-map-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Default ggplot map of five demographic clusters showing how it would appear to viewers with different CVDs."><img src="index_files/figure-html/fig-default-5-cluster-cvd-map-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-default-5-cluster-cvd-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Default <code>ggplot</code> map of five demographic clusters showing how it would appear to viewers with different CVDs.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Under red-green conditions in the top two simulated maps, the colours break down to two hard to differentiate groups, while the blue-yellow colour blindness simulation in the third panel is a little better, but not by much. The achromatopsia simulation hints at the problem which lies in the default colour scheme deliberately picking a set of similar lightness hues evenly spaced around the colour wheel. Using <code>cols4all::c4a_plot_cvd()</code> we can see the problem with this palette in close-up.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c4a_plot_cvd</span>(scales<span class="sc">::</span><span class="fu">pal_hue</span>()(<span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-ggplot-5-cvd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ggplot-5-cvd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-ggplot-5-cvd-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Simulation of CVD appearance of the five-colour version of ggplot2’s default categorical scheme."><img src="index_files/figure-html/fig-ggplot-5-cvd-1.png" class="img-fluid figure-img" width="576"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ggplot-5-cvd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Simulation of CVD appearance of the five-colour version of <code>ggplot2</code>’s default categorical scheme.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We have to use the <code>scales::pal_hue()</code> function to access the five-colour version of <code>ggplot2</code>’s default categorical scheme. On paper, the default scheme in <code>ggplot2</code> seems like a good idea. The problem becomes clearer if we inspect what happens with a larger number of classes.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c4a_plot_cvd</span>(scales<span class="sc">::</span><span class="fu">pal_hue</span>()(<span class="dv">25</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-ggplot-25-cvd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ggplot-25-cvd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-ggplot-25-cvd-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Simulation of CVD appearance of ggplot2’s default categorical scheme with 25 classes."><img src="index_files/figure-html/fig-ggplot-25-cvd-1.png" class="img-fluid figure-img" width="576"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ggplot-25-cvd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Simulation of CVD appearance of <code>ggplot2</code>’s default categorical scheme with 25 classes.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Extended to 25 colours the approach becomes essentially ‘spectral’ and it is impossible to avoid sections of the spectrum where different CVDs struggle. Similar colours are inevitable (even with normal vision), and whole regions of the spectrum where some colour sensitivity is lost under different CVDs become indistinguishable.</p>
+</section>
+<section id="but-surely-colorbrewer-will-save-us" class="level2">
+<h2 class="anchored" data-anchor-id="but-surely-colorbrewer-will-save-us">But surely ColorBrewer will save us</h2>
+<p><a href="https://colorbrewer2.org">Cindy Brewer’s colour palettes</a> have been widely adopted, and were a huge leap forward when they were introduced. As a loyal member of the cartographic tribe, I am a loyal user,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> but unfortunately one area where the categorical palettes in this series fall down is colour blindness friendliness. To show this, I’ve made my own function to show the CVD simulations of multiple palettes in a single plot (click into the code below for a closer look.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>)</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-11"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-11-1"><a href="#annotated-cell-11-1" aria-hidden="true" tabindex="-1"></a>modes <span class="ot">&lt;-</span> <span class="fu">ordered</span>(</span>
+<span id="annotated-cell-11-2"><a href="#annotated-cell-11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"Normal"</span>, <span class="st">"Deuteranopia"</span>, <span class="st">"Protanopia"</span>, <span class="st">"Tritanopia"</span>, <span class="st">"Achromatopsia"</span>),</span>
+<span id="annotated-cell-11-3"><a href="#annotated-cell-11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Normal"</span>, <span class="st">"Deuteranopia"</span>, <span class="st">"Protanopia"</span>, <span class="st">"Tritanopia"</span>, <span class="st">"Achromatopsia"</span>))</span>
+<span id="annotated-cell-11-4"><a href="#annotated-cell-11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-11-5"><a href="#annotated-cell-11-5" aria-hidden="true" tabindex="-1"></a>get_cvd_colours <span class="ot">&lt;-</span> <span class="cf">function</span>(cols, mode) {</span>
+<span id="annotated-cell-11-6"><a href="#annotated-cell-11-6" aria-hidden="true" tabindex="-1"></a>  chooser <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(<span class="fu">str_sub</span>(mode, <span class="dv">1</span>, <span class="dv">4</span>))</span>
+<span id="annotated-cell-11-7"><a href="#annotated-cell-11-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (chooser <span class="sc">==</span> <span class="st">"deut"</span>) {</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1">1</button><span id="annotated-cell-11-8" class="code-annotation-target"><a href="#annotated-cell-11-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">deutan</span>(cols))</span>
+<span id="annotated-cell-11-9"><a href="#annotated-cell-11-9" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (chooser <span class="sc">==</span> <span class="st">"prot"</span>) {</span>
+<span id="annotated-cell-11-10"><a href="#annotated-cell-11-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">protan</span>(cols))</span>
+<span id="annotated-cell-11-11"><a href="#annotated-cell-11-11" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (chooser <span class="sc">==</span> <span class="st">"trit"</span>) {</span>
+<span id="annotated-cell-11-12"><a href="#annotated-cell-11-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">tritan</span>(cols))</span>
+<span id="annotated-cell-11-13"><a href="#annotated-cell-11-13" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (chooser <span class="sc">==</span> <span class="st">"achr"</span>) {</span>
+<span id="annotated-cell-11-14"><a href="#annotated-cell-11-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">desaturate</span>(cols))</span>
+<span id="annotated-cell-11-15"><a href="#annotated-cell-11-15" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="annotated-cell-11-16"><a href="#annotated-cell-11-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(cols)</span>
+<span id="annotated-cell-11-17"><a href="#annotated-cell-11-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-11-18"><a href="#annotated-cell-11-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-11-19"><a href="#annotated-cell-11-19" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2">2</button><span id="annotated-cell-11-20" class="code-annotation-target"><a href="#annotated-cell-11-20" aria-hidden="true" tabindex="-1"></a>my_c4a_plot_cvd <span class="ot">&lt;-</span> <span class="cf">function</span>(pals, <span class="at">cb_modes =</span> modes, <span class="at">n =</span> <span class="cn">NULL</span>) {</span>
+<span id="annotated-cell-11-21"><a href="#annotated-cell-11-21" aria-hidden="true" tabindex="-1"></a>  dfs <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="annotated-cell-11-22"><a href="#annotated-cell-11-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (pal <span class="cf">in</span> pals) {</span>
+<span id="annotated-cell-11-23"><a href="#annotated-cell-11-23" aria-hidden="true" tabindex="-1"></a>    cols <span class="ot">&lt;-</span> <span class="fu">c4a</span>(pal)</span>
+<span id="annotated-cell-11-24"><a href="#annotated-cell-11-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(n)) { cols <span class="ot">&lt;-</span> <span class="fu">c4a</span>(pal)[<span class="dv">1</span><span class="sc">:</span>n] }</span>
+<span id="annotated-cell-11-25"><a href="#annotated-cell-11-25" aria-hidden="true" tabindex="-1"></a>    ncols <span class="ot">&lt;-</span> <span class="fu">length</span>(cols)</span>
+<span id="annotated-cell-11-26"><a href="#annotated-cell-11-26" aria-hidden="true" tabindex="-1"></a>    dfs[[<span class="fu">length</span>(dfs) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> </span>
+<span id="annotated-cell-11-27"><a href="#annotated-cell-11-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">expand.grid</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>ncols, <span class="at">y =</span> cb_modes) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-11-28"><a href="#annotated-cell-11-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(</span>
+<span id="annotated-cell-11-29"><a href="#annotated-cell-11-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">hex =</span> cb_modes <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-11-30"><a href="#annotated-cell-11-30" aria-hidden="true" tabindex="-1"></a>          <span class="fu">lapply</span>(get_cvd_colours, <span class="at">cols =</span> cols) <span class="sc">|&gt;</span> <span class="fu">unlist</span>(), <span class="at">pal =</span> pal)</span>
+<span id="annotated-cell-11-31"><a href="#annotated-cell-11-31" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-11-32"><a href="#annotated-cell-11-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">bind_rows</span>(dfs)) <span class="sc">+</span></span>
+<span id="annotated-cell-11-33"><a href="#annotated-cell-11-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">fill =</span> hex), <span class="at">height =</span> <span class="fl">0.92</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-11-34"><a href="#annotated-cell-11-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">limits =</span> rev) <span class="sc">+</span></span>
+<span id="annotated-cell-11-35"><a href="#annotated-cell-11-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_identity</span>() <span class="sc">+</span></span>
+<span id="annotated-cell-11-36"><a href="#annotated-cell-11-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>( <span class="sc">~</span> pal, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-11-37"><a href="#annotated-cell-11-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="annotated-cell-11-38"><a href="#annotated-cell-11-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="annotated-cell-11-39"><a href="#annotated-cell-11-39" aria-hidden="true" tabindex="-1"></a>          <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">vjust =</span> <span class="dv">1</span>))</span>
+<span id="annotated-cell-11-40"><a href="#annotated-cell-11-40" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="8" data-code-annotation="1"><code>deutan</code>, <code>protan</code>, <code>tritan</code>, and <code>desaturate</code> are from the <code>colorspace</code> package.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="20" data-code-annotation="2">The default <code>n = NA</code> will display all colours in the palette; if a value is supplied only that number of colours will be shown.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Here’s what we get for the Brewer categorical palettes.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">my_c4a_plot_cvd</span>(<span class="fu">c4a_palettes</span>(<span class="st">"cat"</span>, <span class="st">"brewer"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-cvd-plots-brewer" class="quarto-float quarto-figure quarto-figure-center anchored" width="768">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cvd-plots-brewer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-cvd-plots-brewer-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: "><img src="index_files/figure-html/fig-cvd-plots-brewer-1.png" id="fig-cvd-plots-brewer" class="img-fluid figure-img" width="768"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-cvd-plots-brewer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It’s apparent from this display that the Brewer palettes won’t save us. We <em>can</em> hand-pick a five colour subset from a palette for present purposes, guided by the simulations. For example, colours 1, 2, 4, 5, and 7 of the <code>brewer.accent</code> palette might work (disregarding achromatopsia):</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>map2 <span class="ot">&lt;-</span> basemap <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> gdf, <span class="fu">aes</span>(<span class="at">fill =</span> k5), <span class="at">colour =</span> <span class="st">"lightgrey"</span>) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c4a</span>(<span class="st">"brewer.accent"</span>)[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">7</span>)]) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  frame</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>map2 <span class="sc">/</span> <span class="fu">plot_spacer</span>() <span class="sc">/</span> <span class="fu">cvd_grid</span>(map2) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">0.1</span>, <span class="fl">2.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-hand-picked-accent-scheme" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hand-picked-accent-scheme-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-hand-picked-accent-scheme-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Five clusters mapped using selected colours from the Brewer Accent scheme."><img src="index_files/figure-html/fig-hand-picked-accent-scheme-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hand-picked-accent-scheme-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Five clusters mapped using selected colours from the Brewer Accent scheme.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Again, click on the image for a closer look.</p>
+</section>
+<section id="a-more-systematic-approach" class="level2">
+<h2 class="anchored" data-anchor-id="a-more-systematic-approach">A more systematic approach</h2>
+<p>Picking our way through palettes ‘by hand’ like this, while do-able, is far from easy, and rapidly becomes more difficult if we want to map more categories. This is where the <code>cols4all::c4a_gui()</code> tool for interactively selecting palettes and exploring their properties comes into its own.</p>
+<p>In the static form of this post, the best approximation to this I can provide is a tabulation of palettes that might suit our purposes. We can create this from the scores that <code>cols4all</code> associates with its palettes, using the <code>c4a_scores()</code> function, and some filtering and sorting.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>c4a_cat_schemes <span class="ot">&lt;-</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c4a_palettes</span>(<span class="st">"cat"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(c4a_scores) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>()</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>top20 <span class="ot">&lt;-</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  c4a_cat_schemes <span class="sc">|&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fullname, n, cbfriendly) <span class="sc">|&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(cbfriendly), n) <span class="sc">|&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>top20</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      fullname  n cbfriendly
+1           cols4all.friendly5  5    2.01766
+2           parks.kings_canyon  6    2.01676
+3           cols4all.friendly7  7    2.01502
+4           cols4all.friendly9  9    1.01252
+5                   tol.medium  6    1.01208
+6               parks.cuyahoga  6    1.01179
+7                    tol.muted 10    1.01165
+8               parks.halekala  5    1.01157
+9              cols4all.area7d  7    1.01117
+10              cols4all.area7  7    1.01115
+11         cols4all.friendly11 11    1.01112
+12          parks.death_valley  7    1.01095
+13             met.new_kingdom  5    1.01046
+14         cols4all.friendly13 13    1.01006
+15              cols4all.line7  7    1.01005
+16             cols4all.area8d  8    0.00997
+17                  met.lakota  6    0.00991
+18                  met.moreau  7    0.00960
+19              cols4all.line8  8    0.00954
+20 tableau.classic_color_blind 10    0.00944</code></pre>
+</div>
+</div>
+<p>There are many more metrics in the data, than the number of colours (<code>n</code>) and a measure of their colour blind friendliness (<code>cbfriendly</code>), but to keep things manageable, I’ve selected only those. The interactive tool provides complete information. In the GUI tool you would see a display more like this:</p>
+<div id="fig-c4a-gui" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-c4a-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="c4a-gui.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: The c4a_gui interactive tool."><img src="c4a-gui.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-c4a-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: The <code>c4a_gui</code> interactive tool.
+</figcaption>
+</figure>
+</div>
+<p>Many of the palettes in our first cut of the data allow for more categories than the requested five. I think that palettes that accommodate only five colours, or only one or two more than that, are likely to make better use of colour space than more expansive ones, which necessarily have more colours, more similar to one another. That’s why the table has been sorted on both <code>cbfriendly</code> and increasing <code>n</code>.</p>
+<p>At this point, having found some possible schemes suited to our purposes it makes sense to examine them more closely. Using the <code>cols4all</code> GUI this would be an interactive process. Here, a more limited list of favoured schemes throws up eight plausible options, which we can plot with my CVD simulation wrapper function.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-15"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-15-1"><a href="#annotated-cell-15-1" aria-hidden="true" tabindex="-1"></a>candidates5 <span class="ot">&lt;-</span> </span>
+<span id="annotated-cell-15-2"><a href="#annotated-cell-15-2" aria-hidden="true" tabindex="-1"></a>  c4a_cat_schemes <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="1">1</button><span id="annotated-cell-15-3" class="code-annotation-target"><a href="#annotated-cell-15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">5</span>, n <span class="sc">&lt;</span> <span class="dv">8</span>, contrastWT, cbfriendly <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-15-4"><a href="#annotated-cell-15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(cbfriendly), n) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-15-5"><a href="#annotated-cell-15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(fullname)</span>
+<span id="annotated-cell-15-6"><a href="#annotated-cell-15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-15-7"><a href="#annotated-cell-15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">my_c4a_plot_cvd</span>(candidates5, <span class="at">cb_modes =</span> modes[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">n =</span> <span class="dv">5</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="3" data-code-annotation="1"><code>contrastWT</code> indicates schemes that contrast well with a white background.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div id="fig-eight-candidate-cbd-schemes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-eight-candidate-cbd-schemes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-eight-candidate-cbd-schemes-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: CVD simulations of eight candidate colour blind friendly schemes for five class maps."><img src="index_files/figure-html/fig-eight-candidate-cbd-schemes-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eight-candidate-cbd-schemes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: CVD simulations of eight candidate colour blind friendly schemes for five class maps.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Of these five candidates, I like <em>cols4all.friendly5</em>, so here goes.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>map3 <span class="ot">&lt;-</span> basemap <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> gdf, <span class="fu">aes</span>(<span class="at">fill =</span> k5), <span class="at">colour =</span> <span class="st">"lightgrey"</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c4a</span>(<span class="st">"cols4all.friendly5"</span>)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  frame</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>map3 <span class="sc">/</span> <span class="fu">plot_spacer</span>() <span class="sc">/</span> <span class="fu">cvd_grid</span>(map3) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">0.1</span>, <span class="fl">2.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-five-classes-using-cols4all.friendly" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-five-classes-using-cols4all.friendly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-five-classes-using-cols4all.friendly-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: Five demographic clusters mapped using the cols4all.friendly5 scheme."><img src="index_files/figure-html/fig-five-classes-using-cols4all.friendly-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-five-classes-using-cols4all.friendly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Five demographic clusters mapped using the <em>cols4all.friendly5</em> scheme.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It’s perhaps notable that the colours in this scheme are not dissimilar to those hand-picked form the <em>brewer.accent</em> scheme in <a href="#fig-hand-picked-accent-scheme" class="quarto-xref">Figure&nbsp;7</a>. The <a href="https://github.com/kevinsblake/NatParksPalettes"><em>parks</em></a> and <a href="https://www.blakerobertmills.com/my-work/met-brewer"><em>met</em></a> series which feature in these lists are new to me, and some of them seem to have potential for striking colourblind friendly maps.</p>
+<section id="ten-classes" class="level3">
+<h3 class="anchored" data-anchor-id="ten-classes">Ten classes</h3>
+<p>For the ten class case we need to impose a more restrictive requirement on the palettes we consider. For a start, they need to have at least 10 ten different colours! It turns out that only three categorical schemes in the <code>cols4all</code> collection meet this requirement.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>candidates5 <span class="ot">&lt;-</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  c4a_cat_schemes <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">10</span>, cbfriendly <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(cbfriendly), n) <span class="sc">|&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(fullname)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">my_c4a_plot_cvd</span>(candidates5, <span class="at">cb_modes =</span> modes[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-three-candidate-10-color-cbd-schemes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-three-candidate-10-color-cbd-schemes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-three-candidate-10-color-cbd-schemes-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;11: CVD simulations of three colour blind friendly schemes for mapping categorical maps with ten classes."><img src="index_files/figure-html/fig-three-candidate-10-color-cbd-schemes-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-three-candidate-10-color-cbd-schemes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11: CVD simulations of three colour blind friendly schemes for mapping categorical maps with ten classes.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This time, in addition to a couple more of <code>cols4all</code> home-brew colourblind friendly schemes<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> there is a scheme by Paul Tol, named here as <em>tol.muted</em>. Full details of this family of palettes can be found <a href="https://sronpersonalpages.nl/~pault/">at Paul Tol’s website</a>.</p>
+<p>Here’s ten classes in our data mapped using the <em>tol.muted</em> scheme.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>map4 <span class="ot">&lt;-</span> basemap <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> gdf, <span class="fu">aes</span>(<span class="at">fill =</span> k10), <span class="at">colour =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete_c4a_cat</span>(<span class="st">"tol.muted"</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  frame</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>map4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-10-colour-map-using-tol-muted" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-10-colour-map-using-tol-muted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-10-colour-map-using-tol-muted-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;12: Ten demographic clusters mapped using the tol.muted scheme."><img src="index_files/figure-html/fig-10-colour-map-using-tol-muted-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-10-colour-map-using-tol-muted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: Ten demographic clusters mapped using the <em>tol.muted</em> scheme.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Ten classes seems to be at about the limit of what can be reliably mapped using categorical colour schemes. The CVD simulations in <a href="#fig-three-candidate-10-color-cbd-schemes" class="quarto-xref">Figure&nbsp;11</a> clearly show that some of the colours in those palettes are very close to one another. It may make sense in a case like this to consider which colours from the palette might are best mapped to which clusters. This requires close analysis of which clusters most often neighbour one another, something I explore in outline <a href="#matching-cluster-adjacencies-and-colour-differences">a bit further on</a>.</p>
+</section>
+<section id="more-classes" class="level3">
+<h3 class="anchored" data-anchor-id="more-classes"><em>More</em> classes?</h3>
+<p>Categorical colour schemes that are colour blind friendly run out of steam around 10 classes. The options here demand a bit more thought. One possibility is to think carefully about the classification scheme itself: perhaps it can be simplified? Alternatively, it may be possible to organise it into a meaningful hierarchy. Having done so, colours can be assigned to upper levels in the hierarchy and lightness variations on these to classes within each. Geological maps are an example of this kind of design, but great care and long experience are required to make this work. Even then, with a complex classification colour blindness friendly outcomes will be difficult to achieve.</p>
+<p>A more rough and ready option is to use a sequential colour ramp, known to be colour blind friendly, and apply it as a discrete palette with the required number of classes.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c4a_plot_cvd</span>(<span class="st">"matplotlib.viridis"</span>, <span class="at">n =</span> <span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-viridis-palette" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-viridis-palette-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-viridis-palette-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;13: The viridis palette."><img src="index_files/figure-html/fig-viridis-palette-1.png" class="img-fluid figure-img" width="576"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viridis-palette-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13: The viridis palette.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>map5 <span class="ot">&lt;-</span> basemap <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> gdf, <span class="fu">aes</span>(<span class="at">fill =</span> k15), <span class="at">colour =</span> <span class="st">"lightgrey"</span>) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete_c4a_seq</span>(<span class="st">"matplotlib.viridis"</span>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  frame</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>map5 <span class="sc">/</span> <span class="fu">plot_spacer</span>() <span class="sc">/</span> <span class="fu">cvd_grid</span>(map5) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">0.1</span>, <span class="fl">2.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-15-colour-map-using-viridis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-15-colour-map-using-viridis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-15-colour-map-using-viridis-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;14: Fifteen demographic clusters mapped using the matplotlib.viridis scheme."><img src="index_files/figure-html/fig-15-colour-map-using-viridis-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-15-colour-map-using-viridis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14: Fifteen demographic clusters mapped using the <em>matplotlib.viridis</em> scheme.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A map like this seems unlikely to be useable for reliable identification of clusters, even for those with normal vision, but crucially, using a colour blind friendly sequential palette like this, should mean it is not any <em>less</em> useable for those with colour vision deficiencies. With this many classes, it’s probable that a different mapping approach entirely<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> should be considered.</p>
+</section>
+</section>
+<section id="matching-cluster-adjacencies-and-colour-differences" class="level2">
+<h2 class="anchored" data-anchor-id="matching-cluster-adjacencies-and-colour-differences">Matching cluster adjacencies and colour differences</h2>
+<p>This section is <em>highly</em> speculative.</p>
+<p>I mentioned above, in relation to <a href="#fig-10-colour-map-using-tol-muted" class="quarto-xref">Figure&nbsp;12</a> that analysis of which clusters neighbour one another in a map might be a useful adjunct to the process of applying a suitable colour scheme. By assigning colours from a scheme that are the most different from one another to the most common neighbourhood relations in the data, it may be possible to make maps more readable than the essentially random association of clusters to colours shown previously. This section explores how we might proceed.</p>
+<p>To count neighbouring relations among clusters, we can use a joins count function, <code>spdep::joincount.multi</code>. <a href="https://r-spatial.github.io/spdep/"><code>spdep</code></a> is a very useful but rather obtuse package. We construct a list of weights between neighbouring pairs of areas in our data, using the <code>poly2nb</code> and <code>listw</code> functions, then supply it together with the values of interest to the <code>joincount.multi</code> function. Up to now the spatial data extend well beyond the map area. For this analysis we restrict the areas to those in the mapped area using <code>st_intersection</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-21"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-21-1"><a href="#annotated-cell-21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spdep)</span>
+<span id="annotated-cell-21-2"><a href="#annotated-cell-21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-21-3"><a href="#annotated-cell-21-3" aria-hidden="true" tabindex="-1"></a>gdf_bb <span class="ot">&lt;-</span> gdf <span class="sc">|&gt;</span> <span class="fu">st_intersection</span>(land)</span>
+<span id="annotated-cell-21-4"><a href="#annotated-cell-21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-21-5"><a href="#annotated-cell-21-5" aria-hidden="true" tabindex="-1"></a>lw <span class="ot">&lt;-</span> gdf_bb <span class="sc">|&gt;</span> <span class="fu">poly2nb</span>() <span class="sc">|&gt;</span> <span class="fu">nb2listw</span>(<span class="at">style =</span> <span class="st">"B"</span>)</span>
+<span id="annotated-cell-21-6"><a href="#annotated-cell-21-6" aria-hidden="true" tabindex="-1"></a>jc <span class="ot">&lt;-</span> <span class="fu">joincount.multi</span>(gdf_bb<span class="sc">$</span>k10, lw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Here are a few rows of the result.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>jc <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">28</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>(<span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Joincount Expected Variance    z-value
+6:1         0 46.04542 40.42028 -7.2424714
+6:2         0 49.04839 42.92622 -7.4862338
+6:3        19 44.04345 38.74080 -4.0235537
+6:4        14 57.05629 49.53079 -6.1178512
+6:5        51 59.05826 51.16423 -1.1265697
+7:1        36 21.78493 20.00984  3.1778045
+7:2        12 23.20569 21.25719 -2.4304439
+7:3        18 20.83776 19.17435 -0.6480603</code></pre>
+</div>
+</div>
+<p>Only the <code>Joincount</code> column is of interest here.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> It tells us how many ‘joins’ i.e., neighbouring pairs of areas, have the corresponding classes, so for example, while there are no neighbouring pairs of members of cluster 6 with clusters 1 or 2, there are 51 neighbouring pairs of cluster 6 with cluster 5.</p>
+<p>Prioritising common pairings for symbolisation by the most different pairs of colours is the goal. To get there one approach is to convert this list of join counts into a matrix:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-23"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-23-1"><a href="#annotated-cell-23-1" aria-hidden="true" tabindex="-1"></a>row_col_jc <span class="ot">&lt;-</span> jc <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-23-2"><a href="#annotated-cell-23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-23-3"><a href="#annotated-cell-23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="1">1</button><span id="annotated-cell-23-4" class="code-annotation-target"><a href="#annotated-cell-23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="sc">-</span><span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="2">2</button><span id="annotated-cell-23-5" class="code-annotation-target"><a href="#annotated-cell-23-5" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"pair"</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-23-6"><a href="#annotated-cell-23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(pair, <span class="fu">c</span>(<span class="st">"row"</span>, <span class="st">"col"</span>)) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-23-7"><a href="#annotated-cell-23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">row =</span> <span class="fu">as.integer</span>(row),</span>
+<span id="annotated-cell-23-8"><a href="#annotated-cell-23-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">col =</span> <span class="fu">as.integer</span>(col))</span>
+<span id="annotated-cell-23-9"><a href="#annotated-cell-23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-23-10"><a href="#annotated-cell-23-10" aria-hidden="true" tabindex="-1"></a>m_jc <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(Joincount <span class="sc">~</span> col <span class="sc">+</span> row, row_col_jc) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-23-11"><a href="#annotated-cell-23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unname</span>()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="3">3</button><span id="annotated-cell-23-12" class="code-annotation-target"><a href="#annotated-cell-23-12" aria-hidden="true" tabindex="-1"></a>m_jc <span class="ot">&lt;-</span> m_jc <span class="sc">+</span> <span class="fu">t</span>(m_jc) <span class="sc">-</span> <span class="fu">diag</span>(<span class="fu">diag</span>(m_jc <span class="sc">+</span> <span class="fu">t</span>(m_jc)))</span>
+<span id="annotated-cell-23-13"><a href="#annotated-cell-23-13" aria-hidden="true" tabindex="-1"></a>m_jc</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-23" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-23" data-code-lines="4" data-code-annotation="1">The last row of the data is the total number of joins, which we don’t need to know.</span>
+</dd>
+<dt data-target-cell="annotated-cell-23" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-23" data-code-lines="5" data-code-annotation="2">The row names include the row and column indices of the matrix we want to make.</span>
+</dd>
+<dt data-target-cell="annotated-cell-23" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-23" data-code-lines="12" data-code-annotation="3">This makes an upper-triangular matrix into a symmetric matrix with zeros in its main diagonal.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+ [1,]    0   63    1    8    9    0   36   40    5    25
+ [2,]   63    0    0    6    7    0   12   19   12    16
+ [3,]    1    0    0   73   11   19   18    5    4     3
+ [4,]    8    6   73    0   33   14   49    6    0    11
+ [5,]    9    7   11   33    0   51   16   12   11    72
+ [6,]    0    0   19   14   51    0    4    0   66    18
+ [7,]   36   12   18   49   16    4    0   24    1    33
+ [8,]   40   19    5    6   12    0   24    0    2     7
+ [9,]    5   12    4    0   11   66    1    2    0    24
+[10,]   25   16    3   11   72   18   33    7   24     0</code></pre>
+</div>
+</div>
+<p>We need a similar matrix reflecting differences among the colours in the palette we plan to use. The <code>colourblindcheck::palette_dist()</code> function provides exactly this, although the raw output needs some light post-processing to convert <code>NA</code>s in its upper triangular distance matrix to a symmetric distance matrix. This is what the <code>get_colour_distances()</code> wrapper I’ve written does. Meanwhile, we also have to measure distances for our three CVDs and take the minimum distance across all four results.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>get_colour_distances <span class="ot">&lt;-</span> <span class="cf">function</span>(pal) {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  m_cols <span class="ot">&lt;-</span> <span class="fu">palette_dist</span>(pal) <span class="sc">|&gt;</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>() <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replace_na</span>(<span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="fu">length</span>(pal), <span class="fu">length</span>(pal))</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  m_cols <span class="sc">+</span> <span class="fu">t</span>(m_cols)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">c4a</span>(<span class="st">"tol.muted"</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>m_cols <span class="ot">&lt;-</span> <span class="fu">get_colour_distances</span>(pal)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (mode <span class="cf">in</span> modes[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]) {</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  m_cols <span class="ot">&lt;-</span> <span class="fu">pmin</span>(</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    m_cols, </span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_colour_distances</span>(<span class="fu">get_cvd_colours</span>(pal, mode)))</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>m_cols</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+ [1,]    0   34   23   18   29   22   14   15   12    24
+ [2,]   34    0   65   24   54   12   41   43   13    62
+ [3,]   23   65    0   30   38   48   22   15   34    16
+ [4,]   18   24   30    0   31   19   20   16   35    40
+ [5,]   29   54   38   31    0   43   12   35   25    15
+ [6,]   22   12   48   19   43    0   27   35   13    46
+ [7,]   14   41   22   20   12   27    0   22   18    16
+ [8,]   15   43   15   16   35   35   22    0   26    22
+ [9,]   12   13   34   35   25   13   18   26    0    35
+[10,]   24   62   16   40   15   46   16   22   35     0</code></pre>
+</div>
+</div>
+<p>Now, we want to know what permutation, or swapping of rows and columns in this matrix will make it as much like the joins count matrix as possible. There is likely no efficient algorithm for this process in general as the number of possible permutations increases rapidly with the size of the matrices. With ten colours there are factorial 10 or 3,628,800 possibities, so we content ourselves with trying 10,000 permutations and retaining the best one. For smaller problems we could carry out an exhaustive search, while for larger ones we would need a better heuristic to guide the search. This seems likely to be a known problem, but in the time I allowed for preparing this post, I couldn’t find an exact solution.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<p>The <a href="https://master.bioconductor.org/packages/release/bioc/html/GraphAlignment.html"><code>GraphAlignment</code></a> and <a href="https://github.com/cran/pracma"><code>pracma</code></a> packages provide the needed functions here. I also made a rough and ready function for calculating a difference between two matrices based on the <a href="https://en.wikipedia.org/wiki/Matrix_norm#Frobenius_norm">Frobenius norm</a> of their difference. The Frobenius norm is analogous to the magnitude of a vector, but for matrices.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GraphAlignment)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pracma)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>d_m1_m2 <span class="ot">&lt;-</span> <span class="cf">function</span>(m1, m2) { <span class="fu">norm</span>((m1 <span class="sc">-</span> m2), <span class="st">"F"</span>) }</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fu">ncol</span>(m_cols)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>d12 <span class="ot">&lt;-</span> <span class="fu">d_m1_m2</span>(m_jc, m_cols)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>min_d12 <span class="ot">&lt;-</span> d12</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>min_perm <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>size</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>) {</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  perm <span class="ot">&lt;-</span> <span class="fu">randperm</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  d12 <span class="ot">&lt;-</span> <span class="fu">d_m1_m2</span>(m_jc, <span class="fu">Permute</span>(m_cols, perm))</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (d12 <span class="sc">&lt;</span> min_d12) {</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    min_d12 <span class="ot">&lt;-</span> d12</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    min_perm <span class="ot">&lt;-</span> perm</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>There is nothing very clever here: we simply iterate over 10,000 random permutations, and retain the permutation associated with the least difference between the two matrices that we encounter. We can then use this to permute the colours in our palette, applied using <code>scale_fill_manual</code>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>map6 <span class="ot">&lt;-</span> basemap <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> gdf, <span class="fu">aes</span>(<span class="at">fill =</span> k10), <span class="at">colour =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> pal[min_perm]) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Permuted colour scheme"</span>) <span class="sc">+</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  frame</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>(map4 <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Original map"</span>)) <span class="sc">/</span> </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  map6 <span class="sc">/</span> </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_spacer</span>() <span class="sc">/</span> </span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cvd_grid</span>(map6) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="fl">0.1</span>, <span class="fl">2.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-original-and-permuted-maps" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-original-and-permuted-maps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-original-and-permuted-maps-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Figure&nbsp;15: The original 10 class map, and the same map after permutation of the colour scheme."><img src="index_files/figure-html/fig-original-and-permuted-maps-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-original-and-permuted-maps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15: The original 10 class map, and the same map after permutation of the colour scheme.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>I don’t know if the permuted map is better than the original. I <em>do know</em> that while developing this post, I have seen many different permuted maps, because this crude implementation is certainly not finding a unique ‘best’ permutation. Even so, this seems like an interesting avenue for further investigation.</p>
+<p>One area where the example shown seems like an improvement is in downtown San Francisco where two very similar colours were juxtaposed in the original map, and are not in the permuted colour scheme map, although it’s highly likely that there are other map areas where the comparison is less favourable.</p>
+</section>
+<section id="in-conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="in-conclusion">In conclusion</h2>
+<p>While design with colour vision deficiency—like all design!—remains challenging, it’s a lot easier than I realised to pay attention to this important consideration in making choices for colour use in maps. <code>cols4all</code> does a great job of supporting this in the R ecosystem. It’s worth knowing too that you can export colour schemes from <code>cols4all</code> to Python and web friendly formats, so even if you are not a regular user of R you might find this tool useful.</p>
+
+
+</section>
+
+
+<p><a href="../../../../"><img src="../../../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>With periods of my career at Penn State and also Berkeley, I have an affinity for both the Brewer palettes, and the <a href="https://sjmgarnier.github.io/viridis/articles/intro-to-viridis.html">Viridis palettes</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>I wrote this code only because I couldn’t get any of the various available packages to label their simulated plots with the palette name as a title… a weird and surprisingly annoying omission!<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Developed using the <code>cols4all</code> tools!<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Or, as noted, a different classification entirely.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>I am showing only a few rows of the joins count result, because there are 55 pairwise combinations.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>The others are relevant to assessment of <a href="../../../2025/11/14/gia-chapter-2A-spatial-autocorrelation/">spatial autocorrelation</a>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>My understanding is that this an important element in <code>cols4all</code>’s assessment of colour blindness friendliness.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p><a href="https://alinetalhouk.github.io/diceR/reference/min_fnorm.html">This</a> comes close, but permutes only columns, not rows and columns together.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|geospatialstuff\.com|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|patternandprocess\.org|computinggeographically\.org)");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
+            }
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>
