@@ -479,11 +479,10 @@ map6 <- basemap +
   geom_sf(data = gdf, aes(fill = k10), colour = "grey") +
   scale_fill_manual(values = pal[min_perm]) +
   guides(fill = "none") +
-  ggtitle("Permuted colour scheme") +
   frame
 
 (map4 + ggtitle("Original map")) / 
-  map6 / 
+  (map6 + ggtitle("Permuted colour scheme")) / 
   plot_spacer() / 
   cvd_grid(map6) + plot_layout(heights = c(2, 2, 0.1, 2.5))
 ```

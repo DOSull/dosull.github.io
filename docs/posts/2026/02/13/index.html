@@ -951,13 +951,12 @@ Figure&nbsp;14: Fifteen demographic clusters mapped using the <em>matplotlib.vir
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> gdf, <span class="fu">aes</span>(<span class="at">fill =</span> k10), <span class="at">colour =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> pal[min_perm]) <span class="sc">+</span></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Permuted colour scheme"</span>) <span class="sc">+</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  frame</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>(map4 <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Original map"</span>)) <span class="sc">/</span> </span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  map6 <span class="sc">/</span> </span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_spacer</span>() <span class="sc">/</span> </span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cvd_grid</span>(map6) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="fl">0.1</span>, <span class="fl">2.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  frame</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>(map4 <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Original map"</span>)) <span class="sc">/</span> </span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  (map6 <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Permuted colour scheme"</span>)) <span class="sc">/</span> </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_spacer</span>() <span class="sc">/</span> </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cvd_grid</span>(map6) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="fl">0.1</span>, <span class="fl">2.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-original-and-permuted-maps" class="quarto-float quarto-figure quarto-figure-center anchored">
