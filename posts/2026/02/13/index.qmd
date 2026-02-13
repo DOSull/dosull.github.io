@@ -31,7 +31,7 @@ I am in no way an expert on this topic. Colour blindness is [relatively well und
 
 In spite of this good understanding, colour palettes readable by those with CVDs have only come to widespread attention recently. That said, there are now many options in R for exploring the readability of graphics under different CVDs. In the way of R, perhaps a few _too many_, making it a little difficult to pick a path through things.
 
-My explorations suggest that the most straightforward support for solving design challenges in this area lie in the [`cols4all` package](https://cols4all.github.io/cols4all-R/), although in this post I use a couple of other packages besides. First the usual suspects:
+My explorations suggest that the most straightforward path to tackling design challenges in this area runs through the [`cols4all` package](https://cols4all.github.io/cols4all-R/), although in this post I use a couple of other packages besides. First the usual suspects:
 
 ```{r}
 #| label: imports
@@ -60,7 +60,7 @@ library(cols4all)        # <4>
 3. For a function `palette_dist` to estimate differences among colours in a palette.
 4. For a range of colour blind friendly palettes.
 
-The [`colorspace` package](https://colorspace.r-forge.r-project.org/articles/colorspace.html) provides the underlying 'machinery' to drive all of this, supporting ways to manipulate colours, such as darkening or lightening them, increasing or decreasing saturation, and, particularly relevant here, simulating different CVDs. [`colorblindr`](https://github.com/clauswilke/colorblindr) and  [`colorblindcheck`](https://jakubnowosad.com/colorblindcheck/) wrap the `colorspace` functionality up in various ways making some low-level operations more convenient. 
+The [`colorspace` package](https://colorspace.r-forge.r-project.org/articles/colorspace.html) provides the underlying 'machinery' to drive all of this, supporting ways to manipulate colours, such as darkening or lightening them, increasing or decreasing saturation, and, particularly relevant here, simulating different CVDs. [`colorblindr`](https://github.com/clauswilke/colorblindr) and  [`colorblindcheck`](https://jakubnowosad.com/colorblindcheck/) wrap the `colorspace` functionality up in various ways making some low-level operations more convenient. Finally, `cols4all` collates numerous palettes from many sources, and provides tools you can use to explore their usefulness under difference CVDs.
 
 ### TL;DR;
 There has been a proliferation of packages for work on this topic. Not included here but also encountered along the way were [scico](https://github.com/thomasp85/scico), and [khroma](https://packages.tesselle.org/khroma/index.html). These have their uses, but  it's easy to wind up with an R environment awash with conflicting function names, or at the very least with too many different options to keep track of. For that reason if no other, once you've explored the options, I highly recommend using `cols4all`: it does everything you are likely to need in routine map production. In particular, its interactive GUI, invoked by `c4a_gui()` allows you to filter, select, and examine the characteristics of the many colour schemes it supports, including from the perspective of various colour vision deficiencies. A good guide to how to proceed&mdash;with much more background information than I can offer&mdash;is available [here](https://cols4all.github.io/cols4all-R/articles/01_paper.html).
