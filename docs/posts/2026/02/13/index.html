@@ -483,7 +483,7 @@ Figure&nbsp;5: Simulation of CVD appearance of <code>ggplot2</code>’s default 
 </section>
 <section id="but-surely-colorbrewer-will-save-us" class="level2">
 <h2 class="anchored" data-anchor-id="but-surely-colorbrewer-will-save-us">But surely ColorBrewer will save us</h2>
-<p><a href="https://colorbrewer2.org">Cindy Brewer’s colour palettes</a> have been widely adopted, and were a huge leap forward when they were introduced. As a loyal member of the cartographic tribe, I am a loyal user,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> but unfortunately one area where the categorical palettes in this series fall down is colour blindness friendliness. To show this, I’ve made my own function to show the CVD simulations of multiple palettes in a single plot (click into the code below for a closer look.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>)</p>
+<p><a href="https://colorbrewer2.org">Cindy Brewer’s colour palettes</a> have been widely adopted, and were a huge leap forward when they were introduced. As a member of the cartographic tribe, I am a loyal user,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> but unfortunately one area where the categorical palettes in this series fall down is colour blindness friendliness. To show this, I’ve made my own function to show the CVD simulations of multiple palettes in a single plot (click into the code below for a closer look.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>)</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -698,7 +698,7 @@ Figure&nbsp;10: Five demographic clusters mapped using the <em>cols4all.friendly
 </div>
 </div>
 </div>
-<p>It’s perhaps notable that the colours in this scheme are not dissimilar to those hand-picked form the <em>brewer.accent</em> scheme in <a href="#fig-hand-picked-accent-scheme" class="quarto-xref">Figure&nbsp;7</a>. The <a href="https://github.com/kevinsblake/NatParksPalettes"><em>parks</em></a> and <a href="https://www.blakerobertmills.com/my-work/met-brewer"><em>met</em></a> series which feature in these lists are new to me, and some of them seem to have potential for striking colourblind friendly maps.</p>
+<p>It’s perhaps notable that the colours in this scheme are not dissimilar to those hand-picked from the <em>brewer.accent</em> scheme in <a href="#fig-hand-picked-accent-scheme" class="quarto-xref">Figure&nbsp;7</a>. The <a href="https://github.com/kevinsblake/NatParksPalettes"><em>parks</em></a> and <a href="https://www.blakerobertmills.com/my-work/met-brewer"><em>met</em></a> series which feature in these lists are new to me, and some of them seem to have potential for striking colourblind friendly maps.</p>
 <section id="ten-classes" class="level3">
 <h3 class="anchored" data-anchor-id="ten-classes">Ten classes</h3>
 <p>For the ten class case we need to impose a more restrictive requirement on the palettes we consider. For a start, they need to have at least 10 ten different colours! It turns out that only three categorical schemes in the <code>cols4all</code> collection meet this requirement.</p>
@@ -751,7 +751,7 @@ Figure&nbsp;12: Ten demographic clusters mapped using the <em>tol.muted</em> sch
 </div>
 </div>
 </div>
-<p>Ten classes seems to be at about the limit of what can be reliably mapped using categorical colour schemes. The CVD simulations in <a href="#fig-three-candidate-10-color-cbd-schemes" class="quarto-xref">Figure&nbsp;11</a> clearly show that some of the colours in those palettes are very close to one another. It may make sense in a case like this to consider which colours from the palette might are best mapped to which clusters. This requires close analysis of which clusters most often neighbour one another, something I explore in outline <a href="#matching-cluster-adjacencies-and-colour-differences">a bit further on</a>.</p>
+<p>Ten classes seems to be at about the limit of what can be reliably mapped using categorical colour schemes. The CVD simulations in <a href="#fig-three-candidate-10-color-cbd-schemes" class="quarto-xref">Figure&nbsp;11</a> clearly show that some of the colours in those palettes are very close to one another. It may make sense in a case like this to consider which colours from the palette might be best mapped to which clusters. This requires close analysis of which clusters most often neighbour one another, something I explore in outline <a href="#matching-cluster-adjacencies-and-colour-differences">a bit further on</a>.</p>
 </section>
 <section id="more-classes" class="level3">
 <h3 class="anchored" data-anchor-id="more-classes"><em>More</em> classes?</h3>
@@ -804,24 +804,24 @@ Figure&nbsp;14: Fifteen demographic clusters mapped using the <em>matplotlib.vir
 <section id="matching-cluster-adjacencies-and-colour-differences" class="level2">
 <h2 class="anchored" data-anchor-id="matching-cluster-adjacencies-and-colour-differences">Matching cluster adjacencies and colour differences</h2>
 <p>This section is <em>highly</em> speculative.</p>
-<p>I mentioned above, in relation to <a href="#fig-10-colour-map-using-tol-muted" class="quarto-xref">Figure&nbsp;12</a> that analysis of which clusters neighbour one another in a map might be a useful adjunct to the process of applying a suitable colour scheme. By assigning colours from a scheme that are the most different from one another to the most common neighbourhood relations in the data, it may be possible to make maps more readable than the essentially random association of clusters to colours shown previously. This section explores how we might proceed.</p>
-<p>To count neighbouring relations among clusters, we can use a joins count function, <code>spdep::joincount.multi</code>. <a href="https://r-spatial.github.io/spdep/"><code>spdep</code></a> is a very useful but rather obtuse package. We construct a list of weights between neighbouring pairs of areas in our data, using the <code>poly2nb</code> and <code>listw</code> functions, then supply it together with the values of interest to the <code>joincount.multi</code> function. Up to now the spatial data extend well beyond the map area. For this analysis we restrict the areas to those in the mapped area using <code>st_intersection</code>.</p>
+<p>I mentioned above, in relation to <a href="#fig-10-colour-map-using-tol-muted" class="quarto-xref">Figure&nbsp;12</a> that analysis of which clusters neighbour one another in a map might be a useful adjunct to the process of applying a suitable colour scheme. By assigning colours from a scheme that are the most different from one another to the most common neighbourhood relations in the data, it may be possible to make maps more readable than the essentially random association of clusters to colours shown previously. This section explores one way we might proceed.</p>
+<p>To count neighbouring relations among clusters, we can use a joins count function, <code>spdep::joincount.multi</code>. <a href="https://r-spatial.github.io/spdep/"><code>spdep</code></a> is a very useful but rather obtuse package. We construct a list of weights between neighbouring pairs of areas in our data, using the <code>poly2nb</code> and <code>listw</code> functions, then supply it together with the values of interest to the <code>joincount.multi</code> function. Up to now the spatial data has extended well beyond the map area. For this analysis we restrict the areas to those in the mapped area using <code>st_intersection</code>.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-21"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-21-1"><a href="#annotated-cell-21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spdep)</span>
-<span id="annotated-cell-21-2"><a href="#annotated-cell-21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-21-3"><a href="#annotated-cell-21-3" aria-hidden="true" tabindex="-1"></a>gdf_bb <span class="ot">&lt;-</span> gdf <span class="sc">|&gt;</span> <span class="fu">st_intersection</span>(land)</span>
-<span id="annotated-cell-21-4"><a href="#annotated-cell-21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-21-5"><a href="#annotated-cell-21-5" aria-hidden="true" tabindex="-1"></a>lw <span class="ot">&lt;-</span> gdf_bb <span class="sc">|&gt;</span> <span class="fu">poly2nb</span>() <span class="sc">|&gt;</span> <span class="fu">nb2listw</span>(<span class="at">style =</span> <span class="st">"B"</span>)</span>
-<span id="annotated-cell-21-6"><a href="#annotated-cell-21-6" aria-hidden="true" tabindex="-1"></a>jc <span class="ot">&lt;-</span> <span class="fu">joincount.multi</span>(gdf_bb<span class="sc">$</span>k10, lw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spdep)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>gdf_bb <span class="ot">&lt;-</span> gdf <span class="sc">|&gt;</span> <span class="fu">st_intersection</span>(land)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>lw <span class="ot">&lt;-</span> gdf_bb <span class="sc">|&gt;</span> <span class="fu">poly2nb</span>() <span class="sc">|&gt;</span> <span class="fu">nb2listw</span>(<span class="at">style =</span> <span class="st">"B"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>jc <span class="ot">&lt;-</span> <span class="fu">joincount.multi</span>(gdf_bb<span class="sc">$</span>k10, lw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>Here are a few rows of the result.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>jc <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">28</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>(<span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>jc <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">28</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>(<span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Joincount Expected Variance    z-value
@@ -884,26 +884,26 @@ Figure&nbsp;14: Fifteen demographic clusters mapped using the <em>matplotlib.vir
 [10,]   25   16    3   11   72   18   33    7   24     0</code></pre>
 </div>
 </div>
-<p>We need a similar matrix reflecting differences among the colours in the palette we plan to use. The <code>colourblindcheck::palette_dist()</code> function provides exactly this, although the raw output needs some light post-processing to convert <code>NA</code>s in its upper triangular distance matrix to a symmetric distance matrix. This is what the <code>get_colour_distances()</code> wrapper I’ve written does. Meanwhile, we also have to measure distances for our three CVDs and take the minimum distance across all four results.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>Next, we need a similar matrix reflecting differences among the colours in the palette we plan to use. The <code>colourblindcheck::palette_dist()</code> function provides exactly this, although the raw output needs some light post-processing to convert <code>NA</code>s in its upper triangular distance matrix to a symmetric distance matrix. This is what the <code>get_colour_distances()</code> wrapper I’ve written does. Meanwhile, we also have to measure distances for the palette viewed normally, and also under three CVD simulations, and take the minimum distance across all four results.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>get_colour_distances <span class="ot">&lt;-</span> <span class="cf">function</span>(pal) {</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  m_cols <span class="ot">&lt;-</span> <span class="fu">palette_dist</span>(pal) <span class="sc">|&gt;</span> </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>() <span class="sc">|&gt;</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replace_na</span>(<span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="fu">length</span>(pal), <span class="fu">length</span>(pal))</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  m_cols <span class="sc">+</span> <span class="fu">t</span>(m_cols)</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">c4a</span>(<span class="st">"tol.muted"</span>)</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>m_cols <span class="ot">&lt;-</span> <span class="fu">get_colour_distances</span>(pal)</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (mode <span class="cf">in</span> modes[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]) {</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  m_cols <span class="ot">&lt;-</span> <span class="fu">pmin</span>(</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    m_cols, </span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_colour_distances</span>(<span class="fu">get_cvd_colours</span>(pal, mode)))</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>m_cols</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>get_colour_distances <span class="ot">&lt;-</span> <span class="cf">function</span>(pal) {</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  m_cols <span class="ot">&lt;-</span> <span class="fu">palette_dist</span>(pal) <span class="sc">|&gt;</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>() <span class="sc">|&gt;</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replace_na</span>(<span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="fu">length</span>(pal), <span class="fu">length</span>(pal))</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  m_cols <span class="sc">+</span> <span class="fu">t</span>(m_cols)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">c4a</span>(<span class="st">"tol.muted"</span>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>m_cols <span class="ot">&lt;-</span> <span class="fu">get_colour_distances</span>(pal)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (mode <span class="cf">in</span> modes[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]) {</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  m_cols <span class="ot">&lt;-</span> <span class="fu">pmin</span>(</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    m_cols, </span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_colour_distances</span>(<span class="fu">get_cvd_colours</span>(pal, mode)))</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>m_cols</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
@@ -924,40 +924,40 @@ Figure&nbsp;14: Fifteen demographic clusters mapped using the <em>matplotlib.vir
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GraphAlignment)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pracma)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>d_m1_m2 <span class="ot">&lt;-</span> <span class="cf">function</span>(m1, m2) { <span class="fu">norm</span>((m1 <span class="sc">-</span> m2), <span class="st">"F"</span>) }</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fu">ncol</span>(m_cols)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>d12 <span class="ot">&lt;-</span> <span class="fu">d_m1_m2</span>(m_jc, m_cols)</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>min_d12 <span class="ot">&lt;-</span> d12</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>min_perm <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>size</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>) {</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  perm <span class="ot">&lt;-</span> <span class="fu">randperm</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">10</span>)</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  d12 <span class="ot">&lt;-</span> <span class="fu">d_m1_m2</span>(m_jc, <span class="fu">Permute</span>(m_cols, perm))</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (d12 <span class="sc">&lt;</span> min_d12) {</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    min_d12 <span class="ot">&lt;-</span> d12</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    min_perm <span class="ot">&lt;-</span> perm</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GraphAlignment)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pracma)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>d_m1_m2 <span class="ot">&lt;-</span> <span class="cf">function</span>(m1, m2) { <span class="fu">norm</span>((m1 <span class="sc">-</span> m2), <span class="st">"F"</span>) }</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fu">ncol</span>(m_cols)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>d12 <span class="ot">&lt;-</span> <span class="fu">d_m1_m2</span>(m_jc, m_cols)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>min_d12 <span class="ot">&lt;-</span> d12</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>min_perm <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>size</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>) {</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  perm <span class="ot">&lt;-</span> <span class="fu">randperm</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  d12 <span class="ot">&lt;-</span> <span class="fu">d_m1_m2</span>(m_jc, <span class="fu">Permute</span>(m_cols, perm))</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (d12 <span class="sc">&lt;</span> min_d12) {</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    min_d12 <span class="ot">&lt;-</span> d12</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    min_perm <span class="ot">&lt;-</span> perm</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>There is nothing very clever here: we simply iterate over 10,000 random permutations, and retain the permutation associated with the least difference between the two matrices that we encounter. We can then use this to permute the colours in our palette, applied using <code>scale_fill_manual</code>.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>map6 <span class="ot">&lt;-</span> basemap <span class="sc">+</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> gdf, <span class="fu">aes</span>(<span class="at">fill =</span> k10), <span class="at">colour =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> pal[min_perm]) <span class="sc">+</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Permuted colour scheme"</span>) <span class="sc">+</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  frame</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>(map4 <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Original map"</span>)) <span class="sc">/</span> </span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  map6 <span class="sc">/</span> </span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_spacer</span>() <span class="sc">/</span> </span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cvd_grid</span>(map6) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="fl">0.1</span>, <span class="fl">2.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>map6 <span class="ot">&lt;-</span> basemap <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> gdf, <span class="fu">aes</span>(<span class="at">fill =</span> k10), <span class="at">colour =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> pal[min_perm]) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Permuted colour scheme"</span>) <span class="sc">+</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  frame</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>(map4 <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Original map"</span>)) <span class="sc">/</span> </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  map6 <span class="sc">/</span> </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_spacer</span>() <span class="sc">/</span> </span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cvd_grid</span>(map6) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="fl">0.1</span>, <span class="fl">2.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-original-and-permuted-maps" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -977,7 +977,7 @@ Figure&nbsp;15: The original 10 class map, and the same map after permutation of
 </section>
 <section id="in-conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="in-conclusion">In conclusion</h2>
-<p>While design with colour vision deficiency—like all design!—remains challenging, it’s a lot easier than I realised to pay attention to this important consideration in making choices for colour use in maps. <code>cols4all</code> does a great job of supporting this in the R ecosystem. It’s worth knowing too that you can export colour schemes from <code>cols4all</code> to Python and web friendly formats, so even if you are not a regular user of R you might find this tool useful.</p>
+<p>While design for colour vision deficiency—like all design!—remains challenging, it’s a lot easier than I realised to pay attention to this important consideration in making choices for colour use in maps. <code>cols4all</code> does a great job of supporting this in the R ecosystem. It’s worth knowing too that you can export colour schemes from <code>cols4all</code> to Python and web friendly formats, so even if you are not a regular user of R you might find this tool useful.</p>
 
 
 </section>

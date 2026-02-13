@@ -162,7 +162,7 @@ c4a_plot_cvd(scales::pal_hue()(25))
 Extended to 25 colours the approach becomes essentially 'spectral' and it is impossible to avoid sections of the spectrum where different CVDs struggle. Similar colours are inevitable (even with normal vision), and whole regions of the spectrum where some colour sensitivity is lost under different CVDs become indistinguishable.
 
 ## But surely ColorBrewer will save us
-[Cindy Brewer's colour palettes](https://colorbrewer2.org) have been widely adopted, and were a huge leap forward when they were introduced. As a loyal member of the cartographic tribe, I am a loyal user,^[With periods of my career at Penn State and also Berkeley, I have an affinity for both the Brewer palettes, and the [Viridis palettes](https://sjmgarnier.github.io/viridis/articles/intro-to-viridis.html).] but unfortunately one area where the categorical palettes in this series fall down is colour blindness friendliness. To show this, I've made my own function to show the CVD simulations of multiple palettes in a single plot (click into the code below for a closer look.^[I wrote this code only because I couldn't get any of the various available packages to label their simulated plots with the palette name as a title... a weird and surprisingly annoying omission!])
+[Cindy Brewer's colour palettes](https://colorbrewer2.org) have been widely adopted, and were a huge leap forward when they were introduced. As a member of the cartographic tribe, I am a loyal user,^[With periods of my career at Penn State and also Berkeley, I have an affinity for both the Brewer palettes, and the [Viridis palettes](https://sjmgarnier.github.io/viridis/articles/intro-to-viridis.html).] but unfortunately one area where the categorical palettes in this series fall down is colour blindness friendliness. To show this, I've made my own function to show the CVD simulations of multiple palettes in a single plot (click into the code below for a closer look.^[I wrote this code only because I couldn't get any of the various available packages to label their simulated plots with the palette name as a title... a weird and surprisingly annoying omission!])
 
 ```{r}
 #| label: cvd-plots-functions
@@ -301,7 +301,7 @@ map3 <- basemap +
 map3 / plot_spacer() / cvd_grid(map3) + plot_layout(heights = c(2, 0.1, 2.5))
 ```
 
-It's perhaps notable that the colours in this scheme are not dissimilar to those hand-picked form the _brewer.accent_ scheme in @fig-hand-picked-accent-scheme. The [_parks_](https://github.com/kevinsblake/NatParksPalettes) and [_met_](https://www.blakerobertmills.com/my-work/met-brewer) series which feature in these lists are new to me, and some of them seem to have potential for striking colourblind friendly maps.
+It's perhaps notable that the colours in this scheme are not dissimilar to those hand-picked from the _brewer.accent_ scheme in @fig-hand-picked-accent-scheme. The [_parks_](https://github.com/kevinsblake/NatParksPalettes) and [_met_](https://www.blakerobertmills.com/my-work/met-brewer) series which feature in these lists are new to me, and some of them seem to have potential for striking colourblind friendly maps.
 
 ### Ten classes
 For the ten class case we need to impose a more restrictive requirement on the palettes we consider. For a start, they need to have at least 10 ten different colours! It turns out that only three categorical schemes in the `cols4all` collection meet this requirement.
@@ -338,7 +338,7 @@ map4 <- basemap +
 map4
 ```
 
-Ten classes seems to be at about the limit of what can be reliably mapped using categorical colour schemes. The CVD simulations in @fig-three-candidate-10-color-cbd-schemes clearly show that some of the colours in those palettes are very close to one another. It may make sense in a case like this to consider which colours from the palette might are best mapped to which clusters. This requires close analysis of which clusters most often neighbour one another, something I explore in outline [a bit further on](#matching-cluster-adjacencies-and-colour-differences).
+Ten classes seems to be at about the limit of what can be reliably mapped using categorical colour schemes. The CVD simulations in @fig-three-candidate-10-color-cbd-schemes clearly show that some of the colours in those palettes are very close to one another. It may make sense in a case like this to consider which colours from the palette might be best mapped to which clusters. This requires close analysis of which clusters most often neighbour one another, something I explore in outline [a bit further on](#matching-cluster-adjacencies-and-colour-differences).
 
 ### _More_ classes?
 Categorical colour schemes that are colour blind friendly run out of steam around 10 classes. The options here demand a bit more thought. One possibility is to think carefully about the classification scheme itself: perhaps it can be simplified? Alternatively, it may be possible to organise it into a meaningful hierarchy. Having done so, colours can be assigned to upper levels in the hierarchy and lightness variations on these to classes within each. Geological maps are an example of this kind of design, but great care and long experience are required to make this work. Even then, with a complex classification colour blindness friendly outcomes will be difficult to achieve.
@@ -372,16 +372,16 @@ A map like this seems unlikely to be useable for reliable identification of clus
 ## Matching cluster adjacencies and colour differences
 This section is _highly_ speculative.
 
-I mentioned above, in relation to @fig-10-colour-map-using-tol-muted that analysis of which clusters neighbour one another in a map might be a useful adjunct to the process of applying a suitable colour scheme. By assigning colours from a scheme that are the most different from one another to the most common neighbourhood relations in the data, it may be possible to make maps more readable than the essentially random association of clusters to colours shown previously. This section explores how we might proceed.
+I mentioned above, in relation to @fig-10-colour-map-using-tol-muted that analysis of which clusters neighbour one another in a map might be a useful adjunct to the process of applying a suitable colour scheme. By assigning colours from a scheme that are the most different from one another to the most common neighbourhood relations in the data, it may be possible to make maps more readable than the essentially random association of clusters to colours shown previously. This section explores one way we might proceed.
 
-To count neighbouring relations among clusters, we can use a joins count function, `spdep::joincount.multi`. [`spdep`](https://r-spatial.github.io/spdep/) is a very useful but rather obtuse package. We construct a list of weights between neighbouring pairs of areas in our data, using the `poly2nb` and `listw` functions, then supply it together with the values of interest to the `joincount.multi` function. Up to now the spatial data extend well beyond the map area. For this analysis we restrict the areas to those in the mapped area using `st_intersection`.
+To count neighbouring relations among clusters, we can use a joins count function, `spdep::joincount.multi`. [`spdep`](https://r-spatial.github.io/spdep/) is a very useful but rather obtuse package. We construct a list of weights between neighbouring pairs of areas in our data, using the `poly2nb` and `listw` functions, then supply it together with the values of interest to the `joincount.multi` function. Up to now the spatial data has extended well beyond the map area. For this analysis we restrict the areas to those in the mapped area using `st_intersection`.
  
 ```{r}
 #| label: join-counts
 #| output: false
 library(spdep)
 
-gdf_bb <- gdf |> st_intersection(land) # <1>
+gdf_bb <- gdf |> st_intersection(land)
 
 lw <- gdf_bb |> poly2nb() |> nb2listw(style = "B")
 jc <- joincount.multi(gdf_bb$k10, lw)
@@ -419,7 +419,7 @@ m_jc
 2. The row names include the row and column indices of the matrix we want to make.
 3. This makes an upper-triangular matrix into a symmetric matrix with zeros in its main diagonal.
 
-We need a similar matrix reflecting differences among the colours in the palette we plan to use. The `colourblindcheck::palette_dist()` function provides exactly this, although the raw output needs some light post-processing to convert `NA`s in its upper triangular distance matrix to a symmetric distance matrix. This is what the `get_colour_distances()` wrapper I've written does. Meanwhile, we also have to measure distances for our three CVDs and take the minimum distance across all four results.^[My understanding is that this an important element in `cols4all`'s assessment of colour blindness friendliness.]
+Next, we need a similar matrix reflecting differences among the colours in the palette we plan to use. The `colourblindcheck::palette_dist()` function provides exactly this, although the raw output needs some light post-processing to convert `NA`s in its upper triangular distance matrix to a symmetric distance matrix. This is what the `get_colour_distances()` wrapper I've written does. Meanwhile, we also have to measure distances for the palette viewed normally, and also under three CVD simulations, and take the minimum distance across all four results.^[My understanding is that this an important element in `cols4all`'s assessment of colour blindness friendliness.]
 
 ```{r}
 #| label: make-matrix-from-colour-distances
@@ -493,4 +493,4 @@ I don't know if the permuted map is better than the original. I _do know_ that w
 One area where the example shown seems like an improvement is in downtown San Francisco where two very similar colours were juxtaposed in the original map, and are not in the permuted colour scheme map, although it's highly likely that there are other map areas where the comparison is less favourable.
 
 ## In conclusion
-While design with colour vision deficiency&mdash;like all design!&mdash;remains challenging, it's a lot easier than I realised to pay attention to this important consideration in making choices for colour use in maps. `cols4all` does a great job of supporting this in the R ecosystem. It's worth knowing too that you can export colour schemes from `cols4all` to Python and web friendly formats, so even if you are not a regular user of R you might find this tool useful.
+While design for colour vision deficiency&mdash;like all design!&mdash;remains challenging, it's a lot easier than I realised to pay attention to this important consideration in making choices for colour use in maps. `cols4all` does a great job of supporting this in the R ecosystem. It's worth knowing too that you can export colour schemes from `cols4all` to Python and web friendly formats, so even if you are not a regular user of R you might find this tool useful.
