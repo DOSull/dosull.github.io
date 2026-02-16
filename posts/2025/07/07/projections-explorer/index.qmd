@@ -28,15 +28,17 @@ knitr:
     warning: false
     message: false
 date: 07-07-2025
-last-modified: 08-25-2025
+last-modified: 02-16-2026
 image: van-der-grinten.png
 ---
 
 As I've posted previously (see [here](../../notebooks/2025-02-18-marimo.ipynb), [here](../2025-03-09-mapweaver-beta/), and [here](../2025-05-22-python-meetup-talk/)) [Marimo](https://docs.marimo.io) is a promising new kind of _reactive_ Python notebook. There's a [Quarto](https://quarto.org) [extension](https://github.com/marimo-team/quarto-marimo) for it that makes it possible to embed reactive notebook interactivity into a blog post like this one.
 
-By the time you have finished reading that paragraph, I hope the interactive bits of this post will have appeared below... if not, then just hang on a little longer.
+[Unfortunately, Marimo doesn't prevent programmers from making mistakes, and the original version of this post was a bit sloppy in how it generated the circles in Tissot's indicatrix. I've now corrected that issue.] 
 
-[Unfortunately, Marimo doesn't prevent programmers from making mistakes, and the original version of this post was a bit sloppy in how it generated the circles in Tissot's indicatrix. I've now corrected that issue. The Marimo extension for Quarto makes some odd design choices that account for some of the ugliness in the page below, although on the plus side it has made integrating an interactive notebook in to a blog post very easy, so I'll take it.]
+By the time you have finished reading those paragraphs, I hope the interactive bits of this post will have appeared below... if not, then just hang on a little longer.
+
+The Marimo extension for Quarto makes some odd design choices that account for some of the ugliness in the page below, although on the plus side it has made integrating an interactive notebook in to a blog post very easy, so I'll take it.
 
 ```python {.marimo}
 #| echo: false
