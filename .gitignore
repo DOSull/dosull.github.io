@@ -18,3 +18,4 @@ climate/
 .syncthing*
 talks/*/images/
 **/*.quarto_ipynb
+posts/*/*/_*/

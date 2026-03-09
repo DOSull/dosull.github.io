@@ -10,7 +10,17 @@
 <atom:link href="https://geospatialstuff.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Thu, 12 Feb 2026 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 09 Mar 2026 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>A MapWeaver app explainer</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://geospatialstuff.com/posts/2026/03/10/cartographic-perspectives-mapweaver/</link>
+  <description><![CDATA[ Using the MapWeaver app you can make multivariate thematic maps that use tiled or woven patterns to present many variables in a single map view. This short article explains how to get started. ]]></description>
+  <category>netlogo</category>
+  <category>simulation</category>
+  <guid>https://geospatialstuff.com/posts/2026/03/10/cartographic-perspectives-mapweaver/</guid>
+  <pubDate>Mon, 09 Mar 2026 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Colour blind design for categorical maps</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -253,20 +263,6 @@
   <category>conferences</category>
   <guid>https://geospatialstuff.com/posts/2025/09/10/reflections-on-giscience-2025/</guid>
   <pubDate>Tue, 09 Sep 2025 12:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>GIS, a transformational approach</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://geospatialstuff.com/posts/2025/09/09/gia-chapter-1B-part-1/</link>
-  <description><![CDATA[ Second in a series of posts supporting Geographic Information Analysis ]]></description>
-  <category>geographic information analysis</category>
-  <category>transformational approach</category>
-  <category>geospatial</category>
-  <category>R</category>
-  <category>tutorial</category>
-  <guid>https://geospatialstuff.com/posts/2025/09/09/gia-chapter-1B-part-1/</guid>
-  <pubDate>Mon, 08 Sep 2025 12:00:00 GMT</pubDate>
-  <media:content url="https://geospatialstuff.com/posts/2025/09/09/gia-chapter-1B-part-1/fig-distance-surface-1.png" medium="image" type="image/png" height="103" width="144"/>
 </item>
 </channel>
 </rss>
