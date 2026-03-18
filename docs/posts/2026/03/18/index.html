@@ -562,7 +562,7 @@ Figure&nbsp;5: A closer look at rotated map sheets in southern Africa.
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="st">"+proj=merc"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>The central feature here is using the <code>project_point()</code> function (you’ll find this in the linked R source file from earlier) to rotate each point through some angle <code>a</code> about a point given by <code>xo</code> and <code>yo</code>. Experimentation led me to make that centre of rotation a point on the equator at the same longitude as the point to be rotated. That’s not necessarily unreasonable. What’s more than a little strange is that to get a result similar to the XKCD map<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> I’m rotating by <em>half</em> the declination, with a further reduction in the angle scaled by the cosine of the latitude. The cosine scaling is vaguely justifiable given that that is the linear scaling error at a given latitude in the Mercator projection, but I’m really not sure why I would have to halve the angle to rotation in addition to this ‘correction’.</p>
+<p>The central feature here is using the <code>project_point()</code> function (you’ll find this in the linked R source file from earlier) to rotate each point through some angle <code>a</code> about a point given by <code>xo</code> and <code>yo</code>. Experimentation led me to make that centre of rotation a point on the equator at the same longitude as the point to be rotated. That’s not necessarily unreasonable. What’s more than a little strange is that to get a result similar to the XKCD map<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> I’m rotating by <em>half</em> the declination, with a further reduction in the angle scaled by the cosine of the latitude. The cosine scaling is vaguely justifiable given that that is the linear scaling error at a given latitude in the Mercator projection, but I’m really not sure why I would have to halve the angle of rotation in addition to this ‘correction’.</p>
 <p>Anyway, here’s what the resulting map looks like:</p>
 <div class="cell">
 <details class="code-fold">
@@ -591,7 +591,7 @@ Figure&nbsp;6: A trigonometry based rendition of a zero declination projection.
 </section>
 <section id="an-approach-based-on-a-deformed-graticule" class="level2">
 <h2 class="anchored" data-anchor-id="an-approach-based-on-a-deformed-graticule">An approach based on a ‘deformed’ graticule</h2>
-<p>Unfortunately, this problem got in my head, and I couldn’t let it go.</p>
+<p>Unfortunately, this problem got in my head, and I couldn’t let it go.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
 <p>My overall approach was to generate a deformed latitude-longitude graticule that respects the magnetic declination along each deformed parallel and meridian, and then to use that as a basis for an interpolation from Mercator to a zero-declination map using the method described in <a href="https://computinggeographically.org/chapters/chap2/fig2-02-cartograms.html">this post</a> and <a href="https://geospatialstuff.com/posts/2021/10/21/experiments-with-r-interpolators/">this one</a>.</p>
 <p>This led me down some pretty paths. For example, here’s a map showing a set of ‘deformed’ parallels (in red) and meridians (in blue):</p>
 <div id="fig-deformed-meridians-and-parallels" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -620,7 +620,7 @@ Figure&nbsp;8: A map produced using the deformed graticule of <a href="#fig-defo
 <p>Never mind, onward!</p>
 <section id="make-a-new-grid-and-graticule" class="level3">
 <h3 class="anchored" data-anchor-id="make-a-new-grid-and-graticule">Make a new grid and graticule</h3>
-<p>Before going any further, we make a new grid, and this time also make a graticule of parallels and meridians. Note that I am cutting of this grid at 60°S.</p>
+<p>Before going any further, we make a new grid, and this time also make a graticule of parallels and meridians. Note that I am cutting off this grid at 60°S.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -747,7 +747,7 @@ Figure&nbsp;11: Neighbouring cells in their initial locations, and after the upp
 <section id="make-a-graph-of-the-graticule-cells" class="level2">
 <h2 class="anchored" data-anchor-id="make-a-graph-of-the-graticule-cells">Make a graph of the graticule cells</h2>
 <p>While making all these adjustments between adjacent cells, we have to keep track of which cells have moved and which have not, and what further moves might be needed. For this, I tried for a long time to avoid building a graph data structure from my cells, but in the end that turned out to be the right approach. I’ve tended to find the <a href="https://r.igraph.org/"><code>igraph</code> package</a> a bit tricky to deal with in the past, but the deep dive that this exercise forced upon me has greatly improved my impression of it.</p>
-<p>Anyway, I built a graph of the cells to be deformed. At this point I reduced the set of cells to be deformed to only those over the land areas since that’s what we are mapping. This also means we can avoid the more extreme distortions of large declinations in the polar regions, which are so apparent in many of the maps above.</p>
+<p>Anyway, I built a graph of the cells to be deformed. At this point I also reduced the set of cells to be deformed to only those over the land areas since that’s what we are mapping. This also means we can avoid the more extreme distortions of large declinations in the polar regions, which are so apparent in many of the maps above.</p>
 <p>I don’t know why I avoided making a graph for so long. It really wasn’t hard.</p>
 <div class="cell">
 <details class="code-fold">
@@ -888,7 +888,7 @@ Figure&nbsp;13: Deformed graticule after cells have been scaled and move to alig
 </div>
 </div>
 </div>
-<p>Clicking into the image you can see that (for the most part) the cell boundaries are well aligned. There are some inconsistencies where small islands have wound up on top of larger continents where those have been shifted a long way by the accumumation of distortion from the centre towards their edges. A more complete solution to this problem would address this. It would also attend to cases where cells meet at corners rather than along an edge. But, this is a proof of concept, not an attempt at a complete solution, so I (or someone else) can get to that later.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p>Clicking into the image you can see that (for the most part) the cell boundaries are well aligned. There are some inconsistencies where small islands have wound up on top of larger continents where those have been shifted a long way by the accumumation of distortion from the centre towards their edges. A more complete solution to this problem would address this. It would also attend to cases where cells meet at corners rather than along an edge. But, this is a proof of concept, not an attempt at a complete solution, so I (or someone else) can get to that later.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
 </section>
 <section id="and-interpolate" class="level3">
 <h3 class="anchored" data-anchor-id="and-interpolate">And… interpolate!</h3>
@@ -964,7 +964,7 @@ Figure&nbsp;14: The final projected map
 <p>OOP is a little more challenging in R than in other languages because:</p>
 </blockquote>
 <blockquote class="blockquote">
-<p>• There are multiple OOP systems to choose from. In this book, I’ll focus on the three that I believe are most important: S3, R6, and S4. S3 and S4 are provided by base R. R6 is provided by the R6 package, and is similar to the Reference Classes, or RC for short, from base R.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<p>• There are multiple OOP systems to choose from. In this book, I’ll focus on the three that I believe are most important: S3, R6, and S4. S3 and S4 are provided by base R. R6 is provided by the R6 package, and is similar to the Reference Classes, or RC for short, from base R.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
 </blockquote>
 <p>Where to even start with that?!</p>
 <p>Not everyone needs object-orientation to keep complicated code organised and manageable, but I know for a fact that I do! If I’d known at the outset that deforming the graticule to conform with the angular distortions of magnetic declination would be as complicated to do as it turned out to be… I think I’d either have backed away immediately, or committed to doing the programming in Python.</p>
@@ -999,8 +999,9 @@ Figure&nbsp;14: The final projected map
 <li id="fn2"><p>That’s why I ditch it later.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>Almost inevitably, New Zealand has not fared well in this exercise.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>Ground truth?!<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Also… did I mention how much this problem has preoccupied me for the last little while?<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>See the <a href="https://adv-r.hadley.nz/oo.html">Introduction</a> to the Object-oriented programming section of <em>Advanced R</em> by Hadley Wickham.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Late breaking: a <a href="https://spatialists.ch/posts/2026/03/18-zero-declination-please/">response to this post</a> alerted me to the fact that I got <a href="https://xkcd.com/356/"><em>nerd-sniped</em></a> by XKCD, which is so meta- it hurts.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Also… did I mention how much this problem has preoccupied me for the last little while?<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>See the <a href="https://adv-r.hadley.nz/oo.html">Introduction</a> to the Object-oriented programming section of <em>Advanced R</em> by Hadley Wickham.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -222,7 +222,7 @@ w_proj <- w_pts |>
   st_transform("+proj=merc")
 ```
 
-The central feature here is using the `project_point()` function (you'll find this in the linked R source file from earlier) to rotate each point through some angle `a` about a point given by `xo` and `yo`. Experimentation led me to make that centre of rotation a point on the equator at the same longitude as the point to be rotated. That's not necessarily unreasonable. What's more than a little strange is that to get a result similar to the XKCD map^[Ground truth?!] I'm rotating by _half_ the declination, with a further reduction in the angle scaled by the cosine of the latitude. The cosine scaling is vaguely justifiable given that that is the linear scaling error at a given latitude in the Mercator projection, but I'm really not sure why I would have to halve the angle to rotation in addition to this 'correction'. 
+The central feature here is using the `project_point()` function (you'll find this in the linked R source file from earlier) to rotate each point through some angle `a` about a point given by `xo` and `yo`. Experimentation led me to make that centre of rotation a point on the equator at the same longitude as the point to be rotated. That's not necessarily unreasonable. What's more than a little strange is that to get a result similar to the XKCD map^[Ground truth?!] I'm rotating by _half_ the declination, with a further reduction in the angle scaled by the cosine of the latitude. The cosine scaling is vaguely justifiable given that that is the linear scaling error at a given latitude in the Mercator projection, but I'm really not sure why I would have to halve the angle of rotation in addition to this 'correction'. 
 
 Anyway, here's what the resulting map looks like:
 
@@ -243,7 +243,7 @@ I'm not sure what happened to a big chunk of Antarctica (and this is _almost_ th
 And that, dear reader, is probably where I should have stopped...
 
 ## An approach based on a 'deformed' graticule
-Unfortunately, this problem got in my head, and I couldn't let it go.
+Unfortunately, this problem got in my head, and I couldn't let it go.^[Late breaking: a [response to this post](https://spatialists.ch/posts/2026/03/18-zero-declination-please/) alerted me to the fact that I got [_nerd-sniped_](https://xkcd.com/356/) by XKCD, which is so meta- it hurts.]
 
 My overall approach was to generate a deformed latitude-longitude graticule that respects the magnetic declination along each deformed parallel and meridian, and then to use that as a basis for an interpolation from Mercator to a zero-declination map using the method described in [this post](https://computinggeographically.org/chapters/chap2/fig2-02-cartograms.html) and [this one](https://geospatialstuff.com/posts/2021/10/21/experiments-with-r-interpolators/).
 
@@ -268,7 +268,7 @@ At this point I thought I might find some assistance in work on [curvilinear gri
 Never mind, onward!
 
 ### Make a new grid and graticule
-Before going any further, we make a new grid, and this time also make a graticule of parallels and meridians. Note that I am cutting of this grid at 60&deg;S.
+Before going any further, we make a new grid, and this time also make a graticule of parallels and meridians. Note that I am cutting off this grid at 60&deg;S.
 
 ```{r}
 #| label: make-final-grid
@@ -361,7 +361,7 @@ The first plot shows two graticule cells at their 'starting' positions. The seco
 ## Make a graph of the graticule cells
 While making all these adjustments between adjacent cells, we have to keep track of which cells have moved and which have not, and what further moves might be needed. For this, I tried for a long time to avoid building a graph data structure from my cells, but in the end that turned out to be the right approach. I've tended to find the [`igraph` package](https://r.igraph.org/) a bit tricky to deal with in the past, but the deep dive that this exercise forced upon me has greatly improved my impression of it.
 
-Anyway, I built a graph of the cells to be deformed. At this point I reduced the set of cells to be deformed to only those over the land areas since that's what we are mapping. This also means we can avoid the more extreme distortions of large declinations in the polar regions, which are so apparent in many of the maps above.
+Anyway, I built a graph of the cells to be deformed. At this point I also reduced the set of cells to be deformed to only those over the land areas since that's what we are mapping. This also means we can avoid the more extreme distortions of large declinations in the polar regions, which are so apparent in many of the maps above.
 
 I don't know why I avoided making a graph for so long. It really wasn't hard.
 
