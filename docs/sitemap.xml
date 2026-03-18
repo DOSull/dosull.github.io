@@ -69,6 +69,10 @@
     <lastmod>2026-02-13T20:45:03.697Z</lastmod>
   </url>
   <url>
+    <loc>https://geospatialstuff.com/posts/2026/03/10/cartographic-perspectives-mapweaver/index.html</loc>
+    <lastmod>2026-03-09T21:45:59.428Z</lastmod>
+  </url>
+  <url>
     <loc>https://geospatialstuff.com/posts/2024/08/15/netlogo-utils/index.html</loc>
     <lastmod>2026-02-06T04:37:02.924Z</lastmod>
   </url>
@@ -121,88 +125,92 @@
     <lastmod>2026-02-06T06:25:01.974Z</lastmod>
   </url>
   <url>
-    <loc>https://geospatialstuff.com/posts/2025/10/14/gia-chapter-1B-part-3C/index.html</loc>
-    <lastmod>2026-02-06T07:00:26.967Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/10/27/xkcd-3122-interrupted-spheres/index.html</loc>
-    <lastmod>2026-02-06T08:08:03.468Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/10/04/barthelemy-boeing-and-co/index.html</loc>
-    <lastmod>2026-02-06T06:59:28.694Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/11/03b/hachures-30-day-maps-2025-day-2/index.html</loc>
-    <lastmod>2026-02-06T08:00:20.657Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/11/26/city-to-sea/index.html</loc>
-    <lastmod>2026-02-06T07:16:11.364Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/11/03a/gia-chapter-1B-part-4B/index.html</loc>
-    <lastmod>2026-02-06T07:54:10.167Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/05/16/xkcd-bad-projections-ranked/index.html</loc>
-    <lastmod>2026-02-06T05:01:35.960Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/04/30/setting-up-a-jupyter-hub/index.html</loc>
-    <lastmod>2026-02-06T04:56:24.534Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2022/08/03/spiral-folds/index.html</loc>
-    <lastmod>2026-02-06T04:08:25.333Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/contact.html</loc>
-    <lastmod>2025-11-13T09:40:24.229Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/books.html</loc>
-    <lastmod>2025-10-05T07:32:46.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2022/03/09/ok-covid-you-win/index.html</loc>
-    <lastmod>2026-02-06T04:08:58.034Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/03/09/mapweaver-beta/index.html</loc>
-    <lastmod>2026-02-06T04:53:19.539Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/05/02/tiles-and-glyphs/index.html</loc>
-    <lastmod>2026-02-06T05:00:24.132Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/05/22/python-meetup-talk/index.html</loc>
-    <lastmod>2026-02-06T07:53:11.331Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/11/18/tanaka-30-day-maps-2025-day-18/index.html</loc>
-    <lastmod>2026-02-06T07:15:46.566Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/11/09/origami-terrain-30-day-maps-2025-day-9/index.html</loc>
-    <lastmod>2026-02-06T08:08:28.098Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/11/14/gia-chapter-2A-spatial-autocorrelation/index.html</loc>
-    <lastmod>2026-02-06T07:15:15.231Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/10/05/gia-chapter-1B-part-3B/index.html</loc>
-    <lastmod>2026-02-06T08:07:55.812Z</lastmod>
+    <loc>https://geospatialstuff.com/posts/2025/07/10/hulls-tetrahedra/index.html</loc>
+    <lastmod>2026-02-06T06:25:25.570Z</lastmod>
   </url>
   <url>
     <loc>https://geospatialstuff.com/posts/2025/10/23/gia-chapter-1B-part-4/index.html</loc>
     <lastmod>2026-02-06T07:00:49.515Z</lastmod>
   </url>
   <url>
-    <loc>https://geospatialstuff.com/posts/2025/07/10/hulls-tetrahedra/index.html</loc>
-    <lastmod>2026-02-06T06:25:25.570Z</lastmod>
+    <loc>https://geospatialstuff.com/posts/2025/10/05/gia-chapter-1B-part-3B/index.html</loc>
+    <lastmod>2026-02-06T08:07:55.812Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/11/14/gia-chapter-2A-spatial-autocorrelation/index.html</loc>
+    <lastmod>2026-02-06T07:15:15.231Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/11/09/origami-terrain-30-day-maps-2025-day-9/index.html</loc>
+    <lastmod>2026-02-06T08:08:28.098Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/11/18/tanaka-30-day-maps-2025-day-18/index.html</loc>
+    <lastmod>2026-02-06T07:15:46.566Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/05/22/python-meetup-talk/index.html</loc>
+    <lastmod>2026-02-06T07:53:11.331Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/05/02/tiles-and-glyphs/index.html</loc>
+    <lastmod>2026-02-06T05:00:24.132Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/03/09/mapweaver-beta/index.html</loc>
+    <lastmod>2026-02-06T04:53:19.539Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2022/03/09/ok-covid-you-win/index.html</loc>
+    <lastmod>2026-02-06T04:08:58.034Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/books.html</loc>
+    <lastmod>2025-10-05T07:32:46.390Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/contact.html</loc>
+    <lastmod>2025-11-13T09:40:24.229Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2022/08/03/spiral-folds/index.html</loc>
+    <lastmod>2026-02-06T04:08:25.333Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/04/30/setting-up-a-jupyter-hub/index.html</loc>
+    <lastmod>2026-02-06T04:56:24.534Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/05/16/xkcd-bad-projections-ranked/index.html</loc>
+    <lastmod>2026-02-06T05:01:35.960Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/11/03a/gia-chapter-1B-part-4B/index.html</loc>
+    <lastmod>2026-02-06T07:54:10.167Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/11/26/city-to-sea/index.html</loc>
+    <lastmod>2026-02-06T07:16:11.364Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/11/03b/hachures-30-day-maps-2025-day-2/index.html</loc>
+    <lastmod>2026-02-06T08:00:20.657Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/10/04/barthelemy-boeing-and-co/index.html</loc>
+    <lastmod>2026-02-06T06:59:28.694Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/10/27/xkcd-3122-interrupted-spheres/index.html</loc>
+    <lastmod>2026-02-06T08:08:03.468Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/10/14/gia-chapter-1B-part-3C/index.html</loc>
+    <lastmod>2026-02-06T07:00:26.967Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/posts/2025/07/07/projections-explorer/index.html</loc>
+    <lastmod>2026-02-16T04:05:19.075Z</lastmod>
   </url>
   <url>
     <loc>https://geospatialstuff.com/posts/2025/09/17/gia-chapter-1B-part-3A/index.html</loc>
@@ -253,6 +261,10 @@
     <lastmod>2026-02-06T04:37:32.209Z</lastmod>
   </url>
   <url>
+    <loc>https://geospatialstuff.com/posts/2026/03/18/index.html</loc>
+    <lastmod>2026-03-18T05:29:03.558Z</lastmod>
+  </url>
+  <url>
     <loc>https://geospatialstuff.com/posts/2026/02/02/netlogo/index.html</loc>
     <lastmod>2026-02-06T08:22:39.090Z</lastmod>
   </url>
@@ -277,7 +289,7 @@
     <lastmod>2026-02-05T21:40:40.832Z</lastmod>
   </url>
   <url>
-    <loc>https://geospatialstuff.com/posts/2020/07/08/18/what-three-chords/index.html</loc>
+    <loc>https://geospatialstuff.com/posts/2020/07/18/what-three-chords/index.html</loc>
     <lastmod>2026-02-06T04:07:27.854Z</lastmod>
   </url>
   <url>
@@ -319,13 +331,5 @@
   <url>
     <loc>https://geospatialstuff.com/notebooks/2025-02-18-marimo.html</loc>
     <lastmod>2025-07-07T02:11:58.467Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2025/07/07/projections-explorer/index.html</loc>
-    <lastmod>2026-02-16T04:05:19.075Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/posts/2026/03/10/cartographic-perspectives-mapweaver/index.html</loc>
-    <lastmod>2026-03-09T21:45:59.428Z</lastmod>
   </url>
 </urlset>

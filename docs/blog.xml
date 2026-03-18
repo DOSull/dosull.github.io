@@ -10,7 +10,22 @@
 <atom:link href="https://geospatialstuff.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Mon, 09 Mar 2026 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 17 Mar 2026 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>Another XKCD bad map projection</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://geospatialstuff.com/posts/2026/03/18/</link>
+  <description><![CDATA[ I strongly suspect that this one was made by hand, because replicating it plausibly based on the data doesn’t really replicate it at all. It’s also complicated to do convincingly. ]]></description>
+  <category>xkcd</category>
+  <category>cartography</category>
+  <category>R</category>
+  <category>tutorial</category>
+  <category>stuff</category>
+  <category>geospatial</category>
+  <guid>https://geospatialstuff.com/posts/2026/03/18/</guid>
+  <pubDate>Tue, 17 Mar 2026 11:00:00 GMT</pubDate>
+  <media:content url="https://geospatialstuff.com/posts/2026/03/18/xkcd-3207.png" medium="image" type="image/png" height="106" width="144"/>
+</item>
 <item>
   <title>A MapWeaver app explainer</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -251,18 +266,6 @@
   <category>tutorial</category>
   <guid>https://geospatialstuff.com/posts/2025/09/12/gia-chapter-1B-part-2/</guid>
   <pubDate>Thu, 11 Sep 2025 12:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Giscience 2025</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://geospatialstuff.com/posts/2025/09/10/reflections-on-giscience-2025/</link>
-  <description><![CDATA[ Some promising signs of a more reflective giscience emerging, but little doubt that AI/ML and movement analytics are the biggest games in town right now ]]></description>
-  <category>geospatial</category>
-  <category>giscience</category>
-  <category>aotearoa</category>
-  <category>conferences</category>
-  <guid>https://geospatialstuff.com/posts/2025/09/10/reflections-on-giscience-2025/</guid>
-  <pubDate>Tue, 09 Sep 2025 12:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

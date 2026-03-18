@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="David O’Sullivan">
+<meta name="dcterms.date" content="2026-03-18">
+<meta name="description" content="I strongly suspect that this one was made by hand, because replicating it plausibly based on the data doesn’t really replicate it at all. It’s also complicated to do convincingly.">
+
+<title>Another XKCD bad map projection – Geospatial Stuff</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<link href="../../../..//images/gs-logo-corrected.png" rel="icon" type="image/png">
+<script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-efd6ff7163e34c65f10ccb003a1f55f5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap-d2f5208e6386e90d1b300444e70b7b35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="geospatialstuff.com,dosull.github.io"></script>
+<meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../../styles.css">
+<meta property="og:title" content="Another XKCD bad map projection – Geospatial Stuff">
+<meta property="og:description" content="I strongly suspect that this one was made by hand, because replicating it plausibly based on the data doesn’t really replicate it at all. It’s also complicated to do convincingly.">
+<meta property="og:image" content="https://geospatialstuff.com/posts/2026/03/18/xkcd-3207.png">
+<meta property="og:site_name" content="Geospatial Stuff">
+<meta property="og:image:height" content="544">
+<meta property="og:image:width" content="740">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo light-content">
+    <img src="../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../../../index.html">
+    <span class="navbar-title">Geospatial Stuff</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../portfolio.html"> 
+<span class="menu-text">Portfolio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../blog.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../contact.html"> 
+<span class="menu-text">Contact</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../training.html"> 
+<span class="menu-text">Training</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../../../../books.html">
+ <span class="dropdown-text">Books</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../presentations.html">
+ <span class="dropdown-text">Presentations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../publications.html">
+ <span class="dropdown-text">Publications</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/computing-geographically" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Computing Geographically</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/pattern-and-process" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Spatial Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/30-day-maps-2023" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">30 Day Map Challenge 2023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../../../blog.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Another XKCD bad map projection</h1>
+            <p class="subtitle lead">This one was an absolute <span style="text-decoration:line-through;">bas….</span> doozy</p>
+                  <div>
+        <div class="description">
+          I strongly suspect that this one was made by hand, because replicating it plausibly based on the data doesn’t really replicate it at all. It’s also complicated to do convincingly.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">xkcd</div>
+                <div class="quarto-category">cartography</div>
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">tutorial</div>
+                <div class="quarto-category">stuff</div>
+                <div class="quarto-category">geospatial</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>David O’Sullivan </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 18, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#code-code-code-so-much-code" id="toc-code-code-code-so-much-code" class="nav-link active" data-scroll-target="#code-code-code-so-much-code">Code, code, code… so much code</a></li>
+  <li><a href="#mappinmg-magnetic-declination" id="toc-mappinmg-magnetic-declination" class="nav-link" data-scroll-target="#mappinmg-magnetic-declination">Mappinmg magnetic declination</a></li>
+  <li><a href="#imagine-doing-this-with-actual-maps" id="toc-imagine-doing-this-with-actual-maps" class="nav-link" data-scroll-target="#imagine-doing-this-with-actual-maps">Imagine doing this with actual maps</a>
+  <ul class="collapse">
+  <li><a href="#rotate-the-map-sheets" id="toc-rotate-the-map-sheets" class="nav-link" data-scroll-target="#rotate-the-map-sheets">Rotate the map sheets</a></li>
+  </ul></li>
+  <li><a href="#a-crude-trigonometric-approach" id="toc-a-crude-trigonometric-approach" class="nav-link" data-scroll-target="#a-crude-trigonometric-approach">A crude trigonometric approach</a></li>
+  <li><a href="#an-approach-based-on-a-deformed-graticule" id="toc-an-approach-based-on-a-deformed-graticule" class="nav-link" data-scroll-target="#an-approach-based-on-a-deformed-graticule">An approach based on a ‘deformed’ graticule</a>
+  <ul class="collapse">
+  <li><a href="#make-a-new-grid-and-graticule" id="toc-make-a-new-grid-and-graticule" class="nav-link" data-scroll-target="#make-a-new-grid-and-graticule">Make a new grid and graticule</a></li>
+  <li><a href="#dataframe-for-visual-checking" id="toc-dataframe-for-visual-checking" class="nav-link" data-scroll-target="#dataframe-for-visual-checking">Dataframe for visual checking</a></li>
+  </ul></li>
+  <li><a href="#make-a-graph-of-the-graticule-cells" id="toc-make-a-graph-of-the-graticule-cells" class="nav-link" data-scroll-target="#make-a-graph-of-the-graticule-cells">Make a graph of the graticule cells</a>
+  <ul class="collapse">
+  <li><a href="#iterate-over-graticule-cells-to-get-a-deformed-graticule" id="toc-iterate-over-graticule-cells-to-get-a-deformed-graticule" class="nav-link" data-scroll-target="#iterate-over-graticule-cells-to-get-a-deformed-graticule">Iterate over graticule cells to get a ‘deformed’ graticule</a></li>
+  <li><a href="#and-interpolate" id="toc-and-interpolate" class="nav-link" data-scroll-target="#and-interpolate">And… interpolate!</a></li>
+  </ul></li>
+  <li><a href="#postscript" id="toc-postscript" class="nav-link" data-scroll-target="#postscript">Postscript</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div id="fig-xkcd-3207" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-xkcd-3207-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="xkcd-3207.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: alt-text: ‘The zero line in WMM2025 passes through a lot of population centers; I wonder what year the largest share of the population lived in a zone of less than 5° of declination’, he thought, derailing all other tasks for the rest of the day."><img src="xkcd-3207.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-xkcd-3207-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: alt-text: ‘The zero line in WMM2025 passes through a lot of population centers; I wonder what year the largest share of the population lived in a zone of less than 5° of declination’, he thought, derailing all other tasks for the rest of the day.
+</figcaption>
+</figure>
+</div>
+<p>I have been afflicted by a different version of the alt-text where replicating the map derailed all other tasks for more time than I care to admit.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cols4all)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igrf)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(akima)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>w_polygons <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"world-polygons.gpkg"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>w_pts <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"world-points.gpkg"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="code-code-code-so-much-code" class="level2">
+<h2 class="anchored" data-anchor-id="code-code-code-so-much-code">Code, code, code… so much code</h2>
+<p>This is a case where the ‘backwards’ reactive structure of <a href="https://marimo.io">marimo</a> or <a href="https://observablehq.com/">observable</a> notebooks would be nice. Then I could put all the helper functions that do the work at the end of the document, and readers could check them out if they wanted to. In the R markdown / Quarto case, the best I can do is put all that code in a source file, which you can take a look at <a href="xkcd-3207-functions.R">here</a>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"xkcd-3207-functions.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>But beware: here be dragons… and you are on your own figuring out what the heck is going on. Suffice to say, I’ve become more comfortable with R’s matrices and situations where base R’s vectors, matrices, and lists might be preferable to the tidyverse’s more or less exclusive focus on tabular data. I also realised after a while that working in Python might have been a better choice once things got messy.</p>
+<p>With all that code glossed over, and set to one side we can get into the ahem… serious business of replicating the zero declination map projection.</p>
+</section>
+<section id="mappinmg-magnetic-declination" class="level2">
+<h2 class="anchored" data-anchor-id="mappinmg-magnetic-declination">Mappinmg magnetic declination</h2>
+<p>Before doing so, it’s good to get a handle on the problem. First up a map of magnetic declination. This makes use of a <code>get_point_grid()</code> function in the aforementioned source file. That function makes a point grid and also retrieves the declination values at each lat-lon location using the <a href="https://www.rdocumentation.org/packages/igrf/versions/2.0/topics/igrf"><code>igrf::igrf()</code></a> function. Here’s a snippet of what the resulting data look like.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>xsteps <span class="ot">&lt;-</span> <span class="dv">90</span>; ysteps <span class="ot">&lt;-</span> <span class="dv">90</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>grid_90 <span class="ot">&lt;-</span> <span class="fu">get_point_grid</span>(xsteps, ysteps)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>grid_90<span class="sc">$</span>grid <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  name     row   col          x          y   lon   lat     D
+  &lt;glue&gt; &lt;int&gt; &lt;int&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 r1c1       1     1 -19814869. -19749959.  -178 -84.8  138.
+2 r2c1       2     1 -19814869. -19306140.  -178 -84.5  138.
+3 r3c1       3     1 -19814869. -18862321.  -178 -84.1  137.
+4 r4c1       4     1 -19814869. -18418501.  -178 -83.6  136.
+5 r5c1       5     1 -19814869. -17974682.  -178 -83.2  135.
+6 r6c1       6     1 -19814869. -17530863.  -178 -82.7  134.</code></pre>
+</div>
+</div>
+<p>And we can map and contour this.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">colour =</span> <span class="fu">ifelse</span>(<span class="fu">after_stat</span>(level) <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"seagreen"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">ifelse</span>(<span class="fu">after_stat</span>(level) <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">"red3"</span>, <span class="st">"darkblue"</span>)),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">linewidth =</span> <span class="fu">ifelse</span>(<span class="fu">after_stat</span>(level) <span class="sc">==</span> <span class="dv">0</span>, .<span class="dv">7</span>, .<span class="dv">2</span>))) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_identity</span>() <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linewidth_identity</span>() <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  metR<span class="sc">::</span><span class="fu">geom_text_contour</span>(<span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                          <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">skip =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-declinations-map" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-declinations-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-declinations-map-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Magnetic declination based on the model described in Alken et al.&nbsp;2021. Contours are at 5° intervals, with negative declinations in reds, positive declinations in blues, and the isogonic line where magnetic north and true north are exactly aligned in green."><img src="index_files/figure-html/fig-declinations-map-1.png" class="img-fluid figure-img" width="864"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-declinations-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Magnetic declination based on the model described in Alken et al.&nbsp;2021.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Contours are at 5° intervals, with negative declinations in reds, positive declinations in blues, and the isogonic line where magnetic north and true north are exactly aligned in green.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It’s interesting that so many of the more populous parts of the world have low declinations, and hence relatively ‘accurate’ compasses. It’s also very helpful. Later, I remove all the non-land areas from consideration, leaving the focus on relatively low declination areas, which are more amenable to deformations that don’t get too out of hand.</p>
+<p>As a side-note, the most recent release of the world magnetic model came out towards the end of last year (I assume this is what prompted the XKCD map), and you can download data based on that model from the <a href="https://www.ncei.noaa.gov/">US National Centers for Environmental Information</a> at <a href="https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml">this page</a>. The R package <code>igrf</code> provided data remains to be updated to the latest magnetic model. But the previous model is not that old, and I can use it to get data for 2025 anyway, which is plenty good enough, and is what is shown in the map.</p>
+<p>I am using the widely derided Mercator projection for a number of reasons. First, we are in the business here of bad map projections. Second, the XKCD map seems clearly to be derived from a Mercator projection. And third, and most importantly (and seriously), we’ll be doing local angular deformation of areas, and a conformal projection seems the most appropriate place to start for that (never let it be said that Mercator is not useful).</p>
+</section>
+<section id="imagine-doing-this-with-actual-maps" class="level2">
+<h2 class="anchored" data-anchor-id="imagine-doing-this-with-actual-maps">Imagine doing this with actual maps</h2>
+<p>To get a handle on the problem it’s helpful to imagine assembling a bunch of rectangular paper maps of the planet and arranging them in a grid, each rotated by an amount that offsets the local magnetic declination so that ‘up’ on each map sheet is magnetic north. The code cell below makes a bunch of ‘map sheets’.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>grid_45 <span class="ot">&lt;-</span> <span class="fu">get_point_grid</span>(<span class="dv">45</span>, <span class="dv">45</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>xy_r <span class="ot">&lt;-</span> <span class="fu">rast</span>(grid_45<span class="sc">$</span>grid <span class="sc">|&gt;</span> <span class="fu">select</span>(x, y, D, lon, lat), </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">type =</span> <span class="st">"xyz"</span>, <span class="at">crs =</span> <span class="st">"+proj=merc"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>sheets <span class="ot">&lt;-</span> xy_r <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.polygons</span>(<span class="at">aggregate =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>() </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>sheets <span class="ot">&lt;-</span> sheets <span class="sc">|&gt;</span> </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(sheets <span class="sc">|&gt;</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>              <span class="fu">st_centroid</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>              <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>              <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>              <span class="fu">rename</span>(<span class="at">xo =</span> X, <span class="at">yo =</span> Y))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>And we can get a feel for the required rotation of each sheet by mapping it.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> sheets <span class="sc">|&gt;</span> <span class="fu">st_filter</span>(w_polygons), <span class="fu">aes</span>(<span class="at">fill =</span> D),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">alpha =</span> <span class="fl">0.75</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous_c4a_div</span>(<span class="st">"scico.roma_o"</span>, <span class="at">mid =</span> <span class="dv">0</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">180</span>, <span class="dv">180</span>)) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">colour =</span> <span class="st">"darkgrey"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-map-sheets" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-map-sheets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-map-sheets-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Map sheets coloured by the declination at the centroid."><img src="index_files/figure-html/fig-map-sheets-1.png" class="img-fluid figure-img" width="1056"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-map-sheets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Map sheets coloured by the declination at the centroid.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It’s evident that Antarctica is going to be even more of a problem than usual in this project.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<section id="rotate-the-map-sheets" class="level3">
+<h3 class="anchored" data-anchor-id="rotate-the-map-sheets">Rotate the map sheets</h3>
+<p>Functions I wrote in the linked source file allow us to rotate the maps sheets, and here’s what we get if we rotate each map independently keeping them in their position in the overall grid.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>maps <span class="ot">&lt;-</span> sheets <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_intersection</span>(w_polygons) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">st_geometry_type</span>(geometry) <span class="sc">!=</span> <span class="st">"GEOMETRYCOLLECTION"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>maps_p <span class="ot">&lt;-</span> <span class="fu">mapply</span>(rotate_shape, </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">s =</span> maps<span class="sc">$</span>geometry, <span class="at">a =</span> <span class="sc">-</span>maps<span class="sc">$</span>D, </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">xo =</span> maps<span class="sc">$</span>x, <span class="at">yo =</span> maps<span class="sc">$</span>y, </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">SIMPLIFY =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sfc</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=merc"</span>) </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> maps_p, <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>, <span class="at">lwd =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-map-sheets-rotated" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-map-sheets-rotated-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-map-sheets-rotated-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: How we might rotate a collection of maps sheets so that magnetic north is up."><img src="index_files/figure-html/fig-map-sheets-rotated-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-map-sheets-rotated-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: How we might rotate a collection of maps sheets so that magnetic north is up.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Comparing this with <a href="#fig-xkcd-3207" class="quarto-xref">Figure&nbsp;1</a> the most obvious congruence is with the map sheets in southern Africa which have rotated clockwise.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>However, an obvious issue on closer inspection is the regions in each map sheet no longer align with one another to form properly connected areas. This effect is clear in the map below.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> maps_p, <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">5e6</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">4.4e6</span>, <span class="sc">-</span><span class="fl">1e6</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-map-sheets-rotated-closeup" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-map-sheets-rotated-closeup-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-map-sheets-rotated-closeup-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: A closer look at rotated map sheets in southern Africa."><img src="index_files/figure-html/fig-map-sheets-rotated-closeup-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-map-sheets-rotated-closeup-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: A closer look at rotated map sheets in southern Africa.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>You can imagine shifting those map sheets around to make them line up, but it’s not a simple task since the map sheet sides are not parallel—they are not off my much, but they’re not parallel!</p>
+<p>Long story short, the required projection is not a simple one.</p>
+</section>
+</section>
+<section id="a-crude-trigonometric-approach" class="level2">
+<h2 class="anchored" data-anchor-id="a-crude-trigonometric-approach">A crude trigonometric approach</h2>
+<p>How to proceed? My first somewhat successful effort was to to rotate sections of the world map not around localised centres as has been done for the map sheets above, but around some more global centre that would enable contiguity to be preserved between contiguous places. Exploring that path led to the best effort below.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>w_proj <span class="ot">&lt;-</span> w_pts <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mapply</span>(project_point, <span class="at">x =</span> w_pts<span class="sc">$</span>x, <span class="at">y =</span> w_pts<span class="sc">$</span>y,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">a =</span> <span class="sc">-</span>w_pts<span class="sc">$</span>D <span class="sc">/</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">cos</span>(w_pts<span class="sc">$</span>lat <span class="sc">*</span> pi<span class="sc">/</span><span class="dv">180</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">xo =</span> w_pts<span class="sc">$</span>x, <span class="at">yo =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unlist</span>() <span class="sc">|&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">Xp =</span> V1, <span class="at">Yp =</span> V2)) <span class="sc">|&gt;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"Xp"</span>, <span class="st">"Yp"</span>), <span class="at">remove =</span> <span class="cn">FALSE</span>, <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="st">"+proj=merc"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The central feature here is using the <code>project_point()</code> function (you’ll find this in the linked R source file from earlier) to rotate each point through some angle <code>a</code> about a point given by <code>xo</code> and <code>yo</code>. Experimentation led me to make that centre of rotation a point on the equator at the same longitude as the point to be rotated. That’s not necessarily unreasonable. What’s more than a little strange is that to get a result similar to the XKCD map<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> I’m rotating by <em>half</em> the declination, with a further reduction in the angle scaled by the cosine of the latitude. The cosine scaling is vaguely justifiable given that that is the linear scaling error at a given latitude in the Mercator projection, but I’m really not sure why I would have to halve the angle to rotation in addition to this ‘correction’.</p>
+<p>Anyway, here’s what the resulting map looks like:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> w_proj, <span class="fu">aes</span>(<span class="at">x =</span> Xp, <span class="at">y =</span> Yp), <span class="at">size =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">expand=</span><span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-trig-based-projection" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-trig-based-projection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-trig-based-projection-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: A trigonometry based rendition of a zero declination projection."><img src="index_files/figure-html/fig-trig-based-projection-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-trig-based-projection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: A trigonometry based rendition of a zero declination projection.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>I’m not sure what happened to a big chunk of Antarctica (and this is <em>almost</em> the last time I’ll be dealing with it in this post), but overall this isn’t a terrible approximation to the XKCD map.</p>
+<p>And that, dear reader, is probably where I should have stopped…</p>
+</section>
+<section id="an-approach-based-on-a-deformed-graticule" class="level2">
+<h2 class="anchored" data-anchor-id="an-approach-based-on-a-deformed-graticule">An approach based on a ‘deformed’ graticule</h2>
+<p>Unfortunately, this problem got in my head, and I couldn’t let it go.</p>
+<p>My overall approach was to generate a deformed latitude-longitude graticule that respects the magnetic declination along each deformed parallel and meridian, and then to use that as a basis for an interpolation from Mercator to a zero-declination map using the method described in <a href="https://computinggeographically.org/chapters/chap2/fig2-02-cartograms.html">this post</a> and <a href="https://geospatialstuff.com/posts/2021/10/21/experiments-with-r-interpolators/">this one</a>.</p>
+<p>This led me down some pretty paths. For example, here’s a map showing a set of ‘deformed’ parallels (in red) and meridians (in blue):</p>
+<div id="fig-deformed-meridians-and-parallels" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-deformed-meridians-and-parallels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="deformed-meridians-and-parallels.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: A graticule formed by independently deformed meridians and parallels."><img src="deformed-meridians-and-parallels.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deformed-meridians-and-parallels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: A graticule formed by independently deformed meridians and parallels.
+</figcaption>
+</figure>
+</div>
+<p>And here’s the projection I get using those:</p>
+<div id="fig-deformed-meridians-and-parallels-projection" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-deformed-meridians-and-parallels-projection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="deformed-meridians-and-parallels-projection.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: A map produced using the deformed graticule of Figure&nbsp;7."><img src="deformed-meridians-and-parallels-projection.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deformed-meridians-and-parallels-projection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: A map produced using the deformed graticule of <a href="#fig-deformed-meridians-and-parallels" class="quarto-xref">Figure&nbsp;7</a>.
+</figcaption>
+</figure>
+</div>
+<p>The problem here is that the meridians and parallels have been independently deformed by stringing together equal length segments at the appropriate angles to E-W (for parallels) or N-S (for meridians). Instead of this they should be knit together with their points of intersection shifted around to yield the right bearings along their lengths. In places that will mean shortening the segments or lengthening them to maintain the grid characteristic of the graticule (the next section makes this clearer).</p>
+<p>At this point I thought I might find some assistance in work on <a href="https://en.wikipedia.org/wiki/Curvilinear_coordinates">curvilinear grids</a> but no such luck. It seems likely that there’s something out there <em>somewhere</em>, but I didn’t find it. This was a fun digression: <a href="https://spacesymmetrystructure.wordpress.com/2009/02/06/rheotomic-surfaces/">rheotomic surfaces</a> but led nowhere.</p>
+<p>Never mind, onward!</p>
+<section id="make-a-new-grid-and-graticule" class="level3">
+<h3 class="anchored" data-anchor-id="make-a-new-grid-and-graticule">Make a new grid and graticule</h3>
+<p>Before going any further, we make a new grid, and this time also make a graticule of parallels and meridians. Note that I am cutting of this grid at 60°S.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>xsteps <span class="ot">&lt;-</span> <span class="dv">90</span>; ysteps <span class="ot">&lt;-</span> <span class="dv">90</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>grid_points <span class="ot">&lt;-</span> <span class="fu">get_point_grid</span>(xsteps, ysteps, <span class="at">lat0 =</span> <span class="sc">-</span><span class="dv">60</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>graticule <span class="ot">&lt;-</span> <span class="fu">get_parallels_and_meridians</span>(grid_points)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># get initial corners for all graticule cells</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>corners <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ysteps) {</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (c <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>xsteps) {</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    corners <span class="ot">&lt;-</span> <span class="fu">cbind</span>(corners, <span class="fu">get_cell</span>(r, c, <span class="cn">TRUE</span>))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>corners[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>         SW        SE        NE        NW        SW        SE        NE
+x -19839604 -19636761 -19787081 -20003751 -19396050 -19189139 -19339842
+y  -8427513  -8199734  -8056656  -8273742  -8428845  -8201220  -8055117
+         NW        SW        SE
+x -19560128 -18952776 -18741359
+y  -8272673  -8430365  -8202871</code></pre>
+</div>
+</div>
+<p>The <code>corners</code> matrix is a 2-row (<code>x</code>, <code>y</code>) many-columned matrix of all the points at the corners of each ‘cell’ in the graticule. The points are designated as SW, SE, NE, NW corners of their respective cells. I switched to matrices at this point as I found it a lot easier to do manipulations of these directly than fishing around inside <code>sf</code> polygons for the underlying matrix data. It meant I had to write some simple functions for ‘mapping’ points as polygons using <code>ggplot2::geom_polygon()</code> but that was a small price to pay. I also found that manipulating matrices like these was generally snappier than manipulating <code>sf</code> objects.</p>
+<p>What’s hidden underneath the above code are functions to represent the segments of meridians and parallels as straight line equations in <a href="https://mathworld.wolfram.com/StandardForm.html"><span class="math inline">\(Ax+By+C=0\)</span> format</a>, along with functions to intersect such lines. This is what enables creation of ‘deformed’ cells with each side at the appropriate angle.</p>
+</section>
+<section id="dataframe-for-visual-checking" class="level3">
+<h3 class="anchored" data-anchor-id="dataframe-for-visual-checking">Dataframe for visual checking</h3>
+<p>So… make a dataframe from the <code>corners</code> matrix, and plot it:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">cells_as_dataframe</span>(corners)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">lwd =</span> <span class="fl">0.25</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> id), </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">range</span>(df<span class="sc">$</span>x), <span class="at">ylim =</span> <span class="fu">range</span>(df<span class="sc">$</span>y), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-all-cells-initial-state" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-all-cells-initial-state-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-all-cells-initial-state-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: The starting state of the lattice with each lattice cell ‘deformed’ to a quadrilateral with its edges at at appropriate orientiations."><img src="index_files/figure-html/fig-all-cells-initial-state-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-all-cells-initial-state-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: The starting state of the lattice with each lattice cell ‘deformed’ to a quadrilateral with its edges at at appropriate orientiations.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In closeup we get a better idea of how this differs from the rotated map sheets of <a href="#fig-map-sheets-rotated" class="quarto-xref">Figure&nbsp;4</a>:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">lwd =</span> <span class="fl">0.25</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> id), </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> which_corner), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">5e6</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">4.4e6</span>, <span class="sc">-</span><span class="fl">1e6</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-cells-initial-state-closeup" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cells-initial-state-closeup-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-cells-initial-state-closeup-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: A closeup view of the starting state of the deformed grid of parallel-meridian cells."><img src="index_files/figure-html/fig-cells-initial-state-closeup-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cells-initial-state-closeup-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: A closeup view of the starting state of the deformed grid of parallel-meridian cells.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>These are tantalisingly well aligned already. Surely it’s a simple matter to slide them around to close up those holes? Each pair of neighbouring cells is already aligned along their shared edge because those edges are derived from the same straight line equation based on that line segment’s centre point and declination. Unfortunately, because opposite faces of each cell aren’t parallel the sides are not the same length. The code below shows this.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cellA <span class="ot">&lt;-</span> <span class="fu">get_cell</span>(<span class="dv">10</span>, <span class="dv">50</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>cellB <span class="ot">&lt;-</span> <span class="fu">get_cell</span>(<span class="dv">11</span>, <span class="dv">50</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>xlim <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.7</span>, <span class="fl">2.5</span>) <span class="sc">*</span> <span class="fl">1e6</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>ylim <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">5.7</span>, <span class="sc">-</span><span class="fl">4.8</span>) <span class="sc">*</span> <span class="fl">1e6</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(cellA, cellB) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> <span class="dv">4</span>)), </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>(<span class="at">xlim =</span> xlim, <span class="at">ylim =</span> ylim, <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Before"</span>) <span class="sc">+</span> </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(cellA, <span class="fu">match_cell_posn</span>(cellB, cellA, <span class="st">"S"</span>)) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> <span class="dv">4</span>)), </span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>(<span class="at">xlim =</span> xlim, <span class="at">ylim =</span> ylim, <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"After"</span>) <span class="sc">+</span> </span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>g1 <span class="sc">|</span> g2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-different-sized-neighbouring-cells" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-different-sized-neighbouring-cells-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-different-sized-neighbouring-cells-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;11: Neighbouring cells in their initial locations, and after the upper one has been moved into position so their corners are aligned."><img src="index_files/figure-html/fig-different-sized-neighbouring-cells-1.png" class="img-fluid figure-img" width="576"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-different-sized-neighbouring-cells-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11: Neighbouring cells in their initial locations, and after the upper one has been moved into position so their corners are aligned.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The first plot shows two graticule cells at their ‘starting’ positions. The second shows them if we move one to match the position of the other using the <code>match_cell_posn()</code> function. That means that matching adjacent cells requires also rescaling them, and rescaling is complicated by the cells not having parallel sides. By this point I’d become quite adept at manipulating these cells so I wrote a function <code>match_cell_scale()</code> which makes use of a <code>scale_carefully()</code> function to address this problem. (As usual, you’ll find this in the R script I linked above.)</p>
+</section>
+</section>
+<section id="make-a-graph-of-the-graticule-cells" class="level2">
+<h2 class="anchored" data-anchor-id="make-a-graph-of-the-graticule-cells">Make a graph of the graticule cells</h2>
+<p>While making all these adjustments between adjacent cells, we have to keep track of which cells have moved and which have not, and what further moves might be needed. For this, I tried for a long time to avoid building a graph data structure from my cells, but in the end that turned out to be the right approach. I’ve tended to find the <a href="https://r.igraph.org/"><code>igraph</code> package</a> a bit tricky to deal with in the past, but the deep dive that this exercise forced upon me has greatly improved my impression of it.</p>
+<p>Anyway, I built a graph of the cells to be deformed. At this point I reduced the set of cells to be deformed to only those over the land areas since that’s what we are mapping. This also means we can avoid the more extreme distortions of large declinations in the polar regions, which are so apparent in many of the maps above.</p>
+<p>I don’t know why I avoided making a graph for so long. It really wasn’t hard.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># label: make-graph-representation</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>xy_points <span class="ot">&lt;-</span> grid_points<span class="sc">$</span>grid</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>xy_points_land <span class="ot">&lt;-</span> xy_points <span class="sc">|&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(lat <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">60</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>), <span class="at">remove =</span> <span class="cn">FALSE</span>, <span class="at">crs =</span> <span class="st">"+proj=merc"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_filter</span>(w_polygons)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># nodes are the xy_points_land dataframe but without the geometries</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>nodes_df <span class="ot">&lt;-</span> xy_points_land <span class="sc">|&gt;</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">seqno =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(name)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># edges exist where manhattan distance between points in row/col terms is 0</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>edges_df <span class="ot">&lt;-</span> ((</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  nodes_df <span class="sc">|&gt;</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(row, col) <span class="sc">|&gt;</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dist</span>(<span class="at">method =</span> <span class="st">"manhattan"</span>, <span class="at">diag =</span> <span class="cn">TRUE</span>, <span class="at">upper =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.matrix</span>()) <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">which</span>(<span class="at">arr.ind =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nodes_df <span class="sc">|&gt;</span> <span class="fu">select</span>(seqno, name), <span class="at">by =</span> <span class="fu">join_by</span>(row <span class="sc">==</span> seqno)) <span class="sc">|&gt;</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">from =</span> name) <span class="sc">|&gt;</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nodes_df <span class="sc">|&gt;</span> <span class="fu">select</span>(seqno, name), <span class="at">by =</span> <span class="fu">join_by</span>(col <span class="sc">==</span> seqno)) <span class="sc">|&gt;</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">to =</span> name) <span class="sc">|&gt;</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(from, to)</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(edges_df, <span class="at">directed =</span> <span class="cn">FALSE</span>, <span class="at">vertices =</span> nodes_df) <span class="sc">|&gt;</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simplify</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Here’s a picture of the graph. Each node represents a graticule cell with links to neighbouring cells.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(G, <span class="at">layout =</span> <span class="st">"nicely"</span>) <span class="sc">+</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">linewidth =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="at">shape =</span> <span class="dv">23</span>, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-graph-view" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-graph-view-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-graph-view-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;12: The graph of cell adjacencies that we use to deform the graticule."><img src="index_files/figure-html/fig-graph-view-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-view-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: The graph of cell adjacencies that we use to deform the graticule.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="iterate-over-graticule-cells-to-get-a-deformed-graticule" class="level3">
+<h3 class="anchored" data-anchor-id="iterate-over-graticule-cells-to-get-a-deformed-graticule">Iterate over graticule cells to get a ‘deformed’ graticule</h3>
+<p>With the cells in a graph like this, after a lot of experimentation, I managed to nudge and rescale the cells into some semblance of order. The code in the cell below might look incomprehensible, but it’s a lot <em>less</em> incomprehensible than it was when I tried to do the same thing by manipulating cells in lists and dataframes. The graph structure also means that I can break the task up by ‘island’—in graph terms <em>components</em>—and process each one independently by <a href="https://en.wikipedia.org/wiki/Breadth-first_search"><em>breadth first search</em></a> starting from a cell near its centre (with minimum eccentricity in the graph).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># helper function to get directional difference from row/cols</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>get_N_dirs <span class="ot">&lt;-</span> <span class="cf">function</span>(N, v) {</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(N<span class="sc">$</span>row <span class="sc">-</span> v<span class="sc">$</span>row, N<span class="sc">$</span>col <span class="sc">-</span> v<span class="sc">$</span>col) <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span>(<span class="dv">1</span>, \(drc) <span class="fu">ifelse</span>(drc[<span class="dv">1</span>] <span class="sc">==</span> <span class="dv">0</span>, </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">ifelse</span>(drc[<span class="dv">2</span>] <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"E"</span>, <span class="st">"W"</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">ifelse</span>(drc[<span class="dv">1</span>] <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"N"</span>, <span class="st">"S"</span>)))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># empty matrix copy of the corners for final projected corners</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>corners_p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="cn">NA</span>, <span class="at">nrow =</span> <span class="fu">nrow</span>(corners), <span class="at">ncol =</span> <span class="fu">ncol</span>(corners),</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">dimnames</span>(corners))</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co"># decompose graph into connected subgraphs</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>islands <span class="ot">&lt;-</span> G <span class="sc">|&gt;</span> <span class="fu">decompose</span>() </span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate over islands</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (island <span class="cf">in</span> islands) {</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  done <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  root <span class="ot">&lt;-</span> island <span class="sc">|&gt;</span> <span class="fu">eccentricity</span>() <span class="sc">|&gt;</span> <span class="fu">which.min</span>()</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  v0 <span class="ot">&lt;-</span> <span class="fu">V</span>(island)[root]</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  corners_p <span class="ot">&lt;-</span> <span class="fu">update_cell_corners</span>(</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    corners_p, <span class="fu">get_cell_corners</span>(corners, v0<span class="sc">$</span>row, v0<span class="sc">$</span>col), v0<span class="sc">$</span>row, v0<span class="sc">$</span>col)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(island) <span class="sc">==</span> <span class="dv">1</span>) <span class="cf">next</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  done <span class="ot">&lt;-</span> <span class="fu">c</span>(done, v0<span class="sc">$</span>name)</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  traversal <span class="ot">&lt;-</span> (island <span class="sc">|&gt;</span> <span class="fu">bfs</span>(<span class="at">root =</span> root))<span class="sc">$</span>order <span class="sc">|&gt;</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vertex_attr</span>(<span class="at">graph =</span> island, <span class="at">name =</span> <span class="st">"name"</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(traversal)) {</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    vi <span class="ot">&lt;-</span> <span class="fu">V</span>(island)[traversal[i]]</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    cell_i <span class="ot">&lt;-</span> <span class="fu">get_cell_corners</span>(corners, vi<span class="sc">$</span>row, vi<span class="sc">$</span>col)</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    N <span class="ot">&lt;-</span> <span class="fu">neighbors</span>(island, vi)</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    directions <span class="ot">&lt;-</span> <span class="fu">get_N_dirs</span>(N, vi)</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    opposites <span class="ot">&lt;-</span> <span class="fu">get_opposite_direction</span>(directions)</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    fixes <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(directions <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"N"</span>, <span class="st">"S"</span>), <span class="st">"W"</span>, <span class="st">"S"</span>)</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(N) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(N)) {</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>        vj <span class="ot">&lt;-</span> N[j]</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>        cell_j <span class="ot">&lt;-</span> <span class="fu">get_cell_corners</span>(corners_p, vj<span class="sc">$</span>row, vj<span class="sc">$</span>col)</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(cell_j))) {</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>          cell_j <span class="ot">&lt;-</span> <span class="fu">get_cell_corners</span>(corners, vj<span class="sc">$</span>row, vj<span class="sc">$</span>col)</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (vj<span class="sc">$</span>name <span class="sc">%in%</span> done) {</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>          cell_i <span class="ot">&lt;-</span> <span class="fu">match_cell_scale</span>(cell_i, cell_j, directions[j], fixes[j])</span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>          cell_i <span class="ot">&lt;-</span> <span class="fu">match_cell_posn</span>(cell_i, cell_j, directions[j])</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>          corners_p <span class="ot">&lt;-</span> <span class="fu">update_cell_corners</span>(corners_p, cell_i, vi<span class="sc">$</span>row, vi<span class="sc">$</span>col)</span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>          cell_j <span class="ot">&lt;-</span> <span class="fu">match_cell_scale</span>(cell_j, cell_i, opposites[j], fixes[j])</span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>          cell_j <span class="ot">&lt;-</span> <span class="fu">match_cell_posn</span>(cell_j, cell_i, opposites[j])</span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>          corners_p <span class="ot">&lt;-</span> <span class="fu">update_cell_corners</span>(corners_p, cell_j, N[j]<span class="sc">$</span>row, N[j]<span class="sc">$</span>col)</span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>    done <span class="ot">&lt;-</span> <span class="fu">c</span>(done, vi<span class="sc">$</span>name)</span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The graph also helps manage keeping track of cells that have already been ‘locked’ into position. When we encounter one of those as a neighbour of the focal cell under consideration, then instead of moving and rescaling it, we move and rescale the focal cell. I’m fairly certain there are some happy accidents here in the order in which cells are considered, and a more complete solution to this problem based on this approach would have to handle that.</p>
+<p>Anyway, all that done we wind up with a deformed lattice of cells:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_cells</span>(corners_p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-deformed-lattice" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-deformed-lattice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-deformed-lattice-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;13: Deformed graticule after cells have been scaled and move to align with one another."><img src="index_files/figure-html/fig-deformed-lattice-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deformed-lattice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13: Deformed graticule after cells have been scaled and move to align with one another.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Clicking into the image you can see that (for the most part) the cell boundaries are well aligned. There are some inconsistencies where small islands have wound up on top of larger continents where those have been shifted a long way by the accumumation of distortion from the centre towards their edges. A more complete solution to this problem would address this. It would also attend to cases where cells meet at corners rather than along an edge. But, this is a proof of concept, not an attempt at a complete solution, so I (or someone else) can get to that later.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+</section>
+<section id="and-interpolate" class="level3">
+<h3 class="anchored" data-anchor-id="and-interpolate">And… interpolate!</h3>
+<p>Armed with a starting graticule and the deformed graticule we just made, we can form a dataset of <code>(x1, y1)</code> and <code>(x2, y2)</code> pairs and the interpolation process for irregularly spaced data implemented in <a href="https://www.rdocumentation.org/packages/akima/versions/0.6-3.6/topics/interpp"><code>akima::interpp()</code></a> can go to work.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>corners_0 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ysteps) {</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (c <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>xsteps) {</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    corners_0 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(corners_0, <span class="fu">get_cell</span>(r, c, <span class="cn">FALSE</span>))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>xy12 <span class="ot">&lt;-</span> corners_0 <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">x1 =</span> x, <span class="at">y1 =</span> y) <span class="sc">|&gt;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    corners_p <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">x2 =</span> x, <span class="at">y2 =</span> y)) <span class="sc">|&gt;</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(x1, y1, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(x2, y2, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>xy_p <span class="ot">&lt;-</span> w_pts <span class="sc">|&gt;</span> <span class="fu">distinct</span>(x, y)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>xo <span class="ot">&lt;-</span> <span class="fu">interpp</span>(xy12<span class="sc">$</span>x1, xy12<span class="sc">$</span>y1, xy12<span class="sc">$</span>x2, xy_p<span class="sc">$</span>x, xy_p<span class="sc">$</span>y, <span class="at">duplicate =</span> <span class="st">"mean"</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>yo <span class="ot">&lt;-</span> <span class="fu">interpp</span>(xy12<span class="sc">$</span>x1, xy12<span class="sc">$</span>y1, xy12<span class="sc">$</span>y2, xy_p<span class="sc">$</span>x, xy_p<span class="sc">$</span>y, <span class="at">duplicate =</span> <span class="st">"mean"</span>)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>xy_p_proj <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> xo<span class="sc">$</span>z, <span class="at">y =</span> yo<span class="sc">$</span>z) <span class="sc">|&gt;</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span> <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>), <span class="at">crs =</span> <span class="st">"+proj=merc"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Finally we make a map.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> xy_p_proj, <span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">range</span>(grid_points<span class="sc">$</span>xs), </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylim =</span> <span class="fu">range</span>(grid_points<span class="sc">$</span>ys), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-final-projected-map" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-final-projected-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-final-projected-map-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;14: The final projected map"><img src="index_files/figure-html/fig-final-projected-map-1.png" class="img-fluid figure-img" width="960"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-final-projected-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14: The final projected map
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>All in all, I have to admit to being somewhat underwhelmed by the end result of all this effort. I’m not even 100% sure that hand-on-heart I believe that my zero declination projection is more ‘correct’ than the one in the comic! I’d have a lot more confidence in making that claim if I’d found a tool that could take a grid lattice and deform it based on localised angular deviations.</p>
+<p>It’s even possible that the map in <a href="#fig-trig-based-projection" class="quarto-xref">Figure&nbsp;6</a> is truer to what has been done in the comic! The clue might be in the subtitle “a cylindrical projection distorted so that up is magnetic north”. Maybe if that’s the end goal then it makes sense to shift places relative to the equator, sliding them along a parallel, by an amount related determined by the declination, and the distance north or south of the equator.</p>
+<p>All the same, it’s been an interesting journey, and revealing of some of the strengths and weaknesses of R:</p>
+<ul>
+<li>If there’s a package for it (and there often is), that’s great!</li>
+<li>If what you need to do can be accomplished in processing pipelines on tabular data (whether spatial or not), that’s also great!</li>
+<li>If you want to colour outside the lines with spatial data and break projections and so on then you may want to manipulate spatial data as matrices, but be prepared for some mind-bending management of indexing and the like!</li>
+</ul>
+<p>Finally this:</p>
+<ul>
+<li><em>As soon as it becomes clear you need more complicated data structures</em> than lists, matrices, and data tables, give the relevant package in R a try <em>immediately</em> (in this case it was <code>igraph</code>), and perhaps start thinking about using a different tool entirely.</li>
+</ul>
+<p>The last point is something I learned building <a href="https://github.com/DOSull/weaving-space"><code>weavingspace</code></a> which started out as an R project, but rapidly became too complicated for R’s core data structures. R does have object oriented-capabilities and many people have built robust code using those capabilities, but it’s not encouraging to read, when considering something a bit more complicated that</p>
+<blockquote class="blockquote">
+<p>OOP is a little more challenging in R than in other languages because:</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>• There are multiple OOP systems to choose from. In this book, I’ll focus on the three that I believe are most important: S3, R6, and S4. S3 and S4 are provided by base R. R6 is provided by the R6 package, and is similar to the Reference Classes, or RC for short, from base R.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+</blockquote>
+<p>Where to even start with that?!</p>
+<p>Not everyone needs object-orientation to keep complicated code organised and manageable, but I know for a fact that I do! If I’d known at the outset that deforming the graticule to conform with the angular distortions of magnetic declination would be as complicated to do as it turned out to be… I think I’d either have backed away immediately, or committed to doing the programming in Python.</p>
+<p>Anyway, time to get back to something a bit less mind- and matter-bending.</p>
+</section>
+</section>
+<section id="postscript" class="level2">
+<h2 class="anchored" data-anchor-id="postscript">Postscript</h2>
+<p>Oh yeah… I put this XKCD bad map projection at #6 in my ranking, which now reads:</p>
+<ol type="1">
+<li><a href="https://xkcd.com/1799">Time Zones</a></li>
+<li><a href="https://xkcd.com/2807">ABS(Longitude)</a> (<a href="https://geospatialstuff.com/posts/2025/05/16/xkcd-bad-projections-ranked/#bad-map-projection-abslongitude">my version</a>)</li>
+<li><a href="https://xkcd.com/1500">Upside-down Map</a> (<a href="https://geospatialstuff.com/posts/2025/05/16/xkcd-bad-projections-ranked/#upside-down-map">my version</a>)</li>
+<li><a href="https://xkcd.com/3122">Interrupted Spheres</a> (<a href="https://geospatialstuff.com/posts/2025/10/27/xkcd-3122-interrupted-spheres/">my version</a>)</li>
+<li><a href="https://xkcd.com/2951">Exterior Kansas</a> (<a href="https://geospatialstuff.com/posts/2025/05/16/xkcd-bad-projections-ranked/#bad-map-projection-exterior-kansas">my version</a>)</li>
+<li><a href="https://xkcd.com/3207">Zero Declination</a></li>
+<li><a href="https://xkcd.com/2256">South America</a></li>
+<li><a href="https://xkcd.com/2613">Madagascator</a> (<a href="https://geospatialstuff.com/posts/2025/05/16/xkcd-bad-projections-ranked/#bad-map-projection-madagascator">my version</a>)</li>
+<li><a href="https://xkcd.com/2489">The Greenland Special</a> (<a href="https://geospatialstuff.com/posts/2025/05/16/xkcd-bad-projections-ranked/#bad-map-projection-the-greenland-special">my version</a>)</li>
+<li><a href="https://xkcd.com/2999">The United Stralia</a></li>
+<li><a href="https://xkcd.com/1784">Liquid Resize</a></li>
+</ol>
+
+
+</section>
+
+
+<p><a href="../../../../"><img src="../../../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Alken P, E Thébault, CD Beggan, <em>et al.</em> 2021. <a href="https://dx.doi.org/10.1186/s40623-020-01288-x">International Geomagnetic Reference Field: the thirteenth generation</a>. <em>Earth, Planets and Space</em> <strong>73</strong>(1): 49.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>That’s why I ditch it later.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Almost inevitably, New Zealand has not fared well in this exercise.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Ground truth?!<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Also… did I mention how much this problem has preoccupied me for the last little while?<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>See the <a href="https://adv-r.hadley.nz/oo.html">Introduction</a> to the Object-oriented programming section of <em>Advanced R</em> by Hadley Wickham.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|geospatialstuff\.com|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|patternandprocess\.org|computinggeographically\.org)");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
+            }
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>
