@@ -264,6 +264,7 @@ window.Quarto = {
                 <div class="quarto-category">tutorial</div>
                 <div class="quarto-category">stuff</div>
                 <div class="quarto-category">geospatial</div>
+                <div class="quarto-category">projections</div>
               </div>
                   </div>
   </div>
@@ -775,7 +776,7 @@ Figure&nbsp;7: A different interrupted spheres map with added New Zealand, and A
 <div class="cell" data-fig-width="12" data-fig-height="8">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" data-startfrom="339" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 338;"><span id="cb13-339"><a href="#cb13-339" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(d3<span class="op">.</span><span class="fu">geoDodecahedral</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" data-startfrom="340" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 339;"><span id="cb13-340"><a href="#cb13-340" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(d3<span class="op">.</span><span class="fu">geoDodecahedral</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-dodecahedral-projection" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -827,54 +828,54 @@ Figure&nbsp;9: Interrupted spheres making like a dodecahedron
 <div id="d3-code-for-dodecahedral-projection" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15" data-startfrom="377" data-source-offset="-131"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 376;"><span id="cb15-377"><a href="#cb15-377" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">map</span>(projection) {</span>
-<span id="cb15-378"><a href="#cb15-378" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> context <span class="op">=</span> DOM<span class="op">.</span><span class="fu">context2d</span>(width<span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
-<span id="cb15-379"><a href="#cb15-379" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-380"><a href="#cb15-380" aria-hidden="true" tabindex="-1"></a>  projection<span class="op">.</span><span class="fu">fitExtent</span>([[<span class="dv">2</span><span class="op">,</span><span class="dv">2</span>]<span class="op">,</span>[width<span class="op">-</span><span class="dv">2</span><span class="op">,</span> width<span class="op">/</span><span class="dv">2</span><span class="op">-</span><span class="dv">2</span>]]<span class="op">,</span> {<span class="dt">type</span><span class="op">:</span><span class="st">"Sphere"</span>})</span>
-<span id="cb15-381"><a href="#cb15-381" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-382"><a href="#cb15-382" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> path <span class="op">=</span> d3<span class="op">.</span><span class="fu">geoPath</span>(projection<span class="op">,</span> context)<span class="op">;</span></span>
-<span id="cb15-383"><a href="#cb15-383" aria-hidden="true" tabindex="-1"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">,</span> <span class="fu">path</span>({<span class="dt">type</span><span class="op">:</span><span class="st">"Sphere"</span>})<span class="op">,</span> context<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"#bbb"</span><span class="op">,</span> context<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb15-384"><a href="#cb15-384" aria-hidden="true" tabindex="-1"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">,</span> <span class="fu">path</span>(land)<span class="op">,</span> context<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"white"</span><span class="op">,</span> context<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
-<span id="cb15-385"><a href="#cb15-385" aria-hidden="true" tabindex="-1"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">,</span> <span class="fu">path</span>({<span class="dt">type</span><span class="op">:</span> <span class="st">"Sphere"</span>})<span class="op">,</span> context<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> <span class="st">"#000"</span><span class="op">,</span> context<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
-<span id="cb15-386"><a href="#cb15-386" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-387"><a href="#cb15-387" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Polyhedral projections expose their structure as projection.root()</span></span>
-<span id="cb15-388"><a href="#cb15-388" aria-hidden="true" tabindex="-1"></a>  <span class="co">// To draw them we need to cancel the rotate</span></span>
-<span id="cb15-389"><a href="#cb15-389" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> rotate <span class="op">=</span> projection<span class="op">.</span><span class="fu">rotate</span>()<span class="op">;</span></span>
-<span id="cb15-390"><a href="#cb15-390" aria-hidden="true" tabindex="-1"></a>  projection<span class="op">.</span><span class="fu">rotate</span>([<span class="dv">0</span><span class="op">,</span><span class="dv">0</span><span class="op">,</span><span class="dv">0</span>])<span class="op">;</span></span>
-<span id="cb15-391"><a href="#cb15-391" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-392"><a href="#cb15-392" aria-hidden="true" tabindex="-1"></a>  <span class="co">// run the tree of faces to get all sites and folds</span></span>
-<span id="cb15-393"><a href="#cb15-393" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> sites <span class="op">=</span> []<span class="op">,</span> folds <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb15-394"><a href="#cb15-394" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">recurse</span>(face) {</span>
-<span id="cb15-395"><a href="#cb15-395" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> site <span class="op">=</span> d3<span class="op">.</span><span class="fu">geoCentroid</span>({<span class="dt">type</span><span class="op">:</span><span class="st">"MultiPoint"</span><span class="op">,</span> <span class="dt">coordinates</span><span class="op">:</span>face<span class="op">.</span><span class="at">face</span>})<span class="op">;</span></span>
-<span id="cb15-396"><a href="#cb15-396" aria-hidden="true" tabindex="-1"></a>    <span class="co">// site.id = face.id;</span></span>
-<span id="cb15-397"><a href="#cb15-397" aria-hidden="true" tabindex="-1"></a>    sites<span class="op">.</span><span class="fu">push</span>(site)<span class="op">;</span></span>
-<span id="cb15-398"><a href="#cb15-398" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (face<span class="op">.</span><span class="at">children</span>) face<span class="op">.</span><span class="at">children</span><span class="op">.</span><span class="fu">forEach</span>(<span class="kw">function</span>(child){</span>
-<span id="cb15-399"><a href="#cb15-399" aria-hidden="true" tabindex="-1"></a>      folds<span class="op">.</span><span class="fu">push</span>({<span class="dt">type</span><span class="op">:</span><span class="st">"LineString"</span><span class="op">,</span> <span class="dt">coordinates</span><span class="op">:</span> child<span class="op">.</span><span class="at">shared</span><span class="op">.</span><span class="fu">map</span>(</span>
-<span id="cb15-400"><a href="#cb15-400" aria-hidden="true" tabindex="-1"></a>        e <span class="kw">=&gt;</span> d3<span class="op">.</span><span class="fu">geoInterpolate</span>(e<span class="op">,</span> site)(<span class="fl">1e-5</span>)</span>
-<span id="cb15-401"><a href="#cb15-401" aria-hidden="true" tabindex="-1"></a>      )})<span class="op">;</span></span>
-<span id="cb15-402"><a href="#cb15-402" aria-hidden="true" tabindex="-1"></a>      <span class="fu">recurse</span>(child)<span class="op">;</span></span>
-<span id="cb15-403"><a href="#cb15-403" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb15-404"><a href="#cb15-404" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb15-405"><a href="#cb15-405" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recurse</span>((projection<span class="op">.</span><span class="at">tree</span> <span class="op">||</span> projection<span class="op">.</span><span class="at">root</span>)())<span class="op">;</span></span>
-<span id="cb15-406"><a href="#cb15-406" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-407"><a href="#cb15-407" aria-hidden="true" tabindex="-1"></a>  <span class="co">// folding lines</span></span>
-<span id="cb15-408"><a href="#cb15-408" aria-hidden="true" tabindex="-1"></a>  folds<span class="op">.</span><span class="fu">forEach</span>(fold <span class="kw">=&gt;</span> {</span>
-<span id="cb15-409"><a href="#cb15-409" aria-hidden="true" tabindex="-1"></a>      context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">,</span></span>
-<span id="cb15-410"><a href="#cb15-410" aria-hidden="true" tabindex="-1"></a>        context<span class="op">.</span><span class="at">lineWidth</span> <span class="op">=</span> <span class="fl">0.5</span><span class="op">,</span> context<span class="op">.</span><span class="fu">setLineDash</span>([<span class="dv">3</span><span class="op">,</span><span class="dv">4</span>])<span class="op">,</span> context<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> <span class="st">"#000"</span><span class="op">,</span></span>
-<span id="cb15-411"><a href="#cb15-411" aria-hidden="true" tabindex="-1"></a>        <span class="fu">path</span>(fold)<span class="op">,</span> context<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
-<span id="cb15-412"><a href="#cb15-412" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
-<span id="cb15-413"><a href="#cb15-413" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-414"><a href="#cb15-414" aria-hidden="true" tabindex="-1"></a>  <span class="co">// restore the projection’s rotate</span></span>
-<span id="cb15-415"><a href="#cb15-415" aria-hidden="true" tabindex="-1"></a>  projection<span class="op">.</span><span class="fu">rotate</span>(rotate)<span class="op">;</span></span>
-<span id="cb15-416"><a href="#cb15-416" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb15-417"><a href="#cb15-417" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> context<span class="op">.</span><span class="at">canvas</span><span class="op">;</span></span>
-<span id="cb15-418"><a href="#cb15-418" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-419"><a href="#cb15-419" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-420"><a href="#cb15-420" aria-hidden="true" tabindex="-1"></a>d3 <span class="op">=</span> <span class="pp">require</span>(<span class="st">"d3-geo"</span><span class="op">,</span> <span class="st">"d3-fetch"</span><span class="op">,</span> <span class="st">"d3-geo-polygon"</span>)</span>
-<span id="cb15-421"><a href="#cb15-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-422"><a href="#cb15-422" aria-hidden="true" tabindex="-1"></a>land <span class="op">=</span> d3<span class="op">.</span><span class="fu">json</span>(</span>
-<span id="cb15-423"><a href="#cb15-423" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://unpkg.com/visionscarto-world-atlas@0.0.4/world/110m_land.geojson"</span></span>
-<span id="cb15-424"><a href="#cb15-424" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15" data-startfrom="378" data-source-offset="-131"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 377;"><span id="cb15-378"><a href="#cb15-378" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">map</span>(projection) {</span>
+<span id="cb15-379"><a href="#cb15-379" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> context <span class="op">=</span> DOM<span class="op">.</span><span class="fu">context2d</span>(width<span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb15-380"><a href="#cb15-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-381"><a href="#cb15-381" aria-hidden="true" tabindex="-1"></a>  projection<span class="op">.</span><span class="fu">fitExtent</span>([[<span class="dv">2</span><span class="op">,</span><span class="dv">2</span>]<span class="op">,</span>[width<span class="op">-</span><span class="dv">2</span><span class="op">,</span> width<span class="op">/</span><span class="dv">2</span><span class="op">-</span><span class="dv">2</span>]]<span class="op">,</span> {<span class="dt">type</span><span class="op">:</span><span class="st">"Sphere"</span>})</span>
+<span id="cb15-382"><a href="#cb15-382" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-383"><a href="#cb15-383" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> path <span class="op">=</span> d3<span class="op">.</span><span class="fu">geoPath</span>(projection<span class="op">,</span> context)<span class="op">;</span></span>
+<span id="cb15-384"><a href="#cb15-384" aria-hidden="true" tabindex="-1"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">,</span> <span class="fu">path</span>({<span class="dt">type</span><span class="op">:</span><span class="st">"Sphere"</span>})<span class="op">,</span> context<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"#bbb"</span><span class="op">,</span> context<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
+<span id="cb15-385"><a href="#cb15-385" aria-hidden="true" tabindex="-1"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">,</span> <span class="fu">path</span>(land)<span class="op">,</span> context<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"white"</span><span class="op">,</span> context<span class="op">.</span><span class="fu">fill</span>()<span class="op">;</span></span>
+<span id="cb15-386"><a href="#cb15-386" aria-hidden="true" tabindex="-1"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">,</span> <span class="fu">path</span>({<span class="dt">type</span><span class="op">:</span> <span class="st">"Sphere"</span>})<span class="op">,</span> context<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> <span class="st">"#000"</span><span class="op">,</span> context<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
+<span id="cb15-387"><a href="#cb15-387" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-388"><a href="#cb15-388" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Polyhedral projections expose their structure as projection.root()</span></span>
+<span id="cb15-389"><a href="#cb15-389" aria-hidden="true" tabindex="-1"></a>  <span class="co">// To draw them we need to cancel the rotate</span></span>
+<span id="cb15-390"><a href="#cb15-390" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> rotate <span class="op">=</span> projection<span class="op">.</span><span class="fu">rotate</span>()<span class="op">;</span></span>
+<span id="cb15-391"><a href="#cb15-391" aria-hidden="true" tabindex="-1"></a>  projection<span class="op">.</span><span class="fu">rotate</span>([<span class="dv">0</span><span class="op">,</span><span class="dv">0</span><span class="op">,</span><span class="dv">0</span>])<span class="op">;</span></span>
+<span id="cb15-392"><a href="#cb15-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-393"><a href="#cb15-393" aria-hidden="true" tabindex="-1"></a>  <span class="co">// run the tree of faces to get all sites and folds</span></span>
+<span id="cb15-394"><a href="#cb15-394" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> sites <span class="op">=</span> []<span class="op">,</span> folds <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb15-395"><a href="#cb15-395" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">recurse</span>(face) {</span>
+<span id="cb15-396"><a href="#cb15-396" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> site <span class="op">=</span> d3<span class="op">.</span><span class="fu">geoCentroid</span>({<span class="dt">type</span><span class="op">:</span><span class="st">"MultiPoint"</span><span class="op">,</span> <span class="dt">coordinates</span><span class="op">:</span>face<span class="op">.</span><span class="at">face</span>})<span class="op">;</span></span>
+<span id="cb15-397"><a href="#cb15-397" aria-hidden="true" tabindex="-1"></a>    <span class="co">// site.id = face.id;</span></span>
+<span id="cb15-398"><a href="#cb15-398" aria-hidden="true" tabindex="-1"></a>    sites<span class="op">.</span><span class="fu">push</span>(site)<span class="op">;</span></span>
+<span id="cb15-399"><a href="#cb15-399" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (face<span class="op">.</span><span class="at">children</span>) face<span class="op">.</span><span class="at">children</span><span class="op">.</span><span class="fu">forEach</span>(<span class="kw">function</span>(child){</span>
+<span id="cb15-400"><a href="#cb15-400" aria-hidden="true" tabindex="-1"></a>      folds<span class="op">.</span><span class="fu">push</span>({<span class="dt">type</span><span class="op">:</span><span class="st">"LineString"</span><span class="op">,</span> <span class="dt">coordinates</span><span class="op">:</span> child<span class="op">.</span><span class="at">shared</span><span class="op">.</span><span class="fu">map</span>(</span>
+<span id="cb15-401"><a href="#cb15-401" aria-hidden="true" tabindex="-1"></a>        e <span class="kw">=&gt;</span> d3<span class="op">.</span><span class="fu">geoInterpolate</span>(e<span class="op">,</span> site)(<span class="fl">1e-5</span>)</span>
+<span id="cb15-402"><a href="#cb15-402" aria-hidden="true" tabindex="-1"></a>      )})<span class="op">;</span></span>
+<span id="cb15-403"><a href="#cb15-403" aria-hidden="true" tabindex="-1"></a>      <span class="fu">recurse</span>(child)<span class="op">;</span></span>
+<span id="cb15-404"><a href="#cb15-404" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb15-405"><a href="#cb15-405" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-406"><a href="#cb15-406" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recurse</span>((projection<span class="op">.</span><span class="at">tree</span> <span class="op">||</span> projection<span class="op">.</span><span class="at">root</span>)())<span class="op">;</span></span>
+<span id="cb15-407"><a href="#cb15-407" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-408"><a href="#cb15-408" aria-hidden="true" tabindex="-1"></a>  <span class="co">// folding lines</span></span>
+<span id="cb15-409"><a href="#cb15-409" aria-hidden="true" tabindex="-1"></a>  folds<span class="op">.</span><span class="fu">forEach</span>(fold <span class="kw">=&gt;</span> {</span>
+<span id="cb15-410"><a href="#cb15-410" aria-hidden="true" tabindex="-1"></a>      context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">,</span></span>
+<span id="cb15-411"><a href="#cb15-411" aria-hidden="true" tabindex="-1"></a>        context<span class="op">.</span><span class="at">lineWidth</span> <span class="op">=</span> <span class="fl">0.5</span><span class="op">,</span> context<span class="op">.</span><span class="fu">setLineDash</span>([<span class="dv">3</span><span class="op">,</span><span class="dv">4</span>])<span class="op">,</span> context<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> <span class="st">"#000"</span><span class="op">,</span></span>
+<span id="cb15-412"><a href="#cb15-412" aria-hidden="true" tabindex="-1"></a>        <span class="fu">path</span>(fold)<span class="op">,</span> context<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
+<span id="cb15-413"><a href="#cb15-413" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb15-414"><a href="#cb15-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-415"><a href="#cb15-415" aria-hidden="true" tabindex="-1"></a>  <span class="co">// restore the projection’s rotate</span></span>
+<span id="cb15-416"><a href="#cb15-416" aria-hidden="true" tabindex="-1"></a>  projection<span class="op">.</span><span class="fu">rotate</span>(rotate)<span class="op">;</span></span>
+<span id="cb15-417"><a href="#cb15-417" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb15-418"><a href="#cb15-418" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> context<span class="op">.</span><span class="at">canvas</span><span class="op">;</span></span>
+<span id="cb15-419"><a href="#cb15-419" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-420"><a href="#cb15-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-421"><a href="#cb15-421" aria-hidden="true" tabindex="-1"></a>d3 <span class="op">=</span> <span class="pp">require</span>(<span class="st">"d3-geo"</span><span class="op">,</span> <span class="st">"d3-fetch"</span><span class="op">,</span> <span class="st">"d3-geo-polygon"</span>)</span>
+<span id="cb15-422"><a href="#cb15-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-423"><a href="#cb15-423" aria-hidden="true" tabindex="-1"></a>land <span class="op">=</span> d3<span class="op">.</span><span class="fu">json</span>(</span>
+<span id="cb15-424"><a href="#cb15-424" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://unpkg.com/visionscarto-world-atlas@0.0.4/world/110m_land.geojson"</span></span>
+<span id="cb15-425"><a href="#cb15-425" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="d3-code-for-dodecahedral-projection-1">

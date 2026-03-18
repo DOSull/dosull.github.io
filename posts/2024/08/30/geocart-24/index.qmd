@@ -15,6 +15,7 @@ categories:
   - aotearoa
   - conferences
   - 'time-space'
+  - projections
 filters: 
   - nutshell
 date: 08-30-2024

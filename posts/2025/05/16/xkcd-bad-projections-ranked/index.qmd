@@ -20,6 +20,7 @@ categories:
   - stuff
   - cartography
   - xkcd
+  - projections
 execute:
   cache: true
   freeze: auto

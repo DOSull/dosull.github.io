@@ -21,6 +21,7 @@ categories:
   - tutorial
   - stuff
   - geospatial
+  - projections
 execute:
   cache: true
 freeze: auto

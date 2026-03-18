@@ -22,6 +22,7 @@
   <category>tutorial</category>
   <category>stuff</category>
   <category>geospatial</category>
+  <category>projections</category>
   <guid>https://geospatialstuff.com/posts/2026/03/18/</guid>
   <pubDate>Tue, 17 Mar 2026 11:00:00 GMT</pubDate>
   <media:content url="https://geospatialstuff.com/posts/2026/03/18/xkcd-3207.png" medium="image" type="image/png" height="106" width="144"/>
@@ -117,7 +118,6 @@
   <link>https://geospatialstuff.com/posts/2025/11/18/tanaka-30-day-maps-2025-day-18/</link>
   <description><![CDATA[ I noted in a recent comment on someone else’s map back on day 3 how I’ve always loved Tanaka contours, and that I’d share how to make them in R. I this post I crowbar that promise into a map using Mars digital terrain model data. ]]></description>
   <category>30 day maps</category>
-  <category>origami</category>
   <category>cartography</category>
   <guid>https://geospatialstuff.com/posts/2025/11/18/tanaka-30-day-maps-2025-day-18/</guid>
   <pubDate>Mon, 17 Nov 2025 11:00:00 GMT</pubDate>
@@ -183,6 +183,7 @@
   <category>tutorial</category>
   <category>stuff</category>
   <category>geospatial</category>
+  <category>projections</category>
   <guid>https://geospatialstuff.com/posts/2025/10/27/xkcd-3122-interrupted-spheres/</guid>
   <pubDate>Mon, 27 Oct 2025 11:00:00 GMT</pubDate>
 </item>

@@ -11,7 +11,6 @@ aliases:
   - "/posts/2025-11-18-tanaka-30-day-maps-2025-day-18/index.html"
 categories:
   - "30 day maps"
-  - origami
   - cartography
 filters:
   - nutshell
