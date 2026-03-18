@@ -203,7 +203,7 @@ You can imagine shifting those map sheets around to make them line up, but it's 
 Long story short, the required projection is not a simple one.
 
 ## A crude trigonometric approach
-How to proceed? My first somewhat successful effort was to to rotate sections of the world map not around localised centres as has been done for the map sheets above, but around some more global centre that would enable contiguity to be preserved between contiguous places. Exploring that path led to the best effort below.
+How to proceed? My first somewhat successful effort was to rotate sections of the world map not around localised centres as has been done for the map sheets above, but around some more global centre that would enable contiguity to be preserved between contiguous places. Exploring that path led to the best effort below.
 
 ```{r}
 #| label: do-trig-based-projection
