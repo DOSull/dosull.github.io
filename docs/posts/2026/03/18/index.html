@@ -949,7 +949,7 @@ Figure&nbsp;14: The final projected map
 </div>
 </div>
 <p>All in all, I have to admit to being somewhat underwhelmed by the end result of all this effort. I’m not even 100% sure that hand-on-heart I believe that my zero declination projection is more ‘correct’ than the one in the comic! I’d have a lot more confidence in making that claim if I’d found a tool that could take a grid lattice and deform it based on localised angular deviations.</p>
-<p>It’s even possible that the map in <a href="#fig-trig-based-projection" class="quarto-xref">Figure&nbsp;6</a> is truer to what has been done in the comic! The clue might be in the subtitle “a cylindrical projection distorted so that up is magnetic north”. Maybe if that’s the end goal then it makes sense to shift places relative to the equator, sliding them along a parallel, by an amount related determined by the declination, and the distance north or south of the equator.</p>
+<p>It’s even possible that the map in <a href="#fig-trig-based-projection" class="quarto-xref">Figure&nbsp;6</a> is truer to what has been done in the comic! The clue might be in the subtitle “a cylindrical projection distorted so that up is magnetic north”. Maybe if that’s the end goal then it makes sense to shift places relative to the equator, sliding them along a parallel, by an amount determined by the declination and the distance north or south of the equator.</p>
 <p>All the same, it’s been an interesting journey, and revealing of some of the strengths and weaknesses of R:</p>
 <ul>
 <li>If there’s a package for it (and there often is), that’s great!</li>
@@ -962,8 +962,9 @@ Figure&nbsp;14: The final projected map
 </ul>
 <p>The last point is something I learned building <a href="https://github.com/DOSull/weaving-space"><code>weavingspace</code></a> which started out as an R project, but rapidly became too complicated for R’s core data structures. R does have object oriented-capabilities and many people have built robust code using those capabilities, but it’s not encouraging to read, when considering something a bit more complicated that</p>
 <blockquote class="blockquote">
-<p>OOP is a little more challenging in R than in other languages because:</p>
+<p>OOP is a little more challenging in R than in other languages […]</p>
 </blockquote>
+<p>The first reason being:</p>
 <blockquote class="blockquote">
 <p>• There are multiple OOP systems to choose from. In this book, I’ll focus on the three that I believe are most important: S3, R6, and S4. S3 and S4 are provided by base R. R6 is provided by the R6 package, and is similar to the Reference Classes, or RC for short, from base R.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
 </blockquote>
