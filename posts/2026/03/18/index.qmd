@@ -380,7 +380,7 @@ nodes_df <- xy_points_land |>
   st_drop_geometry() |>
   mutate(seqno = row_number()) |>
   relocate(name)
-# edges exist where manhattan distance between points in row/col terms is 0
+# edges are where manhattan distance between points in row/col terms is 1
 edges_df <- ((
   nodes_df |>
     select(row, col) |>

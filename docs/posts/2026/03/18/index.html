@@ -766,7 +766,7 @@ Figure&nbsp;11: Neighbouring cells in their initial locations, and after the upp
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span></span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">seqno =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(name)</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># edges exist where manhattan distance between points in row/col terms is 0</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># edges are where manhattan distance between points in row/col terms is 1</span></span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>edges_df <span class="ot">&lt;-</span> ((</span>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  nodes_df <span class="sc">|&gt;</span></span>
 <span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(row, col) <span class="sc">|&gt;</span></span>
