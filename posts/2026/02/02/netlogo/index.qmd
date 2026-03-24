@@ -242,7 +242,7 @@ It's been 20 years since Railsback et al.'s[^railsback-et-al] mostly favourable 
 
 This is why, right at the top, I noted that it's always a joy to write _new_ models in NetLogo. As models grow, which they tend to do, the lack of development tools does tend to take away from the fun of the experience. But hey, nobody's perfect.
 
-## People don't take it seriously
+### People don't take it seriously
 NetLogo's other problem is not NetLogo's fault, and is partly why I've written this post. The kid's toy delusion, which I laboured under for several years, persists. All I can say is that NetLogo is a whole lot more than a toy. This was recognised by Railsback et al.^[_ibid._] In that paper they weigh up the relative merits of a number of agent-based modelling platforms. It's obvious reading it that they included NetLogo a little reluctantly. It's also obvious reading the code examples as they worked through the stages of the 'stupid model' they developed for the evaluation process that they did not initially 'get' NetLogo. Clearly though, at some point it clicked and they conclude:
 
 > It is easy to recommend NetLogo for models that are (i) compatible with its paradigm of short-term, local interaction of agents and a grid environment and (ii) not extremely complex. We also strongly recommend NetLogo for prototyping models that may later be implemented in lower-level platforms: starting to build a model in NetLogo can be a quick and thorough way to explore design decisions.^[_ibid_. page 621]
@@ -257,7 +257,7 @@ It's also worth mentioning here that since Railsback et al.'s evaluation, NetLog
 
 But never mind all that: what's so wrong with toys anyway?!
 
-### Finally
+## Finally
 Reflecting on all of the above, as I searched around the topic in writing this post, I came across [this post](https://functionallyimperative.com/p/netlogo-a-hidden-gem-in-computational) from [Nathan Toups](https://www.linkedin.com/in/nathan-toups), which puts it perfectly:
 
 > One of the beautiful things about living at this time in human history is that there is no end to the strange and beautiful things you might find. NetLogo is one of those things I’ve discovered recently, and I thought I’d share a little bit about it. 
