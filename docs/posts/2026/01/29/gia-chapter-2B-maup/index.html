@@ -683,18 +683,18 @@ Figure&nbsp;8: How correlations are changed by aggregation.
 </div>
 <p>The striking thing about this result is that low range cases, where correlations among the grid variables before regionalisation are low, can see large increases in their correlations after aggregation. In some cases, initially uncorrelated data may end up with correlations as large as ±0.5.</p>
 <p>Focusing on this is not to downplay the changes in correlation that arise for initially more correlated pairs of inputs, where a correlation of 0.4 might increase to 0.5 or more. However, it does suggest that perhaps quite strongly correlated variables are fairly robust to aggregation effects. This might be a source of optimism: perhaps the MAUP is not really a problem in the presence of strong correlations in disaggregate data.</p>
-<p>The problem with this perspective is that observing a correlation of (say) 0.5 in aggregated data doesn’t tell us very much about how strong the correlation might be in the more disaggregate underlying data. Based on the admittedly one-off result above, a post-aggregation correlation (<code>c1</code>) between two attributes in the range 0.475 to 0.525 might arise from disaggregate data with a correlation (<code>c0</code>) between those attributes anywhere between -0.031 and 0.525:</p>
+<p>The problem with this perspective is that observing a correlation of (say) 0.5 in aggregated data doesn’t tell us very much about how strong the correlation might be in the more disaggregate underlying data. Based on the admittedly one-off result above, a post-aggregation correlation (<code>c1</code>) between two attributes in the range 0.475 to 0.525 might arise from disaggregate data with a correlation (<code>c0</code>) between those attributes anywhere between -0.031 and 0.466:</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_by_range <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(c1 <span class="sc">&gt;</span> <span class="fl">0.475</span>, c0 <span class="sc">&lt;=</span> <span class="fl">0.525</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(c1 <span class="sc">&gt;</span> <span class="fl">0.475</span>, c1 <span class="sc">&lt;=</span> <span class="fl">0.525</span>) <span class="sc">|&gt;</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(c0) <span class="sc">|&gt;</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
--0.03092  0.31181  0.38342  0.36351  0.44467  0.52450 </code></pre>
+-0.03092  0.22746  0.31268  0.28083  0.35930  0.46618 </code></pre>
 </div>
 </div>
 <p>We can be fairly certain that the correlation of the disaggregate data is lower than it is after aggregation, but we don’t really know how much lower.</p>
@@ -702,7 +702,7 @@ Figure&nbsp;8: How correlations are changed by aggregation.
 <section id="many-regionalisations-the-zoning-effect" class="level3">
 <h3 class="anchored" data-anchor-id="many-regionalisations-the-zoning-effect">Many regionalisations: the zoning effect</h3>
 <p>So much for the <em>aggregation effect</em> of the MAUP. What about the <em>zoning effect</em>?</p>
-<p>To explore this we can 50 different regionalisations to the data and see if we can make any sense of the results. I made these previously using the <code>random_regionalisation()</code> function, so we read them in from a file.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>To explore this we can apply 50 different regionalisations to the data and see if we can make any sense of the results. I made these previously using the <code>random_regionalisation()</code> function, so we read them in from a file.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -874,7 +874,7 @@ Figure&nbsp;12: Each initial correlation as a vertical line from the lowest to h
 <li id="fn1"><p>Or is it Vecna, or is it… oh, never mind<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>See <a href="https://computinggeographically.org/chapters/chap5/fig5-06-simple-maup.html">this post</a> and <a href="https://computinggeographically.org/chapters/chap5/fig5-07-maup-aggregation.html">this one</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>Gehlke CE and K Biehl. 1934. <a href="https://dx.doi.org/10.1080/01621459.1934.10506247">Certain effects of grouping upon the size of the correlation coefficient in census tract material</a>. <em>Journal of the American Statistical Association</em> <strong>29</strong>(185) 169–170.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>this just makes it a bit easier to manage variability from run to run as I edit and re-edit this post…<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>This just makes it a bit easier to manage variability from run to run as I edit and re-edit this post…<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>And we haven’t even looked into whether constructing zones for homogeneity on one variable affects outcomes for other variables more or less than these random zonings…<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>Hat tip to <a href="https://en.wikipedia.org/wiki/Monty_Python%27s_Life_of_Brian"><em>The Life of Brian</em></a>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p>Page 38 in Openshaw S. 1983. <a href="https://github.com/qmrg/CATMOG/blob/Main/38-maup-openshaw.pdf"><em>The Modifiable Areal Unit Problem</em></a>. Concepts and Techniques in Modern Geography <strong>38</strong> Norwich, England: Geo Books. Available at http://www.qmrg.org.uk/catmog.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>

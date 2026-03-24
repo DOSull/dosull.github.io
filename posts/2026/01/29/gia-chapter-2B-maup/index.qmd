@@ -354,12 +354,12 @@ The striking thing about this result is that low range cases, where correlations
 
 Focusing on this is not to downplay the changes in correlation that arise for initially more correlated pairs of inputs, where a correlation of 0.4 might increase to 0.5 or more. However, it does suggest that perhaps quite strongly correlated variables are fairly robust to aggregation effects. This might be a source of optimism: perhaps the MAUP is not really a problem in the presence of strong correlations in disaggregate data.
 
-The problem with this perspective is that observing a correlation of (say) 0.5 in aggregated data doesn't tell us very much about how strong the correlation might be in the more disaggregate underlying data. Based on the admittedly one-off result above, a post-aggregation correlation (`c1`) between two attributes in the range 0.475 to 0.525 might arise from disaggregate data with a correlation (`c0`) between those attributes anywhere between -0.031 and 0.525:
+The problem with this perspective is that observing a correlation of (say) 0.5 in aggregated data doesn't tell us very much about how strong the correlation might be in the more disaggregate underlying data. Based on the admittedly one-off result above, a post-aggregation correlation (`c1`) between two attributes in the range 0.475 to 0.525 might arise from disaggregate data with a correlation (`c0`) between those attributes anywhere between -0.031 and 0.466:
 
 ```{r}
 #| label: range-for-c1-around-0.5
 df_by_range |> 
-  filter(c1 > 0.475, c0 <= 0.525) |>
+  filter(c1 > 0.475, c1 <= 0.525) |>
   pull(c0) |>
   summary()
 ```
@@ -369,7 +369,7 @@ We can be fairly certain that the correlation of the disaggregate data is lower 
 ### Many regionalisations: the zoning effect
 So much for the _aggregation effect_ of the MAUP. What about the _zoning effect_?
 
-To explore this we can 50 different regionalisations to the data and see if we can make any sense of the results. I made these previously using the `random_regionalisation()` function, so we read them in from a file.^[this just makes it a bit easier to manage variability from run to run as I edit and re-edit this post...]
+To explore this we can apply 50 different regionalisations to the data and see if we can make any sense of the results. I made these previously using the `random_regionalisation()` function, so we read them in from a file.^[This just makes it a bit easier to manage variability from run to run as I edit and re-edit this post...]
 
 ```{r}
 #| label: make-dataframe-of-zoning-effect-on-correlations
