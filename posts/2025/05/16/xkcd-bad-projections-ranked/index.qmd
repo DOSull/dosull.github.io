@@ -256,7 +256,8 @@ If only rendering [XKCD 2807](https://xkcd.com/2807) was as easy as doing `longi
 
 ```{r}
 #| code-fold: true
-get_hemisphere <- function(central_meridian = 0,          # <1>
+get_hemisphere <- 
+                  function(central_meridian = 0,          # <1>
                            density = 1) {                 # <2>
   lons <- c( 1,  1, -1, -1,  1) * 90 + central_meridian
   lats <- c(-1,  1,  1, -1, -1) * 90
