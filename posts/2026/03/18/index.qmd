@@ -548,7 +548,7 @@ Finally this:
 
 * _As soon as it becomes clear you need more complicated data structures_ than lists, matrices, and data tables, give the relevant package in R a try _immediately_ (in this case it was `igraph`), and perhaps start thinking about using a different tool entirely.
 
-The last point is something I learned building [`weavingspace`](https://github.com/DOSull/weaving-space) which started out as an R project, but rapidly became too complicated for R's core data structures. R does have object oriented-capabilities and many people have built robust code using those capabilities, but it's not encouraging to read, when considering something a bit more complicated that
+The last point is something I learned building [`weavingspace`](https://github.com/DOSull/weavingspace) which started out as an R project, but rapidly became too complicated for R's core data structures. R does have object oriented-capabilities and many people have built robust code using those capabilities, but it's not encouraging to read, when considering something a bit more complicated that
 
 > OOP is a little more challenging in R than in other languages [...]
 

@@ -7,7 +7,7 @@ title-block-banner: true
 More than anything, I enjoy getting to the core of gnarly geospatial problems, and developing good ways to visualise, analyse, and ultimately, resolve them.
 
 ### Consulting
-I usually work in R and Python developing workflows to tidy, reformat, analyse, and visualize data, especially spatial data. I am not a developer, but can write [well organised and documented code](https://dosull.github.io/weaving-space/doc/weavingspace.html) and integrate with your in-house coding standards and processes. Most of my work is linked from these pages, so have a look around, or check out [my github](https://github.com/DOSull).
+I usually work in R and Python developing workflows to tidy, reformat, analyse, and visualize data, especially spatial data. I am not a developer, but can write [well organised and documented code](https://dosull.github.io/weavingspace/doc/weavingspace.html) and integrate with your in-house coding standards and processes. Most of my work is linked from these pages, so have a look around, or check out [my github](https://github.com/DOSull).
 
 ### Communicating
 I have presented complicated geospatial ideas to many different audiences _thousands_ of times. My engaging web-enabled visual materials illuminate complex topics. See my [talks](talks.html), or the slides from [a class](https://dosull.github.io/Spatial-Data-Science/site/docs/) for examples. I've also written [3 books](books.qmd) and [numerous articles, reviews, and book chapters](publications.qmd).

@@ -425,4 +425,4 @@ Based on my (relatively limited) experience putting this post together and some 
 
 As someone who is generally fairly conservative with colour choices, I have found it interesting how compelling the more vibrant `bivario` colour palettes are (at least for me). I'd be interested to hear other opinions on this point.
 
-Finally, if you want to map _more_ than two variables consider my [`weavingspace`](https://github.com/DOSull/weaving-space) python module or its associated [MapWeaver web app](https://geospatialstuff.com/mapweaver/app), where we approach the challenge of combining multiple colour ramps in a rather different way!
+Finally, if you want to map _more_ than two variables consider my [`weavingspace`](https://github.com/DOSull/weavingspace) python module or its associated [MapWeaver web app](https://geospatialstuff.com/mapweaver/app), where we approach the challenge of combining multiple colour ramps in a rather different way!

@@ -25,7 +25,7 @@ date: 02-13-2026
 image: fig-eight-candidate-cbd-schemes-1.png
 ---
 
-Recently in preparing a manuscript about [`weavingspace`](https://github.com/DOSull/weaving-space) for publication concerns about the colour schemes used in some of the figures were raised because they were not colour blind friendly. Seeking to address that concern, one thing led to another, and here I am.
+Recently in preparing a manuscript about [`weavingspace`](https://github.com/DOSull/weavingspace) for publication concerns about the colour schemes used in some of the figures were raised because they were not colour blind friendly. Seeking to address that concern, one thing led to another, and here I am.
 
 I am in no way an expert on this topic. Colour blindness is [relatively well understood and characterised](https://en.wikipedia.org/wiki/Color_blindness), as resulting from anomalous (or a complete lack of) cone cells among the long (L), medium (M), or short (S) wavelength sensitive cones. The L- and M-cones are most sensitive to colour either side of cyan in the spectrum and issues with these result in two forms of red-green colour blindness known respectively as _protanopia_ and _deuteranopia_. Blue-yellow colour-blindness, _tritanopia_ results from anomalous or absent S-cones sensitive to blue colours. The more severe _achromatopsia_ results in an ability only to differentiate colours by their lightness. As we will see the effects of these different colour vision deficiencies (CVDs) can be simulated.
 

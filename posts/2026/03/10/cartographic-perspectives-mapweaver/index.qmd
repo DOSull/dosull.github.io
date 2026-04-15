@@ -37,6 +37,6 @@ Here's the citation details, and a link:
 **O'Sullivan D** and L Bergmann. 2026. Using MapWeaver to Make Tiled and Woven Maps of Multivariate Thematic Data. _Cartographic Perspectives_ **108**. doi: [10.14714/CP108.2109](https://doi.org/10.14714/CP108.2109). 
 :::
 
-To really dig into making such maps you might still need to write some code using the python [`weavingspace`](https://github.com/DOSull/weaving-space) module, BUT MapWeaver handles almost all use-cases and let's you export your map to PNG, SVG, geojson or geopackage formats for further design work in your preferred graphical or cartographic platform.
+To really dig into making such maps you might still need to write some code using the python [`weavingspace`](https://github.com/DOSull/weavingspace) module, BUT MapWeaver handles almost all use-cases and let's you export your map to PNG, SVG, geojson or geopackage formats for further design work in your preferred graphical or cartographic platform.
 
 If you're interested in this approach to mapping, and are looking for advice from the world's most experienced^[While writing the code I have made literally thousands of these maps!] tiled/woven thematic map maker, get in touch!

@@ -17,4 +17,4 @@ Different strands in the woven pattern represent different socioeconomic (or oth
 
 ![](imd-escher-clip.png)
 
-Explanations of exactly what the heck is going on here are at the [project repo](https://github.com/DOSull/weaving-space), where you'll also find links to presentations, example notebooks, and the code to make maps like these yourself!
+Explanations of exactly what the heck is going on here are at the [project repo](https://github.com/DOSull/weavingspace), where you'll also find links to presentations, example notebooks, and the code to make maps like these yourself!
