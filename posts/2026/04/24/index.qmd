@@ -39,7 +39,6 @@ The striking thing about this particular weather 'event' was just how intensely 
 library(sf)
 library(colorspace)
 library(leaflet)
-library(leafpop)
 library(dplyr)
 library(stringr)
 ```
