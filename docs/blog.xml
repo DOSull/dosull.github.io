@@ -10,7 +10,19 @@
 <atom:link href="https://geospatialstuff.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Tue, 17 Mar 2026 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 23 Apr 2026 12:00:00 GMT</lastBuildDate>
+<item>
+  <title>Wellington’s April 2026 floods</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://geospatialstuff.com/posts/2026/04/24/</link>
+  <description><![CDATA[ This event was astonishingly localised, and it’s hard to believe, but we were lucky it wasn’t much worse. On the other hand, we were also unlucky it was as bad as it was. ]]></description>
+  <category>R</category>
+  <category>stuff</category>
+  <category>aotearoa</category>
+  <category>wellington</category>
+  <guid>https://geospatialstuff.com/posts/2026/04/24/</guid>
+  <pubDate>Thu, 23 Apr 2026 12:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Another XKCD bad map projection</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -254,19 +266,6 @@
   <guid>https://geospatialstuff.com/posts/2025/09/17/gia-chapter-1B-part-3A/</guid>
   <pubDate>Tue, 16 Sep 2025 12:00:00 GMT</pubDate>
   <media:content url="https://geospatialstuff.com/posts/2025/09/17/gia-chapter-1B-part-3A/fig-more-complicated-skeleton-1.png" medium="image" type="image/png" height="103" width="144"/>
-</item>
-<item>
-  <title>GIS, a transformational approach</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://geospatialstuff.com/posts/2025/09/12/gia-chapter-1B-part-2/</link>
-  <description><![CDATA[ Third in a series of posts supporting Geographic Information Analysis ]]></description>
-  <category>geographic information analysis</category>
-  <category>transformational approach</category>
-  <category>geospatial</category>
-  <category>R</category>
-  <category>tutorial</category>
-  <guid>https://geospatialstuff.com/posts/2025/09/12/gia-chapter-1B-part-2/</guid>
-  <pubDate>Thu, 11 Sep 2025 12:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

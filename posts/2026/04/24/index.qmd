@@ -22,7 +22,6 @@ knitr:
     warning: false
 message: false
 date: 04-24-2026
-draft: true
 ---
 
 Wellington's weather is famously (in New Zealand) a bit of a joke. It's true that [you can't beat Wellington on a good day](https://www.youtube.com/watch?v=a4xNdyVPDJQ),^[Treat yourself and play that song...] but... it's not very often a good day. Or so the story goes. Being from Ireland, I've never really considered Wellington's weather to be especially bad. Sure, it's generally cooler than much of New Zealand, and [much](https://www.youtube.com/watch?v=m0jnahV81AU) [much](https://www.youtube.com/watch?v=k6gV6l9ChUo) [windier](https://www.rnz.co.nz/news/national/586975/winds-gust-to-240km-h-on-lower-north-island-s-east-coast),^[We lost a fence in that storm] but overall it's fine.
@@ -91,8 +90,8 @@ reports <- read.csv("reports.csv") |>
   # st_as_sf(coords = c("lon", "lat"), crs = 4326) |>
   mutate(
     link = str_glue("<a href='{story}'>Go to story</a>"),
-    image_html = str_glue("<img src='{image}' width='300px'>"),
-    popup = str_glue("<p><b>{description}</b>&nbsp;{link}<br>{image_html}<br>{image_credit}</p>"))
+    image_html = str_glue("<img src='images/{image}' width='300px'>"),
+    popup = str_glue("<p><b>{description}</b>&nbsp;{link}</p>{image_html}<p>Image credit: {image_credit}</p>"))
 ```
 
 ## A web map
