@@ -138,7 +138,9 @@ Those "same areas" being the southern suburbs I've mentioned.
 ## Final thoughts
 I suppose that on the one hand, it's reassuring that the flood modelling appears be broadly accurate. My understanding is that [inadequate and poorly maintained stormwater drainage](https://newsroom.co.nz/2026/04/22/the-real-cost-of-storm-hit-infrastructure-the-number-will-blow-you-away/) exacerbated the flooding in some areas, but by and large, the modelling seems to have identified the areas at greatest risk.
 
-On the other hand, of course, the worrying thing is that extensive areas in inundation zones that didn't get badly hit this time (Kilbirnie and Lyall Bay, Miramar) could just as easily be hit badly the next time given the vagaries at very localised scales of these events.
+On the other hand, of course, it's a concern that extensive areas in inundation zones that didn't get badly hit this time (Kilbirnie and Lyall Bay, Miramar, and ominously, the CBD) could just as easily be hit badly the next time, given the vagaries at very localised scales of these events.
+
+While it's good that the models are right (certainly better than if they were wrong), it doesn't mean much if we just carry on regardless of what they're telling us. Now... in what context have I come across that problem before...?
 
 With that not at all reassuring thought, on the day before ANZAC Day, all I can say is kia kaha Te Whanganui-a-Tara!
 
