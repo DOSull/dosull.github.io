@@ -1,0 +1,146 @@
+---
+title: "Wellington's April 2026 floods"
+subtitle: "A small thing the city got more or less right: the flood models"
+description: "This event was astonishingly localised, and it's hard to believe, but we were lucky it wasn't much worse. On the other hand, we were also unlucky it was as bad as it was."
+from: markdown+emoji
+author: "David O'Sullivan"
+toc: true
+lightbox:
+  match: auto
+code-fold: show
+code-annotations: hover
+categories:
+  - R
+  - stuff
+  - aotearoa
+  - wellington
+execute:
+  cache: true
+freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+message: false
+date: 04-24-2026
+draft: true
+draft-mode: unlinked
+---
+
+Wellington's weather is famously (in New Zealand) a bit of a joke. It's true that [you can't beat Wellington on a good day](https://www.youtube.com/watch?v=a4xNdyVPDJQ),^[Treat yourself and play that song...] but... it's not very often a good day. Or so the story goes. Being from Ireland, I've never really considered Wellington's weather to be especially bad. Sure, it's generally cooler than much of New Zealand, and [much](https://www.youtube.com/watch?v=m0jnahV81AU) [much](https://www.youtube.com/watch?v=k6gV6l9ChUo) [windier](https://www.rnz.co.nz/news/national/586975/winds-gust-to-240km-h-on-lower-north-island-s-east-coast),^[We lost a fence in that storm] but overall it's fine.
+
+However, it's been a rough week or two of extreme weather in Aotearoa New Zealand in general and in the last week in the Wellington region in particular. Recent reports suggest that [New Zealand now has a cyclone season](https://www.rnz.co.nz/news/national/592165/nz-getting-a-cyclone-season-cyclone-vaianu-s-impacts-felt-across-the-north-island), and that storm frequency has now increased to [one every eight days](https://www.rnz.co.nz/news/environment/592907/a-storm-every-eight-days-country-s-biggest-insurer-calls-for-systemic-response). 
+
+Meanwhile, life goes on, and we've been in the process of buying a house (or more accurately, trying to...) over the last several months. As a result I've looked at more than a few flood risk maps using the [Wellington City Property map](https://gis.wcc.govt.nz/LocalMapsViewer/?map=95a0685dff724fc19035abd59c630b14) over the last several months. Familiarity with that resource got me wondering, as I made the usually 15 minute trip from our temporary rental in Island Bay up to the house we just sold in Brooklyn on Monday morning (taking 40 minutes to do so), how informative those flood maps were with respect to recent events.
+
+The striking thing about this particular weather 'event' was just how intensely localised it seems to have been. Almost all the news reports focused on a fairly small area of Wellington's southern suburbs. Obviously, there was a lot of rain and (I assume) flooding elsewhere, but the really catastrophic stuff was in Brooklyn, Island Bay, and Newtown. Long story short, what we need is a map.
+
+```{r}
+#| label: imports
+#| output: false
+#| code-fold: true
+library(sf)
+library(colorspace)
+library(leaflet)
+library(dplyr)
+library(stringr)
+```
+
+## Data
+### Flood hazard
+I pulled some flood risk data layers from Wellington's open data portal. Slightly perplexingly these come in three separate layers of [inundation area](https://data-wcc.opendata.arcgis.com/datasets/WCC::inundation-area-low-hazard-area-2024-district-plan/about), [overland flowpath](https://data-wcc.opendata.arcgis.com/datasets/WCC::overland-flowpath-medium-hazard-area-2024-district-plan/about), and [stream corridor](https://data-wcc.opendata.arcgis.com/datasets/WCC::stream-corridor-high-hazard-area-2024-district-plan/about), which are designated as low, medium, and high hazard respectively. I'm not entirely sure what relationship these layers have to the flood modelling layers that appear in [Land Information Memoranda (LIM)](https://wellington.govt.nz/property-rates-and-building/property/reports/lim) reports, which show inundation depths (and can run to over a metre). 
+
+The low-medium-high hazard designation seems to be premised mostly on the likely speed with which hazardous flooding might arise, since the high hazard areas are a 5m buffer around open streams, medium hazard represents "the predicted path of stormwater as it flows over topography", and the low hazard areas seem more associated with ponding, i.e., where water will end up 'sitting' as it eventually drains. Saying that, I'm pretty sure that parts of the 'low hazard' inundation zones would be very hazardous indeed to be anywhere near at the wrong time, given some of the predicted depths on the property maps.
+
+Anyway, the data I'm using has been further simplified (using [`rmapshaper`](https://github.com/ateucher/rmapshaper)) because the source data are very large and resulted in an unwieldy web map. So, the disclaimers that Wellington Water allow themselves in relation to these data,^["Wellington Water does not accept any responsibility for the use of or reliance on the data and shall not be liable to any person on any ground for any loss, damage or expense arising from such use or reliance." See the linked resources in the main text.] apply with even greater force to the map below.
+
+I also assign a set of blue colours to the different hazard levels, and include these as a `fill` attribute in the data. This makes life easier using `leaflet` later.
+
+```{r}
+#| label: flood-hazard-data
+#| output: false
+blues <- data.frame(
+  hazard = c("Low", "Medium", "High"),
+  fill = "dodgerblue4" |> lighten(2:0 / 4))
+
+flood_hazard <- st_read("flood-risk-simplified.gpkg") |>
+  left_join(blues)
+```
+
+### Rain
+I also grabbed a screenshot to get some idea of the rainfall. This is from an [interesting piece by James Renwick](https://theconversation.com/an-ordinary-storm-with-extraordinary-impacts-what-made-wellingtons-deluge-so-intense-281016) about the wild unpredictabily and ferocity of this storm (almost 80mm of rain fell in an hour in some areas early on Monday morning).
+
+![The weather system as shown over Wellington at 3am Monday. MetService, [CC BY-NC-ND](http://creativecommons.org/licenses/by-nc-nd/4.0/)](rain-intensity-3-4am.png){#fig-rainfall-screenshot}
+
+I roughly georeferenced this so it could be included in the map. Not entirely satisfactory, but getting data out of Metservice is not for the faint-hearted, and this image serves my purpose well.
+
+```{r}
+#| label: get-rain-raster
+#| output: false
+rain <- terra::rast("rainfall-3-4am.tif")
+```
+
+### Events
+Finally, I trawled news reports from the last few days for pictures of the flooding and then spent an inordinate amount of time geolocating them on StreetView. Maybe I could have asked an AI, but then again, I'd probably have had to spend just as long checking their work if I had done. 
+
+I'm reasonably familiar with the affected areas, and Wellington's housing stock is so mixed that it's not hard to spot something distinctive in any given picture as a reference point. The biggest challenge was that many of the pictures were taken before daylight, so the cues for matching them to the StreetView imagery weren't necessarily clearly visible. Also... there's an awful lot of water in the pictures in places where it shouldn't be. I also downloaded the associated pictures locally so I could easily link them to the map.
+
+```{r}
+#| label: reports-data
+#| output: false
+reports <- read.csv("reports.csv") |>
+  # st_as_sf(coords = c("lon", "lat"), crs = 4326) |>
+  mutate(
+    link = str_glue("<a href='{story}'>Go to story</a>"),
+    image = str_glue("<img src='images/{image}' width='300px'>"),
+    popup = str_glue("<p><b>{description}</b>&nbsp;{link}<br>{image}<br>{image_credit}</p>"))
+```
+
+## A web map
+So, here's the map. I found `tmap`'s web map options a bit inflexible in this case, so instead have used [`leaflet`](https://rstudio.github.io/leaflet/index.html) the accurately, but confusingly and tautologously named R package for driving [`leaflet`](https://rstudio.github.io/leaflet/index.html) the Javascript library for making web maps.
+
+```{r}
+#| label: fig-leaflet-map
+#| fig-cap: An interactive map of reported flood events with respect to flood hazard modelling.
+#| fig-width: 10
+#| fig-height: 10
+leaflet() |>
+  addTiles() |>
+  addPolygons(data = flood_hazard |> st_transform(4326), 
+    fill = TRUE, fillColor = ~fill, fillOpacity = 0.8,
+    stroke = FALSE, group = "Flood hazard") |>
+  addRasterImage(rain, group = "Rainfall") |>
+  addCircleMarkers(data = reports,
+    lng = ~lon, lat = ~lat, popup = ~popup,
+    color = "red", group = "Stories") |>
+  addLegend(data = blues,
+    title = "Flood hazard",
+    position = "bottomright",
+    colors = ~fill, labels = ~hazard,
+    opacity = 0.8) |>
+  addLayersControl(
+    overlayGroups = c("Flood hazard", "Rainfall", "Stories"),
+    position = "topright") |>
+  hideGroup("Rainfall")
+```
+
+If you click on a red event, you should see a picture and can click through to the news report where it appeared. A lot of the pictures are from a single 'compendium' report on Radio New Zealand's website.
+
+There are a few things I find striking about this map:
+
+* The flood hazard areas look pretty much like a river system. That probably shouldn't be a surprise, but it's still striking. One road badly affected in the recent storm was Ōhiro Road&mdash;that's the one running more or less north-south on the western edge of the main cluster of events&mdash; and it more or less follows the path of the Owhiro Stream. 
+* Pretty much all the events are in places in the designated hazardous zones. 
+* No events were reported (in the news media, I have no access to anything else) in large areas of the city that the hazard map designates as equally at risk to areas that were badly hit.
+
+I should emphasise: I am sure there are numerous people and places affected whose stories didn't make it into the news, and probably many of those were in designated hazardous areas that the above map doesn't draw attention to. On the other hand, it seems pretty clear, that the most severe effects of this storm system were highly localised. If you turn on the rainfall layer, and also read James Renwick's article linked earlier, you'll see why. This storm was extraordinarily concentrated in pockets. That rainfall layer is just a snapshot, but according to James, 
+
+> fine-scale dynamics made all the difference. Converging winds along the south coast helped drive moisture upwards and hold intense rainfall over the same areas for extended periods
+
+Those "same areas" being the southern suburbs I've mentioned.
+
+## Final thoughts
+I suppose that on the one hand, it's reassuring that the flood modelling appears be broadly accurate. My understanding is that [inadequate and poorly maintained stormwater drainage](https://newsroom.co.nz/2026/04/22/the-real-cost-of-storm-hit-infrastructure-the-number-will-blow-you-away/) exacerbated the flooding in some areas, but by and large, the modelling seems to have identified the areas at greatest risk.
+
+On the other hand, of course, the worrying thing is that extensive areas in inundation zones that didn't get badly hit this time (Kilbirnie and Lyall Bay, Miramar) could just as easily be hit badly the next time given the vagaries at very localised scales of these events.
+
+With that not at all reassuring thought, on the day before ANZAC Day, all I can say is kia kaha Te Whanganui-a-Tara!
+
