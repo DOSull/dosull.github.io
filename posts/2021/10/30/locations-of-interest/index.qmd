@@ -16,7 +16,7 @@ categories:
 date: 10-30-2021
 ---
 
-For a time, during the [August 2021 COVID](https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic_in_New_Zealand_(2021)#August_2021) outbreak that started in Auckland but eventually led to the end of New Zealand's attempt to stop COVID completely, I continuously updated the above [kepler.gl](https://kepler.gl/) animated map of 'locations of interest'. Kepler.gl is a nice tool which I'd recommend for making quick visualizations like this.
+For a time, during the [August 2021 COVID](https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic_in_New_Zealand_(2021)#August_2021) outbreak that started in Auckland but eventually led to the end of New Zealand's attempt to stop COVID completely, I continuously updated the below [kepler.gl](https://kepler.gl/) animated map of 'locations of interest'. Kepler.gl is a nice tool which I'd recommend for making quick visualizations like this.
 
 ![](locations-of-interest.png)
 
@@ -24,4 +24,4 @@ There was something oddly compelling about the mundane details of the reported l
 
 [Go to the viewer](https://southosullivan.com/misc/loi.html){.button-link target="_blank"}
 
-Like most of the country I got pretty fed up doing it in the end, so I stopped... for whatever it's worth, looking at the timeline on the visualization the delta outbreak _did_ get reigned in _eventually_, but it it was pretty clear that the mood of the country had changed and lockdowns weren't going to stick for much longer.
+Like most of the country I got pretty fed up doing it in the end, so I stopped... for whatever it's worth, looking at the timeline on the visualization the delta outbreak _did_ get reined in _eventually_, but it it was pretty clear that the mood of the country had changed and lockdowns weren't going to stick for much longer.
