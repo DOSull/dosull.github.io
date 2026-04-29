@@ -67,6 +67,7 @@ project:
     - "posts/2025/07/07/projections-explorer/marimo-dag.png"
     - "posts/2025/07/07/projections-explorer/van-der-grinten.png"
     - "CNAME"
+    - "images/*"
 
 website:
   title: "Geospatial Stuff"

@@ -89,7 +89,7 @@ reports <- read.csv("reports.csv") |>
   # st_as_sf(coords = c("lon", "lat"), crs = 4326) |>
   mutate(
     link = str_glue("<a href='{story}'>Go to story</a>"),
-    image_html = str_glue("<img src='images/{image}' width='300px'>"),
+    image_html = str_glue("<img src='https://geospatialstuff.com/images/wellington-flood-images/{image}' width='300px'>"),
     popup = str_glue("<p><b>{description}</b>&nbsp;{link}</p>{image_html}<p>Image credit: {image_credit}</p>"))
 ```
 
