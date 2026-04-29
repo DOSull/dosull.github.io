@@ -336,7 +336,7 @@ p(l) = \frac{2}{\pi(W+H)}\left[\frac{WH}{l\sqrt{l^2-H^2}}-\frac{\sqrt{l^2-H^2}}{
 <p><span class="math display">\[
 p(l) = \frac{2}{\pi(W+H)}\left(\left[\frac{WH}{l\sqrt{l^2-H^2}}-\frac{\sqrt{l^2-H^2}}{l}\right] + \left[\frac{WH}{l\sqrt{l^2-W^2}}-\frac{\sqrt{l^2-W^2}}{l}\right]\right)
 \]</span></p>
-<p>We can implement a function to return this value for a given length and width and height of a space. We’ll use this a bit later.</p>
+<p>We can implement a function to return this value for a given length and width and height of a space. I’ve tidied up Horowitz’s factorisation of the calculations a bit, which is why the calculations in the code look a bit different than they do in the above equations.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -361,7 +361,7 @@ p(l) = \frac{2}{\pi(W+H)}\left(\left[\frac{WH}{l\sqrt{l^2-H^2}}-\frac{\sqrt{l^2-
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>Since we’re going to be drawing lines across a rectangle, it’s convenient to have a function for making a rectangle shape.</p>
+<p>We’ll use this a bit later on. Meanwhile, since we’re going to be drawing lines across a rectangle, it’s convenient to have a function for making a rectangle shape.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -449,7 +449,7 @@ Figure&nbsp;1: Random lines across a rectangular space and the theoretical and e
 </div>
 </div>
 </div>
-<p>That minor issue I mentioned is that nothing in the line generation code prevents a line entering and exiting the space along the same side of the rectangle. We can see this if we tag each line with a flag indicating if it’s one of those ‘same side’ lines or not.</p>
+<p>A minor issue with this is that nothing in the line generation code prevents a line entering and exiting the space along the same side of the rectangle. We can see this if we tag each line with a flag indicating if it’s one of those ‘same side’ lines or not.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -472,9 +472,10 @@ Figure&nbsp;1: Random lines across a rectangular space and the theoretical and e
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> prob, <span class="fu">aes</span>(<span class="at">x =</span> d, <span class="at">y =</span> p)) <span class="sc">+</span></span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Length"</span>) <span class="sc">+</span></span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Probability density"</span>) <span class="sc">+</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>g3 <span class="sc">|</span> g4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>g3 <span class="sc">|</span> g4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-second-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -490,7 +491,7 @@ Figure&nbsp;2: Random lines across a rectangular space and the theoretical and e
 </div>
 </div>
 <p>Looking at the results a bit more closely in this way, we realise that Horowitz’s result doesn’t take into consideration the question of whether lines enter and exit the space on two different sides, or put another way whether they are properly contained by the space.</p>
-<p>Depending on the application this might be relevant or not, so it’s good to note this subtlety. It’s a topic developed further in a paper by Peter Taylor,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> cited in our discussion of the ‘Horowitz distribution’ in <em>Geographic Information Analysis</em>, which approaches the problem through simulation.</p>
+<p>Depending on the application this might be relevant or not, so it’s good to note this subtlety. It’s a topic developed further in a paper by Peter Taylor,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, which approaches the general problem through simulation.</p>
 </section>
 <section id="lines-across-any-space" class="level2">
 <h2 class="anchored" data-anchor-id="lines-across-any-space">Lines across any space</h2>
@@ -600,7 +601,9 @@ Figure&nbsp;4: Random lines across New Zealand’s two big islands.
 </div>
 </div>
 </div>
-<p>In effect the North Island is a lot less convex than the South Island and most of the longest potential lines between its farthest flung points are not wholly contained within the island. The South Island is roughly rectangular, and its longest ‘diagonals’ can be contained within the bounds of the island. That patch of red in the middle of the North Island is Lake Taupō which also stops a lot of the potential longest lines being fully contained within the island (if a line crosses a hole in the island, then it’s not considered as ‘contained’). Most of the blocked long lines in the South Island are also blocked by lakes in this way.</p>
+<p>In effect the North Island is a lot less convex than the South Island and most of the longest potential lines between its farthest flung points are not wholly contained within the island.</p>
+<p>The South Island is roughly rectangular, and its longest ‘diagonals’ can be contained within the bounds of the island. If you squint, you can even see the South Island distribution as somewhat aligning with Horowitz’s theoretical distribution for lines across a rectangle with width around 150km and length around 600km! Of course, since these data are not for lines <em>crossing</em> the island, but for lines <em>within</em> it the frequency of short lines is boosted substantially.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p>Also worth noting is that the patch of red in the middle of the North Island is Lake Taupō, which stops a lot of the potential longest lines being fully contained within the island (if a line crosses a ‘hole’, then it’s not considered as ‘contained’). Most of the blocked long lines in the South Island are also blocked by lakes in this way.</p>
 </section>
 <section id="and-the-point-to-all-this-is" class="level2">
 <h2 class="anchored" data-anchor-id="and-the-point-to-all-this-is">And the point to all this is?</h2>
@@ -644,6 +647,7 @@ Figure&nbsp;4: Random lines across New Zealand’s two big islands.
 <li id="fn2"><p>Page 169 in Horowitz M. 1965.Probability of random paths across elementary geometrical shapes. <em>Journal of Applied Probability</em> <strong>2</strong>(1), 169–177. doi:<a href="https://doi.org/10.2307/3211882">10.2307/3211882</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>There’s a minor issue with this approach which we’ll get to.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>Taylor PJ. 1971. Distances within shapes: An introduction to a family of finite frequency distributions. <em>Geografiska Annaler. Series B, Human Geography</em> <strong>53</strong>(1), 40–53. doi: <a href="https://doi.org/10.2307/490886">10.2307/490886</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>An interesting exercise might be to modify the code for either or both the rectangle and South Island cases to show equivalent crossing and within distributions.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

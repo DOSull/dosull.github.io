@@ -61,7 +61,7 @@ $$
 p(l) = \frac{2}{\pi(W+H)}\left(\left[\frac{WH}{l\sqrt{l^2-H^2}}-\frac{\sqrt{l^2-H^2}}{l}\right] + \left[\frac{WH}{l\sqrt{l^2-W^2}}-\frac{\sqrt{l^2-W^2}}{l}\right]\right)
 $$
 
-We can implement a function to return this value for a given length and width and height of a space. We'll use this a bit later.
+We can implement a function to return this value for a given length and width and height of a space. I've tidied up Horowitz's factorisation of the calculations a bit, which is why the calculations in the code look a bit different than they do in the above equations.
 
 ```{r}
 #| label: get-horowitz-probability
@@ -86,7 +86,7 @@ get_horowitz_probability <- function(L, W, H) {
 }
 ```
 
-Since we're going to be drawing lines across a rectangle, it's convenient to have a function for making a rectangle shape.
+We'll use this a bit later on. Meanwhile, since we're going to be drawing lines across a rectangle, it's convenient to have a function for making a rectangle shape.
 
 ```{r}
 #| label: get-rectangle
@@ -166,7 +166,7 @@ g2 <- ggplot(lines) +
 g1 | g2
 ```
 
-That minor issue I mentioned is that nothing in the line generation code prevents a line entering and exiting the space along the same side of the rectangle. We can see this if we tag each line with a flag indicating if it's one of those 'same side' lines or not.
+A minor issue with this is that nothing in the line generation code prevents a line entering and exiting the space along the same side of the rectangle. We can see this if we tag each line with a flag indicating if it's one of those 'same side' lines or not.
 
 ```{r}
 #| label: fig-second-plot
@@ -193,6 +193,7 @@ g4 <- ggplot(lines) +
   geom_line(data = prob, aes(x = d, y = p)) +
   xlab("Length") +
   ylab("Probability density") +
+  guides(fill = "none") +
   theme_minimal()
 
 g3 | g4
@@ -200,7 +201,7 @@ g3 | g4
 
 Looking at the results a bit more closely in this way, we realise that Horowitz's result doesn't take into consideration the question of whether lines enter and exit the space on two different sides, or put another way whether they are properly contained by the space.
 
-Depending on the application this might be relevant or not, so it's good to note this subtlety. It's a topic developed further in a paper by Peter Taylor,^[Taylor PJ. 1971. Distances within shapes: An introduction to a family of finite frequency distributions. _Geografiska Annaler. Series B, Human Geography_ **53**(1), 40–53. doi: [10.2307/490886](https://doi.org/10.2307/490886)] cited in our discussion of the 'Horowitz distribution' in _Geographic Information Analysis_, which approaches the problem through simulation.
+Depending on the application this might be relevant or not, so it's good to note this subtlety. It's a topic developed further in a paper by Peter Taylor,^[Taylor PJ. 1971. Distances within shapes: An introduction to a family of finite frequency distributions. _Geografiska Annaler. Series B, Human Geography_ **53**(1), 40–53. doi: [10.2307/490886](https://doi.org/10.2307/490886)], which approaches the general problem through simulation.
 
 ## Lines across any space
 It's not difficult to replicate Taylor's approach for any arbitrary shape with a few lines of code in R. As an illustration we can compare the distribution of line lengths contained within Aotearoa's two largest islands.
@@ -295,7 +296,11 @@ g6 <- ggplot() +
 g5 | g6
 ```
 
-In effect the North Island is a lot less convex than the South Island and most of the longest potential lines between its farthest flung points are not wholly contained within the island. The South Island is roughly rectangular, and its longest 'diagonals' can be contained within the bounds of the island. That patch of red in the middle of the North Island is Lake Taupō which also stops a lot of the potential longest lines being fully contained within the island (if a line crosses a hole in the island, then it's not considered as 'contained'). Most of the blocked long lines in the South Island are also blocked by lakes in this way.
+In effect the North Island is a lot less convex than the South Island and most of the longest potential lines between its farthest flung points are not wholly contained within the island. 
+
+The South Island is roughly rectangular, and its longest 'diagonals' can be contained within the bounds of the island. If you squint, you can even see the South Island distribution as somewhat aligning with Horowitz's theoretical distribution for lines across a rectangle with width around 150km and length around 600km! Of course, since these data are not for lines _crossing_ the island, but for lines _within_ it the frequency of short lines is boosted substantially.^[An interesting exercise might be to modify the code for either or both the rectangle and South Island cases to show equivalent crossing and within distributions.]
+
+Also worth noting is that the patch of red in the middle of the North Island is Lake Taupō, which stops a lot of the potential longest lines being fully contained within the island (if a line crosses a 'hole', then it's not considered as 'contained'). Most of the blocked long lines in the South Island are also blocked by lakes in this way.
 
 ## And the point to all this is?
 This all might seem rather abstract, even a bit silly, but there is a point to it. In an analysis of distances (or for that matter any other metric related to spatial data) a significant constraint on the results is the _spatial structure of the space in which the measurements are made_. Another rather trivial example can be found in my past about the [lengths of scheduled flights between off-by-one-letter airports](). where the distribution of flight lengths is strongly affected by things like the extent of the Atlantic and Pacific Oceans.
