@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="I hope you find them useful!">
 
-<title>Books – Geospatial Stuff</title>
+<title>Geographic Information Analysis – Geospatial Stuff</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,6 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href=".//images/gs-logo-corrected.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -70,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
 <script defer="" src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="geospatialstuff.com,dosull.github.io"></script>
 <meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
 
@@ -104,13 +134,15 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Books – Geospatial Stuff">
-<meta property="og:description" content="I hope you find them useful!">
-<meta property="og:image" content="https://geospatialstuff.com/images/cg.jpg">
+<link rel="alternate" type="application/rss+xml" title="Geospatial Stuff" href="gia-support.xml" data-external="1"><meta property="og:title" content="Geographic Information Analysis – Geospatial Stuff">
+<meta property="og:description" content="Supporting material">
+<meta property="og:image" content="https://geospatialstuff.com/posts/2025/09/09/gia-chapter-1B-part-1/fig-distance-surface-1.png">
 <meta property="og:site_name" content="Geospatial Stuff">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1344">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -201,18 +233,14 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">Books</h1>
-                  <div>
-        <div class="description">
-          I hope you find them useful!
-        </div>
-      </div>
-                </div>
+    <div class="quarto-title column-page-left">
+      <h1 class="title"><em>Geographic Information Analysis</em></h1>
+            <p class="subtitle lead">Supporting material</p>
+                      </div>
   </div>
     
   
-  <div class="quarto-title-meta">
+  <div class="quarto-title-meta column-page-left">
 
       
     
@@ -220,24 +248,414 @@ window.Quarto = {
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(11)</span></div><div class="category" data-category="MzAlMjBkYXklMjBtYXBz">30 day maps <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZnJhY3RhbHM=">fractals <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM=">geographic information analysis <span class="quarto-category-count">(11)</span></div><div class="category" data-category="Z2Vvc3BhdGlhbA==">geospatial <span class="quarto-category-count">(10)</span></div><div class="category" data-category="Ug==">R <span class="quarto-category-count">(11)</span></div><div class="category" data-category="dHJhbnNmb3JtYXRpb25hbCUyMGFwcHJvYWNo">transformational approach <span class="quarto-category-count">(7)</span></div><div class="category" data-category="dHV0b3JpYWw=">tutorial <span class="quarto-category-count">(11)</span></div></div></div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
 
 
 
 
-<p><img src="images/cg.jpg" class="img-fluid" style="width:250px; float:left; padding:0px 15px 0px 0px;"><a href="#computing-geographically"> </a><a href="https://www.guilford.com/books/Computing-Geographically/David-O'Sullivan/9781462553938"><em>Computing Geographically</em></a> argues for the importance of giscience taking geography seriously, and also for geography taking giscience more seriously. Too much GIS work is conducted as if <span class="math inline">\((x,y)\)</span> coordinates were all that is needed to make data geographical; equally, far too many geographers think that those coordinates are all that GISers care about. This book aims to bridge the divide. An accompanying website includes high resolution copies of all the figures, and ‘bonus material’ (mostly code). See: <a href="https://computinggeographically.org">computinggeographically.org</a>.</p>
-<p><img src="images/spatial-simulation.jpg" class="img-fluid" style="width:250px; float:right; padding:0px 0px 0px 15px;"><a href="#spatial-simulation-exploring-pattern-and-process"> </a><a href="https://onlinelibrary.wiley.com/doi/book/10.1002/9781118527085"><em>Spatial Simulation: Exploring Pattern and Process</em></a> with <a href="http://www.env.auckland.ac.nz/people/george-perry">George Perry</a> is an advanced introduction to simple spatial simulation models for researchers in fields such as geography, planning, archaeology, ecology and beyond. George and I believe such models have great value across the ‘spatial sciences’ but the literature is scattered, making it a challenge for researchers to get started. We read all those mathematics, physics and statistics papers, so you won’t have to! A library of models in <a href="http://ccl.northwestern.edu/netlogo/">NetLogo</a> accompanies the book, and can be downloaded <a href="https://github.com/DOSull/model-zoo">here</a> or explored at <a href="https://patternandprocess.org">patternandprocess.org</a>.</p>
-<p><img src="images/gia.jpg" class="img-fluid" style="width:250px; float:left; padding:0px 15px 0px 0px;"><a href="#geographic-information-analysis"> </a><a href="https://onlinelibrary.wiley.com/doi/book/10.1002/9780470549094"><em>Geographic Information Analysis</em></a> with Dave Unwin, was first published in 2003, with a second edition in 2010, and translations into Mandarin and Korean. It has been a mainstay of my teaching (and that of many others!) since first publication, and offers an excellent, proven introduction to key principles and methods of <a href="https://github.com/DOSull/Spatial-Analysis-and-Modelling">spatial analysis and modelling</a>. There is a <a href="./gia-support.html">steadily growing series of posts</a> elsewhere on this site, supporting this book, most of them with example code in R.</p>
+<p>This is one-stop shop listing page for all the posts of supporting material for <a href="https://onlinelibrary.wiley.com/doi/book/10.1002/9780470549094"><em>Geographic Information Analysis</em></a> arranged in the order that the associated material shows up in the book.</p>
 
 
 
-<p><a href="./"><img src="./images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p></main> <!-- /main -->
+
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXMlMkNmcmFjdGFscyUyQ1IlMkN0dXRvcmlhbA==" data-listing-date-sort="1756555200000" data-listing-file-modified-sort="1770359663234" data-listing-date-modified-sort="1762426800000" data-listing-reading-time-sort="17" data-listing-word-count-sort="3336">
+<a href="./posts/2025/08/31/gia-chapter-1A/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="posts/2025/08/31/gia-chapter-1A/index_files/figure-html/measuring-waiheke-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Raster really is faster
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM='); return false;">geographic information analysis</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZnJhY3RhbHM='); return false;">fractals</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">tutorial</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>First in a series of posts supporting <em>Geographic Information Analysis</em></p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Aug 31, 2025
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXMlMkN0cmFuc2Zvcm1hdGlvbmFsJTIwYXBwcm9hY2glMkNnZW9zcGF0aWFsJTJDUiUyQ3R1dG9yaWFs" data-listing-date-sort="1757332800000" data-listing-file-modified-sort="1770360161937" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3436">
+<a href="./posts/2025/09/09/gia-chapter-1B-part-1/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./posts/2025/09/09/gia-chapter-1B-part-1/fig-distance-surface-1.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+GIS, a transformational approach
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM='); return false;">geographic information analysis</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHJhbnNmb3JtYXRpb25hbCUyMGFwcHJvYWNo'); return false;">transformational approach</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2Vvc3BhdGlhbA=='); return false;">geospatial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">tutorial</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Second in a series of posts supporting <em>Geographic Information Analysis</em></p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Sep 9, 2025
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXMlMkN0cmFuc2Zvcm1hdGlvbmFsJTIwYXBwcm9hY2glMkNnZW9zcGF0aWFsJTJDUiUyQ3R1dG9yaWFs" data-listing-date-sort="1757592000000" data-listing-file-modified-sort="1770365238940" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1286">
+<a href="./posts/2025/09/12/gia-chapter-1B-part-2/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="posts/2025/09/12/gia-chapter-1B-part-2/index_files/figure-html/make-lines-data-1.png" alt="30 random lines" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+GIS, a transformational approach
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM='); return false;">geographic information analysis</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHJhbnNmb3JtYXRpb25hbCUyMGFwcHJvYWNo'); return false;">transformational approach</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2Vvc3BhdGlhbA=='); return false;">geospatial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">tutorial</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Third in a series of posts supporting <em>Geographic Information Analysis</em></p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Sep 12, 2025
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="3" data-categories="Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXMlMkN0cmFuc2Zvcm1hdGlvbmFsJTIwYXBwcm9hY2glMkNnZW9zcGF0aWFsJTJDUiUyQ3R1dG9yaWFs" data-listing-date-sort="1758024000000" data-listing-file-modified-sort="1770365261570" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2621">
+<a href="./posts/2025/09/17/gia-chapter-1B-part-3A/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./posts/2025/09/17/gia-chapter-1B-part-3A/fig-more-complicated-skeleton-1.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+GIS, a transformational approach
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM='); return false;">geographic information analysis</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHJhbnNmb3JtYXRpb25hbCUyMGFwcHJvYWNo'); return false;">transformational approach</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2Vvc3BhdGlhbA=='); return false;">geospatial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">tutorial</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Fourth in a series of posts supporting <em>Geographic Information Analysis</em></p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Sep 17, 2025
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="4" data-categories="Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXMlMkN0cmFuc2Zvcm1hdGlvbmFsJTIwYXBwcm9hY2glMkNnZW9zcGF0aWFsJTJDUiUyQ3R1dG9yaWFs" data-listing-date-sort="1759575600000" data-listing-file-modified-sort="1776244698165" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3121">
+<a href="./posts/2025/10/05/gia-chapter-1B-part-3B/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="posts/2025/10/05/gia-chapter-1B-part-3B/index_files/figure-html/fig-map-data-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+GIS, a transformational approach
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM='); return false;">geographic information analysis</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHJhbnNmb3JtYXRpb25hbCUyMGFwcHJvYWNo'); return false;">transformational approach</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2Vvc3BhdGlhbA=='); return false;">geospatial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">tutorial</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Fifth in a series of posts supporting <em>Geographic Information Analysis</em></p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Oct 5, 2025
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="5" data-categories="Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXMlMkN0cmFuc2Zvcm1hdGlvbmFsJTIwYXBwcm9hY2glMkNnZW9zcGF0aWFsJTJDUiUyQ3R1dG9yaWFs" data-listing-date-sort="1760353200000" data-listing-file-modified-sort="1770361226967" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="943">
+<a href="./posts/2025/10/14/gia-chapter-1B-part-3C/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./posts/2025/10/14/gia-chapter-1B-part-3C/fig-pycno-map-1.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+GIS, a transformational approach
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM='); return false;">geographic information analysis</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHJhbnNmb3JtYXRpb25hbCUyMGFwcHJvYWNo'); return false;">transformational approach</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2Vvc3BhdGlhbA=='); return false;">geospatial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">tutorial</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Sixth in a series of posts supporting <em>Geographic Information Analysis</em></p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Oct 14, 2025
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="6" data-categories="Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXMlMkN0cmFuc2Zvcm1hdGlvbmFsJTIwYXBwcm9hY2glMkNnZW9zcGF0aWFsJTJDUiUyQ3R1dG9yaWFs" data-listing-date-sort="1761217200000" data-listing-file-modified-sort="1770361249515" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2501">
+<a href="./posts/2025/10/23/gia-chapter-1B-part-4/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="posts/2025/10/23/gia-chapter-1B-part-4/index_files/figure-html/fig-base-map-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+GIS, a transformational approach
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM='); return false;">geographic information analysis</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHJhbnNmb3JtYXRpb25hbCUyMGFwcHJvYWNo'); return false;">transformational approach</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2Vvc3BhdGlhbA=='); return false;">geospatial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">tutorial</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Seventh in a series of posts supporting <em>Geographic Information Analysis</em></p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Oct 24, 2025
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="7" data-categories="Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXMlMkN0cmFuc2Zvcm1hdGlvbmFsJTIwYXBwcm9hY2glMkNnZW9zcGF0aWFsJTJDUiUyQ3R1dG9yaWFsJTJDMzAlMjBkYXklMjBtYXBz" data-listing-date-sort="1761822000000" data-listing-file-modified-sort="1770364450167" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2857">
+<a href="./posts/2025/11/03a/gia-chapter-1B-part-4B/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="posts/2025/11/03a/gia-chapter-1B-part-4B/kaka.jpg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+GIS, a transformational approach
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM='); return false;">geographic information analysis</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHJhbnNmb3JtYXRpb25hbCUyMGFwcHJvYWNo'); return false;">transformational approach</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2Vvc3BhdGlhbA=='); return false;">geospatial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">tutorial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('MzAlMjBkYXklMjBtYXBz'); return false;">30 day maps</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Eighth in a series of posts supporting <em>Geographic Information Analysis</em></p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Oct 31, 2025
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="8" data-categories="Z2Vvc3BhdGlhbCUyQ1IlMkN0dXRvcmlhbCUyQ2dlb2dyYXBoaWMlMjBpbmZvcm1hdGlvbiUyMGFuYWx5c2lz" data-listing-date-sort="1763031600000" data-listing-file-modified-sort="1770362115231" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2252">
+<a href="./posts/2025/11/14/gia-chapter-2A-spatial-autocorrelation/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="posts/2025/11/14/gia-chapter-2A-spatial-autocorrelation/index_files/figure-html/fig-comparison-of-random-and-smoothed-surfaces-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Spatial autocorrelation: what’s the problem?
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2Vvc3BhdGlhbA=='); return false;">geospatial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">tutorial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM='); return false;">geographic information analysis</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>An exploration of the impact of spatial autocorrelation on the results produced by different sampling strategies.</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Nov 14, 2025
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="9" data-categories="Z2Vvc3BhdGlhbCUyQ1IlMkN0dXRvcmlhbCUyQ2dlb2dyYXBoaWMlMjBpbmZvcm1hdGlvbiUyMGFuYWx5c2lz" data-listing-date-sort="1769598000000" data-listing-file-modified-sort="1774393820871" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3486">
+<a href="./posts/2026/01/29/gia-chapter-2B-maup/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="posts/2026/01/29/gia-chapter-2B-maup/gia-fig-2-1-maup.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+The modifiable areal unit problem
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2Vvc3BhdGlhbA=='); return false;">geospatial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">tutorial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM='); return false;">geographic information analysis</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Exploring how correlations between spatial variables change under aggregation to different area units.</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Jan 29, 2026
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="10" data-categories="Z2Vvc3BhdGlhbCUyQ1IlMkN0dXRvcmlhbCUyQ2dlb2dyYXBoaWMlMjBpbmZvcm1hdGlvbiUyMGFuYWx5c2lz" data-listing-date-sort="1777377600000" data-listing-file-modified-sort="1777522810169" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2173">
+<a href="./posts/2026/04/29/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="posts/2026/04/29/index_files/figure-html/fig-first-plot-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Random lines across a space
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2Vvc3BhdGlhbA=='); return false;">geospatial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">tutorial</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VvZ3JhcGhpYyUyMGluZm9ybWF0aW9uJTIwYW5hbHlzaXM='); return false;">geographic information analysis</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Spatial point processes are <em>easy</em>, what about processes that generate lines?</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+David O’Sullivan
+</div>
+<div class="listing-date">
+Apr 29, 2026
+</div>
+</div>
+</div>
+</div></a>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div><p><a href="./"><img src="./images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

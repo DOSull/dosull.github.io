@@ -292,11 +292,6 @@ window.Quarto = {
   <li><a href="#lines-across-a-rectangle" id="toc-lines-across-a-rectangle" class="nav-link active" data-scroll-target="#lines-across-a-rectangle">Lines across a rectangle</a></li>
   <li><a href="#lines-across-any-space" id="toc-lines-across-any-space" class="nav-link" data-scroll-target="#lines-across-any-space">Lines across any space</a></li>
   <li><a href="#and-the-point-to-all-this-is" id="toc-and-the-point-to-all-this-is" class="nav-link" data-scroll-target="#and-the-point-to-all-this-is">And the point to all this is?</a></li>
-  <li><a href="#index-of-geographic-information-analysis-posts" id="toc-index-of-geographic-information-analysis-posts" class="nav-link" data-scroll-target="#index-of-geographic-information-analysis-posts">Index of <em>Geographic Information Analysis</em> posts</a>
-  <ul class="collapse">
-  <li><a href="#chapter-1-geographic-information-analysis-and-spatial-data" id="toc-chapter-1-geographic-information-analysis-and-spatial-data" class="nav-link" data-scroll-target="#chapter-1-geographic-information-analysis-and-spatial-data"><strong>Chapter 1</strong> Geographic Information Analysis and Spatial Data</a></li>
-  <li><a href="#chapter2-the-pitfalls-and-potential-of-spatial-data" id="toc-chapter2-the-pitfalls-and-potential-of-spatial-data" class="nav-link" data-scroll-target="#chapter2-the-pitfalls-and-potential-of-spatial-data"><strong>Chapter2</strong> The Pitfalls and Potential of Spatial Data</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -307,7 +302,7 @@ window.Quarto = {
 
 
 
-<p>After a bit of a break, it seems like a good time to get back to supporting material for <a href="https://onlinelibrary.wiley.com/doi/book/10.1002/9780470549094"><em>Geographic Information Analysis</em></a>. Before I do that, you might want to <a href="#index-of-geographic-information-analysis-posts">jump to the end of this post</a>, where I’ve compiled an index for the entries so far<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>After a bit of a break, it seems like a good time to get back to supporting material for <a href="https://onlinelibrary.wiley.com/doi/book/10.1002/9780470549094"><em>Geographic Information Analysis</em></a>. Before I do that, you might want to check out <a href="../../../../gia-support.html">the index to all these posts</a>, where I’ve compiled an index for the entries so far<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 <section id="lines-across-a-rectangle" class="level2">
 <h2 class="anchored" data-anchor-id="lines-across-a-rectangle">Lines across a rectangle</h2>
 <p>OK… welcome back. In this post, I am moving on to Chapter 4 <em>Maps as outcomes of processes</em>. I’ll get to point patterns in later posts, but first I want to jump straight to recreating Figure 4.6 which shows the theoretical and empirical probability density functions for the lengths of lines across a rectangular space. Mostly I’m jumping ahead to this topic because it was more interesting to code than point processes, which are so ably handled by built-in functions in <a href="https://spatstat.org/"><code>spatstat</code></a>.</p>
@@ -609,34 +604,8 @@ Figure&nbsp;4: Random lines across New Zealand’s two big islands.
 <h2 class="anchored" data-anchor-id="and-the-point-to-all-this-is">And the point to all this is?</h2>
 <p>This all might seem rather abstract, even a bit silly, but there is a point to it. In an analysis of distances (or for that matter any other metric related to spatial data) a significant constraint on the results is the <em>spatial structure of the space in which the measurements are made</em>. Another rather trivial example can be found in my past about the <a href="">lengths of scheduled flights between off-by-one-letter airports</a>. where the distribution of flight lengths is strongly affected by things like the extent of the Atlantic and Pacific Oceans.</p>
 <p>The point is that spatial data are constrained by the shape of the space in which they exist. A lot of mathematical and statistical theory is developed on infinite uniform planes, which are not a luxury available most of the time when dealing with earth-bound spatial data. How interesting any particular observed metric is in a particular spatial context (is that line long? is it short?) is a function of that context, and so understanding things like the distributions of lengths in a space may often be an important first step in spatial analysis.</p>
-</section>
-<section id="index-of-geographic-information-analysis-posts" class="level2">
-<h2 class="anchored" data-anchor-id="index-of-geographic-information-analysis-posts">Index of <em>Geographic Information Analysis</em> posts</h2>
-<section id="chapter-1-geographic-information-analysis-and-spatial-data" class="level3">
-<h3 class="anchored" data-anchor-id="chapter-1-geographic-information-analysis-and-spatial-data"><strong>Chapter 1</strong> Geographic Information Analysis and Spatial Data</h3>
-<ul>
-<li><a href="https://geospatialstuff.com/posts/2025/08/31/gia-chapter-1A/">Raster really is faster</a> on measuring fractal dimension</li>
-<li>Then the ‘GIS: A transformational approach’ (sub)series:
-<ul>
-<li><a href="https://geospatialstuff.com/posts/2025/09/09/gia-chapter-1B-part-1/">Points to… points, lines, areas, and fields</a>: mean centre, network paths, proximity polygons, Delaunay triangulation, point buffers, kernel density estimation, and distance surfaces</li>
-<li><a href="https://geospatialstuff.com/posts/2025/09/12/gia-chapter-1B-part-2/">Lines to… points, lines, areas, and fields</a>: line intersection, shortest paths, buffers, and distance surfaces</li>
-<li><a href="https://geospatialstuff.com/posts/2025/09/17/gia-chapter-1B-part-3A/">Areas to points and lines</a>: centroids, straight skeletons, and medial axes</li>
-<li><a href="https://geospatialstuff.com/posts/2025/10/05/gia-chapter-1B-part-3B/">Areas to areas</a>: buffers and overlay</li>
-<li><a href="https://geospatialstuff.com/posts/2025/10/14/gia-chapter-1B-part-3C/">Areas to fields</a>: pycnophylactic smoothing</li>
-<li><a href="https://geospatialstuff.com/posts/2025/10/23/gia-chapter-1B-part-4/">Fields to points and lines</a>: surface specific points and surface networks</li>
-<li><a href="https://geospatialstuff.com/posts/2025/11/03a/gia-chapter-1B-part-4B/">Fields to areas and fields</a>: watersheds, hill masses, and vector fields</li>
-</ul></li>
-</ul>
-</section>
-<section id="chapter2-the-pitfalls-and-potential-of-spatial-data" class="level3">
-<h3 class="anchored" data-anchor-id="chapter2-the-pitfalls-and-potential-of-spatial-data"><strong>Chapter2</strong> The Pitfalls and Potential of Spatial Data</h3>
-<ul>
-<li><a href="https://geospatialstuff.com/posts/2025/11/14/gia-chapter-2A-spatial-autocorrelation/">Spatial autocorrelation: what’s the problem</a></li>
-<li><a href="https://geospatialstuff.com/posts/2026/01/29/gia-chapter-2B-maup/">The modifiable areal unit problem</a></li>
-</ul>
 
 
-</section>
 </section>
 
 
