@@ -1,0 +1,28 @@
+---
+title: "_Geographic Information Analysis_"
+subtitle: "Supporting material"
+listing:
+  contents: 
+  - posts/2025/08/31/gia-chapter-1A
+  - posts/2025/09/09/gia-chapter-1B-part-1
+  - posts/2025/09/12/gia-chapter-1B-part-2
+  - posts/2025/09/17/gia-chapter-1B-part-3A
+  - posts/2025/10/05/gia-chapter-1B-part-3B
+  - posts/2025/10/14/gia-chapter-1B-part-3C
+  - posts/2025/10/23/gia-chapter-1B-part-4
+  - posts/2025/11/03a/gia-chapter-1B-part-4B
+  - posts/2025/11/14/gia-chapter-2A-spatial-autocorrelation
+  - posts/2026/01/29/gia-chapter-2B-maup
+  - posts/2026/04/29
+  sort: "date"
+  type: grid
+  categories: true
+  sort-ui: false
+  filter-ui: false
+  page-size: 12
+  feed:
+    type: partial
+page-layout: full
+title-block-banner: true
+---
+This is one-stop shop listing page for all the posts of supporting material for [_Geographic Information Analysis_](https://onlinelibrary.wiley.com/doi/book/10.1002/9780470549094) arranged in the order that the associated material shows up in the book.
