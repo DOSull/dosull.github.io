@@ -19,3 +19,5 @@ climate/
 talks/*/images/
 **/*.quarto_ipynb
 posts/*/*/_*/
+.vscode/
+air.toml
