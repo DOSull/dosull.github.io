@@ -201,7 +201,7 @@ g3 | g4
 
 Looking at the results a bit more closely in this way, we realise that Horowitz's result doesn't take into consideration the question of whether lines enter and exit the space on two different sides, or put another way whether they are properly contained by the space.
 
-Depending on the application this might be relevant or not, so it's good to note this subtlety. It's a topic developed further in a paper by Peter Taylor,^[Taylor PJ. 1971. Distances within shapes: An introduction to a family of finite frequency distributions. _Geografiska Annaler. Series B, Human Geography_ **53**(1), 40–53. doi: [10.2307/490886](https://doi.org/10.2307/490886)], which approaches the general problem through simulation.
+Depending on the application this might be relevant or not, so it's good to note this subtlety. It's a topic developed further in a paper by Peter Taylor,^[Taylor PJ. 1971. Distances within shapes: An introduction to a family of finite frequency distributions. _Geografiska Annaler. Series B, Human Geography_ **53**(1), 40–53. doi: [10.2307/490886](https://doi.org/10.2307/490886)] which approaches the general problem through simulation.
 
 ## Lines across any space
 It's not difficult to replicate Taylor's approach for any arbitrary shape with a few lines of code in R. As an illustration we can compare the distribution of line lengths contained within Aotearoa's two largest islands.
