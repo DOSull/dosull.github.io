@@ -70,7 +70,7 @@
   </url>
   <url>
     <loc>https://geospatialstuff.com/posts/2026/04/24/index.html</loc>
-    <lastmod>2026-04-29T09:19:42.097Z</lastmod>
+    <lastmod>2026-06-26T00:23:42.757Z</lastmod>
   </url>
   <url>
     <loc>https://geospatialstuff.com/posts/2026/03/10/cartographic-perspectives-mapweaver/index.html</loc>
@@ -171,6 +171,10 @@
   <url>
     <loc>https://geospatialstuff.com/books.html</loc>
     <lastmod>2026-04-30T04:22:59.359Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatialstuff.com/gia-support.html</loc>
+    <lastmod>2026-04-30T04:24:33.588Z</lastmod>
   </url>
   <url>
     <loc>https://geospatialstuff.com/contact.html</loc>
@@ -274,7 +278,7 @@
   </url>
   <url>
     <loc>https://geospatialstuff.com/posts/2026/02/02/netlogo/index.html</loc>
-    <lastmod>2026-03-24T23:32:51.708Z</lastmod>
+    <lastmod>2026-06-05T00:42:52.192Z</lastmod>
   </url>
   <url>
     <loc>https://geospatialstuff.com/posts/2026/01/29/gia-chapter-2B-maup/index.html</loc>
@@ -339,9 +343,5 @@
   <url>
     <loc>https://geospatialstuff.com/notebooks/2025-02-18-marimo.html</loc>
     <lastmod>2025-07-07T02:11:58.467Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatialstuff.com/gia-support.html</loc>
-    <lastmod>2026-04-30T04:24:33.588Z</lastmod>
   </url>
 </urlset>

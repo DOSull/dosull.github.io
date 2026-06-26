@@ -41,6 +41,7 @@ The striking thing about this particular weather 'event' was just how intensely 
 library(sf)
 library(colorspace)
 library(leaflet)
+library(leaflet.extras)
 library(dplyr)
 library(stringr)
 ```
@@ -113,10 +114,11 @@ leaflet() |>
     lng = ~lon, lat = ~lat, popup = ~popup,
     color = "red", group = "Stories") |>
   addLegend(data = blues,
-    title = "Flood hazard",
+    title = "Flood hazard category",
     position = "bottomright",
     colors = ~fill, labels = ~hazard,
     opacity = 0.8) |>
+  addFullscreenControl(position = "bottomleft", pseudoFullscreen = FALSE) |>
   addLayersControl(
     overlayGroups = c("Flood hazard", "Rainfall", "Stories"),
     position = "topright") |>

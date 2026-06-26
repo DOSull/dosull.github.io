@@ -76,21 +76,6 @@
     ]
   },
   {
-    "listing": "/portfolio.html",
-    "items": [
-      "/portfolio/05-jev.html",
-      "/portfolio/04-antarctica.html",
-      "/portfolio/03-time-space-mapping.html",
-      "/portfolio/02-moving-the-middle.html",
-      "/portfolio/01-oecd-rural-services.html",
-      "/portfolio/01-1-wasp-control-model.html",
-      "/portfolio/00-weaving-and-tiling-maps.html",
-      "/portfolio/00-2-30-day-maps.html",
-      "/portfolio/00-1-nz-commute-viewer.html",
-      "/portfolio/00-0-spatial-covid-model.html"
-    ]
-  },
-  {
     "listing": "/gia-support.html",
     "items": [
       "/posts/2025/08/31/gia-chapter-1A/index.html",
@@ -104,6 +89,21 @@
       "/posts/2025/11/14/gia-chapter-2A-spatial-autocorrelation/index.html",
       "/posts/2026/01/29/gia-chapter-2B-maup/index.html",
       "/posts/2026/04/29/index.html"
+    ]
+  },
+  {
+    "listing": "/portfolio.html",
+    "items": [
+      "/portfolio/05-jev.html",
+      "/portfolio/04-antarctica.html",
+      "/portfolio/03-time-space-mapping.html",
+      "/portfolio/02-moving-the-middle.html",
+      "/portfolio/01-oecd-rural-services.html",
+      "/portfolio/01-1-wasp-control-model.html",
+      "/portfolio/00-weaving-and-tiling-maps.html",
+      "/portfolio/00-2-30-day-maps.html",
+      "/portfolio/00-1-nz-commute-viewer.html",
+      "/portfolio/00-0-spatial-covid-model.html"
     ]
   }
 ]
