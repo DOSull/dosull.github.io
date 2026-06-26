@@ -60,11 +60,12 @@ I also assign a set of blue colours to the different hazard levels, and include 
 #| label: flood-hazard-data
 #| output: false
 blues <- data.frame(
-  hazard = c("Low", "Medium", "High"),
-  fill = "dodgerblue4" |> lighten(2:0 / 4))
+    hazard = c("Low", "Medium", "High"),
+    fill = "dodgerblue4" |> lighten(2:0 / 4)
+)
 
 flood_hazard <- st_read("flood-risk-simplified.gpkg") |>
-  left_join(blues)
+    left_join(blues)
 ```
 
 ### Rain
@@ -89,11 +90,12 @@ I'm reasonably familiar with the affected areas, and Wellington's housing stock 
 #| label: reports-data
 #| output: false
 reports <- read.csv("reports.csv") |>
-  # st_as_sf(coords = c("lon", "lat"), crs = 4326) |>
-  mutate(
-    link = str_glue("<a href='{story}'>Go to story</a>"),
-    image_html = str_glue("<img src='images/{image}' width='300px'>"),
-    popup = str_glue("<p><b>{description}</b>&nbsp;{link}</p>{image_html}<p>Image credit: {image_credit}</p>"))
+    # st_as_sf(coords = c("lon", "lat"), crs = 4326) |>
+    mutate(
+        link = str_glue("<a href='{story}'>Go to story</a>"),
+        image_html = str_glue("<img src='images/{image}' width='300px'>"),
+        popup = str_glue("<p><b>{description}</b>&nbsp;{link}</p>{image_html}<p>Image credit: {image_credit}</p>")
+    )
 ```
 
 ## A web map
@@ -104,25 +106,38 @@ So, here's the map. I found `tmap`'s web map options a bit inflexible in this ca
 #| fig-cap: An interactive map of reported flood events with respect to flood hazard modelling.
 #| fig-width: 10
 #| fig-height: 10
-leaflet() |>
-  addTiles() |>
-  addPolygons(data = flood_hazard |> st_transform(4326), 
-    fill = TRUE, fillColor = ~fill, fillOpacity = 0.8,
-    stroke = FALSE, group = "Flood hazard") |>
-  addRasterImage(rain, group = "Rainfall") |>
-  addCircleMarkers(data = reports,
-    lng = ~lon, lat = ~lat, popup = ~popup,
-    color = "red", group = "Stories") |>
-  addLegend(data = blues,
-    title = "Flood hazard category",
-    position = "bottomright",
-    colors = ~fill, labels = ~hazard,
-    opacity = 0.8) |>
-  addFullscreenControl(position = "bottomleft", pseudoFullscreen = FALSE) |>
-  addLayersControl(
-    overlayGroups = c("Flood hazard", "Rainfall", "Stories"),
-    position = "topright") |>
-  hideGroup("Rainfall")
+leaflet(options = leafletOptions(zoomControl = FALSE)) %>%
+    htmlwidgets::onRender("function(el, x) {
+        L.control.zoom({ position: 'topright' }).addTo(this)
+    }") |>
+    addTiles() |>
+    addPolygons(
+        data = flood_hazard |> st_transform(4326),
+        fill = TRUE, fillColor = ~fill, fillOpacity = 0.8,
+        stroke = FALSE, group = "Flood hazard"
+    ) |>
+    addRasterImage(rain, group = "Rainfall") |>
+    addCircleMarkers(
+        data = reports,
+        lng = ~lon, lat = ~lat, popup = ~popup,
+        color = "red", group = "Stories"
+    ) |>
+    addLayersControl(
+        overlayGroups = c("Flood hazard", "Rainfall", "Stories"),
+        position = "topleft"
+    ) |>
+    addLegend(
+        data = blues,
+        title = "Flood hazard",
+        position = "topleft",
+        colors = ~fill, labels = ~hazard,
+        opacity = 0.8
+    ) |>
+    addFullscreenControl(
+        position = "bottomright",
+        pseudoFullscreen = FALSE
+    ) |>
+    hideGroup("Rainfall")
 ```
 
 If you click on a red event, you should see a picture and can click through to the news report where it appeared. A lot of the pictures are from a single 'compendium' report on Radio New Zealand's website.
