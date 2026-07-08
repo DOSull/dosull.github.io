@@ -24,7 +24,7 @@ message: false
 date: 04-29-2026
 ---
 
-After a bit of a break, it seems like a good time to get back to supporting material for [_Geographic Information Analysis_](https://onlinelibrary.wiley.com/doi/book/10.1002/9780470549094). Before I do that, you might want to check out [the index to all these posts](/gia-support.qmd), where I've compiled an index for the entries so far^[And those not yet written: I'll try to keep the list updated].
+After a bit of a break, it seems like a good time to get back to supporting material for [_Geographic Information Analysis_](https://onlinelibrary.wiley.com/doi/book/10.1002/9780470549094). Before I do that, you might want to check out [the index to all these posts](/gia-support.qmd), where I've compiled an index for the entries so far.^[And those not yet written: I'll try to keep the list updated]
 
 ## Lines across a rectangle
 OK... welcome back. In this post, I am moving on to Chapter 4 _Maps as outcomes of processes_. I'll get to point patterns in later posts, but first I want to jump straight to recreating Figure 4.6 which shows the theoretical and empirical probability density functions for the lengths of lines across a rectangular space. Mostly I'm jumping ahead to this topic because it was more interesting to code than point processes, which are so ably handled by built-in functions in [`spatstat`](https://spatstat.org/).
@@ -70,19 +70,18 @@ get_horowitz_probability <- function(L, W, H) {
   w <- max(c(W, H))
   k <- 2 / pi / (w + h)
   if (L < h) {
-    return (2 * k)
+    return(2 * k)
   } else {
     a <- w * h
-    y <- sqrt(L ^ 2 - h ^ 2)
+    y <- sqrt(L^2 - h^2)
     if (L < w) {
-      return (k * (a - y ^ 2 + L * y) / L / y)
+      return(k * (a - y^2 + L * y) / L / y)
     } else {
-      z <- sqrt(L ^ 2 - w ^ 2)
-      return (k * ((a - y ^ 2) / L / y + 
-                   (a - z ^ 2) / L / z))
+      z <- sqrt(L^2 - w^2)
+      return(k * ((a - y^2) / L / y + (a - z^2) / L / z))
     }
   }
-  return (0)
+  return(0)
 }
 ```
 
@@ -91,9 +90,22 @@ We'll use this a bit later on. Meanwhile, since we're going to be drawing lines 
 ```{r}
 #| label: get-rectangle
 get_rectangle <- function(xmax = 1, ymax = 1) {
- st_linestring(matrix(c(0, 0, xmax, xmax, 0,
-                        0, ymax, ymax, 0, 0), ncol = 2)) |>
-  st_sfc()
+  st_linestring(matrix(
+    c(
+      0,
+      0,
+      xmax,
+      xmax,
+      0,
+      0,
+      ymax,
+      ymax,
+      0,
+      0
+    ),
+    ncol = 2
+  )) |>
+    st_sfc()
 }
 ```
 
@@ -102,9 +114,9 @@ Next, we empirically draw a large number of lines between two points chosen at r
 ```{r}
 #| label: empirical-setup
 n <- 2500
-W <- 3/5
-H <- 4/5
-max_d <- sqrt(W ^ 2 + H ^ 2)
+W <- 3 / 5
+H <- 4 / 5
+max_d <- sqrt(W^2 + H^2)
 rect <- get_rectangle(xmax = W, ymax = H)
 ```
 
@@ -116,12 +128,11 @@ get_lines_from_points <- function(xys) {
   xys |>
     unlist() |>
     matrix(ncol = 4, byrow = TRUE) |>
-    apply(1, \(x) matrix(x, ncol = 2, byrow = TRUE), 
-          simplify = FALSE) |>
+    apply(1, \(x) matrix(x, ncol = 2, byrow = TRUE), simplify = FALSE) |>
     lapply(st_linestring) |>
     st_sfc() |>
     data.frame() |>
-    st_sf() |> 
+    st_sf() |>
     mutate(length = st_length(geometry))
 }
 
@@ -136,8 +147,7 @@ Next, make a dataframe with the theoretical probability density function.
 #| label: horowitz-pdf
 prob <- data.frame(
   d = 0:500 / 500 * max_d,
-  p = mapply(get_horowitz_probability, 0:500 / 500 * max_d,
-             W = W, H = H)
+  p = mapply(get_horowitz_probability, 0:500 / 500 * max_d, W = W, H = H)
 )
 ```
 
@@ -151,13 +161,17 @@ And finally we can plot all this, rescaling the histogram of the empirical data 
 #| code-fold: true
 g1 <- ggplot() +
   geom_sf(data = rect, fill = NA) +
-  geom_sf(data = lines, lwd = 0.03) + 
+  geom_sf(data = lines, lwd = 0.03) +
   theme_void()
 
-g2 <- ggplot(lines) + 
+g2 <- ggplot(lines) +
   geom_histogram(
-    aes(x = length, y = after_stat(count / sum(count) * 50 / max_d)), 
-    fill = "lightgrey", colour = "white", lwd = 0.1, bins = 50) +
+    aes(x = length, y = after_stat(count / sum(count) * 50 / max_d)),
+    fill = "lightgrey",
+    colour = "white",
+    lwd = 0.1,
+    bins = 50
+  ) +
   geom_line(data = prob, aes(x = d, y = p)) +
   xlab("Length") +
   ylab("Probability density") +
@@ -174,21 +188,28 @@ A minor issue with this is that nothing in the line generation code prevents a l
 #| fig-width: 10
 #| fig-height: 8
 #| code-fold: true
-lines <- lines |> 
+lines <- lines |>
   bind_cols(lines$geometry |> sapply(st_bbox) |> t()) |>
   mutate(`Same side` = xmin == xmax | ymin == ymax)
 
-g3 <- ggplot(lines) + 
-  geom_sf(aes(colour = `Same side`),  lwd = 0.03) +
+g3 <- ggplot(lines) +
+  geom_sf(aes(colour = `Same side`), lwd = 0.03) +
   scale_colour_brewer(palette = "Set1") +
   guides(colour = "none") +
   theme_void()
 
-g4 <- ggplot(lines) + 
+g4 <- ggplot(lines) +
   geom_histogram(
-    aes(x = length, y = after_stat(count / sum(count) * 50 / max_d),
-        group = `Same side`, fill = `Same side`), 
-    colour = "white", lwd = 0.1, bins = 50) +
+    aes(
+      x = length,
+      y = after_stat(count / sum(count) * 50 / max_d),
+      group = `Same side`,
+      fill = `Same side`
+    ),
+    colour = "white",
+    lwd = 0.1,
+    bins = 50
+  ) +
   scale_fill_brewer(palette = "Set1") +
   geom_line(data = prob, aes(x = d, y = p)) +
   xlab("Length") +
@@ -211,12 +232,12 @@ It's not difficult to replicate Taylor's approach for any arbitrary shape with a
 #| output: false
 nz <- st_read("nz-2193.gpkg")
 
-north_island <- nz |> 
+north_island <- nz |>
   st_cast("POLYGON") |>
   arrange(desc(st_area(geom))) |>
   slice(2)
 
-south_island <- nz |> 
+south_island <- nz |>
   st_cast("POLYGON") |>
   arrange(desc(st_area(geom))) |>
   slice(1)
@@ -227,7 +248,7 @@ We can then generate random points, and hence random lines between points on eac
 ```{r}
 #| label: island-lines
 #| code-fold: true
-ni_lines <- 
+ni_lines <-
   st_sample(north_island, 5000) |>
   get_lines_from_points() |>
   st_set_crs(st_crs(north_island))
@@ -235,7 +256,7 @@ ni_lines <-
 ni_lines$contained <- st_within(ni_lines, north_island, sparse = FALSE) |>
   as.vector()
 
-si_lines <- 
+si_lines <-
   st_sample(south_island, 5000) |>
   get_lines_from_points() |>
   st_set_crs(st_crs(south_island))
@@ -245,7 +266,8 @@ si_lines$contained <- st_within(si_lines, south_island, sparse = FALSE) |>
 
 all_lines <- bind_rows(
   ni_lines |> mutate(island = "North Island"),
-  si_lines |> mutate(island = "South Island")) |> 
+  si_lines |> mutate(island = "South Island")
+) |>
   mutate(length = length / 1000)
 ```
 
@@ -257,15 +279,18 @@ As before we can plot the associated length distributions.
 #| fig-width: 10
 #| fig-height: 7
 #| code-fold: true
-ggplot(all_lines) + 
+ggplot(all_lines) +
   geom_histogram(
-    aes(x = length, group = contained, fill = contained), 
-    colour = "white", lwd = 0.1, bins = 25) +
+    aes(x = length, group = contained, fill = contained),
+    colour = "white",
+    lwd = 0.1,
+    bins = 25
+  ) +
   scale_fill_brewer(palette = "Set1") +
   geom_line(data = prob, aes(x = d, y = p)) +
   xlab("Length") +
   ylab("Number of lines") +
-  facet_wrap( ~ island) +
+  facet_wrap(~island) +
   theme_minimal()
 ```
 
@@ -278,18 +303,26 @@ The difference between the North and South Island distributions is that the long
 #| fig-height: 8
 #| code-fold: true
 g5 <- ggplot() +
-  geom_sf(data = ni_lines |> arrange(contained), 
-          aes(colour = contained), lwd = 0.2, alpha = 0.15) +
+  geom_sf(
+    data = ni_lines |> arrange(contained),
+    aes(colour = contained),
+    lwd = 0.2,
+    alpha = 0.15
+  ) +
   scale_colour_brewer(palette = "Set1") +
-  geom_sf(data = north_island, fill = NA) + 
+  geom_sf(data = north_island, fill = NA) +
   guides(colour = "none") +
   theme_void()
 
 g6 <- ggplot() +
-  geom_sf(data = si_lines |> arrange(contained), 
-          aes(colour = contained), lwd = 0.2, alpha = 0.15) +
+  geom_sf(
+    data = si_lines |> arrange(contained),
+    aes(colour = contained),
+    lwd = 0.2,
+    alpha = 0.15
+  ) +
   scale_colour_brewer(palette = "Set1") +
-  geom_sf(data = south_island, fill = NA) + 
+  geom_sf(data = south_island, fill = NA) +
   guides(colour = "none") +
   theme_void()
 
