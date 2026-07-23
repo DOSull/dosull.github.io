@@ -1,0 +1,157 @@
+---
+title: "Te reo and English names for rivers"
+subtitle: "Belatedly delivering on a promise I made on Linkedin..."
+description: "Simple R code to make maps I posted a couple of months back"
+from: markdown + emoji
+author: "David O'Sullivan"
+toc: true
+lightbox: 
+  match: auto
+code-fold: show
+code-annotations: hover
+categories:
+  - geospatial
+  - R
+  - tutorial
+  - cartography
+  - visualization
+execute: 
+  cache: true
+  freeze: auto
+knitr: 
+  opts_chunk:
+    warning: false
+message: false
+date: 07-23-2026
+---
+
+I've not posted much of anything for a couple of months, as life in the shape of moving house, took over. The aftermath of moving continues to loom large, so this is just a quick post delivering on a promise I made a month or two ago on Linkedin to post code for how I made maps like those below.
+
+I made the maps because [Richard Law](https://www.linkedin.com/in/richardmlaw/) reposted [a similar map of names for rivers in the UK](https://www.linkedin.com/feed/update/urn:li:activity:7461086196887298048/) by [Tom Peterken](https://www.linkedin.com/in/tom-peterken-66028219a/). My maps are based on a [LINZ river names pilot dataset](https://data.linz.govt.nz/layer/103632-nz-river-name-lines-pilot/) and the analysis, as will be clear from the code below is very slight. Hopefully the maps themselves are pretty enough to compensate.
+
+That's pretty much it. I'm travelling for work for the next 10 days or so, and post-house move activity continues to dominate life, so it may remain quieter than it has been in the past on here for a while longer.
+
+Per usual we need some libraries, and a basic New Zealand map.
+
+```{r}
+#| label: imports
+#| output: false
+library(dplyr)
+library(stringr)
+library(sf)
+library(ggplot2)
+library(ltc)
+
+nz <- st_read("nz-2193.gpkg")
+```
+
+Next we have to prep the data. That requires a function to determine if the name of any given river includes various Te Reo Māori words for water, or (as is more common) English generic terms for 'river'.
+
+```{r}
+#| label: classify-waterways-function
+anglo_generics <- c("Brook", "Burn", "Creek", "River", "Stream")
+te_reo_generics <- c("Wai", "Awa", "Manga")
+
+classify_waterways <- function(
+    gdf,
+    anglo = anglo_generics,
+    te_reo = te_reo_generics) {
+    gdf |>
+        filter(!is.na(name_ascii)) |>
+        select(name, name_ascii) |>
+        mutate(
+            anglo_generic = str_extract(name_ascii, str_flatten(anglo, "|")),
+            te_reo_generic = str_extract(
+                name_ascii,
+                str_c("(?i)", str_flatten(te_reo, "|"))
+            ) |>
+                str_to_title()
+        ) |>
+        filter(!is.na(anglo_generic) | !is.na(te_reo_generic))
+}
+```
+
+The only real mystery here is the `(?i)` prefix used in the regular expression supplied to `str_extract`. This makes the search case-insensitive, which for the Māori parts of words which may not appear at the beginning of a name is important. The keen eyed will spot here that the ordering of the Māori 'water words' combined with using `str_extract` which only finds the first match, will mean that finding instances of Wai, Awa, and Manga are prioritised in that order. A more sophisticated approach would be required to unpack cases where more than one of these word parts shows up in a toponym.
+
+Next we read in the river names datasets and pass them through the function we just made.
+
+```{r}
+#| label: data-prep
+#| output: false
+rivers <- st_read("rivers.gpkg") |>
+    filter(!is.na(name)) |>
+    classify_waterways() |>
+    mutate(size = 0.1)
+
+big_rivers <- st_read("big-rivers.gpkg") |>
+    filter(!is.na(name)) |>
+    classify_waterways() |>
+    mutate(size = 0.15)
+
+all_rivers <- bind_rows(rivers, big_rivers)
+```
+
+This yields data that look like this:
+
+```{r}
+#| label: sample-data
+glimpse(all_rivers)
+```
+
+And we're ready to map them.
+
+First, the appearances of Te Reo Māori words for water in river names. The result is not exactly that because, in addition to the order of priority noted above, all the code is doing is identify those sequences of letters in the names, and sometimes those might occur with some other meaning.
+
+```{r}
+#| label: fig-te-reo-names
+#| fig-cap: Three Te Reo 'water words' mapped.
+#| fig-height: 9
+#| fig-width: 7
+#| code-fold: true
+ggplot() +
+    geom_sf(data = nz, fill = "#aaa", colour = NA) +
+    geom_sf(
+        data = all_rivers |> filter(!is.na(te_reo_generic)),
+        aes(colour = te_reo_generic, linewidth = size),
+        show.legend = "line"
+    ) +
+    scale_colour_manual(
+        "Te Reo water word",
+        values = ltc("hat")[c(10, 2, 4)]
+    ) +
+    scale_linewidth_identity() +
+    guides(colour = guide_legend(override.aes = list(linewidth = 3))) +
+    theme_void() +
+    theme(
+        legend.position = "inside",
+        legend.position.inside = c(0.25, 0.75)
+    )
+```
+
+And finally the English language 'generic' words for rivers.
+
+```{r}
+#| label: fig-english-names
+#| fig-cap: Five English 'river words' mapped.
+#| fig-height: 9
+#| fig-width: 7
+#| code-fold: true
+ggplot() +
+    geom_sf(data = nz, fill = "#aaa", colour = NA) +
+    geom_sf(
+        data = all_rivers |> filter(!is.na(anglo_generic)),
+        aes(colour = anglo_generic, linewidth = size),
+        show.legend = "line"
+    ) +
+    scale_colour_manual(
+        "English river word",
+        values = ltc("hat")[c(10, 2, 4, 5, 7)]
+    ) +
+    scale_linewidth_identity() +
+    guides(colour = guide_legend(override.aes = list(linewidth = 3))) +
+    theme_void() +
+    theme(
+        legend.position = "inside",
+        legend.position.inside = c(0.25, 0.75)
+    )
+```
