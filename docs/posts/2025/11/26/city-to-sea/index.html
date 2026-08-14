@@ -310,8 +310,8 @@ Figure&nbsp;1: A general locator map for the City to Sea Walkway.
 <p>It turns out that this particular multilinestring is well behaved and can be combined into a single linestring using <code>st_line_merge</code>. I’ve shown an example <a href="#addendum-making-a-linestring-from-messier-data">at the end of this post</a> where this is not the case.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>city_to_sea <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"city-to-sea-all.gpkg"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">2193</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_line_merge</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_transform</span>(<span class="dv">2193</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_line_merge</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="making-an-elevation-profile" class="level2">
@@ -321,16 +321,16 @@ Figure&nbsp;1: A general locator map for the City to Sea Walkway.
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dem <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"c2s.tif"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dem) <span class="ot">&lt;-</span> <span class="st">"Elevation"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>We can make a profile by sampling at equally spaced intervals along the linestring using<code>st_line_interpolate</code> and <code>terra::extract</code>. The walkway is about 14.5 km, so 3000 steps is roughly every 3m. That seems about right when the elevation data is at 1m resolution.</p>
+<p>We can make a profile by sampling at equally spaced intervals along the linestring using<code>st_line_interpolate</code> and <code>terra::extract</code>. The walkway is about 14.5 km, so 3000 steps is roughly every 5m. That seems about right when the elevation data is at 1m resolution.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>steps <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3000</span> <span class="sc">/</span> <span class="dv">3000</span></span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> city_to_sea<span class="sc">$</span>geom <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_line_interpolate</span>(steps, <span class="at">normalized =</span> <span class="cn">TRUE</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_line_interpolate</span>(steps, <span class="at">normalized =</span> <span class="cn">TRUE</span>)</span>
 <span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>profile <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(dem, points <span class="sc">|&gt;</span> <span class="fu">as</span>(<span class="st">"SpatVector"</span>)) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Distance =</span> (city_to_sea <span class="sc">|&gt;</span> <span class="fu">st_length</span>()) <span class="sc">*</span> steps) <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-8" class="code-annotation-target"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Distance =</span> <span class="fu">drop_units</span>(Distance))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Distance =</span> (city_to_sea <span class="sc">|&gt;</span> <span class="fu">st_length</span>()) <span class="sc">*</span> steps) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-8" class="code-annotation-target"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Distance =</span> <span class="fu">drop_units</span>(Distance))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
@@ -349,17 +349,17 @@ Figure&nbsp;1: A general locator map for the City to Sea Walkway.
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>g_profile_1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> profile, <span class="fu">aes</span>(<span class="at">x =</span> Distance, <span class="at">y =</span> Elevation), <span class="at">fill =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">data =</span> profile, <span class="fu">aes</span>(<span class="at">x =</span> Distance, <span class="at">y =</span> Elevation), <span class="at">fill =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>g_profile <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> profile, <span class="fu">aes</span>(<span class="at">x =</span> Distance, <span class="at">y =</span> Elevation), <span class="at">fill =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">8</span>) <span class="sc">+</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">data =</span> profile, <span class="fu">aes</span>(<span class="at">x =</span> Distance, <span class="at">y =</span> Elevation), <span class="at">fill =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">8</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>(g_profile_1 <span class="sc">/</span> g_profile <span class="sc">&amp;</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>)) <span class="sc">+</span> </span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Distance"</span>, <span class="at">y =</span> <span class="st">"Elevation"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>(g_profile_1 <span class="sc">/</span> g_profile <span class="sc">&amp;</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>)) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Distance"</span>, <span class="at">y =</span> <span class="st">"Elevation"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-plot-profile" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -380,11 +380,11 @@ Figure&nbsp;2: Elevation profile of the City to Sea Walkway shown at scale, and 
 <p>Named City to Sea segments are also available from OpenStreetMap. We can use these to add some contextual information to our elevation profile.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>named_segments <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"city-to-sea-segments.gpkg"</span>) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">2193</span>) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name) <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(name) <span class="sc">&amp;</span> name <span class="sc">!=</span> <span class="st">"City to Sea Walkway"</span>) <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">1</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_transform</span>(<span class="dv">2193</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(name) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(name) <span class="sc">&amp;</span> name <span class="sc">!=</span> <span class="st">"City to Sea Walkway"</span>) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">1</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
@@ -401,37 +401,41 @@ Figure&nbsp;2: Elevation profile of the City to Sea Walkway shown at scale, and 
 <p>Next we convert the line segments to points half way along the segment length and add to each point its distance along the <code>city_to_sea</code> linestring.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>named_points <span class="ot">&lt;-</span> named_segments <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">geom =</span> <span class="fu">st_line_interpolate</span>(geom, <span class="fl">0.5</span>, <span class="at">normalized =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Distance =</span> <span class="fu">st_line_project</span>(city_to_sea<span class="sc">$</span>geom, geom))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">geom =</span> <span class="fu">st_line_interpolate</span>(geom, <span class="fl">0.5</span>, <span class="at">normalized =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">Distance =</span> <span class="fu">st_line_project</span>(city_to_sea<span class="sc">$</span>geom, geom)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And now, as before we find the elevation of each of these points. I also make a simple dataframe version of the data so we can plot the data based on the distance and elevation rather than the planimetric map coordinates.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>named_points <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  named_points, </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  named_points <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as</span>(<span class="st">"SpatVector"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    terra<span class="sc">::</span><span class="fu">extract</span>(<span class="at">x =</span> dem, <span class="at">method =</span> <span class="st">"bilinear"</span>, <span class="at">ID =</span> <span class="cn">FALSE</span>))</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>name_xys <span class="ot">&lt;-</span> named_points <span class="sc">|&gt;</span> </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y) <span class="sc">|&gt;</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(named_points <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    named_points,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    named_points <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as</span>(<span class="st">"SpatVector"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        terra<span class="sc">::</span><span class="fu">extract</span>(<span class="at">x =</span> dem, <span class="at">method =</span> <span class="st">"bilinear"</span>, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>name_xys <span class="ot">&lt;-</span> named_points <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y) <span class="sc">|&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_cols</span>(named_points <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And now we can make a labelled version of the elevation profile.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>g_profile_labelled <span class="ot">&lt;-</span> g_profile <span class="sc">+</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> name_xys, </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> Distance, <span class="at">y =</span> Elevation, <span class="at">label =</span> name),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">nudge_y =</span> <span class="dv">5</span>, </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_overlap =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">150</span>, <span class="dv">50</span>)) <span class="sc">+</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">8</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">350</span>)) <span class="sc">+</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.15</span>))</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>g_profile_labelled</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>g_profile_labelled <span class="ot">&lt;-</span> g_profile <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> name_xys,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> Distance, <span class="at">y =</span> Elevation, <span class="at">label =</span> name),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">nudge_y =</span> <span class="dv">5</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">check_overlap =</span> <span class="cn">TRUE</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">150</span>, <span class="dv">50</span>)) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">8</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">350</span>)) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.15</span>))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>g_profile_labelled</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-plot-labelled-profile" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -452,9 +456,9 @@ Figure&nbsp;3: The profile with labelled locations based on names of segments.
 <p>I could argue that this elevation profile is a map, but my heart wouldn’t really be in it. Instead, it’s fun to make a parallel map of the path, and roughly line the two up next to one another. Because the elevation profile is ‘landscape’ mode, I want the map to also be oriented with its long axis horizontal. Given the very strong north-south orientation of the walkway, it’s convenient to do this by a coordinate swap, so here is a function for that.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>switch_xy <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
-<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-3" class="code-annotation-target"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">z =</span> <span class="sc">-</span>y, <span class="at">y =</span> x, <span class="at">x =</span> z) <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-4" class="code-annotation-target"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>z)</span>
+<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>    df <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-3" class="code-annotation-target"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">z =</span> <span class="sc">-</span>y, <span class="at">y =</span> x, <span class="at">x =</span> z) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-4" class="code-annotation-target"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(<span class="sc">-</span>z)</span>
 <span id="annotated-cell-10-5"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
@@ -469,28 +473,28 @@ Figure&nbsp;3: The profile with labelled locations based on names of segments.
 </dl>
 </div>
 </div>
-<p>I explored doing this with an actual map projection or by faking a projection using matrix multiplication<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, but in the end decided it was easier just to convert my data to plain dataframes with <code>x</code> and <code>y</code> attributes and alter those as needed.</p>
+<p>I explored doing this with an actual map projection or by faking a projection using matrix multiplication,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> but in the end decided it was easier just to convert my data to plain dataframes with <code>x</code> and <code>y</code> attributes and alter those as needed.</p>
 <p>The 1m resolution DEM is more detail than we really need, so I aggregate it and make a hillshade, which, because I’m using <code>ggplot</code> for mapping I also convert into a simple dataframe, and switch the coordinates.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dem_x5 <span class="ot">&lt;-</span> dem <span class="sc">|&gt;</span> <span class="fu">aggregate</span>(<span class="dv">5</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>slope <span class="ot">&lt;-</span> dem_x5 <span class="sc">|&gt;</span> <span class="fu">terrain</span>(<span class="at">unit =</span> <span class="st">"radians"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>aspect <span class="ot">&lt;-</span> dem_x5 <span class="sc">|&gt;</span> <span class="fu">terrain</span>(<span class="at">v =</span> <span class="st">"aspect"</span>, <span class="at">unit =</span> <span class="st">"radians"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>hillshade <span class="ot">&lt;-</span> <span class="fu">shade</span>(slope, aspect, <span class="at">direction =</span> <span class="dv">225</span>) </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>hillshade <span class="ot">&lt;-</span> <span class="fu">shade</span>(slope, aspect, <span class="at">direction =</span> <span class="dv">225</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>hillshade_yx <span class="ot">&lt;-</span> hillshade <span class="sc">|&gt;</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="at">xy =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">switch_xy</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>(<span class="at">xy =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">switch_xy</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We also need the route and named points as dataframes, with coordinates swapped.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>name_yxs <span class="ot">&lt;-</span> name_xys <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">switch_xy</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">switch_xy</span>()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>city_to_sea_yx <span class="ot">&lt;-</span> city_to_sea <span class="sc">|&gt;</span> </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(X, Y) <span class="sc">|&gt;</span> </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y) <span class="sc">|&gt;</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">switch_xy</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>city_to_sea_yx <span class="ot">&lt;-</span> city_to_sea <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(X, Y) <span class="sc">|&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y) <span class="sc">|&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">switch_xy</span>()</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>xmin <span class="ot">&lt;-</span> <span class="fu">min</span>(hillshade_yx<span class="sc">$</span>x)</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>ymax <span class="ot">&lt;-</span> <span class="fu">max</span>(hillshade_yx<span class="sc">$</span>y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -498,36 +502,44 @@ Figure&nbsp;3: The profile with labelled locations based on names of segments.
 <p>And finally we can make the map with the elevation profile underneath. There’s a bit of fiddle here with positioning of annotations, and to make a north-arrow, something I am usually reluctant to provide, but which in this case, given the wilfull reorientation by 90° seems warranted.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-13"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-13-1"><a href="#annotated-cell-13-1" aria-hidden="true" tabindex="-1"></a>g_map <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="annotated-cell-13-2"><a href="#annotated-cell-13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>(</span>
-<span id="annotated-cell-13-3"><a href="#annotated-cell-13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> hillshade_yx,</span>
-<span id="annotated-cell-13-4"><a href="#annotated-cell-13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">fill =</span> hillshade), <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-13-5"><a href="#annotated-cell-13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous_c4a_seq</span>(<span class="at">palette =</span> <span class="st">"brewer.greens"</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-13-6"><a href="#annotated-cell-13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-13-7"><a href="#annotated-cell-13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">data =</span> city_to_sea_yx, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y),</span>
-<span id="annotated-cell-13-8"><a href="#annotated-cell-13-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-13-9"><a href="#annotated-cell-13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
-<span id="annotated-cell-13-10"><a href="#annotated-cell-13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> name_yxs, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> name),</span>
-<span id="annotated-cell-13-11"><a href="#annotated-cell-13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">hjust =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">15</span>), <span class="dv">0</span>), <span class="at">vjust =</span> <span class="fl">0.5</span>, </span>
-<span id="annotated-cell-13-12"><a href="#annotated-cell-13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">25</span>, <span class="sc">-</span><span class="dv">25</span>), <span class="dv">15</span>), <span class="dv">25</span>), <span class="at">check_overlap =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="1">1</button><span id="annotated-cell-13-13" class="code-annotation-target"><a href="#annotated-cell-13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"segment"</span>,</span>
-<span id="annotated-cell-13-14"><a href="#annotated-cell-13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> xmin <span class="sc">+</span> <span class="dv">250</span>, <span class="at">y =</span> ymax <span class="sc">+</span> <span class="dv">100</span>,</span>
-<span id="annotated-cell-13-15"><a href="#annotated-cell-13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">xend =</span> xmin <span class="sc">+</span> <span class="dv">150</span>, <span class="at">yend =</span> ymax <span class="sc">+</span> <span class="dv">100</span>,</span>
-<span id="annotated-cell-13-16"><a href="#annotated-cell-13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">type =</span> <span class="st">"closed"</span>,</span>
-<span id="annotated-cell-13-17"><a href="#annotated-cell-13-17" aria-hidden="true" tabindex="-1"></a>                  <span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"npc"</span>), <span class="at">angle =</span> <span class="dv">20</span>)) <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="2">2</button><span id="annotated-cell-13-18" class="code-annotation-target"><a href="#annotated-cell-13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
-<span id="annotated-cell-13-19"><a href="#annotated-cell-13-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> xmin <span class="sc">+</span> <span class="dv">80</span>, <span class="at">y =</span> ymax <span class="sc">+</span> <span class="dv">100</span>, <span class="at">label =</span> <span class="st">"N"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-13-20"><a href="#annotated-cell-13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>(<span class="at">ylim =</span> <span class="fu">range</span>(hillshade_yx<span class="sc">$</span>y) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">200</span>, <span class="dv">250</span>)) <span class="sc">+</span></span>
-<span id="annotated-cell-13-21"><a href="#annotated-cell-13-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Wellington's City to Sea Walkway"</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-13-22"><a href="#annotated-cell-13-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="annotated-cell-13-2"><a href="#annotated-cell-13-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_raster</span>(</span>
+<span id="annotated-cell-13-3"><a href="#annotated-cell-13-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> hillshade_yx,</span>
+<span id="annotated-cell-13-4"><a href="#annotated-cell-13-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">fill =</span> hillshade), <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="annotated-cell-13-5"><a href="#annotated-cell-13-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="annotated-cell-13-6"><a href="#annotated-cell-13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_continuous_c4a_seq</span>(<span class="at">palette =</span> <span class="st">"brewer.greens"</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-13-7"><a href="#annotated-cell-13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-13-8"><a href="#annotated-cell-13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_path</span>(</span>
+<span id="annotated-cell-13-9"><a href="#annotated-cell-13-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> city_to_sea_yx, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y),</span>
+<span id="annotated-cell-13-10"><a href="#annotated-cell-13-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">linetype =</span> <span class="st">"dashed"</span></span>
+<span id="annotated-cell-13-11"><a href="#annotated-cell-13-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="annotated-cell-13-12"><a href="#annotated-cell-13-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
+<span id="annotated-cell-13-13"><a href="#annotated-cell-13-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> name_yxs, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> name),</span>
+<span id="annotated-cell-13-14"><a href="#annotated-cell-13-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">hjust =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">15</span>), <span class="dv">0</span>), <span class="at">vjust =</span> <span class="fl">0.5</span>,</span>
+<span id="annotated-cell-13-15"><a href="#annotated-cell-13-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">nudge_y =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">25</span>, <span class="sc">-</span><span class="dv">25</span>), <span class="dv">15</span>), <span class="dv">25</span>), <span class="at">check_overlap =</span> <span class="cn">TRUE</span></span>
+<span id="annotated-cell-13-16"><a href="#annotated-cell-13-16" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="1">1</button><span id="annotated-cell-13-17" class="code-annotation-target"><a href="#annotated-cell-13-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"segment"</span>,</span>
+<span id="annotated-cell-13-18"><a href="#annotated-cell-13-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> xmin <span class="sc">+</span> <span class="dv">250</span>, <span class="at">y =</span> ymax <span class="sc">+</span> <span class="dv">100</span>,</span>
+<span id="annotated-cell-13-19"><a href="#annotated-cell-13-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">xend =</span> xmin <span class="sc">+</span> <span class="dv">150</span>, <span class="at">yend =</span> ymax <span class="sc">+</span> <span class="dv">100</span>,</span>
+<span id="annotated-cell-13-20"><a href="#annotated-cell-13-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">arrow =</span> <span class="fu">arrow</span>(</span>
+<span id="annotated-cell-13-21"><a href="#annotated-cell-13-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">type =</span> <span class="st">"closed"</span>,</span>
+<span id="annotated-cell-13-22"><a href="#annotated-cell-13-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"npc"</span>), <span class="at">angle =</span> <span class="dv">20</span></span>
+<span id="annotated-cell-13-23"><a href="#annotated-cell-13-23" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="annotated-cell-13-24"><a href="#annotated-cell-13-24" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="2">2</button><span id="annotated-cell-13-25" class="code-annotation-target"><a href="#annotated-cell-13-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
+<span id="annotated-cell-13-26"><a href="#annotated-cell-13-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> xmin <span class="sc">+</span> <span class="dv">80</span>, <span class="at">y =</span> ymax <span class="sc">+</span> <span class="dv">100</span>, <span class="at">label =</span> <span class="st">"N"</span>, <span class="at">size =</span> <span class="dv">5</span></span>
+<span id="annotated-cell-13-27"><a href="#annotated-cell-13-27" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="annotated-cell-13-28"><a href="#annotated-cell-13-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_equal</span>(<span class="at">ylim =</span> <span class="fu">range</span>(hillshade_yx<span class="sc">$</span>y) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">200</span>, <span class="dv">250</span>)) <span class="sc">+</span></span>
+<span id="annotated-cell-13-29"><a href="#annotated-cell-13-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Wellington's City to Sea Walkway"</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-13-30"><a href="#annotated-cell-13-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="13" data-code-annotation="1">A home-made north arrow.</span>
+<span data-code-cell="annotated-cell-13" data-code-lines="17" data-code-annotation="1">A home-made north arrow.</span>
 </dd>
 <dt data-target-cell="annotated-cell-13" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="18" data-code-annotation="2">And the necessary ‘N’.</span>
+<span data-code-cell="annotated-cell-13" data-code-lines="25" data-code-annotation="2">And the necessary ‘N’.</span>
 </dd>
 </dl>
 </div>
@@ -536,8 +548,8 @@ Figure&nbsp;3: The profile with labelled locations based on names of segments.
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(g_map <span class="sc">/</span> g_profile_labelled) <span class="sc">+</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(g_map <span class="sc">/</span> g_profile_labelled) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-combined-map-and-profile" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -553,7 +565,7 @@ Figure&nbsp;4: Roughly aligned map and elevation profile of the route.
 </div>
 </div>
 <p>They’re not entirely aligned, but then again, a precise alignment is impossible since the path is twisty and therefore non-uniform in terms of the relationship between progress from city (in the north) to sea (in the south) versus elapsed distance along the path.</p>
-<p>A more annoying issue is that because the labels are placed differently in each representation the <code>check_overlap</code> filter in each plot has chosen a different set of labels to keep. A better approach might would likely be to hand pick the labels to include, and ensure that all of the selected labels appear in both plots. That wouldn’t be too hard to arrange, but I’m happy enough with this version and will leave it as is.</p>
+<p>A more annoying issue is that because the labels are placed differently in each representation the <code>check_overlap</code> filter in each plot has chosen a different set of labels to keep. A better approach might be to hand pick the labels to include, and ensure that all of the selected labels appear in both plots. That wouldn’t be too hard to arrange, but I’m happy enough with this version and will leave it as is.</p>
 </section>
 <section id="addendum-making-a-linestring-from-messier-data" class="level2">
 <h2 class="anchored" data-anchor-id="addendum-making-a-linestring-from-messier-data">Addendum: making a linestring from messier data</h2>
@@ -562,16 +574,16 @@ Figure&nbsp;4: Roughly aligned map and elevation profile of the route.
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>segments_2 <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"city-to-sea-segments.gpkg"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">2193</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_cast</span>(<span class="st">"LINESTRING"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_transform</span>(<span class="dv">2193</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_cast</span>(<span class="st">"LINESTRING"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>This dataset <em>doesn’t</em> play ball when I try to combine it into a single linestring using <code>st_line_merge</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>segments_2 <span class="sc">|&gt;</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_union</span>() <span class="sc">|&gt;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_line_merge</span>() <span class="sc">|&gt;</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_cast</span>(<span class="st">"LINESTRING"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>segments_2 <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_union</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_line_merge</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_cast</span>(<span class="st">"LINESTRING"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Geometry set for 5 features 
 Geometry type: LINESTRING
@@ -583,10 +595,10 @@ Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 <p>We don’t get a single linestring; instead we get five. The reason is that this dataset has a couple of small branch sections. We can detect these by counting how many other segments each segment touches.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>connections <span class="ot">&lt;-</span> segments_2 <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_touches</span>(<span class="at">remove_self =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_touches</span>(<span class="at">remove_self =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>n_connections <span class="ot">&lt;-</span> connections <span class="sc">|&gt;</span> </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lengths</span>()</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>n_connections <span class="ot">&lt;-</span> connections <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lengths</span>()</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(n_connections)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -598,14 +610,14 @@ Projected CRS: NZGD2000 / New Zealand Transverse Mercator 2000</code></pre>
 <p>If the collection of linestrings formed a single linear chain, we’d expect there to be no linestrings that touch three others, and only two (one at the start, and one at the end) that touch only one other. We can map this (although you’ll have to squint to see the ‘spurs’ or ‘on-ramp’ segments, that are causing the problem—click on the map for a closer look).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>segments <span class="ot">&lt;-</span> segments_2 <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">data.frame</span>(<span class="at">L1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">143</span>, <span class="at">n =</span> <span class="fu">as.factor</span>(n_connections)))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(<span class="fu">data.frame</span>(<span class="at">L1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">143</span>, <span class="at">n =</span> <span class="fu">as.factor</span>(n_connections)))</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(segments) <span class="sc">+</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="sc">-</span>Y, <span class="at">y =</span> X, <span class="at">group =</span> L1, <span class="at">colour =</span> n)) <span class="sc">+</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"grey"</span>, <span class="st">"dodgerblue"</span>)) <span class="sc">+</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="sc">-</span>Y, <span class="at">y =</span> X, <span class="at">group =</span> L1, <span class="at">colour =</span> n)) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"grey"</span>, <span class="st">"dodgerblue"</span>)) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-show-n-connections" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -621,9 +633,9 @@ Figure&nbsp;5: A map showing the ‘rogue’ segments
 </div>
 <p>To piece together a maximal single linear route in this case we can proceed as follows. First, determine which segments in the route touch, and use those relations to build a graph.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> segments_2 <span class="sc">|&gt;</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_touches</span>(<span class="at">sparse =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">graph_from_adjacency_matrix</span>(<span class="at">mode =</span> <span class="st">"undirected"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> segments_2 <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_touches</span>(<span class="at">sparse =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">graph_from_adjacency_matrix</span>(<span class="at">mode =</span> <span class="st">"undirected"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now, find the longest shortest path in the graph (in graph terms, its <a href="https://en.wikipedia.org/wiki/Diameter_(graph_theory)"><em>diameter</em></a>). This connects the most remote ends of the graph, which we assume will give us appropriate start and end points for the whole of the City to Sea Walkway.</p>
 <div class="cell">
@@ -638,25 +650,28 @@ Figure&nbsp;5: A map showing the ‘rogue’ segments
 <p>Now, we get the shortest path, i.e.&nbsp;the list of segments between those two end segments…</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>route <span class="ot">&lt;-</span> <span class="fu">shortest_paths</span>(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    G, start_finish[<span class="dv">1</span>], start_finish[<span class="dv">2</span>])<span class="sc">$</span>vpath <span class="sc">|&gt;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    G, start_finish[<span class="dv">1</span>], start_finish[<span class="dv">2</span>]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>vpath <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unlist</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>… and then use that list of segments to slice the <code>named_segments</code> dataset and assemble the route using <code>st_line_merge</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>city_to_sea_2 <span class="ot">&lt;-</span> segments_2 <span class="sc">|&gt;</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(route) <span class="sc">|&gt;</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_union</span>() <span class="sc">|&gt;</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_line_merge</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice</span>(route) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_union</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_line_merge</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And here’s a very quick and dirty map to check we successfully extracted the ‘trunk’ of the walkway.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">data =</span> city_to_sea_2 <span class="sc">|&gt;</span> <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span> <span class="fu">data.frame</span>(),</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">y =</span> X, <span class="at">x =</span> <span class="sc">-</span>Y)) <span class="sc">+</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_path</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> city_to_sea_2 <span class="sc">|&gt;</span> <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span> <span class="fu">data.frame</span>(),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">y =</span> X, <span class="at">x =</span> <span class="sc">-</span>Y)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-map-of-route" class="quarto-float quarto-figure quarto-figure-center anchored">
