@@ -62,32 +62,32 @@ To illustrate my approach, I've made a single circular contour, and two copies, 
 
 ```{r}
 #| label: make-circles
-circle <- st_point(c(0, 0)) |> 
-  st_sfc() |> 
-  data.frame() |>
-  st_as_sf(crs = 2193) |>
-  st_buffer(1000)
-  
-circle_se <- circle |> 
-  mutate(geometry = geometry + c(50, -50)) |>
-  st_set_crs(st_crs(circle))
-  
-circle_nw <- circle |> 
-  mutate(geometry = geometry + c(-50, 50)) |>
-  st_set_crs(st_crs(circle))
+circle <- st_point(c(0, 0)) |>
+    st_sfc() |>
+    data.frame() |>
+    st_as_sf(crs = 2193) |>
+    st_buffer(1000)
+
+circle_se <- circle |>
+    mutate(geometry = geometry + c(50, -50)) |>
+    st_set_crs(st_crs(circle))
+
+circle_nw <- circle |>
+    mutate(geometry = geometry + c(-50, 50)) |>
+    st_set_crs(st_crs(circle))
 ```
 
-Now, layer them on top of one another southeast, centred, and northwest, in that order, coloured black, grey, and white, respectively.
+Now, layer them on top of one another southeast, northwest, and centred in that order, coloured black, white, and grey respectively.
 
 ```{r}
 #| label: fig-circles-on-top-of-one-another
 #| fig-cap: "A single illuminated contour showing the principle behing the method: this contour is illuminated from the northwest"
 ggplot() +
-  geom_sf(data = circle_se, fill = "black", colour = NA) +
-  geom_sf(data = circle_nw, fill = "white", colour = NA) +
-  geom_sf(data = circle, fill = "grey", colour = NA) +
-  theme_void() +
-  theme(panel.background = element_rect(fill = "darkgrey", colour = NA))
+    geom_sf(data = circle_se, fill = "black", colour = NA) +
+    geom_sf(data = circle_nw, fill = "white", colour = NA) +
+    geom_sf(data = circle, fill = "grey", colour = NA) +
+    theme_void() +
+    theme(panel.background = element_rect(fill = "darkgrey", colour = NA))
 ```
 
 The effect is striking and in this crude implementation not at all hard to code. I say crude not because this approach is inaccurate but because more recent work has suggested further refinements of the method such that either the colour or thickness of contour lines varies with their facing towards the light source.^[Kenelly P and AJ Kimerling. 2001. [Modifications of Tanaka’s illuminated contour method](https://dx.doi.org/10.1559/152304001782173709). _Cartography and Geographic Information Science **28**(2) 111-123.] In terms of Tanaka's original suggestion my simple approach produces lines of the correct thickness, in this fixed case for a light source from the northwest.
@@ -102,15 +102,15 @@ First, it's convenient to generate from a DEM a set of evenly spaced contour lev
 round_to_nearest <- function(x, y) round(x / y) * y
 
 contour_levels <- function(dem, interval) {
-  range_z <- range(values(dem), na.rm = TRUE) |> round_to_nearest(interval)
-  seq(range_z[1]- interval, range_z[2] + interval, interval)
+    range_z <- range(values(dem), na.rm = TRUE) |> round_to_nearest(interval)
+    seq(range_z[1] - interval, range_z[2] + interval, interval)
 }
 
 get_contour_polygons <- function(dem, levels) {
-  dem |> 
-    st_as_stars() |> 
-    st_contour(breaks = levels) |>
-    st_as_sf()
+    dem |>
+        st_as_stars() |>
+        st_contour(breaks = levels) |>
+        st_as_sf()
 }
 ```
 
@@ -119,9 +119,9 @@ Next a function to shift supplied contour polygons by some x and y offsets. This
 ```{r}
 #| label: function-to-shift-polygons
 offset_shapes <- function(shapes, dx, dy) {
-  shapes |>
-    mutate(geometry = geometry + c(dx, dy)) |>
-    st_set_crs(st_crs(shapes))
+    shapes |>
+        mutate(geometry = geometry + c(dx, dy)) |>
+        st_set_crs(st_crs(shapes))
 }
 ```
 
@@ -133,27 +133,27 @@ The addition of `layer` and `group` attributes to the data enables the rendering
 #| label: function-to-make-map
 my_tanaka_contours <- function(dem, interval, thickness, direction = 135,
                                colour = "grey", light = "white", dark = "black") {
-  levels <- contour_levels(dem, interval)
-  contours <- get_contour_polygons(dem, levels) |> 
-    mutate(layer = 3)
-  angle <- direction * pi / 180
-  dx <- cos(angle) * thickness
-  dy <- sin(angle) * thickness
-  contours_light <- contours |> 
-    offset_shapes(dx, dy) |> 
-    mutate(layer = 2)
-  contours_dark <- contours |> 
-    offset_shapes(-dx, -dy) |> 
-    mutate(layer = 1)
-  all_contours <- bind_rows(contours, contours_light, contours_dark) |>
-    mutate(layer = ordered(layer, levels = 1:3), group = 0) |>
-    arrange(Min, layer)
-  ggplot(all_contours) +
-    geom_sf(aes(fill = layer, group = group), colour = NA) +
-    scale_fill_manual(values = c(dark, light, colour)) +
-    guides(fill = "none") +
-    coord_sf(expand = FALSE) + 
-    theme_void()
+    levels <- contour_levels(dem, interval)
+    contours <- get_contour_polygons(dem, levels) |>
+        mutate(layer = 3)
+    angle <- direction * pi / 180
+    dx <- cos(angle) * thickness
+    dy <- sin(angle) * thickness
+    contours_light <- contours |>
+        offset_shapes(dx, dy) |>
+        mutate(layer = 2)
+    contours_dark <- contours |>
+        offset_shapes(-dx, -dy) |>
+        mutate(layer = 1)
+    all_contours <- bind_rows(contours, contours_light, contours_dark) |>
+        mutate(layer = ordered(layer, levels = 1:3), group = 0) |>
+        arrange(Min, layer)
+    ggplot(all_contours) +
+        geom_sf(aes(fill = layer, group = group), colour = NA) +
+        scale_fill_manual(values = c(dark, light, colour)) +
+        guides(fill = "none") +
+        coord_sf(expand = FALSE) +
+        theme_void()
 }
 ```
 
@@ -171,9 +171,9 @@ The raw data is in an equirectangular cylindrical coordinate reference system, w
 #| label: reproject-mars-dem
 #| output: false
 proj <- "+proj=merc +lat_0=-31.46 +lon_0=-22.9 +k=1 +R=3396190 +units=m"
-dem <- dem_raw |> 
-  project(proj) |>
-  terra::aggregate(5)
+dem <- dem_raw |>
+    project(proj) |>
+    terra::aggregate(5)
 names(dem) <- "z"
 ```
 
@@ -185,8 +185,10 @@ And so to a couple of maps. I've tried one using the default grey-black-white co
 #| fig-width: 12
 #| fig-height: 10
 g1 <- my_tanaka_contours(dem, 20, 20)
-g2 <- my_tanaka_contours(dem, 20, 20, colour = "#ff9020",
-                         light = "#f8e078", dark = "#B04030")
+g2 <- my_tanaka_contours(dem, 20, 20,
+    colour = "#ff9020",
+    light = "#f8e078", dark = "#B04030"
+)
 g1 | g2
 ```
 
@@ -201,15 +203,16 @@ I didn't follow my own advice here and went ahead and wrote my own code before c
 library(metR)
 
 dem_xy <- dem |>
-  as.data.frame(xy = TRUE)
+    as.data.frame(xy = TRUE)
 
-ggplot(dem_xy) + 
-  geom_raster(aes(x = x, y = y), fill = "grey") +
-  geom_contour_tanaka(
-    aes(x = x, y = y, z = z),
-    binwidth = 20, sun.angle = 45) + 
-  coord_equal() + 
-  theme_void() 
+ggplot(dem_xy) +
+    geom_raster(aes(x = x, y = y), fill = "grey") +
+    geom_contour_tanaka(
+        aes(x = x, y = y, z = z),
+        binwidth = 20, sun.angle = 45
+    ) +
+    coord_equal() +
+    theme_void()
 ```
 
 What's nice about this package is that I can also colour the contours using a hypsometric colour ramp. After some experimentation (see the commented out alternatives), I decided the `hcl.heat2` ramp was the most 'Martian-looking'.
@@ -219,18 +222,19 @@ What's nice about this package is that I can also colour the contours using a hy
 #| fig-cap: A Tanaka contour map using `metR` with the contour intervals hypsometrcally coloured
 #| fig-width: 8
 #| fig-height: 11
-ggplot(dem_xy) + 
-  geom_raster(aes(x = x, y = y, fill = z)) +
-  scale_fill_continuous_c4a_seq(palette = "hcl.heat2") +
-  # scale_fill_continuous_c4a_seq(palette = "hcl.terrain2") +
-  # scale_fill_continuous_c4a_seq(palette = "-tableau.orange") +
-  # scale_fill_continuous_c4a_seq(palette = "met.greek") +
-  guides(fill = "none") +
-  geom_contour_tanaka(
-    aes(x = x, y = y, z = z), 
-    binwidth = 20, sun.angle = 45) + 
-  coord_equal() + 
-  theme_void()
+ggplot(dem_xy) +
+    geom_raster(aes(x = x, y = y, fill = z)) +
+    scale_fill_continuous_c4a_seq(palette = "hcl.heat2") +
+    # scale_fill_continuous_c4a_seq(palette = "hcl.terrain2") +
+    # scale_fill_continuous_c4a_seq(palette = "-tableau.orange") +
+    # scale_fill_continuous_c4a_seq(palette = "met.greek") +
+    guides(fill = "none") +
+    geom_contour_tanaka(
+        aes(x = x, y = y, z = z),
+        binwidth = 20, sun.angle = 45
+    ) +
+    coord_equal() +
+    theme_void()
 ```
 
 The `tanaka` package functions can also do this, although the API in that case is less clean.
@@ -249,16 +253,17 @@ The colours I've used are from memory and I know my choices were rather bold. Ke
 #| fig-height: 11
 #| code-fold: true
 donegal <- rast("sheephaven.tif") |>
-  as.data.frame(xy = TRUE)
+    as.data.frame(xy = TRUE)
 
 ggplot(donegal) +
-  geom_raster(aes(x = x, y = y), fill = "#209030") +
-  geom_contour_tanaka(aes(x = x, y = y, z = donegal), binwidth = 50,
-                      sun.angle = 45) +
-  coord_sf(expand = FALSE) +
-  theme_void() +
-  theme(panel.background = element_rect(fill = "#3090e0"))
-
+    geom_raster(aes(x = x, y = y), fill = "#209030") +
+    geom_contour_tanaka(aes(x = x, y = y, z = donegal),
+        binwidth = 50,
+        sun.angle = 45
+    ) +
+    coord_sf(expand = FALSE) +
+    theme_void() +
+    theme(panel.background = element_rect(fill = "#3090e0"))
 ```
 
 The challenge of illuminated contours is finding a base colour that allows both the light and dark contours to show up well, and I recall experimenting endlessly with that in this design, every time having to print it out to figure out if it was working or not.
@@ -272,12 +277,14 @@ I can't help but wonder if I'd been able to hypsometrically tint my contours bac
 #| fig-height: 11
 #| code-fold: true
 ggplot(donegal) +
-  geom_raster(aes(x = x, y = y, fill = donegal)) +
-  scale_fill_continuous_c4a_seq(palette = "hcl.terrain2") +
-  guides(fill = "none") +
-  geom_contour_tanaka(aes(x = x, y = y, z = donegal), binwidth = 50,
-                      sun.angle = 45) +
-  coord_sf(expand = FALSE) +
-  theme_void() +
-  theme(panel.background = element_rect(fill = "#3090e0"))
+    geom_raster(aes(x = x, y = y, fill = donegal)) +
+    scale_fill_continuous_c4a_seq(palette = "hcl.terrain2") +
+    guides(fill = "none") +
+    geom_contour_tanaka(aes(x = x, y = y, z = donegal),
+        binwidth = 50,
+        sun.angle = 45
+    ) +
+    coord_sf(expand = FALSE) +
+    theme_void() +
+    theme(panel.background = element_rect(fill = "#3090e0"))
 ```
