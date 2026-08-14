@@ -243,7 +243,7 @@ This sort of things makes one contemplate ones life choices. Or at any rate refl
 
 Python's `requests`, `BeautifulSoup`, `json` combo is pretty amazing for pulling the data. Python's general purpose lists, dictionaries, named tuples are much easier to deal with than always trying to make things work as dataframe pipelines in R. I _know_ you can write functions in R too, it's just that somehow the pipeline mindset takes over and you find yourself puzzling out how to do things using tables when a dictionary makes it trivial. 
 
-By the same token, I don't know if I will ever get completely comfortable with `pandas` rather oblique subsetting and data transformation methods compared to tidyverse R's `dplyr` pipelines, but saying that, splitting strings (the paint names) to remove the paint modifier suffixes was easier in Python that using tidyverse's `separate_wider`. 
+By the same token, I don't know if I will ever get completely comfortable with `pandas` rather oblique subsetting and data transformation methods compared to tidyverse R's `dplyr` pipelines, but saying that, splitting strings (the paint names) to remove the paint modifier suffixes was easier in Python than using tidyverse's `separate_wider`. 
 
 I enjoyed using `namedtuples` here in the geocoding step to make the code a little clearer, although it may be overkill where a small table like this is involved. It's never a bad thing to extend your use of language features like this.
 
