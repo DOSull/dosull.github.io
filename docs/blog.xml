@@ -10,7 +10,19 @@
 <atom:link href="https://geospatialstuff.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Wed, 22 Jul 2026 12:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 16 Aug 2026 12:00:00 GMT</lastBuildDate>
+<item>
+  <title>The works of François Morellet</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://geospatialstuff.com/posts/2026/08/17/</link>
+  <description><![CDATA[ A digression from spatial processes into generative art ]]></description>
+  <category>geospatial</category>
+  <category>R</category>
+  <category>tutorial</category>
+  <category>stuff</category>
+  <guid>https://geospatialstuff.com/posts/2026/08/17/</guid>
+  <pubDate>Sun, 16 Aug 2026 12:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Te reo and English names for rivers</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -250,19 +262,6 @@
   <guid>https://geospatialstuff.com/posts/2025/10/14/gia-chapter-1B-part-3C/</guid>
   <pubDate>Mon, 13 Oct 2025 11:00:00 GMT</pubDate>
   <media:content url="https://geospatialstuff.com/posts/2025/10/14/gia-chapter-1B-part-3C/fig-pycno-map-1.png" medium="image" type="image/png" height="108" width="144"/>
-</item>
-<item>
-  <title>GIS, a transformational approach</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://geospatialstuff.com/posts/2025/10/05/gia-chapter-1B-part-3B/</link>
-  <description><![CDATA[ Fifth in a series of posts supporting Geographic Information Analysis ]]></description>
-  <category>geographic information analysis</category>
-  <category>transformational approach</category>
-  <category>geospatial</category>
-  <category>R</category>
-  <category>tutorial</category>
-  <guid>https://geospatialstuff.com/posts/2025/10/05/gia-chapter-1B-part-3B/</guid>
-  <pubDate>Sat, 04 Oct 2025 11:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

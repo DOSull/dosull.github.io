@@ -1,0 +1,246 @@
+---
+title: "The works of François Morellet"
+subtitle: "Some of them, in R"
+description: "A digression from spatial processes into generative art"
+from: markdown + emoji
+author: "David O'Sullivan"
+toc: true
+lightbox: 
+  match: auto
+code-fold: show
+code-annotations: hover
+categories:
+  - geospatial
+  - R
+  - tutorial
+  - stuff
+execute: 
+  cache: true
+  freeze: auto
+knitr: 
+  opts_chunk:
+    warning: false
+    message: false
+date: 08-17-2026
+---
+
+```{r}
+#| label: imports
+#| output: false
+#| code-fold: true
+library(sf)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+
+sf_use_s2(FALSE)
+```
+
+I've not posted much this year by comparison with last, and have come to the conclusion that I was posting too often for it to be sustainable. 
+
+This post is a palette cleanser before getting back into the habit at a more sustainable pace. So, "who is Francois Morellet?" I hear you ask. I'll save you the trouble of checking out the [Wikipedia entry](https://en.wikipedia.org/wiki/Fran%C3%A7ois_Morellet), which has this to say:
+
+> François Morellet (30 April 1926 – 10 May 2016) was a French contemporary abstract painter, sculptor, and light artist. His early work prefigured minimal art and conceptual art and he played a prominent role in the development of geometrical abstract art and post-conceptual art. There's much more at [his website](https://francoismorellet.com/), where the breadth of his work over a long career is apparent, although you'll have to visit [his instagram](https://www.instagram.com/francois.morellet/) for more pretty pictures.
+
+What's this got to do with geospatial stuff? Well, for several years, I would use the work [_Random Distribution of 40,000 Squares Using the Odd and Even Numbers of a Telephone Directory, 50% Blue, 50% Red_](https://www.moma.org/collection/works/105479) as my beginner example of a spatial process. The Museum of Modern Art description spells it out:
+
+> For this work, he divided the canvas into a grid of forty thousand squares, then instructed his wife or his sons to read numbers from the phone book out loud. Moving from the top left corner of the canvas to the bottom right, he marked a square for each even number and skipped a square for each odd one. Upon reaching the end, he colored the marked squares blue and the blank ones red.
+
+A spatial process no less! As is often the case with this sort of thing, the indication in the title that half the squares are blue and half are red leaves the exact method of construction a little unclear. But it's easy to make a version in R:
+
+```{r}
+#| label: fig-40000-numbers-from-the-phonebook
+#| fig-cap: A version of _Random Distribution of 40,000 Squares Using the Odd and Even Numbers of a Telephone Directory, 50% Blue, 50% Red_
+#| fig-width: 7
+#| fig-height: 7
+two_states <- expand_grid(x = 1:200, y = 1:200) |>
+  mutate(colour = rep(c(TRUE, FALSE), 20000) |> sample(40000))
+
+ggplot(two_states) +
+  geom_raster(aes(x = x, y = y, fill = colour)) +
+  scale_fill_manual(values = c("#ff3333", "#3333ff")) +
+  coord_equal(expand = FALSE) +
+  guides(fill = "none") +
+  theme_void()
+```
+
+And so it begins... I was revisiting this example, as I started to put together a post on spatial processes for my stalled [series of posts on materials supporting _Geographic Information Analysis_](https://geospatialstuff.com/gia-support.html) a François Morellet rabbit hole opened up before me, and I jumped in. There follow four more works by the great man, rendered in R.
+
+## Some helper functions
+In what follows we use simple `sf` shapes and rotations and translations of them, so some helper functions for making and manipulating them are useful.
+
+```{r}
+#| label: helper-functions
+get_square <- function() {
+  st_polygon(list(matrix(
+    c(-1, 1, 1, -1, -1, -1, -1, 1, 1, -1) * 0.5,
+    ncol = 2
+  )))
+}
+
+get_rectangle <- function(width, height) {
+  get_square() * matrix(c(width, 0, 0, height), 2, 2)
+}
+
+rotate_shape <- function(s, angle) {
+  a <- -pi / 180 * angle
+  s * matrix(c(cos(a), sin(a), -sin(a), cos(a)), 2, 2)
+}
+
+translate_shape <- function(s, dx, dy) {
+  s + c(dx, dy)
+}
+
+get_l_shape <- function(size = 100) {
+  st_linestring(matrix(c(size, 0, 0, 0, 0, size), ncol = 2))
+}
+```
+
+## Four prints from _Album de 10 sérigraphies sur 10 ans_
+### _16 Carrés_
+Although the title of [this work](https://en.wikipedia.org/wiki/Fran%C3%A7ois_Morellet#/media/File:Album_de_10_s%C3%A9rigraphies_sur_10_ans_08.jpg) in English is _16 Squares_ it is more conveniently produced using `geom_hline` and `geom_vline`:
+
+```{r}
+#| label: fig-16-carrees
+#| fig-cap: A version of _16 Carrées_
+#| fig-width: 7
+#| fig-height: 7
+ggplot() +
+  geom_hline(aes(yintercept = 1:3), lwd = 0.75) +
+  geom_vline(aes(xintercept = 1:3), lwd = 0.75) +
+  coord_equal(
+    xlim = c(0, 4),
+    ylim = c(0, 4), expand = FALSE
+  ) +
+  theme_void()
+```
+
+### Title uncertain: 34 lines or rectangles?
+[This one](https://commons.wikimedia.org/wiki/File:Album_de_10_s%C3%A9rigraphies_sur_10_ans_09.jpg) might also be realised using `geom_hline` like this:
+
+```{r}
+#| label: fig-34-lines
+#| fig-cap: _34 Lines_
+#| fig-width: 7
+#| fig-height: 7
+ggplot() +
+  geom_hline(aes(yintercept = 0:33 - 16.5),
+    colour = "dodgerblue3", lwd = 2.4
+  ) +
+  coord_equal(
+    xlim = c(-17, 17),
+    ylim = c(-17, 17), expand = FALSE
+  ) +
+  theme_void() +
+  theme(
+    panel.background = element_rect(fill = "lightgrey", colour = NA)
+  )
+```
+
+But given the thickness of the 'lines' perhaps they are better considered rectangles.
+
+```{r}
+#| label: fig-34-rectangles
+#| fig-cap: _34 Rectangles_
+#| fig-width: 7
+#| fig-height: 7
+s <- get_rectangle(33, 0.45)
+rectangles <- list()
+for (i in 1:34) {
+  rectangles[[i]] <- translate_shape(s, 0, i - 17.5)
+}
+rectangles <- rectangles |>
+  st_as_sfc() |>
+  data.frame() |>
+  st_sf()
+
+ggplot() +
+  geom_sf(
+    data = rectangles,
+    fill = "dodgerblue3", colour = NA
+  ) +
+  coord_sf(
+    xlim = c(-17, 17),
+    ylim = c(-17, 17), expand = FALSE
+  ) +
+  theme_void() +
+  theme(
+    panel.background = element_rect(fill = "lightgrey", colour = NA)
+  )
+```
+
+### Title uncertain: 32 right angles?
+[This work]() seems to be most easily realised as a set of right-angle L shapes rotated and translated appropriately.
+
+```{r}
+#| label: fig-32-l-shapes
+#| fig-cap: _32 Right Angles_
+#| fig-width: 7
+#| fig-height: 7
+L1 <- get_l_shape() |> rotate_shape(-45)
+L2 <- rotate_shape(L1, 90)
+L3 <- rotate_shape(L2, 90)
+L4 <- rotate_shape(L3, 90)
+l_shapes <- list()
+for (d in 0.25 + (0:7) / 2) {
+  l_shapes[[length(l_shapes) + 1]] <- translate_shape(L1, d, 0)
+  l_shapes[[length(l_shapes) + 1]] <- translate_shape(L2, 0, d)
+  l_shapes[[length(l_shapes) + 1]] <- translate_shape(L3, -d, 0)
+  l_shapes[[length(l_shapes) + 1]] <- translate_shape(L4, 0, -d)
+}
+lims <- c(-4, 4)
+l_shapes <- l_shapes |>
+  st_as_sfc() |>
+  data.frame() |>
+  st_sf() |>
+  st_intersection(get_square() * lims[2] * 2)
+
+ggplot() +
+  geom_sf(data = l_shapes, fill = NA, colour = "black") +
+  coord_sf(xlim = c(-4, 4), ylim = c(-4, 4), expand = FALSE) +
+  theme_void()
+```
+
+### Title uncertain: red roof contours?
+Finally, and most interesting, I think, (shades of [Bridget Riley](https://www.wikiart.org/en/bridget-riley) in the way it messes with the flatness of the plane) is [this work](). Red roof contours might not be quite right, but it feels like it _could_ be.
+
+I initially made this by buffering a bunch of squares, and moving them around as required, but on reflection, a cleaner method is based again on L shapes. It was tricky to position the squares correctly to get the vertical offset between the two sides of the picture. This became a lot easier using L shapes.
+
+```{r}
+#| label: fig-red-squares
+#| fig-cap: _Red Roof Contours_
+#| fig-width: 7
+#| fig-height: 7
+offset <- 20
+lims <- c(-1, 1) * (3 * offset + 0.1)
+spacing <- 2
+
+L1 <- get_l_shape() |>
+  translate_shape(0, offset)
+L2 <- get_l_shape() |>
+  rotate_shape(-90) |>
+  translate_shape(0, offset)
+
+l_shapes <- list(L2)
+for (i in 1:100) {
+  l_shapes[[length(l_shapes) + 1]] <-
+    translate_shape(L1, spacing * i, spacing * i)
+  l_shapes[[length(l_shapes) + 1]] <-
+    translate_shape(L2, spacing * i, -spacing * i)
+}
+l_shapes_2 <- lapply(l_shapes, rotate_shape, angle = 180)
+
+l_shapes <- l_shapes |>
+  append(l_shapes_2) |>
+  st_as_sfc() |>
+  data.frame() |>
+  st_sf() |>
+  st_intersection(get_square() * lims[2] * 2)
+
+ggplot() +
+  geom_sf(data = l_shapes, fill = NA, colour = "red", lwd = spacing) +
+  coord_sf(xlim = lims, ylim = lims, expand = FALSE) +
+  theme_void()
+```
+
+This has been fun, if not especially productive. Definitely a theme worth returning.
