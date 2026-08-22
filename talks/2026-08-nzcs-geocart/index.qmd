@@ -260,7 +260,7 @@ madagascator <- World |>
 
 
 
-# Lesson learned
+# Lessons learned
 
 ##
 ### Sometimes, you need a drawing package
