@@ -293,7 +293,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#code-code-code-so-much-code" id="toc-code-code-code-so-much-code" class="nav-link active" data-scroll-target="#code-code-code-so-much-code">Code, code, code… so much code</a></li>
-  <li><a href="#mappinmg-magnetic-declination" id="toc-mappinmg-magnetic-declination" class="nav-link" data-scroll-target="#mappinmg-magnetic-declination">Mappinmg magnetic declination</a></li>
+  <li><a href="#mapping-magnetic-declination" id="toc-mapping-magnetic-declination" class="nav-link" data-scroll-target="#mapping-magnetic-declination">Mapping magnetic declination</a></li>
   <li><a href="#imagine-doing-this-with-actual-maps" id="toc-imagine-doing-this-with-actual-maps" class="nav-link" data-scroll-target="#imagine-doing-this-with-actual-maps">Imagine doing this with actual maps</a>
   <ul class="collapse">
   <li><a href="#rotate-the-map-sheets" id="toc-rotate-the-map-sheets" class="nav-link" data-scroll-target="#rotate-the-map-sheets">Rotate the map sheets</a></li>
@@ -363,15 +363,16 @@ Figure&nbsp;1: alt-text: ‘The zero line in WMM2025 passes through a lot of pop
 <p>But beware: here be dragons… and you are on your own figuring out what the heck is going on. Suffice to say, I’ve become more comfortable with R’s matrices and situations where base R’s vectors, matrices, and lists might be preferable to the tidyverse’s more or less exclusive focus on tabular data. I also realised after a while that working in Python might have been a better choice once things got messy.</p>
 <p>With all that code glossed over, and set to one side we can get into the ahem… serious business of replicating the zero declination map projection.</p>
 </section>
-<section id="mappinmg-magnetic-declination" class="level2">
-<h2 class="anchored" data-anchor-id="mappinmg-magnetic-declination">Mappinmg magnetic declination</h2>
+<section id="mapping-magnetic-declination" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-magnetic-declination">Mapping magnetic declination</h2>
 <p>Before doing so, it’s good to get a handle on the problem. First up a map of magnetic declination. This makes use of a <code>get_point_grid()</code> function in the aforementioned source file. That function makes a point grid and also retrieves the declination values at each lat-lon location using the <a href="https://www.rdocumentation.org/packages/igrf/versions/2.0/topics/igrf"><code>igrf::igrf()</code></a> function. Here’s a snippet of what the resulting data look like.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>xsteps <span class="ot">&lt;-</span> <span class="dv">90</span>; ysteps <span class="ot">&lt;-</span> <span class="dv">90</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>grid_90 <span class="ot">&lt;-</span> <span class="fu">get_point_grid</span>(xsteps, ysteps)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>grid_90<span class="sc">$</span>grid <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>xsteps <span class="ot">&lt;-</span> <span class="dv">90</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ysteps <span class="ot">&lt;-</span> <span class="dv">90</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>grid_90 <span class="ot">&lt;-</span> <span class="fu">get_point_grid</span>(xsteps, ysteps)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>grid_90<span class="sc">$</span>grid <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 8
@@ -390,19 +391,26 @@ Figure&nbsp;1: alt-text: ‘The zero line in WMM2025 passes through a lot of pop
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">colour =</span> <span class="fu">ifelse</span>(<span class="fu">after_stat</span>(level) <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"seagreen"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">ifelse</span>(<span class="fu">after_stat</span>(level) <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">"red3"</span>, <span class="st">"darkblue"</span>)),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">linewidth =</span> <span class="fu">ifelse</span>(<span class="fu">after_stat</span>(level) <span class="sc">==</span> <span class="dv">0</span>, .<span class="dv">7</span>, .<span class="dv">2</span>))) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_identity</span>() <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linewidth_identity</span>() <span class="sc">+</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  metR<span class="sc">::</span><span class="fu">geom_text_contour</span>(<span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                          <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">skip =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_contour</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> <span class="fu">ifelse</span>(<span class="fu">after_stat</span>(level) <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"seagreen"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">after_stat</span>(level) <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">"red3"</span>, <span class="st">"darkblue"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>            ),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fu">ifelse</span>(<span class="fu">after_stat</span>(level) <span class="sc">==</span> <span class="dv">0</span>, .<span class="dv">7</span>, .<span class="dv">2</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_identity</span>() <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_linewidth_identity</span>() <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    metR<span class="sc">::</span><span class="fu">geom_text_contour</span>(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">skip =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-declinations-map" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -428,17 +436,18 @@ Figure&nbsp;2: Magnetic declination based on the model described in Alken et al.
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>grid_45 <span class="ot">&lt;-</span> <span class="fu">get_point_grid</span>(<span class="dv">45</span>, <span class="dv">45</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>xy_r <span class="ot">&lt;-</span> <span class="fu">rast</span>(grid_45<span class="sc">$</span>grid <span class="sc">|&gt;</span> <span class="fu">select</span>(x, y, D, lon, lat), </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">type =</span> <span class="st">"xyz"</span>, <span class="at">crs =</span> <span class="st">"+proj=merc"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>sheets <span class="ot">&lt;-</span> xy_r <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.polygons</span>(<span class="at">aggregate =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>() </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>sheets <span class="ot">&lt;-</span> sheets <span class="sc">|&gt;</span> </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(sheets <span class="sc">|&gt;</span> </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>              <span class="fu">st_centroid</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>              <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>              <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>              <span class="fu">rename</span>(<span class="at">xo =</span> X, <span class="at">yo =</span> Y))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>xy_r <span class="ot">&lt;-</span> <span class="fu">rast</span>(grid_45<span class="sc">$</span>grid <span class="sc">|&gt;</span> <span class="fu">select</span>(x, y, D, lon, lat),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"xyz"</span>, <span class="at">crs =</span> <span class="st">"+proj=merc"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>sheets <span class="ot">&lt;-</span> xy_r <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.polygons</span>(<span class="at">aggregate =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_as_sf</span>()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>sheets <span class="ot">&lt;-</span> sheets <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_cols</span>(sheets <span class="sc">|&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">st_centroid</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">st_coordinates</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="at">xo =</span> X, <span class="at">yo =</span> Y))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>And we can get a feel for the required rotation of each sheet by mapping it.</p>
@@ -446,17 +455,22 @@ Figure&nbsp;2: Magnetic declination based on the model described in Alken et al.
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> sheets <span class="sc">|&gt;</span> <span class="fu">st_filter</span>(w_polygons), <span class="fu">aes</span>(<span class="at">fill =</span> D),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">alpha =</span> <span class="fl">0.75</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous_c4a_div</span>(<span class="st">"scico.roma_o"</span>, <span class="at">mid =</span> <span class="dv">0</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">180</span>, <span class="dv">180</span>)) <span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">colour =</span> <span class="st">"darkgrey"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> sheets <span class="sc">|&gt;</span> <span class="fu">st_filter</span>(w_polygons), <span class="fu">aes</span>(<span class="at">fill =</span> D),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">alpha =</span> <span class="fl">0.75</span>, <span class="at">colour =</span> <span class="st">"white"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_continuous_c4a_div</span>(<span class="st">"scico.roma_o"</span>, <span class="at">mid =</span> <span class="dv">0</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">180</span>, <span class="dv">180</span>)) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_contour</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">colour =</span> <span class="st">"darkgrey"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-map-sheets" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -478,26 +492,29 @@ Figure&nbsp;3: Map sheets coloured by the declination at the centroid.
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>maps <span class="ot">&lt;-</span> sheets <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_intersection</span>(w_polygons) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">st_geometry_type</span>(geometry) <span class="sc">!=</span> <span class="st">"GEOMETRYCOLLECTION"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>maps <span class="ot">&lt;-</span> sheets <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_intersection</span>(w_polygons) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">st_geometry_type</span>(geometry) <span class="sc">!=</span> <span class="st">"GEOMETRYCOLLECTION"</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>maps_p <span class="ot">&lt;-</span> <span class="fu">mapply</span>(rotate_shape, </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">s =</span> maps<span class="sc">$</span>geometry, <span class="at">a =</span> <span class="sc">-</span>maps<span class="sc">$</span>D, </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">xo =</span> maps<span class="sc">$</span>x, <span class="at">yo =</span> maps<span class="sc">$</span>y, </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">SIMPLIFY =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sfc</span>() <span class="sc">|&gt;</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=merc"</span>) </span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> maps_p, <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>, <span class="at">lwd =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>maps_p <span class="ot">&lt;-</span> <span class="fu">mapply</span>(rotate_shape,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">s =</span> maps<span class="sc">$</span>geometry, <span class="at">a =</span> <span class="sc">-</span>maps<span class="sc">$</span>D,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xo =</span> maps<span class="sc">$</span>x, <span class="at">yo =</span> maps<span class="sc">$</span>y,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">SIMPLIFY =</span> <span class="cn">FALSE</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_sfc</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=merc"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> maps_p, <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>, <span class="at">lwd =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_contour</span>(</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.15</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-map-sheets-rotated" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -517,14 +534,16 @@ Figure&nbsp;4: How we might rotate a collection of maps sheets so that magnetic 
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> maps_p, <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">5e6</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">4.4e6</span>, <span class="sc">-</span><span class="fl">1e6</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> maps_p, <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_contour</span>(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> grid_90<span class="sc">$</span>grid, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">z =</span> D),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">breaks =</span> <span class="sc">-</span><span class="dv">35</span><span class="sc">:</span><span class="dv">35</span> <span class="sc">*</span> <span class="dv">5</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">5e6</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">4.4e6</span>, <span class="sc">-</span><span class="fl">1e6</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-map-sheets-rotated-closeup" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -550,17 +569,20 @@ Figure&nbsp;5: A closer look at rotated map sheets in southern Africa.
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>w_proj <span class="ot">&lt;-</span> w_pts <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mapply</span>(project_point, <span class="at">x =</span> w_pts<span class="sc">$</span>x, <span class="at">y =</span> w_pts<span class="sc">$</span>y,</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">a =</span> <span class="sc">-</span>w_pts<span class="sc">$</span>D <span class="sc">/</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">cos</span>(w_pts<span class="sc">$</span>lat <span class="sc">*</span> pi<span class="sc">/</span><span class="dv">180</span>),</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">xo =</span> w_pts<span class="sc">$</span>x, <span class="at">yo =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unlist</span>() <span class="sc">|&gt;</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">Xp =</span> V1, <span class="at">Yp =</span> V2)) <span class="sc">|&gt;</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"Xp"</span>, <span class="st">"Yp"</span>), <span class="at">remove =</span> <span class="cn">FALSE</span>, <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="st">"+proj=merc"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_cols</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mapply</span>(project_point,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">x =</span> w_pts<span class="sc">$</span>x, <span class="at">y =</span> w_pts<span class="sc">$</span>y,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">a =</span> <span class="sc">-</span>w_pts<span class="sc">$</span>D <span class="sc">/</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">cos</span>(w_pts<span class="sc">$</span>lat <span class="sc">*</span> pi <span class="sc">/</span> <span class="dv">180</span>),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">xo =</span> w_pts<span class="sc">$</span>x, <span class="at">yo =</span> <span class="dv">0</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">unlist</span>() <span class="sc">|&gt;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rename</span>(<span class="at">Xp =</span> V1, <span class="at">Yp =</span> V2)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"Xp"</span>, <span class="st">"Yp"</span>), <span class="at">remove =</span> <span class="cn">FALSE</span>, <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_transform</span>(<span class="st">"+proj=merc"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>The central feature here is using the <code>project_point()</code> function (you’ll find this in the linked R source file from earlier) to rotate each point through some angle <code>a</code> about a point given by <code>xo</code> and <code>yo</code>. Experimentation led me to make that centre of rotation a point on the equator at the same longitude as the point to be rotated. That’s not necessarily unreasonable. What’s more than a little strange is that to get a result similar to the XKCD map<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> I’m rotating by <em>half</em> the declination, with a further reduction in the angle scaled by the cosine of the latitude. The cosine scaling is vaguely justifiable given that that is the linear scaling error at a given latitude in the Mercator projection, but I’m really not sure why I would have to halve the angle of rotation in addition to this ‘correction’.</p>
@@ -569,10 +591,10 @@ Figure&nbsp;5: A closer look at rotated map sheets in southern Africa.
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> w_proj, <span class="fu">aes</span>(<span class="at">x =</span> Xp, <span class="at">y =</span> Yp), <span class="at">size =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">expand=</span><span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> w_proj, <span class="fu">aes</span>(<span class="at">x =</span> Xp, <span class="at">y =</span> Yp), <span class="at">size =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-trig-based-projection" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -625,18 +647,19 @@ Figure&nbsp;8: A map produced using the deformed graticule of <a href="#fig-defo
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>xsteps <span class="ot">&lt;-</span> <span class="dv">90</span>; ysteps <span class="ot">&lt;-</span> <span class="dv">90</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>grid_points <span class="ot">&lt;-</span> <span class="fu">get_point_grid</span>(xsteps, ysteps, <span class="at">lat0 =</span> <span class="sc">-</span><span class="dv">60</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>graticule <span class="ot">&lt;-</span> <span class="fu">get_parallels_and_meridians</span>(grid_points)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># get initial corners for all graticule cells</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>corners <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)))</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ysteps) {</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (c <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>xsteps) {</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    corners <span class="ot">&lt;-</span> <span class="fu">cbind</span>(corners, <span class="fu">get_cell</span>(r, c, <span class="cn">TRUE</span>))</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>corners[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>xsteps <span class="ot">&lt;-</span> <span class="dv">90</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ysteps <span class="ot">&lt;-</span> <span class="dv">90</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>grid_points <span class="ot">&lt;-</span> <span class="fu">get_point_grid</span>(xsteps, ysteps, <span class="at">lat0 =</span> <span class="sc">-</span><span class="dv">60</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>graticule <span class="ot">&lt;-</span> <span class="fu">get_parallels_and_meridians</span>(grid_points)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># get initial corners for all graticule cells</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>corners <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)))</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ysteps) {</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (c <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>xsteps) {</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        corners <span class="ot">&lt;-</span> <span class="fu">cbind</span>(corners, <span class="fu">get_cell</span>(r, c, <span class="cn">TRUE</span>))</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>corners[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>         SW        SE        NE        NW        SW        SE        NE
@@ -659,11 +682,13 @@ y  -8272673  -8430365  -8202871</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">cells_as_dataframe</span>(corners)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">lwd =</span> <span class="fl">0.25</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> id), </span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">range</span>(df<span class="sc">$</span>x), <span class="at">ylim =</span> <span class="fu">range</span>(df<span class="sc">$</span>y), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">lwd =</span> <span class="fl">0.25</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_polygon</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> id),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.15</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">range</span>(df<span class="sc">$</span>x), <span class="at">ylim =</span> <span class="fu">range</span>(df<span class="sc">$</span>y), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-all-cells-initial-state" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -683,12 +708,14 @@ Figure&nbsp;9: The starting state of the lattice with each lattice cell ‘defor
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">lwd =</span> <span class="fl">0.25</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> id), </span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> which_corner), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">5e6</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">4.4e6</span>, <span class="sc">-</span><span class="fl">1e6</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">lwd =</span> <span class="fl">0.25</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_polygon</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> id),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.15</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> which_corner), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">5e6</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">4.4e6</span>, <span class="sc">-</span><span class="fl">1e6</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-cells-initial-state-closeup" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -711,23 +738,29 @@ Figure&nbsp;10: A closeup view of the starting state of the deformed grid of par
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>cellB <span class="ot">&lt;-</span> <span class="fu">get_cell</span>(<span class="dv">11</span>, <span class="dv">50</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>xlim <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.7</span>, <span class="fl">2.5</span>) <span class="sc">*</span> <span class="fl">1e6</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>ylim <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">5.7</span>, <span class="sc">-</span><span class="fl">4.8</span>) <span class="sc">*</span> <span class="fl">1e6</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(cellA, cellB) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> <span class="dv">4</span>)), </span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>(<span class="at">xlim =</span> xlim, <span class="at">ylim =</span> ylim, <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Before"</span>) <span class="sc">+</span> </span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(cellA, <span class="fu">match_cell_posn</span>(cellB, cellA, <span class="st">"S"</span>)) <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> <span class="dv">4</span>)), </span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>(<span class="at">xlim =</span> xlim, <span class="at">ylim =</span> ylim, <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"After"</span>) <span class="sc">+</span> </span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>g1 <span class="sc">|</span> g2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(cellA, cellB) <span class="sc">|&gt;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> <span class="dv">4</span>)),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.1</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_equal</span>(<span class="at">xlim =</span> xlim, <span class="at">ylim =</span> ylim, <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Before"</span>) <span class="sc">+</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(cellA, <span class="fu">match_cell_posn</span>(cellB, cellA, <span class="st">"S"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> <span class="dv">4</span>)),</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="st">"#ff000040"</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.1</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_equal</span>(<span class="at">xlim =</span> xlim, <span class="at">ylim =</span> ylim, <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"After"</span>) <span class="sc">+</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>g1 <span class="sc">|</span> g2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-different-sized-neighbouring-cells" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -757,41 +790,41 @@ Figure&nbsp;11: Neighbouring cells in their initial locations, and after the upp
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>xy_points <span class="ot">&lt;-</span> grid_points<span class="sc">$</span>grid</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>xy_points_land <span class="ot">&lt;-</span> xy_points <span class="sc">|&gt;</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(lat <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">60</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>), <span class="at">remove =</span> <span class="cn">FALSE</span>, <span class="at">crs =</span> <span class="st">"+proj=merc"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_filter</span>(w_polygons)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(lat <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">60</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>), <span class="at">remove =</span> <span class="cn">FALSE</span>, <span class="at">crs =</span> <span class="st">"+proj=merc"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_filter</span>(w_polygons)</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># nodes are the xy_points_land dataframe but without the geometries</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>nodes_df <span class="ot">&lt;-</span> xy_points_land <span class="sc">|&gt;</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">seqno =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(name)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">seqno =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">relocate</span>(name)</span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># edges are where manhattan distance between points in row/col terms is 1</span></span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>edges_df <span class="ot">&lt;-</span> ((</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  nodes_df <span class="sc">|&gt;</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(row, col) <span class="sc">|&gt;</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dist</span>(<span class="at">method =</span> <span class="st">"manhattan"</span>, <span class="at">diag =</span> <span class="cn">TRUE</span>, <span class="at">upper =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.matrix</span>()) <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">which</span>(<span class="at">arr.ind =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nodes_df <span class="sc">|&gt;</span> <span class="fu">select</span>(seqno, name), <span class="at">by =</span> <span class="fu">join_by</span>(row <span class="sc">==</span> seqno)) <span class="sc">|&gt;</span></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">from =</span> name) <span class="sc">|&gt;</span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nodes_df <span class="sc">|&gt;</span> <span class="fu">select</span>(seqno, name), <span class="at">by =</span> <span class="fu">join_by</span>(col <span class="sc">==</span> seqno)) <span class="sc">|&gt;</span></span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">to =</span> name) <span class="sc">|&gt;</span></span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(from, to)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    nodes_df <span class="sc">|&gt;</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(row, col) <span class="sc">|&gt;</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">dist</span>(<span class="at">method =</span> <span class="st">"manhattan"</span>, <span class="at">diag =</span> <span class="cn">TRUE</span>, <span class="at">upper =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.matrix</span>()) <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">which</span>(<span class="at">arr.ind =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(nodes_df <span class="sc">|&gt;</span> <span class="fu">select</span>(seqno, name), <span class="at">by =</span> <span class="fu">join_by</span>(row <span class="sc">==</span> seqno)) <span class="sc">|&gt;</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">from =</span> name) <span class="sc">|&gt;</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(nodes_df <span class="sc">|&gt;</span> <span class="fu">select</span>(seqno, name), <span class="at">by =</span> <span class="fu">join_by</span>(col <span class="sc">==</span> seqno)) <span class="sc">|&gt;</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">to =</span> name) <span class="sc">|&gt;</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(from, to)</span>
 <span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(edges_df, <span class="at">directed =</span> <span class="cn">FALSE</span>, <span class="at">vertices =</span> nodes_df) <span class="sc">|&gt;</span></span>
-<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simplify</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simplify</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>Here’s a picture of the graph. Each node represents a graticule cell with links to neighbouring cells.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(G, <span class="at">layout =</span> <span class="st">"nicely"</span>) <span class="sc">+</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">linewidth =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="at">shape =</span> <span class="dv">23</span>, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(G, <span class="at">layout =</span> <span class="st">"nicely"</span>) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_edge_link</span>(<span class="at">linewidth =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_point</span>(<span class="at">shape =</span> <span class="dv">23</span>, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-graph-view" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -814,59 +847,65 @@ Figure&nbsp;12: The graph of cell adjacencies that we use to deform the graticul
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># helper function to get directional difference from row/cols</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>get_N_dirs <span class="ot">&lt;-</span> <span class="cf">function</span>(N, v) {</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(N<span class="sc">$</span>row <span class="sc">-</span> v<span class="sc">$</span>row, N<span class="sc">$</span>col <span class="sc">-</span> v<span class="sc">$</span>col) <span class="sc">|&gt;</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span>(<span class="dv">1</span>, \(drc) <span class="fu">ifelse</span>(drc[<span class="dv">1</span>] <span class="sc">==</span> <span class="dv">0</span>, </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">ifelse</span>(drc[<span class="dv">2</span>] <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"E"</span>, <span class="st">"W"</span>),</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">ifelse</span>(drc[<span class="dv">1</span>] <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"N"</span>, <span class="st">"S"</span>)))</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># empty matrix copy of the corners for final projected corners</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>corners_p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="cn">NA</span>, <span class="at">nrow =</span> <span class="fu">nrow</span>(corners), <span class="at">ncol =</span> <span class="fu">ncol</span>(corners),</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">dimnames</span>(corners))</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co"># decompose graph into connected subgraphs</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>islands <span class="ot">&lt;-</span> G <span class="sc">|&gt;</span> <span class="fu">decompose</span>() </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cbind</span>(N<span class="sc">$</span>row <span class="sc">-</span> v<span class="sc">$</span>row, N<span class="sc">$</span>col <span class="sc">-</span> v<span class="sc">$</span>col) <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">apply</span>(<span class="dv">1</span>, \(drc) <span class="fu">ifelse</span>(drc[<span class="dv">1</span>] <span class="sc">==</span> <span class="dv">0</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(drc[<span class="dv">2</span>] <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"E"</span>, <span class="st">"W"</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(drc[<span class="dv">1</span>] <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"N"</span>, <span class="st">"S"</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        ))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># empty matrix copy of the corners for final projected corners</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>corners_p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NA</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">nrow =</span> <span class="fu">nrow</span>(corners), <span class="at">ncol =</span> <span class="fu">ncol</span>(corners),</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">dimnames =</span> <span class="fu">dimnames</span>(corners)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate over islands</span></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (island <span class="cf">in</span> islands) {</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  done <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  root <span class="ot">&lt;-</span> island <span class="sc">|&gt;</span> <span class="fu">eccentricity</span>() <span class="sc">|&gt;</span> <span class="fu">which.min</span>()</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  v0 <span class="ot">&lt;-</span> <span class="fu">V</span>(island)[root]</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  corners_p <span class="ot">&lt;-</span> <span class="fu">update_cell_corners</span>(</span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    corners_p, <span class="fu">get_cell_corners</span>(corners, v0<span class="sc">$</span>row, v0<span class="sc">$</span>col), v0<span class="sc">$</span>row, v0<span class="sc">$</span>col)</span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(island) <span class="sc">==</span> <span class="dv">1</span>) <span class="cf">next</span></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  done <span class="ot">&lt;-</span> <span class="fu">c</span>(done, v0<span class="sc">$</span>name)</span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  traversal <span class="ot">&lt;-</span> (island <span class="sc">|&gt;</span> <span class="fu">bfs</span>(<span class="at">root =</span> root))<span class="sc">$</span>order <span class="sc">|&gt;</span></span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vertex_attr</span>(<span class="at">graph =</span> island, <span class="at">name =</span> <span class="st">"name"</span>)</span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(traversal)) {</span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    vi <span class="ot">&lt;-</span> <span class="fu">V</span>(island)[traversal[i]]</span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    cell_i <span class="ot">&lt;-</span> <span class="fu">get_cell_corners</span>(corners, vi<span class="sc">$</span>row, vi<span class="sc">$</span>col)</span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    N <span class="ot">&lt;-</span> <span class="fu">neighbors</span>(island, vi)</span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    directions <span class="ot">&lt;-</span> <span class="fu">get_N_dirs</span>(N, vi)</span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    opposites <span class="ot">&lt;-</span> <span class="fu">get_opposite_direction</span>(directions)</span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    fixes <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(directions <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"N"</span>, <span class="st">"S"</span>), <span class="st">"W"</span>, <span class="st">"S"</span>)</span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(N) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(N)) {</span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>        vj <span class="ot">&lt;-</span> N[j]</span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>        cell_j <span class="ot">&lt;-</span> <span class="fu">get_cell_corners</span>(corners_p, vj<span class="sc">$</span>row, vj<span class="sc">$</span>col)</span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(cell_j))) {</span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>          cell_j <span class="ot">&lt;-</span> <span class="fu">get_cell_corners</span>(corners, vj<span class="sc">$</span>row, vj<span class="sc">$</span>col)</span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (vj<span class="sc">$</span>name <span class="sc">%in%</span> done) {</span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>          cell_i <span class="ot">&lt;-</span> <span class="fu">match_cell_scale</span>(cell_i, cell_j, directions[j], fixes[j])</span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>          cell_i <span class="ot">&lt;-</span> <span class="fu">match_cell_posn</span>(cell_i, cell_j, directions[j])</span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>          corners_p <span class="ot">&lt;-</span> <span class="fu">update_cell_corners</span>(corners_p, cell_i, vi<span class="sc">$</span>row, vi<span class="sc">$</span>col)</span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>          cell_j <span class="ot">&lt;-</span> <span class="fu">match_cell_scale</span>(cell_j, cell_i, opposites[j], fixes[j])</span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>          cell_j <span class="ot">&lt;-</span> <span class="fu">match_cell_posn</span>(cell_j, cell_i, opposites[j])</span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>          corners_p <span class="ot">&lt;-</span> <span class="fu">update_cell_corners</span>(corners_p, cell_j, N[j]<span class="sc">$</span>row, N[j]<span class="sc">$</span>col)</span>
-<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>    done <span class="ot">&lt;-</span> <span class="fu">c</span>(done, vi<span class="sc">$</span>name)</span>
-<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co"># decompose graph into connected subgraphs</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>islands <span class="ot">&lt;-</span> G <span class="sc">|&gt;</span> <span class="fu">decompose</span>()</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate over islands</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (island <span class="cf">in</span> islands) {</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    done <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    root <span class="ot">&lt;-</span> island <span class="sc">|&gt;</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">eccentricity</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">which.min</span>()</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    v0 <span class="ot">&lt;-</span> <span class="fu">V</span>(island)[root]</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    corners_p <span class="ot">&lt;-</span> <span class="fu">update_cell_corners</span>(</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>        corners_p, <span class="fu">get_cell_corners</span>(corners, v0<span class="sc">$</span>row, v0<span class="sc">$</span>col), v0<span class="sc">$</span>row, v0<span class="sc">$</span>col</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(island) <span class="sc">==</span> <span class="dv">1</span>) <span class="cf">next</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    done <span class="ot">&lt;-</span> <span class="fu">c</span>(done, v0<span class="sc">$</span>name)</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    traversal <span class="ot">&lt;-</span> (island <span class="sc">|&gt;</span> <span class="fu">bfs</span>(<span class="at">root =</span> root))<span class="sc">$</span>order <span class="sc">|&gt;</span></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>        <span class="fu">vertex_attr</span>(<span class="at">graph =</span> island, <span class="at">name =</span> <span class="st">"name"</span>)</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(traversal)) {</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>        vi <span class="ot">&lt;-</span> <span class="fu">V</span>(island)[traversal[i]]</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>        cell_i <span class="ot">&lt;-</span> <span class="fu">get_cell_corners</span>(corners, vi<span class="sc">$</span>row, vi<span class="sc">$</span>col)</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>        N <span class="ot">&lt;-</span> <span class="fu">neighbors</span>(island, vi)</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>        directions <span class="ot">&lt;-</span> <span class="fu">get_N_dirs</span>(N, vi)</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>        opposites <span class="ot">&lt;-</span> <span class="fu">get_opposite_direction</span>(directions)</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>        fixes <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(directions <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"N"</span>, <span class="st">"S"</span>), <span class="st">"W"</span>, <span class="st">"S"</span>)</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">length</span>(N) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(N)) {</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>                vj <span class="ot">&lt;-</span> N[j]</span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>                cell_j <span class="ot">&lt;-</span> <span class="fu">get_cell_corners</span>(corners_p, vj<span class="sc">$</span>row, vj<span class="sc">$</span>col)</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(cell_j))) {</span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>                    cell_j <span class="ot">&lt;-</span> <span class="fu">get_cell_corners</span>(corners, vj<span class="sc">$</span>row, vj<span class="sc">$</span>col)</span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>                }</span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (vj<span class="sc">$</span>name <span class="sc">%in%</span> done) {</span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>                    cell_i <span class="ot">&lt;-</span> <span class="fu">match_cell_scale</span>(cell_i, cell_j, directions[j], fixes[j])</span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>                    cell_i <span class="ot">&lt;-</span> <span class="fu">match_cell_posn</span>(cell_i, cell_j, directions[j])</span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>                    corners_p <span class="ot">&lt;-</span> <span class="fu">update_cell_corners</span>(corners_p, cell_i, vi<span class="sc">$</span>row, vi<span class="sc">$</span>col)</span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>                } <span class="cf">else</span> {</span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>                    cell_j <span class="ot">&lt;-</span> <span class="fu">match_cell_scale</span>(cell_j, cell_i, opposites[j], fixes[j])</span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>                    cell_j <span class="ot">&lt;-</span> <span class="fu">match_cell_posn</span>(cell_j, cell_i, opposites[j])</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>                    corners_p <span class="ot">&lt;-</span> <span class="fu">update_cell_corners</span>(corners_p, cell_j, N[j]<span class="sc">$</span>row, N[j]<span class="sc">$</span>col)</span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>                }</span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>        done <span class="ot">&lt;-</span> <span class="fu">c</span>(done, vi<span class="sc">$</span>name)</span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>The graph also helps manage keeping track of cells that have already been ‘locked’ into position. When we encounter one of those as a neighbour of the focal cell under consideration, then instead of moving and rescaling it, we move and rescale the focal cell. I’m fairly certain there are some happy accidents here in the order in which cells are considered, and a more complete solution to this problem based on this approach would have to handle that.</p>
@@ -889,7 +928,7 @@ Figure&nbsp;13: Deformed graticule after cells have been scaled and move to alig
 </div>
 </div>
 </div>
-<p>Clicking into the image you can see that (for the most part) the cell boundaries are well aligned. There are some inconsistencies where small islands have wound up on top of larger continents where those have been shifted a long way by the accumumation of distortion from the centre towards their edges. A more complete solution to this problem would address this. It would also attend to cases where cells meet at corners rather than along an edge. But, this is a proof of concept, not an attempt at a complete solution, so I (or someone else) can get to that later.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<p>Clicking into the image you can see that (for the most part) the cell boundaries are well aligned. There are some inconsistencies where small islands have wound up on top of larger continents where those have been shifted a long way by the accumulation of distortion from the centre towards their edges. A more complete solution to this problem would address this. It would also attend to cases where cells meet at corners rather than along an edge. But, this is a proof of concept, not an attempt at a complete solution, so I (or someone else) can get to that later.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
 </section>
 <section id="and-interpolate" class="level3">
 <h3 class="anchored" data-anchor-id="and-interpolate">And… interpolate!</h3>
@@ -899,29 +938,32 @@ Figure&nbsp;13: Deformed graticule after cells have been scaled and move to alig
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>corners_0 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)))</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ysteps) {</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (c <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>xsteps) {</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    corners_0 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(corners_0, <span class="fu">get_cell</span>(r, c, <span class="cn">FALSE</span>))</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (c <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>xsteps) {</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        corners_0 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(corners_0, <span class="fu">get_cell</span>(r, c, <span class="cn">FALSE</span>))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>xy12 <span class="ot">&lt;-</span> corners_0 <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">x1 =</span> x, <span class="at">y1 =</span> y) <span class="sc">|&gt;</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    corners_p <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">x2 =</span> x, <span class="at">y2 =</span> y)) <span class="sc">|&gt;</span></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(x1, y1, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(x2, y2, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>xy_p <span class="ot">&lt;-</span> w_pts <span class="sc">|&gt;</span> <span class="fu">distinct</span>(x, y)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>xy12 <span class="ot">&lt;-</span> corners_0 <span class="sc">|&gt;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">x1 =</span> x, <span class="at">y1 =</span> y) <span class="sc">|&gt;</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_cols</span>(</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        corners_p <span class="sc">|&gt;</span> <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>            <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rename</span>(<span class="at">x2 =</span> x, <span class="at">y2 =</span> y)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">distinct</span>(x1, y1, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">distinct</span>(x2, y2, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>xo <span class="ot">&lt;-</span> <span class="fu">interpp</span>(xy12<span class="sc">$</span>x1, xy12<span class="sc">$</span>y1, xy12<span class="sc">$</span>x2, xy_p<span class="sc">$</span>x, xy_p<span class="sc">$</span>y, <span class="at">duplicate =</span> <span class="st">"mean"</span>)</span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>yo <span class="ot">&lt;-</span> <span class="fu">interpp</span>(xy12<span class="sc">$</span>x1, xy12<span class="sc">$</span>y1, xy12<span class="sc">$</span>y2, xy_p<span class="sc">$</span>x, xy_p<span class="sc">$</span>y, <span class="at">duplicate =</span> <span class="st">"mean"</span>)</span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>xy_p_proj <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> xo<span class="sc">$</span>z, <span class="at">y =</span> yo<span class="sc">$</span>z) <span class="sc">|&gt;</span></span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span> <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>), <span class="at">crs =</span> <span class="st">"+proj=merc"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>xy_p <span class="ot">&lt;-</span> w_pts <span class="sc">|&gt;</span> <span class="fu">distinct</span>(x, y)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>xo <span class="ot">&lt;-</span> <span class="fu">interpp</span>(xy12<span class="sc">$</span>x1, xy12<span class="sc">$</span>y1, xy12<span class="sc">$</span>x2, xy_p<span class="sc">$</span>x, xy_p<span class="sc">$</span>y, <span class="at">duplicate =</span> <span class="st">"mean"</span>)</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>yo <span class="ot">&lt;-</span> <span class="fu">interpp</span>(xy12<span class="sc">$</span>x1, xy12<span class="sc">$</span>y1, xy12<span class="sc">$</span>y2, xy_p<span class="sc">$</span>x, xy_p<span class="sc">$</span>y, <span class="at">duplicate =</span> <span class="st">"mean"</span>)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>xy_p_proj <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> xo<span class="sc">$</span>z, <span class="at">y =</span> yo<span class="sc">$</span>z) <span class="sc">|&gt;</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>), <span class="at">crs =</span> <span class="st">"+proj=merc"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>Finally we make a map.</p>
@@ -929,11 +971,13 @@ Figure&nbsp;13: Deformed graticule after cells have been scaled and move to alig
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> xy_p_proj, <span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">range</span>(grid_points<span class="sc">$</span>xs), </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylim =</span> <span class="fu">range</span>(grid_points<span class="sc">$</span>ys), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> w_polygons, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> xy_p_proj, <span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlim =</span> <span class="fu">range</span>(grid_points<span class="sc">$</span>xs),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">range</span>(grid_points<span class="sc">$</span>ys), <span class="at">expand =</span> <span class="cn">FALSE</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-final-projected-map" class="quarto-float quarto-figure quarto-figure-center anchored">

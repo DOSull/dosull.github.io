@@ -65,13 +65,14 @@ But beware: here be dragons... and you are on your own figuring out what the hec
 
 With all that code glossed over, and set to one side we can get into the ahem... serious business of replicating the zero declination map projection.
 
-## Mappinmg magnetic declination
+## Mapping magnetic declination
 Before doing so, it's good to get a handle on the problem. First up a map of magnetic declination. This makes use of a `get_point_grid()` function in the aforementioned source file. That function makes a point grid and also retrieves the declination values at each lat-lon location using the [`igrf::igrf()`](https://www.rdocumentation.org/packages/igrf/versions/2.0/topics/igrf) function. Here's a snippet of what the resulting data look like.
 
 ```{r}
 #| label: get-point-grid-1
 #| code-fold: show
-xsteps <- 90; ysteps <- 90
+xsteps <- 90
+ysteps <- 90
 grid_90 <- get_point_grid(xsteps, ysteps)
 grid_90$grid |> head()
 ```
@@ -84,19 +85,26 @@ And we can map and contour this.
 #| fig-width: 9
 #| fig-height: 9
 ggplot() +
-  geom_sf(data = w_polygons, fill = "white", colour = NA) +
-  geom_contour(data = grid_90$grid, breaks = -35:35 * 5,
-    aes(x = x, y = y, z = D, 
-        colour = ifelse(after_stat(level) == 0, "seagreen",
-                        ifelse(after_stat(level) < 0, "red3", "darkblue")),
-        linewidth = ifelse(after_stat(level) == 0, .7, .2))) +
-  scale_colour_identity() +
-  scale_linewidth_identity() +
-  metR::geom_text_contour(data = grid_90$grid, aes(x = x, y = y, z = D),
-                          breaks = -35:35 * 5, skip = 1, size = 3) +
-  coord_sf(expand = FALSE) +
-  theme_void() +
-  theme(panel.background = element_rect(fill = "lightgrey", colour = NA))
+    geom_sf(data = w_polygons, fill = "white", colour = NA) +
+    geom_contour(
+        data = grid_90$grid, breaks = -35:35 * 5,
+        aes(
+            x = x, y = y, z = D,
+            colour = ifelse(after_stat(level) == 0, "seagreen",
+                ifelse(after_stat(level) < 0, "red3", "darkblue")
+            ),
+            linewidth = ifelse(after_stat(level) == 0, .7, .2)
+        )
+    ) +
+    scale_colour_identity() +
+    scale_linewidth_identity() +
+    metR::geom_text_contour(
+        data = grid_90$grid, aes(x = x, y = y, z = D),
+        breaks = -35:35 * 5, skip = 1, size = 3
+    ) +
+    coord_sf(expand = FALSE) +
+    theme_void() +
+    theme(panel.background = element_rect(fill = "lightgrey", colour = NA))
 ```
 
 [^1]: Alken P, E Thébault, CD Beggan, _et al._ 2021. [International Geomagnetic Reference Field: the thirteenth generation](https://dx.doi.org/10.1186/s40623-020-01288-x). _Earth, Planets and Space_ **73**(1): 49.
@@ -114,17 +122,18 @@ To get a handle on the problem it's helpful to imagine assembling a bunch of rec
 #| label: map-sheets-1
 #| code-fold: show
 grid_45 <- get_point_grid(45, 45)
-xy_r <- rast(grid_45$grid |> select(x, y, D, lon, lat), 
-             type = "xyz", crs = "+proj=merc")
+xy_r <- rast(grid_45$grid |> select(x, y, D, lon, lat),
+    type = "xyz", crs = "+proj=merc"
+)
 sheets <- xy_r |>
-  as.polygons(aggregate = FALSE) |>
-  st_as_sf() 
-sheets <- sheets |> 
-  bind_cols(sheets |> 
-              st_centroid() |>
-              st_coordinates() |>
-              as.data.frame() |>
-              rename(xo = X, yo = Y))
+    as.polygons(aggregate = FALSE) |>
+    st_as_sf()
+sheets <- sheets |>
+    bind_cols(sheets |>
+        st_centroid() |>
+        st_coordinates() |>
+        as.data.frame() |>
+        rename(xo = X, yo = Y))
 ```
 
 And we can get a feel for the required rotation of each sheet by mapping it.
@@ -135,17 +144,22 @@ And we can get a feel for the required rotation of each sheet by mapping it.
 #| fig-width: 11
 #| fig-height: 10
 ggplot() +
-  geom_sf(data = w_polygons, fill = "white", colour = NA) +
-  geom_sf(data = sheets |> st_filter(w_polygons), aes(fill = D),
-          alpha = 0.75, colour = "white") +
-  scale_fill_continuous_c4a_div("scico.roma_o", mid = 0, limits = c(-180, 180)) +
-  geom_contour(data = grid_90$grid, aes(x = x, y = y, z = D),
-               breaks = -35:35 * 5, colour = "darkgrey", lwd = 0.2) +
-  coord_sf(expand = FALSE) +
-  guides(colour = "none") +
-  theme_void() +
-  theme(
-    panel.background = element_rect(fill = "lightgrey", colour = NA))
+    geom_sf(data = w_polygons, fill = "white", colour = NA) +
+    geom_sf(
+        data = sheets |> st_filter(w_polygons), aes(fill = D),
+        alpha = 0.75, colour = "white"
+    ) +
+    scale_fill_continuous_c4a_div("scico.roma_o", mid = 0, limits = c(-180, 180)) +
+    geom_contour(
+        data = grid_90$grid, aes(x = x, y = y, z = D),
+        breaks = -35:35 * 5, colour = "darkgrey", lwd = 0.2
+    ) +
+    coord_sf(expand = FALSE) +
+    guides(colour = "none") +
+    theme_void() +
+    theme(
+        panel.background = element_rect(fill = "lightgrey", colour = NA)
+    )
 ```
 
 It's evident that Antarctica is going to be even more of a problem than usual in this project.^[That's why I ditch it later.]
@@ -158,26 +172,29 @@ Functions I wrote in the linked source file allow us to rotate the maps sheets, 
 #| fig-cap: How we might rotate a collection of maps sheets so that magnetic north is up.
 #| fig-width: 10
 #| fig-height: 10
-maps <- sheets |> 
-  st_intersection(w_polygons) |>
-  filter(st_geometry_type(geometry) != "GEOMETRYCOLLECTION")
+maps <- sheets |>
+    st_intersection(w_polygons) |>
+    filter(st_geometry_type(geometry) != "GEOMETRYCOLLECTION")
 
-maps_p <- mapply(rotate_shape, 
-                 s = maps$geometry, a = -maps$D, 
-                 xo = maps$x, yo = maps$y, 
-                 SIMPLIFY = FALSE) |>
-  st_sfc() |>
-  data.frame() |>
-  st_sf(crs = "+proj=merc") 
+maps_p <- mapply(rotate_shape,
+    s = maps$geometry, a = -maps$D,
+    xo = maps$x, yo = maps$y,
+    SIMPLIFY = FALSE
+) |>
+    st_sfc() |>
+    data.frame() |>
+    st_sf(crs = "+proj=merc")
 
-ggplot() + 
-  geom_sf(data = w_polygons, colour = NA) +
-  geom_sf(data = maps_p, fill = "red", colour = "black", alpha = 0.15, lwd = 0.1) +
-  geom_contour(data = grid_90$grid, aes(x = x, y = y, z = D),
-               breaks = -35:35 * 5, colour = "black", lwd = 0.15) +
-  coord_sf(expand = FALSE) +
-  guides(colour = "none") +
-  theme_void()
+ggplot() +
+    geom_sf(data = w_polygons, colour = NA) +
+    geom_sf(data = maps_p, fill = "red", colour = "black", alpha = 0.15, lwd = 0.1) +
+    geom_contour(
+        data = grid_90$grid, aes(x = x, y = y, z = D),
+        breaks = -35:35 * 5, colour = "black", lwd = 0.15
+    ) +
+    coord_sf(expand = FALSE) +
+    guides(colour = "none") +
+    theme_void()
 ```
 
 Comparing this with @fig-xkcd-3207 the most obvious congruence is with the map sheets in southern Africa which have rotated clockwise.^[Almost inevitably, New Zealand has not fared well in this exercise.]
@@ -189,14 +206,16 @@ However, an obvious issue on closer inspection is the regions in each map sheet 
 #| fig-cap: A closer look at rotated map sheets in southern Africa.
 #| fig-width: 10
 #| fig-height: 7
-ggplot() + 
-  geom_sf(data = w_polygons, colour = NA) +
-  geom_sf(data = maps_p, fill = "red", colour = "black", alpha = 0.15) +
-  geom_contour(data = grid_90$grid, aes(x = x, y = y, z = D),
-               breaks = -35:35 * 5, colour = "black", lwd = 0.2) +
-  coord_sf(xlim = c(0, 5e6), ylim = c(-4.4e6, -1e6), expand = FALSE) +
-  guides(colour = "none") +
-  theme_void()
+ggplot() +
+    geom_sf(data = w_polygons, colour = NA) +
+    geom_sf(data = maps_p, fill = "red", colour = "black", alpha = 0.15) +
+    geom_contour(
+        data = grid_90$grid, aes(x = x, y = y, z = D),
+        breaks = -35:35 * 5, colour = "black", lwd = 0.2
+    ) +
+    coord_sf(xlim = c(0, 5e6), ylim = c(-4.4e6, -1e6), expand = FALSE) +
+    guides(colour = "none") +
+    theme_void()
 ```
 
 You can imagine shifting those map sheets around to make them line up, but it's not a simple task since the map sheet sides are not parallel&mdash;they are not off my much, but they're not parallel!
@@ -210,17 +229,20 @@ How to proceed? My first somewhat successful effort was to rotate sections of th
 #| label: do-trig-based-projection
 #| code-fold: show
 w_proj <- w_pts |>
-  st_drop_geometry() |>
-  bind_cols(
-    mapply(project_point, x = w_pts$x, y = w_pts$y,
-           a = -w_pts$D / 2 * cos(w_pts$lat * pi/180),
-           xo = w_pts$x, yo = 0) |>
-      unlist() |>
-      matrix(ncol = 2, byrow = TRUE) |>
-      as.data.frame() |>
-      rename(Xp = V1, Yp = V2)) |>
-  st_as_sf(coords = c("Xp", "Yp"), remove = FALSE, crs = 4326) |>
-  st_transform("+proj=merc")
+    st_drop_geometry() |>
+    bind_cols(
+        mapply(project_point,
+            x = w_pts$x, y = w_pts$y,
+            a = -w_pts$D / 2 * cos(w_pts$lat * pi / 180),
+            xo = w_pts$x, yo = 0
+        ) |>
+            unlist() |>
+            matrix(ncol = 2, byrow = TRUE) |>
+            as.data.frame() |>
+            rename(Xp = V1, Yp = V2)
+    ) |>
+    st_as_sf(coords = c("Xp", "Yp"), remove = FALSE, crs = 4326) |>
+    st_transform("+proj=merc")
 ```
 
 The central feature here is using the `project_point()` function (you'll find this in the linked R source file from earlier) to rotate each point through some angle `a` about a point given by `xo` and `yo`. Experimentation led me to make that centre of rotation a point on the equator at the same longitude as the point to be rotated. That's not necessarily unreasonable. What's more than a little strange is that to get a result similar to the XKCD map^[Ground truth?!] I'm rotating by _half_ the declination, with a further reduction in the angle scaled by the cosine of the latitude. The cosine scaling is vaguely justifiable given that that is the linear scaling error at a given latitude in the Mercator projection, but I'm really not sure why I would have to halve the angle of rotation in addition to this 'correction'. 
@@ -233,10 +255,10 @@ Anyway, here's what the resulting map looks like:
 #| fig-width: 10
 #| fig-height: 9
 ggplot() +
-  geom_sf(data = w_polygons, fill = "lightgrey", colour = NA) +
-  geom_point(data = w_proj, aes(x = Xp, y = Yp), size = 0.25) +
-  coord_sf(expand=FALSE) +
-  theme_void()
+    geom_sf(data = w_polygons, fill = "lightgrey", colour = NA) +
+    geom_point(data = w_proj, aes(x = Xp, y = Yp), size = 0.25) +
+    coord_sf(expand = FALSE) +
+    theme_void()
 ```
 
 I'm not sure what happened to a big chunk of Antarctica (and this is _almost_ the last time I'll be dealing with it in this post), but overall this isn't a terrible approximation to the XKCD map.
@@ -274,16 +296,17 @@ Before going any further, we make a new grid, and this time also make a graticul
 ```{r}
 #| label: make-final-grid
 #| code-fold: show
-xsteps <- 90; ysteps <- 90
+xsteps <- 90
+ysteps <- 90
 grid_points <- get_point_grid(xsteps, ysteps, lat0 = -60)
 graticule <- get_parallels_and_meridians(grid_points)
 
 # get initial corners for all graticule cells
 corners <- matrix(ncol = 0, nrow = 2, dimnames = list(c("x", "y")))
 for (r in 1:ysteps) {
-  for (c in 1:xsteps) {
-    corners <- cbind(corners, get_cell(r, c, TRUE))
-  }
+    for (c in 1:xsteps) {
+        corners <- cbind(corners, get_cell(r, c, TRUE))
+    }
 }
 corners[, 1:10]
 ```
@@ -303,11 +326,13 @@ So... make a dataframe from the `corners` matrix, and plot it:
 df <- cells_as_dataframe(corners)
 
 ggplot() +
-  geom_sf(data = w_polygons, fill = "lightgrey", lwd = 0.25, colour = "white") +
-  geom_polygon(data = df, aes(x = x, y = y, group = id), 
-               fill = "#ff000040", colour = "black", lwd = 0.15) +
-  coord_sf(xlim = range(df$x), ylim = range(df$y), expand = FALSE) +
-  theme_void()
+    geom_sf(data = w_polygons, fill = "lightgrey", lwd = 0.25, colour = "white") +
+    geom_polygon(
+        data = df, aes(x = x, y = y, group = id),
+        fill = "#ff000040", colour = "black", lwd = 0.15
+    ) +
+    coord_sf(xlim = range(df$x), ylim = range(df$y), expand = FALSE) +
+    theme_void()
 ```
 
 In closeup we get a better idea of how this differs from the rotated map sheets of @fig-map-sheets-rotated:
@@ -318,12 +343,14 @@ In closeup we get a better idea of how this differs from the rotated map sheets 
 #| fig-width: 10
 #| fig-height: 7
 ggplot() +
-  geom_sf(data = w_polygons, fill = "lightgrey", lwd = 0.25, colour = "white") +
-  geom_polygon(data = df, aes(x = x, y = y, group = id), 
-               fill = "#ff000040", colour = "black", lwd = 0.15) +
-  geom_text(data = df, aes(x = x, y = y, label = which_corner), size = 3) +
-  coord_sf(xlim = c(0, 5e6), ylim = c(-4.4e6, -1e6), expand = FALSE) +
-  theme_void()
+    geom_sf(data = w_polygons, fill = "lightgrey", lwd = 0.25, colour = "white") +
+    geom_polygon(
+        data = df, aes(x = x, y = y, group = id),
+        fill = "#ff000040", colour = "black", lwd = 0.15
+    ) +
+    geom_text(data = df, aes(x = x, y = y, label = which_corner), size = 3) +
+    coord_sf(xlim = c(0, 5e6), ylim = c(-4.4e6, -1e6), expand = FALSE) +
+    theme_void()
 ```
 
 These are tantalisingly well aligned already. Surely it's a simple matter to slide them around to close up those holes? Each pair of neighbouring cells is already aligned along their shared edge because those edges are derived from the same straight line equation based on that line segment's centre point and declination. Unfortunately, because opposite faces of each cell aren't parallel the sides are not the same length. The code below shows this.
@@ -338,22 +365,28 @@ cellA <- get_cell(10, 50)
 cellB <- get_cell(11, 50)
 xlim <- c(1.7, 2.5) * 1e6
 ylim <- c(-5.7, -4.8) * 1e6
-g1 <- cbind(cellA, cellB) |> t() |> as.data.frame() |>
-  ggplot() + 
-  geom_polygon(aes(x = x, y = y, group = rep(1:2, each = 4)), 
-               fill = "#ff000040", colour = "black", lwd = 0.1) +
-  coord_equal(xlim = xlim, ylim = ylim, expand = FALSE) +
-  ggtitle("Before") + 
-  theme_void() +
-  theme(plot.title = element_text(hjust = 0.5))
-g2 <- cbind(cellA, match_cell_posn(cellB, cellA, "S")) |> t() |> as.data.frame() |>
-  ggplot() + 
-  geom_polygon(aes(x = x, y = y, group = rep(1:2, each = 4)), 
-               fill = "#ff000040", colour = "black", lwd = 0.1) +
-  coord_equal(xlim = xlim, ylim = ylim, expand = FALSE) +
-  ggtitle("After") + 
-  theme_void() +
-  theme(plot.title = element_text(hjust = 0.5))
+g1 <- cbind(cellA, cellB) |>
+    t() |>
+    as.data.frame() |>
+    ggplot() +
+    geom_polygon(aes(x = x, y = y, group = rep(1:2, each = 4)),
+        fill = "#ff000040", colour = "black", lwd = 0.1
+    ) +
+    coord_equal(xlim = xlim, ylim = ylim, expand = FALSE) +
+    ggtitle("Before") +
+    theme_void() +
+    theme(plot.title = element_text(hjust = 0.5))
+g2 <- cbind(cellA, match_cell_posn(cellB, cellA, "S")) |>
+    t() |>
+    as.data.frame() |>
+    ggplot() +
+    geom_polygon(aes(x = x, y = y, group = rep(1:2, each = 4)),
+        fill = "#ff000040", colour = "black", lwd = 0.1
+    ) +
+    coord_equal(xlim = xlim, ylim = ylim, expand = FALSE) +
+    ggtitle("After") +
+    theme_void() +
+    theme(plot.title = element_text(hjust = 0.5))
 g1 | g2
 ```
 
@@ -371,31 +404,31 @@ I don't know why I avoided making a graph for so long. It really wasn't hard.
 xy_points <- grid_points$grid
 
 xy_points_land <- xy_points |>
-  filter(lat >= -60) |>
-  st_as_sf(coords = c("x", "y"), remove = FALSE, crs = "+proj=merc") |>
-  st_filter(w_polygons)
+    filter(lat >= -60) |>
+    st_as_sf(coords = c("x", "y"), remove = FALSE, crs = "+proj=merc") |>
+    st_filter(w_polygons)
 
 # nodes are the xy_points_land dataframe but without the geometries
 nodes_df <- xy_points_land |>
-  st_drop_geometry() |>
-  mutate(seqno = row_number()) |>
-  relocate(name)
+    st_drop_geometry() |>
+    mutate(seqno = row_number()) |>
+    relocate(name)
 # edges are where manhattan distance between points in row/col terms is 1
 edges_df <- ((
-  nodes_df |>
-    select(row, col) |>
-    dist(method = "manhattan", diag = TRUE, upper = TRUE) |>
-    as.matrix()) == 1) |>
-  which(arr.ind = TRUE) |>
-  as.data.frame() |>
-  left_join(nodes_df |> select(seqno, name), by = join_by(row == seqno)) |>
-  rename(from = name) |>
-  left_join(nodes_df |> select(seqno, name), by = join_by(col == seqno)) |>
-  rename(to = name) |>
-  select(from, to)
+    nodes_df |>
+        select(row, col) |>
+        dist(method = "manhattan", diag = TRUE, upper = TRUE) |>
+        as.matrix()) == 1) |>
+    which(arr.ind = TRUE) |>
+    as.data.frame() |>
+    left_join(nodes_df |> select(seqno, name), by = join_by(row == seqno)) |>
+    rename(from = name) |>
+    left_join(nodes_df |> select(seqno, name), by = join_by(col == seqno)) |>
+    rename(to = name) |>
+    select(from, to)
 
 G <- graph_from_data_frame(edges_df, directed = FALSE, vertices = nodes_df) |>
-  simplify()
+    simplify()
 ```
 
 Here's a picture of the graph. Each node represents a graticule cell with links to neighbouring cells.
@@ -405,10 +438,10 @@ Here's a picture of the graph. Each node represents a graticule cell with links 
 #| fig-cap: The graph of cell adjacencies that we use to deform the graticule.
 #| fig-width: 10
 #| fig-height: 7
-ggraph(G, layout = "nicely") + 
-  geom_edge_link(linewidth = 0.25) +
-  geom_node_point(shape = 23, fill = "white", size = 1) + 
-  theme_void()
+ggraph(G, layout = "nicely") +
+    geom_edge_link(linewidth = 0.25) +
+    geom_node_point(shape = 23, fill = "white", size = 1) +
+    theme_void()
 ```
 
 ### Iterate over graticule cells to get a 'deformed' graticule
@@ -418,58 +451,64 @@ With the cells in a graph like this, after a lot of experimentation, I managed t
 #| label: align-cells-in-the-graticule
 # helper function to get directional difference from row/cols
 get_N_dirs <- function(N, v) {
-  cbind(N$row - v$row, N$col - v$col) |>
-    apply(1, \(drc) ifelse(drc[1] == 0, 
-                           ifelse(drc[2] > 0, "E", "W"),
-                           ifelse(drc[1] > 0, "N", "S")))
+    cbind(N$row - v$row, N$col - v$col) |>
+        apply(1, \(drc) ifelse(drc[1] == 0,
+            ifelse(drc[2] > 0, "E", "W"),
+            ifelse(drc[1] > 0, "N", "S")
+        ))
 }
 
 # empty matrix copy of the corners for final projected corners
 corners_p <- matrix(
-  NA, nrow = nrow(corners), ncol = ncol(corners),
-  dimnames = dimnames(corners))
+    NA,
+    nrow = nrow(corners), ncol = ncol(corners),
+    dimnames = dimnames(corners)
+)
 
 # decompose graph into connected subgraphs
-islands <- G |> decompose() 
+islands <- G |> decompose()
 
 # iterate over islands
 for (island in islands) {
-  done <- c()
-  root <- island |> eccentricity() |> which.min()
-  v0 <- V(island)[root]
-  corners_p <- update_cell_corners(
-    corners_p, get_cell_corners(corners, v0$row, v0$col), v0$row, v0$col)
-  if (length(island) == 1) next
-  done <- c(done, v0$name)
-  traversal <- (island |> bfs(root = root))$order |>
-    vertex_attr(graph = island, name = "name")
-  for (i in 2:length(traversal)) {
-    vi <- V(island)[traversal[i]]
-    cell_i <- get_cell_corners(corners, vi$row, vi$col)
-    N <- neighbors(island, vi)
-    directions <- get_N_dirs(N, vi)
-    opposites <- get_opposite_direction(directions)
-    fixes <- ifelse(directions %in% c("N", "S"), "W", "S")
-    if (length(N) > 0) {
-      for (j in 1:length(N)) {
-        vj <- N[j]
-        cell_j <- get_cell_corners(corners_p, vj$row, vj$col)
-        if (any(is.na(cell_j))) {
-          cell_j <- get_cell_corners(corners, vj$row, vj$col)
+    done <- c()
+    root <- island |>
+        eccentricity() |>
+        which.min()
+    v0 <- V(island)[root]
+    corners_p <- update_cell_corners(
+        corners_p, get_cell_corners(corners, v0$row, v0$col), v0$row, v0$col
+    )
+    if (length(island) == 1) next
+    done <- c(done, v0$name)
+    traversal <- (island |> bfs(root = root))$order |>
+        vertex_attr(graph = island, name = "name")
+    for (i in 2:length(traversal)) {
+        vi <- V(island)[traversal[i]]
+        cell_i <- get_cell_corners(corners, vi$row, vi$col)
+        N <- neighbors(island, vi)
+        directions <- get_N_dirs(N, vi)
+        opposites <- get_opposite_direction(directions)
+        fixes <- ifelse(directions %in% c("N", "S"), "W", "S")
+        if (length(N) > 0) {
+            for (j in 1:length(N)) {
+                vj <- N[j]
+                cell_j <- get_cell_corners(corners_p, vj$row, vj$col)
+                if (any(is.na(cell_j))) {
+                    cell_j <- get_cell_corners(corners, vj$row, vj$col)
+                }
+                if (vj$name %in% done) {
+                    cell_i <- match_cell_scale(cell_i, cell_j, directions[j], fixes[j])
+                    cell_i <- match_cell_posn(cell_i, cell_j, directions[j])
+                    corners_p <- update_cell_corners(corners_p, cell_i, vi$row, vi$col)
+                } else {
+                    cell_j <- match_cell_scale(cell_j, cell_i, opposites[j], fixes[j])
+                    cell_j <- match_cell_posn(cell_j, cell_i, opposites[j])
+                    corners_p <- update_cell_corners(corners_p, cell_j, N[j]$row, N[j]$col)
+                }
+            }
         }
-        if (vj$name %in% done) {
-          cell_i <- match_cell_scale(cell_i, cell_j, directions[j], fixes[j])
-          cell_i <- match_cell_posn(cell_i, cell_j, directions[j])
-          corners_p <- update_cell_corners(corners_p, cell_i, vi$row, vi$col)
-        } else {
-          cell_j <- match_cell_scale(cell_j, cell_i, opposites[j], fixes[j])
-          cell_j <- match_cell_posn(cell_j, cell_i, opposites[j])
-          corners_p <- update_cell_corners(corners_p, cell_j, N[j]$row, N[j]$col)
-        }
-      }
+        done <- c(done, vi$name)
     }
-    done <- c(done, vi$name)
-  }
 }
 ```
 
@@ -485,7 +524,7 @@ Anyway, all that done we wind up with a deformed lattice of cells:
 plot_cells(corners_p)
 ```
 
-Clicking into the image you can see that (for the most part) the cell boundaries are well aligned. There are some inconsistencies where small islands have wound up on top of larger continents where those have been shifted a long way by the accumumation of distortion from the centre towards their edges. A more complete solution to this problem would address this. It would also attend to cases where cells meet at corners rather than along an edge. But, this is a proof of concept, not an attempt at a complete solution, so I (or someone else) can get to that later.^[Also... did I mention how much this problem has preoccupied me for the last little while?]
+Clicking into the image you can see that (for the most part) the cell boundaries are well aligned. There are some inconsistencies where small islands have wound up on top of larger continents where those have been shifted a long way by the accumulation of distortion from the centre towards their edges. A more complete solution to this problem would address this. It would also attend to cases where cells meet at corners rather than along an edge. But, this is a proof of concept, not an attempt at a complete solution, so I (or someone else) can get to that later.^[Also... did I mention how much this problem has preoccupied me for the last little while?]
 
 ### And... interpolate!
 Armed with a starting graticule and the deformed graticule we just made, we can form a dataset of `(x1, y1)` and `(x2, y2)` pairs and the interpolation process for irregularly spaced data implemented in [`akima::interpp()`](https://www.rdocumentation.org/packages/akima/versions/0.6-3.6/topics/interpp) can go to work. 
@@ -494,21 +533,23 @@ Armed with a starting graticule and the deformed graticule we just made, we can 
 #| label: do-interpolation
 corners_0 <- matrix(ncol = 0, nrow = 2, dimnames = list(c("x", "y")))
 for (r in 1:ysteps) {
-  for (c in 1:xsteps) {
-    corners_0 <- cbind(corners_0, get_cell(r, c, FALSE))
-  }
+    for (c in 1:xsteps) {
+        corners_0 <- cbind(corners_0, get_cell(r, c, FALSE))
+    }
 }
 
-xy12 <- corners_0 |> t() |>
-  as.data.frame() |>
-  rename(x1 = x, y1 = y) |>
-  bind_cols(
-    corners_p |> t() |>
-      as.data.frame() |>
-      rename(x2 = x, y2 = y)) |>
-  drop_na() |>
-  distinct(x1, y1, .keep_all = TRUE) |>
-  distinct(x2, y2, .keep_all = TRUE)
+xy12 <- corners_0 |>
+    t() |>
+    as.data.frame() |>
+    rename(x1 = x, y1 = y) |>
+    bind_cols(
+        corners_p |> t() |>
+            as.data.frame() |>
+            rename(x2 = x, y2 = y)
+    ) |>
+    drop_na() |>
+    distinct(x1, y1, .keep_all = TRUE) |>
+    distinct(x2, y2, .keep_all = TRUE)
 
 xy_p <- w_pts |> distinct(x, y)
 
@@ -516,7 +557,8 @@ xo <- interpp(xy12$x1, xy12$y1, xy12$x2, xy_p$x, xy_p$y, duplicate = "mean")
 yo <- interpp(xy12$x1, xy12$y1, xy12$y2, xy_p$x, xy_p$y, duplicate = "mean")
 
 xy_p_proj <- data.frame(x = xo$z, y = yo$z) |>
-  drop_na() |> st_as_sf(coords = c("x", "y"), crs = "+proj=merc")
+    drop_na() |>
+    st_as_sf(coords = c("x", "y"), crs = "+proj=merc")
 ```
 
 Finally we make a map.
@@ -527,11 +569,13 @@ Finally we make a map.
 #| fig-width: 10
 #| fig-height: 7
 ggplot() +
-  geom_sf(data = w_polygons, fill = "lightgrey", colour = NA) +
-  geom_sf(data = xy_p_proj, size = 0.2) +
-  coord_sf(xlim = range(grid_points$xs), 
-           ylim = range(grid_points$ys), expand = FALSE) +
-  theme_void()
+    geom_sf(data = w_polygons, fill = "lightgrey", colour = NA) +
+    geom_sf(data = xy_p_proj, size = 0.2) +
+    coord_sf(
+        xlim = range(grid_points$xs),
+        ylim = range(grid_points$ys), expand = FALSE
+    ) +
+    theme_void()
 ```
 
 All in all, I have to admit to being somewhat underwhelmed by the end result of all this effort. I'm not even 100% sure that hand-on-heart I believe that my zero declination projection is more 'correct' than the one in the comic! I'd have a lot more confidence in making that claim if I'd found a tool that could take a grid lattice and deform it based on localised angular deviations.

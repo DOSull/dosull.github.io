@@ -8,6 +8,9 @@ Most talks are in web formats, and may include links that are now broken. Others
 
 Date | Title | Notes
 :-- | :-- | :--
+2026<br>August | [A QGIS plugin for making tiled and woven multivariate thematic maps](https://geospatialstuff.com/weavingspace/presentations/NZCS-Aug-2026/weavingspace-plugin/) | GeoCart 2026, Wellington, 27 August.
+2026<br>August | [Quickfire maps: Tanaka (relief shaded) contours in R](talks/2026-08-quickfire-map/) | GeoCart 2026, Wellington, 27 August.
+2026<br>August | [Lessons learned making bad map projections](talks/2026-08-nzcs-geocart/) | GeoCart 2026, Wellington, 26 August.
 2025<br>December | Spatial data science: Just asking questions. [Slides](talks/2025-12-sdss-keynote/) [Video](https://southosullivan.com/video/2025-11-27 15-16-28.mp4) | Sixth Spatial Data Science Symposium, Keynote presentation, (globally distributed remote meeting), 5 December.
 2025<br>November | [Weavingspace: a new way to make multivariate maps](https://dosull.github.io/weavingspace/presentations/FOSS4G-Nov-2025/) | FOSS4G International, Auckland, 20 November.
 2025<br>September | Modelling potential environmental impacts of science activity in Antarctica ([dark](https://dosull.github.io/antarctica/talk/)&#124;[light](https://dosull.github.io/antarctica/talk/index-2.html)) theme | Regional GIS Forum, Palmerston North, 26 September.

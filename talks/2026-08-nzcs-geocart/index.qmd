@@ -1,0 +1,280 @@
+---
+title: "Lessons learned making bad map projections"
+# title-slide-attributes:
+#     data-background-image: background-image.png
+#     data-background-opacity: "0.65"
+author: 
+  - name: David O'Sullivan
+    affiliations: 
+      - name: Geospatial Stuff
+      - name: University of Auckland
+format:
+  revealjs:
+    theme: [white, custom.scss]
+    transition: none
+    navigation-mode: vertical
+    fragment-in-url: true
+    slide-number: false
+    logo: logo.png
+    footer: "August 2026 - GeoCart - Wellington"
+    self-contained: false
+    center: true
+    embed-resources: true
+---
+
+# More specifically...
+## XKCD bad map projections
+### [xkcd.com](https://xkcd.com) is "a webcomic of romance, sarcasm, math, and language." 
+### All cartoons are [![](by_nd.svg){style="vertical-align:bottom;"}](https://creativecommons.org/licenses/by-nc/2.5/) Creative Commons licensed
+### The artist is [Randall Munroe](https://en.wikipedia.org/wiki/Randall_Munroe), previously a NASA engineer, but working full time on the comic since 2006
+
+
+
+# A significant visualization thread
+
+## {style="text-align:center;"}
+### _XKCD 256 Online Communities_
+![](comics/internet/xkcd-256-online_communities_small.png)
+
+## {style="text-align:center;"}
+### _XKCD 802 Online Communities 2_
+![](comics/internet/xkcd-802-online_communities_2_2x.png)
+
+## {style="text-align:center;"}
+### _XKCD 657 Movie Narrative Charts_
+![](comics/visualization/xkcd-657-movie_narrative_charts_2x.png)
+
+
+
+# A significant geographical thread
+
+## {style="text-align:center;"}
+### _XKCD 503 Terminology_
+![](comics/geography/xkcd-503-terminology.png)
+
+## {style="text-align:center;"}
+### _XKCD 1472 Geography_
+![](comics/geography/xkcd-1472-geography_2x.png)
+
+
+
+# So inevitably...
+
+## {style="text-align:center;"}
+### _XKCD 977 Map Projections_
+::: {.scroll-container style="overflow-y: scroll; height: 600px;"}
+![](comics/xkcd-977-map_projections.png){fig-align="center" width="80%"}
+:::
+
+## And so to XKCD _bad_ map projections
+
+## {style="text-align:center;"}
+### _XKCD 1500 Upside Down Map_
+![](comics/bad/xkcd-1500-upside_down_map_2x.png)
+
+## {style="text-align:center;"}
+### Ten more bad map projections since
+
+::: {columns}
+::: {.column width=20%}
+![](comics/bad/xkcd-1784-bad_map_projection_liquid_resize_2x.png)
+![](comics/bad/xkcd-2807-bad_map_projection_abs_longitude_2x.png)
+:::
+::: {.column width=20%}
+![](comics/bad/xkcd-1799-bad_map_projection_time_zones_2x.png)
+![](comics/bad/xkcd-2951-bad_map_projection_exterior_kansas_2x.png)
+:::
+::: {.column width=20%}
+![](comics/bad/xkcd-2256-bad_map_projection_south_america_2x.png)
+![](comics/bad/xkcd-2999-bad_map_projection_the_united_stralia_2x.png)
+:::
+::: {.column width=20%}
+![](comics/bad/xkcd-2489-bad_map_projection_the_greenland_special_2x.png)
+![](comics/bad/xkcd-3122-bad_map_projection_interrupted_spheres_2x.png)
+:::
+::: {.column width=20%}
+![](comics/bad/xkcd-2613-bad_map_projection_madagascator_2x.png)
+![](comics/bad/xkcd-3207-bad_map_projection_zero_declination_2x.png)
+:::
+:::
+
+## {data-background-iframe="https://geospatialstuff.com/posts/2025/05/16/xkcd-bad-projections-ranked/" data-background-interactive="true"}
+
+
+
+# Lesson 1: Sometimes, you need a drawing package
+
+## {style="text-align:center;"}
+### _XKCD 1784 Bad Map Projection: Liquid Resize_
+![](comics/bad/xkcd-1784-bad_map_projection_liquid_resize_2x.png)
+
+## {style="text-align:center;"}
+### _XKCD 1799 Bad Map Projection: Time Zones_
+![](comics/bad/xkcd-1799-bad_map_projection_time_zones_2x.png)
+
+## {style="text-align:center;"}
+### _XKCD 2256 Bad Map Projection: South America_
+![](comics/bad/xkcd-2256-bad_map_projection_south_america_2x.png)
+
+## {style="text-align:center;"}
+### _XKCD 2999 Bad Map Projection: The United Stralia_
+![](comics/bad/xkcd-2999-bad_map_projection_the_united_stralia_2x.png)
+
+
+
+# Lesson 2: Sometimes geometry is enough[, until it's not]{.fragment}
+
+## {style="text-align:center;"}
+### _XKCD 2807 Bad Map Projection Abs(Longitude)_
+![](comics/bad/xkcd-2807-bad_map_projection_abs_longitude_2x.png)
+
+##
+```r
+get_hemisphere <- function(central_meridian = 0, density = 1) {
+  lons <- c( 1,  1, -1, -1,  1) * 90 + central_meridian
+  lats <- c(-1,  1,  1, -1, -1) * 90
+  st_polygon(list(matrix(c(lons, lats), ncol = 2))) |>
+    st_sfc() |>
+    as.data.frame() |>
+    st_as_sf(crs = 4326) |>
+    smoothr::densify(density)
+}
+hemi_w <- get_hemisphere(-90)
+hemi_e <- get_hemisphere(90)
+
+world_w <- World |>
+  st_intersection(hemi_w) |>
+  mutate(geometry = geometry * matrix(c(-1, 0, 0, 1), 2, 2)) |>
+  st_set_crs(4326)
+
+world_e <- World |>
+  st_intersection(hemi_e)
+
+world_abs <- world_w |>
+  bind_rows(world_e) |>
+  mutate(id = 1) |>
+  group_by(id) |>
+  summarise() |>
+  mutate(geometry = geometry - c(90, 0)) |>
+  st_set_crs(4326) |>
+  st_transform("+proj=eqearth")
+```
+
+## {style="text-align:center"}
+![](my-abs-longitude.png){fig-align="center"}
+
+## {style="text-align:center;"}
+### _XKCD 1500 Upside-Down Map_
+![](comics/bad/xkcd-1500-upside_down_map_2x.png)
+
+## {style="font-size:120%"}
+```r
+world_upside_down <- World |>
+  mutate(
+    geometry = geometry * diag(c(-1, 2, 2))) |>
+  st_set_crs(4326) |>
+  st_transform("+proj=eqearth")
+
+ggplot(world_upside_down) +
+  geom_sf() +
+  theme_minimal()
+```
+
+## {style="text-align:center;"}
+![](my-upside-down-map.png){fig-align="center"}
+
+## Supplementary lesson {style="text-align:center;"}
+### Sometimes, you _have to lie_ about your data's projection
+
+
+# Lesson 3: Mercator is more useful than you think[, and never not funny]{.fragment}
+
+## {style="text-align:center"}
+### _XKCD 2489 Bad Map Projection: The Greenland Special_
+![](comics/bad/xkcd-2489-bad_map_projection_the_greenland_special_2x.png)
+
+##
+```r
+greenland <- World |>
+  filter(name == "Greenland") |>
+  st_transform("+proj=merc") |>
+  mutate(geometry = 
+    (geometry + c(2e6, -3.1e6)) * diag(1, 2, 2) * 0.85) |>
+  st_set_crs("+proj=merc")
+
+greenland_buffer <- greenland |>
+  st_buffer(1e5)
+
+w <- World |>
+  st_transform("+proj=moll") |>
+  st_make_valid() |>
+  st_set_crs("+proj=merc") |>
+  st_difference(greenland_buffer) |>
+  bind_rows(greenland)
+```
+
+## {style="text-align:center"}
+![](my-greenland-special.png)
+
+## {style="text-align:center"}
+### _XKCD 2613 Bad Map Projection: Madagascator_
+![](comics/bad/xkcd-2613-bad_map_projection_madagascator_2x.png)
+
+##
+```r
+ll <- c(-4.595750619515433, 55.43837198904654)
+madagascator <- World |>
+  st_transform(str_glue("+proj=laea +lon_0={ll[2]} +lat_0={ll[1]}")) |>
+  st_set_crs("+proj=laea +lon_0=150 +lat_0=90") |>
+  st_transform("+proj=merc")
+```
+
+## {style="text-align:center;"}
+![](my-madagascator.png)
+
+## Supplementary lessons {style="text-align:center;"}
+### Azimuthal projections are your friend
+### Antarctica is a menace: sometimes you just have to ditch it
+
+
+
+# Lesson 4: If a job's worth doing, it's worth doing well[, unless it's not]{.fragment}
+
+## {style="text-align:center;"}
+### _XKCD 2951 Bad Map Projection: Exterior Kansas_
+![](comics/bad/xkcd-2951-bad_map_projection_exterior_kansas_2x.png){fig-align="center"}
+
+## {data-background-iframe="https://geospatialstuff.com/posts/2025/05/16/xkcd-bad-projections-ranked/#bad-map-projection-exterior-kansas"}
+ 
+## {style="text-align:center;"}
+### _XKCD 3122 Bad Map Projection: Interrupted Spheres_
+![](comics/bad/xkcd-3122-bad_map_projection_interrupted_spheres_2x.png){fig-align="center"}
+
+## {data-background-iframe="https://geospatialstuff.com/posts/2025/10/27/xkcd-3122-interrupted-spheres/"}
+
+## {style="text-align:center;"}
+### _XKCD 3207 Bad Map Projection: Zero Declination_
+![](comics/bad/xkcd-3207-bad_map_projection_zero_declination_2x.png){fig-align="center"}
+
+## {data-background-iframe="https://geospatialstuff.com/posts/2026/03/18/"}
+
+
+
+# Lesson learned
+
+##
+### Sometimes, you need a drawing package
+### Sometimes geometry is enough, until it's not
+### Mercator is more useful than you think, and never not funny
+### If a job's worth doing, it's worth doing well, unless it's not
+
+##
+### Sometimes, you _have to lie_ about your data's projection
+### Azimuthal projections are your friend
+### Antarctica is a menace: sometimes you just have to ditch it
+
+## Finally
+### All projections are wrong... 
+### ...some are amusing{.fragment}
+### [geospatialstuff.com/blog.html#category=xkcd](https://geospatialstuff.com/blog.html#category=xkcd)
+
