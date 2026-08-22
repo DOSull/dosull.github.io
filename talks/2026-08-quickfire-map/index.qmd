@@ -32,11 +32,11 @@ Tanaka K. 1950. The relief contour method of representing topography on maps. _G
 
 > A simple and exact method is available […]. If the tip of a drawing pen […] is filed down so that its thickness is the maximum thickness required in a contour line, and if […] the pen-point edge is kept at a fixed orientation […] parallel to the assumed horizontal direction of the incident light, then the thickness of the contour line will vary with the cosine of the angle. (1950, page 449)
 
-## {data-background="tanaka-2.png"}
+## {data-background-image="tanaka-2.png"}
 
-## {data-background="sheephaven-map.jpg" data-background-size="contain"} 
+## {data-background-image="sheephaven-map.jpg" data-background-size="contain"} 
 
-## {data-background="sam-keast-post.png" data-background-size="contain"} 
+## {data-background-image="sam-keast-post.png" data-background-size="contain"} 
 
 ## The basic idea
 
