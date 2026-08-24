@@ -2811,7 +2811,7 @@
     "href": "talks/2026-08-nzcs-geocart/index.html#finally",
     "title": "Lessons learned making bad map projections",
     "section": "Finally",
-    "text": "Finally\nAll projections are wrong…\n…some are amusing\ngeospatialstuff.com/blog.html#category=xkcd"
+    "text": "Finally\n\n\nAll projections are wrong…\n…some are amusing\n\n\n\ngeospatialstuff.com/blog.html#category=xkcd"
   },
   {
     "objectID": "talks/2026-08-quickfire-map/index.html#section-1",
@@ -2875,5 +2875,12 @@
     "title": "Tanaka (relief shaded) contours in R",
     "section": "",
     "text": "For more details and all the code\n\n\n\ngeospatialstuff.com/posts/2025/11/18/tanaka-30-day-maps-2025-day-18/"
+  },
+  {
+    "objectID": "talks/2026-08-nzcs-geocart/index.html#section-33",
+    "href": "talks/2026-08-nzcs-geocart/index.html#section-33",
+    "title": "Lessons learned making bad map projections",
+    "section": "",
+    "text": "Finally\n\nAll projections are wrong…\n…some are amusing\n\n\n\ngeospatialstuff.com/blog.html#category=xkcd"
   }
 ]
