@@ -273,16 +273,18 @@ madagascator <- World |>
 ### Azimuthal projections are your friend
 ### Antarctica is a menace: sometimes you just have to ditch it
 
-## 
+## Finally
 ::: {.columns}
-::: {.column width="60%"}
-<h2>Finally</h2>
-### All projections are wrong... 
-### ...some are amusing{.fragment}
+::: {.column width="65%"}
+### `proj` is a treasure
+### We need better ways to manage 'odd' projections{.fragment}
+### All projections are wrong, some are amusing {.fragment}
 :::
-::: {.column width="40%"}
+
+::: {.column width="35%"}
 ![](qrcode.png)
 :::
 :::
+
 ### [geospatialstuff.com/blog.html#category=xkcd](https://geospatialstuff.com/blog.html#category=xkcd)
 
