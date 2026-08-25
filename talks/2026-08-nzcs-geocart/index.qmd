@@ -238,7 +238,7 @@ madagascator <- World |>
 
 
 
-# Lesson 4: If a job's worth doing, it's worth doing well[, unless it's not]{.fragment}
+# Lesson 4: Perfect is fantastic[, but sometimes good enough is better]{.fragment}
 
 ## {style="text-align:center;"}
 ### _XKCD 2951 Bad Map Projection: Exterior Kansas_
@@ -266,7 +266,7 @@ madagascator <- World |>
 ### Sometimes, you need a drawing package
 ### Sometimes geometry is enough, until it's not
 ### Mercator is more useful than you think, and never not funny
-### If a job's worth doing, it's worth doing well, unless it's not
+### Perfect is fantastic, but sometimes good enough is better
 
 ##
 ### Sometimes, you _have to lie_ about your data's projection
