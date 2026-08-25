@@ -17,6 +17,7 @@ format:
     self-contained: true
     code-annotations: hover
     code-line-numbers: false
+    logo: logo.png
 execute: 
   freeze: auto
   cache: true
