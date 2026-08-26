@@ -2629,7 +2629,7 @@
     "href": "talks/2026-08-quickfire-map/index.html#section-7",
     "title": "Tanaka (relief shaded) contours in R",
     "section": "",
-    "text": "For more details and all the code\n\n\n\ngeospatialstuff.com/posts/2025/11/18/tanaka-30-day-maps-2025-day-18/"
+    "text": "::: {.columns}{style=“position:relative;bottom:100px;”} ::: {.column}\n\n::: ::: {.column}\n\n::: :::"
   },
   {
     "objectID": "talks/2025-12-sdss-keynote/index.html#section",
@@ -2875,5 +2875,12 @@
     "title": "Lessons learned making bad map projections",
     "section": "Finally",
     "text": "Finally\n\n\nproj is a treasure\nWe need better ways to manage ‘odd’ projections\nAll projections are wrong, some are amusing\n\n\n\ngeospatialstuff.com/blog.html#category=xkcd"
+  },
+  {
+    "objectID": "talks/2026-08-quickfire-map/index.html#section-8",
+    "href": "talks/2026-08-quickfire-map/index.html#section-8",
+    "title": "Tanaka (relief shaded) contours in R",
+    "section": "",
+    "text": "For more details and all the code\n\n\n\ngeospatialstuff.com/posts/2025/11/18/tanaka-30-day-maps-2025-day-18/"
   }
 ]

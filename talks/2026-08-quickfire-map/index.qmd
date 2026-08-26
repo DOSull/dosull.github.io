@@ -102,9 +102,8 @@ ggplot(dem |> as.data.frame(xy = TRUE)) +
 
 ![](fig-metr-geom-contour-tanaka-map-coloured-1.png)
 
-## And finally...
-
-::: {.columns}
+## 
+::: {.columns style="position:relative;bottom:50px;"}
 ::: {.column}
 
 ![](fig-for-old-times-sake-1.png)
