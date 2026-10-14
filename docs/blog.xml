@@ -10,7 +10,18 @@
 <atom:link href="https://geospatialstuff.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Sun, 16 Aug 2026 12:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 13 Oct 2026 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>On belatedly, reluctantly, encountering AI</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://geospatialstuff.com/posts/2026/10/14/</link>
+  <description><![CDATA[ Never mind the Pollocks, this is me moaning about AI ]]></description>
+  <category>netlogo</category>
+  <category>AI</category>
+  <category>stuff</category>
+  <guid>https://geospatialstuff.com/posts/2026/10/14/</guid>
+  <pubDate>Tue, 13 Oct 2026 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>The works of François Morellet</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -248,20 +259,6 @@
   <category>tutorial</category>
   <guid>https://geospatialstuff.com/posts/2025/10/23/gia-chapter-1B-part-4/</guid>
   <pubDate>Thu, 23 Oct 2025 11:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>GIS, a transformational approach</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://geospatialstuff.com/posts/2025/10/14/gia-chapter-1B-part-3C/</link>
-  <description><![CDATA[ Sixth in a series of posts supporting Geographic Information Analysis ]]></description>
-  <category>geographic information analysis</category>
-  <category>transformational approach</category>
-  <category>geospatial</category>
-  <category>R</category>
-  <category>tutorial</category>
-  <guid>https://geospatialstuff.com/posts/2025/10/14/gia-chapter-1B-part-3C/</guid>
-  <pubDate>Mon, 13 Oct 2025 11:00:00 GMT</pubDate>
-  <media:content url="https://geospatialstuff.com/posts/2025/10/14/gia-chapter-1B-part-3C/fig-pycno-map-1.png" medium="image" type="image/png" height="108" width="144"/>
 </item>
 </channel>
 </rss>
