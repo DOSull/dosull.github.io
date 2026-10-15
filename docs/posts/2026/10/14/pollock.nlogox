@@ -70,10 +70,10 @@ end]]></code>
     <button x="5" y="60" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="80" display="10% more">repeat ticks / 10 [go]</button>
     <button x="5" y="15" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="80" display="pollock">setup
 repeat n-steps [go]</button>
-    <slider x="1080" step="0.001" y="175" max="1" width="250" display="speed-variability" height="50" min="0" direction="Horizontal" default="0.5" variable="speed-variability"></slider>
-    <slider x="1080" step="0.001" y="120" max="0.5" width="250" display="wiggliness" height="50" min="0" direction="Horizontal" default="0.25" variable="wiggliness"></slider>
-    <slider x="1080" step="10" y="65" max="1000" width="250" display="n-steps" height="50" min="10" direction="Horizontal" default="500.0" variable="n-steps"></slider>
-    <slider x="1080" step="1" y="10" max="360" width="250" display="n-turtles" height="50" min="1" direction="Horizontal" default="40.0" variable="n-turtles"></slider>
+    <slider x="1080" step="0.001" y="175" max="1" width="250" display="speed-variability" height="50" min="0" direction="Horizontal" default="0.0" variable="speed-variability"></slider>
+    <slider x="1080" step="0.001" y="120" max="0.5" width="250" display="wiggliness" height="50" min="0" direction="Horizontal" default="0.0" variable="wiggliness"></slider>
+    <slider x="1080" step="10" y="65" max="1000" width="250" display="n-steps" height="50" min="10" direction="Horizontal" default="300.0" variable="n-steps"></slider>
+    <slider x="1080" step="1" y="10" max="360" width="250" display="n-turtles" height="50" min="1" direction="Horizontal" default="181.0" variable="n-turtles"></slider>
   </widgets>
   <info>## WHAT IS IT?
 
