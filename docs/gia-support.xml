@@ -9,7 +9,7 @@
 <link>https://geospatialstuff.com/gia-support.html</link>
 <atom:link href="https://geospatialstuff.com/gia-support.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
-<generator>quarto-1.8.27</generator>
+<generator>quarto-1.10.19</generator>
 <lastBuildDate>Tue, 28 Apr 2026 12:00:00 GMT</lastBuildDate>
 <item>
   <title>Random lines across a space</title>
