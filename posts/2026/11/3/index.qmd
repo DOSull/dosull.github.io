@@ -114,7 +114,7 @@ recentre <- function(m, r = 1) { # <7>
 4. Sum the squares, and...
 5. ... take the square root to get the distances.
 6. Return the mean distance.
-7. This function uses the other two to recentre and rescale the points in a matrix to a constant meant distance to centre specified by the `r` parameter.
+7. This function uses the other two to recentre and rescale the points in a matrix to a constant mean distance to centre specified by the `r` parameter.
 
 ### Converting a matrix to a polygon
 We eventually want to convert these matrices to polygons, so we need this function:
