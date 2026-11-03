@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.19">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,16 +12,10 @@
 
 <title>(Not) a map of (not) polygons – Geospatial Stuff</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -77,14 +71,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../..//images/gs-logo-corrected.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-1738bcfee8ac8d9805727612dd3124b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-efd6ff7163e34c65f10ccb003a1f55f5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-9dd9cd593dfbe31f89ea911ccd6929de.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-d2f5208e6386e90d1b300444e70b7b35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -387,7 +382,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="rescaling-and-recentring-a-polygon" class="level3">
 <h3 class="anchored" data-anchor-id="rescaling-and-recentring-a-polygon">Rescaling and recentring a polygon</h3>
-<p>Next, some functions to recentre and rescale the resulting polygons. If we don’t do this then polygons will collapse to a point. Iterated averaging of the corners of a polygon is a process, almost but not quite the same as the <a href="https://en.wikipedia.org/wiki/Mice_problem"><em>mice problem</em></a> which posits the question of what pattern we get if mice each position at the corner of a regular polygon head towards one another at constant speed. Well… not quite towards one another, but towards where they think the mouse they are pursuing will be by the time they get there. The result is a sequence of copies of the original polygon with the mice following logarithmic spiral curves. Turns out this is a bit a rabbithole. Pursuit problems started out as ‘the problem of the three dogs’ posed by Lucas in 1877, and has been of interest (inevitably) in military contexts where it relates to problems of how to aim missiles at moving targets. Absolutely the most crazily named ‘problem’ in this realm is the <a href="https://en.wikipedia.org/wiki/Homicidal_chauffeur_problem"><em>homicidal chauffeur problem</em></a>, so named (according to wikipedia) as an “unclassified proxy for missile defence” problems!</p>
+<p>Next, some functions to recentre and rescale the resulting polygons. If we don’t do this then polygons will collapse to a point.</p>
+<p>Iterated averaging of the corners of a polygon is a process, almost but not quite the same as the <a href="https://en.wikipedia.org/wiki/Mice_problem"><em>mice problem</em></a> which posits the question of what pattern we get if mice each position at the corner of a regular polygon head towards one another at constant speed. Well… not quite towards one another, but towards where they think the mouse they are pursuing will be by the time they get there. The result is a sequence of copies of the original polygon decreasing in size, and with the mice following logarithmic spiral curves.</p>
+<p>Turns out this is a bit a rabbithole. Such <a href=""><em>pursuit problems</em></a> started out as ‘the problem of the three dogs’ posed by Lucas in 1877, and have been of interest (inevitably) in military contexts where they relate to questions of how to aim missiles at moving targets.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Less militaristically,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> pursuit problems also arise in coordinating autonomous vehicles to conform to desired formations or patterns, as in <a href="https://en.wikipedia.org/wiki/Drone_art">drone light shows</a>.</p>
 <p>Anyway, to recentre and rescale polygons (again, handled as a two-column matrix of points) we have the following function.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -581,6 +578,8 @@ Figure&nbsp;3: Eight more examples.
 
 <ol>
 <li id="fn1"><p>Duh.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Absolutely the most crazily named ‘problem’ in this realm is the <a href="https://en.wikipedia.org/wiki/Homicidal_chauffeur_problem"><em>homicidal chauffeur problem</em></a>, so named (according to wikipedia) as an “unclassified proxy for missile defence” problems!<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Although given recent developments in drone warfare perhaps not very much less so…<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
