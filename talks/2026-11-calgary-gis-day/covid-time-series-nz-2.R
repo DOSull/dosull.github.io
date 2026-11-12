@@ -15,7 +15,7 @@ library(readODS)
 
 library(patchwork)
 
-setwd("/Users/david/Documents/research/Talks/Calgary-GIS-Day-2026")
+setwd("/Users/david/Documents/code/dosull.github.io/talks/2026-11-calgary-gis-day")
 
 c19 <- read_ods("cases.ods")
 

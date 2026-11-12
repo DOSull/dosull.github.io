@@ -8,6 +8,7 @@ Most talks are in web formats, and may include links that are now broken. Others
 
 Date | Title | Notes
 :-- | :-- | :--
+2026<br>November | [New Zealand’s COVID response ~ one GISer’s perspective](talks/2026-11-calgary-gis-day/) | Health GIS Day 2026, University of Calgary, 18 November.
 2026<br>August | [A QGIS plugin for making tiled and woven multivariate thematic maps](https://geospatialstuff.com/weavingspace/presentations/NZCS-Aug-2026/) | GeoCart 2026, Wellington, 27 August.
 2026<br>August | [Quickfire maps: Tanaka (relief shaded) contours in R](talks/2026-08-quickfire-map/) | GeoCart 2026, Wellington, 27 August.
 2026<br>August | [Lessons learned making bad map projections](talks/2026-08-nzcs-geocart/) | GeoCart 2026, Wellington, 26 August.

@@ -20,6 +20,13 @@ format:
     self-contained: false
     center: true
     embed-resources: false
+execute: 
+  cache: true
+  freeze: auto
+knitr: 
+  opts_chunk:
+    warning: false
+    message: false
 ---
 
 ```{r}
