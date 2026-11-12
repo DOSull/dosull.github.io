@@ -1,0 +1,233 @@
+---
+title: "New Zealand's COVID response ~ one GISer's perspective"
+# title-slide-attributes:
+#     background-image: background-image.png
+#     data-background-opacity: "0.65"
+author: 
+  - name: David O'Sullivan
+    affiliations: 
+      - name: Geospatial Stuff
+      - name: University of Auckland
+format:
+  revealjs:
+    theme: [white, custom.scss]
+    transition: none
+    navigation-mode: linear
+    fragment-in-url: true
+    slide-number: false
+    logo: logo.png
+    footer: "GIS Day 2026 - Health GIS - Calgary"
+    self-contained: false
+    center: true
+    embed-resources: false
+---
+
+```{r}
+#| echo: false
+source("covid-time-series-NZ-2.R")
+```
+
+## The big picture
+
+```{r}
+#| echo: false
+#| fig-pos: slide
+stages = data.frame(
+  x = as.Date(c("2020-04-08", "2021-01-31", "2021-08-31", "2022-01-01")),
+  y = c(1500, 2600, 7000, 75000),
+  label = c("Lockdown", "Elimination", "Delta", "The end...")
+)
+labels <- geom_label(data = stages, aes(x = x, y = y, label = label), alpha = 0.5, lw = 0, vjust = 0)
+(g1 + labels) / g1d
+```
+
+##
+
+* Daily hand-entered data from government website 
+* (My) first serious exploration of the _R_ `tidyverse` and the `ggplot` visualization library
+* Confirmed a decision to transition 'advanced GIS' to 'intro spatial data science'
+* Biggest challenge was data buried in proprietary systems
+
+
+# Lockdown {background-image="pandemic-pics/rush-hour-lockdown.jpg" data-background-opacity="50%"}
+"The team of five million"
+
+<br>
+
+::: {style="font-size:large;line-height:1em;text-align:right;"}
+Lockdown rush hour traffic SH16, Auckland<br>
+from [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Carrington_Road_over-bridge.jpg)<br>by Megan Harvey
+:::
+
+## 
+```{r}
+#| echo: false
+#| fig-pos: slide
+(g0 + labels) / g0d
+```
+
+## {background-image="pandemic-pics/messaging.jpg"}
+
+## {background-image="pandemic-pics/messaging-2.jpg"}
+
+## {background-image="pandemic-pics/2020-08-18-wash-ur-hands.jpg"}
+
+## {background-image="pandemic-pics/2020-09-29-miq1.jpg"}
+
+
+# Modelling the pandemic {background-image="images/osullivan-et-al-TGIS.png"}
+[(From my basement)]{.fragment}
+
+## Response informed by simple models
+
+This one was well publicised:
+
+![](images/s-e-p-i-r.png)
+
+::: aside
+James A, SC Hendy, MJ Plank, and N Steyn. 2020. [Suppression and Mitigation Strategies for Control of COVID-19 in New Zealand](https://dx.doi.org/10.1101/2020.03.26.20044677). _MedRxiv_. doi: 10.1101/2020.03.26.20044677.
+:::
+
+## Epidemiology $\neq$ geography {data-background="images/snow-map.jpg" data-background-opacity="50%"}
+### Implicitly it _is_
+### In practice, it _is not_
+### Populations understood as _aggregate_
+### Not _distributed_ and _variegated_
+
+::: aside
+image source [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Snow-cholera-map-1.jpg) from Snow, John. 1855. _On the Mode of Communication of Cholera_, 2nd Ed, John Churchill, New Burlington Street, London, England.
+:::
+
+## Exploring bubbles
+
+![](images/netlogo-1.png)
+
+## Bubbles nested in suburbs
+
+![](images/netlogo-2.png)
+
+## Regionalising SEIR
+
+![](images/netlogo-3.png)
+
+## SEIR with local lockdowns
+
+![](images/netlogo-4.png)
+
+## A spatialised branching process
+
+![](images/netlogo-5.png)
+
+## Branching process model
+
+:::: {.columns}
+
+::: {.column style="font-size:60%;line-height:1em;"}
+
+![](images/contact-process-model-plank-et-al.png)
+
+Plank MJ at al. 2020. [A stochastic model for COVID-19 spread and the effects of Alert Level 4 in Aotearoa New Zealand](https://dx.doi.org/10.1101/2020.04.08.20058743). Preprint on medrxiv.org. doi: 10.1101/2020.04.08.20058743.
+
+:::
+
+::: {.column}
+
+Each infection has a time-varying probability of causing future infections
+
+[New infections may _not_ occur depending on local $R_0$ at time they are scheduled]{.fragment}
+
+[May occur non-locally in another connected locale]{.fragment}
+
+:::
+
+::::
+
+## Alert level policy effects
+
+![](images/alert-levels-policy-results-1.png)
+
+## Alert level policy effects
+
+![](images/alert-levels-policy-results-2.png)
+
+## Clusters
+
+::: {.columns}
+::: {.column width="20%"}
+:::
+::: {.column width="60%"}
+![](images/cluster.png)
+:::
+::: {.column width="20%"}
+:::
+:::
+
+
+# Elimination {background-image="pandemic-pics/2020-06-01-scorching-bay.jpg" data-background-opacity="0.8"}
+On top of the world
+
+##
+
+```{r}
+#| echo: false
+#| fig-pos: slide
+(g00 + labels) / g00d
+```
+
+## {background-image="pandemic-pics/2020-12-12-cricket.jpg"}
+
+
+# Enter Delta {background-image="pandemic-pics/2021-11-21-sign-in.jpg" background-opacity="60%"}
+Also: Omicron
+
+
+##
+
+```{r}
+#| echo: false
+#| fig-pos: slide
+(g000 + labels) / g000d
+```
+
+## {data-background-iframe="https://southosullivan.com/misc/loi.html"}
+
+
+# The end... {background-image="pandemic-pics/freedom-convoy.jpg" background-opacity="50%"}
+Reconnecting with the world...
+
+##
+
+```{r}
+#| echo: false
+#| fig-pos: slide
+(g1 + labels) / g1d
+```
+
+## {background-image="images/time-series-1st-dose.png" background-size="contain"}
+
+## {background-image="images/time-series-2nd-dose.png" background-size="contain"}
+
+## {background-image="images/vax-sa2-20211208.svg" background-size="contain"}
+
+# Reflections {background-image="images/lego-thinker.jpg" background-opacity="50%"}
+
+Spatial strategies can work in theory...
+
+[... but require strong social license]{.fragment}
+
+[... and timely, accurate data]{.fragment}
+
+::: {style="font-size:large;line-height:1em;text-align:right;"} 
+image source [a3traveller.com](https://a3traveller.com/2014/10/15/lego-fan-tastic-the-art-of-the-brick/)<br>
+statue by [Nathan Sawaya](https://brickartist.com/)
+:::
+
+# {background-image="images/lego-thinker.jpg" background-opacity="35%"}
+
+### Questions? {style="font-size:220px;color:black;opacity:35%;text-align:center;font-weight:700;"}
+
+::: {style="text-align:center;"}
+
+[Geospatial Stuff<br>[geospatialstuff.com](https://geospatialstuff.com)<br>![](logo.png)]{style="vertical-align:middle;width:60px;}
+
+:::

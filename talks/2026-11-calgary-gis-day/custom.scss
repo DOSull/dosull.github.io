@@ -1,0 +1,37 @@
+/*-- scss:defaults --*/
+
+/*-- scss:rules --*/
+// .reveal h1 {
+//   font-variant: small-caps;
+// }
+
+.reveal h3, h4 {
+    font-weight: 400;
+}
+
+.reveal h1 {
+  filter:drop-shadow(6px 6px 3px #cccccc);
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+}
+
+.hang {
+	margin-left: 2cm;
+	text-indent: -2cm;
+}
+
+.attribution{
+	background-color: rgba(255,255,255,0.4);
+	position:relative;
+	top: 50vh;
+	left: -50px;
+	overflow: hidden;
+	font-size: 0.75em;
+	color: #333333;
+	text-align: left;
+}
