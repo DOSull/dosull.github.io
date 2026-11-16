@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="David O’Sullivan">
+<meta name="dcterms.date" content="2026-11-16">
+<meta name="description" content="I found a way to make a ton more tilings for weavingspace to use in (very!) multivariate mapping.">
+
+<title>All the tilings – Geospatial Stuff</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<link href="../../../..//images/gs-logo-corrected.png" rel="icon" type="image/png">
+<script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-1738bcfee8ac8d9805727612dd3124b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap-9dd9cd593dfbe31f89ea911ccd6929de.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="06075b90-0666-47f4-af54-6e7b8f59e570" data-domains="geospatialstuff.com,dosull.github.io"></script>
+<meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../../styles.css">
+<meta property="og:title" content="All the tilings – Geospatial Stuff">
+<meta property="og:description" content="I found a way to make a ton more tilings for weavingspace to use in (very!) multivariate mapping.">
+<meta property="og:image" content="https://geospatialstuff.com/posts/2026/11/15/sample-tiling.png">
+<meta property="og:site_name" content="Geospatial Stuff">
+<meta property="og:image:height" content="1002">
+<meta property="og:image:width" content="1256">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo light-content">
+    <img src="../../../../images/gs-logo-corrected.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../../../index.html">
+    <span class="navbar-title">Geospatial Stuff</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../portfolio.html"> 
+<span class="menu-text">Portfolio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../blog.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../contact.html"> 
+<span class="menu-text">Contact</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../training.html"> 
+<span class="menu-text">Training</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../../../../books.html">
+ <span class="dropdown-text">Books</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../presentations.html">
+ <span class="dropdown-text">Presentations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../publications.html">
+ <span class="dropdown-text">Publications</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/computing-geographically" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Computing Geographically</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/pattern-and-process" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Spatial Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://geospatialstuff.com/30-day-maps-2023" target="_blank"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">30 Day Map Challenge 2023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../../../blog.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">All the tilings</h1>
+            <p class="subtitle lead">Lots of them anyway</p>
+                  <div>
+        <div class="description">
+          I found a way to make a ton more tilings for <code>weavingspace</code> to use in (very!) multivariate mapping.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">python</div>
+                <div class="quarto-category">tiling</div>
+                <div class="quarto-category">weavingspace</div>
+                <div class="quarto-category">tutorial</div>
+                <div class="quarto-category">stuff</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>David O’Sullivan </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 16, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tilings-are-my-side-gig" id="toc-tilings-are-my-side-gig" class="nav-link active" data-scroll-target="#tilings-are-my-side-gig">Tilings are my side-gig</a>
+  <ul class="collapse">
+  <li><a href="#before-we-start" id="toc-before-we-start" class="nav-link" data-scroll-target="#before-we-start">Before we start…</a></li>
+  </ul></li>
+  <li><a href="#the-critical-insight-we-only-need-twelve-vectors" id="toc-the-critical-insight-we-only-need-twelve-vectors" class="nav-link" data-scroll-target="#the-critical-insight-we-only-need-twelve-vectors">The critical insight: we only need twelve vectors</a></li>
+  <li><a href="#representing-a-tiling" id="toc-representing-a-tiling" class="nav-link" data-scroll-target="#representing-a-tiling">Representing a tiling</a>
+  <ul class="collapse">
+  <li><a href="#an-example-tiling" id="toc-an-example-tiling" class="nav-link" data-scroll-target="#an-example-tiling">An example tiling</a></li>
+  <li><a href="#the-local-patch" id="toc-the-local-patch" class="nav-link" data-scroll-target="#the-local-patch">The local ‘patch’</a></li>
+  <li><a href="#constructing-vertex-stars" id="toc-constructing-vertex-stars" class="nav-link" data-scroll-target="#constructing-vertex-stars">Constructing vertex ‘stars’</a></li>
+  <li><a href="#constructing-tile-polygons-from-stars" id="toc-constructing-tile-polygons-from-stars" class="nav-link" data-scroll-target="#constructing-tile-polygons-from-stars">Constructing tile polygons from stars</a></li>
+  <li><a href="#only-constructing-the-tiles-we-need" id="toc-only-constructing-the-tiles-we-need" class="nav-link" data-scroll-target="#only-constructing-the-tiles-we-need">Only constructing the tiles we need</a></li>
+  </ul></li>
+  <li><a href="#using-all-this-to-make-tilings" id="toc-using-all-this-to-make-tilings" class="nav-link" data-scroll-target="#using-all-this-to-make-tilings">Using all this to make tilings</a></li>
+  <li><a href="#concluding-thoughts" id="toc-concluding-thoughts" class="nav-link" data-scroll-target="#concluding-thoughts">Concluding thoughts</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div id="imports" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely <span class="im">import</span> geometry <span class="im">as</span> geom</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> weavingspace <span class="im">as</span> wsp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="tilings-are-my-side-gig" class="level2">
+<h2 class="anchored" data-anchor-id="tilings-are-my-side-gig">Tilings are my side-gig</h2>
+<p>When I’m not doing <em>real</em> work, a major side-project for me in the last couple of years has been developing and maintaining the <a href="https://github.com/DOSull/weavingspace"><code>weavingspace</code> python module</a> for making tiled maps of multivariate data.</p>
+<p>An intermittently rewarding aspect to this has been finding cool<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> tilings and implementing them as part of the <code>_tiling_geometries.py</code> source file in <code>weavingspace</code>. I can write the function to setup a new tiling while watching television these days, because the essentials of the required code are basically the same each time. But as that file has grown to 2000+ lines of <em>ad hoc</em> code, I’ve had a nagging sense that there must be a more coherent way to represent and generate tilings; if not <em>all</em> tilings then at least those composed of regular polygons. These are the ones where I find myself making a bunch of polygons, then translating and rotating them into position to form the set of repeating elements required by <code>weavingspace</code>, and in the process reusing lots of almost-but-not-quite identical chunks of code, over and over.</p>
+<p>Anyway, a week or so ago I came across a <a href="https://chequesoto.info/tiling/"><em>really</em> smart project</a> based around a compact, integer-based representation of such tilings. The paper explaining the work is</p>
+<blockquote class="blockquote">
+<p>Soto Sánchez JE, T Weyrich, A Medeiros e Sá, and LH de Figueiredo. 2021. <a href="https://chequesoto.info/docs/sotosanchez2021integer.pdf">An integer representation for periodic tilings of the plane by regular polygons</a>. <em>Computers &amp; Graphics</em> <strong>95</strong> 69-80. doi: <a href="https://doi.org/10.1016/j.cag.2021.01.007">10.1016/j.cag.2021.01.007</a>.</p>
+</blockquote>
+<p>The approach has a <a href="https://chequesoto.info/tiling/">reference implementation in Javascript</a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, which I had to trans-code into Python<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> for use in <code>weavingspace</code>. The net result is that the experimental branch of <code>weavingspace</code> now offers 1500 or so regular tilings, should anyone ever want to use them.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>In this post, I am here to share my (admittedly niche) enthusiasm about this approach, along with some relevant code. It’s a real lesson in how the right representation can make a challenging programming problem much simpler. The code included below is lightly modified from the <a href="https://github.com/DOSull/weavingspace/blob/324ee162b865cc3094745a5e4139e3382c60dfb3/examples/regular-tilings.ipynb">reasonably well commented code in <strong>this notebook</strong></a> in the experimental branch of <code>weavingspace</code>. Also included there, and my own contribution is generation of the corresponding dual tilings.</p>
+<section id="before-we-start" class="level3">
+<h3 class="anchored" data-anchor-id="before-we-start">Before we start…</h3>
+<p>A couple of convenience functions for element-wise summing and multiplying vectors, along with functions to generate points, lines, and polygons for illustrative purposes along the way. It’s a bit of a sledgehammer using <code>shapely</code>, and <code>geopandas</code> here for handling points, lines, and polygons, but it saves a lot of faffing around setting the aspect ratios of plots and so forth.</p>
+<div id="useful-functions" class="cell" data-execution_count="21">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> vsum(<span class="op">*</span>a):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="bu">tuple</span>(<span class="bu">sum</span>(_) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">zip</span>(<span class="op">*</span>a, strict <span class="op">=</span> <span class="va">True</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> vprod(<span class="op">*</span>a):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="bu">isinstance</span>(a[<span class="dv">0</span>], <span class="bu">float</span><span class="op">|</span><span class="bu">int</span>):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">tuple</span>(a[<span class="dv">0</span>] <span class="op">*</span> math.prod(_) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">zip</span>(<span class="op">*</span>a[<span class="dv">1</span>:], strict <span class="op">=</span> <span class="va">True</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="bu">tuple</span>(math.prod(_) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">zip</span>(<span class="op">*</span>a, strict <span class="op">=</span> <span class="va">True</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> to_euclidean(coords):</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="bu">sum</span>(vprod(coords, DX)), <span class="bu">sum</span>(vprod(coords, DY))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_line(v, origin <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)):</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> geom.LineString([to_euclidean(origin), to_euclidean(vsum(origin, v))])</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_point(v):</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> geom.Point(to_euclidean(v))</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_polygon(vs):</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> geom.Polygon([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> vs])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+</section>
+<section id="the-critical-insight-we-only-need-twelve-vectors" class="level2">
+<h2 class="anchored" data-anchor-id="the-critical-insight-we-only-need-twelve-vectors">The critical insight: we only need twelve vectors</h2>
+<p>The key insight behind the approach is that in tilings by regular 3, 4, 6, and 12 sided polygons with equal-length sides, there are only 12 possible sides, which we here consider to be unit vectors. Given a particular orientation of the tiling, every polygon side will be in of only 12 orientations, and by definition all the sides are the same length. As an example, look carefully at the tiling below.</p>
+<div id="fig-sample-tiling" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sample-tiling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="sample-tiling.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: An example tiling from the project website"><img src="sample-tiling.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sample-tiling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: An example tiling from the <a href="https://chequesoto.info/tiling/">project website</a>
+</figcaption>
+</figure>
+</div>
+<p>In spite of its complexity only 12 different tile edge orientations appear anywhere in this pattern. The pattern is dominated by edges parallel to the hexagonal tile edges, but six additional orientations appear in the blue squares that trace out the larger hexagonal structures.</p>
+<p>This means that using only a set of unit vectors with orientations equally spaced at 30º intervals, we can trace out all the edges in this tiling, something that turns out to be true for all tilings composed of these regular polygons.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p>Furthermore, we can encode the 12 vectors as 4 element integer vectors, because we only need linear combinations of the first four vectors at 0º, 30º, 60º, and 90º to the positive <span class="math inline">\(x\)</span>-axis to generate any of the others.</p>
+<p>These ideas give rise to the code below, where we have the four base vectors stored in the <code>DX</code>and <code>DY</code> tuples, and the combinations of the first four vectors to yield any of the 12 directions encoded as 4-tuples in <code>BASE_COORDS</code>.</p>
+<div id="the-base-vectors" class="cell" data-execution_count="22">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>DX <span class="op">=</span> <span class="dv">1</span>, <span class="dv">3</span> <span class="op">**</span> <span class="fl">0.5</span> <span class="op">/</span> <span class="dv">2</span>,          <span class="fl">0.5</span>, <span class="dv">0</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>DY <span class="op">=</span> <span class="dv">0</span>,          <span class="fl">0.5</span>, <span class="dv">3</span> <span class="op">**</span> <span class="fl">0.5</span> <span class="op">/</span> <span class="dv">2</span>, <span class="dv">1</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Coordinates of the twelve 30º spaced unit vectors expressed as combinations</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># of 0, 30, 60, and 90º unit vectors. The first four are a single instance each</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># of the four unit vectors. The other are linear combinations of these four.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>BASE_COORDS <span class="op">=</span> [</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  ( <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>), ( <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>), ( <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  ( <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>), (<span class="op">-</span><span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>), ( <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  (<span class="op">-</span><span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>), ( <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>), ( <span class="dv">0</span>,  <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>,  <span class="dv">0</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  ( <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>), ( <span class="dv">1</span>,  <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>,  <span class="dv">0</span>), ( <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>And here are the resulting twelve unit vectors:</p>
+<div id="cell-fig-12-unit-vectors" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>basis <span class="op">=</span> gpd.GeoSeries(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  [get_line(v) <span class="cf">for</span> v <span class="kw">in</span> BASE_COORDS])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> basis.plot(color <span class="op">=</span> <span class="st">"k"</span>, lw <span class="op">=</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-12-unit-vectors" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-12-unit-vectors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-12-unit-vectors-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: The 12 unit vectors"><img src="index_files/figure-html/fig-12-unit-vectors-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-12-unit-vectors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The 12 unit vectors
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>And, as an example of how they can be reduced to only combinations of the four vectors in the upper right quadrant, <code>BASE_COORDS[4]</code> being <code>(-1, 0, 1, 0)</code> tells us that the fifth unit vector, at 120º to the <span class="math inline">\(x\)</span>-axis, is formed by combining the inverse (<code>-1</code>) of the first unit vector parallel to the <span class="math inline">\(x\)</span>-axis, with the third unit (<code>1</code>) vector at 60º to the <span class="math inline">\(x\)</span>-axis, as illustrated by the dotted red line below.</p>
+<div id="cell-fig-two-unit-vectors-from-two-others" class="cell" data-execution_count="24">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> basis.plot(lw <span class="op">=</span> <span class="fl">0.35</span>, color <span class="op">=</span> <span class="st">"k"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line(BASE_COORDS[<span class="dv">2</span>])]) <span class="op">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"r"</span>, ls <span class="op">=</span> <span class="st">":"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line((<span class="op">-</span>x <span class="cf">for</span> x <span class="kw">in</span> BASE_COORDS[<span class="dv">0</span>]), BASE_COORDS[<span class="dv">2</span>])]) <span class="op">\</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"r"</span>, ls <span class="op">=</span> <span class="st">":"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-two-unit-vectors-from-two-others" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-two-unit-vectors-from-two-others-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-two-unit-vectors-from-two-others-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: An example of a unit vector composed from two others."><img src="index_files/figure-html/fig-two-unit-vectors-from-two-others-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-unit-vectors-from-two-others-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: An example of a unit vector composed from two others.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The sixth unit vector can be similarly encode, and the remaining six unit vectors are the inverse of the first six, derived by simply negating each coordinate in the corresponding 4-tuple (e.g., the 8th vector <code>(0, -1, 0, 0)</code> is the negative of the 2nd <code>(0, 1, 0, 0)</code>.</p>
+<p>The paper presenting this work leans into some unnecessary mathematical complication here by referring to the 12 unit vectors as the 12 powers of the 12th complex root of unity, and using something called <a href="https://en.wikipedia.org/wiki/Cyclotomic_polynomial"><em>cyclotomic polynomials</em></a> to justify reducing the 12 vectors down to combinations of the first four. I almost stopped reading any further at that point. It certainly seems like needless obfuscation, for an approach that otherwise dramatically <em>simplifies</em> the mathematics involved in generating these tilings!</p>
+</section>
+<section id="representing-a-tiling" class="level2">
+<h2 class="anchored" data-anchor-id="representing-a-tiling">Representing a tiling</h2>
+<p>With this key idea in place, it turns out it is possible to capture all the information necessary to reproduce a tiling with two integer-valued 4-tuples representing the <em>translation vectors</em> of the tiling, along with a number of integer-value 4-tuples each representing a vertex of the tiling where three or more tiles meet.</p>
+<p>The translation vectors define the repeating area of the tiling, in effect how the repeating unit is ‘copied and pasted’ across the space to produce a tiling of the plane.</p>
+<p>Because all the values involved are integers, as we’ll see below, all the steps necessary to generate a tiled pattern can be precisely calculated without concerns about floating point calculations.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Floating point numbers only appear at the last step of the process when we convert integer 4-tuples to points in the two-dimensional plane for plotting purposes.</p>
+<p>In the sections below we work through the steps in the process.</p>
+<section id="an-example-tiling" class="level3">
+<h3 class="anchored" data-anchor-id="an-example-tiling">An example tiling</h3>
+<p>The values in the cell below represent a relatively simple tiling—which we will reconstruct—in a surprisingly minimal way. The tiling’s translation vectors are <code>t1</code> and <code>t2</code>, and its vertices are listed in <code>vertices</code>, both in the integer 4-tuple representation of described above.</p>
+<div id="fig-minimal-representation" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="25">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-minimal-representation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>t1 <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>vertices <span class="op">=</span> (</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">1</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>), (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>), (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), (<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-minimal-representation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4
+</figcaption>
+</figure>
+</div>
+<p>The figure below shows the translation vectors, along with the eight vertices required to build the tiling, and also the repeating area defined by the translation vectors</p>
+<div id="cell-fig-basic-representation" class="cell" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>base_unit <span class="op">=</span> gpd.GeoSeries([get_polygon([</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], t1, vsum(t1, t2), t2</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>])])</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#dddddd"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line(t1)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line(t2)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> vertices]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-basic-representation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-basic-representation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-basic-representation-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;5: The translation vectors and vertices of a simple tiling."><img src="index_files/figure-html/fig-basic-representation-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-basic-representation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: The translation vectors and vertices of a simple tiling.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>There’s enough information contained in this minimal representation to enable construction of a complete tiling.</p>
+</section>
+<section id="the-local-patch" class="level3">
+<h3 class="anchored" data-anchor-id="the-local-patch">The local ‘patch’</h3>
+<p>All the information required is not <em>directly</em> available in the four vertices. We have to construct a local ‘patch’ by copying and pasting the vertices by the translation vectors, one step in all eight possible directions. The function <code>get_patch()</code> below does the work, returning the local patch vertices as a <code>set</code>. Notably, all the calculations are integer-based.</p>
+<div id="function-get-patch" class="cell" data-execution_count="27">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_patch(vs, t1, t2):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  patch <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> k1 <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>):</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k2 <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>):</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> v <span class="kw">in</span> vs:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        hashcode <span class="op">=</span> vsum(v, vprod(k1, t1), vprod(k2, t2))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        patch.add(hashcode)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> patch</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Using this we can see the four vertices in the context of a repeated pattern.</p>
+<div id="cell-fig-plot-patch" class="cell" data-execution_count="28">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>patch <span class="op">=</span> get_patch(vertices, t1, t2)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#dddddd"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line(t1)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>, lw <span class="op">=</span> <span class="fl">0.75</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line(t2)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>, lw <span class="op">=</span> <span class="fl">0.75</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> patch]) <span class="op">\</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"lightgrey"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> vertices]) <span class="op">\</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-plot-patch" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plot-patch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-plot-patch-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;6: The tiling vertices in the local patch context."><img src="index_files/figure-html/fig-plot-patch-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-patch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: The tiling vertices in the local patch context.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="constructing-vertex-stars" class="level3">
+<h3 class="anchored" data-anchor-id="constructing-vertex-stars">Constructing vertex ‘stars’</h3>
+<p>Next, we check for each vertex which other vertices in the local patch are neighbours along a tile edge. If two vertices are separated by one of the 12 unit vectors then they <em>must</em> be neighbours, since all edges in the tiling are one of those vectors, and again, we can carry out this test using only precise integer arithmetic.</p>
+<p>The function <code>get_star()</code> below iterates over all 12 vectors checking if when added to the vertex being tested they reach another vertex in the local patch. If so, the index position of the vector is appended to the ‘star’ (it will become clear why it’s call a star in a moment).</p>
+<div id="get-star" class="cell" data-execution_count="29">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_star(v, patch):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  star <span class="op">=</span> []</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">12</span>):</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    candidate <span class="op">=</span> vsum(v, BASE_COORDS[k])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> candidate <span class="kw">in</span> patch:</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      star.append(k)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> star</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The figure below shows the combined ‘stars’ of all four vertices, and highlights one of them in red.</p>
+<div id="cell-fig-plot-stars" class="cell" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#dddddd"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> patch]) <span class="op">\</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"lightgrey"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>stars <span class="op">=</span> []</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, v <span class="kw">in</span> <span class="bu">enumerate</span>(vertices):</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  stars.append(get_star(v, patch))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  color <span class="op">=</span> <span class="st">"r"</span> <span class="cf">if</span> i <span class="op">==</span> <span class="bu">len</span>(vertices) <span class="op">-</span> <span class="dv">1</span> <span class="cf">else</span> <span class="st">"k"</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  gpd.GeoSeries([get_point(v)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> color)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  gpd.GeoSeries([get_line(BASE_COORDS[i], v) <span class="cf">for</span> i <span class="kw">in</span> stars[<span class="op">-</span><span class="dv">1</span>]]) <span class="op">\</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> color)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-plot-stars" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plot-stars-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-plot-stars-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;7: The ‘stars’ of the tiling’s vertices, with one highlighted in red."><img src="index_files/figure-html/fig-plot-stars-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-stars-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: The ‘stars’ of the tiling’s vertices, with one highlighted in red.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that stars are stored only as integers, not complex vectors:</p>
+<div id="7103cb2f" class="cell" data-execution_count="39">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>stars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<pre><code>[[0, 4, 7, 10],
+ [2, 6, 8, 11],
+ [2, 5, 7, 10],
+ [1, 4, 8, 11],
+ [0, 2, 5, 8],
+ [1, 3, 5, 8, 10],
+ [2, 4, 7, 9, 11],
+ [1, 4, 6, 10]]</code></pre>
+</div>
+</div>
+</section>
+<section id="constructing-tile-polygons-from-stars" class="level3">
+<h3 class="anchored" data-anchor-id="constructing-tile-polygons-from-stars">Constructing tile polygons from stars</h3>
+<p>The sequence of gaps between the integers in each vertex star tells us the angle at that position, which in turn tells us which kind of polygon it is. A gap of 2 corresponds to 60º and hence a triangle, 3 is 90º hence a square, 4 is 120º hence a hexagon, and 5 is 150º hence a dodecagon.</p>
+<p>The <code>gap_to_n_sides()</code> function does this translation.</p>
+<div id="gap-to-n-sides" class="cell" data-execution_count="40">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gap_to_n_sides(gap):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  k <span class="op">=</span> <span class="bu">abs</span>(gap)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> ( <span class="dv">3</span> <span class="cf">if</span> k <span class="op">==</span> <span class="dv">2</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>     <span class="cf">else</span>  <span class="dv">4</span> <span class="cf">if</span> k <span class="op">==</span> <span class="dv">3</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>     <span class="cf">else</span>  <span class="dv">6</span> <span class="cf">if</span> k <span class="op">==</span> <span class="dv">4</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>     <span class="cf">else</span> <span class="dv">12</span> <span class="cf">if</span> k <span class="op">==</span> <span class="dv">5</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>     <span class="cf">else</span> gap_to_n_sides(<span class="dv">12</span> <span class="op">-</span> k) <span class="cf">if</span> k <span class="op">&gt;</span> <span class="dv">6</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>     <span class="cf">else</span> <span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>We’re almost there now.</p>
+<p>The functions in the cell below assemble a list of all the tiles (<code>faces</code>) at every vertex. Again, we don’t have to do any floating point calculations. Each face is a sequence of integer 4-tuples, only converted to floating point when we need to plot them.</p>
+<div id="cell-fig-all-star-tiles" class="cell" data-execution_count="45">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_face(v, heading, n_sides):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  J <span class="op">=</span> <span class="dv">12</span> <span class="op">//</span> n_sides</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  face <span class="op">=</span> [v]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> angle <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">12</span>, J):</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> vsum(face[<span class="op">-</span><span class="dv">1</span>], BASE_COORDS[(heading <span class="op">+</span> angle) <span class="op">%</span> <span class="dv">12</span>])</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    face.append(p)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> face[:<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> star_to_faces(star, v):</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  faces <span class="op">=</span> []</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> left, right <span class="kw">in</span> <span class="bu">zip</span>(star, [<span class="op">*</span>star[<span class="dv">1</span>:], star[<span class="dv">0</span>]], strict <span class="op">=</span> <span class="va">True</span>):</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> gap_to_n_sides((right <span class="op">-</span> left) <span class="op">%</span> <span class="dv">12</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    faces.append(get_face(v, left, n))</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> faces</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>faces <span class="op">=</span> []</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> star, v <span class="kw">in</span> <span class="bu">zip</span>(stars, vertices):</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  faces.extend(star_to_faces(star, v))</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#cccccc"</span>)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_polygon(f) <span class="cf">for</span> f <span class="kw">in</span> faces]) <span class="op">\</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, fc <span class="op">=</span> <span class="st">"#ff000030"</span>, ec <span class="op">=</span> <span class="st">"k"</span>, lw <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co"># gpd.GeoSeries(get_line(t1)).plot(ax = ax, color = "k")</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co"># gpd.GeoSeries(get_line(t2)).plot(ax = ax, color = "k")</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-all-star-tiles" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-all-star-tiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-all-star-tiles-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;8: All the tiles at every star of the tiling with duplicates and tiles outside the repeating unit area apparent."><img src="index_files/figure-html/fig-all-star-tiles-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-all-star-tiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: All the tiles at every star of the tiling with duplicates and tiles outside the repeating unit area apparent.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>As can be seen in the picture, there are a couple of remaining issues. First, because some tiles are incident at more than one of the vertices, we get multiple copies of them. Second, some tiles clearly lie outside the repeating unit, or mostly outside it, and are not required to generate the repeating tiled pattern. We resolve those issues in the next section.</p>
+</section>
+<section id="only-constructing-the-tiles-we-need" class="level3">
+<h3 class="anchored" data-anchor-id="only-constructing-the-tiles-we-need">Only constructing the tiles we need</h3>
+<p>To resolve these issues, as we build the minimal set of tiles we check to see (i) if we’ve already generated the tile in question, and (ii) if its centroid lies inside the repeating area defined by the translation vectors.</p>
+<p>Taking the latter first, a couple more functions are required. This involves some simple matrix mathematics. I’ll spare you the details, but in essence we are checking if a given point lies in the space defined by any combination <span class="math inline">\(x\mathbf{t}_1 + y\mathbf{t}_2\)</span> such that both <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are in the range 0 to 1.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<div id="change-base-and-is-in-parallelogram" class="cell" data-execution_count="46">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> change_base(a, t1, t2):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  det <span class="op">=</span> t1[<span class="dv">0</span>] <span class="op">*</span> t2[<span class="dv">1</span>] <span class="op">-</span> t1[<span class="dv">1</span>] <span class="op">*</span> t2[<span class="dv">0</span>]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  d1 <span class="op">=</span>   a[<span class="dv">0</span>] <span class="op">*</span> t2[<span class="dv">1</span>] <span class="op">-</span>  a[<span class="dv">1</span>] <span class="op">*</span> t2[<span class="dv">0</span>]</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  d2 <span class="op">=</span>  t1[<span class="dv">0</span>] <span class="op">*</span>  a[<span class="dv">1</span>] <span class="op">-</span> t1[<span class="dv">1</span>] <span class="op">*</span>  a[<span class="dv">0</span>]</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> d1 <span class="op">/</span> det, d2 <span class="op">/</span> det</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_in_parallelogram(p, t1, t2):</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  U <span class="op">=</span> change_base(to_euclidean(p), to_euclidean(t1), to_euclidean(t2))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> ((U[<span class="dv">0</span>] <span class="op">&gt;=</span> <span class="op">-</span><span class="fl">1e-4</span>) <span class="kw">and</span> (U[<span class="dv">0</span>] <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">-</span> <span class="fl">1e-4</span>) <span class="kw">and</span> </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>          (U[<span class="dv">1</span>] <span class="op">&gt;=</span> <span class="op">-</span><span class="fl">1e-4</span>) <span class="kw">and</span> (U[<span class="dv">1</span>] <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">-</span> <span class="fl">1e-4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The other aspect to this step as set out in the cell below, that may seem a little odd, is that we keep track of already added tiles, by storing already added tile centroids <em>scaled by a factor of six</em>. This ensures that all tile centroids have integer coordinates, which makes checking and comparing them more reliable. We do have to remember that they have been scaled by six when checking if they fall in the translation vector parallelogram, but that’s easy enough to do.</p>
+<p>All this has been put together in the code cell below, where we loop over the vertices, get their stars, get the polygons around the stars, and retain those polygons only if we haven’t already retained them <em>and</em> their centroid lies inside the translation vectors parallelogram.</p>
+<div id="28306b80" class="cell" data-execution_count="47">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tiles <span class="op">=</span> []</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>centroids <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> vertex <span class="kw">in</span> vertices:</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  star <span class="op">=</span> get_star(vertex, patch)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  faces <span class="op">=</span> star_to_faces(star, vertex)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> face <span class="kw">in</span> faces:</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># scale by 6 to ensure integer 4-tuple</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and remember to downscale below for testing</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    centroid <span class="op">=</span> <span class="bu">tuple</span>(<span class="bu">int</span>(<span class="dv">6</span> <span class="op">*</span> p <span class="op">/</span> <span class="bu">len</span>(face)) <span class="cf">for</span> p <span class="kw">in</span> vsum(<span class="op">*</span>face))</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> centroid <span class="kw">not</span> <span class="kw">in</span> centroids <span class="kw">and</span> <span class="op">\</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        is_in_parallelogram(vprod(<span class="dv">1</span><span class="op">/</span><span class="dv">6</span>, centroid), t1, t2):</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>      centroids.add(centroid)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>      tiles.append(face)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>And here’s the result.</p>
+<div id="7d850962" class="cell" data-execution_count="48">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#dddddd"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_polygon(tile) <span class="cf">for</span> tile <span class="kw">in</span> tiles]) <span class="op">\</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, fc <span class="op">=</span> <span class="st">"#ff000030"</span>, ec <span class="op">=</span> <span class="st">"k"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> vertices]) <span class="op">\</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="index_files/figure-html/cell-18-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="index_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="using-all-this-to-make-tilings" class="level2">
+<h2 class="anchored" data-anchor-id="using-all-this-to-make-tilings">Using all this to make tilings</h2>
+<p>I’m doing all this to extend the range of tilings available in <code>weavingspace</code>, so it’s necessary for my purposes to convert this set of tiles to a <code>weavingspace.TileUnit</code>. Here’s how that works in practice (without getting into too much of the nitty-gritty).</p>
+<div id="cell-fig-weavingspace-33434" class="cell" data-execution_count="63">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> wsp.TileUnit()</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>t.tiles <span class="op">=</span> gpd.GeoDataFrame(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  geometry <span class="op">=</span> gpd.GeoSeries(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    gpd.GeoSeries([get_polygon(tile) <span class="cf">for</span> tile <span class="kw">in</span> tiles])),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  data <span class="op">=</span> {<span class="st">"tile_id"</span>: <span class="bu">list</span>(<span class="st">"abcdefghi"</span>)}, crs <span class="op">=</span> <span class="dv">3857</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>t.setup_vectors(to_euclidean(t1), to_euclidean(t2))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>t.prototile <span class="op">=</span> t.get_prototile_from_vectors()</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>t._setup_regularised_prototile(<span class="va">True</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> t.transform_scale(<span class="dv">100</span>, <span class="dv">100</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>t.plot(r <span class="op">=</span> <span class="dv">2</span>, r_alpha <span class="op">=</span> <span class="dv">1</span>, cmap <span class="op">=</span> <span class="st">"tab20c"</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  show_prototile <span class="op">=</span> <span class="va">False</span>, show_reg_prototile <span class="op">=</span> <span class="va">False</span>, show_ids <span class="op">=</span> <span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-weavingspace-33434" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weavingspace-33434-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-weavingspace-33434-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: The 3.3.4.3.4 tiling as generated by weavingspace using this approach"><img src="index_files/figure-html/fig-weavingspace-33434-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weavingspace-33434-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: The 3.3.4.3.4 tiling as generated by <code>weavingspace</code> using this approach
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>So far, this code remains in the experimental branch of <code>weavingspace</code>.</p>
+<p>Three example tilings from the catalogues produced by the Soto Sanchéz team, alongside their <a href="https://mathworld.wolfram.com/DualTessellation.html"><em>dual tilings</em></a> generated with the experimental <code>weavingspace</code> code are shown below. I have implemented determination of the dual tilings in keeping with the integer 4-tuples approach.</p>
+<div id="fig-weavingspace-tilings" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weavingspace-tilings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="tiling-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: Three tilings and their duals generated in weavingspace using this approach."><img src="tiling-1.png" class="img-fluid figure-img"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="tiling-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;10: Three tilings and their duals generated in weavingspace using this approach."><img src="tiling-2.png" class="img-fluid figure-img"></a></p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="tiling-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;10: Three tilings and their duals generated in weavingspace using this approach."><img src="tiling-3.png" class="img-fluid figure-img"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="tiling-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;10: Three tilings and their duals generated in weavingspace using this approach."><img src="tiling-4.png" class="img-fluid figure-img"></a></p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="tiling-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;10: Three tilings and their duals generated in weavingspace using this approach."><img src="tiling-5.png" class="img-fluid figure-img"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="tiling-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Figure&nbsp;10: Three tilings and their duals generated in weavingspace using this approach."><img src="tiling-6.png" class="img-fluid figure-img"></a></p>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weavingspace-tilings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Three tilings and their duals generated in <code>weavingspace</code> using this approach.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="concluding-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="concluding-thoughts">Concluding thoughts</h2>
+<p>As an exercise in the triumph of a data structure and algorithms over doing things in more immediately obvious ways (as mentioned at the top “making a bunch of polygons, then translating and rotating them into position”) this approach takes some beating.</p>
+<p>There is something deeply pleasing (to me at least) about how all the pieces of this approach come together. It’s particularly nice not dealing with floating point calculations and the seemingly never ending edge cases they produce. Even in the context of the <code>weavinspace</code> project where many of the hundreds of tilings this method makes available will likely never be used, I’ve found working through the process of putting this code together very rewarding. I hope this outline of how it works has been an interesting read.</p>
+
+
+</section>
+
+
+<p><a href="../../../../"><img src="../../../../images/gs-logo-corrected.png" style="height:36px;" alt="Geospatial Stuff"></a></p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Somehow defined…<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>There is also a nice <a href="https://observablehq.com/@esperanc/synthesizing-periodic-tilings-of-the-plane">Observable notebook implementation here</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Not hard, and a useful learning process.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>That many tilings creates its own issues of how to navigate and categorise them coherently, but that’s a nice problem to have.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>This bald statement is obviously not a proof, but you can trust me on this… I’m sure it’s mathematically provable, but also, I have hand-coded a <em>lot</em> of these patterns in the last couple of years: it’s definitely true.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>The bane of my life, and of any computation requiring precision geometry.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>This <em>is</em> a floating point test and given all my experiences with <code>weavingspace</code> it makes me nervous!<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("^(?:http:\/\/|https:\/\/)(?:dosull\.github\.io|geospatialstuff\.com|southosullivan\.com|github\.com\/DOSull|southosullivan\.com|patternandprocess\.org|computinggeographically\.org)");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
+            }
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

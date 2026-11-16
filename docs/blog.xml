@@ -10,7 +10,20 @@
 <atom:link href="https://geospatialstuff.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description>All manner of geospatial stuff</description>
 <generator>quarto-1.10.19</generator>
-<lastBuildDate>Mon, 02 Nov 2026 11:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 15 Nov 2026 11:00:00 GMT</lastBuildDate>
+<item>
+  <title>All the tilings</title>
+  <dc:creator>David O&#39;Sullivan</dc:creator>
+  <link>https://geospatialstuff.com/posts/2026/11/15/</link>
+  <description><![CDATA[ I found a way to make a ton more tilings for weavingspace to use in (very!) multivariate mapping. ]]></description>
+  <category>python</category>
+  <category>tiling</category>
+  <category>weavingspace</category>
+  <category>tutorial</category>
+  <category>stuff</category>
+  <guid>https://geospatialstuff.com/posts/2026/11/15/</guid>
+  <pubDate>Sun, 15 Nov 2026 11:00:00 GMT</pubDate>
+</item>
 <item>
   <title>(Not) a map of (not) polygons</title>
   <dc:creator>David O&#39;Sullivan</dc:creator>
@@ -243,21 +256,6 @@
   <category>30 day maps</category>
   <guid>https://geospatialstuff.com/posts/2025/11/03a/gia-chapter-1B-part-4B/</guid>
   <pubDate>Thu, 30 Oct 2025 11:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>XKCD 3122 ‘Interrupted spheres’</title>
-  <dc:creator>David O&#39;Sullivan</dc:creator>
-  <link>https://geospatialstuff.com/posts/2025/10/27/xkcd-3122-interrupted-spheres/</link>
-  <description><![CDATA[ Soon after I posted my definitive ranking of xkcd’s bad map projections, another was added to the pile. I’ve reverse-engineered it in R, so you don’t have to. ]]></description>
-  <category>xkcd</category>
-  <category>cartography</category>
-  <category>R</category>
-  <category>tutorial</category>
-  <category>stuff</category>
-  <category>geospatial</category>
-  <category>projections</category>
-  <guid>https://geospatialstuff.com/posts/2025/10/27/xkcd-3122-interrupted-spheres/</guid>
-  <pubDate>Mon, 27 Oct 2025 11:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

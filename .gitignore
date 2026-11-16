@@ -21,3 +21,4 @@ talks/*/images/
 posts/*/*/_*/
 .vscode/
 air.toml
+.venv/
