@@ -20,6 +20,7 @@ format:
     self-contained: false
     center: true
     embed-resources: false
+    controls: true
 execute: 
   cache: true
   freeze: auto
@@ -39,7 +40,7 @@ source("covid-time-series-NZ-2.R")
 ```{r}
 #| echo: false
 #| fig-pos: slide
-stages = data.frame(
+stages <- data.frame(
   x = as.Date(c("2020-04-08", "2021-01-31", "2021-08-31", "2022-01-01")),
   y = c(1500, 2600, 7000, 75000),
   label = c("Lockdown", "Elimination", "Delta", "The end...")
@@ -196,7 +197,7 @@ Also: Omicron
 (g000 + labels) / g000d
 ```
 
-## {data-background-iframe="https://southosullivan.com/misc/loi.html"}
+## {background-iframe="https://southosullivan.com/misc/loi.html"}
 
 
 # The end... {background-image="pandemic-pics/freedom-convoy.jpg" background-opacity="50%"}
