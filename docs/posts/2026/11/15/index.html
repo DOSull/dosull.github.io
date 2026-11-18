@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.19">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,16 +12,10 @@
 
 <title>All the tilings – Geospatial Stuff</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -77,14 +71,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../..//images/gs-logo-corrected.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-1738bcfee8ac8d9805727612dd3124b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-efd6ff7163e34c65f10ccb003a1f55f5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-9dd9cd593dfbe31f89ea911ccd6929de.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-d2f5208e6386e90d1b300444e70b7b35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -119,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="keywords" content="geospatial, R, python, simulation, cartography, visualization, spatial analysis, complexity, training">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -320,7 +315,7 @@ window.Quarto = {
 
 
 
-<div id="imports" class="cell" data-execution_count="20">
+<div id="imports" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
@@ -345,7 +340,7 @@ window.Quarto = {
 <section id="before-we-start" class="level3">
 <h3 class="anchored" data-anchor-id="before-we-start">Before we start…</h3>
 <p>A couple of convenience functions for element-wise summing and multiplying vectors, along with functions to generate points, lines, and polygons for illustrative purposes along the way. It’s a bit of a sledgehammer using <code>shapely</code>, and <code>geopandas</code> here for handling points, lines, and polygons, but it saves a lot of faffing around setting the aspect ratios of plots and so forth.</p>
-<div id="useful-functions" class="cell" data-execution_count="21">
+<div id="useful-functions" class="cell" data-execution_count="16">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> vsum(<span class="op">*</span>a):</span>
@@ -388,7 +383,7 @@ Figure&nbsp;1: An example tiling from the <a href="https://chequesoto.info/tilin
 <p>This means that using only a set of unit vectors with orientations equally spaced at 30º intervals, we can trace out all the edges in this tiling. This turns out to be true for all tilings composed of these regular polygons.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
 <p>Furthermore, we can encode the 12 vectors as 4 element integer vectors, because we only need linear combinations of the first four vectors at 0º, 30º, 60º, and 90º to the positive <span class="math inline">\(x\)</span>-axis to generate any of the others.</p>
 <p>These ideas give rise to the code below, where we have the four base vectors stored in the <code>DX</code>and <code>DY</code> tuples, and the combinations of the first four vectors to yield any of the 12 directions encoded as 4-tuples in <code>BASE_COORDS</code>.</p>
-<div id="the-base-vectors" class="cell" data-execution_count="22">
+<div id="the-base-vectors" class="cell" data-execution_count="17">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>DX <span class="op">=</span> <span class="dv">1</span>, <span class="dv">3</span> <span class="op">**</span> <span class="fl">0.5</span> <span class="op">/</span> <span class="dv">2</span>,          <span class="fl">0.5</span>, <span class="dv">0</span></span>
@@ -406,7 +401,7 @@ Figure&nbsp;1: An example tiling from the <a href="https://chequesoto.info/tilin
 </details>
 </div>
 <p>And here are the resulting twelve unit vectors:</p>
-<div id="cell-fig-12-unit-vectors" class="cell" data-execution_count="23">
+<div id="cell-fig-12-unit-vectors" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>basis <span class="op">=</span> gpd.GeoSeries(</span>
@@ -427,7 +422,7 @@ Figure&nbsp;2: The 12 unit vectors
 </div>
 </div>
 <p>And, as an example of how they can be reduced to only combinations of the four vectors in the upper right quadrant, <code>BASE_COORDS[4]</code> being <code>(-1, 0, 1, 0)</code> tells us that the fifth unit vector, at 120º to the <span class="math inline">\(x\)</span>-axis, is formed by combining the inverse (<code>-1</code>) of the first unit vector parallel to the <span class="math inline">\(x\)</span>-axis, with the third unit (<code>1</code>) vector at 60º to the <span class="math inline">\(x\)</span>-axis, as illustrated by the dotted red line below.</p>
-<div id="cell-fig-two-unit-vectors-from-two-others" class="cell" data-execution_count="24">
+<div id="cell-fig-two-unit-vectors-from-two-others" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> basis.plot(lw <span class="op">=</span> <span class="fl">0.35</span>, color <span class="op">=</span> <span class="st">"k"</span>)</span>
@@ -460,7 +455,7 @@ Figure&nbsp;3: An example of a unit vector composed from two others.
 <p>In the sections below we work through the steps in the process.</p>
 <section id="an-example-tiling" class="level3">
 <h3 class="anchored" data-anchor-id="an-example-tiling">An example tiling</h3>
-<p>The values in the cell below represent a relatively simple tiling—which we will reconstruct—in a surprisingly minimal way. The tiling’s translation vectors are <code>t1</code> and <code>t2</code>, and its vertices are listed in <code>vertices</code>, both in the integer 4-tuple representation of described above.</p>
+<p>The values in the cell below represent a relatively simple tiling—which we will reconstruct—in a surprisingly minimal way. The tiling’s translation vectors are <code>t1</code> and <code>t2</code>, and its ‘seed’ vertices are listed in <code>seed</code>, both in the integer 4-tuple representation of described above.</p>
 <div id="fig-minimal-representation" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="25">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-minimal-representation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -468,7 +463,7 @@ Figure&nbsp;3: An example of a unit vector composed from two others.
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>t1 <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>vertices <span class="op">=</span> (</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> (</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">1</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>),</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>), (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>), (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>),</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), (<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>)</span>
@@ -481,7 +476,7 @@ Figure&nbsp;4
 </figure>
 </div>
 <p>The figure below shows the translation vectors, along with the eight vertices required to build the tiling, and also the repeating area defined by the translation vectors</p>
-<div id="cell-fig-basic-representation" class="cell" data-execution_count="26">
+<div id="cell-fig-basic-representation" class="cell" data-execution_count="27">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>base_unit <span class="op">=</span> gpd.GeoSeries([get_polygon([</span>
@@ -491,7 +486,7 @@ Figure&nbsp;4
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#dddddd"</span>)</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line(t1)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line(t2)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> vertices]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> seed]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"r"</span>)</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
@@ -511,43 +506,46 @@ Figure&nbsp;5: The translation vectors and vertices of a simple tiling.
 </section>
 <section id="the-local-patch" class="level3">
 <h3 class="anchored" data-anchor-id="the-local-patch">The local ‘patch’</h3>
-<p>All the information required is not <em>directly</em> available in the four vertices. We have to construct a local ‘patch’ by copying and pasting the vertices by the translation vectors, one step in all eight possible directions. The function <code>get_patch()</code> below does the work, returning the local patch vertices as a <code>set</code>. Notably, all the calculations are integer-based.</p>
-<div id="function-get-patch" class="cell" data-execution_count="27">
+<p>All the information required is not <em>directly</em> available in the seed vertices, because in a tiling those vertices are repeated at intervals, and some tiles are formed as a result of connections between vertices and their near neighbours in neighbouring repeating units. So we have to construct a local ‘patch’ by copying and pasting the vertices by the translation vectors. The function <code>get_patch()</code> below does the work, returning a patch of vertices as a <code>set</code>, from between <code>n0</code> and <code>n1</code> (inclusive) steps either side of the central set of vertices.</p>
+<div id="function-get-patch" class="cell" data-execution_count="22">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_patch(vs, t1, t2):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_patch(vs, t1, t2, n0, n1):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  patch <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> k1 <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>):</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k2 <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> k1 <span class="kw">in</span> <span class="bu">range</span>(n0, n1 <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k2 <span class="kw">in</span> <span class="bu">range</span>(n0, n1 <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> v <span class="kw">in</span> vs:</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        hashcode <span class="op">=</span> vsum(v, vprod(k1, t1), vprod(k2, t2))</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        patch.add(hashcode)</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> patch</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>Using this we can see the four vertices in the context of a repeated pattern.</p>
-<div id="cell-fig-plot-patch" class="cell" data-execution_count="28">
+<p>In fact, because we will occasionally encounter tilings where one of the seed vertices is at the diagonally opposite corner of the translation vector parallelogram, we need two larger sets of vertices. One here called <code>vertices</code> augments the seeds by a single ‘shell’ of neighbouring patches, while the <code>patch</code> set of vertices augments the collection one layer more. We can see the eight seeds in the the repeated pattern.</p>
+<div id="cell-fig-plot-patch" class="cell" data-execution_count="33">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>patch <span class="op">=</span> get_patch(vertices, t1, t2)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#dddddd"</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line(t1)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>, lw <span class="op">=</span> <span class="fl">0.75</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line(t2)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>, lw <span class="op">=</span> <span class="fl">0.75</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> patch]) <span class="op">\</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"lightgrey"</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> vertices]) <span class="op">\</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>vertices <span class="op">=</span> get_patch(seed, t1, t2, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>patch <span class="op">=</span> get_patch(seed, t1, t2, <span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#dddddd"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line(t1)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>, lw <span class="op">=</span> <span class="fl">0.75</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_line(t2)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>, lw <span class="op">=</span> <span class="fl">0.75</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> patch]) <span class="op">\</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"lightgrey"</span>, markersize <span class="op">=</span> <span class="dv">12</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> vertices]) <span class="op">\</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>, markersize <span class="op">=</span> <span class="dv">12</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> seed]) <span class="op">\</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"r"</span>, markersize <span class="op">=</span> <span class="dv">12</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-plot-patch" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-plot-patch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-plot-patch-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;6: The tiling vertices in the local patch context."><img src="index_files/figure-html/fig-plot-patch-output-1.png" class="img-fluid figure-img"></a>
+<a href="index_files/figure-html/fig-plot-patch-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;6: The seed vertices (red), one layer of additional vertices (black) and vertices in the wider patch context (grey)."><img src="index_files/figure-html/fig-plot-patch-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-patch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: The tiling vertices in the local patch context.
+Figure&nbsp;6: The seed vertices (red), one layer of additional vertices (black) and vertices in the wider patch context (grey).
 </figcaption>
 </figure>
 </div>
@@ -556,9 +554,9 @@ Figure&nbsp;6: The tiling vertices in the local patch context.
 </section>
 <section id="constructing-vertex-stars" class="level3">
 <h3 class="anchored" data-anchor-id="constructing-vertex-stars">Constructing vertex ‘stars’</h3>
-<p>Next, we check for each vertex which other vertices in the local patch are neighbours along a tile edge. If two vertices are separated by one of the 12 unit vectors then they <em>must</em> be neighbours, since all edges in the tiling are one of those vectors, and again, we can carry out this test using only precise integer arithmetic.</p>
-<p>The function <code>get_star()</code> below iterates over all 12 vectors checking if when added to the vertex being tested they reach another vertex in the local patch. If so, the index position of the vector is appended to the ‘star’ (it will become clear why it’s call a star in a moment).</p>
-<div id="get-star" class="cell" data-execution_count="29">
+<p>Next, we check for each vertex in the <code>vertices</code> set if it has other vertices in the local patch that are neighbours along a tile edge. If two vertices are separated by one of the 12 unit vectors then they <em>must</em> be neighbours, since all edges in the tiling are one of those vectors, and we can do this test using only precise integer arithmetic.</p>
+<p>The function <code>get_star()</code> below iterates over all 12 unit vectors checking if when added to the vertex being tested they reach another vertex in the supplied patch. If so, the index position of the vector is appended to the ‘star’ (it will become clear why it’s call a star in a moment).</p>
+<div id="get-star" class="cell" data-execution_count="34">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_star(v, patch):</span>
@@ -570,50 +568,44 @@ Figure&nbsp;6: The tiling vertices in the local patch context.
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> star</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>The figure below shows the combined ‘stars’ of all four vertices, and highlights one of them in red.</p>
-<div id="cell-fig-plot-stars" class="cell" data-execution_count="38">
+<p>The figure below shows the combined ‘stars’ of all vertices, and highlights one of in red.</p>
+<div id="cell-fig-plot-stars" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#dddddd"</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> patch]) <span class="op">\</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"lightgrey"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"lightgrey"</span>, markersize <span class="op">=</span> <span class="dv">12</span>)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>stars <span class="op">=</span> []</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, v <span class="kw">in</span> <span class="bu">enumerate</span>(vertices):</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  stars.append(get_star(v, patch))</span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  color <span class="op">=</span> <span class="st">"r"</span> <span class="cf">if</span> i <span class="op">==</span> <span class="bu">len</span>(vertices) <span class="op">-</span> <span class="dv">1</span> <span class="cf">else</span> <span class="st">"k"</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  gpd.GeoSeries([get_point(v)]).plot(ax <span class="op">=</span> ax, color <span class="op">=</span> color)</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  gpd.GeoSeries([get_line(BASE_COORDS[i], v) <span class="cf">for</span> i <span class="kw">in</span> stars[<span class="op">-</span><span class="dv">1</span>]]) <span class="op">\</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> color)</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  gpd.GeoSeries([get_point(v)]) <span class="op">\</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> color, markersize <span class="op">=</span> <span class="dv">12</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  gpd.GeoSeries([get_line(BASE_COORDS[i], v) <span class="cf">for</span> i <span class="kw">in</span> stars[<span class="op">-</span><span class="dv">1</span>]]) <span class="op">\</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> color, markersize <span class="op">=</span> <span class="dv">12</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-plot-stars" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-plot-stars-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-plot-stars-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;7: The ‘stars’ of the tiling’s vertices, with one highlighted in red."><img src="index_files/figure-html/fig-plot-stars-output-1.png" class="img-fluid figure-img"></a>
+<a href="index_files/figure-html/fig-plot-stars-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;7: The ‘stars’ of the extended set of vertices, with one highlighted in red."><img src="index_files/figure-html/fig-plot-stars-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-stars-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: The ‘stars’ of the tiling’s vertices, with one highlighted in red.
+Figure&nbsp;7: The ‘stars’ of the extended set of vertices, with one highlighted in red.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Note that stars are stored only as integers, not complex vectors:</p>
+<p>Note that stars are stored only as integers, not complex vectors (showing only a few of them to save space):</p>
 <div id="7103cb2f" class="cell" data-execution_count="39">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>stars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>stars[:<span class="dv">5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="39">
-<pre><code>[[0, 4, 7, 10],
- [2, 6, 8, 11],
- [2, 5, 7, 10],
- [1, 4, 8, 11],
- [0, 2, 5, 8],
- [1, 3, 5, 8, 10],
- [2, 4, 7, 9, 11],
- [1, 4, 6, 10]]</code></pre>
+<pre><code>[[2, 6, 8, 11], [1, 4, 8, 11], [2, 5, 7, 10], [1, 3, 5, 8, 10], [2, 6, 8, 11]]</code></pre>
 </div>
 </div>
 </section>
@@ -635,8 +627,8 @@ Figure&nbsp;7: The ‘stars’ of the tiling’s vertices, with one highlighted 
 </details>
 </div>
 <p>We’re almost there now.</p>
-<p>The functions in the cell below assemble a list of all the tiles (<code>faces</code>) at every vertex. Again, we don’t have to do any floating point calculations. Each face is a sequence of integer 4-tuples, only converted to floating point when we need to plot them.</p>
-<div id="cell-fig-all-star-tiles" class="cell" data-execution_count="45">
+<p>The functions in the cell below assemble a list of all the tiles (<code>faces</code>) at every vertex in the augmented set. Again, we don’t have to do any floating point calculations. Each face is a sequence of integer 4-tuples, only converted to floating point when we need to plot them.</p>
+<div id="cell-fig-all-star-tiles" class="cell" data-execution_count="41">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_face(v, heading, n_sides):</span>
@@ -657,9 +649,9 @@ Figure&nbsp;7: The ‘stars’ of the tiling’s vertices, with one highlighted 
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>faces <span class="op">=</span> []</span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> star, v <span class="kw">in</span> <span class="bu">zip</span>(stars, vertices):</span>
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  faces.extend(star_to_faces(star, v))</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#cccccc"</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#bbbbbb"</span>)</span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_polygon(f) <span class="cf">for</span> f <span class="kw">in</span> faces]) <span class="op">\</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, fc <span class="op">=</span> <span class="st">"#ff000030"</span>, ec <span class="op">=</span> <span class="st">"k"</span>, lw <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, fc <span class="op">=</span> <span class="st">"#ff000020"</span>, ec <span class="op">=</span> <span class="st">"k"</span>, lw <span class="op">=</span> <span class="fl">0.5</span>)</span>
 <span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co"># gpd.GeoSeries(get_line(t1)).plot(ax = ax, color = "k")</span></span>
 <span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co"># gpd.GeoSeries(get_line(t2)).plot(ax = ax, color = "k")</span></span>
 <span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -677,13 +669,13 @@ Figure&nbsp;8: All the tiles at every star of the tiling with duplicates and til
 </div>
 </div>
 </div>
-<p>As can be seen in the picture, there are a couple of remaining issues. First, because some tiles are incident at more than one of the vertices, we get multiple copies of them. Second, some tiles clearly lie outside the repeating unit, or mostly outside it, and are not required to generate the repeating tiled pattern. We resolve those issues in the next section.</p>
+<p>As can be seen in the picture, there are a couple of remaining issues. First, because some tiles are incident at more than one vertex, we get multiple copies of them. Second, some tiles clearly lie outside the repeating unit, or mostly outside it, and are not required to generate the repeating tiled pattern. We resolve those issues in the next section.</p>
 </section>
 <section id="only-constructing-the-tiles-we-need" class="level3">
 <h3 class="anchored" data-anchor-id="only-constructing-the-tiles-we-need">Only constructing the tiles we need</h3>
 <p>To resolve these issues, as we build the minimal set of tiles we check to see (i) if we’ve already generated the tile in question, and (ii) if its centroid lies inside the repeating area defined by the translation vectors.</p>
 <p>Taking the latter first, a couple more functions are required. This involves some simple matrix mathematics. I’ll spare you the details, but in essence we are checking if a given point lies in the space defined by any combination <span class="math inline">\(x\mathbf{t}_1 + y\mathbf{t}_2\)</span> such that both <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are in the range 0 to 1.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
-<div id="change-base-and-is-in-parallelogram" class="cell" data-execution_count="46">
+<div id="change-base-and-is-in-parallelogram" class="cell" data-execution_count="42">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> change_base(a, t1, t2):</span>
@@ -699,8 +691,8 @@ Figure&nbsp;8: All the tiles at every star of the tiling with duplicates and til
 </details>
 </div>
 <p>The other aspect to this step as set out in the cell below, that may seem a little odd, is that we keep track of already added tiles, by storing already added tile centroids <em>scaled by a factor of six</em>. This ensures that all tile centroids have integer coordinates, which makes checking and comparing them more reliable. We do have to remember that they have been scaled by six when checking if they fall in the translation vector parallelogram, but that’s easy enough to do.</p>
-<p>All this has been put together in the code cell below, where we loop over the vertices, get their stars, get the polygons around the stars, and retain those polygons only if we haven’t already retained them <em>and</em> their centroid lies inside the translation vectors parallelogram.</p>
-<div id="28306b80" class="cell" data-execution_count="47">
+<p>All this has been put together in the code cell below, where we loop over <code>vertices</code>, get the stars, get the polygons around the stars, and retain those polygons only if we haven’t already retained them <em>and</em> their centroid lies inside the translation vectors parallelogram.</p>
+<div id="28306b80" class="cell" data-execution_count="43">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tiles <span class="op">=</span> []</span>
@@ -719,13 +711,13 @@ Figure&nbsp;8: All the tiles at every star of the tiling with duplicates and til
 </details>
 </div>
 <p>And here’s the result.</p>
-<div id="7d850962" class="cell" data-execution_count="48">
+<div id="7d850962" class="cell" data-execution_count="44">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> base_unit.plot(fc <span class="op">=</span> <span class="st">"#dddddd"</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_polygon(tile) <span class="cf">for</span> tile <span class="kw">in</span> tiles]) <span class="op">\</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, fc <span class="op">=</span> <span class="st">"#ff000030"</span>, ec <span class="op">=</span> <span class="st">"k"</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> vertices]) <span class="op">\</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([get_point(v) <span class="cf">for</span> v <span class="kw">in</span> seed]) <span class="op">\</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  .plot(ax <span class="op">=</span> ax, color <span class="op">=</span> <span class="st">"k"</span>)</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
@@ -742,7 +734,7 @@ Figure&nbsp;8: All the tiles at every star of the tiling with duplicates and til
 <section id="using-all-this-to-make-tilings" class="level2">
 <h2 class="anchored" data-anchor-id="using-all-this-to-make-tilings">Using all this to make tilings</h2>
 <p>I’m doing all this to extend the range of tilings available in <code>weavingspace</code>, so it’s necessary for my purposes to convert this set of tiles to a <code>weavingspace.TileUnit</code>. Here’s how that works in practice (without getting into too much of the nitty-gritty).</p>
-<div id="cell-fig-weavingspace-33434" class="cell" data-execution_count="63">
+<div id="cell-fig-weavingspace-33434" class="cell" data-execution_count="46">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> wsp.TileUnit()</span>
@@ -755,7 +747,7 @@ Figure&nbsp;8: All the tiles at every star of the tiling with duplicates and til
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>t._setup_regularised_prototile(<span class="va">True</span>)</span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> t.transform_scale(<span class="dv">100</span>, <span class="dv">100</span>)</span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>t.plot(r <span class="op">=</span> <span class="dv">2</span>, r_alpha <span class="op">=</span> <span class="dv">1</span>, cmap <span class="op">=</span> <span class="st">"tab20c"</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>t.plot(r <span class="op">=</span> <span class="dv">1</span>, r_alpha <span class="op">=</span> <span class="dv">1</span>, cmap <span class="op">=</span> <span class="st">"tab20c"</span>,</span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  show_prototile <span class="op">=</span> <span class="va">False</span>, show_reg_prototile <span class="op">=</span> <span class="va">False</span>, show_ids <span class="op">=</span> <span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
@@ -810,7 +802,7 @@ Figure&nbsp;10: Three tilings and their duals generated in <code>weavingspace</c
 <section id="concluding-thoughts" class="level2">
 <h2 class="anchored" data-anchor-id="concluding-thoughts">Concluding thoughts</h2>
 <p>As an exercise in the triumph of a data structure and algorithms over doing things in more immediately obvious ways (as mentioned at the top “making a bunch of polygons, then translating and rotating them into position”) this approach takes some beating.</p>
-<p>There is something deeply pleasing (to me at least) about how all the pieces of this approach come together. It’s particularly nice not dealing with floating point calculations and the seemingly never ending edge cases they produce. Even in the context of the <code>weavinspace</code> project where many of the hundreds of tilings this method makes available will likely never be used, I’ve found working through the process of putting this code together very rewarding. I hope this outline of how it works has been an interesting read.</p>
+<p>There is something deeply pleasing (to me at least) about how all the pieces of this approach come together. It’s particularly nice not dealing with floating point calculations and the seemingly never ending edge cases they produce. Even in the context of the <code>weavingspace</code> project where many of the hundreds of tilings this method makes available will likely never be used, I’ve found working through the process of putting this code together very rewarding. I hope this outline of how it works has been an interesting read.</p>
 
 
 </section>
@@ -825,7 +817,7 @@ Figure&nbsp;10: Three tilings and their duals generated in <code>weavingspace</c
 <li id="fn4"><p>That many tilings creates its own issues of how to navigate and categorise them coherently, but that’s a nice problem to have.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>This bald statement is obviously not a proof, but you can trust me on this… I’m sure it’s mathematically provable, but also, I have hand-coded a <em>lot</em> of these patterns in the last couple of years: it’s definitely true.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>The bane of my life, and of any computation requiring precision geometry.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>This <em>is</em> a floating point test and given all my experiences with <code>weavingspace</code> it makes me nervous!<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>This <em>is</em> a floating point test and given all my experiences with <code>weavingspace</code> it makes me nervous, but it seems to work OK!<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
